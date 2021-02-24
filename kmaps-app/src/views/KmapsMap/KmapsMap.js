@@ -177,6 +177,17 @@ class KmapsMap extends React.Component {
         fetch(serverUrl)
             .then((res) => res.json())
             .then((result) => {
+                if (
+                    typeof result.bbox === 'undefined' ||
+                    result.bbox.length < 4
+                ) {
+                    console.warn(
+                        'No or improper bounding box data from geoserver: \n' +
+                            serverUrl
+                    );
+                    return;
+                    // TODO: Display a "Can't load map" message if this works
+                }
                 //because we are using WFS V1.1 we need to flip the coordinates
                 const bbox = [
                     result.bbox[1],
