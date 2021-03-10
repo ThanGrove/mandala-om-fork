@@ -16,8 +16,9 @@ import { HtmlWithPopovers, getRandomKey } from '../common/MandalaMarkup';
 import { addBoClass, createAssetCrumbs } from '../common/utils';
 import './TextsViewer.sass';
 import $ from 'jquery';
-import { useParams, Redirect } from 'react-router-dom';
+import { useParams, Redirect, Link } from 'react-router-dom';
 import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
 
 /**
  * Text Viewer Component: The parent component for viewing a text. Gets sent the asset information as a prop
@@ -44,7 +45,8 @@ import { HistoryContext } from '../History/HistoryContext';
  */
 export default function TextsViewer(props) {
     const baseType = `texts`;
-    const history = useContext(HistoryContext);
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
     const { id, relID } = useParams();
     const queryID = relID ? relID : `${baseType}*-${id}`;
     const {
@@ -61,9 +63,9 @@ export default function TextsViewer(props) {
     } = useMandala(kmasset);
 
     if (!isAssetLoading && !isAssetError) {
-        history.addPage(baseType, kmasset.title, window.location.pathname);
+        //history.addPage(baseType, kmasset.title, window.location.pathname);
+        addPage(baseType, kmasset.title, window.location.pathname);
     }
-
     const nodejson = nodeData;
     const tid = nodejson ? nodejson.nid : '';
     const title = nodejson ? nodejson.title : '';

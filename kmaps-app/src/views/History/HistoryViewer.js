@@ -5,11 +5,13 @@ import './HistoryViewer.css';
 import { HistoryContext } from './HistoryContext';
 import { Link } from 'react-router-dom';
 import { capitalAsset } from '../common/utils';
+import { useHistory } from '../../hooks/useHistory';
 
 export function HistoryViewer(props) {
-    const history = useContext(HistoryContext);
-    const [pages, setPages] = useState(Array.from(history.pages));
-
+    //const history = useContext(HistoryContext);
+    //const [pages, setPages] = useState(Array.from(history.pages));
+    const pages = useHistory((state) => Array.from(state.pages));
+    const removePage = useHistory((state) => state.removePage);
     return (
         <div className="c-HistoryViewer">
             {pages &&
@@ -54,14 +56,13 @@ export function HistoryViewer(props) {
                                 aria-label="Remove from list"
                                 data-listid={pdi}
                                 onClick={(event) => {
-                                    console.log('delete:', event.target);
-                                    console.log(
-                                        event.target.getAttribute('data-path')
-                                    );
-                                    history.removePage(
+                                    /*history.removePage(
                                         event.target.getAttribute('data-listid')
                                     );
-                                    setPages(Array.from(history.pages));
+                                    setPages(Array.from(history.pages));*/
+                                    console.log(
+                                        'Need to update remove page to use zustand'
+                                    );
                                     event.stopPropagation();
                                 }}
                             >
