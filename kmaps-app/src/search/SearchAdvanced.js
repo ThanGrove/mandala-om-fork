@@ -6,12 +6,16 @@ import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
+import { useSearchStore } from '../hooks/useSearchStore';
 
 const SEARCH_PATH = '/search';
+const selector = (state) => state.search;
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
     let [reset, setReset] = useState(0);
+
+    const search = useSearchStore(selector);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -24,7 +28,7 @@ export default function SearchAdvanced(props) {
         data: searchData,
         isError: isSearchError,
         error: searchError,
-    } = useSearch('', 0, 0, 'all', 0, 0, true);
+    } = useSearch(search, 0, 0, 'all', 0, 0, true);
 
     let openclass = props.advanced ? 'open' : 'closed';
     //const historyStack = useStoreState((state) => state.history.historyStack);
