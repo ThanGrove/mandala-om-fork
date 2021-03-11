@@ -7,15 +7,22 @@ import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
 import { useSearchStore } from '../hooks/useSearchStore';
+import { useFilterStore } from '../hooks/useFilterStore';
 
 const SEARCH_PATH = '/search';
 const selector = (state) => state.search;
+const filtersSelector = (state) => state.filters;
+const addFilterSelector = (state) => state.addFilter;
+const removeFilterSelector = (state) => state.removeFilter;
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
     let [reset, setReset] = useState(0);
 
     const search = useSearchStore(selector);
+    const filters = useFilterStore(filtersSelector);
+    const addFilter = useFilterStore(addFilterSelector);
+    const removeFilter = useFilterStore(removeFilterSelector);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -28,7 +35,7 @@ export default function SearchAdvanced(props) {
         data: searchData,
         isError: isSearchError,
         error: searchError,
-    } = useSearch(search, 0, 0, 'all', 0, 0, true);
+    } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
 
     let openclass = props.advanced ? 'open' : 'closed';
     //const historyStack = useStoreState((state) => state.history.historyStack);
@@ -77,7 +84,7 @@ export default function SearchAdvanced(props) {
             action: msg.action,
         };
         // console.log("SearchAdvanced:  handleFacetChange:  received: ", command);
-        const search = props.search;
+        //const search = props.search;
         const compound_id = `${msg.facetType}:${msg.value}`;
 
         if (command.action === null || command.action === 'add') {
@@ -92,9 +99,11 @@ export default function SearchAdvanced(props) {
             console.log(
                 'NEW FILTER: ' + JSON.stringify(new_filter, undefined, 2)
             );
-            search.addFilters([new_filter]);
+            //search.addFilters([new_filter]);
+            addFilter(new_filter);
         } else if (command.action === 'remove') {
-            search.removeFilters([{ id: compound_id }]);
+            //search.removeFilters([{ id: compound_id }]);
+            removeFilter({ id: compound_id });
         }
         if (command.action !== 'remove') {
             gotoSearchPage(); // declaratively navigate to search

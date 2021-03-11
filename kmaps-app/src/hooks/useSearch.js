@@ -15,6 +15,7 @@ export function useSearch(
     facetOffset = 0,
     facetLimit = 0,
     facetBuckets = false,
+    filters = [],
     enabled = true
 ) {
     return useQuery(
@@ -26,6 +27,7 @@ export function useSearch(
             facetOffset,
             facetLimit,
             facetBuckets,
+            filters,
             slugify(searchText),
         ],
         () =>
@@ -36,7 +38,8 @@ export function useSearch(
                 facetType,
                 facetOffset,
                 facetLimit,
-                facetBuckets
+                facetBuckets,
+                filters
             ),
         { keepPreviousData: true, enabled }
     );
@@ -49,7 +52,8 @@ async function getSearchData(
     facetType,
     facetOffset,
     facetLimit,
-    facetBuckets
+    facetBuckets,
+    filters
 ) {
     let params = {
         fl: '*',
@@ -63,7 +67,7 @@ async function getSearchData(
         ),
     };
     const queryParams = constructTextQuery(searchText);
-    const filterParams = constructFilters([]); // TODO: gk3k -> Need to implement filters.
+    const filterParams = constructFilters(filters);
 
     params = { ...params, ...queryParams, ...filterParams };
 

@@ -11,10 +11,12 @@ import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { BsCheckCircle, BsMap } from 'react-icons/bs';
 import { ImStack } from 'react-icons/im';
 import { useSearchStore } from '../hooks/useSearchStore';
+import { useFilterStore } from '../hooks/useFilterStore';
 import { search } from '../logic/searchapi';
 import './FacetBox.scss';
 
 const selector = (state) => state.search;
+const filtersSelector = (state) => state.filters;
 
 function FacetControls(props) {
     return (
@@ -69,6 +71,7 @@ export function FacetBox(props) {
     const [open, setOpen] = useState(false);
     const [facetLimit, setFacetLimit] = useState(100);
     const search = useSearchStore(selector);
+    const filters = useFilterStore(filtersSelector);
 
     const {
         data: searchData,
@@ -78,7 +81,16 @@ export function FacetBox(props) {
         isFetching,
         isFetchingNextPage,
         status,
-    } = useInfiniteSearch(search, 0, 0, props.id, facetLimit, true, open);
+    } = useInfiniteSearch(
+        search,
+        0,
+        0,
+        props.id,
+        facetLimit,
+        true,
+        filters,
+        open
+    );
 
     const loadMoreButtonRef = React.useRef();
 

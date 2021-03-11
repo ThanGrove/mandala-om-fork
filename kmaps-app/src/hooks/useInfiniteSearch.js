@@ -14,6 +14,7 @@ export function useInfiniteSearch(
     facetType = 'all',
     facetLimit = 0,
     facetBuckets = false,
+    filters = [],
     enabled = true
 ) {
     return useInfiniteQuery(
@@ -25,6 +26,7 @@ export function useInfiniteSearch(
                 facetType,
                 facetLimit,
                 facetBuckets,
+                filters,
                 searchText: slugify(searchText),
             },
         ],
@@ -56,7 +58,15 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
     const [
         // eslint-disable-next-line no-unused-vars
         _key,
-        { start, rows, facetType, facetLimit, facetBuckets, searchText },
+        {
+            start,
+            rows,
+            facetType,
+            facetLimit,
+            facetBuckets,
+            filters,
+            searchText,
+        },
     ] = queryKey;
 
     let params = {
@@ -71,7 +81,7 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
         ),
     };
     const queryParams = constructTextQuery(searchText);
-    const filterParams = constructFilters([]); // TODO: gk3k -> Need to implement filters.
+    const filterParams = constructFilters(filters);
 
     params = { ...params, ...queryParams, ...filterParams };
 
