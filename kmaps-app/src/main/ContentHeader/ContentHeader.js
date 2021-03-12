@@ -70,7 +70,7 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
         case 'places':
         case 'subjects':
         case 'terms':
-            const tree = itemData.tree;
+            const tree = itemData.asset_type;
             breadcrumbs = itemData?.ancestor_ids_is?.map((aid, idn) => {
                 const label = itemData.ancestors_txt[idn];
                 return (
