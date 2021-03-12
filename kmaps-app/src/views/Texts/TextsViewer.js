@@ -17,7 +17,7 @@ import { addBoClass, createAssetCrumbs } from '../common/utils';
 import './TextsViewer.sass';
 import $ from 'jquery';
 import { useParams, Redirect, Link } from 'react-router-dom';
-import { HistoryContext } from '../History/HistoryContext';
+// import { HistoryContext } from '../History/HistoryContext';
 import { useHistory } from '../../hooks/useHistory';
 
 /**

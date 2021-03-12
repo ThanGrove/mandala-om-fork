@@ -6,12 +6,15 @@ import { Col, Container, Row } from 'react-bootstrap';
 import './visuals.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { MandalaPopover } from '../common/MandalaPopover';
-import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
+// import { HistoryContext } from '../History/HistoryContext';
 
 export default function VisualsViewer(props) {
     const baseType = `visuals`;
     const { id, relID } = useParams();
-    const history = useContext(HistoryContext);
+    //const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
+
     const queryID = relID ? relID : `${baseType}*-${id}`;
     const {
         isLoading: isAssetLoading,
@@ -71,7 +74,8 @@ export default function VisualsViewer(props) {
     }
 
     if (!isAssetLoading && !isAssetError) {
-        history.addPage(baseType, kmasset.title, window.location.pathname);
+        // history.addPage(baseType, kmasset.title, window.location.pathname);
+        addPage(baseType, kmasset.title, window.location.pathname);
     }
     const mydate = new Date(solrdoc?.node_created);
     const mytype = snjson && snjson.shivaGroup ? snjson.shivaGroup : '';

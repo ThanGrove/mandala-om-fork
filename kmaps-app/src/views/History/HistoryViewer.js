@@ -2,20 +2,24 @@ import React, { useContext, useState } from 'react';
 
 import './HistoryViewer.css';
 
-import { HistoryContext } from './HistoryContext';
 import { Link } from 'react-router-dom';
 import { capitalAsset } from '../common/utils';
 import { useHistory } from '../../hooks/useHistory';
 
 export function HistoryViewer(props) {
     //const history = useContext(HistoryContext);
-    //const [pages, setPages] = useState(Array.from(history.pages));
-    const pages = useHistory((state) => Array.from(state.pages));
+
+    const statePages = useHistory((state) => state.pages);
+    const [pages, setPages] = useState(Array.from(statePages));
     const removePage = useHistory((state) => state.removePage);
+    if (!pages || pages.length === 0) {
+        return null;
+    }
     return (
         <div className="c-HistoryViewer">
             {pages &&
-                pages?.map((pgdata, pdi) => {
+                pages.map((pgdata, pdi) => {
+                    console.log('pgdata', pgdata);
                     let [pgicon, pgtitle, pgpath] = pgdata.split('::');
                     let asset_type = '';
                     const isCollection = pgicon.includes('collections-');
@@ -31,10 +35,10 @@ export function HistoryViewer(props) {
                     const linkTitle = isCollection
                         ? capitalAsset(asset_type) + ' Collection'
                         : capitalAsset(asset_type);
+
                     return (
                         <div
                             className="c-HistoryViewer__relatedRecentItem"
-                            data-path={pgpath}
                             key={pdi + pgpath.replace(/\//g, '-')}
                         >
                             <span className="c-HistoryViewer__title">
@@ -54,15 +58,13 @@ export function HistoryViewer(props) {
                                 className="c-HistoryViewer__removeItem u-icon__cancel-circle icon"
                                 alt="Remove from list"
                                 aria-label="Remove from list"
-                                data-listid={pdi}
+                                data-path={pgpath}
                                 onClick={(event) => {
-                                    /*history.removePage(
-                                        event.target.getAttribute('data-listid')
+                                    const pageId = event.target.getAttribute(
+                                        'data-path'
                                     );
-                                    setPages(Array.from(history.pages));*/
-                                    console.log(
-                                        'Need to update remove page to use zustand'
-                                    );
+                                    const newPages = removePage(pageId);
+                                    setPages(newPages);
                                     event.stopPropagation();
                                 }}
                             >

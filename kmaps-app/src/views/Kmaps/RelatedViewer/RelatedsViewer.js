@@ -6,10 +6,12 @@ import { useKmapRelated } from '../../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../../hooks/utils';
 import { queryID } from '../../../views/common/utils';
 import './RelatedsViewer.scss';
-import { HistoryContext } from '../../History/HistoryContext';
+import { useHistory } from '../../../hooks/useHistory';
+// import { HistoryContext } from '../../History/HistoryContext';
 
 export function RelatedsViewer() {
-    const history = useContext(HistoryContext);
+    // const history = useContext(HistoryContext);
+    const statePages = useHistory((state) => state.pages);
     const match = useRouteMatch([
         '/:baseType/:id/related-:type/:definitionID/view/:relID',
         '/:baseType/:id/related-:type/:definitionID/:viewMode',
@@ -199,7 +201,7 @@ export function RelatedsViewer() {
                     </div>
                 </section>
 
-                {history.pages.size > 0 && (
+                {statePages.size > 0 && (
                     <section className="l-history__list__wrap">
                         <div className="u-related__list__header">
                             Recently Viewed

@@ -13,6 +13,7 @@ import { useKmap } from '../../hooks/useKmap';
 import { useParams } from 'react-router-dom';
 import useMandala from '../../hooks/useMandala';
 import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
 
 /**
  * AudioVideoViewer is called from ContentMain.js and is wrapped in a MdlAssetContext that supplies it with a SOLR
@@ -32,7 +33,8 @@ import { HistoryContext } from '../History/HistoryContext';
  */
 export default function AudioVideoViewer(props) {
     const { id, relID } = useParams();
-    const history = useContext(HistoryContext);
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
     // const basepath = process.env.PUBLIC_URL;
     // console.log(basepath);
     // Build query string based on uid use asterisk for env. Ultimately uids will be audio-video-1234 across all apps
@@ -86,11 +88,12 @@ export default function AudioVideoViewer(props) {
                         ? kmasset.title[0]
                         : '';
 
-                history.addPage(
+                /* history.addPage(
                     'audio-video',
                     mytitle,
                     window.location.pathname
-                );
+                ); */
+                addPage('audio-video', mytitle, window.location.pathname);
             }
             if (nodejson) {
                 // Should only redraw if kmasset and nodejson change but redrawns on some clicks

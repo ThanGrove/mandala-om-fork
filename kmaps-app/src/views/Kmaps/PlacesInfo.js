@@ -9,7 +9,8 @@ import { MandalaPopover } from '../../views/common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
-import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
+// import { HistoryContext } from '../History/HistoryContext';
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
 );
@@ -17,7 +18,8 @@ export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'places';
-    const history = useContext(HistoryContext);
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
@@ -41,7 +43,8 @@ export default function PlacesInfo(props) {
 
     if (!isKmapLoading && !isKmapError) {
         //console.log("kmap (places)", kmapData);
-        history.addPage('places', kmapData.header, window.location.pathname);
+        // history.addPage('places', kmapData.header, window.location.pathname);
+        addPage('places', kmapData.header, window.location.pathname);
     }
 
     if (isKmapError || isAssetError) {

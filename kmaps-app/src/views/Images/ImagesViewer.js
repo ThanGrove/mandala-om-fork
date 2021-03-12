@@ -12,6 +12,7 @@ import { useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
 
 /**
  * Compontent that creates the Image Viewer page, including:
@@ -48,7 +49,8 @@ export default function ImagesViewer(props) {
     } = useMandala(kmasset);
     // console.log('nodejson', nodejson);
 
-    const history = useContext(HistoryContext);
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
 
     const ismain = props.ismain;
 
@@ -68,7 +70,8 @@ export default function ImagesViewer(props) {
     useEffect(() => {
         // Setting title in header and other status options
         if (kmasset && ismain) {
-            history.addPage('images', kmasset.title, window.location.pathname);
+            //history.addPage('images', kmasset.title, window.location.pathname);
+            addPage('images', kmasset.title, window.location.pathname);
             /*
             status.setHeaderTitle(
                 kmasset?.title || kmasset?.caption || 'ImageViewer'

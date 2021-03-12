@@ -3,17 +3,19 @@ import $ from 'jquery';
 import './subjectsinfo.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
-import { HistoryContext } from '../History/HistoryContext';
+// import { HistoryContext } from '../History/HistoryContext';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import RelatedsGallery from '../common/RelatedsGallery';
 import KmapsDescText from './KmapsDescText';
+import { useHistory } from '../../hooks/useHistory';
 
 export default function SubjectsInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
-    const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
+    // const history = useContext(HistoryContext);
     // console.log("in subject", history);
     const {
         isLoading: isKmapLoading,
@@ -40,7 +42,8 @@ export default function SubjectsInfo(props) {
 
     if (!isKmapLoading && !isKmapError) {
         //console.log('kmap (subjects)', kmapData);
-        history.addPage('subjects', kmapData.header, window.location.pathname);
+        // history.addPage('subjects', kmapData.header, window.location.pathname);
+        addPage('subjects', kmapData.header, window.location.pathname);
     }
 
     if (isKmapError) {

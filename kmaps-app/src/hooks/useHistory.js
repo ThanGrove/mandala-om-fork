@@ -25,10 +25,15 @@ export const useHistory = create((set, get) => ({
         const newPages = new Set(pglist);
         set((state) => ({ pages: newPages }));
     },
-    removePage: (itemid) => {
-        const pglist = Array.from(get().pages);
-        pglist.splice(itemid, 1);
+    removePage: (itempath) => {
+        console.log('Item path: ' + itempath);
+        let pglist = Array.from(get().pages);
+        pglist = pglist.filter((pgstr) => {
+            return !pgstr.includes('::' + itempath);
+        });
+
         const newPages = new Set(pglist);
         set((state) => ({ pages: newPages }));
+        return pglist;
     },
 }));
