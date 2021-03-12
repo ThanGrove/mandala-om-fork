@@ -19,8 +19,10 @@ export function HistoryViewer(props) {
         <div className="c-HistoryViewer">
             {pages &&
                 pages.map((pgdata, pdi) => {
-                    console.log('pgdata', pgdata);
                     let [pgicon, pgtitle, pgpath] = pgdata.split('::');
+                    if (window.location.pathname === pgpath) {
+                        return;
+                    }
                     let asset_type = '';
                     const isCollection = pgicon.includes('collections-');
                     if (isCollection) {

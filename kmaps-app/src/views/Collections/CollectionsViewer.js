@@ -2,14 +2,12 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
-import { Container, Col, Row } from 'react-bootstrap';
 import './collections.scss';
 import { FeatureCollection } from '../common/FeatureCollection';
 import useCollection from '../../hooks/useCollection';
 import $ from 'jquery';
 import { NotFoundPage } from '../common/utilcomponents';
-import { useKmap } from '../../hooks/useKmap';
-import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
 
 /**
  * Component to return a collection page showing a gallery or list of items in the collection
@@ -21,7 +19,8 @@ import { HistoryContext } from '../History/HistoryContext';
  */
 export function CollectionsViewer(props) {
     const { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
-    const history = useContext(HistoryContext);
+    //const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
     const atypeLabel = <span className={'text-capitalize'}>{asset_type}</span>;
 
     // Get Collection data. See hooks/useCollection
@@ -64,10 +63,8 @@ export function CollectionsViewer(props) {
         error: itemsError,
     } = useSolr(qkey, query);
 
-    // console.log(items);
-
     if (!isCollLoading && !isCollError) {
-        history.addPage(
+        addPage(
             'collections-' + asset_type,
             collsolr.title,
             window.location.pathname

@@ -7,11 +7,15 @@ import { useUnPackedMemoized } from '../../../hooks/utils';
 import { queryID } from '../../../views/common/utils';
 import './RelatedsViewer.scss';
 import { useHistory } from '../../../hooks/useHistory';
-// import { HistoryContext } from '../../History/HistoryContext';
 
 export function RelatedsViewer() {
-    // const history = useContext(HistoryContext);
-    const statePages = useHistory((state) => state.pages);
+    let statePages = useHistory((state) => state.pages);
+    // Remove current page from list so that it doesn't show
+    statePages = Array.from(statePages);
+    statePages = statePages.filter((sp) => {
+        return !sp.includes('::' + window.location.pathname);
+    });
+
     const match = useRouteMatch([
         '/:baseType/:id/related-:type/:definitionID/view/:relID',
         '/:baseType/:id/related-:type/:definitionID/:viewMode',
@@ -201,7 +205,7 @@ export function RelatedsViewer() {
                     </div>
                 </section>
 
-                {statePages.size > 0 && (
+                {statePages.length > 0 && (
                     <section className="l-history__list__wrap">
                         <div className="u-related__list__header">
                             Recently Viewed
