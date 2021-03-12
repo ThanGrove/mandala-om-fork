@@ -1,10 +1,5 @@
-import Card from 'react-bootstrap/Card';
-import Accordion from 'react-bootstrap/Accordion';
-import Button from 'react-bootstrap/Button';
-import Jumbotron from 'react-bootstrap/Jumbotron';
+import React from 'react';
 import { FeatureCard } from './FeatureCard/FeatureCard';
-import React, { useEffect, useState } from 'react';
-import Container from 'react-bootstrap/Container';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { FeaturePager } from './FeaturePager/FeaturePager';
 import Spinner from 'react-bootstrap/Spinner';
@@ -87,7 +82,6 @@ export function FeatureDeck(props) {
 
     const docs = props.docs;
 
-    let DEBUG_PRE = [];
     let LIST = [];
     if (docs) {
         // console.log("FeatureDeck: looking at ", docs);
@@ -119,18 +113,6 @@ export function FeatureDeck(props) {
                 </div>
             );
         }
-        // console.log('FeatureDeck LIST = ', LIST);
-
-        DEBUG_PRE = (
-            <Accordion>
-                <Accordion.Toggle as={Button} eventKey="0">
-                    Full JSON
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="0">
-                    <pre>{JSON.stringify(docs, undefined, 1)}</pre>
-                </Accordion.Collapse>
-            </Accordion>
-        );
     }
 
     const output = (

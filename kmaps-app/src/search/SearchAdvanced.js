@@ -4,6 +4,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
+import qs from 'qs';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
 import { useSearchStore } from '../hooks/useSearchStore';
@@ -69,9 +70,34 @@ export default function SearchAdvanced(props) {
     function gotoSearchPage() {
         if (!searchView) {
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
+                // window.location.href = `${
+                //     process.env.REACT_APP_STANDALONE_PATH
+                // }/#/search/deck?${qs.stringify(
+                //     filters
+                // )}&searchText=${qs.stringify(search)}`;
+                history.push({
+                    pathname: process.env.REACT_APP_STANDALONE_PATH,
+                    search: `?${qs.stringify(filters, {
+                        allowDots: true,
+                    })}&searchText=${qs.stringify(search)}`,
+                    hash: '#/search/deck',
+                });
             } else {
-                history.push(SEARCH_PATH);
+                // history.push(
+                //     `/search/deck?${qs.stringify(
+                //         filters
+                //     )}&searchText=${qs.stringify(search)}`,
+                //     { internal: true }
+                // );
+                history.push({
+                    pathname: `/search/deck`,
+                    search: `?${qs.stringify(filters, {
+                        allowDots: true,
+                    })}&searchText=${qs.stringify(search)}`,
+                    state: {
+                        internal: true,
+                    },
+                });
             }
         }
     }
@@ -120,7 +146,8 @@ export default function SearchAdvanced(props) {
 
     function getChosenFacets(type) {
         // console.log("getChosenFacets: finding in:", props.search.query.filters)
-        return props?.search?.query?.filters?.filter((x) => x.field === type);
+        //return props?.search?.query?.filters?.filter((x) => x.field === type);
+        return filters.filter((filter) => filter.field === type);
     }
 
     function handleResetFilters() {

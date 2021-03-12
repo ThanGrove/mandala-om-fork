@@ -12,7 +12,7 @@ import { BsCheckCircle, BsMap } from 'react-icons/bs';
 import { ImStack } from 'react-icons/im';
 import { useSearchStore } from '../hooks/useSearchStore';
 import { useFilterStore } from '../hooks/useFilterStore';
-import { search } from '../logic/searchapi';
+//import { search } from '../logic/searchapi';
 import './FacetBox.scss';
 
 const selector = (state) => state.search;

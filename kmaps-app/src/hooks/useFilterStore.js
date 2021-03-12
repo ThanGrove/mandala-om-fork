@@ -4,6 +4,8 @@ export const useFilterStore = create((set) => ({
     filters: [],
     addFilter: (filter) =>
         set((state) => ({ filters: [...state.filters, filter] })),
+    addMultipleFilters: (filtersArray) =>
+        set((state) => ({ filters: [...state.filters, ...filtersArray] })),
     removeFilter: (filterToRemove) =>
         set((state) => ({
             filters: state.filters.filter(

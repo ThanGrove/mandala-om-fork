@@ -163,7 +163,7 @@ export default function ContentMain(props) {
                                     <SearchViewer />
                                 </Route>
                                 <Route exact path={`/search`}>
-                                    <Redirect to={`/search/default`} />
+                                    <Redirect to={`/search/deck`} />
                                 </Route>
 
                                 {/* LEGACY VIEWER */}
