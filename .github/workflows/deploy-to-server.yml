@@ -1,11 +1,14 @@
-name: "Deploy to Server"
+name: "Deploy to Server Dev"
 
 on:
+  push:
+    branches:
+      - develop
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@develop
       - name: "Build deployment code for standalone"
@@ -16,7 +19,7 @@ jobs:
           remote_key: ${{ secrets.DEPLOY_KEY }}
           dev_env_file: ${{ secrets.DEV_ENV_FILE }}
           local_dir: "build/"
-          remote_dir: "/home/kmaps-deployer/kmaps-apps-infrastructure/volumes/mandala-om/development/mandala-om/"
+          remote_dir: "~/kmaps-apps-infrastructure/volumes/mandala-om/development/mandala-om/"
         run: |
           cd kmaps-app
           npm install
