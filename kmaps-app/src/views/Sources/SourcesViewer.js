@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Col, Container, Row, Image } from 'react-bootstrap';
 import './sources.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
@@ -6,9 +6,13 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { Link, useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
+// import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
 
 export default function SourcesViewer(props) {
     const baseType = `sources`;
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
     const { id, relID } = useParams();
     const queryID = relID ? relID : `${baseType}*-${id}`;
     const {
@@ -24,6 +28,10 @@ export default function SourcesViewer(props) {
         error: nodeError,
     } = useMandala(kmasset);
 
+    if (!isAssetLoading && !isAssetError) {
+        // history.addPage(baseType, kmasset.title, window.location.pathname);
+        addPage(baseType, kmasset.title, window.location.pathname);
+    }
     if (isAssetLoading || isNodeLoading) {
         return (
             <Container fluid className="c-source__container">
@@ -95,7 +103,7 @@ export default function SourcesViewer(props) {
                         {/* Publication Info */}
                         <SourcesRow
                             label={'Format'}
-                            value={nodejson.biblio_type_name}
+                            value={nodejson?.biblio_type_name}
                         />
 
                         {nodejson?.biblio_year?.length > 0 && (
@@ -126,24 +134,24 @@ export default function SourcesViewer(props) {
                         )}
                         <SourcesRow
                             label={'Source ID'}
-                            value={'sources-' + nodejson.nid}
+                            value={'sources-' + nodejson?.nid}
                         />
 
                         <SourcesKmap
                             label={'Language'}
-                            field={nodejson.field_language_kmaps}
+                            field={nodejson?.field_language_kmaps}
                         />
                         <SourcesKmap
                             label={'Places'}
-                            field={nodejson.field_kmaps_places}
+                            field={nodejson?.field_kmaps_places}
                         />
                         <SourcesKmap
                             label={'Subjects'}
-                            field={nodejson.field_kmaps_subjects}
+                            field={nodejson?.field_kmaps_subjects}
                         />
                         <SourcesKmap
                             label={'Terms'}
-                            field={nodejson.field_kmaps_terms}
+                            field={nodejson?.field_kmaps_terms}
                         />
 
                         {/* Abstract, Link, Etc. */}

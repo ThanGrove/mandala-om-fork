@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import { useKmapRelated } from '../../hooks/useKmapRelated';
@@ -11,6 +11,8 @@ import TermNames from './TermNames';
 import _, { divide } from 'lodash';
 import TermsDetails from './TermsDetails';
 import { queryID } from '../../views/common/utils';
+import { useHistory } from '../../hooks/useHistory';
+// import { HistoryContext } from '../History/HistoryContext';
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
 );
@@ -25,7 +27,8 @@ const TermsInfo = (props) => {
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'terms';
-
+    const addPage = useHistory((state) => state.addPage);
+    //const history = useContext(HistoryContext);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
@@ -68,6 +71,12 @@ const TermsInfo = (props) => {
         if (isRelatedError) {
             return <span>Error: {relatedError.message}</span>;
         }
+    }
+
+    if (!isKmapLoading && !isKmapError) {
+        //console.log("kmap (places)", kmapData);
+        // history.addPage('terms', kmapData.header, window.location.pathname);
+        addPage('terms', kmapData.header, window.location.pathname);
     }
 
     //Get all related Definitions

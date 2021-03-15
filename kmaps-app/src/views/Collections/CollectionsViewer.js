@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import useStatus from '../../hooks/useStatus';
+import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
-import { Container, Col, Row } from 'react-bootstrap';
 import './collections.scss';
 import { FeatureCollection } from '../common/FeatureCollection';
 import useCollection from '../../hooks/useCollection';
 import $ from 'jquery';
 import { NotFoundPage } from '../common/utilcomponents';
-import { useKmap } from '../../hooks/useKmap';
+import { useHistory } from '../../hooks/useHistory';
 
 /**
  * Component to return a collection page showing a gallery or list of items in the collection
@@ -20,11 +18,9 @@ import { useKmap } from '../../hooks/useKmap';
  * @constructor
  */
 export function CollectionsViewer(props) {
-    const status = useStatus();
     const { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
-
-    // Set Asset Type with status etc.
-    status.setType(asset_type);
+    //const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
     const atypeLabel = <span className={'text-capitalize'}>{asset_type}</span>;
 
     // Get Collection data. See hooks/useCollection
@@ -43,10 +39,10 @@ export function CollectionsViewer(props) {
     const [numFound, setNumFound] = useState(0);
 
     // On Load One time Use Effect to clear previous page and set type
-    useEffect(() => {
+    /*useEffect(() => {
         status.clear();
         status.setType('collections');
-    }, []);
+    }, []);*/
 
     // Make Solr Query to find assets in Collection
     const query = {
@@ -67,7 +63,15 @@ export function CollectionsViewer(props) {
         error: itemsError,
     } = useSolr(qkey, query);
 
-    // console.log(items);
+    if (!isCollLoading && !isCollError) {
+        addPage(
+            'collections-' + asset_type,
+            collsolr.title,
+            window.location.pathname
+        );
+    }
+
+    const loadingState = isCollLoading || isItemsLoading;
 
     const solrq = items?.docs ? items.docs : [];
     //if (items?.numFound && !isNaN(items?.numFound)) { setNumFound(items.numFound); }
@@ -136,7 +140,7 @@ export function CollectionsViewer(props) {
         if (props.ismain) {
             if (collsolr) {
                 // console.log('Coll solr!', collsolr);
-                status.setHeaderTitle(collsolr.title);
+                //status.setHeaderTitle(collsolr.title);
                 coll_paths = [
                     {
                         uid: '/' + asset_type,
@@ -162,7 +166,7 @@ export function CollectionsViewer(props) {
                     uid: '/' + asset_type + '/collection/' + collsolr.id,
                     name: collsolr.title,
                 });
-                status.setPath(coll_paths);
+                //status.setPath(coll_paths);
             }
         }
     }, [collsolr]);
@@ -173,8 +177,6 @@ export function CollectionsViewer(props) {
     const owner = collsolr?.node_user_full_s
         ? collsolr.node_user_full_s
         : collsolr.node_user;
-
-    // TODO: Need to display members (Probably need to index first)
 
     // Get and Display Parent collection
     let parentcoll = collsolr?.collection_nid;
@@ -192,18 +194,31 @@ export function CollectionsViewer(props) {
     const subcollids = collsolr?.subcollection_id_is;
     const subcolltitles = collsolr?.subcollection_name_ss;
     let subcolldata = subcollids?.map(function (item, n) {
-        return `${subcolltitles[n]}###${item}`;
+        let sctitle = subcolltitles[n];
+        return `${sctitle}###${item}`;
     });
     if (subcolldata?.length > 0) {
         subcolldata.sort();
     }
-    const subcolls = subcolldata?.map(function (item) {
+
+    const sctitleLen = 34;
+    const subcolls = subcolldata?.map((item) => {
         const [sctitle, scid] = item.split('###');
+        let sctitleval = sctitle;
+
+        if (sctitleval.length > sctitleLen) {
+            sctitleval =
+                sctitleval.substr(0, sctitleval.lastIndexOf(' ', sctitleLen)) +
+                ' ...';
+        }
+        const alttitle = sctitle;
         const scurl = `/${asset_type}/collection/${scid}`;
         const key = `${scid}-${sctitle}`;
         return (
             <li key={key} className={'text-nowrap'}>
-                <Link to={scurl}>{sctitle}</Link>
+                <Link to={scurl} title={alttitle}>
+                    {sctitleval}
+                </Link>
             </li>
         );
     });
@@ -238,10 +253,10 @@ export function CollectionsViewer(props) {
             uid: '#',
             name: 'Not Found',
         });
-        status.setHeaderTitle(
+        /*status.setHeaderTitle(
             asset_type[0].toUpperCase() + asset_type.substr(1)
         );
-        status.setPath(coll_paths);
+        status.setPath(coll_paths);*/
         return <NotFoundPage type={asset_type + ' collection'} id={asset_id} />;
     }
 
@@ -249,9 +264,58 @@ export function CollectionsViewer(props) {
 
     // Return the Container with the Collection page
     return (
-        <Container fluid className={'c-collection__container ' + asset_type}>
-            <Row className={'c-collection'}>
-                <Col lg={9} md={8} sm={7} className={'c-collection__items'}>
+        <>
+            <aside className={'l-column__related c-collection__metadata'}>
+                {parentcoll && (
+                    <section className={'l-related__list__wrap'}>
+                        <div className={'u-related__list__header'}>
+                            Parent Collection
+                        </div>
+                        <ul className={'list-unstyled'}>{parentcoll}</ul>
+                    </section>
+                )}
+
+                {subcolls && (
+                    <section className={'l-related__list__wrap'}>
+                        <h3 className={'u-related__list__header'}>
+                            Subcollections ({subcolls.length})
+                        </h3>
+                        <ul className={'list-unstyled'}>{subcolls}</ul>
+                    </section>
+                )}
+
+                <section className={'l-related__list__wrap'}>
+                    <h3 className={'u-related__list__header'}>Owner</h3>
+                    <ul className={'list-unstyled'}>
+                        <li>{owner}</li>
+                    </ul>
+                </section>
+
+                <section className={'l-related__list__wrap'}>
+                    <h3 className={'u-related__list__header'}>Members</h3>
+                    <ul className={'list-unstyled'}>
+                        {collsolr?.members_name_ss?.map(function (member, n) {
+                            const mykey = `member-item-${member}-${n}`.replace(
+                                /\s+/g,
+                                '_'
+                            );
+                            // const uid = collsolr.members_uid_ss[n]; // if needed add  data-uid={uid} to li
+                            return (
+                                <li key={mykey} className={'text-nowrap'}>
+                                    {member}
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </section>
+            </aside>
+            <section
+                className={
+                    'c-collection__container l-content__main__wrap ' +
+                    asset_type
+                }
+            >
+                <div className={'c-content__main__kmaps c-collection'}>
                     {(collsolr?.url_thumb?.length > 0 ||
                         $.trim(collsolr?.summary).length > 0) && (
                         <p className={'colldesc clearfix'}>
@@ -268,43 +332,11 @@ export function CollectionsViewer(props) {
                         pager={pager}
                         viewMode={view_mode}
                         inline={false}
+                        loadingState={loadingState}
+                        className={'c-collection__items'}
                     />
-                </Col>
-                <Col md={2} sm={4} className={'c-collection__metadata'}>
-                    {parentcoll && (
-                        <>
-                            <h3>Parent Collection</h3>
-                            <ul>{parentcoll}</ul>
-                        </>
-                    )}
-
-                    {subcolls && (
-                        <>
-                            <h3>Subcollections ({subcolls.length})</h3>
-                            <ul>{subcolls}</ul>
-                        </>
-                    )}
-
-                    <h3>Owner</h3>
-                    <ul>
-                        <li>{owner}</li>
-                    </ul>
-
-                    <h3>Members</h3>
-                    <ul>
-                        {collsolr?.members_name_ss?.map(function (member, n) {
-                            const mykey = `member-item-$n`;
-                            // const uid = collsolr.members_uid_ss[n]; // if needed add  data-uid={uid} to li
-                            return (
-                                <li key={mykey} className={'text-nowrap'}>
-                                    {member}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </Col>
-                <Col sm={'auto'}></Col>
-            </Row>
-        </Container>
+                </div>
+            </section>
+        </>
     );
 }

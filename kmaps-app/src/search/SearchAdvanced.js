@@ -42,6 +42,8 @@ export default function SearchAdvanced(props) {
     //const historyStack = useStoreState((state) => state.history.historyStack);
     const historyStack = {};
 
+    // console.log('GerardKetuma|SearchData', searchData);
+
     if (isSearchLoading) {
         return (
             <aside

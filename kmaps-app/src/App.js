@@ -2,6 +2,8 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SearchUI from './legacy/searchui';
 import Pages from './legacy/pages';
+import { HistoryContext, history } from './views/History/HistoryContext';
+import create from 'zustand';
 
 // import './Om.css';
 
@@ -27,7 +29,9 @@ export default function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <Main sui={sui} />
+            <HistoryContext.Provider value={history}>
+                <Main sui={sui} />
+            </HistoryContext.Provider>
         </QueryClientProvider>
     );
 }
