@@ -16,7 +16,7 @@ jobs:
           remote_key: ${{ secrets.DEPLOY_KEY }}
           dev_env_file: ${{ secrets.DEV_ENV_FILE }}
           local_dir: "build/"
-          remote_dir: "~/kmaps-apps-infrastructure/volumes/mandala-om/development/mandala-om/"
+          remote_dir: "/home/kmaps-deployer/kmaps-apps-infrastructure/volumes/mandala-om/development/mandala-om/"
         run: |
           cd kmaps-app
           npm install
