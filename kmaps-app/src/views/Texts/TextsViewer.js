@@ -17,7 +17,6 @@ import { addBoClass, createAssetCrumbs } from '../common/utils';
 import './TextsViewer.sass';
 import $ from 'jquery';
 import { useParams, Redirect, Link } from 'react-router-dom';
-// import { HistoryContext } from '../History/HistoryContext';
 import { useHistory } from '../../hooks/useHistory';
 
 /**
@@ -63,7 +62,6 @@ export default function TextsViewer(props) {
     } = useMandala(kmasset);
 
     if (!isAssetLoading && !isAssetError) {
-        //history.addPage(baseType, kmasset.title, window.location.pathname);
         addPage(baseType, kmasset.title, window.location.pathname);
     }
     const nodejson = nodeData;
