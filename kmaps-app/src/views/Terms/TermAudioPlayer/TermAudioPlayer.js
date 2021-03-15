@@ -35,7 +35,7 @@ const TermAudioPlayer = React.memo(function (props) {
             >
                 <span className="icon u-icon__audio"></span>
             </button>
-            <div class={'c-audioPlayer__select--wrapper'}>
+            <div className={'c-audioPlayer__select--wrapper'}>
                 <select
                     className="c-audioPlayer__select"
                     onChange={(e) => handleSelect(e)}
