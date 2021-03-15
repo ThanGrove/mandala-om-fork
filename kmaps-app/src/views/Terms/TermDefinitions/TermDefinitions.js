@@ -71,6 +71,7 @@ const TermDefinitions = (props) => {
                                 : false;
                         return (
                             <div
+                                key={defid}
                                 id={defid}
                                 className={`definition ${defclass}`}
                             >

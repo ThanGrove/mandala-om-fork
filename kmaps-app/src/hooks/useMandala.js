@@ -11,7 +11,7 @@ const QUERY_KEY = 'mndlapi';
  * @param query
  * @returns {Promise<boolean|*>}
  */
-const getMandalaAPI = async (_, { query }) => {
+const getMandalaAPI = async (query) => {
     if (query === '') {
         return false;
     }
@@ -20,9 +20,7 @@ const getMandalaAPI = async (_, { query }) => {
         callbackParamName: 'callback',
         url: query,
     };
-
     const { data } = await axios.request(request);
-    //console.log("isloading", isLoading);
     const retdata = data && data.response ? data.response : data;
     return retdata;
 };
@@ -42,20 +40,18 @@ const getMandalaAPI = async (_, { query }) => {
  * @returns {unknown}
  */
 const useMandala = (solrobj) => {
-    let json_url = '';
-    if (solrobj) {
-        if (solrobj.url_json) {
-            json_url = solrobj.url_json;
-        } else if (solrobj.docs && solrobj.docs.length > 0) {
-            json_url = solrobj.docs[0].url_json;
-        }
+    // Get Solr Doc Object or first one from list
+    const obj = solrobj?.docs?.length > 0 ? solrobj?.docs[0] : solrobj;
+    let json_url = obj?.url_json;
+    // Special app adjustments
+    if (obj?.asset_type === 'audio-video') {
+        json_url += 'p'; // av mandala has a .jsonp api endpoint for jsonp
     }
-    json_url = json_url.replace(/\.json$/, '.jsonp?callback=mdldata');
-    const res = useQuery([QUERY_KEY, { query: json_url }], getMandalaAPI, {
-        enabled: json_url,
+    // Get UID for Query Key
+    const uid = obj?.uid ? obj.uid : 'unknown';
+    return useQuery([QUERY_KEY, uid], () => getMandalaAPI(json_url), {
+        enabled: !!obj?.id,
     });
-    //console.log("use mandala error", error);
-    return res && res.data ? res.data : false;
 };
 
 export default useMandala;

@@ -10,15 +10,16 @@ const useCollection = (asset_type, nid) => {
             rows: 1,
         },
     };
-    // console.log(querySpecs)
+    console.log(querySpecs);
     const query_key = QUERY_BASE + '-' + asset_type + '-' + nid;
 
-    const resource = useSolr(query_key, querySpecs);
+    return useSolr(query_key, querySpecs);
+
     // console.log('useAsset: querySpecs = ', querySpecs);
     // console.log('useAsset: returning resource = ', resource);
-    return resource?.docs && resource.docs.length > 0
-        ? resource.docs[0]
-        : resource;
+    // return resource?.data?.docs && resource?.data?.docs?.length > 0
+    //     ? resource.data.docs[0]
+    //     : resource;
 };
 
 export default useCollection;

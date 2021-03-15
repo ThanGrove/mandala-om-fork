@@ -1,70 +1,104 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { FeatureCollection } from './common/FeatureCollection';
-import useStatus from '../hooks/useStatus';
-import { useStoreState } from 'easy-peasy';
+import { useSearchStore } from '../hooks/useSearchStore';
+import { useFilterStore } from '../hooks/useFilterStore';
+import { useSearch } from '../hooks/useSearch';
 import qs from 'qs';
-import { useHistory, useLocation } from 'react-router';
+import { useLocation, useParams } from 'react-router-dom';
+import _ from 'lodash';
 
-export function SearchViewer(props) {
-    const status = useStatus();
-    const history = useHistory();
+const searchSelector = (state) => state.search;
+const setSearchSelector = (state) => state.setSearch;
+
+const filtersSelector = (state) => state.filters;
+const addMultipleFiltersSelector = (state) => state.addMultipleFilters;
+
+export function SearchViewer() {
+    //const history = useHistory();
     const location = useLocation();
+    const { viewMode } = useParams();
 
-    // Easy Peasy state mappings
-    const loadingState = useStoreState((state) => state.search.loadingState);
-    const searchState = useStoreState((state) => state.search);
+    const search = useSearchStore(searchSelector);
+    const setSearch = useSearchStore(setSearchSelector);
 
-    // assemble a truncated query string
-    const searchQueryString = qs.stringify(
-        {
-            page: {
-                current: searchState.page.current,
-                rows: searchState.page.rows,
-            },
-            query: {
-                filters: searchState.query.filters,
-                searchText: searchState.query.searchText,
-            },
-        },
-        { allowDots: true }
-    );
+    const filters = useFilterStore(filtersSelector);
+    const addMultipleFilters = useFilterStore(addMultipleFiltersSelector);
 
-    useEffect(() => {
-        // Assemble and Set Header Data
-        const searchText =
-            searchState.query?.searchText?.length > 1
-                ? '"' + searchState.query.searchText + '"'
-                : '*';
-        const mod_count = searchState.query?.filters?.length || 0;
-        const searchStateModifiers = mod_count
-            ? ' (+' + mod_count + ' filter' + (mod_count !== 1 ? 's' : '') + ')'
-            : '';
-        status.clear();
-        status.setHeaderTitle(
-            'Search Results: ' + searchText + ' ' + searchStateModifiers
-        );
-        status.setSubTitle('For a Better Tomorrow...');
-    }, [searchQueryString]);
-
-    // THIS REPLACES THE CURRENT URL WITH searchQueryString WHICH IS DERIVED FROM THE EASY PEASY SEARCH STATE.
-    // internal=true FLAG PREVENTS LOOPING.
-    useEffect(() => {
-        if (qs.parse(location.search).internal === 'true') {
-            history.replace(`?${searchQueryString}`);
-            // console.log("SEARCHVIEWER:  history replace = ", searchQueryString );
-        } else {
-            history.replace(`?${searchQueryString}` + '&internal=true');
-            // console.log("SEARCHVIEWER:  history replace = ", searchQueryString + "&internal=true");
+    // Only do these transformations if history location is not internal
+    if (!location.state?.interal) {
+        const queryObject = qs.parse(location.search, {
+            allowDots: true,
+            ignoreQueryPrefix: true,
+        });
+        // Check if searchText is in queryObject, if not put one with empty string
+        if (!queryObject?.searchText) {
+            queryObject.searchText = '';
         }
-    }, [searchQueryString]);
 
+        // Get search first from Store and only setSearch if it is different from search Query string.
+        if (search.trim() !== queryObject.searchText.trim()) {
+            setSearch(queryObject.searchText);
+        }
+
+        let newFilters = [];
+        // Check to make sure the filters are in state and if not add them
+        for (const [key, value] of Object.entries(queryObject)) {
+            if (!isNaN(parseInt(key, 10))) {
+                newFilters.push(value);
+            }
+        }
+        // From the newFilters array, remove all filters from state if present to prevent duplicates.
+        const dedupedNewFilters = _.differenceWith(
+            newFilters,
+            filters,
+            (arrVal, OthVal) => arrVal.id === OthVal.id
+        );
+        if (dedupedNewFilters.length > 0) {
+            addMultipleFilters(dedupedNewFilters);
+        }
+    }
+
+    const [perPage, setPerPage] = useState(100); // These are the rows returned
+    const [page, setPage] = useState(0); // Start will always be page * perPage
+    const {
+        isLoading: isSearchLoading,
+        data: searchData,
+        isError: isSearchError,
+        error: searchError,
+        isPreviousData,
+    } = useSearch(search, page, perPage, 'none', 0, 0, true, filters);
+
+    if (isSearchLoading) {
+        return (
+            <div>
+                <span>SearchScreen Loading Skeleton</span>
+            </div>
+        );
+    }
+
+    if (isSearchError) {
+        return (
+            <div>
+                <span>Error: {searchError.message}</span>
+            </div>
+        );
+    }
+
+    const docs = searchData.response?.docs ?? [];
+    const numFound = searchData.response?.numFound ?? 0;
     let output = (
         <FeatureCollection
-            {...props}
-            viewMode={'deck'}
-            loadingState={loadingState}
+            docs={docs}
+            viewMode={viewMode}
             inline={false}
+            page={page}
+            setPage={setPage}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            isPreviousData={isPreviousData}
+            assetCount={numFound}
             showSearchFilters={true}
+            hasMore={numFound <= page * perPage + perPage ? false : true}
         />
     );
     return output;

@@ -1,25 +1,30 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
-import { useStoreState } from 'easy-peasy';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
-import { Redirect, useHistory } from 'react-router';
+import { useHistory } from 'react-router';
+import { useSearchStore } from '../hooks/useSearchStore';
 
 const target = document.getElementById('basicSearchPortal');
+const searchSelector = (state) => state.search;
+const setSearchSelector = (state) => state.setSearch;
+const clearSearchSelector = (state) => state.clearSearch;
 
 export function BasicSearch(props) {
     const history = useHistory();
     const inputEl = useRef(null);
-    const state = useStoreState((state) => state);
-    const show_debug = false;
-    if (show_debug) console.debug('BasicSearch: state = ', state);
 
-    const currText = state.search.query?.searchText;
+    const search = useSearchStore(searchSelector);
+    const setSearch = useSearchStore(setSearchSelector);
+    const clearSearch = useSearchStore(clearSearchSelector);
+
+    //const currText = '';
     // const [state, setState] = useState({searchString: {currText}});
     const handleSubmit = () => {
-        props.search.setSearchText(inputEl.current.value);
-        props.onSubmit(inputEl.current.value);
-        console.log('BasicSearch handleSubmit: ', inputEl.current.value);
+        //props.search.setSearchText(inputEl.current.value);
+        //props.onSubmit(inputEl.current.value);
+        //console.log('BasicSearch handleSubmit: ', inputEl.current.value);
+        setSearch(inputEl.current.value);
         if (process.env.REACT_APP_STANDALONE === 'standalone') {
             window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
         } else {
@@ -27,30 +32,19 @@ export function BasicSearch(props) {
         }
     };
     const clearInput = () => {
-        inputEl.current.value = '';
+        //inputEl.current.value = '';
         //handleSubmit();
-        props.search.setSearchText(inputEl.current.value);
-        props.onSubmit(inputEl.current.value);
-        console.log('BasicSearch clearInput: ', inputEl.current.value);
+        //props.search.setSearchText(inputEl.current.value);
+        //props.onSubmit(inputEl.current.value);
+        //console.log('BasicSearch clearInput: ', inputEl.current.value);
+        clearSearch();
     };
-    const handleChange =
-        // To be used for completions if desired
-        _.debounce(() => {
-            console.log('BasicSearch handleChange: ', inputEl.current.value);
-        }, 500);
-
     const handleKey = (x) => {
         // submit on return
         if (x.keyCode === 13) {
             handleSubmit();
         }
     };
-
-    useLayoutEffect(() => {
-        if (inputEl.current.value !== props.search.query.searchText) {
-            inputEl.current.value = props.search.query.searchText;
-        }
-    });
 
     const basicSearchPortal = (
         <>
@@ -59,9 +53,8 @@ export function BasicSearch(props) {
                     type="text"
                     id="sui-search"
                     className="sui-search2"
-                    defaultValue={currText}
+                    defaultValue={search}
                     placeholder="Enter Search"
-                    onChange={handleChange}
                     onKeyDownCapture={handleKey}
                     ref={inputEl}
                 />

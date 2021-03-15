@@ -1,5 +1,6 @@
 import Card from 'react-bootstrap/Card';
 import { useLocation, Link } from 'react-router-dom';
+import _ from 'lodash';
 // import Accordion from "react-bootstrap/Accordion";
 // import Button from "react-bootstrap/Button";
 import * as PropTypes from 'prop-types';
@@ -55,7 +56,7 @@ export function FeatureCard(props) {
 
     const viewer = doc.asset_type;
 
-    const related_places = doc.kmapid_places_idfacet?.map((x, i) => {
+    const related_places = _.uniq(doc.kmapid_places_idfacet).map((x, i) => {
         const [name, id] = x.split('|');
         return (
             <div key={i} className="c-card__content-field shanti-field-place">
@@ -66,7 +67,7 @@ export function FeatureCard(props) {
         );
     });
 
-    const related_subjects = doc.kmapid_subjects_idfacet?.map((x, i) => {
+    const related_subjects = _.uniq(doc.kmapid_subjects_idfacet).map((x, i) => {
         const [name, id] = x.split('|');
         return (
             <div key={i} className="c-card__content-field shanti-field-subject">
@@ -77,7 +78,7 @@ export function FeatureCard(props) {
         );
     });
 
-    const feature_types = doc.feature_types_idfacet?.map((x, i) => {
+    const feature_types = _.uniq(doc.feature_types_idfacet).map((x, i) => {
         const [name, id] = x.split('|');
         return (
             <div
@@ -178,7 +179,11 @@ export function FeatureCard(props) {
                 <Card.Img
                     className={'c-card__grid__image--top'}
                     variant="top"
-                    src={doc.url_thumb}
+                    src={
+                        doc.url_thumb
+                            ? doc.url_thumb
+                            : '/mandala-om/img/gradient.jpg'
+                    }
                 />
                 <div className={'c-card__grid__glyph--type color-invert'}>
                     {typeGlyph}

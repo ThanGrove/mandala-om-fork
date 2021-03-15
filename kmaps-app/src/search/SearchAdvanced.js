@@ -4,16 +4,26 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
+import qs from 'qs';
 import { HistoryBox } from './HistoryBox';
-import { useStoreState } from 'easy-peasy';
+import { useSearch } from '../hooks/useSearch';
+import { useSearchStore } from '../hooks/useSearchStore';
+import { useFilterStore } from '../hooks/useFilterStore';
 
 const SEARCH_PATH = '/search';
+const selector = (state) => state.search;
+const filtersSelector = (state) => state.filters;
+const addFilterSelector = (state) => state.addFilter;
+const removeFilterSelector = (state) => state.removeFilter;
 
-function SearchAdvancedSimple(props) {
+export default function SearchAdvanced(props) {
     const history = useHistory();
-    let openclass = props.advanced ? 'open' : 'closed';
     let [reset, setReset] = useState(0);
-    const historyStack = useStoreState((state) => state.history.historyStack);
+
+    const search = useSearchStore(selector);
+    const filters = useFilterStore(filtersSelector);
+    const addFilter = useFilterStore(addFilterSelector);
+    const removeFilter = useFilterStore(removeFilterSelector);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -21,15 +31,75 @@ function SearchAdvancedSimple(props) {
 
     // console.log("SearchAdvance searchView = ", searchView);
     let [booleanControls, setBooleanControls] = useState(true);
+    const {
+        isLoading: isSearchLoading,
+        data: searchData,
+        isError: isSearchError,
+        error: searchError,
+    } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
+
+    let openclass = props.advanced ? 'open' : 'closed';
+    //const historyStack = useStoreState((state) => state.history.historyStack);
+    const historyStack = {};
+
+    // console.log('GerardKetuma|SearchData', searchData);
+
+    if (isSearchLoading) {
+        return (
+            <aside
+                id="l-column__search"
+                className={`l-column__search ${openclass}`}
+            >
+                <span>Search Loading Skeleton</span>
+            </aside>
+        );
+    }
+
+    if (isSearchError) {
+        return (
+            <aside
+                id="l-column__search"
+                className={`l-column__search ${openclass}`}
+            >
+                <span>Error: {searchError.message}</span>
+            </aside>
+        );
+    }
+
     const handleBooleanControlClick = () =>
         setBooleanControls(!booleanControls);
 
     function gotoSearchPage() {
         if (!searchView) {
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
+                // window.location.href = `${
+                //     process.env.REACT_APP_STANDALONE_PATH
+                // }/#/search/deck?${qs.stringify(
+                //     filters
+                // )}&searchText=${qs.stringify(search)}`;
+                history.push({
+                    pathname: process.env.REACT_APP_STANDALONE_PATH,
+                    search: `?${qs.stringify(filters, {
+                        allowDots: true,
+                    })}&searchText=${qs.stringify(search)}`,
+                    hash: '#/search/deck',
+                });
             } else {
-                history.push(SEARCH_PATH);
+                // history.push(
+                //     `/search/deck?${qs.stringify(
+                //         filters
+                //     )}&searchText=${qs.stringify(search)}`,
+                //     { internal: true }
+                // );
+                history.push({
+                    pathname: `/search/deck`,
+                    search: `?${qs.stringify(filters, {
+                        allowDots: true,
+                    })}&searchText=${qs.stringify(search)}`,
+                    state: {
+                        internal: true,
+                    },
+                });
             }
         }
     }
@@ -42,7 +112,7 @@ function SearchAdvancedSimple(props) {
             action: msg.action,
         };
         // console.log("SearchAdvanced:  handleFacetChange:  received: ", command);
-        const search = props.search;
+        //const search = props.search;
         const compound_id = `${msg.facetType}:${msg.value}`;
 
         if (command.action === null || command.action === 'add') {
@@ -57,9 +127,11 @@ function SearchAdvancedSimple(props) {
             console.log(
                 'NEW FILTER: ' + JSON.stringify(new_filter, undefined, 2)
             );
-            search.addFilters([new_filter]);
+            //search.addFilters([new_filter]);
+            addFilter(new_filter);
         } else if (command.action === 'remove') {
-            search.removeFilters([{ id: compound_id }]);
+            //search.removeFilters([{ id: compound_id }]);
+            removeFilter({ id: compound_id });
         }
         if (command.action !== 'remove') {
             gotoSearchPage(); // declaratively navigate to search
@@ -76,7 +148,8 @@ function SearchAdvancedSimple(props) {
 
     function getChosenFacets(type) {
         // console.log("getChosenFacets: finding in:", props.search.query.filters)
-        return props?.search?.query?.filters?.filter((x) => x.field === type);
+        //return props?.search?.query?.filters?.filter((x) => x.field === type);
+        return filters.filter((filter) => filter.field === type);
     }
 
     function handleResetFilters() {
@@ -101,29 +174,19 @@ function SearchAdvancedSimple(props) {
     }
 
     // console.log ("SEARCHY ", props );
-    function closeAdvanced() {
-        if (typeof props.onStateChange === 'function') {
-            props.onStateChange({ advanced: false });
-        } else {
-            console.error(
-                'SearchAdvanced: No onStateChange() function passed in properties!'
-            );
-        }
-    }
+    function closeAdvanced() {}
 
     // TODO: review whether the FacetBoxes should be a configured list rather than hand-managed components as they are now.
-    const advanced = (
+    return (
         <aside
             id="l-column__search"
             className={`l-column__search ${openclass}`}
         >
-            {typeof props.onStateChange === 'function' && (
-                <Navbar className={'justify-content-end'}>
-                    <Nav.Link onClick={closeAdvanced}>
-                        <span className={'icon shanticon-cancel'}></span>
-                    </Nav.Link>
-                </Navbar>
-            )}
+            <Navbar className={'justify-content-end'}>
+                <Nav.Link onClick={closeAdvanced}>
+                    <span className={'icon shanticon-cancel'}></span>
+                </Nav.Link>
+            </Navbar>
             <Navbar>
                 {/*<Navbar.Brand href="#home">Navbar with text</Navbar.Brand>*/}
                 <Navbar.Toggle />
@@ -133,7 +196,7 @@ function SearchAdvancedSimple(props) {
                             {' '}
                             Show Results{' '}
                             <Badge pill variant={'secondary'}>
-                                {props?.pager?.numFound}
+                                {searchData.response?.numFound}
                             </Badge>
                         </Link>
                     )}
@@ -144,7 +207,7 @@ function SearchAdvancedSimple(props) {
                         >
                             {'<<'} Show Results{' '}
                             <Badge pill variant={'secondary'}>
-                                {props?.pager?.numFound}
+                                {searchData.response?.numFound}
                             </Badge>
                         </a>
                     )}
@@ -169,9 +232,9 @@ function SearchAdvancedSimple(props) {
 
             <section>
                 <FacetBox
-                    id="asset_type"
+                    id="asset_count"
                     label="item type"
-                    facets={props.facets?.asset_count}
+                    facets={searchData.facets?.asset_count?.numBuckets}
                     facetType={'asset_type'}
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -180,9 +243,9 @@ function SearchAdvancedSimple(props) {
                     booleanControls={booleanControls}
                 />
                 <FacetBox
-                    id="subjects"
+                    id="related_subjects"
                     label="related subjects"
-                    facets={props.facets?.related_subjects}
+                    facets={searchData.facets?.related_subjects?.numBuckets}
                     facetType="subjects"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -191,9 +254,9 @@ function SearchAdvancedSimple(props) {
                     booleanControls={booleanControls}
                 />
                 <FacetBox
-                    id="places"
+                    id="related_places"
                     label="related places"
-                    facets={props.facets?.related_places}
+                    facets={searchData.facets?.related_places?.numBuckets}
                     facetType="places"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -202,9 +265,9 @@ function SearchAdvancedSimple(props) {
                     booleanControls={booleanControls}
                 />
                 <FacetBox
-                    id="terms"
+                    id="related_terms"
                     label="related terms"
-                    facets={props.facets?.related_terms}
+                    facets={searchData.facets?.related_terms?.numBuckets}
                     facetType="terms"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -215,7 +278,7 @@ function SearchAdvancedSimple(props) {
                 <FacetBox
                     id="feature_types"
                     label="feature types"
-                    facets={props.facets?.feature_types}
+                    facets={searchData.facets?.feature_types?.numBuckets}
                     facetType="feature_types"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -227,7 +290,7 @@ function SearchAdvancedSimple(props) {
                 <FacetBox
                     id="collections"
                     label="collections"
-                    facets={props.facets?.collections}
+                    facets={searchData.facets?.collections?.numBuckets}
                     facetType="collections"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -238,7 +301,7 @@ function SearchAdvancedSimple(props) {
                 <FacetBox
                     id="languages"
                     label="languages"
-                    facets={props.facets?.languages}
+                    facets={searchData.facets?.languages?.numBuckets}
                     facetType="languages"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -247,9 +310,9 @@ function SearchAdvancedSimple(props) {
                     booleanControls={booleanControls}
                 />
                 <FacetBox
-                    id="users"
+                    id="node_user"
                     label="users"
-                    facets={props.facets?.node_user}
+                    facets={searchData.facets?.node_user?.numBuckets}
                     facetType="users"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -261,7 +324,7 @@ function SearchAdvancedSimple(props) {
                 <FacetBox
                     id="creator"
                     label="creator"
-                    facets={props.facets?.creator}
+                    facets={searchData.facets?.creator?.numBuckets}
                     facetType="creator"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -273,7 +336,7 @@ function SearchAdvancedSimple(props) {
                 <FacetBox
                     id="perspective"
                     label="perspective"
-                    facets={props.facets?.perspective}
+                    facets={searchData.facets?.perspective?.numBuckets}
                     facetType="perspective"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -283,9 +346,9 @@ function SearchAdvancedSimple(props) {
                 />
 
                 <FacetBox
-                    id="associated subjects"
+                    id="associated_subjects"
                     label="Associated Subjects"
-                    facets={props.facets?.associated_subjects}
+                    facets={searchData.facets?.associated_subjects?.numBuckets}
                     facetType="associated_subjects"
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
@@ -312,8 +375,4 @@ function SearchAdvancedSimple(props) {
             </div>
         </aside>
     );
-
-    return advanced;
 }
-
-export const SearchAdvanced = React.memo(SearchAdvancedSimple);

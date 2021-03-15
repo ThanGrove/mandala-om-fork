@@ -11,15 +11,13 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
 
     // Info for Kmap Itself: kmapRes
     const { isError: kmapIsError, data: kmapRes, error: kmapError } = useKmap(
-        domain,
-        kid,
+        `${domain}-${kid}`,
         'info',
         byPass
     );
     // Info of Related Kmaps/Assets: relRes
     const { isError: relIsError, data: relRes, error: relError } = useKmap(
-        domain,
-        kid,
+        `${domain}-${kid}`,
         'related',
         byPass
     );
@@ -101,7 +99,7 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
                         {termdefs.map((defn) => {
                             return (
                                 <Link
-                                    to={`/${domain}/${domain}-${kid}#def-${defn}`}
+                                    to={`/${domain}/${kid}#def-${defn}`}
                                     title={`Definition ${defn}`}
                                 >
                                     {defn}
@@ -165,8 +163,7 @@ function MandalaPopoverBody(props) {
             : '';
     const pubfolder = process.env.PUBLIC_URL;
     const mandala_base = pubfolder; // TODO: Check if this needs to change?
-    const kmap_item_page =
-        mandala_base + '/' + domain + '/' + domain + '-' + kid;
+    const kmap_item_page = mandala_base + '/' + domain + '/' + kid;
 
     // Feature types
     let featuretypes = '';
@@ -242,8 +239,7 @@ function MandalaPopoverBody(props) {
                 </div>
                 <div className="termtypes">
                     {kminfo.associated_subject_ids.map((item, n) => {
-                        const myurl =
-                            mandala_base + '/subjects/subjects-' + item;
+                        const myurl = mandala_base + '/subjects/' + item;
                         return (
                             <a href={myurl} key={myurl + n}>
                                 {kminfo.associated_subjects[n]}
@@ -292,7 +288,7 @@ function MandalaPopoverBody(props) {
                     {defs.map((defn) => {
                         return (
                             <Link
-                                to={`/${domain}/${domain}-${kid}#def-${defn}`}
+                                to={`/${domain}/${kid}#def-${defn}`}
                                 title={`Definition ${defn}`}
                             >
                                 {defn}

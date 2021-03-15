@@ -1,17 +1,22 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import _ from 'lodash';
 import * as PropTypes from 'prop-types';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { useStoreState } from 'easy-peasy';
 import Spinner from 'react-bootstrap/Spinner';
 import { FacetChoice } from './FacetChoice';
-
+import { useInfiniteSearch } from '../hooks/useInfiniteSearch';
+import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { BsCheckCircle, BsMap } from 'react-icons/bs';
 import { ImStack } from 'react-icons/im';
-
+import { useSearchStore } from '../hooks/useSearchStore';
+import { useFilterStore } from '../hooks/useFilterStore';
+//import { search } from '../logic/searchapi';
 import './FacetBox.scss';
+
+const selector = (state) => state.search;
+const filtersSelector = (state) => state.filters;
 
 function FacetControls(props) {
     return (
@@ -61,28 +66,61 @@ FacetControls.propTypes = {
 
 export function FacetBox(props) {
     const inputEl = useRef(null);
-    const sortFieldEl = useRef(null);
     const [sortField, setSortField] = useState('count');
-    const sortDirectionEl = useRef(null);
     const [sortDirection, setSortDirection] = useState('desc');
-
     const [open, setOpen] = useState(false);
+    const [facetLimit, setFacetLimit] = useState(100);
+    const search = useSearchStore(selector);
+    const filters = useFilterStore(filtersSelector);
+
+    const {
+        data: searchData,
+        error: searchError,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+        status,
+    } = useInfiniteSearch(
+        search,
+        0,
+        0,
+        props.id,
+        facetLimit,
+        true,
+        filters,
+        open
+    );
+
+    const loadMoreButtonRef = React.useRef();
+
+    useIntersectionObserver({
+        target: loadMoreButtonRef,
+        onIntersect: fetchNextPage,
+        enabled: hasNextPage,
+    });
+
+    if (status === 'loading') {
+        return (
+            <div className={`sui-advBox sui-advBox-${props.id}`}>
+                <span>Facets Loading Skeleton</span>
+            </div>
+        );
+    }
+
+    if (status === 'error') {
+        return (
+            <div className={`sui-advBox sui-advBox-${props.id}`}>
+                <span>Error: {searchError.message}</span>
+            </div>
+        );
+    }
 
     let chosen_icon = props.icon;
     const facetType = props.facetType;
     const facets = props.facets;
+    const facetPages = searchData?.pages;
     const chosenFacets = props.chosenFacets || [];
-
-    const loadingState = useStoreState((state) => state.search.loadingState);
-
-    // if the sortField or sortDirection change make sure the send handleNarrowFilter messages
-    useEffect(() => {
-        handleNarrowFilters();
-    }, [sortField, sortDirection]);
-
-    useEffect(() => {
-        inputEl.current.value = '';
-    }, [props.resetFlag]);
 
     // console.log("FacetBox: props = ", props);
 
@@ -195,34 +233,39 @@ export function FacetBox(props) {
         return uid;
     }
 
-    const facetList = _.map(facets?.buckets, (entry) => {
-        // Adjust
-        const iconClass = chooseIconClass(entry);
-        const { label, fullLabel, value } = parseEntry(entry, false);
-        const count = entry.count;
-        const id = facetType + ':' + parseId(entry.val);
-        return (
-            <FacetChoice
-                mode={'add'}
-                key={`${value} ${label} ${facetType}`}
-                className={iconClass}
-                value={value}
-                labelText={label}
-                label={fullLabel}
-                count={count}
-                facetType={facetType}
-                chosen={isChosen(id)}
-                operator={'AND'}
-                onFacetClick={(msg) => {
-                    props.onFacetClick({
-                        ...msg,
-                        action: isChosen(id) ? 'remove' : 'add',
-                    });
-                }}
-                booleanControls={props.booleanControls}
-            />
-        );
-    });
+    const facetList = facetPages?.map((page, idx) => (
+        <React.Fragment key={idx}>
+            {page?.facets[props.id].buckets.map((entry) => {
+                // Adjust
+                const iconClass = chooseIconClass(entry);
+                const { label, fullLabel, value } = parseEntry(entry, false);
+                const count = entry.count;
+                const id = facetType + ':' + parseId(entry.val);
+                return (
+                    <FacetChoice
+                        mode={'add'}
+                        key={`${value} ${label} ${facetType}`}
+                        className={iconClass}
+                        value={value}
+                        labelText={label}
+                        label={fullLabel}
+                        count={count}
+                        facetType={facetType}
+                        chosen={isChosen(id)}
+                        operator={'AND'}
+                        onFacetClick={(msg) => {
+                            props.onFacetClick({
+                                ...msg,
+                                action: isChosen(id) ? 'remove' : 'add',
+                            });
+                        }}
+                        booleanControls={props.booleanControls}
+                    />
+                );
+            })}
+        </React.Fragment>
+    ));
+
     const chosenList = _.map(props.chosenFacets, (entry) => {
         const removeIconClass = 'sui-advTermRem u-icon__cancel-circle icon';
         // console.log("Creating removal FacetChoice from ", entry);
@@ -264,7 +307,6 @@ export function FacetBox(props) {
             }
         }
     };
-    const maxFacetResult = 500;
 
     const facetBox = (
         <div className={'sui-advBox sui-advBox-' + props.id}>
@@ -276,11 +318,8 @@ export function FacetBox(props) {
                 <span className={'icon'}>{icon}</span>
                 <span className="app-name">{label}</span>
                 <span id={'sui-advPlus-' + props.id} className={'sui-advPlus'}>
-                    <Badge
-                        pill
-                        variant={facetList.length ? 'primary' : 'secondary'}
-                    >
-                        {facetList.length}
+                    <Badge pill variant={facets ? 'primary' : 'secondary'}>
+                        {facets}
                     </Badge>{' '}
                     {open ? minus : plus}
                 </span>
@@ -296,13 +335,6 @@ export function FacetBox(props) {
                 }
                 id={'sui-advEdit-' + props.id}
             >
-                <div className="sui-advTerm sui-advTerm__results-length-message">
-                    <span>
-                        {facetList.length >= maxFacetResult
-                            ? `The results are limited to ${maxFacetResult} records, add more filters to narrow your search.`
-                            : ''}
-                    </span>
-                </div>
                 <div className={'sui-advEdit-facet-ctrls'}>
                     <input
                         type={'text'}
@@ -318,22 +350,32 @@ export function FacetBox(props) {
                         name={name}
                         value={sortField}
                         onClick={handleSortClick}
-                        loadingState={loadingState}
                     />
                 </div>
 
                 <div className={'sui-adv-facetlist overflow-auto'}>
                     {facetList}
+                    <div className="sui-advEditLine">
+                        <button
+                            ref={loadMoreButtonRef}
+                            onClick={() => fetchNextPage()}
+                            disabled={!hasNextPage || isFetchingNextPage}
+                        >
+                            {isFetchingNextPage
+                                ? 'Loading more...'
+                                : hasNextPage
+                                ? 'Load Newer'
+                                : 'Nothing more to load'}
+                        </button>
+                    </div>
+                    <div>
+                        {isFetching && !isFetchingNextPage
+                            ? 'Background Updating...'
+                            : null}
+                    </div>
                 </div>
             </div>
         </div>
     );
     return facetBox;
 }
-
-FacetBox.propTypes = {
-    label: PropTypes.string,
-    chosenIcon: PropTypes.string,
-    facetType: PropTypes.string,
-    filters: PropTypes.array,
-};

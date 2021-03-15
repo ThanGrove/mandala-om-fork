@@ -1,60 +1,70 @@
-import React, { useEffect } from 'react';
-import useStatus from '../../hooks/useStatus';
+import React, { useContext, useEffect } from 'react';
 import { Col, Container, Row, Image } from 'react-bootstrap';
-import $ from 'jquery';
-import _ from 'lodash';
 import './sources.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { MandalaPopover } from '../common/MandalaPopover';
-import { Link } from 'react-router-dom';
-import { createAssetCrumbs } from '../common/utils';
+import { Link, useParams } from 'react-router-dom';
+import { useKmap } from '../../hooks/useKmap';
+import useMandala from '../../hooks/useMandala';
+// import { HistoryContext } from '../History/HistoryContext';
+import { useHistory } from '../../hooks/useHistory';
 
-export function SourcesViewer(props) {
-    const solrdoc = props.mdlasset;
-    const nodejson = props.nodejson;
-    const ismain = props.ismain;
+export default function SourcesViewer(props) {
+    const baseType = `sources`;
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
+    const { id, relID } = useParams();
+    const queryID = relID ? relID : `${baseType}*-${id}`;
+    const {
+        isLoading: isAssetLoading,
+        data: kmasset,
+        isError: isAssetError,
+        error: assetError,
+    } = useKmap(queryID, 'asset');
+    const {
+        isLoading: isNodeLoading,
+        data: nodeData,
+        isError: isNodeError,
+        error: nodeError,
+    } = useMandala(kmasset);
 
-    const status = useStatus();
-
-    const nid = props?.id || solrdoc?.id || nodejson?.nid || false;
-
-    useEffect(() => {
-        if (ismain) {
-            status.clear();
-            status.setType('sources');
-            status.setHeaderTitle('Loading ...');
-        }
-    }, []);
-
-    // usEffect Sets the title in the header and reformats the Seadragon viewer buttons for fullscreen and zoom
-    useEffect(() => {
-        // Setting title in header and other status options
-        if (solrdoc && ismain) {
-            status.clear(); // Clear previous status
-
-            // Set Page title
-            let pgtitle = solrdoc?.title || solrdoc?.caption;
-            pgtitle = pgtitle === '' ? 'Sources Viewer' : pgtitle;
-            status.setHeaderTitle(pgtitle);
-
-            // Add Asset specific clss to main for styling
-            $('main.l-column__main').addClass('sources');
-
-            // Set Breadcrumbs
-            const bcrumbs = createAssetCrumbs(solrdoc);
-            status.setPath(bcrumbs);
-        }
-    }, [solrdoc]);
-
-    if (!solrdoc) {
+    if (!isAssetLoading && !isAssetError) {
+        // history.addPage(baseType, kmasset.title, window.location.pathname);
+        addPage(baseType, kmasset.title, window.location.pathname);
+    }
+    if (isAssetLoading || isNodeLoading) {
         return (
-            <Container fluid className={'c-source__container'}>
-                <Col className={'c-source'}>
-                    <div className={'loading'}>Loading ...</div>
+            <Container fluid className="c-source__container">
+                <Col className="c-source">
+                    <div className="loading">Sources Loading Skeleton ...</div>
                 </Col>
             </Container>
         );
     }
+
+    if (isAssetError || isNodeError) {
+        if (isAssetError) {
+            return (
+                <Container fluid className="c-source__container">
+                    <Col className="c-source">
+                        <div className="error">Error: {assetError.message}</div>
+                    </Col>
+                </Container>
+            );
+        }
+        if (isNodeError) {
+            return (
+                <Container fluid className="c-source__container">
+                    <Col className="c-source">
+                        <div className="error">Error: {nodeError.message}</div>
+                    </Col>
+                </Container>
+            );
+        }
+    }
+
+    const solrdoc = kmasset;
+    const nodejson = nodeData;
 
     // console.log("nodejson", nodejson);
     const data_col_width = solrdoc?.url_thumb?.length > 0 ? 8 : 12;
@@ -93,7 +103,7 @@ export function SourcesViewer(props) {
                         {/* Publication Info */}
                         <SourcesRow
                             label={'Format'}
-                            value={nodejson.biblio_type_name}
+                            value={nodejson?.biblio_type_name}
                         />
 
                         {nodejson?.biblio_year?.length > 0 && (
@@ -124,24 +134,24 @@ export function SourcesViewer(props) {
                         )}
                         <SourcesRow
                             label={'Source ID'}
-                            value={'sources-' + nodejson.nid}
+                            value={'sources-' + nodejson?.nid}
                         />
 
                         <SourcesKmap
                             label={'Language'}
-                            field={nodejson.field_language_kmaps}
+                            field={nodejson?.field_language_kmaps}
                         />
                         <SourcesKmap
                             label={'Places'}
-                            field={nodejson.field_kmaps_places}
+                            field={nodejson?.field_kmaps_places}
                         />
                         <SourcesKmap
                             label={'Subjects'}
-                            field={nodejson.field_kmaps_subjects}
+                            field={nodejson?.field_kmaps_subjects}
                         />
                         <SourcesKmap
                             label={'Terms'}
-                            field={nodejson.field_kmaps_terms}
+                            field={nodejson?.field_kmaps_terms}
                         />
 
                         {/* Abstract, Link, Etc. */}
