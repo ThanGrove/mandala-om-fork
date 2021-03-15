@@ -1,7 +1,11 @@
-name: "Deploy to Server"
+name: "Deploy to Server Dev"
 
 on:
+  push:
+    branches:
+      - develop
   workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
