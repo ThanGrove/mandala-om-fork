@@ -1,5 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import useStatus from '../../hooks/useStatus';
+import useAsset from '../../hooks/useAsset';
+import { useKmap } from '../../hooks/useKmap';
+import useMandala from '../../hooks/useMandala';
 import {
     Container,
     Col,
@@ -13,7 +16,8 @@ import { HtmlWithPopovers, getRandomKey } from '../common/MandalaMarkup';
 import { addBoClass, createAssetCrumbs } from '../common/utils';
 import './TextsViewer.sass';
 import $ from 'jquery';
-import { Redirect } from 'react-router-dom';
+import { useParams, Redirect, Link } from 'react-router-dom';
+import { useHistory } from '../../hooks/useHistory';
 
 /**
  * Text Viewer Component: The parent component for viewing a text. Gets sent the asset information as a prop
@@ -38,9 +42,29 @@ import { Redirect } from 'react-router-dom';
  * @returns {*}
  * @constructor
  */
-export function TextsViewer(props) {
-    const nodejson = props.nodejson ? props.nodejson : '';
-    const kmasset = props.mdlasset ? props.mdlasset : '';
+export default function TextsViewer(props) {
+    const baseType = `texts`;
+    // const history = useContext(HistoryContext);
+    const addPage = useHistory((state) => state.addPage);
+    const { id, relID } = useParams();
+    const queryID = relID ? relID : `${baseType}*-${id}`;
+    const {
+        isLoading: isAssetLoading,
+        data: kmasset,
+        isError: isAssetError,
+        error: assetError,
+    } = useKmap(queryID, 'asset');
+    const {
+        isLoading: isNodeLoading,
+        data: nodeData,
+        isError: isNodeError,
+        error: nodeError,
+    } = useMandala(kmasset);
+
+    if (!isAssetLoading && !isAssetError) {
+        addPage(baseType, kmasset.title, window.location.pathname);
+    }
+    const nodejson = nodeData;
     const tid = nodejson ? nodejson.nid : '';
     const title = nodejson ? nodejson.title : '';
     let ismain = props?.ismain || false;
@@ -54,25 +78,25 @@ export function TextsViewer(props) {
     ]);
     const [alt_viewer_url, setAltViewerUrl] = useState(''); // alt_viewer has url for alt view to show if showing or empty string is hidden
 
-    const status = useStatus();
+    //const status = useStatus();
 
     // Effect to change banner and title if the viewer is the main component
-    useEffect(() => {
-        if (kmasset && ismain) {
-            status.setType('texts');
-            const mytitle = kmasset.title ? kmasset.title : 'Loading ...';
-            if (mytitle) {
-                status.setHeaderTitle(mytitle);
-            }
+    // useEffect(() => {
+    //     if (kmasset && ismain) {
+    //         status.setType('texts');
+    //         const mytitle = kmasset.title ? kmasset.title : 'Loading ...';
+    //         if (mytitle) {
+    //             status.setHeaderTitle(mytitle);
+    //         }
 
-            // Set Breadcrumbs
-            const bcrumbs = createAssetCrumbs(kmasset);
-            status.setPath(bcrumbs);
+    //         // Set Breadcrumbs
+    //         const bcrumbs = createAssetCrumbs(kmasset);
+    //         status.setPath(bcrumbs);
 
-            // add class "texts" to the main div for CSS styles
-            $('.l-site__wrap').addClass('texts');
-        }
-    }, [kmasset]);
+    //         // add class "texts" to the main div for CSS styles
+    //         $('.l-site__wrap').addClass('texts');
+    //     }
+    // }, [kmasset]);
 
     // Setting text_sections variable with array of sections in text for TOC highlighting on scrolling and
     // also highlights first TOC link
@@ -125,7 +149,7 @@ export function TextsViewer(props) {
             }
             firstlink.addClass('toc-selected');
         }
-    }); // End of sections effect
+    }, []); // End of sections effect
 
     /**
      * Handle scroll of the main text window to determine which sections are in viewport (i.e. showing)
@@ -165,9 +189,10 @@ export function TextsViewer(props) {
         }
     }
 
-    // Declare output variable with loading markup (Not used because overwritten
-    let output = (
-        <>
+    let output = null;
+
+    if (isAssetLoading || isNodeLoading) {
+        return (
             <Container className={'astviewer texts'} fluid>
                 <Row id={'shanti-texts-container'}>
                     <div className="loading">
@@ -178,18 +203,43 @@ export function TextsViewer(props) {
                             role="status"
                             aria-hidden="true"
                         ></Spinner>
-                        Loading text...
-                    </div>
-                    <div className={'not-found-msg d-none'}>
-                        <h1>Text Not Found!</h1>
-                        <p className={'error'}>
-                            Could not find the requested text: {props.id}
-                        </p>
+                        Texts Loading Skeleton ...
                     </div>
                 </Row>
             </Container>
-        </>
-    );
+        );
+    }
+
+    if (isAssetError || isNodeError) {
+        if (isAssetError) {
+            return (
+                <Container className={'astviewer texts'} fluid>
+                    <Row id={'shanti-texts-container'}>
+                        <div className={'not-found-msg d-none'}>
+                            <h1>Text Not Found!</h1>
+                            <p className={'error'}>
+                                Error: {assetError.message}
+                            </p>
+                        </div>
+                    </Row>
+                </Container>
+            );
+        }
+        if (isNodeError) {
+            return (
+                <Container className={'astviewer texts'} fluid>
+                    <Row id={'shanti-texts-container'}>
+                        <div className={'not-found-msg d-none'}>
+                            <h1>Text Not Found!</h1>
+                            <p className={'error'}>
+                                Error: {nodeError.message}
+                            </p>
+                        </div>
+                    </Row>
+                </Container>
+            );
+        }
+    }
 
     // Set output to return. If there's an asset, then output with text BS Container with one BS Row
     // Row contains: TextBody (main part of text) and Text Tabs (Collapsible tabs on right side including TOC)
@@ -249,7 +299,7 @@ function TextBody(props) {
 
     useEffect(() => {
         addBoClass('#l-content__main');
-    });
+    }, []);
 
     return (
         <Col id={'shanti-texts-body'} onScroll={props.listener}>

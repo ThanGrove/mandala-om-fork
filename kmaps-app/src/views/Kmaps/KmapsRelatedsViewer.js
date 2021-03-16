@@ -185,8 +185,27 @@ export function SubjectsRelPlacesViewer(props) {
             start: startRow,
         },
     };
-    const placedata = useSolr(uid + '-related-places', q);
 
+    const placedata = useSolr(uid + '-related-places', q);
+    const placeids = $.map(placedata.docs, function (item, n) {
+        return item.origin_uid_s;
+    });
+    const plcnmquery = {
+        index: 'terms',
+        params: {
+            q: 'id: (' + placeids.join(' ') + ')',
+            fl: 'uid,header',
+            sort: 'header ASC',
+            rows: placeids.length,
+            start: 0,
+        },
+    };
+    // Query to get related place headers
+    const nmres = useSolr(uid + 'related-place-names', plcnmquery);
+    let nmlist = new Object();
+    $.each(nmres.docs, (n, item) => {
+        nmlist[item['uid']] = item['header'];
+    });
     const numFound = placedata?.numFound ? placedata?.numFound : 0;
 
     const pager = {
@@ -235,17 +254,19 @@ export function SubjectsRelPlacesViewer(props) {
     // Process into list items
     const placeitems = $.map(placedata.docs, function (item, n) {
         const rndn = Math.ceil(Math.random() * 10000);
+
         if (item.uid.includes('_featureType')) {
             const uid = item.origin_uid_s;
+            const iheader = uid in nmlist ? nmlist[uid] : 'Loading...';
             const mykey = uid + '-' + rndn;
             const pts = uid.split('-');
             if (pts.length === 2) {
                 return (
-                    <li key={mykey}>
+                    <li key={mykey} className="text-nowrap">
                         <MandalaPopover
                             domain={pts[0]}
                             kid={pts[1]}
-                            children={[item.header]}
+                            children={[iheader]}
                         />
                     </li>
                 );
@@ -253,12 +274,14 @@ export function SubjectsRelPlacesViewer(props) {
         } else {
             const mykey = item.uid + '-' + n + rndn;
             const kid = Math.floor(item.uid_i / 100); // Remove 01 places suffix
+            const uid = 'places-' + kid;
+            const iheader = uid in nmlist ? nmlist[uid] : 'Loading...';
             return (
-                <li key={mykey}>
+                <li key={mykey} className="text-nowrap">
                     <MandalaPopover
                         domain={item.tree}
                         kid={kid}
-                        children={[item.header]}
+                        children={[iheader]}
                     />
                 </li>
             );

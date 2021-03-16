@@ -45,6 +45,7 @@ export default class AudioVideo {
 
     // Added by Ndg8f: Separated out from Draw in order to make player into its own component
     DrawPlayer(o, d) {
+        console.log('o in player', o);
         const sui = this.sui;
         let i,
             f,
@@ -101,8 +102,8 @@ export default class AudioVideo {
             if (o.collection_title) {
                 const collpath =
                     sui.pages.GetPublicUrlPath('audio-video') +
-                    'audio-video-collection/' +
-                    o.id;
+                    'audio-video/collection/' +
+                    o.collection_nid;
                 str += `&#xe633&nbsp;&nbsp;&nbsp;
                 <a title='Collection' id='sui-avCol' href='${collpath}'>${o.collection_title}</a>`;
             }
@@ -967,6 +968,7 @@ export default class AudioVideo {
                 <div id='sui-transTab3' class='sui-transTab col' title='Same line'>&#xe632</div>
                 <div id='sui-transTab4' class='sui-transTab col' title='Next line'>&#xe604</div>
                 <div id='sui-transTab5' class='sui-transTab col' style='border:none' title='Search transcript'>&#xe623</div>
+                <div id='sui-transOps' class='sui-transOps'></div>
                 <div id='sui-transSrc' class='sui-transSrc'>
                     <div class="transSrcWrap ${browser}">
                         <div class="navigator">
@@ -990,7 +992,7 @@ export default class AudioVideo {
                             </div>
                         </div>-->
                     </div>
-                <div id='sui-transOps' class='sui-transOps'></div>
+               <!-- <div id='sui-transOps' class='sui-transOps'></div> -->
             </div>
             <div id='sui-trans' class='sui-trans row'></div>
 		</div>`;
@@ -1101,8 +1103,8 @@ export default class AudioVideo {
 		<div class='sui-transRow' id='sui-transRevR'>- Reversed<span id='sui-transRev' class='sui-transCheck'>&#xe60e</span></div>
 		<div class='sui-transLab'>DOWNLOADS</div>
 		<div class='sui-transRow' id='sui-transStr'->- SRT file<span class='sui-transCheck' style='color:#58aab4'>&#xe616</span></div>`;
+        //console.log("adding str to transops", $('#sui-transOps'), str);
         $('#sui-transOps').html(str.replace(/\t|\n|\r/g, ''));
-
         $('#sui-transStr').on('click', () => {
             this.SaveStrFile();
         }); // ON SAVE SRT FILE
@@ -1142,6 +1144,7 @@ export default class AudioVideo {
         });
 
         $('#sui-transTab0').on('click', () => {
+            console.log('options button clicked!');
             $('#sui-transOps').slideToggle('fast');
         }); // ON OPTIONS MENU CLICK
 

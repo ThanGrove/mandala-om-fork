@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, lazy, Suspense, useContext } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
 import Router from './RouterSelect';
 import { SiteHeader } from './SiteHeader/SiteHeader';
-import { Home } from './HomePage/Home';
-import { ContentMain } from './ContentMain';
 import { Hamburger } from './MainNavToggle/Hamburger';
-//import { SearchAdvanced } from '../search/SearchAdvanced';
-import { Error404 } from '../App';
-//import SearchContext from '../context/SearchContext';
-import { useStoreRehydrated } from 'easy-peasy';
 import HistoryListener from '../views/History/HistoryListener';
-import $ from 'jquery';
-import { useStoreState } from '../model/StoreModel';
+// import { HistoryContext } from '../App';
 //const TreeNav = lazy(() => import('./TreeNav'));
+
+const Home = lazy(() => import('./HomePage/Home'));
+const ContentMain = lazy(() => import('./ContentMain'));
+const NotFoundPage = lazy(() => import('../views/common/NotFoundPage'));
 
 const stateDefault = {
     kmasset: {
@@ -23,25 +20,6 @@ const stateDefault = {
 };
 
 export function Main(props) {
-    const [state, setState] = useState(stateDefault);
-    const handleStateChange = (new_state) => {
-        setState({ ...state, ...new_state });
-    };
-    // const storeReady = true;
-    const storeReady = useStoreRehydrated();
-    const loading = <div className={'loading-msg'}>Loading...</div>;
-
-    let stateList = [];
-    if (state.advanced) {
-        stateList.push('u-ToggleState--advanced');
-    }
-    if (state.tree) {
-        stateList.push('u-ToggleState--tree');
-    }
-    if (!state.tree && !state.advanced) {
-        stateList.push('u-ToggleState--off');
-    }
-
     // Fix for Tibetan font in pages.
     //gk3k: TODO: We need to do this another way. It is blocking main UI thread
     // useEffect(() => {
@@ -73,70 +51,54 @@ export function Main(props) {
     //     setTimeout(GlobalTibFix, 4000);
     // }, []);
 
-    // Using Easy Peasy state:
-    const currentFeatureId = useStoreState((state) => state.kmap.uid);
-
-    const searchClasses = stateList.join(' ');
-    const main = (
+    return (
         <Router
             {...(process.env.REACT_APP_STANDALONE !== 'standalone'
                 ? { basename: process.env.REACT_APP_PUBLIC_PATH }
                 : {})}
         >
-            <div
-                id={'l-site__wrap'}
-                className={`l-site__wrap  ${searchClasses}`}
-            >
-                <HistoryListener />
-                <SiteHeader
-                    advanced={state.advanced}
-                    tree={state.tree}
-                    onStateChange={handleStateChange}
-                />
-                <Hamburger hamburgerOpen={state.hamburgerOpen} />
-
-                <Switch>
-                    <Route path={'/home'}>
-                        <Home />
-                    </Route>
-                    {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                        <Route exact path={'/'}>
-                            <Redirect to={'/home'} />
+            <div id={'l-site__wrap'} className={`l-site__wrap`}>
+                {/* <HistoryListener /> */}
+                <SiteHeader />
+                <Hamburger hamburgerOpen={false} />
+                {/** TODO:gk3k -> Need to set a proper loading component with Skeletons */}
+                <Suspense fallback={<div>Loading from Main...</div>}>
+                    <Switch>
+                        <Route path={'/home'}>
+                            <Home />
                         </Route>
-                    )}
-                    <Route path={'/'}>
-                        <ContentMain
-                            site={'mandala'}
-                            mode={'development'}
-                            title={'Mandala'}
-                            sui={props.sui}
-                            kmasset={state.kmasset}
-                            kmap={state.kmap}
-                            onStateChange={handleStateChange}
-                        />
-                    </Route>
-                    <Route path={'*'}>
-                        <Error404 />
-                        <Home />
-                    </Route>
-                </Switch>
+                        {process.env.REACT_APP_STANDALONE !== 'standalone' && (
+                            <Route exact path={'/'}>
+                                <Redirect to={'/home'} />
+                            </Route>
+                        )}
+                        <Route path={'/'}>
+                            <ContentMain
+                                site={'mandala'}
+                                mode={'development'}
+                                title={'Mandala'}
+                                sui={props.sui}
+                            />
+                        </Route>
+                        <Route path={'*'}>
+                            <NotFoundPage />
+                            <Home />
+                        </Route>
+                    </Switch>
+                </Suspense>
                 {/* Commented this out to get Asset Views to work (ndg) */}
                 {/* gk3k: TODO: This seems like a duplicate. we already have this in RightSideBar.js */}
                 {/* <SearchContext>
                     <SearchAdvanced
                         advanced={state.advanced}
-                        onStateChange={handleStateChange}
                     />
                     <TreeNav
                         currentFeatureId={currentFeatureId}
                         tree={state.tree}
                     />
                 </SearchContext> */}
-                <Hamburger hamburgerOpen={state.hamburgerOpen} />
+                <Hamburger hamburgerOpen={false} />
             </div>
         </Router>
     );
-
-    const ret = storeReady ? main : loading;
-    return ret;
 }

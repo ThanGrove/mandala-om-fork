@@ -1,19 +1,21 @@
 import React from 'react';
-import { useStoreActions, useStoreState } from 'easy-peasy';
+//import { useStoreActions, useStoreState } from 'easy-peasy';
+import { useFilterStore } from '../../hooks/useFilterStore';
 import { FacetChoice } from '../../search/FacetChoice';
 import Badge from 'react-bootstrap/Badge';
 import { CSSTransition, TransitionGroup } from 'react-transition-group'; // ES6
 
-export function FeatureFilters(props) {
-    const filters = useStoreState((state) => state.search.query.filters);
-    const search = useStoreState((state) => state.search);
+const filtersSelector = (state) => state.filters;
+const removeFilterSelector = (state) => state.removeFilter;
 
-    const { removeFilters } = useStoreActions((actions) => actions.search);
+export function FeatureFilters(props) {
+    const filters = useFilterStore(filtersSelector);
+    const removeFilter = useFilterStore(removeFilterSelector);
 
     function handleFacetClick(...x) {
         console.log('Received ', x);
         console.log(' try to remove id = ', x.value);
-        removeFilters([{ id: x[0].value }]);
+        //removeFilter({ id: x[0].value });
     }
 
     // console.log('FeatureFilters filters = ', filters);

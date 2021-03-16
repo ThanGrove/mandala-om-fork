@@ -177,6 +177,17 @@ class KmapsMap extends React.Component {
         fetch(serverUrl)
             .then((res) => res.json())
             .then((result) => {
+                if (
+                    typeof result.bbox === 'undefined' ||
+                    result.bbox.length < 4
+                ) {
+                    console.warn(
+                        'No or improper bounding box data from geoserver: \n' +
+                            serverUrl
+                    );
+                    return;
+                    // TODO: Display a "Can't load map" message if this works
+                }
                 //because we are using WFS V1.1 we need to flip the coordinates
                 const bbox = [
                     result.bbox[1],
@@ -194,6 +205,13 @@ class KmapsMap extends React.Component {
                     padding: [1, 1, 1, 1],
                     constraintResolution: false,
                 });
+            })
+            .catch((myerr) => {
+                console.log('Map data did not load!', myerr);
+                const errel = document.getElementById('places-map-error');
+                errel.style.display = 'block';
+                const mapel = document.getElementById('places-map-div');
+                mapel.style.display = 'none';
             });
     }
 
@@ -207,9 +225,27 @@ class KmapsMap extends React.Component {
             height: this.state.height + 'px',
             backgroundColor: '#cccccc',
         };
+        const errStyle = {
+            display: 'none',
+            width: '100%',
+            height: '70vh',
+            backgroundColor: 'lightgray',
+            color: 'red',
+            fontWeight: 'bold',
+            paddingTop: '25%',
+            textAlign: 'center',
+        };
         return (
             <div>
-                <div tabIndex="1" style={style} ref="inset_map"></div>
+                <div id="places-map-error" style={errStyle}>
+                    Map could not be loaded!
+                </div>
+                <div
+                    id="places-map-div"
+                    tabIndex="1"
+                    style={style}
+                    ref="inset_map"
+                ></div>
             </div>
         );
     }
