@@ -272,6 +272,16 @@ export default function Home(props) {
                                     Kmaps Popover Test Page
                                 </Link>
                             </li>
+                            <li>
+                                <a
+                                    href={
+                                        'https://mandala.shanti.virginia.edu/'
+                                    }
+                                    target={'_blank'}
+                                >
+                                    Mandala Home
+                                </a>
+                            </li>
                         </ul>
                     </Jumbotron>
                 </Col>
