@@ -5,8 +5,8 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import { BsMap, BsSearch, ImTree } from 'react-icons/all';
 import './MainSearchToggle.scss';
 
-export function AdvancedToggle(props) {
-    const [mode, setMode] = useState(props.viewMode || 'off'); // "search" | "tree" | "off"
+export function AdvancedToggle({ chooseViewMode, viewMode }) {
+    const [mode, setMode] = useState(viewMode || 'off'); // "search" | "tree" | "off"
 
     return (
         <ToggleButtonGroup
@@ -27,6 +27,7 @@ export function AdvancedToggle(props) {
                             return false;
                         } else {
                             setMode('tree');
+                            chooseViewMode('tree');
                         }
                         evt.stopPropagation();
                         return false;
@@ -47,6 +48,7 @@ export function AdvancedToggle(props) {
                             return false;
                         } else {
                             setMode('advanced');
+                            chooseViewMode('advanced');
                         }
                         evt.stopPropagation();
                         return false;
