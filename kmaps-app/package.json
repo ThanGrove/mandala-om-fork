@@ -56,7 +56,7 @@
     },
     "scripts": {
         "start": "react-scripts start",
-        "build": "react-scripts build",
+        "build": "sh -ac '. .env.development; react-scripts build'",
         "prodstart": "sh -ac '. .env.production; react-scripts start'",
         "prodbuild": "sh -ac '. .env.production; react-scripts build'",
         "standalone": "REACT_APP_STANDALONE=standalone react-scripts build",
