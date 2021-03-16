@@ -55,6 +55,8 @@ export default function ContentMain(props) {
                             }
                         >
                             <Switch>
+                                <Redirect from="/mandala-om/*" to="/*" />
+
                                 {/* COLLECTIONS */}
                                 <Route path={`/collections`}>
                                     <CollectionsHome />
