@@ -282,6 +282,16 @@ export default function Home(props) {
                                     Mandala Home
                                 </a>
                             </li>
+                            <li>
+                                <a
+                                    href={
+                                        'https://subjects.kmaps.virginia.edu/'
+                                    }
+                                    target={'_blank'}
+                                >
+                                    Subjects Editing Home
+                                </a>
+                            </li>
                         </ul>
                     </Jumbotron>
                 </Col>
