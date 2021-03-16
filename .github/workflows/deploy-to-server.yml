@@ -10,7 +10,9 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@main
+      - uses: actions/checkout@master
+        with:
+          ref: develop
       - name: "Build deployment code for standalone"
         env:
           remote_host: ${{ secrets.DEPLOY_HOST }}
@@ -21,7 +23,6 @@ jobs:
           local_dir: "build/"
           remote_dir: "~/kmaps-apps-infrastructure/volumes/mandala-om/development/mandala-om/"
         run: |
-          git checkout develop
           cd kmaps-app
           npm install
           CI=false npm run build
