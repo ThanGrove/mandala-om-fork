@@ -25,7 +25,7 @@ jobs:
         run: |
           cd kmaps-app
           npm install
-          CI=false npm run build
+          CI=false npm run devbuild
           mkdir ~/.ssh
           echo "$remote_key" > ~/.ssh/id_mandala-om
           chmod 600 ~/.ssh/id_mandala-om
