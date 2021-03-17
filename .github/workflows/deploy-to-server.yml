@@ -24,9 +24,9 @@ jobs:
           remote_dir: "~/kmaps-apps-infrastructure/volumes/mandala-om/development/mandala-om/"
         run: |
           cd kmaps-app
-          npm install
           echo "$dev_env_file" > .env.develop
           chmod 600 .env.develop
+          npm install
           CI=false npm run devbuild
           mkdir ~/.ssh
           echo "$remote_key" > ~/.ssh/id_mandala-om
