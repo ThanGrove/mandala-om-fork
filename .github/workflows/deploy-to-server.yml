@@ -25,10 +25,10 @@ jobs:
         run: |
           cd kmaps-app
           npm install
+          echo "$dev_env_file" > .env.develop
+          chmod 600 .env.develop
           CI=false npm run devbuild
           mkdir ~/.ssh
           echo "$remote_key" > ~/.ssh/id_mandala-om
           chmod 600 ~/.ssh/id_mandala-om
-          echo "$dev_env_file" > .env
-          chmod 600 .env
           rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_mandala-om -o StrictHostKeyChecking=no" ${local_dir} ${remote_user}@${remote_host}:${remote_dir}
