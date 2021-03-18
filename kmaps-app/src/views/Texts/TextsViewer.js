@@ -250,7 +250,7 @@ export default function TextsViewer(props) {
         }
         output = (
             <>
-                <Container className={'astviewer texts'} fluid>
+                <Container className={'l-site__wrap astviewer texts'} fluid>
                     <Row id={'shanti-texts-container'}>
                         <TextBody
                             id={nodejson.nid}
