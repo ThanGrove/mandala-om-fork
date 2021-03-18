@@ -19,7 +19,8 @@ export function AdvancedToggle({ chooseViewMode, viewMode }) {
                 name={'viewMode'}
                 value={'tree'}
                 type={'radio'}
-                className={'c-MainSearchToggle--button'}
+                id={'main-search-tree-toggle'}
+                className={'c-MainSearchToggle--button tree'}
                 onClick={(evt) => {
                     if (evt.target.value === 'tree') {
                         if (mode === 'tree') {
@@ -40,7 +41,8 @@ export function AdvancedToggle({ chooseViewMode, viewMode }) {
                 name={'viewMode'}
                 value={'advanced'}
                 type={'radio'}
-                className={'c-MainSearchToggle--button'}
+                id={'advanced-search-tree-toggle'}
+                className={'c-MainSearchToggle--button advanced'}
                 onClick={(evt) => {
                     if (evt.target.value === 'advanced') {
                         if (mode === 'advanced') {

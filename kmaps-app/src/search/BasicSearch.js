@@ -25,6 +25,7 @@ export function BasicSearch(props) {
         //props.onSubmit(inputEl.current.value);
         //console.log('BasicSearch handleSubmit: ', inputEl.current.value);
         setSearch(inputEl.current.value);
+        document.getElementById('advanced-search-tree-toggle').click();
         if (process.env.REACT_APP_STANDALONE === 'standalone') {
             window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
         } else {
