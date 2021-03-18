@@ -76,6 +76,7 @@ export default function TextsViewer(props) {
     const [section_showing, setSectionShowing] = useState([
         'shanti-texts-' + tid,
     ]);
+
     const [alt_viewer_url, setAltViewerUrl] = useState(''); // alt_viewer has url for alt view to show if showing or empty string is hidden
 
     //const status = useStatus();
@@ -446,7 +447,7 @@ function TextTabs(props) {
  */
 function TextsAltViewer(props) {
     const iframe_url = props.url ? props.url : '';
-    const clname = iframe_url ? 'hidden' : 'shown';
+    const clname = iframe_url === '' ? 'hidden' : 'shown';
     const text_title = props.title ? props.title : '';
     const iframe = iframe_url ? (
         <iframe src={iframe_url} className={'full-page-frame'} />
