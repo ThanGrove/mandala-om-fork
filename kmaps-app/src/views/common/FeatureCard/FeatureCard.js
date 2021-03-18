@@ -179,11 +179,7 @@ export function FeatureCard(props) {
                 <Card.Img
                     className={'c-card__grid__image--top'}
                     variant="top"
-                    src={
-                        doc.url_thumb
-                            ? doc.url_thumb
-                            : '/mandala-om/img/gradient.jpg'
-                    }
+                    src={doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg'}
                 />
                 <div className={'c-card__grid__glyph--type color-invert'}>
                     {typeGlyph}

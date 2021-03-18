@@ -33,11 +33,7 @@ export function BasicSearch(props) {
         }
     };
     const clearInput = () => {
-        //inputEl.current.value = '';
-        //handleSubmit();
-        //props.search.setSearchText(inputEl.current.value);
-        //props.onSubmit(inputEl.current.value);
-        //console.log('BasicSearch clearInput: ', inputEl.current.value);
+        inputEl.current.value = '';
         clearSearch();
     };
     const handleKey = (x) => {

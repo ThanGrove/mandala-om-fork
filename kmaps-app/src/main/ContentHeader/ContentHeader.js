@@ -9,6 +9,7 @@ import { capitalAsset, queryID } from '../../views/common/utils';
 export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
     const [first, mid, last] = pgpath?.split('/');
+    console.log(first, mid, last);
     const itemType = first;
     const queryType = itemType + '*';
     const isCollection = mid === 'collection';
@@ -36,7 +37,14 @@ export function ContentHeader({ siteClass, title, location }) {
             convertedPath = mytitle = 'Error!';
         }
     }
-
+    if (itemType === 'search') {
+        let srchstr = document.getElementById('sui-search').value;
+        if (srchstr.length > 0) {
+            srchstr = ` for “${srchstr}”`;
+        }
+        mytitle = `Search${srchstr}`;
+        convertedPath = '';
+    }
     const cheader = (
         <header
             id="c-content__header__main"
