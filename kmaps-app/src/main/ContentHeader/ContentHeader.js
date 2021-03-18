@@ -9,7 +9,6 @@ import { capitalAsset, queryID } from '../../views/common/utils';
 export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
     const [first, mid, last] = pgpath?.split('/');
-    console.log(first, mid, last);
     const itemType = first;
     const queryType = itemType + '*';
     const isCollection = mid === 'collection';
@@ -82,7 +81,11 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
             breadcrumbs = itemData?.ancestor_ids_is?.map((aid, idn) => {
                 const label = itemData.ancestors_txt[idn];
                 return (
-                    <Link to={`/${tree}/${aid}`} className="breadcrumb-item">
+                    <Link
+                        key={`bc-kmap-${idn}`}
+                        to={`/${tree}/${aid}`}
+                        className="breadcrumb-item"
+                    >
                         {label}
                     </Link>
                 );
@@ -99,7 +102,11 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
                         .replace(/-/g, '/')
                         .replace('audio/video', 'audio-video');
                 return (
-                    <Link to={url} className="breadcrumb-item">
+                    <Link
+                        key={`bc-asset-${cind}`}
+                        to={url}
+                        className="breadcrumb-item"
+                    >
                         {' '}
                         {cplabel}
                     </Link>
@@ -109,13 +116,13 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
                 breadcrumbs = [];
             }
             breadcrumbs.push(
-                <Link to="#" className="breadcrumb-item">
+                <Link key={'bc-title'} to="#" className="breadcrumb-item">
                     {itemTitle}
                 </Link>
             );
     }
     breadcrumbs.unshift(
-        <Link to="#" className="breadcrumb-item">
+        <Link key={'bc-asset-title'} to="#" className="breadcrumb-item">
             {capitalAsset(itemType)}
         </Link>
     );

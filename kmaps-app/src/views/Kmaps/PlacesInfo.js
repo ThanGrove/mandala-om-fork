@@ -53,59 +53,9 @@ export default function PlacesInfo(props) {
         }
     }
 
-    // Kmaps Summary (Mainly for Places)
-    let itemSummary = null;
-    if (
-        kmapData?.illustration_mms_url?.length > 0 ||
-        kmapData?.summary_eng?.length > 0
-    ) {
-        itemSummary = (
-            <Row className={'c-nodeHeader-itemSummary'}>
-                {/* Add column with illustration if exists */}
-                {kmapData?.illustration_mms_url?.length > 0 && (
-                    <Col md={3} className={'img featured'}>
-                        <img
-                            src={kmapData.illustration_mms_url[0]}
-                            alt={kmapData.header}
-                        />
-                    </Col>
-                )}
-
-                {/* Add column with summary if exists */}
-                {(kmapData?.summary_eng?.length > 0 ||
-                    kmapData?.feature_type_ids?.length > 0) && (
-                    <Col>
-                        {/* Feature type list if exists */}
-                        {kmapData?.feature_type_ids?.length > 0 && (
-                            <p className={'featureTypes'}>
-                                <label>Feature Types</label>
-                                {kmapData.feature_type_ids.map((ftid, ftn) => {
-                                    return (
-                                        <MandalaPopover
-                                            domain={'subjects'}
-                                            kid={ftid}
-                                            children={
-                                                kmapData.feature_types[ftn]
-                                            }
-                                        />
-                                    );
-                                })}
-                            </p>
-                        )}
-                        {/* Custom Html summary if exists */}
-                        {/* TODO: account for other language summaries */}
-                        {kmapData?.summary_eng?.length > 0 && (
-                            <HtmlCustom markup={kmapData.summary_eng[0]} />
-                        )}
-                    </Col>
-                )}
-            </Row>
-        );
-    }
-
     return (
         <>
-            {itemSummary}
+            <PlacesSummary kmapData={kmapData} />
             <React.Suspense fallback={<span>Places Route Skeleton ...</span>}>
                 <Switch>
                     <Route exact path={path}>
@@ -146,6 +96,60 @@ export default function PlacesInfo(props) {
             </React.Suspense>
         </>
     );
+}
+
+export function PlacesSummary({ kmapData }) {
+    // Kmaps Summary (Mainly for Places)
+    let itemSummary = null;
+    if (
+        kmapData?.illustration_mms_url?.length > 0 ||
+        kmapData?.summary_eng?.length > 0
+    ) {
+        itemSummary = (
+            <Row className={'c-nodeHeader-itemSummary'}>
+                {/* Add column with illustration if exists */}
+                {kmapData?.illustration_mms_url?.length > 0 && (
+                    <Col md={3} className={'img featured'}>
+                        <img
+                            src={kmapData.illustration_mms_url[0]}
+                            alt={kmapData.header}
+                        />
+                    </Col>
+                )}
+
+                {/* Add column with summary if exists */}
+                {(kmapData?.summary_eng?.length > 0 ||
+                    kmapData?.feature_type_ids?.length > 0) && (
+                    <Col>
+                        {/* Feature type list if exists */}
+                        {kmapData?.feature_type_ids?.length > 0 && (
+                            <p className={'featureTypes'}>
+                                <label>Feature Types</label>
+                                {kmapData.feature_type_ids.map((ftid, ftn) => {
+                                    return (
+                                        <MandalaPopover
+                                            key={`place-popover-${ftn}`}
+                                            domain={'subjects'}
+                                            kid={ftid}
+                                            children={
+                                                kmapData.feature_types[ftn]
+                                            }
+                                        />
+                                    );
+                                })}
+                            </p>
+                        )}
+                        {/* Custom Html summary if exists */}
+                        {/* TODO: account for other language summaries */}
+                        {kmapData?.summary_eng?.length > 0 && (
+                            <HtmlCustom markup={kmapData.summary_eng[0]} />
+                        )}
+                    </Col>
+                )}
+            </Row>
+        );
+    }
+    return itemSummary;
 }
 
 export function PlacesNames(props) {

@@ -31,7 +31,7 @@ const SourcesViewer = React.lazy(() => import('../Sources/SourcesViewer'));
 const VisualsViewer = React.lazy(() => import('../Visuals/VisualsViewer'));
 
 export default function KmapsViewer(props) {
-    // console.log('KmapsViewer props = ', props);
+    console.log('KmapsViewer props = ', props);
 
     const route = useRouteMatch();
     const [modalShow, setModalShow] = useState();
