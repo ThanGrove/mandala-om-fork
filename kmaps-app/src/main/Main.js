@@ -80,7 +80,7 @@ export function Main(props) {
     const main = (
         <Router
             {...(process.env.REACT_APP_STANDALONE !== 'standalone'
-                ? { basename: '/mandala-om' }
+                ? { basename: '/' }
                 : {})}
         >
             <div

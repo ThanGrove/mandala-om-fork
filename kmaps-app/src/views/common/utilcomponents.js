@@ -178,7 +178,7 @@ export function NotFoundPage(props) {
                     <Col lg={'auto'}>
                         <img
                             className={'logo'}
-                            src={'/mandala-om/img/logo-shanti.png'}
+                            src={'/img/logo-shanti.png'}
                             alt={'mandala logo'}
                         />
                         <h1>Page Not Found!</h1>
