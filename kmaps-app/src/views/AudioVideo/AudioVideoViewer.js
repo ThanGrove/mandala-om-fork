@@ -64,7 +64,6 @@ export default function AudioVideoViewer(props) {
     // Add setPlayerDrawn state to only draw the AV player from Bill's SUI once
     const [playerDrawn, setPlayerDrawn] = useState(false);
     //const status = useStatus(); // For setting page title, breadcrumbs, etc.
-
     // UseEffect: run once if main av page: no dependencies, runs before asset solr doc loads
     useEffect(() => {
         if (ismain) {
