@@ -234,9 +234,11 @@ function VisualsKmap(props) {
     if (!kmfield || !kmfield?.und || kmfield.und.length == 0) {
         return null;
     }
-    const kmchildren = kmfield.und.map((kmitem) => {
+    const kmchildren = kmfield.und.map((kmitem, kmind) => {
+        const kmkey = `${kmitem.domain}-${kmitem.id}-${kmind}`;
         return (
             <MandalaPopover
+                key={kmkey}
                 domain={kmitem.domain}
                 kid={kmitem.id}
                 children={[kmitem.header]}

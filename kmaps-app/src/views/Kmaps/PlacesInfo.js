@@ -10,6 +10,7 @@ import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
 import { useHistory } from '../../hooks/useHistory';
+import RelatedAssetViewer from './RelatedAssetViewer';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -88,6 +89,11 @@ export default function PlacesInfo(props) {
                                 </Tab>
                             </Tabs>
                         </div>
+                    </Route>
+                    <Route
+                        path={[`${path}/related-:relatedType/view/:assetId`]}
+                    >
+                        <RelatedAssetViewer parentData={kmapData} />
                     </Route>
                     <Route
                         path={[
