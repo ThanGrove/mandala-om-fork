@@ -10,8 +10,15 @@ import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
 import { useHistory } from '../../hooks/useHistory';
+
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
+);
+const PlacesRelPlacesViewer = React.lazy(() =>
+    import('./PlacesRelPlacesViewer')
+);
+const PlacesRelSubjectsViewer = React.lazy(() =>
+    import('./PlacesRelSubjectsViewer')
 );
 export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
@@ -38,19 +45,17 @@ export default function PlacesInfo(props) {
 
     if (isKmapLoading || isAssetLoading) {
         return <div id="place-kmap-tabs">Places Loading Skeleton ...</div>;
+    } else if (!isKmapError) {
+        // Hack to wait for History Viewer to load before adding current item
+        setTimeout(function () {
+            addPage('places', kmapData.header, window.location.pathname);
+        }, 500);
+    } else {
+        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     }
 
-    if (!isKmapLoading && !isKmapError) {
-        addPage('places', kmapData.header, window.location.pathname);
-    }
-
-    if (isKmapError || isAssetError) {
-        if (isKmapError) {
-            return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-        }
-        if (isAssetError) {
-            return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
-        }
+    if (isAssetError) {
+        return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
     }
 
     return (
@@ -83,6 +88,22 @@ export default function PlacesInfo(props) {
                                 </Tab>
                             </Tabs>
                         </div>
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-places/:viewMode`,
+                            `${path}/related-places`,
+                        ]}
+                    >
+                        <PlacesRelPlacesViewer />
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-subjects/:viewMode`,
+                            `${path}/related-subjects`,
+                        ]}
+                    >
+                        <PlacesRelSubjectsViewer />
                     </Route>
                     <Route
                         path={[

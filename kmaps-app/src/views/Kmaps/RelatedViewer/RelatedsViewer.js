@@ -242,7 +242,8 @@ function RelatedCount(props) {
         'icon u-icon__' + (props.type === 'all' ? 'logo-shanti' : props.type);
 
     let display = 'deck';
-    if (props.type === 'sources' || props.type === 'texts') {
+    const listTypes = ['places', 'sources', 'subjects', 'texts'];
+    if (listTypes.includes(props.type)) {
         display = 'list';
     }
     if (props.type === 'images') {
