@@ -1,18 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import $ from 'jquery';
 import './subjectsinfo.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
-// import { HistoryContext } from '../History/HistoryContext';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import RelatedsGallery from '../common/RelatedsGallery';
 import KmapsDescText from './KmapsDescText';
 import { useHistory } from '../../hooks/useHistory';
-import { Tab, Tabs } from 'react-bootstrap';
-import KmapsMap from '../KmapsMap/KmapsMap';
-import { PlacesLocation, PlacesNames } from './PlacesInfo';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
+import RelatedAssetViewer from './RelatedAssetViewer';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);
@@ -43,11 +40,16 @@ export default function SubjectInfo(props) {
 
     return (
         <>
-            <SubjectSummary kmapData={kmapData} />
+            <SubjectSummary kmapData={kmapData} path={path} />
             <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
                 <Switch>
                     <Route exact path={path}>
                         <div> </div>
+                    </Route>
+                    <Route
+                        path={[`${path}/related-:relatedType/view/:assetId`]}
+                    >
+                        <RelatedAssetViewer parentData={kmapData} />
                     </Route>
                     <Route
                         path={[
@@ -71,7 +73,7 @@ export default function SubjectInfo(props) {
     );
 }
 
-function SubjectSummary({ kmapData }) {
+function SubjectSummary({ kmapData, path }) {
     let sbjimg = null;
     if (kmapData?.illustration_mms_url?.length > 0) {
         sbjimg = kmapData?.illustration_mms_url[0];

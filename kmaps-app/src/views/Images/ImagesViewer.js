@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useContext } from 'react';
-import useStatus from '../../hooks/useStatus';
+import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
-import { Viewer } from 'react-iiif-viewer'; // see https://www.npmjs.com/package/react-iiif-viewer
 import { ImageCarousel } from './ImageCarousel';
 import { ImageMetadata } from './ImageMetadata';
 import $ from 'jquery';
 import './images.scss';
 import { ImagesOSDViewer } from './ImagesOSDViewer';
-import { createAssetCrumbs } from '../common/utils';
 import { useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
-import { HistoryContext } from '../History/HistoryContext';
 import { useHistory } from '../../hooks/useHistory';
 
 /**
@@ -27,11 +23,13 @@ import { useHistory } from '../../hooks/useHistory';
  * @author ndg8f (2020-09-02)
  */
 export default function ImagesViewer(props) {
-    //console.log(props);
     const { id, relID } = useParams();
+    const mainImageId = relID ? relID : id;
+    const relImageId = props?.id;
+    const thisImageId = relImageId ? relImageId : mainImageId;
     // Build query string based on uid use asterisk for env. Ultimately uids will be images-1234 across all apps
     //    but currently e.g., images-dev_shanti_virginia_edu-13066, so images*-13066 will find that
-    const querystr = `images*-${relID ? relID : id}`;
+    const querystr = `images*-${thisImageId}`;
     // Get record from kmasset index
     const {
         isLoading: isAssetLoading,
@@ -39,7 +37,7 @@ export default function ImagesViewer(props) {
         isError: isAssetError,
         error: assetError,
     } = useKmap(querystr, 'asset');
-    // console.log('kmasset', kmasset);
+
     // Get Node's JSON From AV app endpoint using url_json field in solr record
     const {
         isLoading: isNodeLoading,
@@ -134,6 +132,17 @@ export default function ImagesViewer(props) {
 
         return (
             <div className={'c-image'}>
+                {props?.id && (
+                    <h5 className="c-nodeHeader-itemHeader">
+                        <span className="icon u-icon__images"></span>
+                        <span className="c-nodeHeader-itemHeader-subType">
+                            photograph
+                        </span>
+                        <span className="c-nodeHeader-itemHeader-caption">
+                            Ritual cakes are burned by the lama
+                        </span>
+                    </h5>
+                )}
                 <Container fluid className={'c-image__context'}>
                     <Col className={'c-image__viewer'}>
                         <Row className={'c-image__viewer-row'}>
