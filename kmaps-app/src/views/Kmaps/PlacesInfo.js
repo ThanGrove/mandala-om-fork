@@ -10,8 +10,15 @@ import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
 import { useHistory } from '../../hooks/useHistory';
+
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
+);
+const PlacesRelPlacesViewer = React.lazy(() =>
+    import('./PlacesRelPlacesViewer')
+);
+const PlacesRelSubjectsViewer = React.lazy(() =>
+    import('./PlacesRelSubjectsViewer')
 );
 export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
@@ -81,6 +88,22 @@ export default function PlacesInfo(props) {
                                 </Tab>
                             </Tabs>
                         </div>
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-places/:viewMode`,
+                            `${path}/related-places`,
+                        ]}
+                    >
+                        <PlacesRelPlacesViewer />
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-subjects/:viewMode`,
+                            `${path}/related-subjects`,
+                        ]}
+                    >
+                        <PlacesRelSubjectsViewer />
                     </Route>
                     <Route
                         path={[

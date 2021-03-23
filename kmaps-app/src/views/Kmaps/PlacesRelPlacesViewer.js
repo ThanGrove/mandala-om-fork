@@ -67,76 +67,64 @@ export default function PlacesRelPlacesViewer() {
         return <div>Loading</div>;
     }
     return (
-        <>
-            <PlacesSummary kmapData={kmap} />
-            <Tabs
-                defaultActiveKey="context"
-                id="place-kmap-tabs"
-                className={'row'}
-            >
-                <Tab eventKey="context" title="Place Context">
-                    <Container fluid className={'c-relplaces-list places'}>
-                        <h2 className={'row head-related'}>
-                            Hierarchy of Places Related to {kmap.header}
-                        </h2>
-                        <Row>
+        <Tabs defaultActiveKey="context" id="place-kmap-tabs" className={'row'}>
+            <Tab eventKey="context" title="Place Context">
+                <Container fluid className={'c-relplaces-list places'}>
+                    <h2 className={'row head-related'}>
+                        Hierarchy of Places Related to {kmap.header}
+                    </h2>
+                    <Row>
+                        <p>
+                            {kmap.header} has {ancestors.length} superordinate
+                            places and {adminkids.length + locatedkids.length}{' '}
+                            subordinate places. It administers{' '}
+                            {adminkids.length}, while {locatedkids.length} of
+                            the places are simply located in {kmap.header}.
+                        </p>
+                        <p>
+                            One can browse these subordinate places as well as
+                            its superordinate categories with the tree below.
+                        </p>
+                    </Row>
+                    <Row>
+                        <FancyTree
+                            domain="places"
+                            tree="places"
+                            descendants={true}
+                            directAncestors={true}
+                            displayPopup={true}
+                            perspective="pol.admin.hier"
+                            view="roman.scholar"
+                            sortBy="header_ssort+ASC"
+                            currentFeatureId={uid}
+                        />
+                    </Row>
+                </Container>
+            </Tab>
+            <Tab eventKey="related" title="Related Places">
+                <Container fluid className={'c-relplaces-list places'}>
+                    <h2 className={'row head-related'}>
+                        Places Related to {kmap.header} by Feature Type
+                    </h2>
+                    <Row>
+                        <Col>
                             <p>
-                                {kmap.header} has {ancestors.length}{' '}
-                                superordinate places and{' '}
-                                {adminkids.length + locatedkids.length}{' '}
-                                subordinate places. It administers{' '}
-                                {adminkids.length}, while {locatedkids.length}{' '}
-                                of the places are simply located in{' '}
-                                {kmap.header}.
+                                These are the list of related places by feature
+                                type.
                             </p>
                             <p>
                                 One can browse these subordinate places as well
                                 as its superordinate categories with the tree
                                 below.
                             </p>
-                        </Row>
-                        <Row>
-                            <FancyTree
-                                domain="places"
-                                tree="places"
-                                descendants={true}
-                                directAncestors={true}
-                                displayPopup={true}
-                                perspective="pol.admin.hier"
-                                view="roman.scholar"
-                                sortBy="header_ssort+ASC"
-                                currentFeatureId={uid}
-                            />
-                        </Row>
-                    </Container>
-                </Tab>
-                <Tab eventKey="related" title="Related Places">
-                    <Container fluid className={'c-relplaces-list places'}>
-                        <h2 className={'row head-related'}>
-                            Places Related to {kmap.header} by Feature Type
-                        </h2>
-                        <Row>
-                            <Col>
-                                <p>
-                                    These are the list of related places by
-                                    feature type.
-                                </p>
-                                <p>
-                                    One can browse these subordinate places as
-                                    well as its superordinate categories with
-                                    the tree below.
-                                </p>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <PlaceRelPlaceFtColumns
-                                children={children_by_ftype}
-                            />
-                        </Row>
-                    </Container>
-                </Tab>
-            </Tabs>
-        </>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <PlaceRelPlaceFtColumns children={children_by_ftype} />
+                    </Row>
+                </Container>
+            </Tab>
+        </Tabs>
     );
 }
 

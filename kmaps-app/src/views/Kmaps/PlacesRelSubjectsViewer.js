@@ -35,14 +35,13 @@ export default function PlacesRelSubjectsViewer() {
     } else {
         return (
             <div>
-                <PlacesSummary kmapData={kmap} />
                 {kmap?.feature_type_ids.length > 0 && (
                     <>
                         <h3 className={'head-related'}>Feature Types</h3>
                         <ul>
                             {kmap.feature_type_ids.map((kid, cind) => {
                                 return (
-                                    <li>
+                                    <li key={kid + Math.random()}>
                                         <MandalaPopover
                                             domain={'subjects'}
                                             kid={kid}
@@ -62,7 +61,13 @@ export default function PlacesRelSubjectsViewer() {
                         <ul>
                             {relsubjs.map((relsb, cind) => {
                                 return (
-                                    <li>
+                                    <li
+                                        key={
+                                            relsb?.related_subjects_display_string_s +
+                                            '-' +
+                                            cind
+                                        }
+                                    >
                                         {
                                             relsb?.related_subjects_display_string_s
                                         }

@@ -14,7 +14,7 @@ export function FeatureList(props) {
     let LIST = _.map(props.docs, (doc) => {
         const asset_type = doc?.tree ? doc.tree : doc?.asset_type;
         const mid = doc.id;
-        const mykey = `${asset_type}-${mid}`;
+        const mykey = `${asset_type}-${mid}}`;
 
         if (asset_type === 'sources' && !myloc.pathname.includes('/search')) {
             const mu = doc.citation_s.replace(/<\/?a[^>]*>/g, '');
@@ -242,14 +242,14 @@ function FeatureKmapListItem(props) {
     const kmap_url = `/${domain}/${domain}-${doc.id}`;
     const feature_types = (
         <span className={'feature-types'}>
-            {_.map(doc.feature_types_ss, (ft) => {
-                return <span key={ft}>{ft}</span>;
+            {_.map(doc.feature_types_ss, (ft, ftind) => {
+                return <span key={`${ft}-${ftind}`}>{ft}</span>;
             })}
         </span>
     );
     let ancestors = _.map(doc['ancestor_ids_is'], (idval, idn) => {
         return (
-            <span key={`${doc.id}-anc-${idval}`}>
+            <span key={`${doc.id}-anc-${idval}-${idn}`}>
                 <Link to={`/${domain}/${idval}`}>
                     {doc['ancestors_txt'][idn]}
                 </Link>
@@ -282,7 +282,10 @@ function FeatureKmapListItem(props) {
         ) : null;
 
     return (
-        <Card className={`p-0 ${domain}`} key={`${doc.asset_type}-${doc.id}`}>
+        <Card
+            className={`p-0 ${domain}`}
+            key={`${doc.asset_type}-${doc.id}-${Date.now()}`}
+        >
             <Accordion>
                 <Card.Body className={'p-1 row'}>
                     <Col className={'title'} md={8} sm={7}>
