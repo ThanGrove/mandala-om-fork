@@ -138,16 +138,6 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* SUBJECTS */}
-
-                                <Route path={'/subjects/:id/related-subjects'}>
-                                    <RelatedsViewer />
-                                    <section className="l-content__main__wrap">
-                                        <div className="c-content__main__kmaps">
-                                            <NodeHeader />
-                                            <SubjectsInfo />
-                                        </div>
-                                    </section>
-                                </Route>
                                 <Route path={`/subjects/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">

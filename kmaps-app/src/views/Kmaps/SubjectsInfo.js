@@ -12,6 +12,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { Tab, Tabs } from 'react-bootstrap';
 import KmapsMap from '../KmapsMap/KmapsMap';
 import { PlacesLocation, PlacesNames } from './PlacesInfo';
+import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 
 export default function SubjectInfo(props) {
     let { path } = useRouteMatch();
@@ -23,7 +24,17 @@ export default function SubjectInfo(props) {
             <SubjectSummary baseType={baseType} id={id} />
             <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
                 <Switch>
-                    <Route exact path={path}></Route>
+                    <Route exact path={path}>
+                        <div> </div>
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-subjects/:viewMode`,
+                            `${path}/related-subjects`,
+                        ]}
+                    >
+                        <SubjectsRelSubjectsViewer id={id} />
+                    </Route>
                     <Route
                         path={[
                             `${path}/related-:relatedType/:viewMode`,
