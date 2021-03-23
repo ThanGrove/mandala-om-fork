@@ -3,7 +3,6 @@ import NumericInput from 'react-numeric-input';
 import './FeaturePager.scss';
 
 export function FeaturePager(props) {
-    console.log(props);
     if (props.page == null) {
         return null;
     }

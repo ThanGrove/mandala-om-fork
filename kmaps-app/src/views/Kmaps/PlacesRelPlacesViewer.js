@@ -251,10 +251,10 @@ function ChunkList(childs, numcols = 4) {
                 chunks.push(achunk);
                 achunk = [];
                 cld2.children = cld2.children.slice(chldnum);
-                if (!cld2.label.includes('cont.')) {
+                if (cld2?.label && !cld2.label.includes('cont.')) {
                     cld2.label = cld2.label + ' (cont.)';
                 }
-                if (cld2.children.length > numpercol) {
+                if (cld2?.children.length > numpercol) {
                     cld1 = JSON.parse(JSON.stringify(cld2));
                 } else {
                     achunk.push(cld2);

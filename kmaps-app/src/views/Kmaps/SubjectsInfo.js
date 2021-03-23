@@ -15,13 +15,35 @@ import { PlacesLocation, PlacesNames } from './PlacesInfo';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 
 export default function SubjectInfo(props) {
+    const addPage = useHistory((state) => state.addPage);
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
+    const {
+        isLoading: isKmapLoading,
+        data: kmapData,
+        isError: isKmapError,
+        error: kmapError,
+    } = useKmap(queryID(baseType, id), 'info');
+
+    if (isKmapLoading) {
+        return <div id="place-kmap-tabs">Subjects Loading Skeleton ...</div>;
+    }
+
+    if (!isKmapError) {
+        // Hack to wait for HistoryViewer to load before adding this page
+        setTimeout(function () {
+            addPage('subjects', kmapData.header, window.location.pathname);
+        }, 500);
+    } else {
+        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
+    }
+
+    $('main.l-column__main').addClass('subjects');
 
     return (
         <>
-            <SubjectSummary baseType={baseType} id={id} />
+            <SubjectSummary kmapData={kmapData} />
             <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
                 <Switch>
                     <Route exact path={path}>
@@ -49,33 +71,7 @@ export default function SubjectInfo(props) {
     );
 }
 
-function SubjectSummary({ baseType, id }) {
-    const addPage = useHistory((state) => state.addPage);
-    const {
-        isLoading: isKmapLoading,
-        data: kmapData,
-        isError: isKmapError,
-        error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
-
-    useEffect(() => {
-        $('main.l-column__main').addClass('subjects');
-    }, [kmapData]);
-
-    if (isKmapLoading) {
-        return <div id="place-kmap-tabs">Subjects Loading Skeleton ...</div>;
-    }
-
-    if (!isKmapLoading && !isKmapError) {
-        //console.log('kmap (subjects)', kmapData);
-        // history.addPage('subjects', kmapData.header, window.location.pathname);
-        addPage('subjects', kmapData.header, window.location.pathname);
-    }
-
-    if (isKmapError) {
-        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-    }
-
+function SubjectSummary({ kmapData }) {
     let sbjimg = null;
     if (kmapData?.illustration_mms_url?.length > 0) {
         sbjimg = kmapData?.illustration_mms_url[0];
@@ -136,7 +132,7 @@ function SubjectDetails({ kmapData }) {
                     <ul>
                         {sbjnames.map((nmo) => {
                             return (
-                                <li>
+                                <li key={nmo.id}>
                                     {nmo.related_names_header_s} (
                                     {nmo.related_names_language_s},{' '}
                                     {nmo.related_names_writing_system_s},{' '}

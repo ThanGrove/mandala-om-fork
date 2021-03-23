@@ -57,6 +57,7 @@ class KmapsMap extends React.Component {
             zoom: props.zoom || 7,
             map: null,
         };
+        this.inset_map_ref = React.createRef();
     }
 
     updateDimensions() {
@@ -103,7 +104,7 @@ class KmapsMap extends React.Component {
     }
 
     buildMap(forcedId = null) {
-        this.setState({ element: this.refs.inset_map });
+        this.setState({ element: this.inset_map_ref.current });
         const geoserverUrl = process.env.REACT_APP_GOSERVER_URL;
         var map = this.createMap(forcedId);
         return map;
@@ -142,13 +143,13 @@ class KmapsMap extends React.Component {
         });
         var map = this.state.map;
         if (this.state.map != null) {
-            this.refs.inset_map.innerHTML = '';
+            this.inset_map_ref.current.innerHTML = '';
         }
         map = new Map({
             interactions: DefaultInteractions().extend([
                 new DragRotateAndZoom(),
             ]),
-            target: this.refs.inset_map,
+            target: this.inset_map_ref.current,
             layers: [googleLayer, featureLayer],
             controls: DefaultControls().extend([
                 new ZoomSlider(),
@@ -244,7 +245,7 @@ class KmapsMap extends React.Component {
                     id="places-map-div"
                     tabIndex="1"
                     style={style}
-                    ref="inset_map"
+                    ref={this.inset_map_ref}
                 ></div>
             </div>
         );

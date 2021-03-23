@@ -38,19 +38,17 @@ export default function PlacesInfo(props) {
 
     if (isKmapLoading || isAssetLoading) {
         return <div id="place-kmap-tabs">Places Loading Skeleton ...</div>;
+    } else if (!isKmapError) {
+        // Hack to wait for History Viewer to load before adding current item
+        setTimeout(function () {
+            addPage('places', kmapData.header, window.location.pathname);
+        }, 500);
+    } else {
+        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     }
 
-    if (!isKmapLoading && !isKmapError) {
-        addPage('places', kmapData.header, window.location.pathname);
-    }
-
-    if (isKmapError || isAssetError) {
-        if (isKmapError) {
-            return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-        }
-        if (isAssetError) {
-            return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
-        }
+    if (isAssetError) {
+        return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
     }
 
     return (
