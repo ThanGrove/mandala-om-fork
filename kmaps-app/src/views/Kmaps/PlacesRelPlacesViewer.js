@@ -10,7 +10,6 @@ import { queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 
 export function PlacesRelPlacesViewer() {
-    let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'places';
 

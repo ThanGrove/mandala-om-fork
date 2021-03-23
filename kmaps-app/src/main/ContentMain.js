@@ -18,6 +18,8 @@ import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import { PlacesRelPlacesViewer } from '../views/Kmaps/PlacesRelPlacesViewer';
 import { PlacesSummary } from '../views/Kmaps/PlacesInfo';
+import { PlacesRelSubjectsViewer } from '../views/Kmaps/PlacesRelSubjectsViewer';
+import { SubjectsRelPlacesViewer } from '../views/Kmaps/SubjectsRelPlacesViewer';
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
 const TermsInfo = React.lazy(() => import('../views/Terms/TermsInfo'));
@@ -110,6 +112,15 @@ export default function ContentMain(props) {
                                         </div>
                                     </section>
                                 </Route>
+                                <Route path={'/places/:id/related-subjects'}>
+                                    <RelatedsViewer />
+                                    <section className="l-content__main__wrap">
+                                        <div className="c-content__main__kmaps">
+                                            <NodeHeader />
+                                            <PlacesRelSubjectsViewer />
+                                        </div>
+                                    </section>
+                                </Route>
                                 <Route path={`/places/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -124,6 +135,17 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* SUBJECTS */}
+
+                                <Route path={[`/subjects/:id/related-places`]}>
+                                    <RelatedsViewer />
+                                    <section className="l-content__main__wrap">
+                                        <div className="c-content__main__kmaps">
+                                            <NodeHeader />
+                                            <SubjectsInfo />
+                                            <SubjectsRelPlacesViewer />
+                                        </div>
+                                    </section>
+                                </Route>
                                 <Route path={`/subjects/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">

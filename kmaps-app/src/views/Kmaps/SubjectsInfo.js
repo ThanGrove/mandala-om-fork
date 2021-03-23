@@ -11,7 +11,6 @@ import KmapsDescText from './KmapsDescText';
 import { useHistory } from '../../hooks/useHistory';
 
 export default function SubjectsInfo(props) {
-    let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
     const addPage = useHistory((state) => state.addPage);
@@ -89,18 +88,23 @@ export default function SubjectsInfo(props) {
                     <KmapsDescText txtid={txtid} />
                 </div>
             )}
+            {/*
             <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
                 <Switch>
                     <Route
                         path={[
-                            `${path}/related-:relatedType/:viewMode`,
-                            `${path}/related-:relatedType`,
+                            `/subjects/related-:relatedType/:viewMode`,
+                            `/subjects/related-:relatedType`,
                         ]}
                     >
-                        <RelatedsGallery baseType="subjects" />
+                        <>
+                            <div>here</div>
+                            <RelatedsGallery baseType="subjects" />
+                        </>
                     </Route>
                 </Switch>
             </React.Suspense>
+            */}
         </>
     );
 }
