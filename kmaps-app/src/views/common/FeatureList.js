@@ -19,7 +19,7 @@ export function FeatureList(props) {
         if (asset_type === 'sources' && !myloc.pathname.includes('/search')) {
             const mu = doc.citation_s.replace(/<\/?a[^>]*>/g, '');
             const doc_url = inline
-                ? `./view/${doc.uid}?asset_type=${doc.asset_type}`
+                ? `./view/${doc.id}`
                 : `/${doc.asset_type}/${doc.id}`;
 
             return (
@@ -70,7 +70,7 @@ function FeatureAssetListItem(props) {
     const doc = props.doc;
     const inline = props?.inline || false;
     const doc_url = inline
-        ? `./view/${doc.uid}?asset_type=${doc.asset_type}`
+        ? `./view/${doc.id}`
         : `/${doc.asset_type}/${doc.id}`;
 
     const collection = doc?.collection_nid ? (

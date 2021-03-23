@@ -295,10 +295,7 @@ div.image-wrapper.center figcaption {
 }
 .c-nodeHeader__backLink__wrap {
     display: flex;
-    margin-bottom: -1rem;
     position: relative;
-    top: -0.75rem;
-    left: -0.25rem;
 }
 .c-nodeHeader__backLink {
     font-size: 1.06em;
@@ -332,6 +329,8 @@ div.image-wrapper.center figcaption {
 }
 .av .c-nodeHeader-itemHeader {
     background-color: $color-audio-video;
+    margin-bottom: -1.8rem;
+    margin-left: -0.2rem;
 }
 .c-nodeHeader-itemHeader-subType {
     text-transform: capitalize;

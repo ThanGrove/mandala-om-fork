@@ -1,19 +1,16 @@
 import React, { useEffect, useState, useContext } from 'react';
-import useStatus from '../../hooks/useStatus';
 import axios from 'axios';
 import jsonpAdapter from '../../logic/axios-jsonp';
 import { Tabs, Tab } from 'react-bootstrap';
 import './AVViewer.css';
 import $ from 'jquery';
 import { FeatureDeck } from '../common/FeatureDeck';
-import { convertNodeToElement } from 'react-html-parser';
-import { HtmlWithPopovers, HtmlCustom } from '../common/MandalaMarkup';
-import { createAssetCrumbs } from '../common/utils';
+import { HtmlWithPopovers } from '../common/MandalaMarkup';
 import { useKmap } from '../../hooks/useKmap';
 import { useParams } from 'react-router-dom';
 import useMandala from '../../hooks/useMandala';
-import { HistoryContext } from '../History/HistoryContext';
 import { useHistory } from '../../hooks/useHistory';
+import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 
 /**
  * AudioVideoViewer is called from ContentMain.js and is wrapped in a MdlAssetContext that supplies it with a SOLR
@@ -32,14 +29,14 @@ import { useHistory } from '../../hooks/useHistory';
  * @author ndg8f
  */
 export default function AudioVideoViewer(props) {
-    const { id, relID } = useParams();
-    // const history = useContext(HistoryContext);
-    const addPage = useHistory((state) => state.addPage);
-    // const basepath = process.env.PUBLIC_URL;
-    // console.log(basepath);
+    const { id } = useParams();
+    const avid = props?.id ? props.id : id;
     // Build query string based on uid use asterisk for env. Ultimately uids will be audio-video-1234 across all apps
     //    but currently e.g., audio-video-dev_shanti_virginia_edu-13066, so audio-video*-13066 will find that
-    const querystr = relID ? relID : `audio-video*-${id}`;
+    const querystr = `audio-video*-${avid}`;
+
+    const addPage = useHistory((state) => state.addPage);
+
     // Get record from kmasset index
     const {
         isLoading: isAssetLoading,
@@ -105,10 +102,16 @@ export default function AudioVideoViewer(props) {
             }
         }
     }, [kmasset, nodejson]); // Depend on kmasset and nodejson
-
     // Return the av-viewer div with div for Bill's drawing of AV player and AV metadata
     return (
         <div id={'av-viewer'}>
+            {kmasset && props?.id && (
+                <RelatedAssetHeader
+                    type="audio-video"
+                    subtype={kmasset.asset_subtype}
+                    header={kmasset.title}
+                />
+            )}
             <div id={'sui-av'}>Loading ...</div>
             <AudioVideoMeta id={id} asset={kmasset} sui={sui} node={nodejson} />
         </div>

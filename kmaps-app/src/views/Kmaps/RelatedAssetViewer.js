@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 const AudioVideoViewer = React.lazy(() =>
     import('../AudioVideo/AudioVideoViewer')
@@ -26,4 +26,28 @@ export default function RelatedAssetViewer({ parentData }) {
         default:
             return <div>Unknown related type!</div>;
     }
+}
+
+export function RelatedAssetHeader({ type, subtype, header }) {
+    const retpath = window.location.pathname.split('/view')[0];
+    return (
+        <>
+            <div className="c-nodeHeader__backLink__wrap">
+                <Link to={retpath} className="c-nodeHeader__backLink">
+                    <span className="icon u-icon__arrow-left_2">Return</span>
+                </Link>
+            </div>
+            <h5 className="c-nodeHeader-itemHeader">
+                <span className={`icon u-icon__${type}`}> </span>
+                <span className="c-nodeHeader-itemHeader-subType">
+                    {' '}
+                    {subtype}{' '}
+                </span>
+                <span className="c-nodeHeader-itemHeader-caption">
+                    {' '}
+                    {header}{' '}
+                </span>
+            </h5>
+        </>
+    );
 }

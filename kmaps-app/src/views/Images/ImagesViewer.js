@@ -5,10 +5,11 @@ import { ImageMetadata } from './ImageMetadata';
 import $ from 'jquery';
 import './images.scss';
 import { ImagesOSDViewer } from './ImagesOSDViewer';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
+import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 
 /**
  * Compontent that creates the Image Viewer page, including:
@@ -23,13 +24,11 @@ import { useHistory } from '../../hooks/useHistory';
  * @author ndg8f (2020-09-02)
  */
 export default function ImagesViewer(props) {
-    const { id, relID } = useParams();
-    const mainImageId = relID ? relID : id;
-    const relImageId = props?.id;
-    const thisImageId = relImageId ? relImageId : mainImageId;
+    const { id } = useParams();
+    const imgid = props?.id ? props.id : id;
     // Build query string based on uid use asterisk for env. Ultimately uids will be images-1234 across all apps
     //    but currently e.g., images-dev_shanti_virginia_edu-13066, so images*-13066 will find that
-    const querystr = `images*-${thisImageId}`;
+    const querystr = `images*-${imgid}`;
     // Get record from kmasset index
     const {
         isLoading: isAssetLoading,
@@ -133,15 +132,11 @@ export default function ImagesViewer(props) {
         return (
             <div className={'c-image'}>
                 {props?.id && (
-                    <h5 className="c-nodeHeader-itemHeader">
-                        <span className="icon u-icon__images"></span>
-                        <span className="c-nodeHeader-itemHeader-subType">
-                            photograph
-                        </span>
-                        <span className="c-nodeHeader-itemHeader-caption">
-                            Ritual cakes are burned by the lama
-                        </span>
-                    </h5>
+                    <RelatedAssetHeader
+                        type="images"
+                        subtype="picture"
+                        header={kmasset.title}
+                    />
                 )}
                 <Container fluid className={'c-image__context'}>
                     <Col className={'c-image__viewer'}>
