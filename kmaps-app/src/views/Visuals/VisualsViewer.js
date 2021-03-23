@@ -7,15 +7,16 @@ import './visuals.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { useHistory } from '../../hooks/useHistory';
-// import { HistoryContext } from '../History/HistoryContext';
+import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 
 export default function VisualsViewer(props) {
     const baseType = `visuals`;
-    const { id, relID } = useParams();
-    //const history = useContext(HistoryContext);
+    const { id } = useParams();
+    const visId = props.id ? props.id : id;
+    const queryID = `${baseType}*-${visId}`;
+
     const addPage = useHistory((state) => state.addPage);
 
-    const queryID = relID ? relID : `${baseType}*-${id}`;
     const {
         isLoading: isAssetLoading,
         data: kmasset,
@@ -90,102 +91,105 @@ export default function VisualsViewer(props) {
             ? 'https://www.youtube.com/watch?v=' + snjson?.dataSourceUrl
             : 'https://vimeo.com/' + snjson?.dataSourceUrl;
     return (
-        <Container fluid className={'c-visual__container'}>
-            <Col className={'c-visual'}>
-                {/*
-                <h1 className={'c-visual__head'}>
-                    <span className={'u-icon__visuals'} />{' '}
-                    <span className={'c-visual__title'}>{solrdoc?.title}</span>
-                </h1>
-                */}
-                <div className={'c-visual__player'}>
-                    <HtmlCustom markup={nodejson.iframe} />
-                </div>
-                <div
-                    className={'c-visual__info'}
-                    style={{ width: snjson.width + 'px' }}
-                >
-                    <h2>
-                        <span className={'u-icon__visuals'}></span>
-                        <span className={'title'}>{solrdoc?.title}</span>
-                    </h2>
-                    <VisualsRow
-                        label={'Collection'}
-                        value={mycoll.name}
-                        url={mycoll.uid}
-                        icon={'collections'}
-                    />
-                    <VisualsRow
-                        label={'Type'}
-                        value={nodejson?.shivanode_element_type?.label}
-                        icon={'th'}
-                    />
-                    <VisualsRow
-                        label={'Date'}
-                        value={mydate.toLocaleDateString()}
-                        icon={'calendar'}
-                    />
-                    <VisualsRow
-                        label={'Data Entry'}
-                        value={solrdoc?.node_user}
-                        icon={'agents'}
-                    />
-                    <VisualsRow
-                        label={'UID'}
-                        value={'visuals-' + solrdoc?.id}
-                    />
-                    <VisualsKmap
-                        label={'Language'}
-                        field={nodejson?.field_language_kmap}
-                        icon={'comments-o'}
-                    />
-                    <VisualsKmap
-                        label={'Subjects'}
-                        field={nodejson?.field_subjects_kmap}
-                        icon={'subjects'}
-                    />
-                    <VisualsKmap
-                        label={'Places'}
-                        field={nodejson?.field_places_kmap}
-                        icon={'places'}
-                    />
-                    <VisualsKmap
-                        label={'Terms'}
-                        field={nodejson?.field_terms_kmap}
-                        icon={'terms'}
-                    />
-                    {nodejson?.shivanode_description?.und &&
-                        nodejson?.shivanode_description?.und.length > 0 && (
+        <>
+            {props?.id && (
+                <RelatedAssetHeader
+                    type="visuals"
+                    subtype={nodejson?.shivanode_element_type?.label}
+                    header={kmasset.title}
+                />
+            )}
+            <Container fluid className={'c-visual__container'}>
+                <Col className={'c-visual'}>
+                    <div className={'c-visual__player'}>
+                        <HtmlCustom markup={nodejson.iframe} />
+                    </div>
+                    <div
+                        className={'c-visual__info'}
+                        style={{ width: snjson.width + 'px' }}
+                    >
+                        <h2>
+                            <span className={'u-icon__visuals'}></span>
+                            <span className={'title'}>{solrdoc?.title}</span>
+                        </h2>
+                        <VisualsRow
+                            label={'Collection'}
+                            value={mycoll.name}
+                            url={mycoll.uid}
+                            icon={'collections'}
+                        />
+                        <VisualsRow
+                            label={'Type'}
+                            value={nodejson?.shivanode_element_type?.label}
+                            icon={'th'}
+                        />
+                        <VisualsRow
+                            label={'Date'}
+                            value={mydate.toLocaleDateString()}
+                            icon={'calendar'}
+                        />
+                        <VisualsRow
+                            label={'Data Entry'}
+                            value={solrdoc?.node_user}
+                            icon={'agents'}
+                        />
+                        <VisualsRow
+                            label={'UID'}
+                            value={'visuals-' + solrdoc?.id}
+                        />
+                        <VisualsKmap
+                            label={'Language'}
+                            field={nodejson?.field_language_kmap}
+                            icon={'comments-o'}
+                        />
+                        <VisualsKmap
+                            label={'Subjects'}
+                            field={nodejson?.field_subjects_kmap}
+                            icon={'subjects'}
+                        />
+                        <VisualsKmap
+                            label={'Places'}
+                            field={nodejson?.field_places_kmap}
+                            icon={'places'}
+                        />
+                        <VisualsKmap
+                            label={'Terms'}
+                            field={nodejson?.field_terms_kmap}
+                            icon={'terms'}
+                        />
+                        {nodejson?.shivanode_description?.und &&
+                            nodejson?.shivanode_description?.und.length > 0 && (
+                                <VisualsRow
+                                    label={'Description'}
+                                    value={
+                                        nodejson?.shivanode_description?.und[0]
+                                            .safe_value
+                                    }
+                                    has_markup={true}
+                                    myclass={'visdesc'}
+                                    icon={'file-text-o'}
+                                />
+                            )}
+                        {snjson?.dataSourceUrl && has_sheet && (
                             <VisualsRow
-                                label={'Description'}
-                                value={
-                                    nodejson?.shivanode_description?.und[0]
-                                        .safe_value
-                                }
-                                has_markup={true}
-                                myclass={'visdesc'}
-                                icon={'file-text-o'}
+                                label={'Data Source'}
+                                value={'External spreadsheet'}
+                                url={snjson.dataSourceUrl}
+                                icon={'list-alt'}
                             />
                         )}
-                    {snjson?.dataSourceUrl && has_sheet && (
-                        <VisualsRow
-                            label={'Data Source'}
-                            value={'External spreadsheet'}
-                            url={snjson.dataSourceUrl}
-                            icon={'list-alt'}
-                        />
-                    )}
-                    {snjson?.dataSourceUrl && mytype == 'Video' && (
-                        <VisualsRow
-                            label={'Data Source'}
-                            value={vidsrc}
-                            url={vidurl}
-                            icon={'list-alt'}
-                        />
-                    )}
-                </div>
-            </Col>
-        </Container>
+                        {snjson?.dataSourceUrl && mytype == 'Video' && (
+                            <VisualsRow
+                                label={'Data Source'}
+                                value={vidsrc}
+                                url={vidurl}
+                                icon={'list-alt'}
+                            />
+                        )}
+                    </div>
+                </Col>
+            </Container>
+        </>
     );
 }
 
@@ -231,7 +235,13 @@ function VisualsKmap(props) {
         return null;
     }
     const kmchildren = kmfield.und.map((kmitem) => {
-        return <MandalaPopover domain={kmitem.domain} kid={kmitem.id} />;
+        return (
+            <MandalaPopover
+                domain={kmitem.domain}
+                kid={kmitem.id}
+                children={[kmitem.header]}
+            />
+        );
     });
     return (
         <VisualsRow
