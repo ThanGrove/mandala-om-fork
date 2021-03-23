@@ -46,33 +46,16 @@ const getSolrData = async (query) => {
 };
 
 /**
- * UseSolr : hook for solr queries
+ * UseSolr : a generalized form of useKmap to make customized queries to the solr index
  *
  * @param qkey
  * @param queryobj
  * @returns {any}
  */
-export function useSolr(qkey, queryobj) {
+export function useSolr(qkey, queryobj, byPass = false) {
     // console.log("useSolr: qkey = ", qkey, " queryobj = ", queryobj);
     // split qkey by '-' and pass array as key
-    return useQuery(qkey.split('-'), () => getSolrData(queryobj));
-}
-
-/**
- * UseSolr : hook for solr queries
- *
- * @param qkey
- * @param queryobj
- * @param depvar
- * @returns {any}
- */
-export function useSolrEnabled(qkey, queryobj, depvar) {
-    const res = useQuery(qkey.split('-'), () => getSolrData(queryobj), {
-        enabled: depvar,
+    return useQuery(qkey.split('-'), () => getSolrData(queryobj), {
+        enabled: !byPass,
     });
-    if (res && res.data) {
-        res.data['status'] = res.status;
-        return res.data;
-    }
-    return false;
 }

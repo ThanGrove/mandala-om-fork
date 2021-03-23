@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactHtmlParser, { convertNodeToElement } from 'react-html-parser';
 import { MandalaPopover } from './MandalaPopover';
 import { MandalaModal } from './MandalaModal';
-import { useSolr, useSolrEnabled } from '../../hooks/useSolr';
+import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
 
 /**

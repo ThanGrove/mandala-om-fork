@@ -21,13 +21,7 @@ export function SubjectsRelPlacesViewer(props) {
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(baseType, id), 'info');
-    const {
-        isLoading: isRelatedsLoading,
-        data: relateds,
-        isError: isRelatedsError,
-        error: relatedsError,
-    } = useKmap(queryID(baseType, id), 'related');
-    console.log('relateds', relateds);
+
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(100);
@@ -57,8 +51,14 @@ export function SubjectsRelPlacesViewer(props) {
         },
     };
 
-    const placedata = useSolr(uid + '-related-places', q);
-    const placeids = $.map(placedata.docs, function (item, n) {
+    const {
+        isLoading: isPlaceDataLoading,
+        data: placedata,
+        isError: isPlaceDataError,
+        error: placeDataError,
+    } = useSolr(uid + '-related-places', q);
+    console.log('placedata', placedata);
+    const placeids = $.map(placedata?.docs, function (item, n) {
         return item.origin_uid_s;
     });
     const plcnmquery = {
@@ -123,7 +123,7 @@ export function SubjectsRelPlacesViewer(props) {
     }, [pageNum, pageSize]);
 
     // Process into list items
-    const placeitems = $.map(placedata.docs, function (item, n) {
+    const placeitems = $.map(placedata?.docs, function (item, n) {
         const rndn = Math.ceil(Math.random() * 10000);
 
         if (item.uid.includes('_featureType')) {
@@ -144,22 +144,19 @@ export function SubjectsRelPlacesViewer(props) {
             }
         } else {
             const mykey = item.uid + '-' + n + rndn;
-            const kid = Math.floor(item.uid_i / 100); // Remove 01 places suffix
-            const uid = 'places-' + kid;
-            const iheader = uid in nmlist ? nmlist[uid] : 'Loading...';
+            const kid = item.uid.replace('places-', '');
             return (
                 <li key={mykey} className="text-nowrap">
                     <MandalaPopover
                         domain={item.tree}
                         kid={kid}
-                        children={[iheader]}
+                        children={[item.header]}
                     />
                 </li>
             );
         }
     });
     const chunks = chunkIt(placeitems, colSize);
-
     return (
         <Container fluid className={'c-relplaces-list subjects'}>
             <h2 className={'row'}>Related Places </h2>
