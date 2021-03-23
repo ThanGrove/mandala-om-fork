@@ -9,7 +9,7 @@ import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 
-export function PlacesRelPlacesViewer() {
+export default function PlacesRelPlacesViewer() {
     let { id } = useParams();
     const baseType = 'places';
 

@@ -6,7 +6,7 @@ import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 
-export function PlacesRelSubjectsViewer() {
+export default function PlacesRelSubjectsViewer() {
     let { id } = useParams();
     const baseType = 'places';
 

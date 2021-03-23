@@ -16,10 +16,13 @@ import SubjectsHome from '../views/SubjectsHome';
 import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
-import { PlacesRelPlacesViewer } from '../views/Kmaps/PlacesRelPlacesViewer';
-import { PlacesSummary } from '../views/Kmaps/PlacesInfo';
-import { PlacesRelSubjectsViewer } from '../views/Kmaps/PlacesRelSubjectsViewer';
-import { SubjectsRelPlacesViewer } from '../views/Kmaps/SubjectsRelPlacesViewer';
+
+const PlacesRelPlacesViewer = React.lazy(() =>
+    import('../views/Kmaps/PlacesRelPlacesViewer')
+);
+const PlacesRelSubjectsViewer = React.lazy(() =>
+    import('../views/Kmaps/PlacesRelSubjectsViewer')
+);
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
 const TermsInfo = React.lazy(() => import('../views/Terms/TermsInfo'));
@@ -136,13 +139,12 @@ export default function ContentMain(props) {
 
                                 {/* SUBJECTS */}
 
-                                <Route path={[`/subjects/:id/related-places`]}>
+                                <Route path={'/subjects/:id/related-subjects'}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
                                         <div className="c-content__main__kmaps">
                                             <NodeHeader />
                                             <SubjectsInfo />
-                                            <SubjectsRelPlacesViewer />
                                         </div>
                                     </section>
                                 </Route>
