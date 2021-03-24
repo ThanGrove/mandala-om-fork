@@ -156,7 +156,7 @@ function MandalaPopoverBody(props) {
         return 0;
     });
     const domain = props.domain;
-    const kid = props.kid.includes('-') ? props.kid.split('-')[1] : props.kid;
+    const kid = props?.kid?.includes('-') ? props.kid.split('-')[1] : props.kid;
     const caption =
         kminfo.caption_eng && kminfo.caption_eng.length > 0
             ? kminfo.caption_eng[0].replace(/<\/?p>/g, '') + ' '
@@ -250,10 +250,18 @@ function MandalaPopoverBody(props) {
         <>
             {related.map((item, index) => {
                 const assettype = item.groupValue;
-                if (assettype === 'picture') {
-                    return;
-                }
-                if (assettype === 'texts:pages') {
+                //const typesToSkip = ['document', 'onlineresource', 'picture', 'texts:pages'];
+                const validTypes = [
+                    'audio-video',
+                    'images',
+                    'places',
+                    'sources',
+                    'subjects',
+                    'terms',
+                    'texts',
+                    'visuals',
+                ];
+                if (!validTypes.includes(assettype)) {
                     return;
                 }
                 const myurl =
