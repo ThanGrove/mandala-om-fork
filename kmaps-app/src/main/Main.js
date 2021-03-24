@@ -1,19 +1,18 @@
 import React, { useState, lazy, Suspense, useContext } from 'react';
 import { Route, Redirect, Switch } from 'react-router-dom';
+import {
+    QueryParamProvider,
+    transformSearchStringJsonSafe,
+} from 'use-query-params';
 import Router from './RouterSelect';
 import { SiteHeader } from './SiteHeader/SiteHeader';
 import { Hamburger } from './MainNavToggle/Hamburger';
-
 const Home = lazy(() => import('./HomePage/Home'));
 const ContentMain = lazy(() => import('./ContentMain'));
 const NotFoundPage = lazy(() => import('../views/common/NotFoundPage'));
 
-const stateDefault = {
-    kmasset: {
-        header: 'Mandala',
-        title: ['Mandala'],
-        uid: 'mandala',
-    },
+const stringifyOptions = {
+    transformSearchString: transformSearchStringJsonSafe,
 };
 
 export function Main(props) {
@@ -53,38 +52,43 @@ export function Main(props) {
                 ? { basename: process.env.REACT_APP_PUBLIC_PATH }
                 : {})}
         >
-            <div id={'l-site__wrap'} className={`l-site__wrap`}>
-                {/* <HistoryListener /> */}
-                <SiteHeader />
-                <Hamburger hamburgerOpen={false} />
-                {/** TODO:gk3k -> Need to set a proper loading component with Skeletons */}
-                <Suspense fallback={<div>Loading from Main...</div>}>
-                    <Switch>
-                        <Route path={'/home'}>
-                            <Home />
-                        </Route>
-                        {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                            <Route exact path={'/'}>
-                                <Redirect to={'/home'} />
+            <QueryParamProvider
+                ReactRouterRoute={Route}
+                stringifyOptions={stringifyOptions}
+            >
+                <div id={'l-site__wrap'} className={`l-site__wrap`}>
+                    {/* <HistoryListener /> */}
+                    <SiteHeader />
+                    <Hamburger hamburgerOpen={false} />
+                    {/** TODO:gk3k -> Need to set a proper loading component with Skeletons */}
+                    <Suspense fallback={<div>Loading from Main...</div>}>
+                        <Switch>
+                            <Route path={'/home'}>
+                                <Home />
                             </Route>
-                        )}
-                        <Route path={'/'}>
-                            <ContentMain
-                                site={'mandala'}
-                                mode={'development'}
-                                title={'Mandala'}
-                                sui={props.sui}
-                            />
-                        </Route>
-                        <Route path={'*'}>
-                            <NotFoundPage />
-                            <Home />
-                        </Route>
-                    </Switch>
-                </Suspense>
-                {/* Commented this out to get Asset Views to work (ndg) */}
-                {/* gk3k: TODO: This seems like a duplicate. we already have this in RightSideBar.js */}
-                {/* <SearchContext>
+                            {process.env.REACT_APP_STANDALONE !==
+                                'standalone' && (
+                                <Route exact path={'/'}>
+                                    <Redirect to={'/home'} />
+                                </Route>
+                            )}
+                            <Route path={'/'}>
+                                <ContentMain
+                                    site={'mandala'}
+                                    mode={'development'}
+                                    title={'Mandala'}
+                                    sui={props.sui}
+                                />
+                            </Route>
+                            <Route path={'*'}>
+                                <NotFoundPage />
+                                <Home />
+                            </Route>
+                        </Switch>
+                    </Suspense>
+                    {/* Commented this out to get Asset Views to work (ndg) */}
+                    {/* gk3k: TODO: This seems like a duplicate. we already have this in RightSideBar.js */}
+                    {/* <SearchContext>
                     <SearchAdvanced
                         advanced={state.advanced}
                     />
@@ -93,8 +97,9 @@ export function Main(props) {
                         tree={state.tree}
                     />
                 </SearchContext> */}
-                <Hamburger hamburgerOpen={false} />
-            </div>
+                    <Hamburger hamburgerOpen={false} />
+                </div>
+            </QueryParamProvider>
         </Router>
     );
 }

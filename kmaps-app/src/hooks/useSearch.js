@@ -210,15 +210,18 @@ function constructTextQuery(searchString) {
     if (!searchString || searchstring.length === 0) {
         searchstring = search = slashy = '*';
     }
+    let xact = searchstring;
 
     var basic_req = {
         // search: tweak for scoping later
-        q: '*:*',
-        // search strings
-        xact: searchstring,
-        starts: starts,
-        search: search,
-        slashy: slashy,
+        q:
+            searchstring !== '*'
+                ? `(title:${xact}^100 title:${slashy}^100 title:${starts}^80 names_txt:${xact}^90 names_txt:${starts}^70)`
+                : `*:*`,
+        xact,
+        starts,
+        search,
+        slashy,
     };
 
     return basic_req;

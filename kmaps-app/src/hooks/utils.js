@@ -1,5 +1,11 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import {
+    encodeObject,
+    decodeObject,
+    encodeDelimitedArray,
+    decodeDelimitedArray,
+} from 'use-query-params';
 /**
  * A function to get the proper Solr base URL for the current environment.
  * Returns an object with both an assets and a terms property that contains the base url to that index
@@ -113,3 +119,24 @@ A custom hook that builds on useLocation to parse the query string. */
 export function useQuery() {
     return new URLSearchParams(useLocation().search);
 }
+
+/**
+ * Custom Param to use with use-query-params which encodes and decodes
+ * an array of objects.
+ */
+export const ArrayOfObjectsParam = {
+    encode: (array) => {
+        if (array == null) {
+            return array;
+        }
+
+        return encodeDelimitedArray(
+            array.map((el) => encodeObject(el, '@', ',')),
+            '_'
+        );
+    },
+    decode: (input) => {
+        //const decodedArray = decodeDelimitedArray(input, '_') ?? [];
+        return input.split('_').map((el) => decodeObject(el, '@', ','));
+    },
+};

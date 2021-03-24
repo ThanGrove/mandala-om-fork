@@ -1,22 +1,29 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
+import qs from 'qs';
 import * as PropTypes from 'prop-types';
-import _ from 'lodash';
-import { useHistory } from 'react-router';
-import { useSearchStore } from '../hooks/useSearchStore';
+import { useHistory } from 'react-router-dom';
+import {
+    useQueryParams,
+    StringParam,
+    withDefault,
+    encodeQueryParams,
+} from 'use-query-params';
+import { stringify } from 'query-string';
+import { ArrayOfObjectsParam } from '../hooks/utils';
 
 const target = document.getElementById('basicSearchPortal');
-const searchSelector = (state) => state.search;
-const setSearchSelector = (state) => state.setSearch;
-const clearSearchSelector = (state) => state.clearSearch;
 
 export function BasicSearch(props) {
     const history = useHistory();
     const inputEl = useRef(null);
 
-    const search = useSearchStore(searchSelector);
-    const setSearch = useSearchStore(setSearchSelector);
-    const clearSearch = useSearchStore(clearSearchSelector);
+    // eslint-disable-next-line no-unused-vars
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const { searchText: search, filters } = query;
 
     //const currText = '';
     // const [state, setState] = useState({searchString: {currText}});
@@ -24,17 +31,38 @@ export function BasicSearch(props) {
         //props.search.setSearchText(inputEl.current.value);
         //props.onSubmit(inputEl.current.value);
         //console.log('BasicSearch handleSubmit: ', inputEl.current.value);
-        setSearch(inputEl.current.value);
-        document.getElementById('advanced-search-tree-toggle').click();
+        //setSearch(inputEl.current.value);
+        //document.getElementById('advanced-search-tree-toggle').click();
+
+        //encode each parameter according to the configuration
+        const encodedQuery = encodeQueryParams(
+            {
+                searchText: StringParam,
+                filters: withDefault(ArrayOfObjectsParam, []),
+            },
+            {
+                searchText: inputEl.current.value,
+                filters,
+            }
+        );
         if (process.env.REACT_APP_STANDALONE === 'standalone') {
-            window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
+            //window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
+            history.push({
+                pathname: process.env.REACT_APP_STANDALONE_PATH,
+                search: `?${stringify(encodedQuery)}`,
+                hash: '#/search/deck',
+            });
         } else {
-            history.push('/search');
+            //history.push('/search/deck');
+            history.push({
+                pathname: `/search/deck`,
+                search: `?${stringify(encodedQuery)}`,
+            });
         }
     };
     const clearInput = () => {
         inputEl.current.value = '';
-        clearSearch();
+        //clearSearch();
     };
     const handleKey = (x) => {
         // submit on return
