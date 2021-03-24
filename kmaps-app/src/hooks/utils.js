@@ -77,7 +77,7 @@ function cleanAssetData(data) {
     const img_path =
         process.env.REACT_APP_STANDALONE === 'standalone'
             ? '/wp-content/uploads/gradient.jpg'
-            : '/mandala-om/img/gradient.jpg';
+            : '/img/gradient.jpg';
 
     //console.log("cleanAssetData ", asset_type);
 

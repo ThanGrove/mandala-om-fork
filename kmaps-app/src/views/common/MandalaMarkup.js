@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ReactHtmlParser, { convertNodeToElement } from 'react-html-parser';
 import { MandalaPopover } from './MandalaPopover';
 import { MandalaModal } from './MandalaModal';
-import { useSolr, useSolrEnabled } from '../../hooks/useSolr';
+import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
 
 /**
@@ -219,10 +219,14 @@ export function HtmlWithPopovers(props) {
  * @constructor
  */
 export function HtmlCustom(props) {
-    const htmlInput = props.markup ? props.markup : '<div></div>';
+    let htmlInput = props.markup ? props.markup : '<div></div>';
     const options = props.options ? props.options : {};
     if (options && !options.decodeEntities) {
         options.decodeEntities = true;
+    }
+    if (htmlInput.includes('xml:lang')) {
+        const srchst = /xml:lang="[^"]+"/g;
+        htmlInput = htmlInput.replace(srchst, '');
     }
     return <>{ReactHtmlParser(htmlInput, options)}</>;
 }

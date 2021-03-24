@@ -4,6 +4,7 @@ import create from 'zustand';
 export const useHistory = create((set, get) => ({
     pages: new Set(),
     addPage: (pageicon, pgtitle, pgpath) => {
+        document.title = pgtitle + ' (Mandala Collections)';
         const maxpages = 20;
         if (!pgtitle || typeof pgtitle == 'undefined' || !pgpath) {
             return;

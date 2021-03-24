@@ -20,7 +20,10 @@ export function HistoryViewer(props) {
             {pages &&
                 pages.map((pgdata, pdi) => {
                     let [pgicon, pgtitle, pgpath] = pgdata.split('::');
-                    if (window.location.pathname === pgpath) {
+                    if (
+                        window.location.pathname === pgpath ||
+                        pgpath.trim('/') === 'home'
+                    ) {
                         return;
                     }
                     let asset_type = '';

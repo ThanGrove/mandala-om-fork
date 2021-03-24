@@ -1,55 +1,79 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import $ from 'jquery';
 import './subjectsinfo.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
-// import { HistoryContext } from '../History/HistoryContext';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import RelatedsGallery from '../common/RelatedsGallery';
 import KmapsDescText from './KmapsDescText';
 import { useHistory } from '../../hooks/useHistory';
+import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
+import RelatedAssetViewer from './RelatedAssetViewer';
 
-export default function SubjectsInfo(props) {
+export default function SubjectInfo(props) {
+    const addPage = useHistory((state) => state.addPage);
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
-    const addPage = useHistory((state) => state.addPage);
-    // const history = useContext(HistoryContext);
-    // console.log("in subject", history);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(baseType, id), 'info');
-    const {
-        isLoading: isAssetLoading,
-        data: kmasset,
-        isError: isAssetError,
-        error: assetError,
-    } = useKmap(queryID(baseType, id), 'asset');
-
-    const fid = kmasset?.id;
-
-    useEffect(() => {
-        $('main.l-column__main').addClass('subjects');
-    }, [kmapData]);
 
     if (isKmapLoading) {
         return <div id="place-kmap-tabs">Subjects Loading Skeleton ...</div>;
     }
 
-    if (!isKmapLoading && !isKmapError) {
-        //console.log('kmap (subjects)', kmapData);
-        // history.addPage('subjects', kmapData.header, window.location.pathname);
-        addPage('subjects', kmapData.header, window.location.pathname);
-    }
-
-    if (isKmapError) {
+    if (!isKmapError) {
+        // Hack to wait for HistoryViewer to load before adding this page
+        setTimeout(function () {
+            addPage('subjects', kmapData.header, window.location.pathname);
+        }, 500);
+    } else {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     }
 
+    $('main.l-column__main').addClass('subjects');
+
+    return (
+        <>
+            <SubjectSummary kmapData={kmapData} path={path} />
+            <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
+                <Switch>
+                    <Route exact path={path}>
+                        <div> </div>
+                    </Route>
+                    <Route
+                        path={[`${path}/related-:relatedType/view/:assetId`]}
+                    >
+                        <RelatedAssetViewer parentData={kmapData} />
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-subjects/:viewMode`,
+                            `${path}/related-subjects`,
+                        ]}
+                    >
+                        <SubjectsRelSubjectsViewer id={id} />
+                    </Route>
+                    <Route
+                        path={[
+                            `${path}/related-:relatedType/:viewMode`,
+                            `${path}/related-:relatedType`,
+                        ]}
+                    >
+                        <RelatedsGallery baseType="subjects" />
+                    </Route>
+                </Switch>
+            </React.Suspense>
+        </>
+    );
+}
+
+function SubjectSummary({ kmapData, path }) {
     let sbjimg = null;
     if (kmapData?.illustration_mms_url?.length > 0) {
         sbjimg = kmapData?.illustration_mms_url[0];
@@ -80,7 +104,7 @@ export default function SubjectsInfo(props) {
                                     markup={kmapData['summary_eng'][0]}
                                 />
                             )}
-                        <SubjectsDetails kmapData={kmapData} />
+                        <SubjectDetails kmapData={kmapData} />
                     </div>
                 </div>
             </div>
@@ -89,23 +113,11 @@ export default function SubjectsInfo(props) {
                     <KmapsDescText txtid={txtid} />
                 </div>
             )}
-            <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
-                <Switch>
-                    <Route
-                        path={[
-                            `${path}/related-:relatedType/:viewMode`,
-                            `${path}/related-:relatedType`,
-                        ]}
-                    >
-                        <RelatedsGallery baseType="subjects" />
-                    </Route>
-                </Switch>
-            </React.Suspense>
         </>
     );
 }
 
-function SubjectsDetails({ kmapData }) {
+function SubjectDetails({ kmapData }) {
     const kid = kmapData?.id;
     const sbjnames = kmapData?._childDocuments_?.filter((cd) => {
         return cd?.id.includes(kid + '_name');
@@ -122,7 +134,7 @@ function SubjectsDetails({ kmapData }) {
                     <ul>
                         {sbjnames.map((nmo) => {
                             return (
-                                <li>
+                                <li key={nmo.id}>
                                     {nmo.related_names_header_s} (
                                     {nmo.related_names_language_s},{' '}
                                     {nmo.related_names_writing_system_s},{' '}

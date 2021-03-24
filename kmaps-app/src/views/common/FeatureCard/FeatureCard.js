@@ -298,11 +298,15 @@ function DetailModal(props) {
 }
 
 function createAssetViewURL(avuid, asset_type, location) {
+    const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
-        return `${path.join('/')}/view/${avuid}?asset_type=${asset_type}`;
+        return `${path.join('/')}/view/${aid}`;
     }
-    return `./view/${avuid}?asset_type=${asset_type}`;
+    let path = location.pathname
+        .replace(/\/?any\/?.*/, '') // remove the /any from terms
+        .replace(/\/?(deck|gallery|list)\/?.*/, '');
+    return `${path}/view/${aid}`; // ${avuid}?asset_type=${asset_type}
 }

@@ -18,6 +18,7 @@ import './TextsViewer.sass';
 import $ from 'jquery';
 import { useParams, Redirect, Link } from 'react-router-dom';
 import { useHistory } from '../../hooks/useHistory';
+import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 
 /**
  * Text Viewer Component: The parent component for viewing a text. Gets sent the asset information as a prop
@@ -44,10 +45,12 @@ import { useHistory } from '../../hooks/useHistory';
  */
 export default function TextsViewer(props) {
     const baseType = `texts`;
-    // const history = useContext(HistoryContext);
+    const { id } = useParams();
+    const txtId = props.id ? props.id : id;
+    const queryID = `${baseType}*-${txtId}`;
+
     const addPage = useHistory((state) => state.addPage);
-    const { id, relID } = useParams();
-    const queryID = relID ? relID : `${baseType}*-${id}`;
+
     const {
         isLoading: isAssetLoading,
         data: kmasset,
@@ -78,26 +81,6 @@ export default function TextsViewer(props) {
     ]);
 
     const [alt_viewer_url, setAltViewerUrl] = useState(''); // alt_viewer has url for alt view to show if showing or empty string is hidden
-
-    //const status = useStatus();
-
-    // Effect to change banner and title if the viewer is the main component
-    // useEffect(() => {
-    //     if (kmasset && ismain) {
-    //         status.setType('texts');
-    //         const mytitle = kmasset.title ? kmasset.title : 'Loading ...';
-    //         if (mytitle) {
-    //             status.setHeaderTitle(mytitle);
-    //         }
-
-    //         // Set Breadcrumbs
-    //         const bcrumbs = createAssetCrumbs(kmasset);
-    //         status.setPath(bcrumbs);
-
-    //         // add class "texts" to the main div for CSS styles
-    //         $('.l-site__wrap').addClass('texts');
-    //     }
-    // }, [kmasset]);
 
     // Setting text_sections variable with array of sections in text for TOC highlighting on scrolling and
     // also highlights first TOC link
@@ -251,6 +234,13 @@ export default function TextsViewer(props) {
         }
         output = (
             <>
+                {props?.id && (
+                    <RelatedAssetHeader
+                        type="texts"
+                        subtype="text"
+                        header={kmasset.title}
+                    />
+                )}
                 <Container className={'l-site__wrap astviewer texts'} fluid>
                     <Row id={'shanti-texts-container'}>
                         <TextBody

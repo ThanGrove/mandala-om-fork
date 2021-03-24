@@ -153,14 +153,6 @@ function rowFiller(length, bp_sizes) {
     return remainderCards;
 }
 */
-// TODO: deprecate FeatureGalleryHeaderLine
-function FeatureGalleryHeaderLine(props) {
-    if (props.title) {
-        return <h5 className={'sui-relatedHeader'}>{props.title}</h5>;
-    } else {
-        return null;
-    }
-}
 
 function NoResults(props) {
     return (

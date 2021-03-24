@@ -12,6 +12,7 @@ import _, { divide } from 'lodash';
 import TermsDetails from './TermsDetails';
 import { queryID } from '../../views/common/utils';
 import { useHistory } from '../../hooks/useHistory';
+import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 // import { HistoryContext } from '../History/HistoryContext';
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -111,6 +112,9 @@ const TermsInfo = (props) => {
                             <TermDictionaries definitions={otherDefinitions} />
                         )}
                     </>
+                </Route>
+                <Route path={`${path}/related-:relatedType/view/:assetId`}>
+                    <RelatedAssetViewer parentData={kmapData} />
                 </Route>
                 <Route
                     path={`${path}/related-:relatedType/:definitionID/view/:relID`}

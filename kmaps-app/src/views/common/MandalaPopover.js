@@ -156,7 +156,7 @@ function MandalaPopoverBody(props) {
         return 0;
     });
     const domain = props.domain;
-    const kid = props.kid;
+    const kid = props.kid.includes('-') ? props.kid.split('-')[1] : props.kid;
     const caption =
         kminfo.caption_eng && kminfo.caption_eng.length > 0
             ? kminfo.caption_eng[0].replace(/<\/?p>/g, '') + ' '
@@ -173,7 +173,7 @@ function MandalaPopoverBody(props) {
                 <p>
                     <strong>Feature Type</strong>
                     {kminfo.feature_type_ids.map((item, index) => {
-                        const url = mandala_base + '/subjects/subjects-' + item;
+                        const url = mandala_base + '/subjects/' + item;
                         return (
                             <>
                                 <a href={url} key={domain + kid + index}>
@@ -208,13 +208,7 @@ function MandalaPopoverBody(props) {
                             return;
                         } // Don't show self in ancestry list
                         const aurl =
-                            mandala_base +
-                            '/' +
-                            kminfo.tree +
-                            '/' +
-                            kminfo.tree +
-                            '-' +
-                            aid;
+                            mandala_base + '/' + kminfo.tree + '/' + aid;
                         const label = ancestor_labels[index];
                         const akey = 'akey-' + aid + '-' + index;
                         return (
