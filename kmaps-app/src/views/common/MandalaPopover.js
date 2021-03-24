@@ -156,7 +156,7 @@ function MandalaPopoverBody(props) {
         return 0;
     });
     const domain = props.domain;
-    const kid = props?.kid?.includes('-') ? props.kid.split('-')[1] : props.kid;
+    const kid = props.kid;
     const caption =
         kminfo.caption_eng && kminfo.caption_eng.length > 0
             ? kminfo.caption_eng[0].replace(/<\/?p>/g, '') + ' '

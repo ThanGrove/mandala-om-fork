@@ -137,6 +137,6 @@ export const ArrayOfObjectsParam = {
     },
     decode: (input) => {
         //const decodedArray = decodeDelimitedArray(input, '_') ?? [];
-        return input.split('_').map((el) => decodeObject(el, '@', ','));
+        return input?.split('_')?.map((el) => decodeObject(el, '@', ','));
     },
 };
