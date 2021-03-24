@@ -4,26 +4,29 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
-import qs from 'qs';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
-import { useSearchStore } from '../hooks/useSearchStore';
-import { useFilterStore } from '../hooks/useFilterStore';
+import {
+    useQueryParams,
+    StringParam,
+    withDefault,
+    encodeQueryParams,
+} from 'use-query-params';
+import { stringify } from 'query-string';
+import { ArrayOfObjectsParam } from '../hooks/utils';
 
 const SEARCH_PATH = '/search';
-const selector = (state) => state.search;
-const filtersSelector = (state) => state.filters;
-const addFilterSelector = (state) => state.addFilter;
-const removeFilterSelector = (state) => state.removeFilter;
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
     let [reset, setReset] = useState(0);
 
-    const search = useSearchStore(selector);
-    const filters = useFilterStore(filtersSelector);
-    const addFilter = useFilterStore(addFilterSelector);
-    const removeFilter = useFilterStore(removeFilterSelector);
+    // eslint-disable-next-line no-unused-vars
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const { searchText: search, filters } = query;
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -69,7 +72,19 @@ export default function SearchAdvanced(props) {
     const handleBooleanControlClick = () =>
         setBooleanControls(!booleanControls);
 
-    function gotoSearchPage() {
+    function gotoSearchPage(newFilters) {
+        //encode each parameter according to the configuration
+        const encodedQuery = encodeQueryParams(
+            {
+                searchText: StringParam,
+                filters: withDefault(ArrayOfObjectsParam, []),
+            },
+            {
+                searchText: search,
+                filters: newFilters,
+            }
+        );
+
         if (!searchView) {
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
                 // window.location.href = `${
@@ -79,9 +94,7 @@ export default function SearchAdvanced(props) {
                 // )}&searchText=${qs.stringify(search)}`;
                 history.push({
                     pathname: process.env.REACT_APP_STANDALONE_PATH,
-                    search: `?${qs.stringify(filters, {
-                        allowDots: true,
-                    })}&searchText=${qs.stringify(search)}`,
+                    search: `?${stringify(encodedQuery)}`,
                     hash: '#/search/deck',
                 });
             } else {
@@ -94,18 +107,22 @@ export default function SearchAdvanced(props) {
                 console.log('GerardKetuma|Filters', filters);
                 history.push({
                     pathname: `/search/deck`,
-                    search: `?${qs.stringify(filters, {
-                        allowDots: true,
-                    })}&searchText=${qs.stringify(search)}`,
-                    state: {
-                        internal: true,
-                    },
+                    search: `?${stringify(encodedQuery)}`,
                 });
             }
+        } else {
+            setQuery(
+                {
+                    searchText: search,
+                    filters: newFilters,
+                },
+                'push'
+            );
         }
     }
 
     function handleFacetChange(msg) {
+        let newFilters = [...filters];
         const command = {
             facetType: msg.facetType,
             value: msg.value,
@@ -129,13 +146,18 @@ export default function SearchAdvanced(props) {
                 'NEW FILTER: ' + JSON.stringify(new_filter, undefined, 2)
             );
             //search.addFilters([new_filter]);
-            addFilter(new_filter);
+            //addFilter(new_filter);
+            //newFilters.push(new_filter);
+            newFilters = [...newFilters, new_filter];
         } else if (command.action === 'remove') {
             //search.removeFilters([{ id: compound_id }]);
-            removeFilter({ id: compound_id });
+            //removeFilter({ id: compound_id });
+            newFilters = newFilters.filter(
+                (filter) => !(filter.id === compound_id)
+            );
         }
         if (command.action !== 'remove') {
-            gotoSearchPage(); // declaratively navigate to search
+            gotoSearchPage(newFilters); // declaratively navigate to search
         }
     }
 

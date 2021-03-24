@@ -131,12 +131,12 @@ export const ArrayOfObjectsParam = {
         }
 
         return encodeDelimitedArray(
-            array.map((el) => encodeObject(el, '.', ',')),
+            array.map((el) => encodeObject(el, '@', ',')),
             '_'
         );
     },
     decode: (input) => {
-        const decodedArray = decodeDelimitedArray(input, '_') ?? [];
-        return decodedArray.map((el) => decodeObject(el, '.', ','));
+        //const decodedArray = decodeDelimitedArray(input, '_') ?? [];
+        return input.split('_').map((el) => decodeObject(el, '@', ','));
     },
 };

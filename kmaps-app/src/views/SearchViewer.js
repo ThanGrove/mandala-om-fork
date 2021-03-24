@@ -3,63 +3,20 @@ import { FeatureCollection } from './common/FeatureCollection';
 import { useSearchStore } from '../hooks/useSearchStore';
 import { useFilterStore } from '../hooks/useFilterStore';
 import { useSearch } from '../hooks/useSearch';
-import qs from 'qs';
-import { useLocation, useParams } from 'react-router-dom';
-import _ from 'lodash';
-
-const searchSelector = (state) => state.search;
-const setSearchSelector = (state) => state.setSearch;
-
-const filtersSelector = (state) => state.filters;
-const addMultipleFiltersSelector = (state) => state.addMultipleFilters;
+import { useParams } from 'react-router-dom';
+import { useQueryParams, StringParam, withDefault } from 'use-query-params';
+import { ArrayOfObjectsParam } from '../hooks/utils';
 
 export function SearchViewer() {
-    //const history = useHistory();
-    const location = useLocation();
     const { viewMode } = useParams();
 
-    const search = useSearchStore(searchSelector);
-    const setSearch = useSearchStore(setSearchSelector);
-
-    const filters = useFilterStore(filtersSelector);
-    const addMultipleFilters = useFilterStore(addMultipleFiltersSelector);
-
-    // Only do these transformations if history location is not internal
-    if (!location.state?.interal) {
-        const queryObject = qs.parse(location.search, {
-            allowDots: true,
-            ignoreQueryPrefix: true,
-        });
-        // Check if searchText is in queryObject, if not put one with empty string
-        if (!queryObject?.searchText) {
-            queryObject.searchText = '';
-        }
-
-        // Get search first from Store and only setSearch if it is different from search Query string.
-        if (
-            _.isEmpty(search.trim()) &&
-            search.trim() !== queryObject.searchText.trim()
-        ) {
-            setSearch(queryObject.searchText);
-        }
-
-        let newFilters = [];
-        // Check to make sure the filters are in state and if not add them
-        for (const [key, value] of Object.entries(queryObject)) {
-            if (!isNaN(parseInt(key, 10))) {
-                newFilters.push(value);
-            }
-        }
-        // From the newFilters array, remove all filters from state if present to prevent duplicates.
-        const dedupedNewFilters = _.differenceWith(
-            newFilters,
-            filters,
-            (arrVal, OthVal) => arrVal.id === OthVal.id
-        );
-        if (dedupedNewFilters.length > 0) {
-            addMultipleFilters(dedupedNewFilters);
-        }
-    }
+    // eslint-disable-next-line no-unused-vars
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const { searchText: search, filters } = query;
+    console.log('GerardKetuma|Filters', filters);
 
     const [perPage, setPerPage] = useState(100); // These are the rows returned
     const [page, setPage] = useState(0); // Start will always be page * perPage
