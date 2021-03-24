@@ -244,7 +244,7 @@ function FeatureListAssetRelateds(props) {
 function FeatureKmapListItem(props) {
     const doc = props.doc;
     const domain = props.asset_type;
-    const kmap_url = `/${domain}/${domain}-${doc.id}`;
+    const kmap_url = `/${domain}/${doc.id}`;
     const feature_types = (
         <span className={'feature-types'}>
             {_.map(doc.feature_types_ss, (ft, ftind) => {
