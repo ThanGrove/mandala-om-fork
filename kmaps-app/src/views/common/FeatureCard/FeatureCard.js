@@ -305,5 +305,8 @@ function createAssetViewURL(avuid, asset_type, location) {
         path.splice(relatedIndex + 1);
         return `${path.join('/')}/view/${aid}`;
     }
-    return `./view/${aid}`; // ${avuid}?asset_type=${asset_type}
+    let path = location.pathname
+        .replace(/\/?any\/?.*/, '') // remove the /any from terms
+        .replace(/\/?(deck|gallery|list)\/?.*/, '');
+    return `${path}/view/${aid}`; // ${avuid}?asset_type=${asset_type}
 }

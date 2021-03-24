@@ -11,7 +11,6 @@ const VisualsViewer = React.lazy(() => import('../Visuals/VisualsViewer'));
 
 export default function RelatedAssetViewer({ parentData }) {
     let { relatedType, assetId } = useParams();
-    console.log('in related asset veiwer', relatedType, assetId);
     switch (relatedType) {
         case 'images':
             return <ImagesViewer id={assetId} />;

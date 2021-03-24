@@ -10,7 +10,9 @@ import $ from 'jquery';
 export function FeatureList(props) {
     const myloc = useLocation();
     const inline = props?.inline ? props.inline : false;
-
+    const path = myloc.pathname
+        .replace(/\/?any\/?.*/, '')
+        .replace(/\/?(deck|gallery|list)\/?.*/, ''); // remove the /any from terms
     let LIST = _.map(props.docs, (doc) => {
         const asset_type = doc?.tree ? doc.tree : doc?.asset_type;
         const mid = doc.id;
@@ -19,7 +21,7 @@ export function FeatureList(props) {
         if (asset_type === 'sources' && !myloc.pathname.includes('/search')) {
             const mu = doc.citation_s.replace(/<\/?a[^>]*>/g, '');
             const doc_url = inline
-                ? `./view/${doc.id}`
+                ? `${path}/view/${doc.id}`
                 : `/${doc.asset_type}/${doc.id}`;
 
             return (
@@ -39,6 +41,7 @@ export function FeatureList(props) {
                     doc={doc}
                     key={mykey}
                     inline={inline}
+                    path={path}
                 />
             );
         } else {
@@ -49,6 +52,7 @@ export function FeatureList(props) {
                     doc={doc}
                     key={mykey}
                     inline={inline}
+                    path={path}
                 />
             );
         }
@@ -69,8 +73,9 @@ function FeatureAssetListItem(props) {
     const asset_type = props.asset_type;
     const doc = props.doc;
     const inline = props?.inline || false;
+
     const doc_url = inline
-        ? `./view/${doc.id}`
+        ? `${props.path}/view/${doc.id}`
         : `/${doc.asset_type}/${doc.id}`;
 
     const collection = doc?.collection_nid ? (

@@ -44,6 +44,7 @@ export default function RelatedsGallery({ baseType }) {
     const allAssets = kmapsRelated?.assets;
     const assets = allAssets ? allAssets[type] : null;
     const docs = assets?.docs;
+    // If no view mode is given, redirect to the default gallery view mode for that asset type
     if (!viewMode) {
         const listTypes = ['places', 'sources', 'subjects', 'texts'];
         let calcViewMode = 'deck';
@@ -76,7 +77,7 @@ export default function RelatedsGallery({ baseType }) {
             setPerPage={setPerPage}
             isPreviousData={isPreviousData}
             hasMore={kmapsRelated.hasMore}
-            assetCount={assets.count}
+            assetCount={assets?.count}
             relateds={kmapsRelated}
         />
     );

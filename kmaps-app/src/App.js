@@ -2,14 +2,7 @@ import React from 'react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import SearchUI from './legacy/searchui';
 import Pages from './legacy/pages';
-import { HistoryContext, history } from './views/History/HistoryContext';
-import create from 'zustand';
-
-// import './Om.css';
-
-// import {BrowserRouter as Router, Redirect, Route, Switch} from 'react-router-dom';
 import { Main } from './main/Main';
-import { NotFoundPage } from './views/common/utilcomponents';
 
 export const ADVANCED_LABEL = 'Advanced';
 export const BASIC_LABEL = 'Basic Search';
@@ -29,9 +22,7 @@ export default function App() {
 
     return (
         <QueryClientProvider client={queryClient}>
-            <HistoryContext.Provider value={history}>
-                <Main sui={sui} />
-            </HistoryContext.Provider>
+            <Main sui={sui} />
         </QueryClientProvider>
     );
 }
