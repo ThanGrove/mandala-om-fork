@@ -36,7 +36,10 @@ export function SearchViewer() {
         }
 
         // Get search first from Store and only setSearch if it is different from search Query string.
-        if (search.trim() !== queryObject.searchText.trim()) {
+        if (
+            _.isEmpty(search.trim()) &&
+            search.trim() !== queryObject.searchText.trim()
+        ) {
             setSearch(queryObject.searchText);
         }
 

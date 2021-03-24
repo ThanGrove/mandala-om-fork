@@ -91,6 +91,7 @@ export default function SearchAdvanced(props) {
                 //     )}&searchText=${qs.stringify(search)}`,
                 //     { internal: true }
                 // );
+                console.log('GerardKetuma|Filters', filters);
                 history.push({
                     pathname: `/search/deck`,
                     search: `?${qs.stringify(filters, {
