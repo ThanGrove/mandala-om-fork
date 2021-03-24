@@ -1,21 +1,27 @@
 import React from 'react';
-//import { useStoreActions, useStoreState } from 'easy-peasy';
-import { useFilterStore } from '../../hooks/useFilterStore';
 import { FacetChoice } from '../../search/FacetChoice';
 import Badge from 'react-bootstrap/Badge';
 import { CSSTransition, TransitionGroup } from 'react-transition-group'; // ES6
-
-const filtersSelector = (state) => state.filters;
-const removeFilterSelector = (state) => state.removeFilter;
+import { useQueryParams, StringParam, withDefault } from 'use-query-params';
+import { ArrayOfObjectsParam } from '../../hooks/utils';
 
 export function FeatureFilters(props) {
-    const filters = useFilterStore(filtersSelector);
-    const removeFilter = useFilterStore(removeFilterSelector);
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const { searchText: search, filters } = query;
 
-    function handleFacetClick(...x) {
-        console.log('Received ', x);
-        console.log(' try to remove id = ', x.value);
-        //removeFilter({ id: x[0].value });
+    function handleFacetClick(command) {
+        if (command.action === 'remove') {
+            const newFilters = filters.filter(
+                (filter) => !(filter.id === command.value)
+            );
+            setQuery({
+                searchText: search,
+                filters: newFilters,
+            });
+        }
     }
 
     // console.log('FeatureFilters filters = ', filters);

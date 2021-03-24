@@ -131,12 +131,36 @@ export const ArrayOfObjectsParam = {
         }
 
         return encodeDelimitedArray(
-            array.map((el) => encodeObject(el, '@', ',')),
-            '_'
+            array.map((el) => {
+                return `id${el.id}_lb${el.label}_op${el.operator}`;
+            }),
+            ','
         );
     },
     decode: (input) => {
-        //const decodedArray = decodeDelimitedArray(input, '_') ?? [];
-        return input.split('_').map((el) => decodeObject(el, '@', ','));
+        const arrayStr = decodeDelimitedArray(input, ',') ?? [];
+        return arrayStr.map((el) => {
+            return el.split('_').reduce((accum, curr) => {
+                const firstTwoChars = curr.substring(0, 2);
+                const currentValue = curr.substring(2);
+                switch (firstTwoChars) {
+                    case 'id':
+                        let idStrArray = currentValue.split(':');
+                        accum['id'] = currentValue;
+                        accum['field'] = idStrArray[0];
+                        accum['match'] = idStrArray[1];
+                        break;
+                    case 'lb':
+                        accum['label'] = currentValue;
+                        break;
+                    case 'op':
+                        accum['operator'] = currentValue;
+                        break;
+                    default:
+                        break;
+                }
+                return accum;
+            }, {});
+        });
     },
 };
