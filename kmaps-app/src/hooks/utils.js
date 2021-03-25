@@ -132,7 +132,7 @@ export const ArrayOfObjectsParam = {
 
         return encodeDelimitedArray(
             array.map((el) => {
-                return `id${el.id}_lb${el.label}_op${el.operator}`;
+                return `id.${el.id}_lb.${el.label}_op.${el.operator}`;
             }),
             ','
         );
@@ -141,8 +141,7 @@ export const ArrayOfObjectsParam = {
         const arrayStr = decodeDelimitedArray(input, ',') ?? [];
         return arrayStr.map((el) => {
             return el.split('_').reduce((accum, curr) => {
-                const firstTwoChars = curr.substring(0, 2);
-                const currentValue = curr.substring(2);
+                const [firstTwoChars, currentValue] = curr.split('.');
                 switch (firstTwoChars) {
                     case 'id':
                         let idStrArray = currentValue.split(':');
