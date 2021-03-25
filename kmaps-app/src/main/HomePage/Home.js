@@ -8,6 +8,7 @@ import Col from 'react-bootstrap/Col';
 import '../../Om.css';
 
 export default function Home(props) {
+    document.title = 'Mandala Collections';
     return (
         <Container>
             <Row>

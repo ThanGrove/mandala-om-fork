@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useRouteMatch, useParams, Switch, Route } from 'react-router-dom';
 import useDimensions from 'react-use-dimensions';
 import KmapsMap from '../KmapsMap/KmapsMap';
@@ -40,22 +40,21 @@ export default function PlacesInfo(props) {
         error: assetError,
     } = useKmap(queryID(baseType, id), 'asset');
 
+    useEffect(() => {
+        if (kmapData?.header) {
+            addPage('places', kmapData.header, window.location.pathname);
+        }
+    }, [kmapData]);
+
     const [mapRef, mapSize] = useDimensions();
 
     const fid = kmasset?.id;
 
     if (isKmapLoading || isAssetLoading) {
         return <div id="place-kmap-tabs">Places Loading Skeleton ...</div>;
-    } else if (!isKmapError) {
-        // Hack to wait for History Viewer to load before adding current item
-        setTimeout(function () {
-            addPage('places', kmapData.header, window.location.pathname);
-        }, 500);
-    } else {
+    } else if (isKmapError) {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-    }
-
-    if (isAssetError) {
+    } else if (isAssetError) {
         return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
     }
 

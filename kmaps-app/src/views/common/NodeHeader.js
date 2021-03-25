@@ -3,6 +3,7 @@ import { useRouteMatch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from './utils';
+import { useHistory } from '../../hooks/useHistory';
 import '../css/NodeHeader.css';
 
 function NodeHeader() {
@@ -17,6 +18,7 @@ function NodeHeader() {
 
     let { id, relId, relatedType, baseType } = match.params;
 
+    const addPage = useHistory((state) => state.addPage);
     let itemHeader = null;
 
     const back = relId ? true : false;
@@ -75,6 +77,8 @@ function NodeHeader() {
                 </span>
             </h5>
         );
+    } else {
+        addPage(baseType, assetData.title, window.location.pathname);
     }
 
     let subHeader =

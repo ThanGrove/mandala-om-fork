@@ -4,11 +4,12 @@ import create from 'zustand';
 export const useHistory = create((set, get) => ({
     pages: new Set(),
     addPage: (pageicon, pgtitle, pgpath) => {
-        document.title = pgtitle + ' (Mandala Collections)';
         const maxpages = 20;
         if (!pgtitle || typeof pgtitle == 'undefined' || !pgpath) {
+            document.title = 'Mandala Collections';
             return;
         }
+        document.title = pgtitle + ' (Mandala Collections)';
         const related = pgpath.match(/\d+\/related/);
         if (related) {
             pgpath = pgpath.split('/related')[0];

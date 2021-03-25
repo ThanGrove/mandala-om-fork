@@ -46,7 +46,6 @@ export function Main(props) {
 
     //     setTimeout(GlobalTibFix, 4000);
     // }, []);
-
     return (
         <Router
             {...(process.env.REACT_APP_STANDALONE !== 'standalone'

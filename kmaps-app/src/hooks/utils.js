@@ -1,11 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-    encodeObject,
-    decodeObject,
-    encodeDelimitedArray,
-    decodeDelimitedArray,
-} from 'use-query-params';
+import { encodeDelimitedArray, decodeDelimitedArray } from 'use-query-params';
 /**
  * A function to get the proper Solr base URL for the current environment.
  * Returns an object with both an assets and a terms property that contains the base url to that index
