@@ -41,12 +41,9 @@ export function BasicSearch(props) {
                 }
             );
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                //window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
-                history.push({
-                    pathname: process.env.REACT_APP_STANDALONE_PATH,
-                    search: `?${stringify(encodedQuery)}`,
-                    hash: '#/search/deck',
-                });
+                window.location.href = `${
+                    process.env.REACT_APP_STANDALONE_PATH
+                }/#/search/deck?${stringify(encodedQuery)}`;
             } else {
                 //history.push('/search/deck');
                 history.push({
