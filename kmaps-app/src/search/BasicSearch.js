@@ -1,8 +1,7 @@
 import React, { useRef } from 'react';
 import ReactDOM from 'react-dom';
-import qs from 'qs';
 import * as PropTypes from 'prop-types';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import {
     useQueryParams,
     StringParam,
@@ -13,56 +12,67 @@ import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 
 const target = document.getElementById('basicSearchPortal');
+const SEARCH_PATH = '/search/:view';
 
 export function BasicSearch(props) {
     const history = useHistory();
     const inputEl = useRef(null);
 
-    // eslint-disable-next-line no-unused-vars
+    // This tells us whether we are viewing the search results
+    // so that we can give a link to go there (or not).
+    const searchView = useRouteMatch(SEARCH_PATH);
+
     const [query, setQuery] = useQueryParams({
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
     const { searchText: search, filters } = query;
 
-    //const currText = '';
-    // const [state, setState] = useState({searchString: {currText}});
     const handleSubmit = () => {
-        //props.search.setSearchText(inputEl.current.value);
-        //props.onSubmit(inputEl.current.value);
-        //console.log('BasicSearch handleSubmit: ', inputEl.current.value);
-        //setSearch(inputEl.current.value);
-        //document.getElementById('advanced-search-tree-toggle').click();
-
-        //encode each parameter according to the configuration
-        const encodedQuery = encodeQueryParams(
-            {
-                searchText: StringParam,
-                filters: withDefault(ArrayOfObjectsParam, []),
-            },
-            {
-                searchText: inputEl.current.value,
-                filters,
+        if (!searchView) {
+            const encodedQuery = encodeQueryParams(
+                {
+                    searchText: StringParam,
+                    filters: withDefault(ArrayOfObjectsParam, []),
+                },
+                {
+                    searchText: inputEl.current.value,
+                    filters,
+                }
+            );
+            if (process.env.REACT_APP_STANDALONE === 'standalone') {
+                //window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
+                history.push({
+                    pathname: process.env.REACT_APP_STANDALONE_PATH,
+                    search: `?${stringify(encodedQuery)}`,
+                    hash: '#/search/deck',
+                });
+            } else {
+                //history.push('/search/deck');
+                history.push({
+                    pathname: `/search/deck`,
+                    search: `?${stringify(encodedQuery)}`,
+                });
             }
-        );
-        if (process.env.REACT_APP_STANDALONE === 'standalone') {
-            //window.location.href = `${process.env.REACT_APP_STANDALONE_PATH}/#/search`;
-            history.push({
-                pathname: process.env.REACT_APP_STANDALONE_PATH,
-                search: `?${stringify(encodedQuery)}`,
-                hash: '#/search/deck',
-            });
         } else {
-            //history.push('/search/deck');
-            history.push({
-                pathname: `/search/deck`,
-                search: `?${stringify(encodedQuery)}`,
-            });
+            setQuery(
+                {
+                    searchText: inputEl.current.value,
+                    filters,
+                },
+                'push'
+            );
         }
     };
     const clearInput = () => {
         inputEl.current.value = '';
-        //clearSearch();
+        setQuery(
+            {
+                searchText: '',
+                filters,
+            },
+            'push'
+        );
     };
     const handleKey = (x) => {
         // submit on return
@@ -75,6 +85,7 @@ export function BasicSearch(props) {
         <>
             <div className="sui-search1">
                 <input
+                    key={search}
                     type="text"
                     id="sui-search"
                     className="sui-search2"

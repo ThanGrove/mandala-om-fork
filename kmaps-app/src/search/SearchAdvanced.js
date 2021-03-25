@@ -15,7 +15,7 @@ import {
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 
-const SEARCH_PATH = '/search';
+const SEARCH_PATH = '/search/:view';
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
