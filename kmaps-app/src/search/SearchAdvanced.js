@@ -126,8 +126,17 @@ export default function SearchAdvanced(props) {
                 field: msg.facetType,
                 match: msg.value,
             };
-
-            newFilters = [...newFilters, new_filter];
+            let shouldAdd = true;
+            newFilters = newFilters.map((filter) => {
+                if (filter.id === new_filter.id) {
+                    shouldAdd = false;
+                    return new_filter;
+                }
+                return filter;
+            });
+            if (shouldAdd) {
+                newFilters = [...newFilters, new_filter];
+            }
         } else if (command.action === 'remove') {
             newFilters = newFilters.filter(
                 (filter) => !(filter.id === compound_id)
