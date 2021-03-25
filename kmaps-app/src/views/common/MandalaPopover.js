@@ -244,7 +244,6 @@ function MandalaPopoverBody(props) {
             </>
         );
     }
-
     // Related Tabs
     let related_tabs = (
         <>
