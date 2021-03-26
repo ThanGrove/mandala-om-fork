@@ -15,6 +15,8 @@ export function useInfiniteSearch(
     facetLimit = 0,
     facetBuckets = false,
     filters = [],
+    sortField,
+    sortDirection,
     enabled = true
 ) {
     return useInfiniteQuery(
@@ -27,6 +29,8 @@ export function useInfiniteSearch(
                 facetLimit,
                 facetBuckets,
                 filters,
+                sortField,
+                sortDirection,
                 searchText: slugify(searchText),
             },
         ],
@@ -65,6 +69,8 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
             facetLimit,
             facetBuckets,
             filters,
+            sortField,
+            sortDirection,
             searchText,
         },
     ] = queryKey;
@@ -77,7 +83,14 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
         start: start,
         rows: rows,
         'json.facet': JSON.stringify(
-            getJsonFacet(facetType, pageParam, facetLimit, facetBuckets)
+            getJsonFacet(
+                facetType,
+                pageParam,
+                facetLimit,
+                facetBuckets,
+                sortField,
+                sortDirection
+            )
         ),
     };
     const queryParams = constructTextQuery(searchText);
@@ -97,7 +110,14 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
     return data;
 }
 
-function getJsonFacet(facetType, offset, limit, buckets) {
+function getJsonFacet(
+    facetType,
+    offset,
+    limit,
+    buckets,
+    sortField,
+    sortDirection
+) {
     return {
         ...((facetType === 'all' || facetType === 'asset_count') && {
             asset_count: {
@@ -105,7 +125,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'asset_type',
                 limit,
                 offset,
-                //sort: ff['asset_type']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 domain: { excludeTags: 'asset_type' },
                 numBuckets: buckets,
             },
@@ -116,7 +136,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'kmapid_subjects_idfacet',
                 limit,
                 offset,
-                //sort: ff['subjects']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -126,7 +146,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'kmapid_places_idfacet',
                 limit,
                 offset,
-                //sort: ff['places']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -136,7 +156,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'kmapid_terms_idfacet',
                 limit,
                 offset,
-                //sort: ff['terms']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -146,7 +166,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'feature_types_idfacet',
                 limit,
                 offset,
-                //sort: ff['feature_types']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -156,7 +176,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'node_lang',
                 limit,
                 offset,
-                //sort: ff['languages']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -166,7 +186,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'collection_idfacet',
                 limit,
                 offset,
-                //sort: ff['collections']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -176,7 +196,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'node_user_full_s',
                 limit,
                 offset,
-                //sort: ff['user']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -186,7 +206,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'creator',
                 limit,
                 offset,
-                //sort: ff['creator']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -196,7 +216,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'perspectives_ss',
                 limit,
                 offset,
-                //sort: ff['perspective']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -206,7 +226,7 @@ function getJsonFacet(facetType, offset, limit, buckets) {
                 field: 'associated_subject_map_idfacet',
                 limit,
                 offset,
-                //sort: ff['associated_subjects']?.sort || 'count desc',
+                sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
             },
         }),
@@ -224,15 +244,18 @@ function constructTextQuery(searchString) {
     if (!searchString || searchstring.length === 0) {
         searchstring = search = slashy = '*';
     }
+    let xact = searchstring;
 
-    var basic_req = {
+    const basic_req = {
         // search: tweak for scoping later
-        q: '*:*',
-        // search strings
-        xact: searchstring,
-        starts: starts,
-        search: search,
-        slashy: slashy,
+        q:
+            searchstring !== '*'
+                ? `(title:${xact}^100 title:${slashy}^100 title:${starts}^80 names_txt:${xact}^90 names_txt:${starts}^70)`
+                : `*:*`,
+        xact,
+        starts,
+        search,
+        slashy,
     };
 
     return basic_req;

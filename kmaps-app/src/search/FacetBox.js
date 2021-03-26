@@ -10,13 +10,9 @@ import { useInfiniteSearch } from '../hooks/useInfiniteSearch';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { BsCheckCircle, BsMap } from 'react-icons/bs';
 import { ImStack } from 'react-icons/im';
-import { useSearchStore } from '../hooks/useSearchStore';
-import { useFilterStore } from '../hooks/useFilterStore';
-//import { search } from '../logic/searchapi';
+import { useQueryParams, StringParam, withDefault } from 'use-query-params';
+import { ArrayOfObjectsParam } from '../hooks/utils';
 import './FacetBox.scss';
-
-const selector = (state) => state.search;
-const filtersSelector = (state) => state.filters;
 
 function FacetControls(props) {
     return (
@@ -69,9 +65,14 @@ export function FacetBox(props) {
     const [sortField, setSortField] = useState('count');
     const [sortDirection, setSortDirection] = useState('desc');
     const [open, setOpen] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [facetLimit, setFacetLimit] = useState(100);
-    const search = useSearchStore(selector);
-    const filters = useFilterStore(filtersSelector);
+    // eslint-disable-next-line no-unused-vars
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const { searchText: search, filters } = query;
 
     const {
         data: searchData,
@@ -89,6 +90,8 @@ export function FacetBox(props) {
         facetLimit,
         true,
         filters,
+        sortField,
+        sortDirection,
         open
     );
 
@@ -293,9 +296,17 @@ export function FacetBox(props) {
 
     const handleSortClick = function (e) {
         if (e.target.name) {
-            // console.log("ToggleButton CLICK name=", e.target.name, " value=", e.target.value);
-            // console.log("ToggleButton CLICK current sortDirection= ", sortDirection);
-            // console.log("ToggleButton CLICK current sortField= ", sortField);
+            // console.log(
+            //     'ToggleButton CLICK name=',
+            //     e.target.name,
+            //     ' value=',
+            //     e.target.value
+            // );
+            // console.log(
+            //     'ToggleButton CLICK current sortDirection= ',
+            //     sortDirection
+            // );
+            // console.log('ToggleButton CLICK current sortField= ', sortField);
 
             // We're clicking on the currently selected sort type -- Let's toggle the sort direction
             if (e.target.value === sortField) {
@@ -346,7 +357,7 @@ export function FacetBox(props) {
                     />
 
                     <FacetControls
-                        onChange={setSortField}
+                        onChange={(val) => setSortField(val)}
                         name={name}
                         value={sortField}
                         onClick={handleSortClick}

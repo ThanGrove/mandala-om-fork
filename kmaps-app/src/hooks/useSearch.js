@@ -212,7 +212,7 @@ function constructTextQuery(searchString) {
     }
     let xact = searchstring;
 
-    var basic_req = {
+    const basic_req = {
         // search: tweak for scoping later
         q:
             searchstring !== '*'
