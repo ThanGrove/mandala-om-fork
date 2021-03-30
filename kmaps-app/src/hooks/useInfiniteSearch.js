@@ -3,7 +3,7 @@ import axios from 'axios';
 import slugify from 'slugify';
 import _ from 'lodash';
 import jsonpAdapter from '../logic/axios-jsonp';
-import { getSolrUrls } from './utils';
+import { getSolrUrls, capitalize } from './utils';
 
 const solr_urls = getSolrUrls();
 
@@ -17,6 +17,7 @@ export function useInfiniteSearch(
     filters = [],
     sortField,
     sortDirection,
+    facetSearch = '',
     enabled = true
 ) {
     return useInfiniteQuery(
@@ -31,6 +32,7 @@ export function useInfiniteSearch(
                 filters,
                 sortField,
                 sortDirection,
+                facetSearch,
                 searchText: slugify(searchText),
             },
         ],
@@ -72,6 +74,7 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
             sortField,
             sortDirection,
             searchText,
+            facetSearch,
         },
     ] = queryKey;
 
@@ -89,7 +92,8 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
                 facetLimit,
                 facetBuckets,
                 sortField,
-                sortDirection
+                sortDirection,
+                facetSearch
             )
         ),
     };
@@ -116,7 +120,8 @@ function getJsonFacet(
     limit,
     buckets,
     sortField,
-    sortDirection
+    sortDirection,
+    facetSearch
 ) {
     return {
         ...((facetType === 'all' || facetType === 'asset_count') && {
@@ -128,6 +133,11 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 domain: { excludeTags: 'asset_type' },
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(asset_type:*${capitalize(facetSearch)}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'related_subjects') && {
@@ -138,6 +148,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(kmapid_subjects_idfacet:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'related_places') && {
@@ -148,6 +165,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(kmapid_places_idfacet:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'related_terms') && {
@@ -158,6 +182,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(kmapid_terms_idfacet:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'feature_types') && {
@@ -168,6 +199,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(feature_types_idfacet:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'languages') && {
@@ -178,6 +216,11 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(node_lang:*${capitalize(facetSearch)}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'collections') && {
@@ -188,6 +231,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(collection_idfacet:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'node_user') && {
@@ -198,6 +248,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(node_user_full_s:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'creator') && {
@@ -208,6 +265,11 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(creator:*${capitalize(facetSearch)}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'perspective') && {
@@ -218,6 +280,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(perspectives_ss:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
         ...((facetType === 'all' || facetType === 'associated_subjects') && {
@@ -228,6 +297,13 @@ function getJsonFacet(
                 offset,
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
+                ...(facetSearch && {
+                    domain: {
+                        filter: `(associated_subject_map_idfacet:*${capitalize(
+                            facetSearch
+                        )}*)`,
+                    },
+                }),
             },
         }),
     };

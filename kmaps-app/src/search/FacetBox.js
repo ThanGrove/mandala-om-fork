@@ -64,6 +64,7 @@ export function FacetBox(props) {
     const inputEl = useRef(null);
     const [sortField, setSortField] = useState('count');
     const [sortDirection, setSortDirection] = useState('desc');
+    const [facetSearch, setFacetSearch] = useState('');
     const [open, setOpen] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [facetLimit, setFacetLimit] = useState(100);
@@ -92,6 +93,7 @@ export function FacetBox(props) {
         filters,
         sortField,
         sortDirection,
+        facetSearch,
         open
     );
 
@@ -136,21 +138,10 @@ export function FacetBox(props) {
 
     const chosenHash = arrayToHash(chosenFacets, 'id');
 
-    function handleNarrowFilters() {
-        if (props.onNarrowFilters) {
-            props.onNarrowFilters({
-                filter: props.facetType,
-                search: inputEl.current.value,
-                sort: sortField + ' ' + sortDirection,
-                limit: inputEl.current?.value?.length ? -1 : null,
-            });
-        }
-    }
-
     const handleKey = (x) => {
         // submit on return
         if (x.keyCode === 13) {
-            handleNarrowFilters();
+            handleChange();
         }
     };
 
@@ -158,7 +149,7 @@ export function FacetBox(props) {
         // To be used for completions if desired
         _.debounce(() => {
             console.log('handleChange: ', inputEl.current.value);
-            handleNarrowFilters();
+            setFacetSearch(inputEl.current.value.trim());
         }, 500);
 
     // console.log("chosen hash = ", chosenHash);
@@ -348,10 +339,11 @@ export function FacetBox(props) {
             >
                 <div className={'sui-advEdit-facet-ctrls'}>
                     <input
+                        key={facetSearch}
                         type={'text'}
                         placeholder="Filter this list"
                         onChange={handleChange}
-                        defaultValue={''}
+                        defaultValue={facetSearch}
                         onKeyDownCapture={handleKey}
                         ref={inputEl}
                     />
