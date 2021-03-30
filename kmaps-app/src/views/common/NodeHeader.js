@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouteMatch } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
@@ -36,6 +36,14 @@ function NodeHeader() {
         isError: isKmAssetError,
         error: kmAssetError,
     } = useKmap(queryID(baseType, id), 'asset');
+
+    useEffect(() => {
+        if (baseType && assetData?.title) {
+            setTimeout(function () {
+                addPage(baseType, assetData.title, window.location.pathname);
+            }, 1000);
+        }
+    }, [baseType, assetData]);
 
     if (isAssetLoading || isKmAssetLoading) {
         return (
@@ -77,8 +85,6 @@ function NodeHeader() {
                 </span>
             </h5>
         );
-    } else {
-        addPage(baseType, assetData.title, window.location.pathname);
     }
 
     let subHeader =
