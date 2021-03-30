@@ -62,9 +62,6 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
-        "stagestart": "sh -ac '. .env.test; react-scripts start'",
-        "prodstart": "sh -ac '. .env.production; react-scripts start'",
-        "localbuild": "sh -ac '. .env.development; react-scripts build; rsync -ra ./build/ ../../nginx/src/mandala/'",
         "devbuild": "env-cmd -f ./.env.development npm run-script build",
         "standalone": "REACT_APP_STANDALONE=standalone react-scripts build",
         "test": "react-scripts test",

@@ -40,11 +40,10 @@ export default function SubjectInfo(props) {
 
     return (
         <>
-            <SubjectSummary kmapData={kmapData} path={path} />
             <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
                 <Switch>
                     <Route exact path={path}>
-                        <div> </div>
+                        <SubjectSummary kmapData={kmapData} path={path} />
                     </Route>
                     <Route
                         path={[`${path}/related-:relatedType/view/:assetId`]}

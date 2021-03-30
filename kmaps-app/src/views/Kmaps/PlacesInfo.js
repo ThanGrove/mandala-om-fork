@@ -60,10 +60,10 @@ export default function PlacesInfo(props) {
 
     return (
         <>
-            <PlacesSummary kmapData={kmapData} />
             <React.Suspense fallback={<span>Places Route Skeleton ...</span>}>
                 <Switch>
                     <Route exact path={path}>
+                        <PlacesSummary kmapData={kmapData} />
                         <div ref={mapRef}>
                             <Tabs
                                 defaultActiveKey="map"
