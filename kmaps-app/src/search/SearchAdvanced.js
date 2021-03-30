@@ -15,7 +15,7 @@ import {
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 
-const SEARCH_PATH = '/search';
+const SEARCH_PATH = '/search/:view';
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
@@ -45,8 +45,6 @@ export default function SearchAdvanced(props) {
     //const historyStack = useStoreState((state) => state.history.historyStack);
     const historyStack = {};
 
-    // console.log('GerardKetuma|SearchData', searchData);
-
     if (isSearchLoading) {
         return (
             <aside
@@ -73,38 +71,24 @@ export default function SearchAdvanced(props) {
         setBooleanControls(!booleanControls);
 
     function gotoSearchPage(newFilters) {
-        //encode each parameter according to the configuration
-        const encodedQuery = encodeQueryParams(
-            {
-                searchText: StringParam,
-                filters: withDefault(ArrayOfObjectsParam, []),
-            },
-            {
-                searchText: search,
-                filters: newFilters,
-            }
-        );
-
         if (!searchView) {
+            //encode each parameter according to the configuration
+            const encodedQuery = encodeQueryParams(
+                {
+                    searchText: StringParam,
+                    filters: withDefault(ArrayOfObjectsParam, []),
+                },
+                {
+                    searchText: search,
+                    filters: newFilters,
+                }
+            );
+
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                // window.location.href = `${
-                //     process.env.REACT_APP_STANDALONE_PATH
-                // }/#/search/deck?${qs.stringify(
-                //     filters
-                // )}&searchText=${qs.stringify(search)}`;
-                history.push({
-                    pathname: process.env.REACT_APP_STANDALONE_PATH,
-                    search: `?${stringify(encodedQuery)}`,
-                    hash: '#/search/deck',
-                });
+                window.location.href = `${
+                    process.env.REACT_APP_STANDALONE_PATH
+                }/#/search/deck?${stringify(encodedQuery)}`;
             } else {
-                // history.push(
-                //     `/search/deck?${qs.stringify(
-                //         filters
-                //     )}&searchText=${qs.stringify(search)}`,
-                //     { internal: true }
-                // );
-                console.log('GerardKetuma|Filters', filters);
                 history.push({
                     pathname: `/search/deck`,
                     search: `?${stringify(encodedQuery)}`,
@@ -129,8 +113,7 @@ export default function SearchAdvanced(props) {
             operator: msg.operator,
             action: msg.action,
         };
-        // console.log("SearchAdvanced:  handleFacetChange:  received: ", command);
-        //const search = props.search;
+
         const compound_id = `${msg.facetType}:${msg.value}`;
 
         if (command.action === null || command.action === 'add') {
@@ -141,28 +124,26 @@ export default function SearchAdvanced(props) {
                 field: msg.facetType,
                 match: msg.value,
             };
-
-            console.log(
-                'NEW FILTER: ' + JSON.stringify(new_filter, undefined, 2)
-            );
-            //search.addFilters([new_filter]);
-            //addFilter(new_filter);
-            //newFilters.push(new_filter);
-            newFilters = [...newFilters, new_filter];
+            let shouldAdd = true;
+            newFilters = newFilters.map((filter) => {
+                if (filter.id === new_filter.id) {
+                    shouldAdd = false;
+                    return new_filter;
+                }
+                return filter;
+            });
+            if (shouldAdd) {
+                newFilters = [...newFilters, new_filter];
+            }
         } else if (command.action === 'remove') {
-            //search.removeFilters([{ id: compound_id }]);
-            //removeFilter({ id: compound_id });
             newFilters = newFilters.filter(
                 (filter) => !(filter.id === compound_id)
             );
         }
-        if (command.action !== 'remove') {
-            gotoSearchPage(newFilters); // declaratively navigate to search
-        }
+        gotoSearchPage(newFilters); // declaratively navigate to search
     }
 
     function handleNarrowFilters(narrowFilter) {
-        // console.log('handleNarrowFilters narrowFilter = ', narrowFilter);
         const search = props?.search;
         if (search) {
             search.narrowFilters(narrowFilter);
@@ -170,30 +151,27 @@ export default function SearchAdvanced(props) {
     }
 
     function getChosenFacets(type) {
-        // console.log("getChosenFacets: finding in:", props.search.query.filters)
-        //return props?.search?.query?.filters?.filter((x) => x.field === type);
         return filters.filter((filter) => filter.field === type);
     }
 
     function handleResetFilters() {
-        if (props.search) {
-            props.search.clearFilters();
-        }
-        setReset(reset + 1);
+        setQuery(
+            {
+                searchText: search,
+                filters: [],
+            },
+            'push'
+        );
     }
 
     function handleResetAll() {
-        if (props.search) {
-            props.search.clearAll();
-        }
-        setReset(reset + 1);
-    }
-
-    function handleResetSuper() {
-        if (props.search) {
-            props.search.superClear();
-        }
-        setReset(reset + 1);
+        setQuery(
+            {
+                searchText: '',
+                filters: [],
+            },
+            'push'
+        );
     }
 
     // console.log ("SEARCHY ", props );

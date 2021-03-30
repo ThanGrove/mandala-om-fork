@@ -16,7 +16,6 @@ export function SearchViewer() {
         filters: withDefault(ArrayOfObjectsParam, []),
     });
     const { searchText: search, filters } = query;
-    console.log('GerardKetuma|Filters', filters);
 
     const [perPage, setPerPage] = useState(100); // These are the rows returned
     const [page, setPage] = useState(0); // Start will always be page * perPage

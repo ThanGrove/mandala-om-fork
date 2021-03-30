@@ -1,11 +1,6 @@
 import { useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
-import {
-    encodeObject,
-    decodeObject,
-    encodeDelimitedArray,
-    decodeDelimitedArray,
-} from 'use-query-params';
+import { encodeDelimitedArray, decodeDelimitedArray } from 'use-query-params';
 /**
  * A function to get the proper Solr base URL for the current environment.
  * Returns an object with both an assets and a terms property that contains the base url to that index
@@ -131,12 +126,43 @@ export const ArrayOfObjectsParam = {
         }
 
         return encodeDelimitedArray(
-            array.map((el) => encodeObject(el, '@', ',')),
-            '_'
+            array.map((el) => {
+                return `id.${el.id}_lb.${el.label}_op.${el.operator}`;
+            }),
+            ','
         );
     },
     decode: (input) => {
-        //const decodedArray = decodeDelimitedArray(input, '_') ?? [];
-        return input?.split('_')?.map((el) => decodeObject(el, '@', ','));
+        const arrayStr = decodeDelimitedArray(input, ',') ?? [];
+        return arrayStr.map((el) => {
+            return el.split('_').reduce((accum, curr) => {
+                const [firstTwoChars, currentValue] = curr.split('.');
+                switch (firstTwoChars) {
+                    case 'id':
+                        let idStrArray = currentValue.split(':');
+                        accum['id'] = currentValue;
+                        accum['field'] = idStrArray[0];
+                        accum['match'] = idStrArray[1];
+                        break;
+                    case 'lb':
+                        accum['label'] = currentValue;
+                        break;
+                    case 'op':
+                        accum['operator'] = currentValue;
+                        break;
+                    default:
+                        break;
+                }
+                return accum;
+            }, {});
+        });
     },
+};
+
+/**
+ * Capitalize function since one is not provided by JS.
+ */
+export const capitalize = (s) => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
 };

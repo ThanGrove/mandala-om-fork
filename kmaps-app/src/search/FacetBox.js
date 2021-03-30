@@ -10,13 +10,9 @@ import { useInfiniteSearch } from '../hooks/useInfiniteSearch';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { BsCheckCircle, BsMap } from 'react-icons/bs';
 import { ImStack } from 'react-icons/im';
-import { useSearchStore } from '../hooks/useSearchStore';
-import { useFilterStore } from '../hooks/useFilterStore';
-//import { search } from '../logic/searchapi';
+import { useQueryParams, StringParam, withDefault } from 'use-query-params';
+import { ArrayOfObjectsParam } from '../hooks/utils';
 import './FacetBox.scss';
-
-const selector = (state) => state.search;
-const filtersSelector = (state) => state.filters;
 
 function FacetControls(props) {
     return (
@@ -68,10 +64,16 @@ export function FacetBox(props) {
     const inputEl = useRef(null);
     const [sortField, setSortField] = useState('count');
     const [sortDirection, setSortDirection] = useState('desc');
+    const [facetSearch, setFacetSearch] = useState('');
     const [open, setOpen] = useState(false);
+    // eslint-disable-next-line no-unused-vars
     const [facetLimit, setFacetLimit] = useState(100);
-    const search = useSearchStore(selector);
-    const filters = useFilterStore(filtersSelector);
+    // eslint-disable-next-line no-unused-vars
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const { searchText: search, filters } = query;
 
     const {
         data: searchData,
@@ -89,6 +91,9 @@ export function FacetBox(props) {
         facetLimit,
         true,
         filters,
+        sortField,
+        sortDirection,
+        facetSearch,
         open
     );
 
@@ -99,22 +104,6 @@ export function FacetBox(props) {
         onIntersect: fetchNextPage,
         enabled: hasNextPage,
     });
-
-    if (status === 'loading') {
-        return (
-            <div className={`sui-advBox sui-advBox-${props.id}`}>
-                <span>Facets Loading Skeleton</span>
-            </div>
-        );
-    }
-
-    if (status === 'error') {
-        return (
-            <div className={`sui-advBox sui-advBox-${props.id}`}>
-                <span>Error: {searchError.message}</span>
-            </div>
-        );
-    }
 
     let chosen_icon = props.icon;
     const facetType = props.facetType;
@@ -133,21 +122,10 @@ export function FacetBox(props) {
 
     const chosenHash = arrayToHash(chosenFacets, 'id');
 
-    function handleNarrowFilters() {
-        if (props.onNarrowFilters) {
-            props.onNarrowFilters({
-                filter: props.facetType,
-                search: inputEl.current.value,
-                sort: sortField + ' ' + sortDirection,
-                limit: inputEl.current?.value?.length ? -1 : null,
-            });
-        }
-    }
-
     const handleKey = (x) => {
         // submit on return
         if (x.keyCode === 13) {
-            handleNarrowFilters();
+            handleChange();
         }
     };
 
@@ -155,7 +133,7 @@ export function FacetBox(props) {
         // To be used for completions if desired
         _.debounce(() => {
             console.log('handleChange: ', inputEl.current.value);
-            handleNarrowFilters();
+            setFacetSearch(inputEl.current.value.trim());
         }, 500);
 
     // console.log("chosen hash = ", chosenHash);
@@ -293,9 +271,17 @@ export function FacetBox(props) {
 
     const handleSortClick = function (e) {
         if (e.target.name) {
-            // console.log("ToggleButton CLICK name=", e.target.name, " value=", e.target.value);
-            // console.log("ToggleButton CLICK current sortDirection= ", sortDirection);
-            // console.log("ToggleButton CLICK current sortField= ", sortField);
+            // console.log(
+            //     'ToggleButton CLICK name=',
+            //     e.target.name,
+            //     ' value=',
+            //     e.target.value
+            // );
+            // console.log(
+            //     'ToggleButton CLICK current sortDirection= ',
+            //     sortDirection
+            // );
+            // console.log('ToggleButton CLICK current sortField= ', sortField);
 
             // We're clicking on the currently selected sort type -- Let's toggle the sort direction
             if (e.target.value === sortField) {
@@ -308,7 +294,7 @@ export function FacetBox(props) {
         }
     };
 
-    const facetBox = (
+    return (
         <div className={'sui-advBox sui-advBox-' + props.id}>
             <div
                 className={'sui-advHeader'}
@@ -337,16 +323,17 @@ export function FacetBox(props) {
             >
                 <div className={'sui-advEdit-facet-ctrls'}>
                     <input
+                        key={facetSearch}
                         type={'text'}
                         placeholder="Filter this list"
                         onChange={handleChange}
-                        defaultValue={''}
+                        defaultValue={facetSearch}
                         onKeyDownCapture={handleKey}
                         ref={inputEl}
                     />
 
                     <FacetControls
-                        onChange={setSortField}
+                        onChange={(val) => setSortField(val)}
                         name={name}
                         value={sortField}
                         onClick={handleSortClick}
@@ -354,28 +341,39 @@ export function FacetBox(props) {
                 </div>
 
                 <div className={'sui-adv-facetlist overflow-auto'}>
-                    {facetList}
-                    <div className="sui-advEditLine">
-                        <button
-                            ref={loadMoreButtonRef}
-                            onClick={() => fetchNextPage()}
-                            disabled={!hasNextPage || isFetchingNextPage}
-                        >
-                            {isFetchingNextPage
-                                ? 'Loading more...'
-                                : hasNextPage
-                                ? 'Load Newer'
-                                : 'Nothing more to load'}
-                        </button>
-                    </div>
-                    <div>
-                        {isFetching && !isFetchingNextPage
-                            ? 'Background Updating...'
-                            : null}
-                    </div>
+                    {status === 'loading' && (
+                        <span>Facets Loading Skeleton</span>
+                    )}
+                    {status === 'error' && (
+                        <span>Error: {searchError.message}</span>
+                    )}
+                    {status === 'success' && (
+                        <>
+                            {facetList}
+                            <div className="sui-advEditLine">
+                                <button
+                                    ref={loadMoreButtonRef}
+                                    onClick={() => fetchNextPage()}
+                                    disabled={
+                                        !hasNextPage || isFetchingNextPage
+                                    }
+                                >
+                                    {isFetchingNextPage
+                                        ? 'Loading more...'
+                                        : hasNextPage
+                                        ? 'Load Newer'
+                                        : 'Nothing more to load'}
+                                </button>
+                            </div>
+                            <div>
+                                {isFetching && !isFetchingNextPage
+                                    ? 'Background Updating...'
+                                    : null}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
     );
-    return facetBox;
 }
