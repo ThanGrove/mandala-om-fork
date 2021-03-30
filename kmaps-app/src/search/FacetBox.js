@@ -105,22 +105,6 @@ export function FacetBox(props) {
         enabled: hasNextPage,
     });
 
-    if (status === 'loading') {
-        return (
-            <div className={`sui-advBox sui-advBox-${props.id}`}>
-                <span>Facets Loading Skeleton</span>
-            </div>
-        );
-    }
-
-    if (status === 'error') {
-        return (
-            <div className={`sui-advBox sui-advBox-${props.id}`}>
-                <span>Error: {searchError.message}</span>
-            </div>
-        );
-    }
-
     let chosen_icon = props.icon;
     const facetType = props.facetType;
     const facets = props.facets;
@@ -310,7 +294,7 @@ export function FacetBox(props) {
         }
     };
 
-    const facetBox = (
+    return (
         <div className={'sui-advBox sui-advBox-' + props.id}>
             <div
                 className={'sui-advHeader'}
@@ -357,28 +341,39 @@ export function FacetBox(props) {
                 </div>
 
                 <div className={'sui-adv-facetlist overflow-auto'}>
-                    {facetList}
-                    <div className="sui-advEditLine">
-                        <button
-                            ref={loadMoreButtonRef}
-                            onClick={() => fetchNextPage()}
-                            disabled={!hasNextPage || isFetchingNextPage}
-                        >
-                            {isFetchingNextPage
-                                ? 'Loading more...'
-                                : hasNextPage
-                                ? 'Load Newer'
-                                : 'Nothing more to load'}
-                        </button>
-                    </div>
-                    <div>
-                        {isFetching && !isFetchingNextPage
-                            ? 'Background Updating...'
-                            : null}
-                    </div>
+                    {status === 'loading' && (
+                        <span>Facets Loading Skeleton</span>
+                    )}
+                    {status === 'error' && (
+                        <span>Error: {searchError.message}</span>
+                    )}
+                    {status === 'success' && (
+                        <>
+                            {facetList}
+                            <div className="sui-advEditLine">
+                                <button
+                                    ref={loadMoreButtonRef}
+                                    onClick={() => fetchNextPage()}
+                                    disabled={
+                                        !hasNextPage || isFetchingNextPage
+                                    }
+                                >
+                                    {isFetchingNextPage
+                                        ? 'Loading more...'
+                                        : hasNextPage
+                                        ? 'Load Newer'
+                                        : 'Nothing more to load'}
+                                </button>
+                            </div>
+                            <div>
+                                {isFetching && !isFetchingNextPage
+                                    ? 'Background Updating...'
+                                    : null}
+                            </div>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
     );
-    return facetBox;
 }
