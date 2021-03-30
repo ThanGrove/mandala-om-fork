@@ -121,10 +121,12 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
                 </Link>
             );
     }
-    breadcrumbs.unshift(
-        <Link key={'bc-asset-title'} to="#" className="breadcrumb-item">
-            {capitalAsset(itemType)}
-        </Link>
-    );
+    if (breadcrumbs) {
+        breadcrumbs.unshift(
+            <Link key={'bc-asset-title'} to="#" className="breadcrumb-item">
+                {capitalAsset(itemType)}
+            </Link>
+        );
+    }
     return breadcrumbs;
 }

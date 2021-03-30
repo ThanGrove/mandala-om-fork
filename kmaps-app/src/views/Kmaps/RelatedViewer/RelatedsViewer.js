@@ -88,54 +88,6 @@ export function RelatedsViewer() {
 
     let browse_tree = null;
 
-    if (current_domain === 'places') {
-        browse_tree = (
-            <FancyTree
-                domain="places"
-                tree="places"
-                descendants={true}
-                directAncestors={false}
-                displayPopup={true}
-                perspective="pol.admin.hier"
-                view="roman.scholar"
-                sortBy="header_ssort+ASC"
-                currentFeatureId={queryID(baseArgs.baseType, baseArgs.id)}
-            />
-        );
-    }
-
-    if (current_domain === 'subjects') {
-        browse_tree = (
-            <FancyTree
-                domain="subjects"
-                tree="subjects"
-                descendants={true}
-                directAncestors={false}
-                displayPopup={true}
-                perspective={'gen'}
-                view="roman.popular"
-                sortBy="header_ssort+ASC"
-                currentFeatureId={queryID(baseArgs.baseType, baseArgs.id)}
-            />
-        );
-    }
-
-    if (current_domain === 'terms') {
-        browse_tree = (
-            <FancyTree
-                domain="terms"
-                tree="terms"
-                descendants={true}
-                directAncestors={false}
-                displayPopup={true}
-                perspective="tib.alpha"
-                view="roman.scholar"
-                sortBy="position_i+ASC"
-                currentFeatureId={queryID(baseArgs.baseType, baseArgs.id)}
-            />
-        );
-    }
-
     return (
         <aside className={'l-column__related'}>
             <div className="l-column__related__wrap">
@@ -215,18 +167,64 @@ export function RelatedsViewer() {
                     </section>
                 )}
 
-                {browse_tree && (
-                    <section className="l-terms__tree__wrap">
-                        <div className="u-related__list__header">
-                            Browse{' '}
-                            <span className={'text-capitalize'}>
-                                {current_domain}
-                            </span>
-                        </div>
+                <section className="l-terms__tree__wrap">
+                    <div className="u-related__list__header">
+                        Browse{' '}
+                        <span className={'text-capitalize'}>
+                            {current_domain}
+                        </span>
+                    </div>
+                    {current_domain === 'places' && (
+                        <FancyTree
+                            domain="places"
+                            tree="places"
+                            descendants={true}
+                            directAncestors={false}
+                            displayPopup={true}
+                            perspective="pol.admin.hier"
+                            view="roman.scholar"
+                            sortBy="header_ssort+ASC"
+                            currentFeatureId={queryID(
+                                baseArgs.baseType,
+                                baseArgs.id
+                            )}
+                        />
+                    )}
 
-                        {browse_tree}
-                    </section>
-                )}
+                    {current_domain === 'subjects' && (
+                        <FancyTree
+                            domain="subjects"
+                            tree="subjects"
+                            descendants={true}
+                            directAncestors={false}
+                            displayPopup={true}
+                            perspective={'gen'}
+                            view="roman.popular"
+                            sortBy="header_ssort+ASC"
+                            currentFeatureId={queryID(
+                                baseArgs.baseType,
+                                baseArgs.id
+                            )}
+                        />
+                    )}
+
+                    {current_domain === 'terms' && (
+                        <FancyTree
+                            domain="terms"
+                            tree="terms"
+                            descendants={true}
+                            directAncestors={false}
+                            displayPopup={true}
+                            perspective="tib.alpha"
+                            view="roman.scholar"
+                            sortBy="position_i+ASC"
+                            currentFeatureId={queryID(
+                                baseArgs.baseType,
+                                baseArgs.id
+                            )}
+                        />
+                    )}
+                </section>
             </div>
         </aside>
     );

@@ -43,7 +43,7 @@ function FancyTree({
                 process.env.REACT_APP_PUBLIC_URL + `/${domain}/%%ID%%`,
         };
 
-        // console.log('FancyTree: tree=', tree, ' kmapSolrUtil opts = ', ks_opts);
+        //console.log('FancyTree: tree=', tree, ' kmapSolrUtil opts = ', ks_opts);
 
         const solrUtils = kmapsSolrUtils.init(ks_opts);
 

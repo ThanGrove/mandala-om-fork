@@ -93,7 +93,9 @@ function NodeHeader() {
     const nameLatinText =
         kmAssetData?.title?.length > 0
             ? kmAssetData.title[0]
-            : kmAssetData.name_latin[0];
+            : kmAssetData?.name_latin?.length > 0
+            ? kmAssetData.name_latin[0]
+            : '';
     const nameTibtElem = nameTibtText ? (
         <span className={'sui-nodeTitle-item tibt'}>{nameTibtText} </span>
     ) : null;
