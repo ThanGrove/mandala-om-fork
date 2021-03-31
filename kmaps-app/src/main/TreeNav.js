@@ -1,13 +1,30 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
+import { useLocation } from 'react-router-dom';
+import { queryID } from '../views/common/utils';
 const PlacesTree = React.lazy(() => import('./PlacesTree'));
 const TermsTree = React.lazy(() => import('./TermsTree'));
 const SubjectsTree = React.lazy(() => import('./SubjectsTree'));
 
 const TreeNav = (props) => {
     const openclass = props.tree ? 'open' : 'closed';
+    let domain = 'places';
+    const domainfids = {
+        places: '',
+        subjects: '',
+        terms: '',
+    };
+    let loc = useLocation();
+    loc = loc.pathname.split('/');
 
+    if (loc.length > 2) {
+        domain = loc[1];
+        const kid = loc[2];
+        if (Object.keys(domainfids).includes(domain)) {
+            domainfids[domain] = queryID(domain, kid);
+        }
+    }
     return (
         <aside
             id="l-column__search--treeNav"
@@ -19,17 +36,17 @@ const TreeNav = (props) => {
                         'sacrifical-dummy-element-that-is-not-displayed-for-some-reason'
                     }
                 ></span>
-                <Tabs defaultActiveKey="places" id="kmaps-tab">
+                <Tabs defaultActiveKey={domain} id="kmaps-tab">
                     <Tab eventKey="places" title="Places">
-                        <PlacesTree currentFeatureId={props.currentFeatureId} />
+                        <PlacesTree currentFeatureId={domainfids['places']} />
                     </Tab>
                     <Tab eventKey="subjects" title="Subjects">
                         <SubjectsTree
-                            currentFeatureId={props.currentFeatureId}
+                            currentFeatureId={domainfids['subjects']}
                         />
                     </Tab>
                     <Tab eventKey="terms" title="Terms">
-                        <TermsTree currentFeatureId={props.currentFeatureId} />
+                        <TermsTree currentFeatureId={domainfids['terms']} />
                     </Tab>
                 </Tabs>
             </div>

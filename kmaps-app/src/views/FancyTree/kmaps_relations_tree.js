@@ -212,12 +212,19 @@ const queryClient = new QueryClient();
                 var active = tree.getActiveNode();
                 if (active) {
                     active.makeVisible().then(function () {
-                        var totalOffset =
-                            $(active.li).offset().top -
-                            $(active.li).closest('.view-wrap').offset().top;
-                        $(active.li)
-                            .closest('.view-wrap')
-                            .scrollTop(totalOffset);
+                        const ul = $(tree.getRootNode().ul);
+                        const offtp = ul.offset().top;
+                        let newof = offtp + ul.height() / 2;
+                        ul.scrollTop(newof); // for left hand tree
+                        if (
+                            ul.parents('section.l-content__rightsidebar')
+                                .length > 0
+                        ) {
+                            // for right hand tree in search tab
+                            $('#l-column__search--treeNav').scrollTop(
+                                $('#l-column__search--treeNav').height()
+                            );
+                        }
                     });
                 }
             } catch (e) {
