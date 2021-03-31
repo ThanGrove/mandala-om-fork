@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import fancytree from 'jquery.fancytree';
 import { withRouter } from 'react-router';
 import { useHistory, useParams } from 'react-router-dom';
@@ -19,16 +19,15 @@ function FancyTree({
     perspective = 'tib.alpha',
     view = 'roman.scholar',
     sortBy = 'position_i+ASC',
-    currentFeatureId = '',
+    currentFeatureId: newFeatureId = '',
 }) {
     const el = useRef(null);
     let history = useHistory();
     let params = useParams();
     var featureId = '';
-    if (currentFeatureId && currentFeatureId.startsWith(domain)) {
-        featureId = currentFeatureId;
+    if (newFeatureId && newFeatureId.startsWith(domain)) {
+        featureId = newFeatureId;
     }
-
     useEffect(() => {
         //Setup solr utils
         const ks_opts = {
@@ -46,8 +45,9 @@ function FancyTree({
         //console.log('FancyTree: tree=', tree, ' kmapSolrUtil opts = ', ks_opts);
 
         const solrUtils = kmapsSolrUtils.init(ks_opts);
-
-        const elCopy = $(el.current);
+        // To be replaceable on page change, Fancy Tree must be declared on a div that is added to the ref
+        const elCopy = $('<div></div>'); // Create the div to use for Fancy Tree
+        $(el.current).html(elCopy);
         const tree_opts = {
             domain: domain,
             featureId: featureId,
@@ -78,15 +78,11 @@ function FancyTree({
             history,
             params,
         };
-
-        // console.log('FancyTree: tree=', tree, ' tree_opts = ', tree_opts);
-
         elCopy.kmapsRelationsTree(tree_opts);
         return () => {
             elCopy.fancytree('destroy');
         };
-    }, []); //useEffect
-
+    }, [featureId]); //useEffect depending on feature ID so that tree changes
     return <div className="suiFancyTree view-wrap" ref={el}></div>;
 }
 

@@ -224,48 +224,32 @@ function RelatedTree(props) {
     const domain = props.baseType;
     const kid = props.id;
     const fid = queryID(domain, kid);
-    console.log('Related tree fid: ' + fid);
-    if (domain === 'places') {
-        return (
-            <FancyTree
-                domain="places"
-                tree="places"
-                descendants={true}
-                directAncestors={false}
-                displayPopup={true}
-                perspective="pol.admin.hier"
-                view="roman.scholar"
-                sortBy="header_ssort+ASC"
-                currentFeatureId={fid}
-            />
-        );
-    } else if (domain === 'subjects') {
-        return (
-            <FancyTree
-                domain="subjects"
-                tree="subjects"
-                descendants={true}
-                directAncestors={false}
-                displayPopup={true}
-                perspective={'gen'}
-                view="roman.popular"
-                sortBy="header_ssort+ASC"
-                currentFeatureId={fid}
-            />
-        );
+    // places settings
+    let persp = 'pol.admin.hier';
+    let view = 'roman.scholar';
+    let sortby = 'header_ssort+ASC';
+
+    // Subject settings
+    if (domain === 'subjects') {
+        persp = 'gen';
+        view = 'roman.popular';
+        // Term settings
     } else if (domain === 'terms') {
-        return (
-            <FancyTree
-                domain="terms"
-                tree="terms"
-                descendants={true}
-                directAncestors={false}
-                displayPopup={true}
-                perspective="tib.alpha"
-                view="roman.scholar"
-                sortBy="position_i+ASC"
-                currentFeatureId={fid}
-            />
-        );
+        persp = 'tib.alpha';
+        sortby = 'position_i+ASC';
     }
+
+    return (
+        <FancyTree
+            domain={domain}
+            tree={domain}
+            descendants={true}
+            directAncestors={false}
+            displayPopup={true}
+            perspective={persp}
+            view={view}
+            sortBy={sortby}
+            currentFeatureId={fid}
+        />
+    );
 }
