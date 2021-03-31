@@ -60,6 +60,7 @@ export default function PlacesRelSubjectsViewer() {
                         <h3 className={'head-related'}>Related Subjects</h3>
                         <ul>
                             {relsubjs.map((relsb, cind) => {
+                                console.log(relsb);
                                 return (
                                     <li
                                         key={
@@ -69,7 +70,15 @@ export default function PlacesRelSubjectsViewer() {
                                         }
                                     >
                                         {
-                                            relsb?.related_subjects_display_string_s
+                                            <MandalaPopover
+                                                domain={'subjects'}
+                                                kid={
+                                                    relsb?.related_subjects_id_i
+                                                }
+                                                children={[
+                                                    relsb?.related_subjects_display_string_s,
+                                                ]}
+                                            />
                                         }
                                         {relsb?.related_subjects_time_units_t && (
                                             <>

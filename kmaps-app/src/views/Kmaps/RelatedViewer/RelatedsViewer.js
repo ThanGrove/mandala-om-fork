@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import FancyTree from '../../FancyTree';
 import HistoryViewer from '../../History/HistoryViewer';
@@ -10,12 +10,13 @@ import { useHistory } from '../../../hooks/useHistory';
 
 export function RelatedsViewer() {
     let statePages = useHistory((state) => state.pages);
+    /*
     // Remove current page from list so that it doesn't show
     statePages = Array.from(statePages);
     statePages = statePages.filter((sp) => {
         return !sp.includes('::' + window.location.pathname);
     });
-
+    */
     const match = useRouteMatch([
         '/:baseType/:id/related-:type/:definitionID/view/:relID',
         '/:baseType/:id/related-:type/:definitionID/:viewMode',
@@ -82,11 +83,6 @@ export function RelatedsViewer() {
 
     //Set relateds data to baseArgs
     baseArgs.relateds = kmapsRelated;
-
-    // Determine which tree (browse_tree) to display in the relateds sidebar
-    const current_domain = baseArgs.baseType;
-
-    let browse_tree = null;
 
     return (
         <aside className={'l-column__related'}>
@@ -166,64 +162,15 @@ export function RelatedsViewer() {
                         <HistoryViewer />
                     </section>
                 )}
-
                 <section className="l-terms__tree__wrap">
                     <div className="u-related__list__header">
                         Browse{' '}
                         <span className={'text-capitalize'}>
-                            {current_domain}
+                            {baseArgs.baseType}
                         </span>
                     </div>
-                    {current_domain === 'places' && (
-                        <FancyTree
-                            domain="places"
-                            tree="places"
-                            descendants={true}
-                            directAncestors={false}
-                            displayPopup={true}
-                            perspective="pol.admin.hier"
-                            view="roman.scholar"
-                            sortBy="header_ssort+ASC"
-                            currentFeatureId={queryID(
-                                baseArgs.baseType,
-                                baseArgs.id
-                            )}
-                        />
-                    )}
 
-                    {current_domain === 'subjects' && (
-                        <FancyTree
-                            domain="subjects"
-                            tree="subjects"
-                            descendants={true}
-                            directAncestors={false}
-                            displayPopup={true}
-                            perspective={'gen'}
-                            view="roman.popular"
-                            sortBy="header_ssort+ASC"
-                            currentFeatureId={queryID(
-                                baseArgs.baseType,
-                                baseArgs.id
-                            )}
-                        />
-                    )}
-
-                    {current_domain === 'terms' && (
-                        <FancyTree
-                            domain="terms"
-                            tree="terms"
-                            descendants={true}
-                            directAncestors={false}
-                            displayPopup={true}
-                            perspective="tib.alpha"
-                            view="roman.scholar"
-                            sortBy="position_i+ASC"
-                            currentFeatureId={queryID(
-                                baseArgs.baseType,
-                                baseArgs.id
-                            )}
-                        />
-                    )}
+                    <RelatedTree {...baseArgs} />
                 </section>
             </div>
         </aside>
@@ -270,4 +217,55 @@ function RelatedCount(props) {
             <span id="sui-rln-places">{count}</span>
         </Link>
     ) : null;
+}
+
+function RelatedTree(props) {
+    // Determine which tree (browse_tree) to display in the relateds sidebar
+    const domain = props.baseType;
+    const kid = props.id;
+    const fid = queryID(domain, kid);
+    console.log('Related tree fid: ' + fid);
+    if (domain === 'places') {
+        return (
+            <FancyTree
+                domain="places"
+                tree="places"
+                descendants={true}
+                directAncestors={false}
+                displayPopup={true}
+                perspective="pol.admin.hier"
+                view="roman.scholar"
+                sortBy="header_ssort+ASC"
+                currentFeatureId={fid}
+            />
+        );
+    } else if (domain === 'subjects') {
+        return (
+            <FancyTree
+                domain="subjects"
+                tree="subjects"
+                descendants={true}
+                directAncestors={false}
+                displayPopup={true}
+                perspective={'gen'}
+                view="roman.popular"
+                sortBy="header_ssort+ASC"
+                currentFeatureId={fid}
+            />
+        );
+    } else if (domain === 'terms') {
+        return (
+            <FancyTree
+                domain="terms"
+                tree="terms"
+                descendants={true}
+                directAncestors={false}
+                displayPopup={true}
+                perspective="tib.alpha"
+                view="roman.scholar"
+                sortBy="position_i+ASC"
+                currentFeatureId={fid}
+            />
+        );
+    }
 }

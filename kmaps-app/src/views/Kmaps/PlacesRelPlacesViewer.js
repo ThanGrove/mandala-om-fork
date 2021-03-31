@@ -24,21 +24,29 @@ export default function PlacesRelPlacesViewer() {
     const kmapkids = kmap?._childDocuments_; // Child documents of this kmaps
 
     // Get Ancestors for count
-    const ancestors = kmap?.ancestor_id_path.split('/');
+    const ancestors = kmap?.ancestor_id_path
+        ? kmap.ancestor_id_path.split('/')
+        : [];
     if (ancestors?.length > 0) {
         ancestors.pop(); // remove self.
     }
 
     // Process Children into Different List for Counts
-    const adminkids = kmapkids?.filter((cd, ci) => {
+    let adminkids = kmapkids?.filter((cd, ci) => {
         return cd.related_places_relation_code_s === 'administers';
     });
-    const locatedkids = kmapkids?.filter((cd, ci) => {
+    if (!adminkids) {
+        adminkids = [];
+    }
+    let locatedkids = kmapkids?.filter((cd, ci) => {
         return (
             cd.related_places_relation_code_s ===
             'has.entirely.located.within.it'
         );
     });
+    if (!locatedkids) {
+        locatedkids = [];
+    }
 
     // Get Unique Feature Types of Children
     let child_ftypes = kmapkids?.map((cd, ci) => {
@@ -66,6 +74,7 @@ export default function PlacesRelPlacesViewer() {
     if (!kmap) {
         return <div>Loading</div>;
     }
+
     return (
         <Tabs defaultActiveKey="context" id="place-kmap-tabs" className={'row'}>
             <Tab eventKey="context" title="Place Context">
