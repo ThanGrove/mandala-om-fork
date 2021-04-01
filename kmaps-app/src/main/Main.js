@@ -7,6 +7,7 @@ import {
 import Router from './RouterSelect';
 import { SiteHeader } from './SiteHeader/SiteHeader';
 import { Hamburger } from './MainNavToggle/Hamburger';
+import MandalaSkeleton from '../views/common/MandalaSkeleton';
 const Home = lazy(() => import('./HomePage/Home'));
 const ContentMain = lazy(() => import('./ContentMain'));
 const NotFoundPage = lazy(() => import('../views/common/NotFoundPage'));
@@ -61,7 +62,7 @@ export function Main(props) {
                     <SiteHeader />
                     <Hamburger hamburgerOpen={false} />
                     {/** TODO:gk3k -> Need to set a proper loading component with Skeletons */}
-                    <Suspense fallback={<div>Loading from Main...</div>}>
+                    <Suspense fallback={<MandalaSkeleton overlay={true} />}>
                         <Switch>
                             <Route path={'/home'}>
                                 <Home />

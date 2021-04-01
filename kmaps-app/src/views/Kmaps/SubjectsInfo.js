@@ -10,6 +10,7 @@ import KmapsDescText from './KmapsDescText';
 import { useHistory } from '../../hooks/useHistory';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 import RelatedAssetViewer from './RelatedAssetViewer';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);
@@ -24,7 +25,7 @@ export default function SubjectInfo(props) {
     } = useKmap(queryID(baseType, id), 'info');
 
     if (isKmapLoading) {
-        return <div id="place-kmap-tabs">Subjects Loading Skeleton ...</div>;
+        return <MandalaSkeleton overlay={true} />;
     }
 
     if (!isKmapError) {
@@ -40,7 +41,7 @@ export default function SubjectInfo(props) {
 
     return (
         <>
-            <React.Suspense fallback={<span>Subjects Route Skeleton ...</span>}>
+            <React.Suspense fallback={<MandalaSkeleton />}>
                 <Switch>
                     <Route exact path={path}>
                         <SubjectSummary kmapData={kmapData} path={path} />

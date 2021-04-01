@@ -16,6 +16,7 @@ import SubjectsHome from '../views/SubjectsHome';
 import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import MandalaSkeleton from '../views/common/MandalaSkeleton';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -183,30 +184,7 @@ export default function ContentMain(props) {
                             </Switch>
                         </React.Suspense>
                     </section>
-                    <React.Suspense
-                        fallback={
-                            <div
-                                style={{
-                                    maxWidth: '35rem',
-                                    minWidth: '15rem',
-                                    fontSize: '1.4rem',
-                                    width: '25%',
-                                    padding: '1.6rem',
-                                }}
-                            >
-                                <SkeletonTheme
-                                    color="#d0d0d0"
-                                    highlightColor="#a5a5a5"
-                                >
-                                    <Skeleton
-                                        duration={0.5}
-                                        count={10}
-                                        height={47.5}
-                                    />
-                                </SkeletonTheme>
-                            </div>
-                        }
-                    >
+                    <React.Suspense fallback={<MandalaSkeleton count={10} />}>
                         <RightSideBar />
                     </React.Suspense>
                 </div>

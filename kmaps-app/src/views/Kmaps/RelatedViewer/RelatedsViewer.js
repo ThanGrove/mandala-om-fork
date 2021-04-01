@@ -7,6 +7,7 @@ import { useUnPackedMemoized } from '../../../hooks/utils';
 import { queryID } from '../../../views/common/utils';
 import './RelatedsViewer.scss';
 import { useHistory } from '../../../hooks/useHistory';
+import MandalaSkeleton from '../../common/MandalaSkeleton';
 
 export function RelatedsViewer() {
     let statePages = useHistory((state) => state.pages);
@@ -58,11 +59,12 @@ export function RelatedsViewer() {
             <aside className="l-column__related">
                 <div className="l-column__related__wrap">
                     <section className="l-related__list__wrap">
-                        <span>
-                            Related Sidebar
-                            <br />
-                            Loading Skeleton
-                        </span>
+                        <MandalaSkeleton
+                            count={10}
+                            height={25}
+                            width={'100%'}
+                            marginTop={12}
+                        />
                     </section>
                 </div>
             </aside>

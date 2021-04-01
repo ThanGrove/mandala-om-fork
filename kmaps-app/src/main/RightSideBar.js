@@ -2,6 +2,7 @@ import React, { useState, Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import { AdvancedToggle } from './MainSearchToggle/AdvancedToggle';
 import './RightSideBar.css';
+import MandalaSkeleton from '../views/common/MandalaSkeleton';
 const TreeNav = React.lazy(() => import('./TreeNav'));
 const SearchAdvanced = React.lazy(() => import('../search/SearchAdvanced'));
 
@@ -35,7 +36,7 @@ export default function RightSideBar() {
                     <SearchAdvanced advanced={state.advanced} />
                 )}
                 {viewMode === 'tree' && (
-                    <Suspense fallback={<div>Loading...</div>}>
+                    <Suspense fallback={<MandalaSkeleton />}>
                         <TreeNav tree={state.tree} />
                     </Suspense>
                 )}

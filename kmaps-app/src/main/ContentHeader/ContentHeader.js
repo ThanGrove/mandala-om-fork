@@ -5,6 +5,7 @@ import { KmapLink } from '../../views/common/KmapLink';
 import './ContentHeader.scss';
 import { useKmap } from '../../hooks/useKmap';
 import { capitalAsset, queryID } from '../../views/common/utils';
+import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 
 export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
@@ -20,8 +21,17 @@ export function ContentHeader({ siteClass, title, location }) {
         error: itemError,
     } = useKmap(queryID(queryType, itemId), 'asset');
 
-    let convertedPath = '... > ';
-    let mytitle = itemData?.title ? itemData.title : 'Loading';
+    let convertedPath = '';
+    let mytitle = itemData?.title ? (
+        itemData.title
+    ) : (
+        <MandalaSkeleton
+            height={'1rem'}
+            width={'100%'}
+            color={'transparent'}
+            marginTop={'-4rem'}
+        />
+    );
     if (!isItemLoading) {
         if (!isItemError) {
             mytitle = itemData?.title;

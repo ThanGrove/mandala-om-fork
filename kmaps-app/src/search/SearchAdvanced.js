@@ -14,6 +14,7 @@ import {
 } from 'use-query-params';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
+import MandalaSkeleton from '../views/common/MandalaSkeleton';
 
 const SEARCH_PATH = '/search/:view';
 
@@ -51,7 +52,12 @@ export default function SearchAdvanced(props) {
                 id="l-column__search"
                 className={`l-column__search ${openclass}`}
             >
-                <span>Search Loading Skeleton</span>
+                <MandalaSkeleton
+                    count={11}
+                    height={25}
+                    width={'100%'}
+                    marginTop={'2rem'}
+                />
             </aside>
         );
     }

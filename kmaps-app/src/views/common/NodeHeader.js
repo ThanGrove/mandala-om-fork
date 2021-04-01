@@ -5,6 +5,7 @@ import { useKmap } from '../../hooks/useKmap';
 import { queryID } from './utils';
 import { useHistory } from '../../hooks/useHistory';
 import '../css/NodeHeader.css';
+import MandalaSkeleton from './MandalaSkeleton';
 
 function NodeHeader() {
     //const match = useRouteMatch();
@@ -48,7 +49,7 @@ function NodeHeader() {
     if (isAssetLoading || isKmAssetLoading) {
         return (
             <div className="c-nodeHeader">
-                <span>NodeHeader Loading ...</span>
+                <MandalaSkeleton />
             </div>
         );
     }
