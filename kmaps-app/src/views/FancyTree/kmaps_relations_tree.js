@@ -208,7 +208,8 @@ const queryClient = new QueryClient();
         scrollToActiveNode: async function () {
             var plugin = this;
             try {
-                var tree = $(plugin.element).fancytree('getTree');
+                //var tree = $(plugin.element).fancytree('getTree');
+                var tree = $.ui.fancytree.getTree(plugin.element);
                 var active = tree.getActiveNode();
                 if (active) {
                     active.makeVisible().then(function () {

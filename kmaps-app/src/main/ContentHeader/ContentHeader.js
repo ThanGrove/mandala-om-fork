@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
-//import { useStoreState } from '../../model/StoreModel';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { KmapLink } from '../../views/common/KmapLink';
+import { ErrorBoundary } from 'react-error-boundary';
 import './ContentHeader.scss';
 import { useKmap } from '../../hooks/useKmap';
 import { capitalAsset, queryID } from '../../views/common/utils';
@@ -237,4 +236,12 @@ function AltContentHeader({ domain, kid, siteClass }) {
         </header>
     );
     return cheader;
+}
+
+function ErrorFallback({ error, resetErrorBoundary }) {
+    return (
+        <span role="alert">
+            <span>Something went wrong in ContentHeader.js</span>
+        </span>
+    );
 }
