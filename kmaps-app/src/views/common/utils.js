@@ -68,8 +68,7 @@ export function normalizeLinks(asset_type) {
     const mandala_items = document.querySelectorAll('[data-mandala-id]');
     _.forEach(mandala_items, function (el) {
         const mid = el.getAttribute('data-mandala-id');
-        const new_url =
-            process.env.REACT_APP_PUBLIC_PATH + mid.replace('-', '/');
+        const new_url = '/' + mid.replace('-', '/');
         aels = el.getElementsByTagName('a');
         _.forEach(aels, function (ael) {
             ael.setAttribute('href', new_url);
