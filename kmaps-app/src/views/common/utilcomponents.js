@@ -179,10 +179,7 @@ export function NotFoundPage(props) {
                     <Col lg={'auto'}>
                         <img
                             className={'logo'}
-                            src={
-                                process.env.REACT_APP_PUBLIC_PATH +
-                                'img/logo-shanti.png'
-                            }
+                            src={'/img/logo-shanti.png'}
                             alt={'mandala logo'}
                         />
                         <h1>Page Not Found!</h1>

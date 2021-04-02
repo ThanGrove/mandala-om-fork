@@ -50,7 +50,7 @@ export function Main(props) {
     return (
         <Router
             {...(process.env.REACT_APP_STANDALONE !== 'standalone'
-                ? { basename: process.env.REACT_APP_PUBLIC_PATH }
+                ? { basename: '/' }
                 : {})}
         >
             <QueryParamProvider
