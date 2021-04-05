@@ -40,7 +40,6 @@ export function ContentHeader({ siteClass, title, location }) {
     // What to return if the SOLR query returned a hit
     if (itemData) {
         if (itemData?.response?.numFound === 0) {
-            console.log('Going to alt header');
             return (
                 <AltContentHeader
                     domain={itemType}
@@ -187,7 +186,6 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
 function AltContentHeader({ domain, kid, siteClass }) {
     const loc = useLocation();
     const params = loc?.search ? parseParams(loc.search) : false;
-    console.log(params['searchText']);
     const {
         isLoading: isItemLoading,
         data: itemData,
@@ -208,7 +206,8 @@ function AltContentHeader({ domain, kid, siteClass }) {
         alttitle = domain[0].toUpperCase() + domain.substr(1);
         bcrumbs = '';
         if (domain == 'search' && params?.searchText) {
-            alttitle += ` for ‘${params.searchText}’`;
+            const decoded = decodeURI(params.searchText);
+            alttitle += ` for ‘${decoded}’`;
         }
     }
     useEffect(() => {
