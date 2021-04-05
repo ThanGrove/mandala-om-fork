@@ -2,11 +2,10 @@
     align-self: center;
     margin: 0;
     width: 100%;
-    border-top: 2px solid #ccc;
 }
 .c-MainSearchToggle--group label {
     color: #fff;
-    background-color: #888;
+    background-color: #dedede;
     padding: 1rem 0;
     border-radius: 0;
     border: none;
@@ -46,6 +45,28 @@
     background-color: white !important;
     opacity: 1;
 }
+
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active {
+    border-top: 2px solid #ccc !important;
+    &:first-child {
+        border-left: 2px solid #ccc !important;
+    }
+    &:nth-child(n + 2) {
+        border-right: 2px solid #ccc !important;
+    }
+}
+
+.c-MainSearchToggle--button:not(.active) {
+    border-top: #ddd !important;
+    border-bottom: 2px inset #ccc !important;
+    &:first-child {
+        border-right: 3px outset #ccc !important;
+    }
+    &:nth-child(n + 2) {
+        border-left: 3px inset #ccc !important;
+    }
+}
+
 .c-MainSearchToggle--button .btn {
     border: none;
 }

@@ -52,9 +52,13 @@ body.html {
     min-width: 15rem;
     font-size: 1.4rem;
     background-color: #fff;
-    border-left: 2px solid #ccc;
-    border-right: 2px solid #ccc;
+
+    .advanced-search-and-tree {
+        border-left: 2px solid #ccc;
+        border-right: 2px solid #ccc;
+    }
 }
+
 .terms .l-content__main__wrap,
 .subjects .l-content__main__wrap {
     max-width: 90rem;
