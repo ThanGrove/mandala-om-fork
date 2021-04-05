@@ -19,6 +19,7 @@ import $ from 'jquery';
 import { useParams, Redirect, Link } from 'react-router-dom';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
  * Text Viewer Component: The parent component for viewing a text. Gets sent the asset information as a prop
@@ -179,16 +180,7 @@ export default function TextsViewer(props) {
         return (
             <Container className={'astviewer texts'} fluid>
                 <Row id={'shanti-texts-container'}>
-                    <div className="loading">
-                        <Spinner
-                            as="div"
-                            animation="border"
-                            size="sm"
-                            role="status"
-                            aria-hidden="true"
-                        ></Spinner>
-                        Texts Loading Skeleton ...
-                    </div>
+                    <MandalaSkeleton />
                 </Row>
             </Container>
         );

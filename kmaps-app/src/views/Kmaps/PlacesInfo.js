@@ -11,6 +11,7 @@ import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from './RelatedAssetViewer';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -51,7 +52,11 @@ export default function PlacesInfo(props) {
     const fid = kmasset?.id;
 
     if (isKmapLoading || isAssetLoading) {
-        return <div id="place-kmap-tabs">Places Loading Skeleton ...</div>;
+        return (
+            <div id="place-kmap-tabs">
+                <MandalaSkeleton />
+            </div>
+        );
     } else if (isKmapError) {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     } else if (isAssetError) {
@@ -60,7 +65,7 @@ export default function PlacesInfo(props) {
 
     return (
         <>
-            <React.Suspense fallback={<span>Places Route Skeleton ...</span>}>
+            <React.Suspense fallback={<MandalaSkeleton />}>
                 <Switch>
                     <Route exact path={path}>
                         <PlacesSummary kmapData={kmapData} />

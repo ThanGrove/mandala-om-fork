@@ -6,6 +6,7 @@ import { useSearch } from '../hooks/useSearch';
 import { useParams } from 'react-router-dom';
 import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../hooks/utils';
+import MandalaSkeleton from './common/MandalaSkeleton';
 
 export function SearchViewer() {
     const { viewMode } = useParams();
@@ -30,7 +31,7 @@ export function SearchViewer() {
     if (isSearchLoading) {
         return (
             <div>
-                <span>SearchScreen Loading Skeleton</span>
+                <MandalaSkeleton />
             </div>
         );
     }

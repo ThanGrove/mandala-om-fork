@@ -9,6 +9,7 @@ import useMandala from '../../hooks/useMandala';
 // import { HistoryContext } from '../History/HistoryContext';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export default function SourcesViewer(props) {
     const baseType = `sources`;
@@ -39,7 +40,7 @@ export default function SourcesViewer(props) {
         return (
             <Container fluid className="c-source__container">
                 <Col className="c-source">
-                    <div className="loading">Sources Loading Skeleton ...</div>
+                    <MandalaSkeleton />
                 </Col>
             </Container>
         );

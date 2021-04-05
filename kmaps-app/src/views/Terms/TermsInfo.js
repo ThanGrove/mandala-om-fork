@@ -13,6 +13,7 @@ import TermsDetails from './TermsDetails';
 import { queryID } from '../../views/common/utils';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 // import { HistoryContext } from '../History/HistoryContext';
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -59,7 +60,7 @@ const TermsInfo = (props) => {
     );
 
     if (isKmapLoading || isAssetLoading || isRelatedLoading) {
-        return <span>Terms Loading Skeleton</span>;
+        return <MandalaSkeleton />;
     }
 
     if (isKmapError || isAssetError || isRelatedError) {

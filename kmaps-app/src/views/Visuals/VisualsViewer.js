@@ -8,6 +8,7 @@ import { HtmlCustom } from '../common/MandalaMarkup';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export default function VisualsViewer(props) {
     const baseType = `visuals`;
@@ -47,7 +48,7 @@ export default function VisualsViewer(props) {
         return (
             <Container fluid className="c-visual__container">
                 <Col className="c-visual">
-                    <div className="loading">Visuals Loading Skeleton ...</div>
+                    <MandalaSkeleton />
                 </Col>
             </Container>
         );

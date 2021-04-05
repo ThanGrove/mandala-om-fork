@@ -13,6 +13,7 @@ import { ImStack } from 'react-icons/im';
 import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import './FacetBox.scss';
+import MandalaSkeleton from '../views/common/MandalaSkeleton';
 
 function FacetControls(props) {
     return (
@@ -341,9 +342,7 @@ export function FacetBox(props) {
                 </div>
 
                 <div className={'sui-adv-facetlist overflow-auto'}>
-                    {status === 'loading' && (
-                        <span>Facets Loading Skeleton</span>
-                    )}
+                    {status === 'loading' && <MandalaSkeleton />}
                     {status === 'error' && (
                         <span>Error: {searchError.message}</span>
                     )}
