@@ -17,13 +17,19 @@ const TreeNav = (props) => {
     };
     let loc = useLocation();
     loc = loc.pathname.split('/');
+    let found = false;
 
     if (loc.length > 2) {
         domain = loc[1];
         const kid = loc[2];
         if (Object.keys(domainfids).includes(domain)) {
             domainfids[domain] = queryID(domain, kid);
+            found = true;
         }
+    }
+    if (!found) {
+        domain = 'places';
+        domainfids[domain] = queryID('places', 13735);
     }
     return (
         <aside

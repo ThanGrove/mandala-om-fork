@@ -21,6 +21,7 @@ import {
     PlacesRelSubjectsViewer,
 } from './KmapsRelatedsViewer';
 import TermsDefinitionsFilter from '../Terms/TermsDefinitionsFilter';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 const AudioVideoViewer = React.lazy(() =>
     import('../AudioVideo/AudioVideoViewer')
 );
@@ -105,7 +106,7 @@ export default function KmapsViewer(props) {
                 <div className="c-content__main__kmaps">
                     {/*<NodeHeader kmasset={props.kmasset} />*/}
                     {/** TODO:gk3k -> Change loading to skeletons. See if we can remove this file entirely. */}
-                    <React.Suspense fallback={<div>Loading...</div>}>
+                    <React.Suspense fallback={<MandalaSkeleton />}>
                         <Switch>
                             {/* Related AV */}
                             <Route

@@ -207,7 +207,7 @@ function AltContentHeader({ domain, kid, siteClass }) {
         bcrumbs = '';
         if (domain == 'search' && params?.searchText) {
             const decoded = decodeURI(params.searchText);
-            alttitle += ` for ‘${decoded}’`;
+            alttitle += ` for “${decoded}”`;
         }
     }
     useEffect(() => {

@@ -43,11 +43,7 @@ function FacetControls(props) {
                 </ToggleButton>
             </ToggleButtonGroup>
 
-            {props.loadingState && (
-                <Spinner animation="border" role="status">
-                    <span className="sr-only">Loading...</span>
-                </Spinner>
-            )}
+            {props.loadingState && <MandalaSkeleton />}
         </span>
     );
 }

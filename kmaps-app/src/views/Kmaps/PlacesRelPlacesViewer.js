@@ -8,6 +8,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export default function PlacesRelPlacesViewer() {
     let { id } = useParams();
@@ -72,7 +73,7 @@ export default function PlacesRelPlacesViewer() {
     }, [kmap]);
 
     if (!kmap) {
-        return <div>Loading</div>;
+        return <MandalaSkeleton />;
     }
 
     return (

@@ -51,11 +51,7 @@ export default function ContentMain(props) {
                 <div className="two-columns">
                     <section id="l-content__main" className="l-content__main">
                         {/** TODO:gk3k -> Create loading component with skeletons. */}
-                        <React.Suspense
-                            fallback={
-                                <div>Loading ContentMain Skeleton ...</div>
-                            }
-                        >
+                        <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
 

@@ -5,6 +5,7 @@ import { Tab, Tabs } from 'react-bootstrap';
 import FancyTree from '../FancyTree';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export function SubjectsRelSubjectsViewer({ id }) {
     const baseType = 'subjects';
@@ -75,7 +76,7 @@ export function SubjectsRelSubjectsViewer({ id }) {
     }, [kmap]);
 
     if (isKmapLoading) {
-        return <div>Loading ...</div>;
+        return <MandalaSkeleton />;
     }
 
     return (
