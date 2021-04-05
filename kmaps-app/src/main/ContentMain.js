@@ -17,6 +17,7 @@ import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
+import { TreeTest } from '../views/common/TreeTest/TreeTest';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -54,6 +55,11 @@ export default function ContentMain(props) {
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
+
+                                {/* COLLECTIONS */}
+                                <Route path={`/treetest`}>
+                                    <TreeTest />
+                                </Route>
 
                                 {/* COLLECTIONS */}
                                 <Route path={`/collections`}>

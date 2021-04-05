@@ -1,0 +1,24 @@
+.c-kmaptree {
+    margin-top: 2rem;
+    margin-left: 2rem;
+}
+
+.c-kmapleaf {
+    margin-top: 0.25rem;
+}
+
+.leafopen .children {
+    display: block;
+}
+
+.leafclosed .children {
+    display: none;
+}
+
+.lvl-0 {
+    margin-left: 0rem !important;
+}
+
+[class*='lvl-'] {
+    margin-left: 1.5rem;
+}

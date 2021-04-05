@@ -5,6 +5,8 @@
     "homepage": "https://dev-standalone.kmaps.virginia.edu/",
     "dependencies": {
         "@emotion/styled": "^10.0.27",
+        "@fortawesome/free-solid-svg-icons": "^5.15.3",
+        "@fortawesome/react-fontawesome": "^0.1.14",
         "@react-google-maps/api": "^1.13.0",
         "@reduxjs/toolkit": "^1.4.0",
         "@testing-library/jest-dom": "^4.2.4",
