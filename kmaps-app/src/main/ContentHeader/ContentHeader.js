@@ -40,6 +40,7 @@ export function ContentHeader({ siteClass, title, location }) {
     // What to return if the SOLR query returned a hit
     if (itemData) {
         if (itemData?.response?.numFound === 0) {
+            console.log('Going to alt header');
             return (
                 <AltContentHeader
                     domain={itemType}
@@ -190,7 +191,20 @@ function AltContentHeader({ domain, kid, siteClass }) {
         isError: isItemError,
         error: itemError,
     } = useKmap(queryID(domain, kid), 'info');
-    const alttitle = itemData?.header ? itemData.header : `${domain}-${kid}`;
+    let alttitle = itemData?.header ? itemData.header : false;
+    let bcrumbs = itemData ? (
+        <ContentHeaderBreadcrumbs
+            itemData={itemData}
+            itemTitle={alttitle}
+            itemType={domain}
+        />
+    ) : (
+        ''
+    );
+    if (!alttitle && domain?.length > 1) {
+        alttitle = domain[0].toUpperCase() + domain.substr(1);
+        bcrumbs = '';
+    }
     useEffect(() => {
         const contentTitle = document.getElementById('sui-termTitle');
         if (contentTitle) {
@@ -200,16 +214,6 @@ function AltContentHeader({ domain, kid, siteClass }) {
     if (isItemLoading) {
         return <MandalaSkeleton />;
     }
-
-    const bcrumbs = itemData ? (
-        <ContentHeaderBreadcrumbs
-            itemData={itemData}
-            itemTitle={alttitle}
-            itemType={domain}
-        />
-    ) : (
-        ''
-    );
 
     const cheader = (
         <header
