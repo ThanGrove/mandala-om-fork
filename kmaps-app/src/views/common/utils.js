@@ -317,3 +317,21 @@ export function capitalAsset(asn) {
 export function queryID(type, id) {
     return `${type}-${id}`;
 }
+
+export function parseParams(ss) {
+    if (!ss || typeof ss !== 'string' || ss?.length === 0) {
+        return false;
+    }
+    ss = ss.replace(new RegExp('^[?]'), '');
+    const sspts = ss.split('&');
+    const paramobj = {};
+    sspts.map((pt) => {
+        const subpts = pt.split('=');
+        if (subpts.length > 1) {
+            paramobj[subpts[0]] = subpts[1];
+        } else {
+            paramobj[subpts[0]] = true;
+        }
+    });
+    return paramobj;
+}

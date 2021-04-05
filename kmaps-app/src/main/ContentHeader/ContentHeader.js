@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { ErrorBoundary } from 'react-error-boundary';
 import './ContentHeader.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { capitalAsset, queryID } from '../../views/common/utils';
+import { capitalAsset, parseParams, queryID } from '../../views/common/utils';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 
 export function ContentHeader({ siteClass, title, location }) {
@@ -185,6 +185,9 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
  * @constructor
  */
 function AltContentHeader({ domain, kid, siteClass }) {
+    const loc = useLocation();
+    const params = loc?.search ? parseParams(loc.search) : false;
+    console.log(params['searchText']);
     const {
         isLoading: isItemLoading,
         data: itemData,
@@ -204,6 +207,9 @@ function AltContentHeader({ domain, kid, siteClass }) {
     if (!alttitle && domain?.length > 1) {
         alttitle = domain[0].toUpperCase() + domain.substr(1);
         bcrumbs = '';
+        if (domain == 'search' && params?.searchText) {
+            alttitle += ` for ‘${params.searchText}’`;
+        }
     }
     useEffect(() => {
         const contentTitle = document.getElementById('sui-termTitle');
