@@ -1,10 +1,25 @@
+@import '../../../_index-variables.scss';
+
 .c-kmaptree {
     margin-top: 2rem;
     margin-left: 2rem;
 }
 
 .c-kmapleaf {
-    margin-top: 0.25rem;
+    margin-top: 0.1rem;
+
+    .toggle-icon {
+        display: inline-block;
+        margin-right: 0.5rem;
+    }
+}
+
+.leafend {
+    padding-left: 0.3rem;
+
+    .toggle-icon {
+        color: $color-text--lighter !important;
+    }
 }
 
 .leafopen .children {
@@ -20,5 +35,24 @@
 }
 
 [class*='lvl-'] {
-    margin-left: 1.5rem;
+    margin-left: 1.5rem; /* amount of indent per level of tree */
+}
+
+/** Domain Specific Styles **/
+.c-kmaptree.places {
+    .c-kmapnode .toggle-icon {
+        color: $color-places;
+    }
+}
+
+.c-kmaptree.subjects {
+    .c-kmapnode .toggle-icon {
+        color: $color-subjects;
+    }
+}
+
+.c-kmaptree.terms {
+    .c-kmapnode .toggle-icon {
+        color: $color-terms;
+    }
 }

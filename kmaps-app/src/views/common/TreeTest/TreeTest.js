@@ -10,12 +10,32 @@ import {
     faAmbulance,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { MandalaPopover } from '../MandalaPopover';
+import { Container, Row, Col } from 'react-bootstrap';
 
 export function TreeTest(props) {
     return (
-        <div id="tree-test">
-            <KmapTree domain="places" kid="13740" />
-        </div>
+        <Container className="tree-test">
+            <Row>
+                <Col sm={4}>
+                    <KmapTree
+                        domain="places"
+                        kid="13735"
+                        elid="places-tree-1"
+                    />
+                </Col>
+                <Col sm={4}>
+                    <KmapTree
+                        domain="subjects"
+                        kid="2823"
+                        elid="subjects-tree-1"
+                    />
+                </Col>
+                <Col sm={4}>
+                    <KmapTree domain="places" kid="2" elid="places-tree-3" />
+                </Col>
+            </Row>
+        </Container>
     );
 }
 
@@ -37,10 +57,14 @@ function KmapTree(props) {
         domain: settings.domain,
         kid: settings.kid,
     };
+    if (!settings?.elid) {
+        const rndid = Math.floor(Math.random() * 999) + 1;
+        settings['elid'] = `${settings.domain}-tree-${rndid}`;
+    }
 
     const treeclass = `${settings.treeClass} ${settings.root.domain}`;
     return (
-        <div className={treeclass}>
+        <div id={settings.elid} className={treeclass}>
             <TreeLeaf
                 domain={settings.root.domain}
                 kid={settings.root.kid}
@@ -63,7 +87,7 @@ function TreeLeaf({ domain, kid, level, isopen, settings }) {
     } = useKmap(queryID(domain, kid), 'info');
 
     if (isKmapLoading) {
-        return <MandalaSkeleton height={10} width={50} />;
+        return <MandalaSkeleton height={5} width={50} />;
     }
     console.log(kmapdata);
     const children = kmapdata?._childDocuments_?.filter((child) => {
@@ -110,6 +134,7 @@ function TreeLeaf({ domain, kid, level, isopen, settings }) {
             >
                 <span className={settings.iconClass}>{icon}</span>
                 <span className={settings.headerClass}>{kmapdata?.header}</span>
+                <MandalaPopover domain={domain} kid={kid} />
             </span>
             <LeafChildren
                 settings={settings}
