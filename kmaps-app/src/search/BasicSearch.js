@@ -29,6 +29,7 @@ export function BasicSearch(props) {
     const { searchText: search, filters } = query;
 
     const handleSubmit = () => {
+        document.getElementById('advanced-search-tree-toggle').click();
         if (!searchView) {
             const encodedQuery = encodeQueryParams(
                 {
