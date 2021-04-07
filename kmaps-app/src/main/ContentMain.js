@@ -17,7 +17,7 @@ import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
-import { TreeTest } from '../views/common/TreeTest/TreeTest';
+import { TreeTest } from '../views/common/KmapTree/KmapTree';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));

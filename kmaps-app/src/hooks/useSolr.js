@@ -36,7 +36,6 @@ const getSolrData = async (query) => {
         url: solrurls[query.index],
         params: myparams,
     };
-    // console.log('solr request', request);
     const { data } = await axios.request(request);
     let retdata = data && data.response ? data.response : data;
     if (data.facets) {
@@ -46,7 +45,10 @@ const getSolrData = async (query) => {
 };
 
 /**
- * UseSolr : a generalized form of useKmap to make customized queries to the solr index
+ * UseSolr : a generalized form of useKmap to make customized queries to the solr index.
+ * Should be passed an unique query key and a query object with parameter names and values, plus an
+ * "index" property, set to "assets" or "terms" as defined in utils.js/getSolrUrls()
+ * TODO: Possibly make more robust by allowing a filter callback to be sent in call
  *
  * @param qkey
  * @param queryobj

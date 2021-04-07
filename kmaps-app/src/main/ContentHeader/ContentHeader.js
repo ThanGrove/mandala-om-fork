@@ -12,7 +12,10 @@ export function ContentHeader({ siteClass, title, location }) {
     const itemType = first;
     const queryType = itemType + '*';
     const isCollection = mid === 'collection';
-    const itemId = isCollection ? last : mid;
+    let itemId = isCollection ? last : mid;
+    if (!itemId || typeof itemId === 'undefined') {
+        itemId = '';
+    }
     const {
         isLoading: isItemLoading,
         data: itemData,
@@ -91,7 +94,7 @@ export function ContentHeader({ siteClass, title, location }) {
         return cheader;
     }
 
-    // No hit in kmassets so try kmterms
+    // No hit in kmassets index so try kmterms
     return (
         <AltContentHeader
             domain={itemType}
