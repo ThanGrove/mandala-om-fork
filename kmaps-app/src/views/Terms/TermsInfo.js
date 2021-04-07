@@ -59,6 +59,14 @@ const TermsInfo = (props) => {
         100
     );
 
+    React.useEffect(() => {
+        if (!isKmapLoading && !isKmapError) {
+            //console.log("kmap (places)", kmapData);
+            // history.addPage('terms', kmapData.header, window.location.pathname);
+            addPage('terms', kmapData.header, window.location.pathname);
+        }
+    }, [addPage, isKmapError, isKmapLoading, kmapData]);
+
     if (isKmapLoading || isAssetLoading || isRelatedLoading) {
         return <MandalaSkeleton />;
     }
@@ -73,12 +81,6 @@ const TermsInfo = (props) => {
         if (isRelatedError) {
             return <span>Error: {relatedError.message}</span>;
         }
-    }
-
-    if (!isKmapLoading && !isKmapError) {
-        //console.log("kmap (places)", kmapData);
-        // history.addPage('terms', kmapData.header, window.location.pathname);
-        addPage('terms', kmapData.header, window.location.pathname);
     }
 
     //Get all related Definitions
