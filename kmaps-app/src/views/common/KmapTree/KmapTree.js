@@ -24,8 +24,9 @@ export function TreeTest(props) {
                 <Col sm={4}>
                     <KmapTree
                         domain="places"
-                        kid="13735"
                         elid="places-tree-1"
+                        showAncestors={true}
+                        isOpen={true}
                     />
                 </Col>
                 <Col sm={4}>
@@ -57,7 +58,7 @@ export function TreeTest(props) {
 function KmapTree(props) {
     let settings = {
         domain: 'places',
-        kid: 13753,
+        kid: 13735,
         level: false,
         treeClass: 'c-kmaptree',
         leafClass: 'c-kmapleaf',
@@ -67,12 +68,14 @@ function KmapTree(props) {
         childrenClass: 'children',
         perspective: 'pol.admin.hier',
         isOpen: false,
+        showAncestors: false,
     };
     settings = { ...settings, ...props };
     settings['root'] = {
         domain: settings.domain,
         kid: settings.kid,
     };
+
     if (!settings?.elid) {
         const rndid = Math.floor(Math.random() * 999) + 1;
         settings['elid'] = `${settings.domain}-tree-${rndid}`;
@@ -96,6 +99,7 @@ function KmapTree(props) {
                     level={0}
                     settings={settings}
                     isopen={settings.isOpen}
+                    showAncestors={settings.showAncestors}
                 />
             )}
         </div>
@@ -178,10 +182,10 @@ function LeafGroup({ domain, level, settings, isopen }) {
  * @returns {JSX.Element|null}
  * @constructor
  */
-function TreeLeaf({ domain, kid, level, settings, isopen }) {
-    //console.log(domain, kid);
-    const io = isopen ? isopen : false;
+function TreeLeaf({ domain, kid, level, settings, ...props }) {
+    const io = props?.isopen ? props.isopen : false;
     const [isOpen, setIsOpen] = useState(io);
+
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
@@ -229,26 +233,84 @@ function TreeLeaf({ domain, kid, level, settings, isopen }) {
     if (!kmapdata?.header) {
         return null;
     }
-    return (
-        <div className={divclass}>
-            <span
-                className={settings.spanClass}
-                data-domain={kmapdata?.tree}
-                data-id={kmapdata?.id}
-                onClick={handleClick}
-            >
-                <span className={settings.iconClass}>{icon}</span>
-                <span className={settings.headerClass}>{kmapdata?.header}</span>
-                <MandalaPopover domain={domain} kid={kid} />
-            </span>
-            <LeafChildren
+    if (props.showAncestors) {
+        let treepath = kmapdata?.ancestor_id_path
+            ? kmapdata.ancestor_id_path?.split('/')
+            : false;
+        if (!treepath) {
+            console.warning(
+                'No treepath found for “showAncestors” in KmapTree'
+            );
+            return null;
+        }
+        const rootid = treepath.shift();
+        treepath = treepath.join('/');
+        return (
+            <TreeLeaf
+                domain={settings.root.domain}
+                kid={rootid}
+                level={0}
                 settings={settings}
-                children={children}
-                level={level}
-                isOpen={isOpen}
+                isopen={true}
+                treePath={treepath}
             />
-        </div>
-    );
+        );
+    } else if (props.treePath) {
+        let treepath = props.treePath.split('/');
+        const currentid = treepath.shift();
+        treepath = treepath.length > 0 ? treepath.join('/') : false;
+        const stayopen = treepath ? true : settings.isOpen;
+        const newlevel = level + 1;
+        return (
+            <div className={divclass}>
+                <span
+                    className={settings.spanClass}
+                    data-domain={kmapdata?.tree}
+                    data-id={kmapdata?.id}
+                    onClick={handleClick}
+                >
+                    <span className={settings.iconClass}>{icon}</span>
+                    <span className={settings.headerClass}>
+                        {kmapdata?.header}
+                    </span>
+                    <MandalaPopover domain={domain} kid={kid} />
+                </span>
+                <div className={settings.childrenClass}>
+                    <TreeLeaf
+                        domain={settings.root.domain}
+                        kid={currentid}
+                        level={newlevel}
+                        settings={settings}
+                        isopen={stayopen}
+                        treePath={treepath}
+                    />
+                </div>
+            </div>
+        );
+    } else {
+        return (
+            <div className={divclass}>
+                <span
+                    className={settings.spanClass}
+                    data-domain={kmapdata?.tree}
+                    data-id={kmapdata?.id}
+                    onClick={handleClick}
+                >
+                    <span className={settings.iconClass}>{icon}</span>
+                    <span className={settings.headerClass}>
+                        {kmapdata?.header}
+                    </span>
+                    <MandalaPopover domain={domain} kid={kid} />
+                </span>
+                <LeafChildren
+                    settings={settings}
+                    children={children}
+                    level={level}
+                    isOpen={isOpen}
+                />
+            </div>
+        );
+    }
 }
 
 /**
