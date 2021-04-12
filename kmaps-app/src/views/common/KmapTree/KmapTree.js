@@ -46,10 +46,10 @@ export function TreeTest(props) {
 
 /**
  * Kmap Tree: React Version of Kmaps Fancy Tree. Tree initializing function. Can pass any of the props listed in settings, but two basic modes;
- *      - Load a single kmaps as a tree root. Takes `domain` and `kid`. (TODO: Ability to disply ancestors of that node ).
+ *      - Load a single kmaps as a tree root. Takes `domain` and `kid`.
  *      - Load a group of kmap nodes at the same level_i (e.g. subjects and possibly terms). Takes `domain` and `level`.
- *  The former loads a TreeLeaf component, the latter a
- *  TODO: implement terms too.
+ *  The former loads a TreeLeaf component, the latter ...
+ *  TODO: Finish this doc with desc of options/settings
  *
  * @param props
  * @returns {JSX.Element}
@@ -69,6 +69,7 @@ function KmapTree(props) {
         perspective: 'pol.admin.hier',
         isOpen: false,
         showAncestors: false,
+        elid: 'kmap-tree-' + Math.floor(Math.random() * 10000),
     };
     settings = { ...settings, ...props };
     settings['root'] = {
