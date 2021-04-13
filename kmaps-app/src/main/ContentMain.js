@@ -17,7 +17,7 @@ import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
-import { TreeTest } from '../views/common/KmapTree/KmapTree';
+import { TreeTest, PTreeTest } from '../views/common/KmapTree/KmapTree';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -56,9 +56,12 @@ export default function ContentMain(props) {
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
 
-                                {/* COLLECTIONS */}
+                                {/* Tree testing: Remove when done */}
                                 <Route path={`/treetest`}>
                                     <TreeTest />
+                                </Route>
+                                <Route path={`/ptreetest`}>
+                                    <PTreeTest />
                                 </Route>
 
                                 {/* COLLECTIONS */}

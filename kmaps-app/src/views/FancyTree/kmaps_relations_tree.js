@@ -246,6 +246,7 @@ const queryClient = new QueryClient();
             return plugin.options.solrUtils.getFullAncestorTree(options);
         },
         getDescendantTree: function (featureId, keyPath) {
+            console.log('in getDesc tree');
             const plugin = this;
             if (!plugin.options.directAncestors) {
                 var ancestorPath = keyPath.split(

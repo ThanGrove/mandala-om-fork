@@ -14,6 +14,23 @@ import { MandalaPopover } from '../MandalaPopover';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../../hooks/useSolr';
 
+const PlacesTree = React.lazy(() => import('../../../main/PlacesTree'));
+
+/*
+Temp page to show a single places tree for console command information
+ */
+export function PTreeTest(props) {
+    return (
+        <Container className="tree-test">
+            <Row>
+                <Col sm={4}>
+                    <PlacesTree />
+                </Col>
+            </Row>
+        </Container>
+    );
+}
+
 /*
 Test element to show all 3 types of trees on a page. Used currently in ContentMain for testing. remove when done.
  */
@@ -70,13 +87,24 @@ function KmapTree(props) {
         isOpen: false,
         showAncestors: false,
         elid: 'kmap-tree-' + Math.floor(Math.random() * 10000),
+        pgsize: 200,
     };
     settings = { ...settings, ...props };
     settings['root'] = {
         domain: settings.domain,
         kid: settings.kid,
     };
-
+    if (
+        !settings?.perspective ||
+        settings.perspective == 'pol.admin.hier' ||
+        settings.perspective == ''
+    ) {
+        if (settings.domain === 'subjects') {
+            settings.perspective = 'gen';
+        } else if (settings.domain === 'terms') {
+            settings.perspective = 'tib.alpha';
+        }
+    }
     if (!settings?.elid) {
         const rndid = Math.floor(Math.random() * 999) + 1;
         settings['elid'] = `${settings.domain}-tree-${rndid}`;
@@ -118,13 +146,18 @@ function KmapTree(props) {
  */
 function LeafGroup({ domain, level, settings, isopen }) {
     const qid = `leaf-group-${domain}-${level}`;
-    const filter = domain === 'terms' ? 'level_tib.alpha_i' : 'level_i';
+    const persp_lvl = `level_${settings.perspective}_i`;
     const query = {
         index: 'terms',
         params: {
-            q: `tree:${domain} AND ${filter}:${level}`,
-            rows: 100,
+            q: `tree:${domain} AND ${persp_lvl}:${level}`,
+            rows: 4000,
             fl: '*',
+            /*
+            sort: `${persp_lvl} asc`,
+            facet: 'on',
+            "facet.field": facet_fld,
+            "facet.mincount": 2,*/
         },
     };
     if (domain === 'terms') {
@@ -142,7 +175,12 @@ function LeafGroup({ domain, level, settings, isopen }) {
         return <MandalaSkeleton />;
     }
     //console.log("Group Data", groupData, groupError);
-    const resdocs = !isGroupError && groupData?.docs ? groupData.docs : [];
+    let resdocs = !isGroupError && groupData?.docs ? groupData.docs : [];
+    /*let facets = (groupData['facets'][facet_fld]) ? groupData['facets'][facet_fld] : [];
+    resdocs = resdocs.filter((doc) => {
+        return (doc[persp_lvl] == level);
+    });*/
+
     if (domain !== 'terms') {
         resdocs.sort((a, b) => {
             if (a.header > b.header) {
@@ -156,10 +194,12 @@ function LeafGroup({ domain, level, settings, isopen }) {
     }
     return (
         <>
-            {resdocs.map((doc) => {
+            {resdocs.map((doc, i) => {
+                const tlkey = `treeleaf-${doc.id}-${i}`;
                 const kid = doc.id.split('-')[1];
                 return (
                     <TreeLeaf
+                        key={tlkey}
                         domain={doc.tree}
                         kid={kid}
                         level={0}
@@ -194,6 +234,35 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
         error: kmapError,
     } = useKmap(queryID(domain, kid), 'info');
 
+    // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
+    const qid = `leaf-children-${domain}-${kid}-count`; // Id for query for caching
+    // variable to query for paths that contain this node's path
+    const path_fld = `ancestor_id_${settings.perspective}_path`;
+    const pathqry = isKmapLoading
+        ? 'path:none'
+        : `${path_fld}:${kmapdata[path_fld]}/*`;
+    // variables to filter query for only children's level
+    const lvl_fld = `level_${settings.perspective}_i`;
+    const childlvl = isKmapLoading ? 1 : parseInt(kmapdata[lvl_fld]) + 1;
+    // build the query for numFound only (count: 0)
+    const query = {
+        index: 'terms',
+        params: {
+            q: `tree:${domain} AND ${pathqry}`,
+            fq: `${lvl_fld}:${childlvl}`,
+            rows: 0,
+            fl: '*',
+        },
+    };
+
+    // Query Solr
+    const {
+        isLoading: isChildrenLoading,
+        data: childrenData,
+        isError: isChildrenError,
+        error: hildrenError,
+    } = useSolr(qid, query, isKmapLoading);
+
     if (isKmapLoading) {
         return (
             <div data-id={queryID(domain, kid)}>
@@ -201,39 +270,35 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
             </div>
         );
     }
-    let children = kmapdata?._childDocuments_?.filter((child) => {
-        return child['related_kmaps_node_type'] == 'child';
-    });
-    let childheaders = [];
-    children = children?.filter((child) => {
-        const headfield = `related_${domain}_header_s`;
-        const childhead = child[headfield];
-        if (childheaders.includes(childhead)) {
-            return false;
-        }
-        childheaders.push(childhead);
-        return true;
-    });
 
+    // Determine Icon for open or closed
     let icon = isOpen ? (
         <FontAwesomeIcon icon={faMinusCircle} />
     ) : (
         <FontAwesomeIcon icon={faPlusCircle} />
     );
     let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
-    if (!children || children?.length === 0) {
+
+    // if no children, replace icon with dash
+    if (!childrenData || childrenData?.numFound === 0) {
         icon = '–';
         toggleclass = 'leafend';
     }
+
+    // class value for tree leaf div
     const divclass = `${settings.leafClass} lvl\-${level} ${toggleclass}`;
 
     //console.log(kmapdata);
     const handleClick = (e) => {
         setIsOpen(!isOpen);
     };
+
+    // Do not display if no header
     if (!kmapdata?.header) {
         return null;
     }
+
+    // If it's a initial node with setting to show ancestors, find the most senior ancestor to show and send path to filter out aunts and uncles
     if (props.showAncestors) {
         let treepath = kmapdata?.ancestor_id_path
             ? kmapdata.ancestor_id_path?.split('/')
@@ -257,6 +322,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
             />
         );
     } else if (props.treePath) {
+        // treePath is set when showing ancestors, only show the direct line ancestor not aunts and uncles
         let treepath = props.treePath.split('/');
         const currentid = treepath.shift();
         treepath = treepath.length > 0 ? treepath.join('/') : false;
@@ -289,6 +355,20 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
             </div>
         );
     } else {
+        // Define the child_content based on whether it is open or not (only loads children when open)
+        const child_content = isOpen ? (
+            <LeafChildren
+                settings={settings}
+                quid={qid.replace('-count', '')}
+                query={query}
+                level={level}
+                isOpen={isOpen}
+            />
+        ) : (
+            <div className={settings.childrenClass}> </div>
+        );
+
+        // return the div structure for a regular tree leaf
         return (
             <div className={divclass}>
                 <span
@@ -303,19 +383,15 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
                     </span>
                     <MandalaPopover domain={domain} kid={kid} />
                 </span>
-                <LeafChildren
-                    settings={settings}
-                    children={children}
-                    level={level}
-                    isOpen={isOpen}
-                />
+                {child_content}
             </div>
         );
     }
 }
 
 /**
- * The Container under a leaf that loads the children for that node, when the node is opened
+ * The Container under a leaf that contains the children for that node, when the node is opened
+ * It inherits the child query from Tree Leaf but sets rows to the default page size (e.g. 200)
  *
  * @param settings
  * @param children
@@ -324,12 +400,17 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
  * @returns {JSX.Element}
  * @constructor
  */
-function LeafChildren({ settings, children, level, isOpen }) {
-    if (!isOpen) {
-        return <div className={settings.childrenClass}> </div>;
-    }
-    const fieldnm = `related_${settings.domain}_id_s`;
-    const headernm = `related_${settings.domain}_header_s`;
+function LeafChildren({ settings, quid, query, level, isOpen }) {
+    query['params']['rows'] = settings.pgsize;
+    const {
+        isLoading: isChildrenLoading,
+        data: childrenData,
+        isError: isChildrenError,
+        error: childrenError,
+    } = useSolr(quid, query);
+    const children =
+        !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
+    const headernm = `header`;
     if (settings.domain !== 'terms') {
         children.sort((a, b) => {
             if (a[headernm] > b[headernm]) {
@@ -343,19 +424,19 @@ function LeafChildren({ settings, children, level, isOpen }) {
     }
     return (
         <div className={settings.childrenClass}>
-            {children.map((child) => {
-                if (child[fieldnm] && child[fieldnm].includes('-')) {
-                    const kidpts = child[fieldnm].split('-');
-                    return (
-                        <TreeLeaf
-                            domain={kidpts[0]}
-                            kid={kidpts[1]}
-                            level={level + 1}
-                            settings={settings}
-                            isopen={false}
-                        />
-                    );
-                }
+            {children.map((child, i) => {
+                const lckey = `treeleaf-${child['id']}-children`;
+                const kidpts = child['id'].split('-');
+                return (
+                    <TreeLeaf
+                        key={lckey}
+                        domain={kidpts[0]}
+                        kid={kidpts[1]}
+                        level={level + 1}
+                        settings={settings}
+                        isopen={false}
+                    />
+                );
             })}
         </div>
     );
