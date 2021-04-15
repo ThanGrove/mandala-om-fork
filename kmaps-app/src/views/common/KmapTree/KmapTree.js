@@ -38,23 +38,41 @@ export function TreeTest(props) {
     return (
         <Container className="tree-test">
             <Row>
+                {/*
                 <Col sm={4}>
                     <KmapTree
                         domain="places"
                         elid="places-tree-1"
                         showAncestors={true}
                         isOpen={true}
+                        project="uf"
                     />
                 </Col>
+                */}
                 <Col sm={4}>
                     <KmapTree
                         domain="subjects"
                         level="1"
                         elid="subjects-tree-1"
+                        project="uf"
                     />
                 </Col>
                 <Col sm={4}>
-                    <KmapTree domain="terms" level="1" elid="terms-tree-1" />
+                    <KmapTree
+                        domain="terms"
+                        level="1"
+                        elid="terms-tree-1"
+                        perspective="eng.alpha"
+                    />
+                </Col>
+                <Col sm={4}>
+                    <KmapTree
+                        domain="places"
+                        elid="places-tree-1"
+                        showAncestors={true}
+                        isOpen={true}
+                        project="uf"
+                    />
                 </Col>
             </Row>
         </Container>
@@ -88,6 +106,7 @@ function KmapTree(props) {
         showAncestors: false,
         elid: 'kmap-tree-' + Math.floor(Math.random() * 10000),
         pgsize: 200,
+        project_ids: false,
     };
     settings = { ...settings, ...props };
     settings['root'] = {
@@ -110,6 +129,10 @@ function KmapTree(props) {
         settings['elid'] = `${settings.domain}-tree-${rndid}`;
     }
 
+    if (settings?.project?.length > 0) {
+        return <FilterTree settings={settings} />;
+    }
+
     const treeclass = `${settings.treeClass} ${settings.root.domain}`;
     return (
         <div id={settings.elid} className={treeclass}>
@@ -125,12 +148,74 @@ function KmapTree(props) {
                 <TreeLeaf
                     domain={settings.root.domain}
                     kid={settings.root.kid}
-                    level={0}
+                    leaf_level={0}
                     settings={settings}
                     isopen={settings.isOpen}
                     showAncestors={settings.showAncestors}
                 />
             )}
+        </div>
+    );
+}
+
+function FilterTree({ settings, ...props }) {
+    const projid = settings.project;
+    const persp = settings.perspective;
+    // const persp_lvl = `level_${persp}_i`;
+    const ancestor_facet = `ancestor_ids_${persp}`;
+    const level = settings.level;
+
+    const query = {
+        index: 'terms',
+        params: {
+            q: `tree:${settings.domain} AND projects_ss:${projid}`,
+            rows: 10000,
+            fl: 'id, header, ancestor_id_gen',
+            facet: true,
+            'facet.limit': -1,
+            'facet.mincount': 1,
+            'facet.field': ancestor_facet,
+        },
+    };
+
+    const {
+        isLoading: isAncestorsLoading,
+        data: ancestorsData,
+        isError: isAncestorsError,
+        error: ancestorsError,
+    } = useSolr(`filter-tree-${projid}`, query);
+    if (isAncestorsLoading) {
+        return (
+            <div className="filter-tree">
+                <MandalaSkeleton />
+            </div>
+        );
+    }
+    settings['project_ids'] =
+        ancestorsData?.facets && ancestorsData.facets[ancestor_facet]
+            ? Object.keys(ancestorsData.facets[ancestor_facet])
+            : [];
+    const treeclass = `${settings.treeClass} ${settings.root.domain}`;
+    const tree =
+        settings.domain === 'places' ? (
+            <TreeLeaf
+                domain={settings.root.domain}
+                kid={settings.root.kid}
+                leaf_level={0}
+                settings={settings}
+                isopen={settings.isOpen}
+                showAncestors={settings.showAncestors}
+            />
+        ) : (
+            <LeafGroup
+                domain={settings.domain}
+                level={level}
+                settings={settings}
+            />
+        );
+    return (
+        <div id={settings.elid} className={treeclass}>
+            {tree}
         </div>
     );
 }
@@ -153,11 +238,6 @@ function LeafGroup({ domain, level, settings, isopen }) {
             q: `tree:${domain} AND ${persp_lvl}:${level}`,
             rows: 4000,
             fl: '*',
-            /*
-            sort: `${persp_lvl} asc`,
-            facet: 'on',
-            "facet.field": facet_fld,
-            "facet.mincount": 2,*/
         },
     };
     if (domain === 'terms') {
@@ -192,20 +272,26 @@ function LeafGroup({ domain, level, settings, isopen }) {
             return 0;
         });
     }
+
     return (
         <>
             {resdocs.map((doc, i) => {
                 const tlkey = `treeleaf-${doc.id}-${i}`;
                 const kid = doc.id.split('-')[1];
-                return (
-                    <TreeLeaf
-                        key={tlkey}
-                        domain={doc.tree}
-                        kid={kid}
-                        level={0}
-                        settings={settings}
-                    />
-                );
+                if (
+                    !settings?.project_ids ||
+                    settings.project_ids.includes(kid)
+                ) {
+                    return (
+                        <TreeLeaf
+                            key={tlkey}
+                            domain={doc.tree}
+                            kid={kid}
+                            level={0}
+                            settings={settings}
+                        />
+                    );
+                }
             })}
         </>
     );
@@ -223,7 +309,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
  * @returns {JSX.Element|null}
  * @constructor
  */
-function TreeLeaf({ domain, kid, level, settings, ...props }) {
+function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
     const io = props?.isopen ? props.isopen : false;
     const [isOpen, setIsOpen] = useState(io);
 
@@ -286,7 +372,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
     }
 
     // class value for tree leaf div
-    const divclass = `${settings.leafClass} lvl\-${level} ${toggleclass}`;
+    const divclass = `${settings.leafClass} lvl\-${leaf_level} ${toggleclass}`;
 
     //console.log(kmapdata);
     const handleClick = (e) => {
@@ -315,7 +401,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
             <TreeLeaf
                 domain={settings.root.domain}
                 kid={rootid}
-                level={0}
+                leaf_level={0}
                 settings={settings}
                 isopen={true}
                 treePath={treepath}
@@ -327,7 +413,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
         const currentid = treepath.shift();
         treepath = treepath.length > 0 ? treepath.join('/') : false;
         const stayopen = treepath ? true : settings.isOpen;
-        const newlevel = level + 1;
+        const newlevel = leaf_level + 1;
         return (
             <div className={divclass}>
                 <span
@@ -346,7 +432,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
                     <TreeLeaf
                         domain={settings.root.domain}
                         kid={currentid}
-                        level={newlevel}
+                        leaf_level={newlevel}
                         settings={settings}
                         isopen={stayopen}
                         treePath={treepath}
@@ -361,7 +447,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
                 settings={settings}
                 quid={qid.replace('-count', '')}
                 query={query}
-                level={level}
+                leaf_level={leaf_level}
                 isOpen={isOpen}
             />
         ) : (
@@ -400,7 +486,7 @@ function TreeLeaf({ domain, kid, level, settings, ...props }) {
  * @returns {JSX.Element}
  * @constructor
  */
-function LeafChildren({ settings, quid, query, level, isOpen }) {
+function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
     query['params']['rows'] = settings.pgsize;
     const {
         isLoading: isChildrenLoading,
@@ -427,16 +513,21 @@ function LeafChildren({ settings, quid, query, level, isOpen }) {
             {children.map((child, i) => {
                 const lckey = `treeleaf-${child['id']}-children`;
                 const kidpts = child['id'].split('-');
-                return (
-                    <TreeLeaf
-                        key={lckey}
-                        domain={kidpts[0]}
-                        kid={kidpts[1]}
-                        level={level + 1}
-                        settings={settings}
-                        isopen={false}
-                    />
-                );
+                if (
+                    !settings?.project_ids ||
+                    settings.project_ids.includes(kidpts[1])
+                ) {
+                    return (
+                        <TreeLeaf
+                            key={lckey}
+                            domain={kidpts[0]}
+                            kid={kidpts[1]}
+                            leaf_level={leaf_level + 1}
+                            settings={settings}
+                            isopen={false}
+                        />
+                    );
+                }
             })}
         </div>
     );
