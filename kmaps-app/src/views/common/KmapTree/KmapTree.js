@@ -38,7 +38,6 @@ export function TreeTest(props) {
     return (
         <Container className="tree-test">
             <Row>
-                {/*
                 <Col sm={4}>
                     <KmapTree
                         domain="places"
@@ -48,7 +47,6 @@ export function TreeTest(props) {
                         project="uf"
                     />
                 </Col>
-                */}
                 <Col sm={4}>
                     <KmapTree
                         domain="subjects"
@@ -63,15 +61,6 @@ export function TreeTest(props) {
                         level="1"
                         elid="terms-tree-1"
                         perspective="eng.alpha"
-                    />
-                </Col>
-                <Col sm={4}>
-                    <KmapTree
-                        domain="places"
-                        elid="places-tree-1"
-                        showAncestors={true}
-                        isOpen={true}
-                        project="uf"
                     />
                 </Col>
             </Row>
@@ -177,13 +166,13 @@ function FilterTree({ settings, ...props }) {
             'facet.field': ancestor_facet,
         },
     };
-
+    // console.log('query', query);
     const {
         isLoading: isAncestorsLoading,
         data: ancestorsData,
         isError: isAncestorsError,
         error: ancestorsError,
-    } = useSolr(`filter-tree-${projid}`, query);
+    } = useSolr(`filter-tree-${projid}-${settings.domain}-${persp}`, query);
     if (isAncestorsLoading) {
         return (
             <div className="filter-tree">
@@ -191,6 +180,7 @@ function FilterTree({ settings, ...props }) {
             </div>
         );
     }
+    // console.log('Filter anc data', ancestorsData);
     settings['project_ids'] =
         ancestorsData?.facets && ancestorsData.facets[ancestor_facet]
             ? Object.keys(ancestorsData.facets[ancestor_facet])
@@ -244,6 +234,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
         // Terms can be sorted in Solr response with position_i
         query.params['sort'] = 'position_i asc';
     }
+    //console.log('LeafGroup settings', settings);
     const {
         isLoading: isGroupLoading,
         data: groupData,
@@ -254,7 +245,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
     if (isGroupLoading) {
         return <MandalaSkeleton />;
     }
-    //console.log("Group Data", groupData, groupError);
+    console.log('Group Data', groupData, groupError);
     let resdocs = !isGroupError && groupData?.docs ? groupData.docs : [];
     /*let facets = (groupData['facets'][facet_fld]) ? groupData['facets'][facet_fld] : [];
     resdocs = resdocs.filter((doc) => {
@@ -272,7 +263,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
             return 0;
         });
     }
-
+    // console.log("resdocs", resdocs);
     return (
         <>
             {resdocs.map((doc, i) => {
@@ -291,7 +282,9 @@ function LeafGroup({ domain, level, settings, isopen }) {
                             settings={settings}
                         />
                     );
-                }
+                } /*else {
+                    console.log('not included', kid, settings.project_ids);
+                }*/
             })}
         </>
     );
