@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { MandalaPopover } from '../MandalaPopover';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../../hooks/useSolr';
+import { Link } from 'react-router-dom';
 
 const PlacesTree = React.lazy(() => import('../../../main/PlacesTree'));
 
@@ -44,7 +45,8 @@ export function TreeTest(props) {
                         elid="places-tree-1"
                         showAncestors={true}
                         isOpen={true}
-                        project="uf"
+                        selectedNode={16408}
+                        /*project="uf"*/
                     />
                 </Col>
                 <Col sm={4}>
@@ -61,6 +63,7 @@ export function TreeTest(props) {
                         level="1"
                         elid="terms-tree-1"
                         perspective="eng.alpha"
+                        noRootLinks={true}
                     />
                 </Col>
             </Row>
@@ -96,6 +99,8 @@ function KmapTree(props) {
         elid: 'kmap-tree-' + Math.floor(Math.random() * 10000),
         pgsize: 200,
         project_ids: false,
+        noRootLinks: false,
+        selectedNode: false,
     };
     settings = { ...settings, ...props };
     settings['root'] = {
@@ -222,6 +227,7 @@ function FilterTree({ settings, ...props }) {
 function LeafGroup({ domain, level, settings, isopen }) {
     const qid = `leaf-group-${domain}-${level}`;
     const persp_lvl = `level_${settings.perspective}_i`;
+    const noRootLinks = settings.noRootLinks;
     const query = {
         index: 'terms',
         params: {
@@ -245,7 +251,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
     if (isGroupLoading) {
         return <MandalaSkeleton />;
     }
-    console.log('Group Data', groupData, groupError);
+    // console.log('Group Data', groupData, groupError);
     let resdocs = !isGroupError && groupData?.docs ? groupData.docs : [];
     /*let facets = (groupData['facets'][facet_fld]) ? groupData['facets'][facet_fld] : [];
     resdocs = resdocs.filter((doc) => {
@@ -278,7 +284,8 @@ function LeafGroup({ domain, level, settings, isopen }) {
                             key={tlkey}
                             domain={doc.tree}
                             kid={kid}
-                            level={0}
+                            leaf_level={0}
+                            nolink={noRootLinks}
                             settings={settings}
                         />
                     );
@@ -413,11 +420,14 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
                     className={settings.spanClass}
                     data-domain={kmapdata?.tree}
                     data-id={kmapdata?.id}
-                    onClick={handleClick}
                 >
-                    <span className={settings.iconClass}>{icon}</span>
+                    <span className={settings.iconClass} onClick={handleClick}>
+                        {icon}
+                    </span>
                     <span className={settings.headerClass}>
-                        {kmapdata?.header}
+                        <Link to={kmapdata?.id.replace('-', '/')}>
+                            {kmapdata?.header}
+                        </Link>
                     </span>
                     <MandalaPopover domain={domain} kid={kid} />
                 </span>
@@ -447,6 +457,12 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
             <div className={settings.childrenClass}> </div>
         );
 
+        const leafhead = props?.nolink ? (
+            kmapdata?.header
+        ) : (
+            <Link to={kmapdata?.id.replace('-', '/')}>{kmapdata?.header}</Link>
+        );
+
         // return the div structure for a regular tree leaf
         return (
             <div className={divclass}>
@@ -454,13 +470,14 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
                     className={settings.spanClass}
                     data-domain={kmapdata?.tree}
                     data-id={kmapdata?.id}
-                    onClick={handleClick}
                 >
-                    <span className={settings.iconClass}>{icon}</span>
-                    <span className={settings.headerClass}>
-                        {kmapdata?.header}
+                    <span className={settings.iconClass} onClick={handleClick}>
+                        {icon}
                     </span>
-                    <MandalaPopover domain={domain} kid={kid} />
+                    <span className={settings.headerClass}>{leafhead}</span>
+                    {!props?.nolink && (
+                        <MandalaPopover domain={domain} kid={kid} />
+                    )}
                 </span>
                 {child_content}
             </div>
