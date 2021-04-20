@@ -108,7 +108,10 @@ export default function KmapTree(props) {
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
 
     // Remove domain and dash from selectedNode value
-    if (settings.selectedNode.includes('-')) {
+    if (
+        typeof settings?.selectedNode === 'string' &&
+        settings?.selectedNode?.includes('-')
+    ) {
         settings.selectedNode = settings.selectedNode.split('-')[1];
     }
 

@@ -4,17 +4,34 @@ import { HtmlCustom, HtmlWithPopovers } from '../common/MandalaMarkup';
 import useMandala from '../../hooks/useMandala';
 import { Tabs, Tab } from 'react-bootstrap';
 import useAsset from '../../hooks/useAsset';
+import MandalaSkeleton from '../common/MandalaSkeleton';
+import { useKmap } from '../../hooks/useKmap';
 
 function KmapsDescText({ txtid }) {
-    const solrqry = useAsset('texts', txtid);
-    const solrdoc =
-        solrqry?.data?.docs && solrqry.data.docs.length > 0
-            ? solrqry.data.docs[0]
-            : false;
-    const txtqry = useMandala(solrdoc);
-    const txtjson = txtqry?.data ? txtqry.data : false;
+    const {
+        isLoading: isAssetLoading,
+        data: asset,
+        isError: isAssetError,
+        error: assetError,
+    } = useAsset('texts', txtid);
+    let solrdoc = false;
+    if (!isAssetLoading && asset) {
+        if (asset.data?.docs && asset.data.docs.length > 0) {
+            solrdoc = asset.data.docs[0];
+        }
+    }
+
+    const {
+        isLoading: isNodeLoading,
+        data: nodedata,
+        isError: isNodeError,
+        error: nodeError,
+    } = useMandala(solrdoc);
+
+    const txtjson = !isNodeLoading && nodedata?.data ? nodedata.data : nodedata;
     const isToc = txtjson?.toc_links && txtjson.toc_links.length > 0;
     const defkey = isToc ? 'toc' : 'info';
+
     const txtmup = txtjson?.full_markup ? (
         <>
             <div className={'desc-toc'}>
@@ -42,9 +59,7 @@ function KmapsDescText({ txtid }) {
         </>
     ) : (
         <>
-            <div className={'mt-5'}>
-                <h5>Loading ...</h5>
-            </div>
+            <div className={'mt-5'}></div>
         </>
     );
 
