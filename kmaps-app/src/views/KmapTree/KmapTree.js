@@ -46,8 +46,8 @@ export function TreeTest(props) {
                         elid="places-tree-1"
                         showAncestors={true}
                         isOpen={true}
-                        selectedNode={637}
-                        /*project="uf"*/
+                        /*selectedNode={637}
+                        project="uf"*/
                     />
                 </Col>
                 <Col sm={4}>
@@ -55,7 +55,8 @@ export function TreeTest(props) {
                         domain="subjects"
                         level="1"
                         elid="subjects-tree-1"
-                        project="uf"
+                        selectedNode={104}
+                        /*project="uf"*/
                     />
                 </Col>
                 <Col sm={4}>
@@ -83,7 +84,7 @@ export function TreeTest(props) {
  * @returns {JSX.Element}
  * @constructor
  */
-function KmapTree(props) {
+export default function KmapTree(props) {
     let settings = {
         domain: 'places', // Default domain is places
         kid: 0, // Only used if "level" is false
@@ -105,6 +106,11 @@ function KmapTree(props) {
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
+
+    // Remove domain and dash from selectedNode value
+    if (settings.selectedNode.includes('-')) {
+        settings.selectedNode = settings.selectedNode.split('-')[1];
+    }
 
     // Fill in defaults for places
     if (settings.domain === 'places') {
@@ -415,14 +421,17 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
                     .parents(`.${settings.treeClass}`)
                     .eq(0);
                 if (thisos && thisos.top) {
-                    const osdiff = thisos.top - parentdiv.offset().top;
+                    const parentHeight = parentdiv.height();
+                    const osdiff =
+                        thisos.top -
+                        parentdiv.offset().top -
+                        Math.floor(parentHeight / 2.5);
                     if (!isNaN(osdiff) && osdiff > 0) {
                         parentdiv.scrollTop(osdiff);
                     }
                 }
-                $(`.${settings.leafClass}.selected`).removeClass('selected');
+                $(parentdiv).find('.selected').removeClass('selected');
                 thisel.addClass('selected');
-                console.log('this el', thisel);
             }
         }
     }, [kmapdata, childrenData]);

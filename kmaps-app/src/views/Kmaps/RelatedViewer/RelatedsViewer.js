@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
 import FancyTree from '../../FancyTree';
+import KmapTree from '../../KmapTree/KmapTree';
 import HistoryViewer from '../../History/HistoryViewer';
 import { useKmapRelated } from '../../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../../hooks/utils';
@@ -240,7 +241,7 @@ function RelatedTree(props) {
         persp = 'tib.alpha';
         sortby = 'position_i+ASC';
     }
-
+    /*
     return (
         <FancyTree
             domain={domain}
@@ -254,4 +255,7 @@ function RelatedTree(props) {
             currentFeatureId={fid}
         />
     );
+
+     */
+    return <KmapTree domain={domain} perspective={persp} selectedNode={fid} />;
 }

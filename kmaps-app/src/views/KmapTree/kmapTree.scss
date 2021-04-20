@@ -7,6 +7,10 @@
     overflow-y: scroll;
 }
 
+#l-column__search--treeNav .c-kmaptree {
+    max-height: 70rem;
+}
+
 .c-kmapleaf {
     margin-top: 0.1rem;
     white-space: nowrap;
@@ -49,7 +53,7 @@
 }
 
 [class*='lvl-'] {
-    margin-left: 1.5rem; /* amount of indent per level of tree */
+    margin-left: 1rem; /* amount of indent per level of tree */
 }
 
 /** Domain Specific Styles **/
