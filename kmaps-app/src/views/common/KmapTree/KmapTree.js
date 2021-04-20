@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './kmapTree.scss';
 import { useKmap } from '../../../hooks/useKmap';
 import { queryID } from '../utils';
@@ -14,6 +14,7 @@ import { MandalaPopover } from '../MandalaPopover';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../../hooks/useSolr';
 import { Link } from 'react-router-dom';
+import $ from 'jquery';
 
 const PlacesTree = React.lazy(() => import('../../../main/PlacesTree'));
 
@@ -45,7 +46,7 @@ export function TreeTest(props) {
                         elid="places-tree-1"
                         showAncestors={true}
                         isOpen={true}
-                        selectedNode={16408}
+                        selectedNode={637}
                         /*project="uf"*/
                     />
                 </Col>
@@ -84,49 +85,95 @@ export function TreeTest(props) {
  */
 function KmapTree(props) {
     let settings = {
-        domain: 'places',
-        kid: 13735,
-        level: false,
+        domain: 'places', // Default domain is places
+        kid: 0, // Only used if "level" is false
+        level: false, // When level is set to a number, it shows all nodes on that level (subjects and terms)
         treeClass: 'c-kmaptree',
         leafClass: 'c-kmapleaf',
         spanClass: 'c-kmapnode',
         iconClass: 'toggle-icon',
         headerClass: 'label',
         childrenClass: 'children',
-        perspective: 'pol.admin.hier',
+        perspective: '',
         isOpen: false,
         showAncestors: false,
         elid: 'kmap-tree-' + Math.floor(Math.random() * 10000),
         pgsize: 200,
         project_ids: false,
         noRootLinks: false,
-        selectedNode: false,
+        selectedNode: 0, // Kmap ID number of selected node (without domain)
+        selPath: [],
     };
-    settings = { ...settings, ...props };
-    settings['root'] = {
-        domain: settings.domain,
-        kid: settings.kid,
-    };
-    if (
-        !settings?.perspective ||
-        settings.perspective == 'pol.admin.hier' ||
-        settings.perspective == ''
-    ) {
-        if (settings.domain === 'subjects') {
+    settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
+
+    // Fill in defaults for places
+    if (settings.domain === 'places') {
+        if (settings.kid === 0 && !settings?.level) {
+            settings.kid = 13735;
+        }
+        if (settings.perspective === '') {
+            settings.perspective = 'pol.admin.hier';
+        }
+        //console.log("settings selnode", settings.selectedNode);
+    }
+
+    // Fill in defaults for subjects
+    if (settings.domain === 'subjects') {
+        if (settings.kid === 0 && !settings?.level) {
+            settings.level = 1;
+        }
+        if (settings.perspective === '') {
             settings.perspective = 'gen';
-        } else if (settings.domain === 'terms') {
+        }
+    }
+
+    // Fill in defaults for terms
+    if (settings.domain === 'terms') {
+        if (settings.kid === 0 && !settings?.level) {
+            settings.level = 1;
+        }
+        if (settings.perspective === '') {
             settings.perspective = 'tib.alpha';
         }
     }
+
+    // Set root domain for this tree
+    settings['root'] = {
+        domain: settings.domain,
+        kid: settings.kid,
+        level: settings.level,
+    };
+
+    // Load selected node (if no node selected selectedNode is 0 and it loads nothing)
+    const {
+        isLoading: isSelNodeLoading,
+        data: selNode,
+        isError: isSelNodeError,
+        error: selNodeErrror,
+    } = useKmap(queryID(settings.domain, settings.selectedNode), 'info');
+
+    // Don't load the tree until we have selected node path info to drill down with
+    if (isSelNodeLoading) {
+        return <MandalaSkeleton />;
+    } else if (selNode) {
+        // TODO: Have to figure out cases where "closest" path is used
+        if ([`ancestor_ids_${settings.perspective}`] in selNode) {
+            settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
+        }
+    }
+
+    // Assign an element (div) id for tree if not given in settings
     if (!settings?.elid) {
         const rndid = Math.floor(Math.random() * 999) + 1;
         settings['elid'] = `${settings.domain}-tree-${rndid}`;
     }
 
+    // If the project attribute is set, call create a filtered tree
     if (settings?.project?.length > 0) {
         return <FilterTree settings={settings} />;
     }
 
+    // Otherwise, create the tree dive with a LeafGroup (when there are many root nodes, e.g. subjects and terms) or a single root leaf (places)
     const treeclass = `${settings.treeClass} ${settings.root.domain}`;
     return (
         <div id={settings.elid} className={treeclass}>
@@ -310,15 +357,33 @@ function LeafGroup({ domain, level, settings, isopen }) {
  * @constructor
  */
 function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
-    const io = props?.isopen ? props.isopen : false;
+    let io = props?.isopen ? props.isopen : false;
+    if (settings?.selPath && settings.selPath.length > 0) {
+        if (settings.selPath.includes(kid * 1)) {
+            io = true;
+        }
+    }
+    const leafRef = React.createRef();
     const [isOpen, setIsOpen] = useState(io);
-
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(domain, kid), 'info');
+
+    useEffect(() => {
+        if (settings?.selPath && settings.selPath.length > 0) {
+            const lastkid = settings.selPath[settings.selPath.length - 1];
+            if (kid * 1 === lastkid * 1) {
+                console.log(
+                    'Last kid loaded: ',
+                    kmapdata,
+                    $(leafRef.current).offset()
+                );
+            }
+        }
+    }, [kmapdata]);
 
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
     const qid = `leaf-children-${domain}-${kid}-count`; // Id for query for caching
@@ -465,7 +530,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
 
         // return the div structure for a regular tree leaf
         return (
-            <div className={divclass}>
+            <div className={divclass} ref={leafRef}>
                 <span
                     className={settings.spanClass}
                     data-domain={kmapdata?.tree}
@@ -523,6 +588,7 @@ function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
             {children.map((child, i) => {
                 const lckey = `treeleaf-${child['id']}-children`;
                 const kidpts = child['id'].split('-');
+                let io = false;
                 if (
                     !settings?.project_ids ||
                     settings.project_ids.includes(kidpts[1])
@@ -534,7 +600,7 @@ function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
                             kid={kidpts[1]}
                             leaf_level={leaf_level + 1}
                             settings={settings}
-                            isopen={false}
+                            isopen={io}
                         />
                     );
                 }

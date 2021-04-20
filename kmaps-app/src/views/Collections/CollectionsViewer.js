@@ -171,8 +171,6 @@ export function CollectionsViewer(props) {
         }
     }, [collsolr]);
 
-    //console.log('collsolr', collsolr);
-
     // Get and display Owner from collsolr
     const owner = collsolr?.node_user_full_s
         ? collsolr.node_user_full_s

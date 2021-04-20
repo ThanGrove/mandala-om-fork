@@ -907,7 +907,7 @@ var kmapsSolrUtils = (function ($, window, document, undefined) {
             '&json.wrf=?' +
             '&rows=' +
             SOLR_ROW_LIMIT;
-        console.log('in plugin get desc in path tree', url);
+        // console.log('in plugin get desc in path tree', url);
         $.ajax({
             url: url,
             dataType: 'jsonp',
