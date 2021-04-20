@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import './kmapTree.scss';
-import { useKmap } from '../../../hooks/useKmap';
-import { queryID } from '../utils';
-import MandalaSkeleton from '../MandalaSkeleton';
+import { useKmap } from '../../hooks/useKmap';
+import { queryID } from '../common/utils';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 import {
     faHome,
     faPlusCircle,
@@ -10,13 +10,13 @@ import {
     faAmbulance,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { MandalaPopover } from '../MandalaPopover';
+import { MandalaPopover } from '../common/MandalaPopover';
 import { Container, Row, Col } from 'react-bootstrap';
-import { useSolr } from '../../../hooks/useSolr';
+import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 
-const PlacesTree = React.lazy(() => import('../../../main/PlacesTree'));
+const PlacesTree = React.lazy(() => import('../../main/PlacesTree'));
 
 /*
 Temp page to show a single places tree for console command information
@@ -372,19 +372,6 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         error: kmapError,
     } = useKmap(queryID(domain, kid), 'info');
 
-    useEffect(() => {
-        if (settings?.selPath && settings.selPath.length > 0) {
-            const lastkid = settings.selPath[settings.selPath.length - 1];
-            if (kid * 1 === lastkid * 1) {
-                console.log(
-                    'Last kid loaded: ',
-                    kmapdata,
-                    $(leafRef.current).offset()
-                );
-            }
-        }
-    }, [kmapdata]);
-
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
     const qid = `leaf-children-${domain}-${kid}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
@@ -413,6 +400,32 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         isError: isChildrenError,
         error: hildrenError,
     } = useSolr(qid, query, isKmapLoading);
+
+    useEffect(() => {
+        if (
+            !isChildrenLoading &&
+            settings?.selPath &&
+            settings.selPath.length > 0
+        ) {
+            const lastkid = settings.selPath[settings.selPath.length - 1];
+            if (kid * 1 === lastkid * 1) {
+                const thisel = $(leafRef.current);
+                const thisos = thisel.offset();
+                const parentdiv = thisel
+                    .parents(`.${settings.treeClass}`)
+                    .eq(0);
+                if (thisos && thisos.top) {
+                    const osdiff = thisos.top - parentdiv.offset().top;
+                    if (!isNaN(osdiff) && osdiff > 0) {
+                        parentdiv.scrollTop(osdiff);
+                    }
+                }
+                $(`.${settings.leafClass}.selected`).removeClass('selected');
+                thisel.addClass('selected');
+                console.log('this el', thisel);
+            }
+        }
+    }, [kmapdata, childrenData]);
 
     if (isKmapLoading) {
         return (

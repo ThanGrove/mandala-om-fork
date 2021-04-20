@@ -1,8 +1,10 @@
-@import '../../../_index-variables.scss';
+@import '../../index-variables';
 
 .c-kmaptree {
     margin-top: 2rem;
     margin-left: 2rem;
+    max-height: 50rem;
+    overflow-y: scroll;
 }
 
 .c-kmapleaf {
@@ -19,6 +21,10 @@
         &:hover {
             color: #df3d26;
         }
+    }
+
+    &.selected > .c-kmapnode > .label {
+        font-weight: bold;
     }
 }
 
