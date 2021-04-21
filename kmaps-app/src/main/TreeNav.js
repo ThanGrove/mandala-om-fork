@@ -1,12 +1,9 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { useLocation } from 'react-router-dom';
-import { queryID } from '../views/common/utils';
+import { useLocation, useRouteMatch } from 'react-router-dom';
+import { getProject, queryID } from '../views/common/utils';
 import KmapTree from '../views/KmapTree/KmapTree';
-const PlacesTree = React.lazy(() => import('./PlacesTree'));
-const TermsTree = React.lazy(() => import('./TermsTree'));
-const SubjectsTree = React.lazy(() => import('./SubjectsTree'));
 
 const TreeNav = (props) => {
     const openclass = props.tree ? 'open' : 'closed';
@@ -16,18 +13,24 @@ const TreeNav = (props) => {
         subjects: 'false',
         terms: 'false',
     };
-    let loc = useLocation();
-    loc = loc.pathname.split('/');
-    let found = false;
+    const match = useRouteMatch([
+        '/:baseType/:id/related-:type/:definitionID/view/:relID',
+        '/:baseType/:id/related-:type/:definitionID/:viewMode',
+        '/:baseType/:id/related-:type',
+        '/:baseType/:id',
+    ]);
 
-    if (loc.length > 2) {
-        domain = loc[1];
-        const kid = loc[2];
-        if (Object.keys(domainfids).includes(domain)) {
-            domainfids[domain] = queryID(domain, kid);
-            found = true;
+    let found = false;
+    if (match?.params?.baseType) {
+        const domain = match.params.baseType;
+        if (['places', 'subjects', 'terms'].includes(domain)) {
+            if (Object.keys(domainfids).includes(domain)) {
+                domainfids[domain] = queryID(domain, match.params.id);
+                found = true;
+            }
         }
     }
+
     if (!found) {
         domain = 'places';
         domainfids[domain] = queryID('places', 13735);
@@ -50,6 +53,7 @@ const TreeNav = (props) => {
                             domain="places"
                             isOpen={true}
                             selectedNode={domainfids['places']}
+                            project={getProject()}
                         />
                     </Tab>
                     <Tab eventKey="subjects" title="Subjects">
@@ -57,6 +61,7 @@ const TreeNav = (props) => {
                             elid="tab-tree-subjects"
                             domain="subjects"
                             selectedNode={domainfids['subjects']}
+                            project={getProject()}
                         />
                     </Tab>
                     <Tab eventKey="terms" title="Terms">
@@ -64,6 +69,7 @@ const TreeNav = (props) => {
                             elid="tab-tree-terms"
                             domain="terms"
                             selectedNode={domainfids['terms']}
+                            project={getProject()}
                         />
                     </Tab>
                 </Tabs>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './kmapTree.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import { getPerspective, queryID } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import {
     faHome,
@@ -101,34 +101,29 @@ export default function KmapTree(props) {
         settings.selectedNode = settings.selectedNode.split('-')[1];
     }
 
+    // Default perspective from function in utils.js
+    if (!settings?.perspective) {
+        settings.perspective = getPerspective(settings.domain);
+    }
+
     // Fill in defaults for places
     if (settings.domain === 'places') {
         if (settings.kid === 0 && !settings?.level) {
-            settings.kid = 13735;
+            settings.kid = 13735; // Root node is earth
         }
-        if (settings.perspective === '') {
-            settings.perspective = 'pol.admin.hier';
-        }
-        //console.log("settings selnode", settings.selectedNode);
     }
 
     // Fill in defaults for subjects
     if (settings.domain === 'subjects') {
         if (settings.kid === 0 && !settings?.level) {
-            settings.level = 1;
-        }
-        if (settings.perspective === '') {
-            settings.perspective = 'gen';
+            settings.level = 1; // Root level is 1
         }
     }
 
     // Fill in defaults for terms
     if (settings.domain === 'terms') {
         if (settings.kid === 0 && !settings?.level) {
-            settings.level = 1;
-        }
-        if (settings.perspective === '') {
-            settings.perspective = 'tib.alpha';
+            settings.level = 1; // Root level is 1
         }
     }
 

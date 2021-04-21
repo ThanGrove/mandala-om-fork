@@ -335,3 +335,32 @@ export function parseParams(ss) {
     });
     return paramobj;
 }
+
+export function getProject() {
+    return process?.env?.REACT_APP_PROJECT
+        ? process.env.REACT_APP_PROJECT
+        : false;
+}
+
+/**
+ * Function to get the default perspective setting for each domain. If this is a stand alone project, then
+ * it may have perspective settings set as, e.g.:
+ *      REACT_APP_TERMS_PERSPECTIVE=eng.alpha
+ * That then becomes the default.
+ *
+ * @param domain
+ * @returns {string|*}
+ */
+export function getPerspective(domain) {
+    const defaults = {
+        places: 'pol.admin.hier',
+        subjects: 'gen',
+        terms: 'tib.alpha',
+    };
+    const envPerspVar = `REACT_APP_${domain.toUpperCase()}_PERSPECTIVE`;
+    if (envPerspVar in process.env) {
+        return process.env[envPerspVar];
+    } else {
+        return defaults[domain];
+    }
+}

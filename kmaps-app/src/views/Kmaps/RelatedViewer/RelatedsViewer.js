@@ -5,7 +5,7 @@ import KmapTree from '../../KmapTree/KmapTree';
 import HistoryViewer from '../../History/HistoryViewer';
 import { useKmapRelated } from '../../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../../hooks/utils';
-import { queryID } from '../../../views/common/utils';
+import { getProject, queryID } from '../../../views/common/utils';
 import './RelatedsViewer.scss';
 import { useHistory } from '../../../hooks/useHistory';
 import MandalaSkeleton from '../../common/MandalaSkeleton';
@@ -229,24 +229,27 @@ function RelatedTree(props) {
     const fid = queryID(domain, kid);
     // places settings
     let persp = 'pol.admin.hier';
-    let view = 'roman.scholar';
-    let sortby = 'header_ssort+ASC';
+    let view = 'roman.scholar'; // TODO: add view to kmap tree?
+    let sortby = 'header_ssort+ASC'; // TODO: check sort works in tree
 
     // Subject settings
     if (domain === 'subjects') {
         persp = 'gen';
         view = 'roman.popular';
+
         // Term settings
     } else if (domain === 'terms') {
         persp = 'tib.alpha';
         sortby = 'position_i+ASC';
     }
+
     return (
         <KmapTree
             elid="c-relatedTreeLeft"
             domain={domain}
             perspective={persp}
             selectedNode={fid}
+            project={getProject()}
         />
     );
 }
