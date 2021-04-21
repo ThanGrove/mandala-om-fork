@@ -7,6 +7,14 @@
     overflow-y: scroll;
 }
 
+.tree-test .c-kmaptree {
+    height: 80vh;
+    min-width: 365px;
+    max-height: 80vh;
+    border: 3px inset #5960a7;
+    padding: 1.25rem;
+}
+
 #l-column__search--treeNav .c-kmaptree {
     max-height: 70rem;
 }
