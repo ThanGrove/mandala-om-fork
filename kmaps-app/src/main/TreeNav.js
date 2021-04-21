@@ -46,6 +46,7 @@ const TreeNav = (props) => {
                 <Tabs defaultActiveKey={domain} id="kmaps-tab">
                     <Tab eventKey="places" title="Places">
                         <KmapTree
+                            elid="tab-tree-places"
                             domain="places"
                             isOpen={true}
                             selectedNode={domainfids['places']}
@@ -53,12 +54,14 @@ const TreeNav = (props) => {
                     </Tab>
                     <Tab eventKey="subjects" title="Subjects">
                         <KmapTree
+                            elid="tab-tree-subjects"
                             domain="subjects"
                             selectedNode={domainfids['subjects']}
                         />
                     </Tab>
                     <Tab eventKey="terms" title="Terms">
                         <KmapTree
+                            elid="tab-tree-terms"
                             domain="terms"
                             selectedNode={domainfids['terms']}
                         />

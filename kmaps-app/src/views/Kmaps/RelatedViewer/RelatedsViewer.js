@@ -241,21 +241,12 @@ function RelatedTree(props) {
         persp = 'tib.alpha';
         sortby = 'position_i+ASC';
     }
-    /*
     return (
-        <FancyTree
+        <KmapTree
+            elid="c-relatedTreeLeft"
             domain={domain}
-            tree={domain}
-            descendants={true}
-            directAncestors={false}
-            displayPopup={true}
             perspective={persp}
-            view={view}
-            sortBy={sortby}
-            currentFeatureId={fid}
+            selectedNode={fid}
         />
     );
-
-     */
-    return <KmapTree domain={domain} perspective={persp} selectedNode={fid} />;
 }
