@@ -150,28 +150,7 @@ export default function KmapTree(props) {
             settings?.selPath &&
             settings?.selPath?.length > 0
         ) {
-            let ct = 1;
-            let lastId = settings.selPath[settings.selPath.length - ct];
-            // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id
-            const selectorBase =
-                '#' +
-                settings.elid +
-                ' .c-kmapnode[data-id=' +
-                settings.domain +
-                '-__ID__]';
-            let lastElSelector = selectorBase.replace('__ID__', lastId);
-            let lastEl = $(lastElSelector);
-            while (lastEl.length === 0 && ct <= settings.selPath.length) {
-                ct++;
-                lastId = settings.selPath[settings.selPath.length - ct];
-                lastElSelector = selectorBase.replace('__ID__', lastId);
-                lastEl = $(lastElSelector);
-                if (lastEl.length > 0) {
-                    $('#' + settings.elid).addClass('clicked');
-                    lastEl.find('.toggle-icon').click();
-                    break;
-                }
-            }
+            openToSel(settings);
         }
     }, [selNode]);
     // Don't load the tree until we have selected node path info to drill down with
@@ -192,6 +171,7 @@ export default function KmapTree(props) {
                 settings.selPath.splice(snind, 1);
             }
         }
+        openToSel(settings);
     }
 
     // Assign an element (div) id for tree if not given in settings
@@ -446,7 +426,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                updateTreeScroll(settings);
+                setTimeout(updateTreeScroll, 1000, settings);
             }
         }
     }, [kmapdata, childrenData, settings.selPath]);
@@ -646,6 +626,31 @@ function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
             })}
         </div>
     );
+}
+
+function openToSel(settings) {
+    let ct = 1;
+    let lastId = settings.selPath[settings.selPath.length - ct];
+    // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id
+    const selectorBase =
+        '#' +
+        settings.elid +
+        ' .c-kmapnode[data-id=' +
+        settings.domain +
+        '-__ID__]';
+    let lastElSelector = selectorBase.replace('__ID__', lastId);
+    let lastEl = $(lastElSelector);
+    while (lastEl.length === 0 && ct <= settings.selPath.length) {
+        ct++;
+        lastId = settings.selPath[settings.selPath.length - ct];
+        lastElSelector = selectorBase.replace('__ID__', lastId);
+        lastEl = $(lastElSelector);
+        if (lastEl.length > 0) {
+            $('#' + settings.elid).addClass('clicked');
+            lastEl.find('.toggle-icon').click();
+            break;
+        }
+    }
 }
 
 /**
