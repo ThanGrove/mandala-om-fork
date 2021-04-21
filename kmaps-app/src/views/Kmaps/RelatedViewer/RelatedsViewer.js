@@ -5,7 +5,11 @@ import KmapTree from '../../KmapTree/KmapTree';
 import HistoryViewer from '../../History/HistoryViewer';
 import { useKmapRelated } from '../../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../../hooks/utils';
-import { getProject, queryID } from '../../../views/common/utils';
+import {
+    getPerspective,
+    getProject,
+    queryID,
+} from '../../../views/common/utils';
 import './RelatedsViewer.scss';
 import { useHistory } from '../../../hooks/useHistory';
 import MandalaSkeleton from '../../common/MandalaSkeleton';
@@ -247,7 +251,6 @@ function RelatedTree(props) {
         <KmapTree
             elid="c-relatedTreeLeft"
             domain={domain}
-            perspective={persp}
             selectedNode={fid}
             project={getProject()}
         />
