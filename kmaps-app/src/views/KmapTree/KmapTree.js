@@ -85,6 +85,9 @@ export function TreeTest(props) {
  * @constructor
  */
 export default function KmapTree(props) {
+    // random id code from: https://stackoverflow.com/questions/3231459/create-unique-id-with-javascript/3231532
+    const randomid =
+        Date.now().toString(36) + Math.random().toString(36).substr(2);
     let settings = {
         domain: 'places', // Default domain is places
         kid: 0, // Only used if "level" is false
@@ -98,7 +101,7 @@ export default function KmapTree(props) {
         perspective: '',
         isOpen: false,
         showAncestors: false,
-        elid: 'kmap-tree-' + Math.floor(Math.random() * 10000),
+        elid: 'kmap-tree-' + randomid,
         pgsize: 200,
         project_ids: false,
         noRootLinks: false,
@@ -168,6 +171,15 @@ export default function KmapTree(props) {
         // TODO: Have to figure out cases where "closest" path is used
         if ([`ancestor_ids_${settings.perspective}`] in selNode) {
             settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
+        } else if (
+            [`ancestor_ids_closest_${settings.perspective}`] in selNode
+        ) {
+            settings.selPath =
+                selNode[`ancestor_ids_closest_${settings.perspective}`];
+            const snind = settings.selPath.indexOf(settings.selectedNode * 1);
+            if (snind > -1) {
+                settings.selPath.splice(snind, 1);
+            }
         }
     }
 
