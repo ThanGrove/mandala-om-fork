@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import _ from 'lodash';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls } from './utils';
+import { getProject } from '../views/common/utils';
 
 const solr_urls = getSolrUrls();
 
@@ -66,6 +67,7 @@ async function getSearchData(
             getJsonFacet(facetType, facetOffset, facetLimit, facetBuckets)
         ),
     };
+
     const queryParams = constructTextQuery(searchText);
     const filterParams = constructFilters(filters);
 
@@ -340,6 +342,12 @@ function constructFilters(filters) {
                 break;
         }
     });
+
+    // Added by Than for project filtering
+    const projid = getProject();
+    if (projid) {
+        fq_list.push(`projects_ss:${projid}`);
+    }
 
     // console.log('RETURNING FQ_LIST = ', fq_list);
     return { fq: fq_list };

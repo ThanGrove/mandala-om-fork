@@ -22,7 +22,7 @@ const TreeNav = (props) => {
 
     let found = false;
     if (match?.params?.baseType) {
-        const domain = match.params.baseType;
+        domain = match.params.baseType;
         if (['places', 'subjects', 'terms'].includes(domain)) {
             if (Object.keys(domainfids).includes(domain)) {
                 domainfids[domain] = queryID(domain, match.params.id);
