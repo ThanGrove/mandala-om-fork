@@ -227,11 +227,7 @@ export default function SearchAdvanced(props) {
                         Filters
                     </Nav.Link>
                     |
-                    <Nav.Link
-                        eventKey="resetAll"
-                        onMouseOver={(x) => console.log(x)}
-                        onClick={handleResetAll}
-                    >
+                    <Nav.Link eventKey="resetAll" onClick={handleResetAll}>
                         All
                     </Nav.Link>
                 </Navbar.Collapse>
