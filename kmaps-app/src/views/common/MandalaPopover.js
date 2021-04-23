@@ -4,6 +4,7 @@ import Skeleton from 'react-loading-skeleton';
 import { Link } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import _ from 'lodash';
+import { HtmlCustom } from './MandalaMarkup';
 
 const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     const [show, setShow] = useState(false);
@@ -157,10 +158,13 @@ function MandalaPopoverBody(props) {
     });
     const domain = props.domain;
     const kid = props.kid;
+    //kminfo.caption_eng[0].replace(/<\/?p>/g, '') + ' '
     const caption =
-        kminfo.caption_eng && kminfo.caption_eng.length > 0
-            ? kminfo.caption_eng[0].replace(/<\/?p>/g, '') + ' '
-            : '';
+        kminfo.caption_eng && kminfo.caption_eng.length > 0 ? (
+            <HtmlCustom markup={kminfo.caption_eng[0]} />
+        ) : (
+            ''
+        );
     const pubfolder = process.env.PUBLIC_URL;
     const mandala_base = pubfolder; // TODO: Check if this needs to change?
     const kmap_item_page = mandala_base + '/' + domain + '/' + kid;
@@ -224,7 +228,11 @@ function MandalaPopoverBody(props) {
 
     // Term Information
     let term_info = '';
-    if (kminfo.tree === 'terms' && kminfo.associated_subject_ids) {
+    if (
+        kminfo.tree === 'terms' &&
+        kminfo.associated_subject_ids &&
+        kminfo['level_tib.alpha_i']
+    ) {
         term_info = (
             <>
                 <div className="other">
@@ -281,7 +289,7 @@ function MandalaPopoverBody(props) {
         </>
     );
     let defdiv = '';
-    if (defs) {
+    if (defs && defs?.length > 0) {
         defdiv = (
             <div className="defs">
                 <strong>Definitions</strong>

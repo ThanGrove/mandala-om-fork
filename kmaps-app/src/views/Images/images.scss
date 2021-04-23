@@ -174,7 +174,11 @@
     }
     .u-data.row {
         line-height: 3rem;
+        .u-icon__places {
+            color: #000000;
+        }
     }
+
     span[class*='u-icon'] {
         padding-right: 4px;
         font-size: 1.25em;

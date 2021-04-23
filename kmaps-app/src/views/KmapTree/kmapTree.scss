@@ -1,8 +1,22 @@
-@import '../../../_index-variables.scss';
+@import '../../index-variables';
 
 .c-kmaptree {
     margin-top: 2rem;
     margin-left: 2rem;
+    max-height: 50rem;
+    overflow-y: scroll;
+}
+
+.tree-test .c-kmaptree {
+    height: 80vh;
+    min-width: 365px;
+    max-height: 80vh;
+    border: 3px inset #5960a7;
+    padding: 1.25rem;
+}
+
+#l-column__search--treeNav .c-kmaptree {
+    max-height: 70rem;
 }
 
 .c-kmapleaf {
@@ -13,6 +27,16 @@
     .toggle-icon {
         display: inline-block;
         margin-right: 0.5rem;
+    }
+    .label a {
+        color: #000;
+        &:hover {
+            color: #df3d26;
+        }
+    }
+
+    &.selected > .c-kmapnode > .label {
+        font-weight: bold;
     }
 }
 
@@ -37,7 +61,7 @@
 }
 
 [class*='lvl-'] {
-    margin-left: 1.5rem; /* amount of indent per level of tree */
+    margin-left: 1rem; /* amount of indent per level of tree */
 }
 
 /** Domain Specific Styles **/

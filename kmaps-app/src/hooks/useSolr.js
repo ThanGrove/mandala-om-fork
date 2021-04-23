@@ -38,11 +38,30 @@ const getSolrData = async (query) => {
     };
     const { data } = await axios.request(request);
     let retdata = data && data.response ? data.response : data;
-    if (data.facets) {
-        retdata['facets'] = data.facets;
+    if (data?.facet_counts?.facet_fields) {
+        retdata['facets'] = processFacets(data.facet_counts.facet_fields);
     }
     return retdata;
 };
+
+/**
+ * Parses facets from an array of key/value alternating (SOLR format) to JS Object with key/value pairs.
+ * @param facetdata
+ * @returns {{}}
+ */
+function processFacets(facetdata) {
+    const fkeys = Object.keys(facetdata); // List of facets in data
+    const parsed_facets = {}; // Return object of parsed facets
+    fkeys.map((fky, i) => {
+        const fvals = facetdata[fky];
+        const newfvals = {};
+        for (let n = 0; n < fvals.length; n += 2) {
+            newfvals[fvals[n]] = fvals[n + 1];
+        }
+        parsed_facets[fky] = newfvals;
+    });
+    return parsed_facets;
+}
 
 /**
  * UseSolr : a generalized form of useKmap to make customized queries to the solr index.

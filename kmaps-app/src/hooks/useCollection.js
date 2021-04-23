@@ -12,13 +12,9 @@ const useCollection = (asset_type, nid) => {
     };
     const query_key = QUERY_BASE + '-' + asset_type + '-' + nid;
 
-    return useSolr(query_key, querySpecs);
+    //console.log('useCollection: querySpecs = ', querySpecs);
 
-    // console.log('useAsset: querySpecs = ', querySpecs);
-    // console.log('useAsset: returning resource = ', resource);
-    // return resource?.data?.docs && resource?.data?.docs?.length > 0
-    //     ? resource.data.docs[0]
-    //     : resource;
+    return useSolr(query_key, querySpecs);
 };
 
 export default useCollection;

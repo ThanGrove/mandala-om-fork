@@ -14,6 +14,7 @@ import { SmartPath } from '../SmartPath';
 import { SmartRelateds } from '../SmartRelateds';
 
 import './FeatureCard.scss';
+import { HtmlCustom } from '../MandalaMarkup';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -168,7 +169,11 @@ export function FeatureCard(props) {
     const myuid = `${doc.asset_type
         .charAt(0)
         .toUpperCase()}${doc.asset_type.substr(1)}-${doc.id}`;
-    const mycaption = doc?.caption?.length > 0 ? doc.caption : null;
+    let mycaption = doc?.caption?.length > 0 ? doc.caption : null;
+    const mupatt = /<\/(p|a|header|h1|h2|span|ul|ol)>/; // Search for various closing tags
+    if (mupatt.exec(mycaption)) {
+        mycaption = <HtmlCustom markup={mycaption} />;
+    }
 
     return (
         <Card key={doc.uid} className={'c-card__grid--' + doc.asset_type}>

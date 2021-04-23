@@ -41,16 +41,23 @@ const getMandalaAPI = async (query) => {
  */
 const useMandala = (solrobj) => {
     // Get Solr Doc Object or first one from list
-    const obj = solrobj?.docs?.length > 0 ? solrobj?.docs[0] : solrobj;
-    let json_url = obj?.url_json;
+    let solrdoc = null;
+    if (solrobj?.url_json) {
+        solrdoc = solrobj;
+    } else if (solrobj?.docs?.length > 0) {
+        solrdoc = solrobj.docs[0];
+    }
+    let json_url = solrdoc?.url_json;
+    const asset_type = solrdoc?.asset_type;
+
     // Special app adjustments
-    if (obj?.asset_type === 'audio-video') {
+    if (asset_type === 'audio-video' && json_url) {
         json_url += 'p'; // av mandala has a .jsonp api endpoint for jsonp
     }
     // Get UID for Query Key
-    const uid = obj?.uid ? obj.uid : 'unknown';
+    const uid = solrdoc?.uid ? solrdoc.uid : 'unknown';
     return useQuery([QUERY_KEY, uid], () => getMandalaAPI(json_url), {
-        enabled: !!obj?.id,
+        enabled: !!solrdoc?.id,
     });
 };
 

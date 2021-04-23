@@ -143,7 +143,7 @@ function FeatureAssetListItem(props) {
                                             </span>
                                         )}
                                     <span
-                                        class={'subtitle'}
+                                        className={'subtitle'}
                                         title={'Section Title'}
                                     >
                                         {doc.title}
