@@ -23,7 +23,7 @@ export function KmapLink({ uid, label, className }) {
     }
 
     return (
-        <Link className={className} key={mykey} to={'/' + type + '/' + uid}>
+        <Link className={className} key={mykey} to={'/' + type + '/' + id}>
             {label}
         </Link>
     );
