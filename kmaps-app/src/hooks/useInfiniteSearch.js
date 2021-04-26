@@ -4,6 +4,7 @@ import slugify from 'slugify';
 import _ from 'lodash';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls, capitalize } from './utils';
+import { getProject } from '../views/common/utils';
 
 const solr_urls = getSolrUrls();
 
@@ -340,9 +341,16 @@ function constructTextQuery(searchString) {
 function constructFilters(filters) {
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
+        const fqs = [
+            'asset_type:(audio-video images texts visuals sources subjects places terms)',
+        ];
+        // Added by Than for project filtering
+        const projid = getProject();
+        if (projid) {
+            fqs.push(`projects_ss:${projid}`);
+        }
         return {
-            fq:
-                'asset_type:(audio-video images texts visuals sources subjects places terms)',
+            fq: fqs,
         };
     }
 
@@ -451,7 +459,12 @@ function constructFilters(filters) {
         }
     });
 
-    // console.log('RETURNING FQ_LIST = ', fq_list);
+    // Added by Than for project filtering
+    const projid = getProject();
+    if (projid) {
+        fq_list.push(`projects_ss:${projid}`);
+    }
+
     return { fq: fq_list };
 }
 
