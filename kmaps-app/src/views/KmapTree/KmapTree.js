@@ -665,19 +665,21 @@ function updateTreeScroll(settings) {
         return;
     }
     const selel = tree.find('.c-kmapleaf.selected');
-    const treetop = tree.offset().top;
-    const seleltop = selel.offset().top;
-    const centerAdj = Math.floor(tree.height() / 2.5);
-    let scrtop = treetop;
-    if (seleltop < 0) {
-        // Tree is scrolled past selected element
-        scrtop = treetop - Math.abs(seleltop) - centerAdj;
-    } else if (seleltop > tree.height()) {
-        // Selected element is below the bottom of the tree div
-        scrtop = seleltop - treetop - centerAdj;
-    } else {
-        // Select element is in view
-        scrtop = treetop + seleltop - centerAdj;
+    if (tree?.offset() && selel?.offset()) {
+        const treetop = tree.offset().top;
+        const seleltop = selel.offset().top;
+        const centerAdj = Math.floor(tree.height() / 2.5);
+        let scrtop;
+        if (seleltop < 0) {
+            // Tree is scrolled past selected element
+            scrtop = treetop - Math.abs(seleltop) - centerAdj;
+        } else if (seleltop > tree.height()) {
+            // Selected element is below the bottom of the tree div
+            scrtop = seleltop - treetop - centerAdj;
+        } else {
+            // Select element is in view
+            scrtop = treetop + seleltop - centerAdj;
+        }
+        tree.scrollTop(scrtop);
     }
-    tree.scrollTop(scrtop);
 }
