@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './kmapTree.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import { getPerspective, queryID } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import {
     faHome,
@@ -15,23 +15,6 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
-
-const PlacesTree = React.lazy(() => import('../../main/PlacesTree'));
-
-/*
-Temp page to show a single places tree for console command information
- */
-export function PTreeTest(props) {
-    return (
-        <Container className="tree-test">
-            <Row>
-                <Col sm={4}>
-                    <PlacesTree />
-                </Col>
-            </Row>
-        </Container>
-    );
-}
 
 /*
 Test element to show all 3 types of trees on a page. Used currently in ContentMain for testing. remove when done.
@@ -118,34 +101,29 @@ export default function KmapTree(props) {
         settings.selectedNode = settings.selectedNode.split('-')[1];
     }
 
+    // Default perspective from function in utils.js
+    if (!settings?.perspective) {
+        settings.perspective = getPerspective(settings.domain);
+    }
+
     // Fill in defaults for places
     if (settings.domain === 'places') {
         if (settings.kid === 0 && !settings?.level) {
-            settings.kid = 13735;
+            settings.kid = 13735; // Root node is earth
         }
-        if (settings.perspective === '') {
-            settings.perspective = 'pol.admin.hier';
-        }
-        //console.log("settings selnode", settings.selectedNode);
     }
 
     // Fill in defaults for subjects
     if (settings.domain === 'subjects') {
         if (settings.kid === 0 && !settings?.level) {
-            settings.level = 1;
-        }
-        if (settings.perspective === '') {
-            settings.perspective = 'gen';
+            settings.level = 1; // Root level is 1
         }
     }
 
     // Fill in defaults for terms
     if (settings.domain === 'terms') {
         if (settings.kid === 0 && !settings?.level) {
-            settings.level = 1;
-        }
-        if (settings.perspective === '') {
-            settings.perspective = 'tib.alpha';
+            settings.level = 1; // Root level is 1
         }
     }
 
@@ -164,16 +142,28 @@ export default function KmapTree(props) {
         error: selNodeErrror,
     } = useKmap(queryID(settings.domain, settings.selectedNode), 'info');
 
+    /** Use Effect: To open selected node in tree, if not already open (for parallel trees) **/
+    useEffect(() => {
+        if (
+            !isSelNodeLoading &&
+            selNode &&
+            settings?.selPath &&
+            settings?.selPath?.length > 0
+        ) {
+            openToSel(settings);
+        }
+    }, [selNode]);
     // Don't load the tree until we have selected node path info to drill down with
     if (isSelNodeLoading) {
         return <MandalaSkeleton />;
     } else if (selNode) {
-        // TODO: Have to figure out cases where "closest" path is used
+        // When sel node is in ancestor ID path
         if ([`ancestor_ids_${settings.perspective}`] in selNode) {
             settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
         } else if (
             [`ancestor_ids_closest_${settings.perspective}`] in selNode
         ) {
+            // When sel node is in closest ancestor ID path
             settings.selPath =
                 selNode[`ancestor_ids_closest_${settings.perspective}`];
             const snind = settings.selPath.indexOf(settings.selectedNode * 1);
@@ -181,6 +171,7 @@ export default function KmapTree(props) {
                 settings.selPath.splice(snind, 1);
             }
         }
+        openToSel(settings);
     }
 
     // Assign an element (div) id for tree if not given in settings
@@ -430,26 +421,15 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         ) {
             const lastkid = settings.selPath[settings.selPath.length - 1];
             if (kid * 1 === lastkid * 1) {
-                const thisel = $(leafRef.current);
-                const thisos = thisel.offset();
-                const parentdiv = thisel
-                    .parents(`.${settings.treeClass}`)
-                    .eq(0);
-                if (thisos && thisos.top) {
-                    const parentHeight = parentdiv.height();
-                    const osdiff =
-                        thisos.top -
-                        parentdiv.offset().top -
-                        Math.floor(parentHeight / 2.5);
-                    if (!isNaN(osdiff) && osdiff > 0) {
-                        parentdiv.scrollTop(osdiff);
-                    }
-                }
-                $(parentdiv).find('.selected').removeClass('selected');
-                thisel.addClass('selected');
+                $(`#${settings.elid}`)
+                    .eq(0)
+                    .find('.selected')
+                    .removeClass('selected');
+                $(leafRef.current).addClass('selected');
+                setTimeout(updateTreeScroll, 1000, settings);
             }
         }
-    }, [kmapdata, childrenData]);
+    }, [kmapdata, childrenData, settings.selPath]);
 
     if (isKmapLoading) {
         return (
@@ -527,7 +507,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
                         {icon}
                     </span>
                     <span className={settings.headerClass}>
-                        <Link to={kmapdata?.id.replace('-', '/')}>
+                        <Link to={'/' + kmapdata?.id.replace('-', '/')}>
                             {kmapdata?.header}
                         </Link>
                     </span>
@@ -562,7 +542,9 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         const leafhead = props?.nolink ? (
             kmapdata?.header
         ) : (
-            <Link to={kmapdata?.id.replace('-', '/')}>{kmapdata?.header}</Link>
+            <Link to={'/' + kmapdata?.id.replace('-', '/')}>
+                {kmapdata?.header}
+            </Link>
         );
 
         // return the div structure for a regular tree leaf
@@ -644,4 +626,58 @@ function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
             })}
         </div>
     );
+}
+
+function openToSel(settings) {
+    let ct = 1;
+    let lastId = settings.selPath[settings.selPath.length - ct];
+    // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id
+    const selectorBase =
+        '#' +
+        settings.elid +
+        ' .c-kmapnode[data-id=' +
+        settings.domain +
+        '-__ID__]';
+    let lastElSelector = selectorBase.replace('__ID__', lastId);
+    let lastEl = $(lastElSelector);
+    while (lastEl.length === 0 && ct <= settings.selPath.length) {
+        ct++;
+        lastId = settings.selPath[settings.selPath.length - ct];
+        lastElSelector = selectorBase.replace('__ID__', lastId);
+        lastEl = $(lastElSelector);
+        if (lastEl.length > 0) {
+            $('#' + settings.elid).addClass('clicked');
+            lastEl.find('.toggle-icon').click();
+            break;
+        }
+    }
+}
+
+/**
+ * Function called when selected div is loaded to scroll that selected div into view
+ * @param settings : object : the tree settings for the selected node
+ */
+function updateTreeScroll(settings) {
+    const tree = $('#' + settings.elid);
+
+    if (tree.hasClass('clicked')) {
+        tree.removeClass('clicked');
+        return;
+    }
+    const selel = tree.find('.c-kmapleaf.selected');
+    const treetop = tree.offset().top;
+    const seleltop = selel.offset().top;
+    const centerAdj = Math.floor(tree.height() / 2.5);
+    let scrtop = treetop;
+    if (seleltop < 0) {
+        // Tree is scrolled past selected element
+        scrtop = treetop - Math.abs(seleltop) - centerAdj;
+    } else if (seleltop > tree.height()) {
+        // Selected element is below the bottom of the tree div
+        scrtop = seleltop - treetop - centerAdj;
+    } else {
+        // Select element is in view
+        scrtop = treetop + seleltop - centerAdj;
+    }
+    tree.scrollTop(scrtop);
 }

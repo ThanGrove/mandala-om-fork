@@ -16,6 +16,36 @@ export default function Home(props) {
                     <Jumbotron>
                         <h3>Work-in-Progress</h3>
 
+                        <h4>University of Flourishing</h4>
+                        <ul>
+                            <li>
+                                <Link to={'/subjects/9319'}>
+                                    U of F (Subject)
+                                </Link>
+                            </li>
+
+                            <li>
+                                <Link to={'/subjects/9336'}>
+                                    Compassion(Subject)
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={'/places/5414'}>
+                                    Purwanchal (places)
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={'/places/122774'}>
+                                    Wādenswill (places)
+                                </Link>
+                            </li>
+                            <li>
+                                <Link to={'/terms/247722'}>
+                                    Medicine Yoga (terms)
+                                </Link>
+                            </li>
+                        </ul>
+
                         <h4>Terms</h4>
                         <ul>
                             <li>
