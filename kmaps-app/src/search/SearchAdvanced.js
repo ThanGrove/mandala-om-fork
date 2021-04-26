@@ -15,6 +15,7 @@ import {
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
+import { Redirect } from 'react-router';
 
 const SEARCH_PATH = '/search/:view';
 
@@ -182,6 +183,10 @@ export default function SearchAdvanced(props) {
 
     // console.log ("SEARCHY ", props );
     function closeAdvanced() {}
+
+    if (searchView?.params?.view === ':view') {
+        return <Redirect to={'/search/deck'} />;
+    }
 
     // TODO: review whether the FacetBoxes should be a configured list rather than hand-managed components as they are now.
     return (
