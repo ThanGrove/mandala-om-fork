@@ -9,6 +9,7 @@ import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import KmapTree from '../KmapTree/KmapTree';
 
 export default function PlacesRelPlacesViewer() {
     let { id } = useParams();
@@ -97,16 +98,26 @@ export default function PlacesRelPlacesViewer() {
                         </p>
                     </Row>
                     <Row>
-                        <FancyTree
+                        {/*
+                            <FancyTree
+                                domain="places"
+                                tree="places"
+                                descendants={true}
+                                directAncestors={true}
+                                displayPopup={true}
+                                perspective="pol.admin.hier"
+                                view="roman.scholar"
+                                sortBy="header_ssort+ASC"
+                                currentFeatureId={uid}
+                            />
+                            */}
+                        <KmapTree
                             domain="places"
-                            tree="places"
-                            descendants={true}
-                            directAncestors={true}
-                            displayPopup={true}
-                            perspective="pol.admin.hier"
-                            view="roman.scholar"
-                            sortBy="header_ssort+ASC"
-                            currentFeatureId={uid}
+                            kid={id}
+                            elid={`related-places-tree-${id}`}
+                            showAncestors={true}
+                            showRelatedPlaces={true}
+                            isOpen={true}
                         />
                     </Row>
                 </Container>

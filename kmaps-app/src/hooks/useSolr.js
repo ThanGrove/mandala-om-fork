@@ -76,7 +76,10 @@ function processFacets(facetdata) {
 export function useSolr(qkey, queryobj, byPass = false) {
     // console.log("useSolr: qkey = ", qkey, " queryobj = ", queryobj);
     // split qkey by '-' and pass array as key
-    return useQuery(qkey.split('-'), () => getSolrData(queryobj), {
+    if (typeof qkey === 'string') {
+        qkey = qkey.split('-');
+    }
+    return useQuery(qkey, () => getSolrData(queryobj), {
         enabled: !byPass,
     });
 }

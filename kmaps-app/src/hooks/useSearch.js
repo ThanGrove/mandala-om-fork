@@ -72,9 +72,7 @@ async function getSearchData(
     const filterParams = constructFilters(filters);
 
     params = { ...params, ...queryParams, ...filterParams };
-    if (rows === 0) {
-        console.log('bucket search params', params);
-    }
+
     const request = {
         adapter: jsonpAdapter,
         callbackParamName: 'json.wrf',

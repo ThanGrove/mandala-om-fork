@@ -26,13 +26,25 @@ export function TreeTest(props) {
                 <Col sm={4}>
                     <KmapTree
                         domain="places"
+                        kid="637"
+                        elid="places-tree-1"
+                        showAncestors={true}
+                        showRelatedPlaces={true}
+                        isOpen={true}
+                    />
+                </Col>
+                {/*
+                <Col sm={4}>
+                    <KmapTree
+                        domain="places"
                         elid="places-tree-1"
                         showAncestors={true}
                         isOpen={true}
-                        /*selectedNode={637}
-                        project="uf"*/
+                        selectedNode={637}
+                        project="uf"
                     />
-                </Col>
+                    </Col>
+                 */}
                 <Col sm={4}>
                     <KmapTree
                         domain="subjects"
@@ -84,6 +96,7 @@ export default function KmapTree(props) {
         perspective: '',
         isOpen: false,
         showAncestors: false,
+        showRelatedPlaces: false,
         elid: 'kmap-tree-' + randomid,
         pgsize: 200,
         project_ids: false,
@@ -527,7 +540,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         );
     } else {
         // Define the child_content based on whether it is open or not (only loads children when open)
-        const child_content = isOpen ? (
+        let child_content = isOpen ? (
             <LeafChildren
                 settings={settings}
                 quid={qid.replace('-count', '')}
@@ -538,6 +551,16 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         ) : (
             <div className={settings.childrenClass}> </div>
         );
+
+        if (settings?.showRelatedPlaces) {
+            child_content = (
+                <RelatedChildren
+                    settings={settings}
+                    domain={domain}
+                    kid={kid}
+                />
+            );
+        }
 
         const leafhead = props?.nolink ? (
             kmapdata?.header
@@ -623,6 +646,76 @@ function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
                         />
                     );
                 }
+            })}
+        </div>
+    );
+}
+
+function RelatedChildren({ settings, domain, kid }) {
+    const quid = `related-children-${domain}-${kid}`;
+    const query = {
+        index: 'terms',
+        params: {
+            q: `block_type:child AND block_child_type:related_places AND related_places_path_s:*/${kid}/*`,
+            fq: `origin_uid_s:places-${kid}`,
+            rows: 1000,
+            fl: '*',
+        },
+    };
+    const {
+        isLoading: isChildrenLoading,
+        data: childrenData,
+        isError: isChildrenError,
+        error: childrenError,
+    } = useSolr(quid, query);
+    if (isChildrenLoading) {
+        return <MandalaSkeleton />;
+    }
+    const children =
+        !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
+
+    const headernm = `related_places_header_s`;
+    children.sort((a, b) => {
+        if (a[headernm] > b[headernm]) {
+            return 1;
+        }
+        if (a[headernm] < b[headernm]) {
+            return -1;
+        }
+        return 0;
+    });
+
+    return (
+        <div className={settings.childrenClass}>
+            {children.map((child, i) => {
+                const lckey = `treeleaf-${child['id']}-children-related-places`;
+                const [domain, kid] = child['related_places_id_s'].split('-');
+                const leafhead = child[headernm];
+                const divclass = 'leafend';
+                let io = false;
+                return (
+                    <div className={divclass}>
+                        <span
+                            className={settings.spanClass}
+                            data-domain={domain}
+                            data-id={kid}
+                        >
+                            <span className={settings.iconClass}>-</span>
+                            <span className={settings.headerClass}>
+                                <Link to={`/${domain}/${kid}`}>{leafhead}</Link>
+                                &nbsp;
+                                <span className="addinfo text-capitalize">
+                                    ({child['related_places_feature_type_s']})
+                                </span>
+                            </span>
+                            <MandalaPopover
+                                key={lckey + 'pop'}
+                                domain={domain}
+                                kid={kid}
+                            />
+                        </span>
+                    </div>
+                );
             })}
         </div>
     );
