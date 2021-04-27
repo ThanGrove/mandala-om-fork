@@ -688,13 +688,16 @@ function RelatedChildren({ settings, domain, kid }) {
     return (
         <div className={settings.childrenClass}>
             {children.map((child, i) => {
-                const lckey = `treeleaf-${child['id']}-children-related-places`;
+                const lckey = `treeleaf-${child['id'].replace(
+                    '-',
+                    '.'
+                )}-children-related-places-${i}`;
                 const [domain, kid] = child['related_places_id_s'].split('-');
                 const leafhead = child[headernm];
                 const divclass = 'leafend';
                 let io = false;
                 return (
-                    <div className={divclass}>
+                    <div className={divclass} key={lckey}>
                         <span
                             className={settings.spanClass}
                             data-domain={domain}
