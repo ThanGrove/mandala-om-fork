@@ -15,6 +15,17 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+/**
+ * This file contains several components used for creating a KMap Tree. Most of them are internal.
+ * The default export is KmapTree which is the one used to create the various versions based on its settings.
+ * The other components here are either versions of the tree or children used in the tree. They are:
+ *     FilterTree: A tree filtered by project (projects_ss value in Solr doc)
+ *     LeafGroup: The initial component for Subjects and Terms trees that have multiple top-level roots
+ *     LeafChildren: A component containing the children of a leaf node, only added when the node is "opened" to implement lazy loading
+ *     RelatedChildren: A variant of LeafChildren, that only shows related places from the list of child documents
+ *     TreeLeaf: A basic leaf node in any tree. Keeps state on whether open or closed and added LeafChilden if open.
+ * Also includes two functions "openToSel()" and "updateTreeScroll()" for scrolling to selected node
+ */
 
 /*
 Test element to show all 3 types of trees on a page. Used currently in ContentMain for testing. remove when done.
@@ -72,8 +83,26 @@ export function TreeTest(props) {
  * Kmap Tree: React Version of Kmaps Fancy Tree. Tree initializing function. Can pass any of the props listed in settings, but two basic modes;
  *      - Load a single kmaps as a tree root. Takes `domain` and `kid`.
  *      - Load a group of kmap nodes at the same level_i (e.g. subjects and possibly terms). Takes `domain` and `level`.
- *  The former loads a TreeLeaf component, the latter ...
- *  TODO: Finish this doc with desc of options/settings
+ *      - Leaves/Nodes with children are expandable with a plus/minus icon. Terminal nodes have a dash.
+ *      - Each leaf header is linked to the page that displays it
+ *      - Each leaf header is decorated to the right with a Mandala Popover for the Kmap
+ *
+ *  When loading a single tree root, it displays a TreeLeaf component (opened or closed depending on the value of isOpen).
+ *  When loading a group of nodes at the same level, like subjects, it displays a LeafGroup component.
+ *
+ *  The major KmapTree settings are:
+ *      domain: required either places, subjects, or terms (default: places)
+ *      kid: optional, if given then used with domain to set the root of the tree (default: 0)
+ *      perspective: optional, the perspective id for that domain's tree (default: uses the util.js function getPerspective(domain) to get the default perspective for that domain)
+ *      level: optional, if given, shows all nodes at that level of the tree (default: false)
+ *      isOpen: whether the root node should be open or not (default: false)
+ *      showAncestors: whether to show the ancestors of the root node (default: false)
+ *      showRelatedPlaces: whether to show the related places of the root node (default: false)
+ *      elid: the element ID for the tree div (default: kmap-tree-{random hash})
+ *      selectedNode: the kmap numeric ID (without domain) of the selected node (default: 0)
+ *      noRootLinks: if true, will not link or show mandala popover for the root nodes (used in Terms)
+ *
+ *      There are also various class settings for tree, leaf, span, icon, header, and children
  *
  * @param props
  * @returns {JSX.Element}
@@ -148,12 +177,31 @@ export default function KmapTree(props) {
     };
 
     // Load selected node (if no node selected selectedNode is 0 and it loads nothing)
+    const kmapId = queryID(settings.domain, settings.selectedNode);
     const {
         isLoading: isSelNodeLoading,
         data: selNode,
         isError: isSelNodeError,
         error: selNodeErrror,
-    } = useKmap(queryID(settings.domain, settings.selectedNode), 'info');
+    } = useKmap(kmapId, 'info');
+
+    // Load related places selected node (Monasteries, etc.) (if not a related child nothing loads)
+    const selNodeQuery = {
+        index: 'terms',
+        params: {
+            q: '{!parent which=block_type:parent}related_uid_s:' + kmapId,
+            fl: `uid,header,[child parentFilter=block_type:parent childFilter=related_uid_s:${kmapId}]`,
+            start: 0,
+            rows: 1,
+            wt: 'json',
+        },
+    };
+    const {
+        isLoading: isRelSelNodeLoading,
+        data: relSelNode,
+        isError: isRelSelNodeError,
+        error: relSelNodeErrror,
+    } = useSolr(`${kmapId}-relsel`, selNodeQuery);
 
     /** Use Effect: To open selected node in tree, if not already open (for parallel trees) **/
     useEffect(() => {
@@ -164,26 +212,46 @@ export default function KmapTree(props) {
             settings?.selPath?.length > 0
         ) {
             openToSel(settings);
+        } else if (
+            isRelSelNodeLoading &&
+            relSelNode &&
+            settings?.selPath &&
+            settings?.selPath?.length > 0
+        ) {
+            openToSel(settings);
         }
     }, [selNode]);
+
     // Don't load the tree until we have selected node path info to drill down with
-    if (isSelNodeLoading) {
+    if (isSelNodeLoading && isRelSelNodeLoading) {
         return <MandalaSkeleton />;
-    } else if (selNode) {
-        // When sel node is in ancestor ID path
-        if ([`ancestor_ids_${settings.perspective}`] in selNode) {
-            settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
-        } else if (
-            [`ancestor_ids_closest_${settings.perspective}`] in selNode
-        ) {
-            // When sel node is in closest ancestor ID path
-            settings.selPath =
-                selNode[`ancestor_ids_closest_${settings.perspective}`];
-            const snind = settings.selPath.indexOf(settings.selectedNode * 1);
-            if (snind > -1) {
-                settings.selPath.splice(snind, 1);
-            }
+        // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
+    } else if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
+        settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
+        openToSel(settings);
+        // Otherwise if it has list of ancestor ids closest to that perspective, use that
+    } else if (
+        selNode &&
+        [`ancestor_ids_closest_${settings.perspective}`] in selNode
+    ) {
+        // When sel node is in closest ancestor ID path
+        settings.selPath =
+            selNode[`ancestor_ids_closest_${settings.perspective}`];
+        const snind = settings.selPath.indexOf(settings.selectedNode * 1);
+        if (snind > -1) {
+            settings.selPath.splice(snind, 1);
         }
+        openToSel(settings);
+        // Otherwise, check if it's a related place child and if so, use its relapte_places_path_s, dropping the last item (itself)
+    } else if (relSelNode?.docs?.length > 0) {
+        // When there is no selNode but there is a relSel
+        const relpath =
+            relSelNode.docs[0]['_childDocuments_'][0]['related_places_path_s'];
+        const splitpath = relpath.split('/').map((item) => {
+            return item * 1;
+        });
+        splitpath.pop();
+        settings.selPath = splitpath;
         openToSel(settings);
     }
 
@@ -224,8 +292,24 @@ export default function KmapTree(props) {
     );
 }
 
+/**
+ * Filter Tree: is a tree filtered by a project id (projects_ss) which is set in the .env files.
+ * It initially does a search for all docs that have that id and facets on the ancestor_ids for that perspective.
+ * This list of IDs is then added to the tree settings under project_ids attribute.
+ * There is an automatic check in the LeafChildren component that will display all children if the project_ids list is empty
+ * But if list has any length, then it will only show children if they occur in the list.
+ * By faceting on ancestors, it gets necessary ancestor nodes that may not be tagged with that projects_ss ID.
+ *
+ * This takes the settings from the filter tree plus any other props given to the React Component (just in case)
+ * The settings must have the project attribute set.
+ *
+ * @param settings
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function FilterTree({ settings, ...props }) {
-    const projid = settings.project;
+    const projid = settings?.project;
     const persp = settings.perspective;
     // const persp_lvl = `level_${persp}_i`;
     const ancestor_facet = `ancestor_ids_${persp}`;
@@ -257,6 +341,14 @@ function FilterTree({ settings, ...props }) {
             </div>
         );
     }
+    if (!projid) {
+        return (
+            <div className="filter-tree">
+                <p>Cannot load filter tree without project ID setting!</p>
+            </div>
+        );
+    }
+
     // console.log('Filter anc data', ancestorsData);
     settings['project_ids'] =
         ancestorsData?.facets && ancestorsData.facets[ancestor_facet]
@@ -288,12 +380,14 @@ function FilterTree({ settings, ...props }) {
 }
 
 /**
- * A group of tree nodes at the same level, as in Subjects
+ * A group of tree nodes/leaves at the same level, as in Subjects or Terms
+ * This serves in the place of a single root node.
+ * For groups of nodes that are children of another node, the LeafChildren component is used
  *
- * @param domain
- * @param level
- * @param settings
- * @param isopen
+ * @param domain : the domain of the treee
+ * @param level : the level of nodes to display in a group
+ * @param settings : the rest of the KmapTree settings as defined above
+ * @param isopen : whether the root nodes should be open (has not been tested)
  * @constructor
  */
 function LeafGroup({ domain, level, settings, isopen }) {
@@ -370,8 +464,21 @@ function LeafGroup({ domain, level, settings, isopen }) {
 }
 
 /**
- * A Single Leaf Node from which other may descend it loads a LeafChildren component that shows and empty div
- * if this leaf is "closed" but loads the children if "open"
+ * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
+ * Depending on the isopen setting in props it is open or closed (if it has children)
+ * When closed it contains an empty child div. When opened, it displays a LeafChildren component.
+ * It does a query for number of children to determine the icon to display, whether toggle-able
+ * A useEffect() hook sets and scrolls to the selected node once the tree is loaded
+ *
+ * If it is a root node and the props.showAncestors is true, then it takes the ancestor_id_path and
+ * displays the highest node from it. It removes that id from the path, displays the leaf of that highest node,
+ * but it sets the treePath to the truncated ancestor_id_path. When treePath is set, this TreeLeaf component
+ * will display only the highest TreeLeaf on that path using a further truncated ancestor_id_path.
+ * This iterates through the ancestors until the designated root node is displayed at which point
+ * the treePath will be empty and it will display as a regular node
+ *
+ * If prop.showRelatedPlaces is set to true, it will display a single level of children that are all the
+ * related places to the root node.
  *
  * @param domain
  * @param kid
@@ -407,7 +514,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
     // variables to filter query for only children's level
     const lvl_fld = `level_${settings.perspective}_i`;
     const childlvl = isKmapLoading ? 1 : parseInt(kmapdata[lvl_fld]) + 1;
-    // build the query for numFound only (count: 0)
+    // Query for number of children: build the query for numFound only (count: 0)
     const query = {
         index: 'terms',
         params: {
@@ -418,7 +525,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         },
     };
 
-    // Query Solr
+    // UseSolr Query (ReactQuery based hook)
     const {
         isLoading: isChildrenLoading,
         data: childrenData,
@@ -724,6 +831,15 @@ function RelatedChildren({ settings, domain, kid }) {
     );
 }
 
+/**
+ * Opens to the selected node using the settings.selPath attribute
+ * Selected Node is loaded at the beginning of KmapTree and its path is used to set the selPath
+ * It performs a loop taking the last ID from the selpath and searching for it
+ * It creates a jQuery selector (using selectorBase plus the node ID) and
+ * If that element exists it clicks on it. It does this until the last element in the selPath is found.
+ *
+ * @param settings
+ */
 function openToSel(settings) {
     let ct = 1;
     let lastId = settings.selPath[settings.selPath.length - ct];
