@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './kmapTree.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { getPerspective, queryID } from '../common/utils';
+import { getPerspective, getProject, queryID } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import {
     faHome,
@@ -37,32 +37,17 @@ export function TreeTest(props) {
                 <Col sm={4}>
                     <KmapTree
                         domain="places"
-                        kid="637"
                         elid="places-tree-1"
-                        showAncestors={true}
-                        showRelatedPlaces={true}
                         isOpen={true}
+                        project={getProject()}
                     />
                 </Col>
-                {/*
-                <Col sm={4}>
-                    <KmapTree
-                        domain="places"
-                        elid="places-tree-1"
-                        showAncestors={true}
-                        isOpen={true}
-                        selectedNode={637}
-                        project="uf"
-                    />
-                    </Col>
-                 */}
                 <Col sm={4}>
                     <KmapTree
                         domain="subjects"
                         level="1"
                         elid="subjects-tree-1"
-                        selectedNode={104}
-                        /*project="uf"*/
+                        project={getProject()}
                     />
                 </Col>
                 <Col sm={4}>
@@ -72,7 +57,27 @@ export function TreeTest(props) {
                         elid="terms-tree-1"
                         perspective="eng.alpha"
                         noRootLinks={true}
+                        project={getProject()}
                     />
+                </Col>
+            </Row>
+            <Row>
+                <Col sm={4}>
+                    <KmapTree
+                        domain="places"
+                        elid="places-tree-2"
+                        isOpen={true}
+                    />
+                </Col>
+                <Col sm={4}>
+                    <KmapTree
+                        domain="subjects"
+                        level="1"
+                        elid="subjects-tree-2"
+                    />
+                </Col>
+                <Col sm={4}>
+                    {/* Adding another terms tree interferes with filtered one. TODO: figure out why! */}
                 </Col>
             </Row>
         </Container>
