@@ -247,12 +247,16 @@ export default function KmapTree(props) {
         // When there is no selNode but there is a relSel
         const relpath =
             relSelNode.docs[0]['_childDocuments_'][0]['related_places_path_s'];
-        const splitpath = relpath.split('/').map((item) => {
-            return item * 1;
-        });
-        splitpath.pop();
-        settings.selPath = splitpath;
-        openToSel(settings);
+        if (relpath && typeof relpath === 'string') {
+            const splitpath = relpath.split('/').map((item) => {
+                return item * 1;
+            });
+            splitpath.pop();
+            if (splitpath.length > 0) {
+                settings.selPath = splitpath;
+                openToSel(settings);
+            }
+        }
     }
 
     // Assign an element (div) id for tree if not given in settings
