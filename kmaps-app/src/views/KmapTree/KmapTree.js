@@ -55,7 +55,7 @@ export function TreeTest(props) {
                         domain="terms"
                         level="1"
                         elid="terms-tree-1"
-                        perspective="eng.alpha"
+                        perspective={getPerspective('terms')}
                         noRootLinks={true}
                         project={getProject()}
                     />
@@ -77,7 +77,15 @@ export function TreeTest(props) {
                     />
                 </Col>
                 <Col sm={4}>
-                    {/* Adding another terms tree interferes with filtered one. TODO: figure out why! */}
+                    {/* Adding another terms tree interferes with filtered one. TODO: figure out why!
+                    <KmapTree
+                        domain="terms"
+                        level="1"
+                        elid="terms-tree-2"
+                        perspective="tib.alpha"
+                        noRootLinks={true}
+                    />
+                    */}
                 </Col>
             </Row>
         </Container>
