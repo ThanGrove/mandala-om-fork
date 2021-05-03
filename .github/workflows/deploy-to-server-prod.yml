@@ -1,4 +1,4 @@
-name: "Deploy to Server Dev"
+name: "Deploy to Server Prod"
 
 on:
   workflow_dispatch:
