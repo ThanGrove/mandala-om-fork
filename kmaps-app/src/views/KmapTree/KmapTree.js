@@ -220,20 +220,14 @@ export default function KmapTree(props) {
     useEffect(() => {
         if (
             !isSelNodeLoading &&
-            selNode &&
-            settings?.selPath &&
-            settings?.selPath?.length > 0
-        ) {
-            openToSel(settings);
-        } else if (
-            isRelSelNodeLoading &&
-            relSelNode &&
+            !isRelSelNodeLoading &&
+            (selNode || relSelNode) &&
             settings?.selPath &&
             settings?.selPath?.length > 0
         ) {
             openToSel(settings);
         }
-    }, [selNode]);
+    }, [selNode, relSelNode]);
 
     // Don't load the tree until we have selected node path info to drill down with
     if (isSelNodeLoading && isRelSelNodeLoading) {
@@ -241,7 +235,6 @@ export default function KmapTree(props) {
         // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
     } else if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
         settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
-
         // Otherwise if it has list of ancestor ids closest to that perspective, use that
     } else if (
         selNode &&
