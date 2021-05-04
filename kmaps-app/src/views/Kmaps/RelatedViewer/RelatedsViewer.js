@@ -249,7 +249,8 @@ function RelatedTree(props) {
 
     return (
         <KmapTree
-            elid="c-relatedTreeLeft"
+            elid={`related-tree-left-${domain}`}
+            className="l-relatedTreeLeft"
             domain={domain}
             selectedNode={fid}
             project={getProject()}

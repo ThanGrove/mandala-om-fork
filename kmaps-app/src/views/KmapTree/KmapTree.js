@@ -241,7 +241,7 @@ export default function KmapTree(props) {
         // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
     } else if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
         settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
-        openToSel(settings);
+
         // Otherwise if it has list of ancestor ids closest to that perspective, use that
     } else if (
         selNode &&
@@ -254,7 +254,6 @@ export default function KmapTree(props) {
         if (snind > -1) {
             settings.selPath.splice(snind, 1);
         }
-        openToSel(settings);
         // Otherwise, check if it's a related place child and if so, use its relapte_places_path_s, dropping the last item (itself)
     } else if (relSelNode?.docs?.length > 0) {
         // When there is no selNode but there is a relSel
@@ -267,7 +266,6 @@ export default function KmapTree(props) {
             splitpath.pop();
             if (splitpath.length > 0) {
                 settings.selPath = splitpath;
-                openToSel(settings);
             }
         }
     }
@@ -284,7 +282,10 @@ export default function KmapTree(props) {
     }
 
     // Otherwise, create the tree dive with a LeafGroup (when there are many root nodes, e.g. subjects and terms) or a single root leaf (places)
-    const treeclass = `${settings.treeClass} ${settings.root.domain}`;
+    let treeclass = `${settings.treeClass} ${settings.root.domain}`;
+    if (props?.className) {
+        treeclass += ` ${props.className}`;
+    }
     return (
         <div id={settings.elid} className={treeclass}>
             {settings.level && (
@@ -858,6 +859,7 @@ function RelatedChildren({ settings, domain, kid }) {
  * @param settings
  */
 function openToSel(settings) {
+    return;
     let ct = 1;
     let lastId = settings.selPath[settings.selPath.length - ct];
     // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id
