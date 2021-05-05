@@ -15,6 +15,8 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
+import { KmapPerpsectiveData } from './KmapPerspectives';
+
 /**
  * This file contains several components used for creating a KMap Tree. Most of them are internal.
  * The default export is KmapTree which is the one used to create the various versions based on its settings.
@@ -55,12 +57,12 @@ export function TreeTest(props) {
                         domain="terms"
                         level="1"
                         elid="terms-tree-1"
-                        perspective={getPerspective('terms')}
+                        perspective="tib.alpha"
                         noRootLinks={true}
-                        project={getProject()}
                     />
                 </Col>
             </Row>
+            {/*
             <Row>
                 <Col sm={4}>
                     <KmapTree
@@ -77,7 +79,7 @@ export function TreeTest(props) {
                     />
                 </Col>
                 <Col sm={4}>
-                    {/* Adding another terms tree interferes with filtered one. TODO: figure out why!
+                     Adding another terms tree interferes with filtered one. TODO: figure out why!
                     <KmapTree
                         domain="terms"
                         level="1"
@@ -85,9 +87,9 @@ export function TreeTest(props) {
                         perspective="tib.alpha"
                         noRootLinks={true}
                     />
-                    */}
                 </Col>
             </Row>
+                    */}
         </Container>
     );
 }
@@ -279,8 +281,21 @@ export default function KmapTree(props) {
     if (props?.className) {
         treeclass += ` ${props.className}`;
     }
+    let perspChooser = null;
+    if (
+        settings.domain in KmapPerpsectiveData &&
+        KmapPerpsectiveData[settings.domain]?.length > 1
+    ) {
+        perspChooser = (
+            <PerspectiveChooser
+                domain={settings.domain}
+                current={settings.perspective}
+            />
+        );
+    }
     return (
         <div id={settings.elid} className={treeclass}>
+            {perspChooser}
             {settings.level && (
                 <LeafGroup
                     domain={settings.root.domain}
@@ -842,6 +857,38 @@ function RelatedChildren({ settings, domain, kid }) {
     );
 }
 
+function PerspectiveChooser(props) {
+    const domain = props.domain;
+    const choices =
+        domain in KmapPerpsectiveData ? KmapPerpsectiveData[domain] : false;
+    if (!domain || !choices) {
+        console.log('one is false! ', domain, choices);
+        return null;
+    }
+    const current = props?.current;
+    let pclass =
+        props?.classes && props.classes?.length && props.classes.length > 0
+            ? props.classes
+            : '';
+    pclass = ['c-perspective-select', ...pclass];
+
+    return (
+        <div className={pclass}>
+            <label>Persepective: </label>
+            <select>
+                {choices.map((persp) => {
+                    const sel = persp.id === current ? 'selected' : '';
+                    return (
+                        <option value={persp.id} selected={sel}>
+                            {persp.name}
+                        </option>
+                    );
+                })}
+            </select>
+        </div>
+    );
+}
+
 /**
  * Opens to the selected node using the settings.selPath attribute
  * Selected Node is loaded at the beginning of KmapTree and its path is used to set the selPath
@@ -852,7 +899,6 @@ function RelatedChildren({ settings, domain, kid }) {
  * @param settings
  */
 function openToSel(settings) {
-    return;
     let ct = 1;
     let lastId = settings.selPath[settings.selPath.length - ct];
     // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id

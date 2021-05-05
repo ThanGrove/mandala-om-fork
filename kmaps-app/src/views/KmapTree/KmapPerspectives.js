@@ -1,11 +1,8 @@
 export const KmapPerpsectiveData = {
     places: [
         { name: 'Cultural Regions', id: 'cult.reg' },
-        { name: 'National Administrative Units', id: 'pol.admin.hier' },
-        {
-            name: 'Historical Polity Administrative Units',
-            id: 'hist.pol.admin.unit',
-        },
+        { name: 'National Admin Units', id: 'pol.admin.hier' },
+        { name: 'Historical Polity Admin Units', id: 'hist.pol.admin.unit' },
         { name: 'Electoral Relationships', id: 'elect.rel' },
         { name: 'Site Relationships', id: 'site.rel' },
         { name: 'Political Relationships', id: 'pol.rel' },
@@ -17,7 +14,11 @@ export const KmapPerpsectiveData = {
         { name: 'Geographic Relationship', id: 'geo.rel' },
     ],
 
-    subjects: [],
+    subjects: [{ name: 'General', id: 'gen' }],
 
-    terms: [],
+    terms: [
+        { name: 'Tibetan Alphabetical', id: 'tib.alpha' },
+        { name: 'English Alphabetical', id: 'eng.alpha' },
+        { name: 'Grammatical/Semantic', id: 'gram.sem.rel' },
+    ],
 };

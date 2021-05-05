@@ -19,6 +19,18 @@
     max-height: 70rem;
 }
 
+.c-perspective-select {
+    white-space: nowrap;
+    label {
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 1rem;
+    }
+    select {
+        display: inline-block;
+        width: fit-content;
+    }
+}
 .c-kmapleaf {
     margin-top: 0.1rem;
     white-space: nowrap;
