@@ -358,7 +358,7 @@ export function getPerspective(domain) {
         terms: 'tib.alpha',
     };
     const envPerspVar = `REACT_APP_${domain.toUpperCase()}_PERSPECTIVE`;
-    if (envPerspVar in process.env) {
+    if (envPerspVar in process.env && process.env[envPerspVar] !== '') {
         return process.env[envPerspVar];
     } else {
         return defaults[domain];

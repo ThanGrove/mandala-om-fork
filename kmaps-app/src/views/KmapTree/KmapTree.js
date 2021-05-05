@@ -293,6 +293,7 @@ export default function KmapTree(props) {
             />
         );
     }
+
     return (
         <div id={settings.elid} className={treeclass}>
             {perspChooser}
@@ -432,7 +433,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
         // Terms can be sorted in Solr response with position_i
         query.params['sort'] = 'position_i asc';
     }
-    //console.log('LeafGroup settings', settings);
+
     const {
         isLoading: isGroupLoading,
         data: groupData,
@@ -443,7 +444,7 @@ function LeafGroup({ domain, level, settings, isopen }) {
     if (isGroupLoading) {
         return <MandalaSkeleton />;
     }
-    // console.log('Group Data', groupData, groupError);
+
     let resdocs = !isGroupError && groupData?.docs ? groupData.docs : [];
     /*let facets = (groupData['facets'][facet_fld]) ? groupData['facets'][facet_fld] : [];
     resdocs = resdocs.filter((doc) => {
@@ -875,11 +876,14 @@ function PerspectiveChooser(props) {
     return (
         <div className={pclass}>
             <label>Persepective: </label>
-            <select>
-                {choices.map((persp) => {
+            <select defaultValue={current}>
+                {choices.map((persp, i) => {
                     const sel = persp.id === current ? 'selected' : '';
                     return (
-                        <option value={persp.id} selected={sel}>
+                        <option
+                            value={persp.id}
+                            key={`${domain}-persp-choice-${i}`}
+                        >
                             {persp.name}
                         </option>
                     );
