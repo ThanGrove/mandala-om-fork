@@ -204,7 +204,7 @@ export default function SearchAdvanced(props) {
                 <Navbar.Toggle />
                 {!searchView &&
                     process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                        <Link to={SEARCH_PATH}>
+                        <Link to={`/search/deck`}>
                             {' '}
                             Show Results{' '}
                             <Badge pill variant={'secondary'}>
