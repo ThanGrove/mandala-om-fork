@@ -16,6 +16,7 @@ import { useSolr } from '../../hooks/useSolr';
 import { Link } from 'react-router-dom';
 import $ from 'jquery';
 import { KmapPerpsectiveData } from './KmapPerspectives';
+import { makeObjectPropertySetter } from 'ol/xml';
 
 /**
  * This file contains several components used for creating a KMap Tree. Most of them are internal.
@@ -189,7 +190,10 @@ export default function KmapTree(props) {
         domain: settings.domain,
         kid: settings.kid,
         level: settings.level,
+        perspective: settings.perspective,
     };
+
+    const [perspective, setPerspective] = useState(settings.perspective);
 
     // Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
@@ -230,6 +234,12 @@ export default function KmapTree(props) {
             openToSel(settings);
         }
     }, [selNode, relSelNode]);
+
+    // Perspective use effect
+    useEffect(() => {
+        settings.perspective = perspective;
+        // console.log("New settings persepctive is: " + settings.perspective);
+    }, [perspective]);
 
     // Don't load the tree until we have selected node path info to drill down with
     if (isSelNodeLoading && isRelSelNodeLoading) {
@@ -289,7 +299,8 @@ export default function KmapTree(props) {
         perspChooser = (
             <PerspectiveChooser
                 domain={settings.domain}
-                current={settings.perspective}
+                current={perspective}
+                setter={setPerspective}
             />
         );
     }
@@ -313,6 +324,7 @@ export default function KmapTree(props) {
                     settings={settings}
                     isopen={settings.isOpen}
                     showAncestors={settings.showAncestors}
+                    perspective={perspective}
                 />
             )}
         </div>
@@ -515,7 +527,14 @@ function LeafGroup({ domain, level, settings, isopen }) {
  * @returns {JSX.Element|null}
  * @constructor
  */
-function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
+function TreeLeaf({
+    domain,
+    kid,
+    leaf_level,
+    settings,
+    perspective,
+    ...props
+}) {
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -530,18 +549,31 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(domain, kid), 'info');
-
+    if (perspective === undefined) {
+        perspective = settings.perspective;
+    }
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
     const qid = `leaf-children-${domain}-${kid}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
-    const path_fld = `ancestor_id_${settings.perspective}_path`;
+    const path_fld = `ancestor_id_${perspective}_path`;
     const pathqry = isKmapLoading
         ? 'path:none'
         : `${path_fld}:${kmapdata[path_fld]}/*`;
     // variables to filter query for only children's level
-    const lvl_fld = `level_${settings.perspective}_i`;
-    const childlvl = isKmapLoading ? 1 : parseInt(kmapdata[lvl_fld]) + 1;
-    // Query for number of children: build the query for numFound only (count: 0)
+    const lvl_fld = `level_${perspective}_i`; // base level field
+    const closest_lvl_fld = `level_closest_${perspective}_i`; // closest level field
+    let childlvl = 1; // while loading (Does it need to be 1?)
+    if (!isKmapLoading) {
+        if (lvl_fld in kmapdata && kmapdata[lvl_fld] !== 0) {
+            childlvl = parseInt(kmapdata[lvl_fld]) + 1; // First check if base level exists
+        } else if (
+            closest_lvl_fld in kmapdata &&
+            kmapdata[closest_lvl_fld] !== 0
+        ) {
+            childlvl = parseInt(kmapdata[closest_lvl_fld]) + 1; // If not, use closest level
+        } // TODO: Test what if neither match?
+    }
+    // Build the query to get number of children, by querying for children but rows = 0 and use numFound
     const query = {
         index: 'terms',
         params: {
@@ -681,6 +713,7 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
                 query={query}
                 leaf_level={leaf_level}
                 isOpen={isOpen}
+                perspective={perspective}
             />
         ) : (
             <div className={settings.childrenClass}> </div>
@@ -737,7 +770,14 @@ function TreeLeaf({ domain, kid, leaf_level, settings, ...props }) {
  * @returns {JSX.Element}
  * @constructor
  */
-function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
+function LeafChildren({
+    settings,
+    quid,
+    query,
+    leaf_level,
+    isOpen,
+    perspective,
+}) {
     query['params']['rows'] = settings.pgsize;
     const {
         isLoading: isChildrenLoading,
@@ -777,6 +817,7 @@ function LeafChildren({ settings, quid, query, leaf_level, isOpen }) {
                             leaf_level={leaf_level + 1}
                             settings={settings}
                             isopen={io}
+                            perspective={perspective}
                         />
                     );
                 }
@@ -858,25 +899,27 @@ function RelatedChildren({ settings, domain, kid }) {
     );
 }
 
-function PerspectiveChooser(props) {
-    const domain = props.domain;
+function PerspectiveChooser({ domain, current, setter, ...props }) {
     const choices =
         domain in KmapPerpsectiveData ? KmapPerpsectiveData[domain] : false;
     if (!domain || !choices) {
-        console.log('one is false! ', domain, choices);
+        // console.log('one is false! ', domain, choices);
         return null;
     }
-    const current = props?.current;
     let pclass =
         props?.classes && props.classes?.length && props.classes.length > 0
             ? props.classes
             : '';
     pclass = ['c-perspective-select', ...pclass];
 
+    const changeMe = (evt) => {
+        console.log('I changed. My new value is: ', evt.target.value);
+        setter(evt.target.value);
+    };
     return (
         <div className={pclass}>
             <label>Persepective: </label>
-            <select defaultValue={current}>
+            <select defaultValue={current} onChange={changeMe}>
                 {choices.map((persp, i) => {
                     const sel = persp.id === current ? 'selected' : '';
                     return (
