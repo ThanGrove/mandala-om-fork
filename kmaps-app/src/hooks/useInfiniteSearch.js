@@ -136,7 +136,7 @@ function getJsonFacet(
                 numBuckets: buckets,
                 ...(facetSearch && {
                     domain: {
-                        filter: `(asset_type:*${capitalize(facetSearch)}*)`,
+                        filter: `(asset_type:*${facetSearch}*)`,
                     },
                 }),
             },
@@ -150,11 +150,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(kmapid_subjects_idfacet:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -167,11 +163,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(kmapid_places_idfacet:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -184,11 +176,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(kmapid_terms_idfacet:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -201,11 +189,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(feature_types_idfacet:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -218,9 +202,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(node_lang:*${capitalize(facetSearch)}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -233,11 +215,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(collection_idfacet:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -250,11 +228,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(node_user_full_s:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -267,9 +241,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(creator:*${capitalize(facetSearch)}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -282,11 +254,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(perspectives_ss:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
@@ -299,11 +267,7 @@ function getJsonFacet(
                 sort: `${sortField} ${sortDirection}`,
                 numBuckets: buckets,
                 ...(facetSearch && {
-                    domain: {
-                        filter: `(associated_subject_map_idfacet:*${capitalize(
-                            facetSearch
-                        )}*)`,
-                    },
+                    prefix: capitalize(facetSearch),
                 }),
             },
         }),
