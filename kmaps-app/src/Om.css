@@ -502,7 +502,7 @@
     text-transform: uppercase;
     display: flex;
     height: 1.5rem;
-    font-size: 1.25rem;
+    font-size: 1.2rem;
     cursor: default;
     color: #000;
     letter-spacing: 0.0375rem;
@@ -514,21 +514,21 @@
 }
 
 .sui-advHeader > .icon {
-    margin: 0 0.75rem 0 0.5rem;
-    font-size: 1.85rem;
+    margin: 0 0.25rem 0 0.5rem;
+    font-size: 2rem;
     position: relative;
     top: -0.4rem;
-    left: -0.5rem;
+    left: -1.2rem;
 }
 .sui-advHeader .badge {
     position: relative;
-    bottom: 0;
+    bottom: 0.1rem;
     right: -0.25rem;
-    padding: 0.5rem 3.5rem 0.5rem 1rem;
+    padding: 0.5rem 2.5rem 0.5rem 1rem;
     border-radius: 0.3rem;
     color: #fff;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1rem;
 }
 
 .sui-advHeader .badge.badge-secondary {
@@ -546,8 +546,8 @@
 .sui-advHeader .u-icon__plus,
 .sui-advHeader .u-icon__minus {
     position: absolute;
-    right: 0.5rem;
-    margin-top: 0.4rem;
+    right: 0.25rem;
+    margin-top: 0.475rem;
     font-size: 0.85rem;
     color: #eee;
     cursor: pointer;
