@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import _ from 'lodash';
 import { HtmlCustom } from './MandalaMarkup';
+import { getKeyHash } from './utils';
 
 const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     const [show, setShow] = useState(false);
@@ -178,12 +179,11 @@ function MandalaPopoverBody(props) {
                     <strong>Feature Type</strong>
                     {kminfo.feature_type_ids.map((item, index) => {
                         const url = mandala_base + '/subjects/' + item;
+                        const hash = getKeyHash(index);
                         return (
-                            <>
-                                <a href={url} key={domain + kid + index}>
-                                    {kminfo.feature_types[index]}
-                                </a>
-                            </>
+                            <a href={url} key={domain + kid + hash}>
+                                {kminfo.feature_types[index]}
+                            </a>
                         );
                     })}
                 </p>
@@ -214,7 +214,7 @@ function MandalaPopoverBody(props) {
                         const aurl =
                             mandala_base + '/' + kminfo.tree + '/' + aid;
                         const label = ancestor_labels[index];
-                        const akey = 'akey-' + aid + '-' + index;
+                        const akey = 'akey-' + aid + '-' + getKeyHash(index);
                         return (
                             <a key={akey} href={aurl}>
                                 {label}

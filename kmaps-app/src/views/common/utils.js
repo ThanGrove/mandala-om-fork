@@ -364,3 +364,26 @@ export function getPerspective(domain) {
         return defaults[domain];
     }
 }
+
+/**
+ * Creates a hash for a React element key value by taking an index and creating a string with the timestamp and
+ * hashing it.
+ * @param indexin : string
+ *      an index number or string initializer
+ * @returns {number}
+ */
+export function getKeyHash(indexin) {
+    // From https://www.geeksforgeeks.org/how-to-create-hash-from-string-in-javascript/ but modified
+    let hashString = new Date().getTime() + '-' + indexin;
+    let hash = 0;
+
+    if (hashString.length == 0) return hash;
+
+    for (let i = 0; i < hashString.length; i++) {
+        let achar = hashString.charCodeAt(i);
+        hash = (hash << 5) - hash + achar;
+        hash = hash & hash;
+    }
+
+    return hash;
+}
