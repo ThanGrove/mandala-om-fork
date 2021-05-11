@@ -91,9 +91,7 @@ export default function TreeLeaf({
             fl: '*',
         },
     };
-    if (domain === 'places' && kid * 1 === 13735) {
-        console.log('earth query:', query);
-    }
+
     // UseSolr Query (ReactQuery based hook)
     const {
         isLoading: isChildrenLoading,
@@ -117,6 +115,9 @@ export default function TreeLeaf({
                 $(leafRef.current).addClass('selected');
                 setTimeout(updateTreeScroll, 1000, settings);
             }
+        }
+        if (domain === 'places' && kid * 1 === 13735) {
+            //console.log('earth query:', query);
         }
     }, [kmapdata, childrenData, settings.selPath]);
 

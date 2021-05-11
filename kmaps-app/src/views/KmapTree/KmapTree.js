@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import './kmapTree.scss';
+import './KmapTree.scss';
 import { useKmap } from '../../hooks/useKmap';
 import { getPerspective, getProject, queryID } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -14,83 +14,6 @@ import {
 import FilterTree from './FilterTree';
 import LeafGroup from './LeafGroup';
 import TreeLeaf from './TreeLeaf';
-
-/**
- * This file contains several components used for creating a KMap Tree. Most of them are internal.
- * The default export is KmapTree which is the one used to create the various versions based on its settings.
- * The other components here are either versions of the tree or children used in the tree. They are:
- *     FilterTree: A tree filtered by project (projects_ss value in Solr doc)
- *     LeafGroup: The initial component for Subjects and Terms trees that have multiple top-level roots
- *     LeafChildren: A component containing the children of a leaf node, only added when the node is "opened" to implement lazy loading
- *     RelatedChildren: A variant of LeafChildren, that only shows related places from the list of child documents
- *     TreeLeaf: A basic leaf node in any tree. Keeps state on whether open or closed and added LeafChilden if open.
- * Also includes two functions "openToSel()" for scrolling to selected node
- */
-
-/*
-Test element to show all 3 types of trees on a page. Used currently in ContentMain for testing. remove when done.
- */
-export function TreeTest(props) {
-    return (
-        <Container className="tree-test">
-            <Row>
-                <Col sm={4}>
-                    <KmapTree
-                        domain="places"
-                        elid="places-tree-1"
-                        isOpen={true}
-                        project={getProject()}
-                    />
-                </Col>
-                <Col sm={4}>
-                    <KmapTree
-                        domain="subjects"
-                        level="1"
-                        elid="subjects-tree-1"
-                        project={getProject()}
-                    />
-                </Col>
-                <Col sm={4}>
-                    <KmapTree
-                        domain="terms"
-                        level="1"
-                        elid="terms-tree-1"
-                        perspective="tib.alpha"
-                        noRootLinks={true}
-                    />
-                </Col>
-            </Row>
-            {/*
-            <Row>
-                <Col sm={4}>
-                    <KmapTree
-                        domain="places"
-                        elid="places-tree-2"
-                        isOpen={true}
-                    />
-                </Col>
-                <Col sm={4}>
-                    <KmapTree
-                        domain="subjects"
-                        level="1"
-                        elid="subjects-tree-2"
-                    />
-                </Col>
-                <Col sm={4}>
-                     Adding another terms tree interferes with filtered one. TODO: figure out why!
-                    <KmapTree
-                        domain="terms"
-                        level="1"
-                        elid="terms-tree-2"
-                        perspective="tib.alpha"
-                        noRootLinks={true}
-                    />
-                </Col>
-            </Row>
-                    */}
-        </Container>
-    );
-}
 
 /**
  * Kmap Tree: React Version of Kmaps Fancy Tree. Tree initializing function. Can pass any of the props listed in settings, but two basic modes;
@@ -161,41 +84,19 @@ export default function KmapTree(props) {
         settings.perspective = getPerspective(settings.domain);
     }
 
-    // Fill in defaults for places
-    if (settings.domain === 'places') {
-        if (settings.kid === 0 && !settings?.level) {
-            settings.kid = 13735; // Root node is earth
-            if (settings.perspective === 'hist.pol.admin.unit') {
-                settings.kid = 24107;
-            }
-        }
-    }
-
-    // Fill in defaults for subjects
-    if (settings.domain === 'subjects') {
-        if (settings.kid === 0 && !settings?.level) {
-            settings.level = 1; // Root level is 1
-        }
-    }
-
-    // Fill in defaults for terms
-    if (settings.domain === 'terms') {
-        if (settings.kid === 0 && !settings?.level) {
-            settings.level = 1; // Root level is 1
-        }
-    }
-
-    // Set root domain for this tree
+    // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
-        domain: settings.domain,
-        kid: settings.kid,
-        level: settings.level,
-        perspective: settings.perspective,
+        domain: settings?.domain,
+        kid: settings?.kid,
+        level: settings?.level,
+        perspective: settings?.perspective,
     };
 
-    const [perspective, setPerspective] = useState(settings.perspective);
+    // useState Calls for Perspectives
+    const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
+    const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
 
-    // Load selected node (if no node selected selectedNode is 0 and it loads nothing)
+    // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
     const {
         isLoading: isSelNodeLoading,
@@ -204,7 +105,7 @@ export default function KmapTree(props) {
         error: selNodeErrror,
     } = useKmap(kmapId, 'info');
 
-    // Load related places selected node (Monasteries, etc.) (if not a related child nothing loads)
+    // useQuery to load related places selected node (Monasteries, etc.) (if not a related child nothing loads)
     const selNodeQuery = {
         index: 'terms',
         params: {
@@ -222,7 +123,7 @@ export default function KmapTree(props) {
         error: relSelNodeErrror,
     } = useSolr(`${kmapId}-relsel`, selNodeQuery);
 
-    /** Use Effect: To open selected node in tree, if not already open (for parallel trees) **/
+    // Use Effect: To open selected node in tree, if not already open (for parallel trees)
     useEffect(() => {
         if (
             !isSelNodeLoading &&
@@ -235,7 +136,7 @@ export default function KmapTree(props) {
         }
     }, [selNode, relSelNode]);
 
-    // Perspective use effect
+    // useEffect to Set level or root based on Perspective
     useEffect(() => {
         settings.perspective = settings.root.perspective = perspective;
         const newroot = getPerspectiveRoot(
@@ -244,10 +145,16 @@ export default function KmapTree(props) {
         );
         if (newroot) {
             settings.kid = settings.root.kid = newroot * 1;
+            console.log('newroot', newroot, settings);
         } else {
             console.log('no new root!');
         }
-        console.log('New persepctive: ', settings.perspective, settings.kid);
+        console.log(
+            'New persepctive: ',
+            settings.perspective,
+            settings.root.kid
+        );
+        setRoot(settings.root.kid);
     }, [perspective]);
 
     // Don't load the tree until we have selected node path info to drill down with
@@ -313,7 +220,8 @@ export default function KmapTree(props) {
             />
         );
     }
-
+    const isLeaf = !settings.level ? 'It is a leaf' : 'Not a leaf!';
+    console.log('Starting Tree:', isLeaf, rootkid, settings.root.kid, settings);
     return (
         <div id={settings.elid} className={treeclass}>
             {perspChooser}
@@ -328,7 +236,7 @@ export default function KmapTree(props) {
             {!settings.level && (
                 <TreeLeaf
                     domain={settings.root.domain}
-                    kid={settings.root.kid}
+                    kid={rootkid}
                     leaf_level={0}
                     settings={settings}
                     isopen={settings.isOpen}
