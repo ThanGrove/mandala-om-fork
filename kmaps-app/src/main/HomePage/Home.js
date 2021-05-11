@@ -141,10 +141,13 @@ export default function Home(props) {
                                 </Link>
                             </li>
                         </ul>
-                        <h4>Search</h4>
+                        <h4>Other</h4>
                         <ul>
                             <li>
-                                <Link to={'/search'}>/search</Link>
+                                <Link to={'/search'}>Search</Link>
+                            </li>
+                            <li>
+                                <Link to={'/treetest'}>Tree Test</Link>
                             </li>
                         </ul>
 
