@@ -8,15 +8,26 @@ import TreeLeaf from './TreeLeaf';
  * This serves in the place of a single root node.
  * For groups of nodes that are children of another node, the LeafChildren component is used
  *
- * @param domain : the domain of the treee
- * @param level : the level of nodes to display in a group
- * @param settings : the rest of the KmapTree settings as defined above
- * @param isopen : whether the root nodes should be open (has not been tested)
+ * @param domain : str - the domain of the treee
+ * @param level : int - the level of nodes to display in a group
+ * @param settings : object - the rest of the KmapTree settings as defined above
+ * @param isopen : boolean - whether the root nodes should be open (has not been tested)
+ * @param newperspective : str - the ID of the new perspective necessary to cause the group to be redrawn on change
  * @constructor
  */
-export default function LeafGroup({ domain, level, settings, isopen }) {
-    const qid = `leaf-group-${domain}-${level}`;
+export default function LeafGroup({
+    domain,
+    level,
+    settings,
+    isopen,
+    newperspective,
+}) {
+    const qid = `leaf-group-${domain}-${settings.perspective}-${level}-${newperspective}`;
     const persp_lvl = `level_${settings.perspective}_i`;
+    // Need
+    if (settings.perspective !== newperspective) {
+        settings.perspective = newperspective;
+    }
     const noRootLinks = settings.noRootLinks;
     const query = {
         index: 'terms',

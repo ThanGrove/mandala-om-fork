@@ -18,7 +18,6 @@ export function TreeTest(props) {
                         project={getProject()}
                     />
                 </Col>
-                {/*
                 <Col sm={4}>
                     <KmapTree
                         domain="subjects"
@@ -27,6 +26,7 @@ export function TreeTest(props) {
                         project={getProject()}
                     />
                 </Col>
+                {/* */}
                 <Col sm={4}>
                     <KmapTree
                         domain="terms"
@@ -36,7 +36,6 @@ export function TreeTest(props) {
                         noRootLinks={true}
                     />
                 </Col>
-                */}
             </Row>
             {/*
             <Row>

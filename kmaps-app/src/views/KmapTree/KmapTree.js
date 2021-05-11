@@ -138,22 +138,17 @@ export default function KmapTree(props) {
 
     // useEffect to Set level or root based on Perspective
     useEffect(() => {
-        settings.perspective = settings.root.perspective = perspective;
+        settings.perspective = perspective;
+        settings.root.perspective = perspective;
         const newroot = getPerspectiveRoot(
             settings.perspective,
             settings.domain
         );
         if (newroot) {
             settings.kid = settings.root.kid = newroot * 1;
-            console.log('newroot', newroot, settings);
         } else {
-            console.log('no new root!');
+            settings.root.kid = perspective; // To trigger redraw of tree
         }
-        console.log(
-            'New persepctive: ',
-            settings.perspective,
-            settings.root.kid
-        );
         setRoot(settings.root.kid);
     }, [perspective]);
 
@@ -220,8 +215,7 @@ export default function KmapTree(props) {
             />
         );
     }
-    const isLeaf = !settings.level ? 'It is a leaf' : 'Not a leaf!';
-    console.log('Starting Tree:', isLeaf, rootkid, settings.root.kid, settings);
+
     return (
         <div id={settings.elid} className={treeclass}>
             {perspChooser}
@@ -231,6 +225,8 @@ export default function KmapTree(props) {
                     level={settings.level}
                     settings={settings}
                     isopen={settings.isOpen}
+                    perspective={perspective}
+                    newperspective={rootkid}
                 />
             )}
             {!settings.level && (
