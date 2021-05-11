@@ -4,7 +4,7 @@ import React from 'react';
  * Kmap perspective data as a JS Object for dealing with perspective switches
  * Chooser only shows if more than one perspective
  * Each perspective has an optional root ID otherwise it uses level 1
- * Commented out perspectives in places are ones without any data (afaics)
+ * Commented out perspectives in places and terms are ones without any data (afaics)
  *
  * @type constant object
  */
@@ -33,7 +33,7 @@ export const KmapPerpsectiveData = {
     terms: [
         { name: 'Tibetan Alphabetical', id: 'tib.alpha' },
         { name: 'English Alphabetical', id: 'eng.alpha' },
-        { name: 'Grammatical/Semantic', id: 'gram.sem.rel' },
+        /* { name: 'Grammatical/Semantic', id: 'gram.sem.rel' }, */
     ],
 };
 
