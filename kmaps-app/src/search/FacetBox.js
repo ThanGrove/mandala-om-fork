@@ -129,7 +129,6 @@ export function FacetBox(props) {
     const handleChange =
         // To be used for completions if desired
         _.debounce(() => {
-            console.log('handleChange: ', inputEl.current.value);
             setFacetSearch(inputEl.current.value.trim());
         }, 500);
 
