@@ -84,6 +84,9 @@ export default function KmapTree(props) {
         settings.perspective = getPerspective(settings.domain);
     }
 
+    if (settings.kid === 0 && !settings.level) {
+        settings.level = 1;
+    }
     // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
         domain: settings?.domain,
@@ -215,9 +218,7 @@ export default function KmapTree(props) {
             />
         );
     }
-    if (settings.domain == 'subjects') {
-        console.log('subjects', settings);
-    }
+
     return (
         <div id={settings.elid} className={treeclass}>
             {perspChooser}

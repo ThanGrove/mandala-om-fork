@@ -1,8 +1,13 @@
 import { useSolr } from '../../hooks/useSolr';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import TreeLeaf from './TreeLeaf';
 import LeafGroup from './LeafGroup';
+import {
+    getPerspectiveRoot,
+    KmapPerpsectiveData,
+    PerspectiveChooser,
+} from './KmapPerspectives';
 
 /**
  * Filter Tree: is a tree filtered by a project id (projects_ss) which is set in the .env files.
@@ -28,6 +33,10 @@ export default function FilterTree({ settings, ...props }) {
     const ancestor_facet = `ancestor_ids_${persp}`;
     const level = settings.level;
 
+    // useState Calls for Perspectives
+    const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
+    const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
+
     const query = {
         index: 'terms',
         params: {
@@ -47,6 +56,23 @@ export default function FilterTree({ settings, ...props }) {
         isError: isAncestorsError,
         error: ancestorsError,
     } = useSolr(`filter-tree-${projid}-${settings.domain}-${persp}`, query);
+
+    // useEffect to Set level or root based on Perspective
+    useEffect(() => {
+        settings.perspective = perspective;
+        settings.root.perspective = perspective;
+        const newroot = getPerspectiveRoot(
+            settings.perspective,
+            settings.domain
+        );
+        if (newroot) {
+            settings.kid = settings.root.kid = newroot * 1;
+        } else {
+            settings.root.kid = perspective; // To trigger redraw of tree
+        }
+        setRoot(settings.root.kid);
+    }, [perspective]);
+
     if (isAncestorsLoading) {
         return (
             <div className="filter-tree">
@@ -67,26 +93,53 @@ export default function FilterTree({ settings, ...props }) {
         ancestorsData?.facets && ancestorsData.facets[ancestor_facet]
             ? Object.keys(ancestorsData.facets[ancestor_facet])
             : [];
+    if (settings.domain === 'places') {
+        if (settings.kid === 0) {
+            settings.kid = settings.root.kid = 13735;
+        }
+    }
     const treeclass = `${settings.treeClass} ${settings.root.domain}`;
-    const tree =
-        settings.domain === 'places' ? (
-            <TreeLeaf
-                domain={settings.root.domain}
-                kid={settings.root.kid}
-                leaf_level={0}
-                settings={settings}
-                isopen={settings.isOpen}
-                showAncestors={settings.showAncestors}
-            />
-        ) : (
-            <LeafGroup
+    let tree = (
+        <p>There are no relevant {settings.domain} in this perspective</p>
+    );
+    if (settings?.project_ids?.length > 0) {
+        tree =
+            settings.domain === 'places' ? (
+                <TreeLeaf
+                    domain={settings.root.domain}
+                    kid={settings.root.kid}
+                    leaf_level={0}
+                    settings={settings}
+                    isopen={settings.isOpen}
+                    showAncestors={settings.showAncestors}
+                />
+            ) : (
+                <LeafGroup
+                    domain={settings.domain}
+                    level={level}
+                    settings={settings}
+                    isopen={settings.isOpen}
+                    perspective={perspective}
+                    newperspective={rootkid}
+                />
+            );
+    }
+    let perspChooser = null;
+    if (
+        settings.domain in KmapPerpsectiveData &&
+        KmapPerpsectiveData[settings.domain]?.length > 1
+    ) {
+        perspChooser = (
+            <PerspectiveChooser
                 domain={settings.domain}
-                level={level}
-                settings={settings}
+                current={perspective}
+                setter={setPerspective}
             />
         );
+    }
     return (
         <div id={settings.elid} className={treeclass}>
+            {perspChooser}
             {tree}
         </div>
     );
