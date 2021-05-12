@@ -215,7 +215,9 @@ export default function KmapTree(props) {
             />
         );
     }
-
+    if (settings.domain == 'subjects') {
+        console.log('subjects', settings);
+    }
     return (
         <div id={settings.elid} className={treeclass}>
             {perspChooser}

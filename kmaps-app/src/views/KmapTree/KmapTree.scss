@@ -21,6 +21,7 @@
 
 .c-perspective-select {
     white-space: nowrap;
+    font-size: 1.15rem;
     label {
         display: inline-block;
         font-weight: bold;
@@ -31,6 +32,27 @@
         width: fit-content;
     }
 }
+
+/* All perspective selects in aside (right and left) */
+aside .c-perspective-select {
+    label {
+        display: block;
+    }
+    select {
+        max-width: 18rem;
+    }
+}
+
+/* Right side nav trees only  (#kmaps-tab-tabpane-terms) */
+aside#l-column__search--treeNav .c-perspective-select {
+    label {
+        display: inline-block;
+    }
+    select {
+        max-width: unset;
+    }
+}
+
 .c-kmapleaf {
     margin-top: 0.1rem;
     white-space: nowrap;

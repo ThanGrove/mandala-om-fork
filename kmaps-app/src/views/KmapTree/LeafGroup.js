@@ -28,6 +28,9 @@ export default function LeafGroup({
     if (settings.perspective !== newperspective) {
         settings.perspective = newperspective;
     }
+    if (domain === 'subjects') {
+        console.log('subjects leaf group');
+    }
     const noRootLinks = settings.noRootLinks;
     const query = {
         index: 'terms',

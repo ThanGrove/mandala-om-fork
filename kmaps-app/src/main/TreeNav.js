@@ -60,6 +60,7 @@ const TreeNav = (props) => {
                         <KmapTree
                             elid="tab-tree-subjects"
                             domain="subjects"
+                            level={1}
                             selectedNode={domainfids['subjects']}
                             project={getProject()}
                         />
@@ -68,6 +69,7 @@ const TreeNav = (props) => {
                         <KmapTree
                             elid="tab-tree-terms"
                             domain="terms"
+                            level={1}
                             selectedNode={domainfids['terms']}
                             project={getProject()}
                         />
