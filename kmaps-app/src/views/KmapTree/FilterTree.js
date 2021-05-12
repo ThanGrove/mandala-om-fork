@@ -37,6 +37,10 @@ export default function FilterTree({ settings, ...props }) {
     const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
     const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
 
+    if (settings.kid === 0 && !settings.level) {
+        settings.level = 1;
+    }
+
     const query = {
         index: 'terms',
         params: {

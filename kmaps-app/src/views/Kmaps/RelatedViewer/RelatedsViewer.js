@@ -235,16 +235,18 @@ function RelatedTree(props) {
     let persp = 'pol.admin.hier';
     let view = 'roman.scholar'; // TODO: add view to kmap tree?
     let sortby = 'header_ssort+ASC'; // TODO: check sort works in tree
+    let showAnc = true;
 
     // Subject settings
     if (domain === 'subjects') {
         persp = 'gen';
         view = 'roman.popular';
-
+        showAnc = false;
         // Term settings
     } else if (domain === 'terms') {
         persp = 'tib.alpha';
         sortby = 'position_i+ASC';
+        showAnc = false;
     }
 
     return (
@@ -254,6 +256,7 @@ function RelatedTree(props) {
             domain={domain}
             selectedNode={fid}
             project={getProject()}
+            showAncestors={showAnc}
         />
     );
 }
