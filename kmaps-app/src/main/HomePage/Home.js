@@ -76,6 +76,12 @@ export default function Home(props) {
                                     Lhasa: (places-637)
                                 </Link>
                             </li>
+                            <li>
+                                <Link to={'/places/23332'}>
+                                    Sera Gön: (places-23332 — has a note)
+                                </Link>
+                            </li>
+
                             <ul>
                                 <li>
                                     <Link
