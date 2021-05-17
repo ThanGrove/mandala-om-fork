@@ -1,14 +1,15 @@
 @import '../../../index-variables';
 
 .l-column__related {
-    width: 22rem;
-    max-width: 35rem;
+    // width: 22rem;
+    // max-width: 35rem;
     min-width: 20rem;
     height: 100vh;
     margin: 0 0 0 -20rem;
     padding: 0;
     transition: margin, 0.3s;
     flex: none;
+    resize: horizontal;
 }
 .l-column__related__wrap {
     padding-top: 0.5rem;
