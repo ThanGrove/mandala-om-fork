@@ -265,3 +265,36 @@
 .popover-footer .u-icon__link-external:before {
     //   color: #333333;
 }
+
+.generic-popover {
+    font-size: 1.25rem !important;
+    line-height: 1;
+    width: 30.2rem !important;
+    max-width: 30.2rem !important;
+    font-style: normal;
+    padding: 0.3rem 0.3rem 0 0.3rem;
+    border-radius: 0.8rem !important;
+
+    .popover-header {
+        display: block;
+        font-size: 1.4rem;
+        padding: 1rem 0 0.6rem;
+        margin: 0 1.4rem;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid #ccc;
+        color: $gray-800;
+        font-weight: 600;
+        text-transform: capitalize;
+        z-index: 1000;
+    }
+
+    .popover-body {
+        padding: 0.5rem 0.75rem 0 1.5rem;
+        font-size: 1.32rem;
+        /*font-size: 1.25rem;*/
+        line-height: 1.4;
+        letter-spacing: normal;
+        margin-bottom: 1rem;
+    }
+}

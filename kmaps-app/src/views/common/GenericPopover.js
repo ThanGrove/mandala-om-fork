@@ -26,10 +26,7 @@ const GenericPopover = ({ title, ...props }) => {
                     placement={placement}
                     show={show}
                 >
-                    <Popover
-                        id="popover-contained"
-                        className="related-resources-popover processed"
-                    >
+                    <Popover className="generic-popover processed">
                         <Popover.Title as="h5">{title}</Popover.Title>
                         <Popover.Content>
                             <HtmlCustom markup={content} />

@@ -34,6 +34,7 @@ export default function PlacesRelSubjectsViewer() {
 }
 
 export function PlacesFeatureTypes({ parent }) {
+    const ftnotes = getFeatureTypeNotes(parent);
     return (
         <>
             <h3 className={'head-related'}>Feature Types</h3>
@@ -46,6 +47,12 @@ export function PlacesFeatureTypes({ parent }) {
                                 kid={kid}
                                 children={[parent.feature_types[cind]]}
                             />
+                            {kid in ftnotes && (
+                                <GenericPopover
+                                    title="Feature Type Note"
+                                    content={ftnotes[kid]}
+                                />
+                            )}
                         </li>
                     );
                 })}
@@ -110,6 +117,26 @@ export function PlacesRelSubjects({ children }) {
             </ul>
         </>
     );
+}
+
+function getFeatureTypeNotes(kmap) {
+    const ftnotes = [];
+    kmap.feature_type_ids.forEach((ftid) => {
+        const ftypes = kmap?._childDocuments_?.filter((cld) => {
+            return cld['feature_type_id_i'] === ftid;
+        });
+        const aftnote = [];
+        ftypes.forEach((ftdoc) => {
+            let notes = getRelatedSubjNotes(ftdoc);
+            if (notes) {
+                aftnote.push(notes);
+            }
+        });
+        if (aftnote.length > 0) {
+            ftnotes[ftid] = aftnote.join(', ');
+        }
+    });
+    return ftnotes.length > 0 ? ftnotes : false;
 }
 
 function getRelatedSubjNotes(rsb) {
