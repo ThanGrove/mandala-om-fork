@@ -12,6 +12,7 @@ import './placesinfo.scss';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import GenericPopover from '../common/GenericPopover';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -212,6 +213,7 @@ export function PlacesNames(props) {
                 ety: o.related_names_etymology_s, // Etymology
                 path: o.related_names_path_s, // Path
                 tab: o.related_names_level_i - 1,
+                note: getRelNameNote(o),
             };
         });
         childlist.sort(function (a, b) {
@@ -235,29 +237,74 @@ export function PlacesNames(props) {
                     return (
                         <div key={`place-name-${i}`} className={`lv-${l.tab}`}>
                             <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
-                            {l.write}, {l.rel})
+                            {l.write}, {l.rel}){' '}
+                            {l.note && (
+                                <GenericPopover
+                                    title={l.note.title}
+                                    content={l.note.content}
+                                />
+                            )}
                         </div>
                     );
                 })}
             </Col>
-            {etymologies && etymologies.length > 0 && (
-                <Col>
-                    <h1>Etymology</h1>
-                    {etymologies.map((l, i) => {
-                        if (l.ety) {
-                            return (
-                                <div key={`place-etymology-${i}`}>
-                                    <strong>{l.label} </strong>:
-                                    <HtmlCustom
-                                        markup={l.ety.replace(/<p\/?>/g, ' ')}
-                                    />
-                                </div>
-                            );
-                        }
-                    })}
-                </Col>
-            )}
+
+            <PlaceNameEtymologies etymologies={etymologies} />
         </Row>
+    );
+}
+
+function getRelNameNote(nameobj) {
+    const note = {
+        title: 'Related Name Note',
+        authors: false,
+        content: false,
+    };
+    const notekeys = Object.keys(nameobj).filter((k) => {
+        return k.includes('_note_');
+    });
+    notekeys.forEach((k) => {
+        let val = nameobj[k];
+        if (k.includes('_title_')) {
+            note['title'] = val;
+        } else if (k.includes('_authors_')) {
+            note['authors'] = val.join(', ');
+        } else {
+            note['content'] = val;
+        }
+    });
+    if (!note['content']) {
+        return false;
+    }
+    if (typeof note['content'] !== 'string') {
+        note['content'] = note['content'].join(', ');
+    }
+    if (note['authors']) {
+        note['content'] += ` (${note['authors']})`;
+    }
+    return note;
+}
+
+function PlaceNameEtymologies({ etymologies }) {
+    if (!etymologies || etymologies?.length == 0) {
+        return null;
+    }
+    return (
+        <Col>
+            <h1>Etymology</h1>
+            {etymologies.map((l, i) => {
+                if (l.ety) {
+                    return (
+                        <div key={`place-etymology-${i}`}>
+                            <strong>{l.label} </strong>:
+                            <HtmlCustom
+                                markup={l.ety.replace(/<p\/?>/g, ' ')}
+                            />
+                        </div>
+                    );
+                }
+            })}
+        </Col>
     );
 }
 

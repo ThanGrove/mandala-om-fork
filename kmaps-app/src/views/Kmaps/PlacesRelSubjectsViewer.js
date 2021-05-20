@@ -34,7 +34,9 @@ export default function PlacesRelSubjectsViewer() {
 }
 
 export function PlacesFeatureTypes({ parent }) {
-    const ftnotes = getFeatureTypeNotes(parent);
+    // TODO: Make this go through each feature type and look for distinctive notes for that feature
+
+    const ftnote = getFeatureTypeNotes(parent);
     return (
         <>
             <h3 className={'head-related'}>Feature Types</h3>
@@ -47,10 +49,10 @@ export function PlacesFeatureTypes({ parent }) {
                                 kid={kid}
                                 children={[parent.feature_types[cind]]}
                             />
-                            {kid in ftnotes && (
+                            {ftnote && (
                                 <GenericPopover
-                                    title="Feature Type Note"
-                                    content={ftnotes[kid]}
+                                    title="Note on Feature Types"
+                                    content={ftnote['content']}
                                 />
                             )}
                         </li>
@@ -65,9 +67,14 @@ export function PlacesRelSubjects({ children }) {
     if (!children || !children?.length || children.length === 0) {
         return null;
     }
+
     const relsubjs = children.filter((child, n) => {
         return child.id.includes('_relatedSubject_');
     });
+
+    if (relsubjs.length === 0) {
+        return null;
+    }
 
     return (
         <>
@@ -107,8 +114,8 @@ export function PlacesRelSubjects({ children }) {
                             )}
                             {notes && (
                                 <GenericPopover
-                                    title="Related Subject Note"
-                                    content={notes}
+                                    title={notes['title']}
+                                    content={notes['content']}
                                 />
                             )}
                         </li>
@@ -120,32 +127,53 @@ export function PlacesRelSubjects({ children }) {
 }
 
 function getFeatureTypeNotes(kmap) {
-    const ftnotes = [];
+    let note = false;
     kmap.feature_type_ids.forEach((ftid) => {
         const ftypes = kmap?._childDocuments_?.filter((cld) => {
             return cld['feature_type_id_i'] === ftid;
         });
-        const aftnote = [];
-        ftypes.forEach((ftdoc) => {
-            let notes = getRelatedSubjNotes(ftdoc);
-            if (notes) {
-                aftnote.push(notes);
+        for (let fti = 0; fti < ftypes.length; fti++) {
+            let ftdoc = ftypes[fti];
+            note = getRelatedSubjNotes(ftdoc);
+            if (note) {
+                break;
             }
-        });
-        if (aftnote.length > 0) {
-            ftnotes[ftid] = aftnote.join(', ');
         }
+        console.log(note);
     });
-    return ftnotes.length > 0 ? ftnotes : false;
+    return note;
 }
 
 function getRelatedSubjNotes(rsb) {
-    const notes = [];
+    let notes = [];
+    let authors = false;
+    let title = false;
+
     const notekeys = Object.keys(rsb).filter((rsbk) => {
         return rsbk.includes('_note_');
     });
     notekeys.forEach((nk) => {
-        notes.push(rsb[nk]);
+        if (nk.includes('_title_s')) {
+            title = rsb[nk];
+        } else if (nk.includes('_authors_ss')) {
+            authors = rsb[nk];
+        } else {
+            notes.push(rsb[nk]);
+        }
     });
-    return notes.length > 0 ? notes.join(', ') : false;
+    if (notes.length === 0) {
+        return false;
+    }
+    if (!title) {
+        title = 'Note on Related Subject';
+    }
+    let content = notes.join(', ');
+    if (authors) {
+        authors = [...new Set(authors)].join(', '); // convert list to set and back to list to remove duplicates
+        content += ` (${authors})`;
+    }
+    return {
+        title: title,
+        content: content,
+    };
 }
