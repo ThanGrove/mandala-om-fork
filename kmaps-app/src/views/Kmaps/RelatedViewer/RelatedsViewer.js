@@ -229,34 +229,31 @@ function RelatedCount(props) {
 function RelatedTree(props) {
     // Determine which tree (browse_tree) to display in the relateds sidebar
     const domain = props.baseType;
-    const kid = props.id;
-    const fid = queryID(domain, kid);
+    const kid = props?.id ? props.id : false;
+    const fid = kid ? queryID(domain, kid) : false;
     // places settings
-    let persp = 'pol.admin.hier';
-    let view = 'roman.scholar'; // TODO: add view to kmap tree?
-    let sortby = 'header_ssort+ASC'; // TODO: check sort works in tree
+    let level = false;
     let showAnc = true;
 
     // Subject settings
     if (domain === 'subjects') {
-        persp = 'gen';
-        view = 'roman.popular';
+        level = 1;
         showAnc = false;
         // Term settings
     } else if (domain === 'terms') {
-        persp = 'tib.alpha';
-        sortby = 'position_i+ASC';
+        level = 1;
         showAnc = false;
     }
-
+    const tstamp = Date.now();
     return (
         <KmapTree
-            elid={`related-tree-left-${domain}`}
+            elid={`related-tree-left-${domain}-${tstamp}`}
             className="l-relatedTreeLeft"
             domain={domain}
             selectedNode={fid}
             project={getProject()}
             showAncestors={showAnc}
+            level={level}
         />
     );
 }
