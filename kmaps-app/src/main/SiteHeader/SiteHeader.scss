@@ -45,7 +45,7 @@
     //   flex:1;
     display: flex;
     //   max-width: 250px;
-    margin-right: 1rem;
+    margin-right: 20rem;
 }
 .c-site__search > * {
     display: inline;
@@ -68,6 +68,10 @@
     cursor: pointer;
     right: 0.5rem;
     position: relative;
+}
+
+.navbar-nav {
+    display: none;
 }
 // --------------------------------------------------------
 // TOP BANNER ---- Headroom ------ script/css testing

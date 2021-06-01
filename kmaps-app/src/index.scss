@@ -57,6 +57,7 @@ body.html {
     .advanced-search-and-tree {
         border-left: 2px solid #ccc;
         border-right: 2px solid #ccc;
+        border: none;
     }
 }
 
@@ -518,6 +519,7 @@ ul.fancytree-container {
 
 .l-column__search > section {
     margin-top: 4rem;
+    padding-right: 1rem;
 }
 
 .sui-nameEntry-meta {

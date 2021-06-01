@@ -206,7 +206,7 @@ export default function SearchAdvanced(props) {
                     process.env.REACT_APP_STANDALONE !== 'standalone' && (
                         <Link to={`/search/deck`}>
                             {' '}
-                            Show Results{' '}
+                            View Results{' '}
                             <Badge pill variant={'secondary'}>
                                 {searchData.response?.numFound}
                             </Badge>
