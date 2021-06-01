@@ -1315,7 +1315,7 @@
   "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-common-types/-/fontawesome-common-types-0.2.35.tgz"
   "version" "0.2.35"
 
-"@fortawesome/fontawesome-svg-core@^1.2.32", "@fortawesome/fontawesome-svg-core@^1.2.35":
+"@fortawesome/fontawesome-svg-core@^1.2.35":
   "integrity" "sha512-uLEXifXIL7hnh2sNZQrIJWNol7cTVIzwI+4qcBIq9QWaZqUblm0IDrtSqbNg+3SQf8SMGHkiSigD++rHmCHjBg=="
   "resolved" "https://registry.npmjs.org/@fortawesome/fontawesome-svg-core/-/fontawesome-svg-core-1.2.35.tgz"
   "version" "1.2.35"
@@ -10042,16 +10042,6 @@
     "object-assign" "^4.1.0"
     "strict-uri-encode" "^1.0.0"
 
-"query-string@^5.1.1 || ^6":
-  "integrity" "sha512-XDxAeVmpfu1/6IjyT/gXHOl+S0vQ9owggJ30hhWKdHAsNPOcasn5o9BW0eejZqL2e4vMjhAxoW3jVHcD6mbcYw=="
-  "resolved" "https://registry.npmjs.org/query-string/-/query-string-6.14.1.tgz"
-  "version" "6.14.1"
-  dependencies:
-    "decode-uri-component" "^0.2.0"
-    "filter-obj" "^1.1.0"
-    "split-on-first" "^1.0.0"
-    "strict-uri-encode" "^2.0.0"
-
 "query-string@^7.0.0":
   "integrity" "sha512-Iy7moLybliR5ZgrK/1R3vjrXq03S13Vz4Rbm5Jg3EFq1LUmQppto0qtXz4vqZ386MSRjZgnTSZ9QC+NZOSd/XA=="
   "resolved" "https://registry.npmjs.org/query-string/-/query-string-7.0.0.tgz"
@@ -10225,7 +10215,7 @@
     "strip-ansi" "6.0.0"
     "text-table" "0.2.0"
 
-"react-dom@^17.0.1", "react-dom@>=16.3.0", "react-dom@>=16.8.0":
+"react-dom@^17.0.1":
   "integrity" "sha512-6eV150oJZ9U2t9svnsspTMrWNyHc6chX0KzDeAOXftRa8bNeOKTTfCJ7KorIwenkHd2xqVTBTCZd79yk/lx/Ug=="
   "resolved" "https://registry.npmjs.org/react-dom/-/react-dom-17.0.1.tgz"
   "version" "17.0.1"
@@ -10600,7 +10590,7 @@
     "resize-observer-polyfill" "1.5.0"
     "tabbable" "1.1.2"
 
-"react@^17.0.1", "react@>=15.0.0", "react@>=16.13.1", "react@>=16.3.0", "react@>=16.8.0", "react@>=16.x":
+"react@^17.0.1":
   "integrity" "sha512-lG9c9UuMHdcAexXtigOZLX8exLWkW0Ku29qPRU8uhF2R9BN96dLCt0psvzPLlHc5OWkgymP3qwTRgbnw5BKx3w=="
   "resolved" "https://registry.npmjs.org/react/-/react-17.0.1.tgz"
   "version" "17.0.1"
@@ -12833,6 +12823,13 @@
   "version" "4.0.3"
   dependencies:
     "loose-envify" "^1.0.0"
+
+"watchpack-chokidar2@^2.0.0":
+  "integrity" "sha512-9TyfOyN/zLUbA288wZ8IsMZ+6cbzvsNyEzSBp6e/zkifi6xxbl8SmQ/CxQq32k8NNqrdVEVUVSEf56L4rQ/ZxA=="
+  "resolved" "https://registry.npmjs.org/watchpack-chokidar2/-/watchpack-chokidar2-2.0.0.tgz"
+  "version" "2.0.0"
+  dependencies:
+    "chokidar" "^2.1.8"
 
 "watchpack@^1.6.0":
   "integrity" "sha512-aWAgTW4MoSJzZPAicljkO1hsi1oKj/RRq/OJQh2PKI2UKL04c2Bs+MBOB+BBABHTXJpf9mCwHN7ANCvYsvY2sg=="
