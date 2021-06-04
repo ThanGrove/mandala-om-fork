@@ -1,26 +1,9 @@
 /* ADVANCED SEARCH */
 
 .l-column__search {
-    /*   position: absolute;
-  z-index: 10;
-  left: calc(100% - 361px);
-  top: 43px;
-  height: calc(100% - 75px);
-  width: 344px;
-  background-color: #eee;
-  display: block;
-  border-left: 1px solid #aaa;
-  padding: 16px 16px 0 0;
-  color: #333;
-  border-bottom: 1px solid #aaa;
-  border-bottom-left-radius: 5px;
-  font-size: 15px;
-  overflow: hidden; */
-}
-
-.l-column__search {
     height: 100%;
-    padding-bottom:10rem;
+    padding-bottom:8rem;
+    padding-right:1rem;
   }
 
 .sui-advTop {
@@ -38,7 +21,7 @@
     border-width: .1rem 0 0 0; */
     margin: 0 0 0 1rem;
     padding: 1.25rem 0 0;
-    min-height: 3.75rem;
+    min-height: 4.5rem;
     width: calc(100% - 10px);
     border: none;
     cursor: default;
@@ -119,6 +102,8 @@
 
 .sui-advHeader > .app-name {
     flex: 1;
+    font-weight: bold;
+    color: #707070;
 }
 
 .sui-advBox-recent .c-HistoryViewer {
@@ -187,13 +172,13 @@
 }
 
 .sui-advTerm {
-    margin: 0.5rem 0 0 0.6rem;
+    /* margin: 0.5rem 0 -1rem 0.6rem; */
     font-size: 1.1rem;
-    padding: 0.5rem 0.5rem 0.75rem 2.5rem;
+    padding: 0.25rem 0.5rem 0.75rem 3.5rem;
+    text-transform:capitalize;
 }
 .sui-advTerm .icon::before {
-    color: #555;
-    margin-right: 0.4rem;
+    color: red;
 }
 
 .sui-advTerm:empty {
@@ -229,7 +214,7 @@
     padding: 0.8rem 0.8rem 0.3rem;
     font-size: 1.4rem;
     color: #333;
-    margin: 1.9rem 0 0;
+    margin: 1.25rem 0 0;
 }
 
 .sui-advBox:first-child .sui-advEdit {
@@ -275,12 +260,17 @@
     border: 2px solid #d0d0d0;
     border-radius:2rem;
     font-size: 1.25rem;
-    padding: 0.5rem 1.25rem 0.25rem;
+    padding: 0.3rem 1.25rem 0.1rem;
     margin: 0.5rem 0 0.5rem 0.5rem;
 }
+.sui-advEdit input:focus {
+    border-radius:.2rem;
+}
 input:focus-visible {
-    border-width: .1rem !important;
-    border-radius: 2rem !important;
+    border-width: 0.2rem;
+    outline: .05rem auto Highlight;
+    outline: -webkit-focus-ring-color auto .05rem;
+    color:#4d59ca;
 }
 .sui-advPlus {
     position: relative;
@@ -302,17 +292,17 @@ input:focus-visible {
     font-size: 9px;
     padding-top: 5px;
 }
-
+/*
 .sui-advEditBool {
     display: inline-block;
     cursor: pointer;
     color: #668eec;
-    border: 0.5rem solid #999;
+    border: 0.1rem solid #999;
     border-radius: 2px;
     padding: 0 0 1px 3px;
     margin: 2px 0;
 }
-
+*/
 .sui-boolItem {
     display: inline-block;
     color: #999;
