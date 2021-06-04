@@ -29,12 +29,15 @@
 }
 
 .sui-advBox {
-    border: 1px solid #ccc;
-    border-width: 0 0 1px 0;
+   /* border: 1px solid #ddd;
+    border-width: .1rem 0 0 0;*/
     margin: 0 0 0 1rem;
     padding: 1.25rem 0 0;
-    background-color: #fff;
     min-height: 4.75rem;
+    width: calc(100% - 10px);
+}
+.l-column__search > section .sui-advBox:nth-child(even) {
+   /* background-color: #fff; */
 }
 
 .l-column__search > section .sui-advBox:first-child .facetItem {
@@ -63,24 +66,21 @@
     display: flex;
     height: 1.5rem;
     font-size: 1.45rem;
-    cursor: default;
 }
-
+.sui-advBox:hover,
 .sui-advHeader:hover {
-    color: #222;
+    color: #000;
+    cursor: pointer;
 }
 
 .sui-advHeader > .icon {
-    margin: 0 1rem 0 0.5rem;
-    font-size: 1.7rem;
+    margin: 0 1.8rem 0 0.5rem;
+    font-size: 2rem;
     position: relative;
-    top: -0.4rem;
-    left: -0.25rem;
+    top: -0.5rem;
+    left: 0.25rem;
 }
 .sui-advHeader .badge {
-    position: relative;
-    bottom: 0;
-    right: 0;
     padding: 0.5rem 3.5rem 0.5rem 1rem;
     border-radius: 0.3rem;
     color: #fff;
@@ -103,8 +103,8 @@
 .sui-advHeader .u-icon__plus,
 .sui-advHeader .u-icon__minus {
     position: absolute;
-    right: 0.5rem;
-    margin-top: 0.4rem;
+    right: 0.65rem;
+    top: 0.6rem;
     font-size: 0.85rem;
     color: #eee;
     cursor: pointer;
@@ -221,12 +221,12 @@
     border-bottom-width: 0.3rem;
     border-radius: 0 0 1.5rem 1.5rem;
     padding: 0.8rem 0.8rem 0.3rem;
-    font-size: 1.25rem;
+    font-size: 1.4rem;
     color: #333;
-    margin: 1.25rem 0;
+    margin: 1.9rem 0 0;
 }
 
-.l-column__search > section .sui-advBox:first-child .sui-advEdit {
+.sui-advBox:first-child .sui-advEdit {
     font-size: 1.45rem;
     text-style: capitalize;
 }
@@ -265,16 +265,18 @@
 }
 
 .sui-advEdit input {
-    width: 11.25rem;
-    border: 1px solid #aaa;
-    border-radius: 0.35rem;
+    width: 15rem;
+    border: 2px solid #d0d0d0;
+    border-radius:2rem;
     font-size: 1.25rem;
     padding: 0.5rem 1.25rem 0.25rem;
     margin: 0.5rem 0 0.5rem 0.5rem;
 }
-
+input:focus-visible {
+    border-width: .1rem !important;
+    order-radius:2rem !important;
+}
 .sui-advPlus {
-    float: right;
     position: relative;
 }
 
@@ -361,7 +363,8 @@
     border-radius: 1.25rem;
 }
 .sui-adv-facetlist .facetItem,
-.sui-advBox-asset_type .sui-advEditLine .icon {
+.sui-advBox-asset_type .sui-advEditLine .icon,
+.sui-advBox:first-child .sui-advEditLine .icon {
     font-size: 1.5rem;
     position: relative;
     left: -0.5rem;
