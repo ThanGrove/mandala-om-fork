@@ -490,7 +490,7 @@
     border: .15rem solid #668eec;
     border-radius: .75rem;
     padding: 0 0 0 3px;
-    margin: .2rem .5rem .2rem 0;
+    margin: .2rem 0 .2rem 0;
 }
 .sui-boolItem:hover,
 .sui-advEditBool:hover {
