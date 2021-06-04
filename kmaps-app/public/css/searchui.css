@@ -481,6 +481,7 @@
     font-size: 9px;
     padding-top: 5px;
 }
+.sui-boolItem,
 .sui-advEditBool {
     display: inline-block;
     cursor: pointer;
@@ -491,16 +492,14 @@
     padding: 0 0 0 3px;
     margin: .2rem .5rem .2rem 0;
 }
+.sui-boolItem:hover,
 .sui-advEditBool:hover {
     border-color: #4d59ca;
     color:#4d59ca;
 }
 .sui-boolItem {
-    display: inline-block;
-    color: #999;
-}
-.sui-boolItem:hover {
-    color: #668eec;
+    border:none;
+    color:#4d59ca;
 }
 .sui-advEditList {
     overflow-x: hidden;
