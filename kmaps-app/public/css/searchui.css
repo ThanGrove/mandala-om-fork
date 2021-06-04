@@ -465,6 +465,7 @@
     color: #000;
     margin: 1.5rem 0.5rem 0;
 }
+/*
 .sui-advEditBut {
     display: inline-block;
     cursor: pointer;
@@ -474,6 +475,7 @@
 .sui-advEditBut:hover {
     color: #a4baec;
 }
+*/
 .sui-advEditNums {
     float: right;
     font-size: 9px;
@@ -482,11 +484,16 @@
 .sui-advEditBool {
     display: inline-block;
     cursor: pointer;
+    font-size: .9rem;
     color: #668eec;
-    border: .1rem solid#999;
-    border-radius: 2px;
-    padding: 0 0 1px 3px;
-    margin: .2rem 0.5rem .2rem 0;
+    border: .15rem solid #668eec;
+    border-radius: .75rem;
+    padding: 0 0 0 3px;
+    margin: .2rem .5rem .2rem 0;
+}
+.sui-advEditBool:hover {
+    border-color: #4d59ca;
+    color:#4d59ca;
 }
 .sui-boolItem {
     display: inline-block;
