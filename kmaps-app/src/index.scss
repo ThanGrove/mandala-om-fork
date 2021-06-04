@@ -473,6 +473,8 @@ ul.fancytree-container {
     font-size: 1.15rem;
     text-align: center;
     letter-spacing: 0.05rem;
+
+    display:none;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     background-color: $color-mandala;

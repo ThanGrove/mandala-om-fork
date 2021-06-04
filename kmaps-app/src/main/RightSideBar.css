@@ -302,7 +302,7 @@ input:focus-visible {
     padding: 0 0 1px 3px;
     margin: 2px 0;
 }
-*/
+
 .sui-boolItem {
     display: inline-block;
     color: #999;
@@ -311,7 +311,7 @@ input:focus-visible {
 .sui-boolItem:hover {
     color: #668eec;
 }
-
+*/
 .sui-advEditList {
     overflow-x: hidden;
     max-height: 360px;
