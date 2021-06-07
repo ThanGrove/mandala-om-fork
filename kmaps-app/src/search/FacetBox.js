@@ -355,7 +355,7 @@ export function FacetBox(props) {
                                     {isFetchingNextPage
                                         ? 'Loading more...'
                                         : hasNextPage
-                                        ? 'Load Newer'
+                                        ? 'Load more'
                                         : 'Nothing more to load'}
                                 </button>
                             </div>

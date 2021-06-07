@@ -66,10 +66,11 @@
 
 .sui-advHeader > .icon {
     margin: 0 1.25rem 0 .5rem;
-    font-size: 2rem;
+    font-size: 2.25rem;
     position: relative;
-    top: -0.7rem;
-    left: 0.25rem;
+    top: -0.6rem;
+    left: -0.1rem;
+    color:#444;
 }
 .sui-advHeader .badge {
     padding: 0.5rem 3.5rem 0.5rem 1rem;
@@ -104,7 +105,7 @@
 .sui-advHeader > .app-name {
     flex: 1;
     font-weight: bold;
-    color: #707070;
+    color: #555;
 }
 
 .sui-advBox-recent .c-HistoryViewer {
@@ -224,80 +225,92 @@
 }
 
 .sui-advBox:first-child .sui-advEdit {
-    font-size: 1.45rem;
+    font-size: 1.4rem;
     text-transform: capitalize;
 }
-
-.sui-advEdit-facet-ctrls-btns {
-    position: relative;
-    top: 0.4rem;
-    float: right;
+.sui-advEdit-facet-ctrls {
+    position: relative
 }
-
+.sui-advEdit-facet-ctrls-btns {
+    position: absolute;
+    top: 0.4rem;
+    right: 1rem;
+}
 .sui-advEdit-facet-ctrls-btns .btn {
     padding: 0.2rem 1rem;
-    background-color: #f9f9f9;
-    border-color: #ccc;
-    color: #444;
-    font-size: 1.45rem;
+    font-size: 1.3rem;
+    border-color: #888;
+    border-style: dashed;
+    background-color: #fff;
+    color: #555;
+}
+.sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child{
+    border-radius: 1rem 0 0 1rem !important;
+}
+.sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child{
+    border-radius: 0 1rem 1rem 0 !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn:hover,
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
     background-color: #fff;
-    border-color: #888;
     color: #222;
-    border: none !important;
+    border-style:solid;
+    border-color:#4d59ca;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
-.sui-advEdit-facet-ctrls-btns .btn:active {
-    border-color: transparent;
-    box-shadow: none;
-    outline: none;
+.sui-advEdit-facet-ctrls-btns .btn:active,
+.sui-advEdit-facet-ctrls-btns .btn:focus-visible,
+.sui-advEdit-facet-ctrls-btns .btn:active input,
+.sui-advEdit-facet-ctrls-btns .btn input:focus,
+.sui-advEdit-facet-ctrls-btns .btn input:active,
+.sui-advEdit-facet-ctrls-btns .btn input:focus-visible,
+.sui-advEdit-facet-ctrls-btns .btn:active input {
+    box-shadow: none !important;
+    outline: none !important;
 }
 
 .sui-advEdit-facet-ctrls-btns .btn:first-of-type {
-    font-size: 1.5rem;
+   font-size: 1.5rem;
+    padding:0 1rem;
 }
 
 .sui-advEdit input {
-    width: 15rem;
-    border: 2px solid #d0d0d0;
+    border: 1px solid #aaa;
     border-radius:2rem;
     font-size: 1.25rem;
     padding: 0.3rem 1.25rem 0.1rem;
     margin: 0.5rem 0 0.5rem 0.5rem;
 }
-.sui-advEdit input:focus {
-    border-radius:.2rem;
-}
-input:focus-visible {
-    border-width: 0.2rem;
-    outline: .05rem auto Highlight;
-    outline: -webkit-focus-ring-color auto .05rem;
-    color:#4d59ca;
+input:focus-visible,
+.sui-advEdit input:focus,
+.sui-advEdit-facet-ctrls-btns input:focus,
+.sui-advEdit-facet-ctrls-btns input:focus-visible {
+    border:none;
+    outline: -webkit-focus-ring-color solid .1rem;
+    outline:none !important;
+    border:1px solid #4d59ca;
 }
 .sui-advPlus {
     position: relative;
 }
-
 .sui-advEditBut {
     display: inline-block;
     cursor: pointer;
     vertical-align: -2px;
     color: #999;
 }
-
 .sui-advEditBut:hover {
     color: #a4baec;
 }
-
 .sui-advEditNums {
     float: right;
     font-size: 9px;
     padding-top: 5px;
 }
+
+
 /*
 .sui-advEditBool {
     display: inline-block;
@@ -332,7 +345,9 @@ input:focus-visible {
 .sui-advEditLine:hover {
     background-color: #dee7f1;
 }
-
+.sui-adv-facetlist > .sui-advEditLine:nth-last-child(2):hover {
+    background-color:transparent !important;
+}
 .sui-advEditLine.chosen {
     background-color: #dee7f1;
 }
@@ -374,6 +389,39 @@ input:focus-visible {
 }
 .sui-advBox-asset_type .sui-adv-facetlist .facetItem {
     display: none;
+}
+
+.sui-adv-facetlist > .sui-advEditLine:last-child,
+.sui-adv-facetlist > .sui-advEditLine:last-child:hover{
+    background-color:transparent !important;
+}
+.sui-advEditLine > button {
+    border:none;
+    background-color:transparent !important;
+    font-style:italic;
+    font-size:1.25rem;
+    color:#555;
+    margin-left:1rem;
+}
+.sui-advEditLine > button:hover,
+.sui-advEditLine > button:focus,
+.sui-advEditLine > button:focus-visible {
+    border:none;
+    outline:transparent;
+}
+.sui-advEditLine > button:hover {
+    color:inherit;
+}
+.sui-advEditLine > button[disabled]:hover {
+    color:#555;
+}
+.sui-advEditLine > button::before {
+    content: '>';
+    margin-right:.75rem;
+}
+.sui-advEditLine > button[disabled]::before {
+    content: '...';
+    margin-right:0;
 }
 
 .sui-geoLocate {
