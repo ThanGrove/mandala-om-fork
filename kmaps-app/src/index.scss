@@ -542,16 +542,13 @@ ul.fancytree-container {
 // gallery display buttons for view options
 .c-buttonGroup__viewMode__wrap {
     background: #fff;
-    padding: 0 1.6rem;
+    padding: 1rem 1.6rem 2rem;
     border: 1px solid #e0e0e0;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
-    // margin: 0.8rem 1.5rem 0;
-    // padding-right: 1rem;
-    // float: right;
-    margin: 1.6rem 0;
-    text-align: right;
+    margin: 0;
+    float: right;
 }
 
 .c-buttonGroup__viewMode-header {
