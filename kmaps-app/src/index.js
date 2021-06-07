@@ -9,12 +9,7 @@ import * as serviceWorker from './serviceWorker';
 const target = document.getElementById('root');
 
 if (target) {
-    ReactDOM.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>,
-        target
-    );
+    ReactDOM.render(<App />, target);
 }
 
 // If you want your app to work offline and load faster, you can change

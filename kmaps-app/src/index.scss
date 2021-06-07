@@ -434,7 +434,7 @@ ul.fancytree-container {
     height: 100vh;
     font-size: 1.3rem;
     z-index: 1000;
-    max-width: 35rem;
+    /*max-width: 35rem;*/
 }
 .l-column__search.open {
     z-index: 1000;
@@ -474,7 +474,7 @@ ul.fancytree-container {
     text-align: center;
     letter-spacing: 0.05rem;
 
-    display:none;
+    display: none;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     background-color: $color-mandala;
