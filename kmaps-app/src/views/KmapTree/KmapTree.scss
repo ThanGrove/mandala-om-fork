@@ -13,6 +13,7 @@
     max-height: 80vh;
     border: 3px inset #5960a7;
     padding: 1.25rem;
+    font-size:1.45rem;
 }
 
 #l-column__search--treeNav .c-kmaptree {
@@ -58,9 +59,11 @@ aside#l-column__search--treeNav .c-perspective-select {
     white-space: nowrap;
     max-width: inherit;
     overflow: hidden;
+    font-size:1.45rem;
     .toggle-icon {
         display: inline-block;
-        margin-right: 0.5rem;
+        margin-right: 0.6rem;
+        font-size:1.5rem;
     }
     .label a {
         color: #000;
