@@ -54,13 +54,10 @@ function unPackRelatedData(res, kmapid, type, start, rows) {
 }
 
 export const useUnPackedMemoized = (res, kmapid, type, start, rows) => {
-    return useMemo(() => unPackRelatedData(res, kmapid, type, start, rows), [
-        res,
-        kmapid,
-        type,
-        start,
-        rows,
-    ]);
+    return useMemo(
+        () => unPackRelatedData(res, kmapid, type, start, rows),
+        [res, kmapid, type, start, rows]
+    );
 };
 
 function cleanAssetData(data) {
@@ -127,7 +124,7 @@ export const ArrayOfObjectsParam = {
 
         return encodeDelimitedArray(
             array.map((el) => {
-                return `id.${el.id}_lb.${el.label}_op.${el.operator}`;
+                return `id.${el.id}__lb.${el.label}__op.${el.operator}`;
             }),
             ','
         );
@@ -135,7 +132,7 @@ export const ArrayOfObjectsParam = {
     decode: (input) => {
         const arrayStr = decodeDelimitedArray(input, ',') ?? [];
         return arrayStr.map((el) => {
-            return el.split('_').reduce((accum, curr) => {
+            return el.split('__').reduce((accum, curr) => {
                 const [firstTwoChars, currentValue] = curr.split('.');
                 switch (firstTwoChars) {
                     case 'id':
