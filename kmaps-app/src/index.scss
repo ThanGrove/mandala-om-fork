@@ -550,7 +550,17 @@ ul.fancytree-container {
     margin: 0;
     float: right;
 }
-
+.sui-facetList-horiz {
+    margin-bottom:1.5rem;
+}
+.sui-facetList-horiz > span {
+    display:block;
+    font-weight:bold;
+}
+.sui-facetList-horiz > div {
+    display: inline;
+    padding-right:1.5rem;
+}
 .c-buttonGroup__viewMode-header {
     font-size: 1.2rem;
     margin-right: 0.8rem;
