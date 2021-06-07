@@ -1,4 +1,5 @@
 import React from 'react';
+import { Container, Section, Bar } from 'react-simple-resizer';
 import { ContentHeader } from './ContentHeader/ContentHeader';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
 import { AudioVideoHome } from '../views/AudioVideo/AudioVideoHome';
@@ -49,8 +50,8 @@ export default function ContentMain(props) {
                     title={title}
                     location={myLocation}
                 />
-                <div className="two-columns">
-                    <section id="l-content__main" className="l-content__main">
+                <Container className="two-columns">
+                    <Section id="l-content__main" className="l-content__main">
                         {/** TODO:gk3k -> Create loading component with skeletons. */}
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
@@ -185,11 +186,19 @@ export default function ContentMain(props) {
                                 </Route>
                             </Switch>
                         </React.Suspense>
-                    </section>
+                    </Section>
+                    <Bar
+                        size={10}
+                        style={{
+                            background: '#cecece',
+                            cursor: 'col-resize',
+                            marginTop: '1rem',
+                        }}
+                    />
                     <React.Suspense fallback={<MandalaSkeleton count={10} />}>
                         <RightSideBar />
                     </React.Suspense>
-                </div>
+                </Container>
             </article>
         </main>
     );

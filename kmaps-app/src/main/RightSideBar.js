@@ -1,4 +1,5 @@
 import React, { useState, Suspense } from 'react';
+import { Section } from 'react-simple-resizer';
 import ReactDOM from 'react-dom';
 import { AdvancedToggle } from './MainSearchToggle/AdvancedToggle';
 import './RightSideBar.css';
@@ -26,7 +27,12 @@ export default function RightSideBar() {
         }
     }
     const advancedSearchPortal = (
-        <section className="l-content__rightsidebar">
+        <Section
+            className="l-content__rightsidebar"
+            maxSize={500}
+            minSize={350}
+            defaultSize={350}
+        >
             <AdvancedToggle
                 chooseViewMode={chooseViewMode}
                 viewMode={'advanced'}
@@ -41,7 +47,7 @@ export default function RightSideBar() {
                     </Suspense>
                 )}
             </div>
-        </section>
+        </Section>
     );
 
     if (target) {
