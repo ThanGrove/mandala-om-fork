@@ -19,7 +19,7 @@
 .sui-advBox {
     border-bottom: 1px solid #e0e0e0;
     margin: 0 0 0 1rem;
-    padding: 1.25rem 0 0;
+    padding: 0;
     min-height: 4.5rem;
     width: calc(100% - 10px);
     cursor: default;
@@ -52,9 +52,10 @@
     cursor: pointer;
     text-transform: uppercase;
     display: flex;
-    height: 1.5rem;
     font-size: 1.45rem;
-    height:1.9rem;
+    height:3.5rem;
+    padding-top:1.25rem;
+    margin-bottom: .8rem;
 }
 .sui-advBox:hover,
 .sui-advHeader:hover {
@@ -172,9 +173,9 @@
 }
 
 .sui-advTerm {
-    /* margin: 0.5rem 0 -1rem 0.6rem; */
     font-size: 1.1rem;
-    padding: 0.25rem 0.5rem 0.75rem 3.5rem;
+    padding: 0 0.5rem 0.5rem 3.5rem;
+    margin: -.5rem 0 0 1rem;
     text-transform:capitalize;
 }
 .sui-advTerm .icon::before {
@@ -219,7 +220,7 @@
     padding: 0.8rem 0.8rem 0.3rem;
     font-size: 1.4rem;
     color: #333;
-    margin: 1.25rem 0 0;
+    margin: 0 0 .75rem;
 }
 
 .sui-advBox:first-child .sui-advEdit {
@@ -237,7 +238,7 @@
 .sui-advEdit-facet-ctrls-btns .btn {
     padding: 0.2rem 1rem;
     font-size: 1.3rem;
-    border-color: #888;
+    border-color: #ccc;
     border-style: dashed;
     background-color: #fff;
     color: #555;
@@ -255,7 +256,7 @@
     background-color: #fff;
     color: #222;
     border-style:solid;
-    border-color:#4d59ca;
+    border-color:#668eec;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
 .sui-advEdit-facet-ctrls-btns .btn:active,
