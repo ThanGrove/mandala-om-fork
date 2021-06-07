@@ -345,19 +345,21 @@ export function FacetBox(props) {
                         <>
                             {facetList}
                             <div className="sui-advEditLine">
-                                <button
-                                    ref={loadMoreButtonRef}
-                                    onClick={() => fetchNextPage()}
-                                    disabled={
-                                        !hasNextPage || isFetchingNextPage
-                                    }
-                                >
-                                    {isFetchingNextPage
-                                        ? 'Loading more...'
-                                        : hasNextPage
-                                        ? 'Load Newer'
-                                        : 'Nothing more to load'}
-                                </button>
+                                {hasNextPage && (
+                                    <button
+                                        ref={loadMoreButtonRef}
+                                        onClick={() => fetchNextPage()}
+                                        disabled={
+                                            !hasNextPage || isFetchingNextPage
+                                        }
+                                    >
+                                        {isFetchingNextPage
+                                            ? 'Loading more...'
+                                            : hasNextPage
+                                            ? 'Load Newer'
+                                            : null}
+                                    </button>
+                                )}
                             </div>
                             <div>
                                 {isFetching && !isFetchingNextPage
