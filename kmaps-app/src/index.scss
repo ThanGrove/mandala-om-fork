@@ -551,7 +551,7 @@ ul.fancytree-container {
     float: right;
 }
 .sui-facetList-horiz {
-    margin-bottom:1.5rem;
+    margin-bottom:0;
 }
 .sui-facetList-horiz > span {
     display:block;
@@ -579,26 +579,17 @@ ul.fancytree-container {
 
 // View Styles
 .c-view__wrapper {
-    // background-color: white;
-    // margin-top: -2rem;
-    // border: none;
-    // border: 1px solid #e0e0e0;
-    // padding: 0 1.5rem 3rem;
     border: none;
 }
 
 .c-view {
     margin: 0;
     .c-featurePager__container {
-        // background: #fff;
-        // padding: 1rem 1rem 0 15rem; /* extra padding to make room for display buttons on far left of row */
-        // border-radius: 0.3rem 0.3rem 0 0;
-        // margin: 1rem auto 0;
         text-align: center;
-        margin-bottom: 1.25rem;
+        margin-bottom: 1rem;
+        padding:3rem 1rem 0;
         .icon {
         }
-
         &.top {
             margin-bottom: 1.3rem;
         }
@@ -606,7 +597,7 @@ ul.fancytree-container {
 }
 
 .c-view .c-featurePager__container:last-of-type {
-    margin: 2rem !important;
+   /* margin: 0 !important; */
 }
 
 .c-buttoneGroup__viewMode {

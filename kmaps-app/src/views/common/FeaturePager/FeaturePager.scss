@@ -14,8 +14,10 @@
 
 .c-featurePager__resultSummary {
     float: left;
-    margin-left: 0rem;
-    font-size: 1.3rem;
+    margin-left: 0;
+    position: relative;
+    top: 0.1rem;
+    font-size: 1.35rem;
     .start,
     .end {
         display: inline-block;
@@ -25,8 +27,7 @@
 }
 .c-featurePager__navButtons {
     display: inline;
-    margin-right: 3rem;
-    font-size: 1.4rem;
+    font-size: 1.25rem;
 }
 .c-featurePager__navButtons .icon {
     margin: 0;
@@ -50,7 +51,7 @@
     width: 15px;
 }
 .c-featurePager__navButtons span input {
-    height: 22px;
+    height: 20px;
     position: relative;
     top: -0.05rem;
     margin-left: 1rem;
