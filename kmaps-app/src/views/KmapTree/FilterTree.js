@@ -90,11 +90,13 @@ export default function FilterTree({ settings, ...props }) {
     useEffect(() => {
         settings.perspective = perspective;
         settings.root.perspective = perspective;
-        if (rootData?.numFound > 0) {
+    }, [perspective]);
+
+    useEffect(() => {
+        if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
             settings.root.kid = rootData.docs[0].uid.split('-')[1];
         }
-    }, [perspective, rootData]);
-
+    }, [rootData]);
     if (isAncestorsLoading) {
         return (
             <div className="filter-tree">
@@ -142,7 +144,7 @@ export default function FilterTree({ settings, ...props }) {
                     level={level}
                     settings={settings}
                     isopen={settings.isOpen}
-                    perspective={settings.perspective}
+                    perspective={perspective}
                     newperspective={perspective}
                 />
             );
