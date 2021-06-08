@@ -92,9 +92,7 @@ export default function FilterTree({ settings, ...props }) {
         settings.root.perspective = perspective;
         if (rootData?.numFound > 0) {
             settings.root.kid = rootData.docs[0].uid.split('-')[1];
-            console.log('new kid', settings.root.kid);
         }
-        console.log('in use effect', rootData);
     }, [perspective, rootData]);
 
     if (isAncestorsLoading) {
