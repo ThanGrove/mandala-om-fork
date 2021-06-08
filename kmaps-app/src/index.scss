@@ -456,29 +456,33 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 0.75rem 0 0;
+    padding: 0.5rem 0 0 1.5rem;
 }
 .l-column__search nav:first-child {
     display: flex;
-    font-size: 3rem;
+    font-size: 2.75rem;
     position: absolute;
     right: 1rem;
-    top: 3.5rem;
+    top: 3.75rem;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
     color:#fff;
     opacity:.5;
 }
+.l-column__search nav:nth-of-type(1) > a {
+    padding:0;
+    font-size:2rem;
+}
 .l-column__search nav:nth-of-type(2) > a {
     font-size: 1.35rem;
     letter-spacing: 0.075rem;
     font-style: italic;
-    margin-left: 1.5rem;
+    margin-left: .5rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     color: $color-mandala;
 }
-.l-column__search nav:nth-of-type(2) > a:active {
+.l-column__search nav:nth-of-type(2) > .nav-link:active {
     color: $color-mandala;
 }
 .l-column__search nav:nth-of-type(2) > div {
