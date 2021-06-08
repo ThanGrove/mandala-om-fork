@@ -115,6 +115,7 @@ export default function FilterTree({ settings, ...props }) {
                     leaf_level={0}
                     settings={settings}
                     isopen={settings.isOpen}
+                    perspective={perspective}
                     showAncestors={settings.showAncestors}
                 />
             ) : (
@@ -128,22 +129,14 @@ export default function FilterTree({ settings, ...props }) {
                 />
             );
     }
-    let perspChooser = null;
-    if (
-        settings.domain in KmapPerpsectiveData &&
-        KmapPerpsectiveData[settings.domain]?.length > 1
-    ) {
-        perspChooser = (
+
+    return (
+        <div id={settings.elid} className={treeclass}>
             <PerspectiveChooser
                 domain={settings.domain}
                 current={perspective}
                 setter={setPerspective}
             />
-        );
-    }
-    return (
-        <div id={settings.elid} className={treeclass}>
-            {perspChooser}
             {tree}
         </div>
     );
