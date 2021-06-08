@@ -13,6 +13,8 @@ import {
 import { Button, Modal } from 'react-bootstrap';
 import { capitalize } from '../common/utils';
 import { HtmlCustom } from '../common/MandalaMarkup';
+import jsonpAdapter from '../../logic/axios-jsonp';
+import { getSolrUrls } from '../../hooks/utils';
 
 /**
  * Kmap perspective data as a JS Object for dealing with perspective switches
@@ -51,6 +53,8 @@ export const KmapPerpsectiveData = {
     ],
 };
 
+const solrurls = getSolrUrls();
+
 export function PerspectiveChooser({ domain, current, setter, ...props }) {
     // Get Perspective data from API
     const {
@@ -67,7 +71,7 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     if (perspData.length === 1) {
         return null;
     }
-    console.log(perspData);
+    // console.log(perspData);
     const choices =
         domain in KmapPerpsectiveData ? KmapPerpsectiveData[domain] : false;
     if (!domain || !choices) {
@@ -82,7 +86,8 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
 
     const changeMe = (evt) => {
         // console.log('Perspective is now: ', evt.target.value);
-        setter(evt.target.value);
+        const persp_code = evt.target.value;
+        setter(persp_code);
     };
 
     return (
@@ -137,11 +142,9 @@ export function PerspectiveDescs({ domain, ...props }) {
         domain
     )} have the following perspectives:</p>`;
     perspData.forEach((prsp) => {
-        let desc =
-            typeof prsp['description'] === undefined ||
-            prsp['description'] === ''
-                ? '<p>No description available.</p>'
-                : prsp['description'];
+        let desc = !prsp['description']
+            ? '<p>No description available.</p>'
+            : prsp['description'];
         mu += `<div><h2>${prsp['name']}</h2>${desc}</div>`;
     });
     mu = `<div>${mu}</div>`;
@@ -150,7 +153,7 @@ export function PerspectiveDescs({ domain, ...props }) {
             <a
                 onClick={handleShow}
                 title={`About ${domain} perspectives`}
-                style={{ cursor: 'pointer' }}
+                style={{ cursor: 'pointer', float: 'right' }}
             >
                 <BsInfoCircle />
             </a>
@@ -178,8 +181,7 @@ export function PerspectiveDescs({ domain, ...props }) {
     );
 }
 
-export function getPerspectiveRoot(pid, domain = 'places') {
-    const query = '';
+export async function getPerspectiveRoot(pid, domain = 'places') {
     let perspRoot = false;
     for (let n = 0; n < KmapPerpsectiveData[domain].length; n++) {
         let persp = KmapPerpsectiveData[domain][n];

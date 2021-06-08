@@ -34,12 +34,33 @@ export default function FilterTree({ settings, ...props }) {
     const level = settings.level;
 
     // useState Calls for Perspectives
-    const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
-    const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
+    //const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
+    // Perspective Data is a tuple of perspective code and perspective root kid
+    console.log(persp);
+    const [perspective, setPerspective] = useState(persp); // Needed to pass to perspective chooser
 
     if (settings.kid === 0 && !settings.level) {
         settings.level = 1;
     }
+    console.log('Filter tree reload: ', perspective);
+    const rootquery = {
+        index: 'terms',
+        params: {
+            q: `level_${perspective}_i:1`,
+            fq: `tree:${settings.domain}`,
+            rows: 1,
+            fl: 'uid',
+        },
+    };
+    const {
+        isLoading: isRootLoading,
+        data: rootData,
+        isError: isRootError,
+        error: rootError,
+    } = useSolr(
+        ['filter', 'tree', 'root', projid, settings.domain, persp],
+        rootquery
+    );
 
     const query = {
         index: 'terms',
@@ -59,23 +80,22 @@ export default function FilterTree({ settings, ...props }) {
         data: ancestorsData,
         isError: isAncestorsError,
         error: ancestorsError,
-    } = useSolr(`filter-tree-${projid}-${settings.domain}-${persp}`, query);
+    } = useSolr(
+        `filter-tree-${projid}-${settings.domain}-${persp}`,
+        query,
+        isRootLoading
+    );
 
     // useEffect to Set level or root based on Perspective
     useEffect(() => {
         settings.perspective = perspective;
         settings.root.perspective = perspective;
-        const newroot = getPerspectiveRoot(
-            settings.perspective,
-            settings.domain
-        );
-        if (newroot) {
-            settings.kid = settings.root.kid = newroot * 1;
-        } else {
-            settings.root.kid = perspective; // To trigger redraw of tree
+        if (rootData?.numFound > 0) {
+            settings.root.kid = rootData.docs[0].uid.split('-')[1];
+            console.log('new kid', settings.root.kid);
         }
-        setRoot(settings.root.kid);
-    }, [perspective]);
+        console.log('in use effect', rootData);
+    }, [perspective, rootData]);
 
     if (isAncestorsLoading) {
         return (
@@ -124,8 +144,8 @@ export default function FilterTree({ settings, ...props }) {
                     level={level}
                     settings={settings}
                     isopen={settings.isOpen}
-                    perspective={perspective}
-                    newperspective={rootkid}
+                    perspective={settings.perspective}
+                    newperspective={perspective}
                 />
             );
     }
