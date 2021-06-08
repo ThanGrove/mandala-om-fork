@@ -438,6 +438,7 @@
     padding: 0.5rem 0.5rem 0 1.5rem;
 }
 .sui-advTerm .facetItem::before {
+
 }
 .sui-advTermRem {
     display: inline-block;
@@ -449,33 +450,41 @@
     color: #668eec;
 }
 
-.sui-advTermRem.u-icon__cancel-circle {
+.sui-facetList-horiz div {
+    position: relative;
+}
+.sui-facetList-horiz .sui-advTermRem.u-icon__cancel-circle {
     cursor: pointer;
     color: red;
-    font-size: 1.15rem;
+    font-size: 1.2rem;
+    position: absolute;
+    right: 0;
+    top: .2rem;
 }
-
+.sui-facetList-horiz .sui-advTermRem.u-icon__cancel-circle:hover {
+color:blueviolet;
+}
 .sui-advEdit {
-    display: none;
-    background-color: #fafafa;
-    text-align: left;
-    border: 1px solid #e0e0e0;
-    border-bottom-width: 0.2rem;
-    border-radius: 0 0 2rem 2rem;
-    padding: 0.8rem 0.8rem 0.3rem;
-    font-size: 1.25rem;
-    color: #000;
-    margin: 1.5rem 0.5rem 0;
+display: none;
+background-color: #fafafa;
+text-align: left;
+border: 1px solid #e0e0e0;
+border-bottom-width: 0.2rem;
+border-radius: 0 0 2rem 2rem;
+padding: 0.8rem 0.8rem 0.3rem;
+font-size: 1.25rem;
+color: #000;
+margin: 1.5rem 0.5rem 0;
 }
 /*
 .sui-advEditBut {
-    display: inline-block;
-    cursor: pointer;
-    vertical-align: -2px;
-    color: #999;
+display: inline-block;
+cursor: pointer;
+vertical-align: -2px;
+color: #999;
 }
 .sui-advEditBut:hover {
-    color: #a4baec;
+color: #a4baec;
 }
 */
 .sui-advEditNums {
@@ -491,8 +500,8 @@
     color: #668eec;
     border: .15rem solid #668eec;
     border-radius: .75rem;
-    padding: 0 0 0 3px;
-    margin: .2rem 0 .2rem 0;
+    padding: 0 0 0 .3rem;
+    margin: -0.2rem 0 0;
 }
 .sui-boolItem:hover,
 .sui-advEditBool:hover {

@@ -63,8 +63,10 @@
 }
 
 .c-featurePager__itemCount {
-    display: inline;
-    float: right;
+    /* display: inline;
+    float: right; */
+    text-align: left;
+    margin-top: .5rem;
 }
 .c-featurePager__itemCount .react-numeric-input {
     padding-right: 2rem;

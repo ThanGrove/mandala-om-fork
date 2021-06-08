@@ -552,11 +552,16 @@ ul.fancytree-container {
 }
 .sui-facetList-horiz {
     margin-bottom:0;
+    padding-right: 1.5rem;
+    margin-left:1rem;
 }
 .sui-facetList-horiz > span {
     display:block;
-    font-weight:bold;
-    margin-bottom:.5rem;
+    font-size: 1.75rem;
+}
+.sui-facetList-horiz .facetItem {
+    font-size: 1.8rem;
+    margin-left:1.75rem;
 }
 .sui-facetList-horiz > div {
     display: inline;
@@ -567,6 +572,12 @@ ul.fancytree-container {
     margin-right: 0.8rem;
     white-space: nowrap;
     font-style: italic;
+}
+
+.c-buttonGroup__viewMode .icon::before {
+    font-size: 1.25rem;
+    position: relative;
+    top: .2rem;
 }
 
 .open {
@@ -585,7 +596,7 @@ ul.fancytree-container {
 .c-view {
     margin: 0;
     .c-featurePager__container {
-        text-align: center;
+        /* text-align: center; */
         margin-bottom: 1rem;
         padding:3rem 1rem 0;
         .icon {
