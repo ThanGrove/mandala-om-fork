@@ -178,9 +178,8 @@ export function PerspectiveDescs({ domain, ...props }) {
     );
 }
 
-function getPerspDescs(domain, persps) {}
-
 export function getPerspectiveRoot(pid, domain = 'places') {
+    const query = '';
     let perspRoot = false;
     for (let n = 0; n < KmapPerpsectiveData[domain].length; n++) {
         let persp = KmapPerpsectiveData[domain][n];
