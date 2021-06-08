@@ -192,7 +192,6 @@ export default function ContentMain(props) {
                         style={{
                             background: '#cecece',
                             cursor: 'col-resize',
-                            marginTop: '1rem',
                         }}
                     />
                     <React.Suspense fallback={<MandalaSkeleton count={10} />}>

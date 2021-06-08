@@ -224,14 +224,13 @@ export default function SearchAdvanced(props) {
                         </a>
                     )}
                 <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>Reset: </Navbar.Text>
+                    <Navbar.Text>Reset:</Navbar.Text>
                     <Nav.Link
                         eventKey="resetFilters"
                         onClick={handleResetFilters}
                     >
                         Filters
                     </Nav.Link>
-                    |
                     <Nav.Link eventKey="resetAll" onClick={handleResetAll}>
                         All
                     </Nav.Link>

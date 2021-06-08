@@ -24,7 +24,11 @@ body.html {
     display: flex;
     padding-right: 0.75rem;
 }
-
+.two-columns > div:nth-child(2) {
+    border-right: .1rem double #ccc;
+    border-width: 0 .6rem;
+    background:transparent !important;
+}
 .l-site__wrap,
 .l-column__main,
 .l-column__main__wrap,
@@ -48,7 +52,7 @@ body.html {
 .l-content__rightsidebar {
     /*  flex: 0 0 28rem;*/
     /*min-width: 25%;*/
-    margin: 1rem 0 0;
+    margin: 0;
     max-width: 35rem;
     min-width: calc(max(25vw, 290px));
     font-size: 1.4rem;
@@ -452,43 +456,33 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 0.5rem 2rem 0;
+    padding: 0.75rem 0 0;
 }
 .l-column__search nav:first-child {
-    display: none;
+    display: flex;
+    font-size: 3rem;
+    position: absolute;
+    right: 1rem;
+    top: 3.5rem;
+}
+.l-column__search nav:first-child .shanticon-cancel::before {
+    color:#fff;
+    opacity:.5;
 }
 .l-column__search nav:nth-of-type(2) > a {
-    position: absolute;
-    left: 0;
-    top: 3.5rem;
-    width: 90%;
-    height: 3rem;
-    margin: 2% 5%;
-    padding: 0.5rem 1rem;
-    border: 0.15rem solid #aa9;
-    border-radius: 1.25rem;
-    margin: 2% 10%;
-    width: 80%;
-    text-transform: uppercase;
-    font-weight: 600;
-    font-size: 1.15rem;
-    text-align: center;
-    letter-spacing: 0.05rem;
-
-    display: none;
+    font-size: 1.35rem;
+    letter-spacing: 0.075rem;
+    font-style: italic;
+    margin-left: 1.5rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
-    background-color: $color-mandala;
-    border-color: $color-mandala;
-    color: #fff;
+    color: $color-mandala;
 }
 .l-column__search nav:nth-of-type(2) > a:active {
-    background-color: #fff;
-    border-color: $color-mandala;
     color: $color-mandala;
 }
 .l-column__search nav:nth-of-type(2) > div {
-    display: inline-block !important;
+
 }
 .l-column__search nav:nth-of-type(2) > div .navbar-text {
     text-transform: uppercase;
@@ -497,13 +491,18 @@ ul.fancytree-container {
     letter-spacing: 0.08rem;
 }
 .l-column__search nav:nth-of-type(2) > div a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    letter-spacing: 0.0375rem;
+    font-style:italic;
+    font-size: 80%;
+    letter-spacing: 0.075rem;
+    padding: .15rem 1rem;
+    border: 1px solid #ddd;
+    background: #eee;
+    margin: 0 .25rem 0;
+    border-radius: .5rem;
 }
 .l-column__search nav:nth-of-type(2) > div a:hover {
-    border-color: #14479c;
+    border-color: #aaa;
+    color:#000;
 }
 .l-column__search nav:nth-of-type(2) > a .badge {
     margin: 0 0 0 0.75rem;
@@ -514,7 +513,7 @@ ul.fancytree-container {
     letter-spacing: 0.0575rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover .badge {
-    color: #fff;
+    color: #4d59ca;
 }
 .l-column__search nav:nth-of-type(2) > a:active .badge {
     color: #4d59ca;

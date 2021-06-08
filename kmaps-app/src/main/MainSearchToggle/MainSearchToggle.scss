@@ -1,30 +1,30 @@
 .c-MainSearchToggle--group {
     align-self: center;
     margin: 0;
-    width: 100%;
+    width: 11rem;
+    height: 4rem;
+    position: absolute;
+    top: 0;
+    right: 5rem;
+    z-index: 1;
 }
 .c-MainSearchToggle--group label {
-    color: #fff;
-    background-color: #dedede;
+    color: #444;
+    background-color: #eee;
     padding: 1rem 0;
-    border-radius: 0;
-    border: none;
 }
 .c-MainSearchToggle--group label,
 .c-MainSearchToggle--group label input:focus {
     box-shadow: none !important;
-    border: none !important;
     outline: none !important;
+    border-radius: 0;
+    border-width: 0 .1rem;
 }
 .c-MainSearchToggle--group svg {
-    font-size: 1.75rem !important;
-    font-size: 2rem !important;
-    margin: 0;
-    position: relative;
-    top: 0;
+    font-size: 2rem;
 }
 .c-MainSearchToggle--group .btn.active svg {
-    font-size: 2.25rem !important;
+
 }
 .c-MainSearchToggle--button {
     color: black;
@@ -33,8 +33,8 @@
     opacity: 1;
 }
 .c-MainSearchToggle--button:hover {
-    color: #fff !important;
-    background-color: #4d59ca !important;
+    color: #000 !important;
+    background-color: #ddd !important;
     opacity: 1;
 }
 .c-MainSearchToggle--button.focus,
@@ -47,26 +47,23 @@
 }
 
 .c-MainSearchToggle--group .c-MainSearchToggle--button.active {
-    border-top: 2px solid #ccc !important;
     &:first-child {
-        border-left: 2px solid #ccc !important;
+        border-left: 1px solid #ccc !important;
     }
     &:nth-child(n + 2) {
-        border-right: 2px solid #ccc !important;
+        border-right: 1px solid #ccc !important;
     }
 }
 
 .c-MainSearchToggle--button:not(.active) {
-    border-top: #ddd !important;
-    border-bottom: 2px inset #ccc !important;
     &:first-child {
-        border-right: 3px outset #ccc !important;
+        border-right: 1px outset #ccc !important;
     }
     &:nth-child(n + 2) {
-        border-left: 3px inset #ccc !important;
+        border-left: 1px inset #ccc !important;
     }
 }
 
 .c-MainSearchToggle--button .btn {
-    border: none;
+    /* border: none; */
 }

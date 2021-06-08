@@ -26,11 +26,15 @@
     label {
         display: inline-block;
         font-weight: bold;
-        margin-right: 1rem;
+        margin-right: .5rem;
+        font-size: 1.35rem;
     }
     select {
         display: inline-block;
         width: fit-content;
+        max-width: unset;
+        border-radius: 1.5rem;
+        padding: .2rem .9rem;
     }
 }
 
@@ -59,11 +63,13 @@ aside#l-column__search--treeNav .c-perspective-select {
     white-space: nowrap;
     max-width: inherit;
     overflow: hidden;
-    font-size:1.45rem;
+    font-size:1.4rem;
     .toggle-icon {
         display: inline-block;
         margin-right: 0.6rem;
-        font-size:1.5rem;
+        font-size: 1.65rem;
+        position: relative;
+        top: .15rem;
     }
     .label a {
         color: #000;
@@ -71,7 +77,6 @@ aside#l-column__search--treeNav .c-perspective-select {
             color: #df3d26;
         }
     }
-
     &.selected > .c-kmapnode > .label {
         font-weight: bold;
     }
