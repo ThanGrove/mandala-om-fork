@@ -444,6 +444,8 @@
     display: inline-block;
     cursor: pointer;
     margin-left: .2rem;
+    position: absolute;
+    right: -1.45rem;
 }
 
 .sui-advValueRem:hover {

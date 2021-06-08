@@ -174,7 +174,7 @@
 
 .sui-advTerm {
     font-size: 1.1rem;
-    padding: 0 0.5rem 0.5rem 3.5rem;
+    padding: 0 .5rem .5rem 2.5rem;
     margin: -.5rem 0 0 1rem;
     text-transform:capitalize;
 }
@@ -186,8 +186,10 @@
 }
 .sui-advTerm > div {
     display:inline;
-    margin-right:1rem;
+    margin-right: 1.5rem;
+    margin-left: 1rem;
     white-space: nowrap;
+    position: relative;
 }
 
 
