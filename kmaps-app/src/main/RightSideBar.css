@@ -64,7 +64,7 @@
 }
 
 .sui-advHeader > .icon {
-    margin: 0 1.25rem 0 .5rem;
+    margin: 0 1.25rem 0 .75rem;
     font-size: 1.9rem;
     position: relative;
     top: -0.4rem;
@@ -290,7 +290,7 @@ input:focus-visible,
     border:none;
     outline: -webkit-focus-ring-color solid .1rem;
     outline:none !important;
-    border:1px solid #4d59ca;
+    border:1px solid #668eec;
 }
 .sui-advPlus {
     position: relative;
