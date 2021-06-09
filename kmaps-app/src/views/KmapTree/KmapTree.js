@@ -70,7 +70,7 @@ export default function KmapTree(props) {
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
-
+    // console.log(JSON.stringify(settings, null, 4));
     // Remove domain and dash from selectedNode value
     if (
         typeof settings?.selectedNode === 'string' &&
@@ -93,8 +93,27 @@ export default function KmapTree(props) {
     };
 
     // useState Calls for Perspectives
-    const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
+    //const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
     const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
+
+    const rootquery = {
+        index: 'terms',
+        params: {
+            q: `level_${perspective}_i:1`,
+            fq: `tree:${settings.domain}`,
+            rows: 1,
+            fl: 'uid',
+        },
+    };
+    const {
+        isLoading: isRootLoading,
+        data: rootData,
+        isError: isRootError,
+        error: rootError,
+    } = useSolr(
+        ['filter', 'tree', 'root', settings.domain, settings.kid, perspective],
+        rootquery
+    );
 
     // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
@@ -103,7 +122,7 @@ export default function KmapTree(props) {
         data: selNode,
         isError: isSelNodeError,
         error: selNodeErrror,
-    } = useKmap(kmapId, 'info');
+    } = useKmap(kmapId, 'info', isRootLoading);
 
     // useQuery to load related places selected node (Monasteries, etc.) (if not a related child nothing loads)
     const selNodeQuery = {
@@ -140,20 +159,21 @@ export default function KmapTree(props) {
     useEffect(() => {
         settings.perspective = perspective;
         settings.root.perspective = perspective;
-        const newroot = getPerspectiveRoot(
-            settings.perspective,
-            settings.domain
-        );
-        if (newroot) {
-            settings.kid = settings.root.kid = newroot * 1;
-        } else {
-            settings.root.kid = perspective; // To trigger redraw of tree
-        }
-        setRoot(settings.root.kid);
     }, [perspective]);
 
+    useEffect(() => {
+        if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
+            settings.root.kid = rootData.docs[0].uid.split('-')[1];
+
+            if (settings.kid === 0 && settings.level === false) {
+                settings.kid = settings.root.kid;
+            }
+            console.log('in use effect', rootData, settings);
+        }
+    }, [rootData]);
+
     // Don't load the tree until we have selected node path info to drill down with
-    if (isSelNodeLoading && isRelSelNodeLoading) {
+    if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
         return <MandalaSkeleton />;
         // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
     } else if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
@@ -219,6 +239,7 @@ export default function KmapTree(props) {
     /*if (settings.domain === 'places') {
         console.log(rootkid, perspective, settings);
     }*/
+    //console.log("Settings", settings);
     return (
         <div id={settings.elid} className={treeclass}>
             {perspChooser}
@@ -229,13 +250,13 @@ export default function KmapTree(props) {
                     settings={settings}
                     isopen={settings.isOpen}
                     perspective={perspective}
-                    newperspective={rootkid}
+                    newperspective={settings.root.kid}
                 />
             )}
             {!settings.level && (
                 <TreeLeaf
                     domain={settings.root.domain}
-                    kid={rootkid}
+                    kid={settings.root.kid}
                     leaf_level={0}
                     settings={settings}
                     isopen={settings.isOpen}

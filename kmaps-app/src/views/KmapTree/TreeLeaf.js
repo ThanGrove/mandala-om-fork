@@ -42,6 +42,7 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
+    console.log('in treeleaf settings', domain, kid, settings, perspective);
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -162,9 +163,7 @@ export default function TreeLeaf({
             ? kmapdata.ancestor_id_path?.split('/')
             : false;
         if (!treepath) {
-            console.warning(
-                'No treepath found for “showAncestors” in KmapTree'
-            );
+            console.warn('No treepath found for “showAncestors” in KmapTree');
             return null;
         }
         const rootid = treepath.shift();
