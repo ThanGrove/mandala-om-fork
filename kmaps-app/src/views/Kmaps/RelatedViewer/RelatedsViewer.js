@@ -244,7 +244,6 @@ function RelatedTree(props) {
         level = 1;
         showAnc = false;
     }
-    const tstamp = Date.now();
     return (
         <KmapTree
             elid={`related-tree-left-${domain}`}
