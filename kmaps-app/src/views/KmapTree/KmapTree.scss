@@ -13,7 +13,7 @@
     max-height: 80vh;
     border: 3px inset #5960a7;
     padding: 1.25rem;
-    font-size:1.45rem;
+    font-size: 1.45rem;
 }
 
 #l-column__search--treeNav .c-kmaptree {
@@ -26,7 +26,7 @@
     label {
         display: inline-block;
         font-weight: bold;
-        margin-right: .5rem;
+        margin-right: 0.5rem;
         font-size: 1.35rem;
     }
     select {
@@ -34,7 +34,7 @@
         width: fit-content;
         max-width: unset;
         border-radius: 1.5rem;
-        padding: .2rem .9rem;
+        padding: 0.2rem 0.9rem;
         border-color: #aaa;
     }
 }
@@ -59,18 +59,34 @@ aside#l-column__search--treeNav .c-perspective-select {
     }
 }
 
+.modal-dialog.modal-persp-desc {
+    min-width: 60vw;
+
+    .modal-header {
+        background-color: slategray;
+        color: #ededed;
+
+        .modal-title.h4 {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+    }
+}
+
+/* Leaf Styles */
+
 .c-kmapleaf {
     margin-top: 0.1rem;
     white-space: nowrap;
     max-width: inherit;
     overflow: hidden;
-    font-size:1.4rem;
+    font-size: 1.4rem;
     .toggle-icon {
         display: inline-block;
         margin-right: 0.6rem;
         font-size: 1.65rem;
         position: relative;
-        top: .15rem;
+        top: 0.15rem;
     }
     .label a {
         color: #000;

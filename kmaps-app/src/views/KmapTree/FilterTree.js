@@ -34,12 +34,37 @@ export default function FilterTree({ settings, ...props }) {
     const level = settings.level;
 
     // useState Calls for Perspectives
-    const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
-    const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
+    //const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
+    // Perspective Data is a tuple of perspective code and perspective root kid
+    const [perspective, setPerspective] = useState(persp); // Needed to pass to perspective chooser
+
+    const customSetPerspective = function (psp) {
+        console.log('setting perspective: ', psp);
+        setPerspective(psp);
+    };
 
     if (settings.kid === 0 && !settings.level) {
         settings.level = 1;
     }
+    // console.log('Filter tree reload: ', perspective);
+    const rootquery = {
+        index: 'terms',
+        params: {
+            q: `level_${perspective}_i:1`,
+            fq: `tree:${settings.domain}`,
+            rows: 1,
+            fl: 'uid',
+        },
+    };
+    const {
+        isLoading: isRootLoading,
+        data: rootData,
+        isError: isRootError,
+        error: rootError,
+    } = useSolr(
+        ['filter', 'tree', 'root', projid, settings.domain, perspective],
+        rootquery
+    );
 
     const query = {
         index: 'terms',
@@ -59,25 +84,34 @@ export default function FilterTree({ settings, ...props }) {
         data: ancestorsData,
         isError: isAncestorsError,
         error: ancestorsError,
-    } = useSolr(`filter-tree-${projid}-${settings.domain}-${persp}`, query);
+    } = useSolr(
+        `filter-tree-${projid}-${settings.domain}-${persp}`,
+        query,
+        isRootLoading
+    );
 
     // useEffect to Set level or root based on Perspective
     useEffect(() => {
         settings.perspective = perspective;
         settings.root.perspective = perspective;
-        const newroot = getPerspectiveRoot(
-            settings.perspective,
-            settings.domain
-        );
-        if (newroot) {
-            settings.kid = settings.root.kid = newroot * 1;
-        } else {
-            settings.root.kid = perspective; // To trigger redraw of tree
-        }
-        setRoot(settings.root.kid);
     }, [perspective]);
 
-    if (isAncestorsLoading) {
+    useEffect(() => {
+        if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
+            settings.root.kid = rootData.docs[0].uid.split('-')[1];
+        }
+    }, [rootData]);
+
+    /*  useEffect(() => {
+       settings['project_ids'] =
+              ancestorsData?.facets && ancestorsData.facets[ancestor_facet]
+                  ? Object.keys(ancestorsData.facets[ancestor_facet])
+                  : [];
+        console.log("ancestorData", ancestorsData);
+       }, [ancestorsData]);
+*/
+
+    if (isRootLoading || isAncestorsLoading) {
         return (
             <div className="filter-tree">
                 <MandalaSkeleton />
@@ -93,19 +127,19 @@ export default function FilterTree({ settings, ...props }) {
     }
 
     // console.log('Filter anc data', ancestorsData);
+    // Project IDs setting was here
     settings['project_ids'] =
         ancestorsData?.facets && ancestorsData.facets[ancestor_facet]
             ? Object.keys(ancestorsData.facets[ancestor_facet])
             : [];
+
     if (settings.domain === 'places') {
         if (settings.kid === 0) {
             settings.kid = settings.root.kid = 13735;
         }
     }
     const treeclass = `${settings.treeClass} ${settings.root.domain}`;
-    let tree = (
-        <p>There are no relevant {settings.domain} in this perspective</p>
-    );
+    let tree = <p>No relevant {settings.domain}!</p>;
     if (settings?.project_ids?.length > 0) {
         tree =
             settings.domain === 'places' ? (
@@ -115,6 +149,7 @@ export default function FilterTree({ settings, ...props }) {
                     leaf_level={0}
                     settings={settings}
                     isopen={settings.isOpen}
+                    perspective={perspective}
                     showAncestors={settings.showAncestors}
                 />
             ) : (
@@ -124,26 +159,20 @@ export default function FilterTree({ settings, ...props }) {
                     settings={settings}
                     isopen={settings.isOpen}
                     perspective={perspective}
-                    newperspective={rootkid}
+                    newperspective={perspective}
                 />
             );
     }
-    let perspChooser = null;
-    if (
-        settings.domain in KmapPerpsectiveData &&
-        KmapPerpsectiveData[settings.domain]?.length > 1
-    ) {
-        perspChooser = (
+
+    // console.log("no project ids", settings.project_ids);
+
+    return (
+        <div id={settings.elid} className={treeclass}>
             <PerspectiveChooser
                 domain={settings.domain}
                 current={perspective}
-                setter={setPerspective}
+                setter={customSetPerspective}
             />
-        );
-    }
-    return (
-        <div id={settings.elid} className={treeclass}>
-            {perspChooser}
             {tree}
         </div>
     );

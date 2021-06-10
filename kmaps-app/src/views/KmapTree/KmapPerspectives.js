@@ -1,4 +1,20 @@
-import React from 'react';
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+import MandalaSkeleton from '../common/MandalaSkeleton';
+import GenericPopover from '../common/GenericPopover';
+import {
+    BsFillQuestionCircleFill,
+    BsInfo,
+    BsInfoCircle,
+    BsQuestionCircle,
+    ImQuestion,
+} from 'react-icons/all';
+import { Button, Modal } from 'react-bootstrap';
+import { capitalize } from '../common/utils';
+import { HtmlCustom } from '../common/MandalaMarkup';
+import jsonpAdapter from '../../logic/axios-jsonp';
+import { getSolrUrls } from '../../hooks/utils';
 
 /**
  * Kmap perspective data as a JS Object for dealing with perspective switches
@@ -37,7 +53,25 @@ export const KmapPerpsectiveData = {
     ],
 };
 
+const solrurls = getSolrUrls();
+
 export function PerspectiveChooser({ domain, current, setter, ...props }) {
+    // Get Perspective data from API
+    const {
+        isLoading: isPerspDataLoading,
+        data: perspData,
+        isError: isPerspDataError,
+        error: perspDataError,
+    } = useQuery(['perspective', 'data', domain], () =>
+        getPerspectiveData(domain)
+    );
+    if (isPerspDataLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (perspData.length === 1) {
+        return null;
+    }
+    // console.log(perspData);
     const choices =
         domain in KmapPerpsectiveData ? KmapPerpsectiveData[domain] : false;
     if (!domain || !choices) {
@@ -52,11 +86,15 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
 
     const changeMe = (evt) => {
         // console.log('Perspective is now: ', evt.target.value);
-        setter(evt.target.value);
+        const persp_code = evt.target.value;
+        setter(persp_code);
     };
+
     return (
         <div className={pclass}>
-            <label>Persepective: </label>
+            <label>
+                Persepective: <PerspectiveDescs domain={domain} />
+            </label>
             <select defaultValue={current} onChange={changeMe}>
                 {choices.map((persp, i) => {
                     const sel = persp.id === current ? 'selected' : '';
@@ -74,7 +112,76 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     );
 }
 
-export function getPerspectiveRoot(pid, domain = 'places') {
+const getPerspectiveData = async (domain) => {
+    const apiurl = `http://${domain}.kmaps.virginia.edu/admin/perspectives.json`;
+    const { data } = await axios.request(apiurl);
+    return data;
+};
+
+export function PerspectiveDescs({ domain, ...props }) {
+    const [showDescs, setShowDescs] = useState(false);
+    const handleClose = () => setShowDescs(false);
+    const handleShow = () => setShowDescs(true);
+
+    // Get Perspective data from API
+    const {
+        isLoading: isPerspDataLoading,
+        data: perspData,
+        isError: isPerspDataError,
+        error: perspDataError,
+    } = useQuery(['perspective', 'data', domain], () =>
+        getPerspectiveData(domain)
+    );
+    if (isPerspDataLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (perspData.length === 1) {
+        return null;
+    }
+    let mu = `<h1>Perspective Descriptions</h1><p>${capitalize(
+        domain
+    )} have the following perspectives:</p>`;
+    perspData.forEach((prsp) => {
+        let desc = !prsp['description']
+            ? '<p>No description available.</p>'
+            : prsp['description'];
+        mu += `<div><h2>${prsp['name']}</h2>${desc}</div>`;
+    });
+    mu = `<div>${mu}</div>`;
+    return (
+        <>
+            <a
+                onClick={handleShow}
+                title={`About ${domain} perspectives`}
+                style={{ cursor: 'pointer', float: 'right' }}
+            >
+                <BsInfoCircle />
+            </a>
+
+            <Modal
+                show={showDescs}
+                onHide={handleClose}
+                dialogClassName="modal-persp-desc"
+            >
+                <Modal.Header closeButton>
+                    <Modal.Title>
+                        About Perspectives in {capitalize(domain)}{' '}
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <HtmlCustom markup={mu} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+}
+
+export async function getPerspectiveRoot(pid, domain = 'places') {
     let perspRoot = false;
     for (let n = 0; n < KmapPerpsectiveData[domain].length; n++) {
         let persp = KmapPerpsectiveData[domain][n];

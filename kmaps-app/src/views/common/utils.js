@@ -387,3 +387,11 @@ export function getKeyHash(indexin) {
 
     return hash;
 }
+
+/**
+ * Capitalize function since one is not provided by JS.
+ */
+export const capitalize = (s) => {
+    if (typeof s !== 'string') return '';
+    return s.charAt(0).toUpperCase() + s.slice(1);
+};

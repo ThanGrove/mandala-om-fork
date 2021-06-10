@@ -244,10 +244,9 @@ function RelatedTree(props) {
         level = 1;
         showAnc = false;
     }
-    const tstamp = Date.now();
     return (
         <KmapTree
-            elid={`related-tree-left-${domain}-${tstamp}`}
+            elid={`related-tree-left-${domain}`}
             className="l-relatedTreeLeft"
             domain={domain}
             selectedNode={fid}

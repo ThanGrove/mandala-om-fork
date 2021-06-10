@@ -69,8 +69,9 @@ function processFacets(facetdata) {
  * "index" property, set to "assets" or "terms" as defined in utils.js/getSolrUrls()
  * TODO: Possibly make more robust by allowing a filter callback to be sent in call
  *
- * @param qkey
- * @param queryobj
+ * @param qkey : {any} a unique array of values, object, or string identifying this query for caching
+ * @param queryobj {Object} : with two properties — "index": (assets|terms) and "params": name-value pairs for params for the query
+ * @param byPass {boolean} : (optional) whether to byPass or not (set to true if it depends on another query, i.e. send that query's isLoading value)
  * @returns {any}
  */
 export function useSolr(qkey, queryobj, byPass = false) {

@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from '../common/MandalaPopover';
+import { HtmlCustom } from '../common/MandalaMarkup';
 
 /**
  * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
@@ -42,6 +43,7 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
+    // console.log('in treeleaf settings', domain, kid, settings, perspective);
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -113,7 +115,7 @@ export default function TreeLeaf({
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                setTimeout(updateTreeScroll, 1000, settings);
+                setTimeout(updateTreeScroll, 500, settings);
             }
         }
         if (domain === 'places' && kid * 1 === 13735) {
@@ -162,9 +164,7 @@ export default function TreeLeaf({
             ? kmapdata.ancestor_id_path?.split('/')
             : false;
         if (!treepath) {
-            console.warning(
-                'No treepath found for “showAncestors” in KmapTree'
-            );
+            console.warn('No treepath found for “showAncestors” in KmapTree');
             return null;
         }
         const rootid = treepath.shift();
@@ -240,11 +240,23 @@ export default function TreeLeaf({
             );
         }
 
+        // Deal with unnaturally long headers
+        let kmhead = kmapdata?.header ? kmapdata.header : '';
+        if (kmhead.length > 55) {
+            let kmtemp = kmhead;
+            kmhead = '';
+            while (kmtemp.length > 55) {
+                let spaceind = kmtemp.substr(0, 65).lastIndexOf(' ');
+                kmhead += `${kmtemp.substr(0, spaceind)}<br/>`;
+                kmtemp = kmtemp.substr(spaceind);
+            }
+            kmhead = `<span>${kmhead}${kmtemp}</span>`;
+        }
         const leafhead = props?.nolink ? (
             kmapdata?.header
         ) : (
             <Link to={'/' + kmapdata?.id.replace('-', '/')}>
-                {kmapdata?.header}
+                <HtmlCustom markup={kmhead} />
             </Link>
         );
 
@@ -415,28 +427,21 @@ export function RelatedChildren({ settings, domain, kid }) {
  * @param settings : object : the tree settings for the selected node
  */
 function updateTreeScroll(settings) {
+    console.log('in update scroll', settings);
     const tree = $('#' + settings.elid);
-
     if (tree.hasClass('clicked')) {
+        console.log('removing clicked');
         tree.removeClass('clicked');
         return;
     }
     const selel = tree.find('.c-kmapleaf.selected');
-    if (tree?.offset() && selel?.offset()) {
+    console.log(tree, selel);
+    if (!selel.hasClass('scrolled') && tree?.offset() && selel?.offset()) {
         const treetop = tree.offset().top;
         const seleltop = selel.offset().top;
-        const centerAdj = Math.floor(tree.height() / 2.5);
-        let scrtop;
-        if (seleltop < 0) {
-            // Tree is scrolled past selected element
-            scrtop = treetop - Math.abs(seleltop) - centerAdj;
-        } else if (seleltop > tree.height()) {
-            // Selected element is below the bottom of the tree div
-            scrtop = seleltop - treetop - centerAdj;
-        } else {
-            // Select element is in view
-            scrtop = treetop + seleltop - centerAdj;
-        }
+        let scrtop = seleltop - treetop - 20;
+        console.log('scrolltop', scrtop);
         tree.scrollTop(scrtop);
+        selel.addClass('scrolled');
     }
 }
