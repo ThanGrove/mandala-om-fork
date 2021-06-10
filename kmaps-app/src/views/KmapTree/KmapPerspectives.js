@@ -113,7 +113,7 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
 }
 
 const getPerspectiveData = async (domain) => {
-    const apiurl = `http://${domain}.kmaps.virginia.edu/admin/perspectives.json`;
+    const apiurl = `https://${domain}.kmaps.virginia.edu/admin/perspectives.json`;
     const { data } = await axios.request(apiurl);
     return data;
 };
