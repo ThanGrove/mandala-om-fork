@@ -269,7 +269,7 @@ export default function KmapTree(props) {
 }
 
 /**
- * Opens to the selected node using the settings.selPath attribute
+ * Opens to the selected node using the settings.selPath attribute for parallel trees (2nd tree of same domain)
  * Selected Node is loaded at the beginning of KmapTree and its path is used to set the selPath
  * It performs a loop taking the last ID from the selpath and searching for it
  * It creates a jQuery selector (using selectorBase plus the node ID) and

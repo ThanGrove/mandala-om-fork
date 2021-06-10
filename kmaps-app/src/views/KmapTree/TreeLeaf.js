@@ -115,7 +115,7 @@ export default function TreeLeaf({
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                setTimeout(updateTreeScroll, 1000, settings);
+                setTimeout(updateTreeScroll, 500, settings);
             }
         }
         if (domain === 'places' && kid * 1 === 13735) {
@@ -428,27 +428,16 @@ export function RelatedChildren({ settings, domain, kid }) {
  */
 function updateTreeScroll(settings) {
     const tree = $('#' + settings.elid);
-
     if (tree.hasClass('clicked')) {
         tree.removeClass('clicked');
         return;
     }
     const selel = tree.find('.c-kmapleaf.selected');
-    if (tree?.offset() && selel?.offset()) {
+    if (!selel.hasClass('scrolled') && tree?.offset() && selel?.offset()) {
         const treetop = tree.offset().top;
         const seleltop = selel.offset().top;
-        const centerAdj = Math.floor(tree.height() / 2.5);
-        let scrtop;
-        if (seleltop < 0) {
-            // Tree is scrolled past selected element
-            scrtop = treetop - Math.abs(seleltop) - centerAdj;
-        } else if (seleltop > tree.height()) {
-            // Selected element is below the bottom of the tree div
-            scrtop = seleltop - treetop - centerAdj;
-        } else {
-            // Select element is in view
-            scrtop = treetop + seleltop - centerAdj;
-        }
+        let scrtop = seleltop - treetop - 20;
         tree.scrollTop(scrtop);
+        selel.addClass('scrolled');
     }
 }
