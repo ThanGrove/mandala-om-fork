@@ -395,3 +395,17 @@ export const capitalize = (s) => {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
 };
+
+/**
+ * Convert a string to a hash
+ *      Taken from https://stackoverflow.com/a/8076436/2911874
+ */
+export function stringToHash(astr) {
+    var hash = 0;
+    for (var i = 0; i < astr.length; i++) {
+        var character = astr.charCodeAt(i);
+        hash = (hash << 5) - hash + character;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return Math.abs(hash);
+}

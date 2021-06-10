@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './KmapTree.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { getPerspective, getProject, queryID } from '../common/utils';
+import {
+    getPerspective,
+    getProject,
+    queryID,
+    stringToHash,
+} from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../hooks/useSolr';
@@ -47,9 +52,7 @@ import TreeLeaf from './TreeLeaf';
  */
 export default function KmapTree(props) {
     // console.log("Ktree init props", props);
-    // random id code from: https://stackoverflow.com/questions/3231459/create-unique-id-with-javascript/3231532
-    const randomTreeId =
-        Date.now().toString(36) + Math.random().toString(36).substr(2);
+    const uniqueTreeID = stringToHash(JSON.stringify(props));
     let settings = {
         domain: 'places', // Default domain is places
         kid: 0, // Only used if "level" is false
@@ -64,7 +67,7 @@ export default function KmapTree(props) {
         isOpen: false,
         showAncestors: false,
         showRelatedPlaces: false,
-        elid: 'kmap-tree-' + randomTreeId,
+        elid: 'kmap-tree-' + uniqueTreeID,
         pgsize: 200,
         project_ids: false,
         noRootLinks: false,
