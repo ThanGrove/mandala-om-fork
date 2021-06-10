@@ -427,16 +427,20 @@ export function RelatedChildren({ settings, domain, kid }) {
  * @param settings : object : the tree settings for the selected node
  */
 function updateTreeScroll(settings) {
+    console.log('in update scroll', settings);
     const tree = $('#' + settings.elid);
     if (tree.hasClass('clicked')) {
+        console.log('removing clicked');
         tree.removeClass('clicked');
         return;
     }
     const selel = tree.find('.c-kmapleaf.selected');
+    console.log(tree, selel);
     if (!selel.hasClass('scrolled') && tree?.offset() && selel?.offset()) {
         const treetop = tree.offset().top;
         const seleltop = selel.offset().top;
         let scrtop = seleltop - treetop - 20;
+        console.log('scrolltop', scrtop);
         tree.scrollTop(scrtop);
         selel.addClass('scrolled');
     }
