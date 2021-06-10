@@ -39,14 +39,16 @@ import TreeLeaf from './TreeLeaf';
  *      noRootLinks: if true, will not link or show mandala popover for the root nodes (used in Terms)
  *
  *      There are also various class settings for tree, leaf, span, icon, header, and children
+ *      The settings object is passed to all children.
  *
  * @param props
  * @returns {JSX.Element}
  * @constructor
  */
 export default function KmapTree(props) {
+    // console.log("Ktree init props", props);
     // random id code from: https://stackoverflow.com/questions/3231459/create-unique-id-with-javascript/3231532
-    const randomid =
+    const randomTreeId =
         Date.now().toString(36) + Math.random().toString(36).substr(2);
     let settings = {
         domain: 'places', // Default domain is places
@@ -62,7 +64,7 @@ export default function KmapTree(props) {
         isOpen: false,
         showAncestors: false,
         showRelatedPlaces: false,
-        elid: 'kmap-tree-' + randomid,
+        elid: 'kmap-tree-' + randomTreeId,
         pgsize: 200,
         project_ids: false,
         noRootLinks: false,
@@ -161,17 +163,6 @@ export default function KmapTree(props) {
         settings.root.perspective = perspective;
     }, [perspective]);
 
-    useEffect(() => {
-        if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
-            settings.root.kid = rootData.docs[0].uid.split('-')[1];
-
-            if (settings.kid === 0 && settings.level === false) {
-                settings.kid = settings.root.kid;
-            }
-            console.log('in use effect', rootData, settings);
-        }
-    }, [rootData]);
-
     // Don't load the tree until we have selected node path info to drill down with
     if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
         return <MandalaSkeleton />;
@@ -204,6 +195,15 @@ export default function KmapTree(props) {
                 settings.selPath = splitpath;
             }
         }
+    }
+
+    if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
+        settings.root.kid = rootData.docs[0].uid.split('-')[1];
+
+        if (settings.kid === 0 && settings.level === false) {
+            settings.kid = settings.root.kid;
+        }
+        // console.log('Setting root data', rootData, settings);
     }
 
     // Assign an element (div) id for tree if not given in settings
@@ -250,7 +250,7 @@ export default function KmapTree(props) {
                     settings={settings}
                     isopen={settings.isOpen}
                     perspective={perspective}
-                    newperspective={settings.root.kid}
+                    newperspective={perspective}
                 />
             )}
             {!settings.level && (

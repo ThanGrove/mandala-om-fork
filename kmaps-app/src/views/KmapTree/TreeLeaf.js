@@ -8,6 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from '../common/MandalaPopover';
+import { HtmlCustom } from '../common/MandalaMarkup';
 
 /**
  * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
@@ -42,7 +43,7 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
-    console.log('in treeleaf settings', domain, kid, settings, perspective);
+    // console.log('in treeleaf settings', domain, kid, settings, perspective);
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -239,11 +240,23 @@ export default function TreeLeaf({
             );
         }
 
+        // Deal with unnaturally long headers
+        let kmhead = kmapdata?.header ? kmapdata.header : '';
+        if (kmhead.length > 55) {
+            let kmtemp = kmhead;
+            kmhead = '';
+            while (kmtemp.length > 55) {
+                let spaceind = kmtemp.substr(0, 65).lastIndexOf(' ');
+                kmhead += `${kmtemp.substr(0, spaceind)}<br/>`;
+                kmtemp = kmtemp.substr(spaceind);
+            }
+            kmhead = `<span>${kmhead}${kmtemp}</span>`;
+        }
         const leafhead = props?.nolink ? (
             kmapdata?.header
         ) : (
             <Link to={'/' + kmapdata?.id.replace('-', '/')}>
-                {kmapdata?.header}
+                <HtmlCustom markup={kmhead} />
             </Link>
         );
 
