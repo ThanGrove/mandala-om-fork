@@ -24,13 +24,11 @@ function getCurrentSettings() {
 
 export function SettingsModal(props) {
     const currentSettings = getCurrentSettings();
-    console.log('current settings', currentSettings);
     const [settings, setSettings] = useState(currentSettings);
     const [show, setShow] = useState(false);
 
     const toggle = () => {
         if (!show === true) {
-            console.log('in if', currentSettings);
             Object.entries(currentSettings).forEach((v, k) => {
                 const option = v[0];
                 const value = v[1];
@@ -54,13 +52,10 @@ export function SettingsModal(props) {
 
     const registerChange = (form) => {
         settings[form.target.name] = form.target.value;
-        console.log('Settings Change:', form.target.name, form.target.value);
         setSettings(settings);
-        console.log('new settings', settings);
     };
 
     const saveChanges = () => {
-        console.log('need to save changes', settings);
         setShow(false);
         localStorage.setItem('kmsettings', JSON.stringify(settings));
     };
@@ -144,11 +139,21 @@ function KmapSettingsInputs({ name, data }) {
         return null;
     }
     const currentSettings = getCurrentSettings();
+
     const inputs = data.map((vd, n) => {
         const myval = `${vd.id}|${vd.code}`;
+        if (myval === currentSettings[name]) {
+            console.log(vd);
+        }
+        const radioBtn =
+            myval === currentSettings[name] ? (
+                <InputGroup.Radio name={name} value={myval} />
+            ) : (
+                <InputGroup.Radio name={name} value={myval} defaultChecked />
+            );
         return (
             <InputGroup key={`km-setting-${name}-${n}`}>
-                <InputGroup.Radio name={name} value={myval} />
+                {radioBtn}
                 <InputGroup.Text>{vd.name}</InputGroup.Text>
             </InputGroup>
         );
