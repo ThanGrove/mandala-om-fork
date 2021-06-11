@@ -147,9 +147,9 @@ function KmapSettingsInputs({ name, data }) {
         }
         const radioBtn =
             myval === currentSettings[name] ? (
-                <InputGroup.Radio name={name} value={myval} />
-            ) : (
                 <InputGroup.Radio name={name} value={myval} defaultChecked />
+            ) : (
+                <InputGroup.Radio name={name} value={myval} />
             );
         return (
             <InputGroup key={`km-setting-${name}-${n}`}>
