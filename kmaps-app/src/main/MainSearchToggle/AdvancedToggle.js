@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { ADVANCED_LABEL, BASIC_LABEL } from '../../App';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { BsMap, BsSearch, ImTree } from 'react-icons/all';
+import { BsGear, BsMap, BsSearch, ImTree } from 'react-icons/all';
 import './MainSearchToggle.scss';
+import { SettingsModal } from './SettingsModal';
 
 export function AdvancedToggle({ chooseViewMode, viewMode }) {
     const [mode, setMode] = useState(viewMode || 'off'); // "search" | "tree" | "off"
@@ -59,6 +60,8 @@ export function AdvancedToggle({ chooseViewMode, viewMode }) {
             >
                 <BsSearch></BsSearch>
             </ToggleButton>
+
+            <SettingsModal />
         </ToggleButtonGroup>
     );
 }
