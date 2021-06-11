@@ -3,6 +3,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import React, { useRef, useState } from 'react';
 import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import _ from 'lodash';
+import $ from 'jquery';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
@@ -14,11 +15,40 @@ const getViewData = async (domain) => {
     return data;
 };
 
+function getCurrentSettings() {
+    const settings = localStorage.getItem('kmsettings')
+        ? JSON.parse(localStorage.getItem('kmsettings'))
+        : {};
+    return settings;
+}
+
 export function SettingsModal(props) {
-    const [settings, setSettings] = useState({});
+    const currentSettings = getCurrentSettings();
+    console.log('current settings', currentSettings);
+    const [settings, setSettings] = useState(currentSettings);
     const [show, setShow] = useState(false);
 
     const toggle = () => {
+        if (!show === true) {
+            console.log('in if', currentSettings);
+            Object.entries(currentSettings).forEach((v, k) => {
+                const option = v[0];
+                const value = v[1];
+                const selector = `input[value="${value}"]`;
+                console.log(selector);
+                const optel = $(`input[value="${value}"]`);
+                console.log('optel', option, value, optel.length);
+            });
+            /*
+            for(const k in Object.keys(Object.keys())) {
+                const v = currentSettings[k];
+
+                console.log($(`input[name=${k}][value=${v}]`));
+                $(`input[name=${k}][value=${v}]`).attr('checked', 'checked');
+            }
+
+             */
+        }
         setShow(!show);
     };
 
@@ -32,6 +62,7 @@ export function SettingsModal(props) {
     const saveChanges = () => {
         console.log('need to save changes', settings);
         setShow(false);
+        localStorage.setItem('kmsettings', JSON.stringify(settings));
     };
 
     const classname = 'c-mandala-modal settings';
@@ -98,7 +129,7 @@ function KmapsSettings({ type, domain, handleChange }) {
     }
     const name = `${domain}-${type}`;
     return (
-        <div id="places-settings">
+        <div id={`${domain}-settings`}>
             <h2>{capitalize(domain)} Name Form</h2>
             <p>Select how you want {domain} names to be displayed:</p>
             <form name={`${name}-form`} onChange={handleChange}>
@@ -112,10 +143,12 @@ function KmapSettingsInputs({ name, data }) {
     if (!data) {
         return null;
     }
+    const currentSettings = getCurrentSettings();
     const inputs = data.map((vd, n) => {
+        const myval = `${vd.id}|${vd.code}`;
         return (
             <InputGroup key={`km-setting-${name}-${n}`}>
-                <InputGroup.Radio name={name} value={`${vd.id}|${vd.code}`} />
+                <InputGroup.Radio name={name} value={myval} />
                 <InputGroup.Text>{vd.name}</InputGroup.Text>
             </InputGroup>
         );
