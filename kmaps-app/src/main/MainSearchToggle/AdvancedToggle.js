@@ -4,7 +4,7 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { BsGear, BsMap, BsSearch, ImTree } from 'react-icons/all';
 import './MainSearchToggle.scss';
-import { SettingsModal } from './SettingsModal';
+import { ViewSettings } from './ViewSettings';
 
 export function AdvancedToggle({ chooseViewMode, viewMode }) {
     const [mode, setMode] = useState(viewMode || 'off'); // "search" | "tree" | "off"
@@ -61,7 +61,7 @@ export function AdvancedToggle({ chooseViewMode, viewMode }) {
                 <BsSearch></BsSearch>
             </ToggleButton>
 
-            <SettingsModal />
+            <ViewSettings />
         </ToggleButtonGroup>
     );
 }

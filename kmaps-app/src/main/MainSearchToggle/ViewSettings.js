@@ -8,7 +8,9 @@ import axios from 'axios';
 import { useQuery } from 'react-query';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 import { capitalize } from '../../views/common/utils';
+import './ViewSettings.scss';
 
+export const VIEW_SETTINGS_COOKIE_NAME = 'mandala-view-settings';
 const getViewData = async (domain) => {
     const apiurl = `https://${domain}.kmaps.virginia.edu/admin/views.json`;
     const { data } = await axios.request(apiurl);
@@ -16,13 +18,17 @@ const getViewData = async (domain) => {
 };
 
 function getCurrentSettings() {
-    const settings = localStorage.getItem('kmsettings')
-        ? JSON.parse(localStorage.getItem('kmsettings'))
-        : {};
+    const settings = localStorage.getItem(VIEW_SETTINGS_COOKIE_NAME)
+        ? JSON.parse(localStorage.getItem(VIEW_SETTINGS_COOKIE_NAME))
+        : {
+              'subjects-names': '72|roman.popular',
+              'terms-names': '73|roman.scholar',
+              'places-names': '69|roman.popular',
+          };
     return settings;
 }
 
-export function SettingsModal(props) {
+export function ViewSettings(props) {
     const currentSettings = getCurrentSettings();
     const [settings, setSettings] = useState(currentSettings);
     const [show, setShow] = useState(false);
@@ -33,19 +39,8 @@ export function SettingsModal(props) {
                 const option = v[0];
                 const value = v[1];
                 const selector = `input[value="${value}"]`;
-                console.log(selector);
                 const optel = $(`input[value="${value}"]`);
-                console.log('optel', option, value, optel.length);
             });
-            /*
-            for(const k in Object.keys(Object.keys())) {
-                const v = currentSettings[k];
-
-                console.log($(`input[name=${k}][value=${v}]`));
-                $(`input[name=${k}][value=${v}]`).attr('checked', 'checked');
-            }
-
-             */
         }
         setShow(!show);
     };
@@ -57,10 +52,11 @@ export function SettingsModal(props) {
 
     const saveChanges = () => {
         setShow(false);
-        localStorage.setItem('kmsettings', JSON.stringify(settings));
+        localStorage.setItem(
+            VIEW_SETTINGS_COOKIE_NAME,
+            JSON.stringify(settings)
+        );
     };
-
-    const classname = 'c-mandala-modal settings';
 
     return (
         <>
@@ -75,7 +71,7 @@ export function SettingsModal(props) {
                 <BsGear></BsGear>
             </ToggleButton>
 
-            <Modal show={show}>
+            <Modal show={show} className={'c-modal__settings'}>
                 <Modal.Header closeButton onClick={toggle}>
                     <Modal.Title>Site-wide View Settings</Modal.Title>
                 </Modal.Header>
@@ -124,7 +120,7 @@ function KmapsSettings({ type, domain, handleChange }) {
     }
     const name = `${domain}-${type}`;
     return (
-        <div id={`${domain}-settings`}>
+        <div id={`${domain}-settings`} className="c-modal_subsection">
             <h2>{capitalize(domain)} Name Form</h2>
             <p>Select how you want {domain} names to be displayed:</p>
             <form name={`${name}-form`} onChange={handleChange}>
@@ -142,9 +138,6 @@ function KmapSettingsInputs({ name, data }) {
 
     const inputs = data.map((vd, n) => {
         const myval = `${vd.id}|${vd.code}`;
-        if (myval === currentSettings[name]) {
-            console.log(vd);
-        }
         const radioBtn =
             myval === currentSettings[name] ? (
                 <InputGroup.Radio name={name} value={myval} defaultChecked />
