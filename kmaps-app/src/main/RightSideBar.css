@@ -2,9 +2,9 @@
 
 .l-column__search {
     height: 100%;
-    padding-bottom:8rem;
-    padding-right:1rem;
-  }
+    padding-bottom: 8rem;
+    padding-right: 1rem;
+}
 
 .sui-advTop {
     text-align: center;
@@ -25,7 +25,6 @@
     cursor: default;
 }
 .l-column__search > section .sui-advBox:nth-child(even) {
-
 }
 
 .l-column__search > section .sui-advBox:first-child .facetItem {
@@ -53,9 +52,9 @@
     text-transform: capitalize;
     display: flex;
     font-size: 1.55rem;
-    height:3.5rem;
-    padding-top:1.25rem;
-    margin-bottom: .8rem;
+    height: 3.5rem;
+    padding-top: 1.25rem;
+    margin-bottom: 0.8rem;
 }
 .sui-advBox:hover,
 .sui-advHeader:hover {
@@ -64,19 +63,19 @@
 }
 
 .sui-advHeader > .icon {
-    margin: 0 1.25rem 0 .75rem;
-    font-size: 1.9rem;
+    margin: 0 1.25rem 0 0.75rem;
+    font-size: 2.1rem;
     position: relative;
-    top: -0.4rem;
-    left: -0.1rem;
-    color:#444;
+    top: -0.5rem;
+    left: 0;
+    color: #444;
 }
 .sui-advHeader .badge {
     padding: 0.5rem 3.5rem 0.5rem 1rem;
     border-radius: 0.5rem;
     color: #fff;
     cursor: pointer;
-    font-size: 1.1rem;
+    font-size: 1.25rem;
 }
 
 .sui-advHeader .badge.badge-secondary {
@@ -95,7 +94,7 @@
 .sui-advHeader .u-icon__minus {
     position: absolute;
     right: 0.65rem;
-    top: 0.6rem;
+    top: 0.75rem;
     font-size: 0.85rem;
     color: #eee;
     cursor: pointer;
@@ -173,9 +172,9 @@
 
 .sui-advTerm {
     font-size: 1.1rem;
-    padding: 0 .5rem .5rem 2.5rem;
-    margin: -.5rem 0 0 1rem;
-    text-transform:capitalize;
+    padding: 0 0.5rem 0.5rem 2.5rem;
+    margin: -0.5rem 0 0 1rem;
+    text-transform: capitalize;
 }
 .sui-advTerm .icon::before {
     color: red;
@@ -184,13 +183,13 @@
     display: none;
 }
 .sui-advTerm > div {
-    display:inline;
+    display: inline-block;
     margin-right: 1.5rem;
     margin-left: 1rem;
     white-space: nowrap;
     position: relative;
+    padding-bottom: 0.2rem;
 }
-
 
 .sui-advTerm div > span:first-child::before {
     color: #999;
@@ -221,7 +220,7 @@
     padding: 0.8rem 0.8rem 0.3rem;
     font-size: 1.3rem;
     color: #333;
-    margin: 0 0 .75rem;
+    margin: 0 0 0.75rem;
 }
 
 .sui-advBox:first-child .sui-advEdit {
@@ -229,7 +228,7 @@
     text-transform: capitalize;
 }
 .sui-advEdit-facet-ctrls {
-    position: relative
+    position: relative;
 }
 .sui-advEdit-facet-ctrls-btns {
     position: absolute;
@@ -240,24 +239,24 @@
     padding: 0.2rem 1rem;
     font-size: 1.3rem;
     border-color: #ccc;
-    border-style: dashed;
+    border-style: solid;
     background-color: #fff;
     color: #555;
 }
-.sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child{
+.sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child {
     border-radius: 1rem 0 0 1rem !important;
 }
-.sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child{
+.sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1rem 1rem 0 !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn:hover,
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-    background-color: #fff;
-    color: #222;
-    border-style:solid;
-    border-color:#668eec;
+    background-color: #668eec;
+    color: #fff;
+    border-style: solid;
+    border-color: #668eec;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
 .sui-advEdit-facet-ctrls-btns .btn:active,
@@ -272,13 +271,13 @@
 }
 
 .sui-advEdit-facet-ctrls-btns .btn:first-of-type {
-   font-size: 1.5rem;
-    padding:0 1rem;
+    font-size: 1.5rem;
+    padding: 0 1rem;
 }
 
 .sui-advEdit input {
     border: 1px solid #aaa;
-    border-radius:2rem;
+    border-radius: 2rem;
     font-size: 1.25rem;
     padding: 0.3rem 1.25rem 0.1rem;
     margin: 0.5rem 0 0.5rem 0.5rem;
@@ -287,13 +286,14 @@ input:focus-visible,
 .sui-advEdit input:focus,
 .sui-advEdit-facet-ctrls-btns input:focus,
 .sui-advEdit-facet-ctrls-btns input:focus-visible {
-    border:none;
-    outline: -webkit-focus-ring-color solid .1rem;
-    outline:none !important;
-    border:1px solid #668eec;
+    border: none;
+    outline: -webkit-focus-ring-color solid 0.1rem;
+    outline: none !important;
+    border: 1px solid #668eec;
 }
 .sui-advPlus {
     position: relative;
+    top: -0.3rem;
 }
 .sui-advEditBut {
     display: inline-block;
@@ -309,7 +309,6 @@ input:focus-visible,
     font-size: 9px;
     padding-top: 5px;
 }
-
 
 /*
 .sui-advEditBool {
@@ -346,7 +345,7 @@ input:focus-visible,
     background-color: #dee7f1;
 }
 .sui-adv-facetlist > .sui-advEditLine:nth-last-child(2):hover {
-    background-color:transparent !important;
+    background-color: transparent !important;
 }
 .sui-advEditLine.chosen {
     background-color: #dee7f1;
@@ -392,36 +391,36 @@ input:focus-visible,
 }
 
 .sui-adv-facetlist > .sui-advEditLine:last-child,
-.sui-adv-facetlist > .sui-advEditLine:last-child:hover{
-    background-color:transparent !important;
+.sui-adv-facetlist > .sui-advEditLine:last-child:hover {
+    background-color: transparent !important;
 }
 .sui-advEditLine > button {
-    border:none;
-    background-color:transparent !important;
-    font-style:italic;
-    font-size:1.25rem;
-    color:#555;
-    margin-left:1rem;
+    border: none;
+    background-color: transparent !important;
+    font-style: italic;
+    font-size: 1.25rem;
+    color: #555;
+    margin-left: 1rem;
 }
 .sui-advEditLine > button:hover,
 .sui-advEditLine > button:focus,
 .sui-advEditLine > button:focus-visible {
-    border:none;
-    outline:transparent;
+    border: none;
+    outline: transparent;
 }
 .sui-advEditLine > button:hover {
-    color:inherit;
+    color: inherit;
 }
 .sui-advEditLine > button[disabled]:hover {
-    color:#555;
+    color: #555;
 }
 .sui-advEditLine > button::before {
     content: '>';
-    margin-right:.75rem;
+    margin-right: 0.75rem;
 }
 .sui-advEditLine > button[disabled]::before {
     content: '...';
-    margin-right:0;
+    margin-right: 0;
 }
 
 .sui-geoLocate {

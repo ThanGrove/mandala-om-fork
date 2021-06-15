@@ -25,9 +25,9 @@ body.html {
     padding-right: 0.75rem;
 }
 .two-columns > div:nth-child(2) {
-    border-right: .1rem double #ccc;
-    border-width: 0 .6rem;
-    background:transparent !important;
+    border-right: 0.1rem double #ccc;
+    border-width: 0 0.6rem;
+    background: transparent !important;
 }
 .l-site__wrap,
 .l-column__main,
@@ -462,16 +462,16 @@ ul.fancytree-container {
     display: flex;
     font-size: 2.75rem;
     position: absolute;
-    right: 1rem;
-    top: 3.75rem;
+    right: 2rem;
+    top: 4rem;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
-    color:#fff;
-    opacity:.5;
+    color: #fff;
+    opacity: 0.5;
 }
 .l-column__search nav:nth-of-type(1) > a {
-    padding:0;
-    font-size:2rem;
+    padding: 0;
+    font-size: 2rem;
 }
 .l-column__search nav:nth-of-type(2) > a {
     font-size: 1.5rem;
@@ -486,7 +486,6 @@ ul.fancytree-container {
     color: $color-mandala;
 }
 .l-column__search nav:nth-of-type(2) > div {
-
 }
 .l-column__search nav:nth-of-type(2) > div .navbar-text {
     text-transform: uppercase;
@@ -495,18 +494,18 @@ ul.fancytree-container {
     letter-spacing: 0.08rem;
 }
 .l-column__search nav:nth-of-type(2) > div a {
-    font-style:italic;
-    font-size: 80%;
+    font-style: italic;
+    font-size: 1.35rem;
     letter-spacing: 0.075rem;
-    padding: .05rem 1rem 0;
+    padding: 0.05rem 1rem 0;
     border: 1px solid #ddd;
     background: #eee;
-    margin: 0 .25rem 0;
-    border-radius: .5rem;
+    margin: 0 0.25rem 0;
+    border-radius: 0.5rem;
 }
 .l-column__search nav:nth-of-type(2) > div a:hover {
     border-color: #aaa;
-    color:#000;
+    color: #000;
 }
 .l-column__search nav:nth-of-type(2) > a .badge {
     margin: 0 0 0 0.75rem;
@@ -523,7 +522,7 @@ ul.fancytree-container {
     color: #4d59ca;
 }
 .l-column__search nav:nth-of-type(2) > a .badge-secondary {
-    display:none; /* this temporarily hides the search count total number */
+    display: none; /* this temporarily hides the search count total number */
 }
 /*
 .l-column__search > section {
@@ -557,21 +556,21 @@ ul.fancytree-container {
     float: right;
 }
 .sui-facetList-horiz {
-    margin-bottom:0;
+    margin-bottom: 0;
     padding-right: 1.5rem;
-    margin-left:1rem;
+    margin-left: 1rem;
 }
 .sui-facetList-horiz > span {
-    display:block;
+    display: block;
     font-size: 1.75rem;
 }
 .sui-facetList-horiz .facetItem {
     font-size: 1.8rem;
-    margin-left:1.75rem;
+    margin-left: 1.75rem;
 }
 .sui-facetList-horiz > div {
     display: inline;
-    padding-right:1.5rem;
+    padding-right: 1.5rem;
 }
 .c-buttonGroup__viewMode-header {
     font-size: 1.2rem;
@@ -583,7 +582,7 @@ ul.fancytree-container {
 .c-buttonGroup__viewMode .icon::before {
     font-size: 1.25rem;
     position: relative;
-    top: .2rem;
+    top: 0.2rem;
 }
 
 .open {
@@ -604,7 +603,7 @@ ul.fancytree-container {
     .c-featurePager__container {
         /* text-align: center; */
         margin-bottom: 1rem;
-        padding:3rem 1rem 0;
+        padding: 3rem 1rem 0;
         .icon {
         }
         &.top {
@@ -614,7 +613,7 @@ ul.fancytree-container {
 }
 
 .c-view .c-featurePager__container:last-of-type {
-   /* margin: 0 !important; */
+    /* margin: 0 !important; */
 }
 
 .c-buttoneGroup__viewMode {
