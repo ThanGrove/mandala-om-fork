@@ -9,6 +9,7 @@ import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
+import { useView } from '../../hooks/useView';
 
 /**
  * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
@@ -52,6 +53,7 @@ export default function TreeLeaf({
     }
     const leafRef = React.createRef();
     const [isOpen, setIsOpen] = useState(io);
+    const viewSetting = useView((state) => state[settings.domain]);
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
@@ -240,9 +242,22 @@ export default function TreeLeaf({
             );
         }
 
-        // Deal with unnaturally long headers
-        let kmhead = kmapdata?.header ? kmapdata.header : '';
-        if (kmhead.length > 55) {
+        // Get Header based on View Settings (see hook useView)
+        const viewname = viewSetting.split('|')[1];
+        const fieldname = `name_${viewname}`;
+        const kmkeys = Object.keys(kmapdata);
+        let kmhead = kmkeys.includes(fieldname)
+            ? kmapdata[fieldname]
+            : kmapdata?.header;
+        if (Array.isArray(kmhead)) {
+            kmhead = kmhead.length > 1 ? kmhead[1] : kmhead[0];
+        }
+        if (!kmhead) {
+            kmhead = kmapdata?.header;
+        }
+
+        /* Header if too long but no markup < */
+        if (!kmhead.includes('<') && kmhead.length > 55) {
             let kmtemp = kmhead;
             kmhead = '';
             while (kmtemp.length > 55) {
@@ -252,8 +267,9 @@ export default function TreeLeaf({
             }
             kmhead = `<span>${kmhead}${kmtemp}</span>`;
         }
+
         const leafhead = props?.nolink ? (
-            kmapdata?.header
+            <HtmlCustom markup={kmhead} />
         ) : (
             <Link to={'/' + kmapdata?.id.replace('-', '/')}>
                 <HtmlCustom markup={kmhead} />

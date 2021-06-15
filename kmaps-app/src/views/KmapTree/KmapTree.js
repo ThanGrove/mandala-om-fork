@@ -8,14 +8,9 @@ import {
     stringToHash,
 } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
-import {
-    getPerspectiveRoot,
-    KmapPerpsectiveData,
-    PerspectiveChooser,
-} from './KmapPerspectives';
+import { KmapPerpsectiveData, PerspectiveChooser } from './KmapPerspectives';
 import FilterTree from './FilterTree';
 import LeafGroup from './LeafGroup';
 import TreeLeaf from './TreeLeaf';

@@ -9,53 +9,32 @@ import { useQuery } from 'react-query';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 import { capitalize } from '../../views/common/utils';
 import './ViewSettings.scss';
+import { useView } from '../../hooks/useView';
 
-export const VIEW_SETTINGS_COOKIE_NAME = 'mandala-view-settings';
 const getViewData = async (domain) => {
     const apiurl = `https://${domain}.kmaps.virginia.edu/admin/views.json`;
     const { data } = await axios.request(apiurl);
     return data;
 };
 
-function getCurrentSettings() {
-    const settings = localStorage.getItem(VIEW_SETTINGS_COOKIE_NAME)
-        ? JSON.parse(localStorage.getItem(VIEW_SETTINGS_COOKIE_NAME))
-        : {
-              'subjects-names': '72|roman.popular',
-              'terms-names': '73|roman.scholar',
-              'places-names': '69|roman.popular',
-          };
-    return settings;
-}
-
 export function ViewSettings(props) {
-    const currentSettings = getCurrentSettings();
-    const [settings, setSettings] = useState(currentSettings);
+    const viewSettingsState = useView();
+    const [viewSettings, setViewSettings] = useState(viewSettingsState);
     const [show, setShow] = useState(false);
-
     const toggle = () => {
-        if (!show === true) {
-            Object.entries(currentSettings).forEach((v, k) => {
-                const option = v[0];
-                const value = v[1];
-                const selector = `input[value="${value}"]`;
-                const optel = $(`input[value="${value}"]`);
-            });
-        }
         setShow(!show);
     };
 
     const registerChange = (form) => {
-        settings[form.target.name] = form.target.value;
-        setSettings(settings);
+        viewSettings[form.target.name] = form.target.value;
+        setViewSettings(viewSettings);
     };
 
     const saveChanges = () => {
+        viewSettingsState.setPlacesView(viewSettings['places_view']);
+        viewSettingsState.setSubjectsView(viewSettings['subjects_view']);
+        viewSettingsState.setTermsView(viewSettings['terms_view']);
         setShow(false);
-        localStorage.setItem(
-            VIEW_SETTINGS_COOKIE_NAME,
-            JSON.stringify(settings)
-        );
     };
 
     return (
@@ -81,17 +60,17 @@ export function ViewSettings(props) {
                         knowledge maps
                     </p>
                     <KmapsSettings
-                        type="names"
+                        type="view"
                         domain="places"
                         handleChange={registerChange}
                     />
                     <KmapsSettings
-                        type="names"
+                        type="view"
                         domain="subjects"
                         handleChange={registerChange}
                     />
                     <KmapsSettings
-                        type="names"
+                        type="view"
                         domain="terms"
                         handleChange={registerChange}
                     />
@@ -118,28 +97,33 @@ function KmapsSettings({ type, domain, handleChange }) {
     if (isViewDataLoading) {
         return <MandalaSkeleton />;
     }
-    const name = `${domain}-${type}`;
+    const name = `${domain}_${type}`;
     return (
         <div id={`${domain}-settings`} className="c-modal_subsection">
             <h2>{capitalize(domain)} Name Form</h2>
             <p>Select how you want {domain} names to be displayed:</p>
-            <form name={`${name}-form`} onChange={handleChange}>
-                <KmapSettingsInputs name={name} data={viewData} />
+            <form name={`${name}_form`} onChange={handleChange}>
+                <KmapSettingsInputs
+                    name={name}
+                    domain={domain}
+                    data={viewData}
+                />
             </form>
         </div>
     );
 }
 
-function KmapSettingsInputs({ name, data }) {
+function KmapSettingsInputs({ name, domain, data }) {
+    const currentSettings = useView((state) => state[domain]);
+
     if (!data) {
         return null;
     }
-    const currentSettings = getCurrentSettings();
 
     const inputs = data.map((vd, n) => {
         const myval = `${vd.id}|${vd.code}`;
         const radioBtn =
-            myval === currentSettings[name] ? (
+            myval === currentSettings ? (
                 <InputGroup.Radio name={name} value={myval} defaultChecked />
             ) : (
                 <InputGroup.Radio name={name} value={myval} />

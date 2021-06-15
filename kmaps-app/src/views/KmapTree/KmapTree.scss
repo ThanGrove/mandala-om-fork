@@ -94,6 +94,10 @@ aside#l-column__search--treeNav .c-perspective-select {
             color: #df3d26;
         }
     }
+    span.bo,
+    span.zh {
+        font-size: 130%;
+    }
     &.selected > .c-kmapnode > .label {
         font-weight: bold;
     }
