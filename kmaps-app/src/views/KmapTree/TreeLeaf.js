@@ -256,18 +256,6 @@ export default function TreeLeaf({
             kmhead = kmapdata?.header;
         }
 
-        /* Header if too long but no markup < */
-        if (!kmhead.includes('<') && kmhead.length > 55) {
-            let kmtemp = kmhead;
-            kmhead = '';
-            while (kmtemp.length > 55) {
-                let spaceind = kmtemp.substr(0, 65).lastIndexOf(' ');
-                kmhead += `${kmtemp.substr(0, spaceind)}<br/>`;
-                kmtemp = kmtemp.substr(spaceind);
-            }
-            kmhead = `<span>${kmhead}${kmtemp}</span>`;
-        }
-
         const leafhead = props?.nolink ? (
             <HtmlCustom markup={kmhead} />
         ) : (
