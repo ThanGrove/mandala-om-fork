@@ -3,11 +3,7 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
 import React, { useEffect, useState } from 'react';
 import TreeLeaf from './TreeLeaf';
 import LeafGroup from './LeafGroup';
-import {
-    getPerspectiveRoot,
-    KmapPerpsectiveData,
-    PerspectiveChooser,
-} from './KmapPerspectives';
+import { PerspectiveChooser } from './KmapPerspectives';
 
 /**
  * Filter Tree: is a tree filtered by a project id (projects_ss) which is set in the .env files.

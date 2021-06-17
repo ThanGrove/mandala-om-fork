@@ -409,3 +409,19 @@ export function stringToHash(astr) {
     }
     return Math.abs(hash);
 }
+
+export function getHeaderForView(kmapdata, viewdata) {
+    const view = viewdata.includes('|') ? viewdata.split('|')[1] : viewdata;
+    const fieldname = `name_${view}`;
+    const kmkeys = Object.keys(kmapdata);
+    let kmhead = kmkeys.includes(fieldname)
+        ? kmapdata[fieldname]
+        : kmapdata?.header;
+    if (Array.isArray(kmhead)) {
+        kmhead = kmhead.length > 1 ? kmhead[1] : kmhead[0];
+    }
+    if (!kmhead) {
+        kmhead = kmapdata?.header;
+    }
+    return kmhead;
+}

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import { getHeaderForView, queryID } from '../common/utils';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -10,6 +10,7 @@ import { Link } from 'react-router-dom';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { useView } from '../../hooks/useView';
+import { usePerspective } from '../../hooks/usePerspective';
 
 /**
  * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
@@ -53,6 +54,10 @@ export default function TreeLeaf({
     }
     const leafRef = React.createRef();
     const [isOpen, setIsOpen] = useState(io);
+
+    const perspectiveSetting = usePerspective(
+        (state) => state[settings.domain]
+    );
     const viewSetting = useView((state) => state[settings.domain]);
     const {
         isLoading: isKmapLoading,
@@ -60,9 +65,10 @@ export default function TreeLeaf({
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(domain, kid), 'info');
-    if (perspective === undefined) {
-        perspective = settings.perspective;
+    if (!perspective) {
+        perspective = perspectiveSetting;
     }
+
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
     const qid = `leaf-children-${domain}-${kid}-${perspective}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
@@ -243,18 +249,7 @@ export default function TreeLeaf({
         }
 
         // Get Header based on View Settings (see hook useView)
-        const viewname = viewSetting.split('|')[1];
-        const fieldname = `name_${viewname}`;
-        const kmkeys = Object.keys(kmapdata);
-        let kmhead = kmkeys.includes(fieldname)
-            ? kmapdata[fieldname]
-            : kmapdata?.header;
-        if (Array.isArray(kmhead)) {
-            kmhead = kmhead.length > 1 ? kmhead[1] : kmhead[0];
-        }
-        if (!kmhead) {
-            kmhead = kmapdata?.header;
-        }
+        const kmhead = getHeaderForView(kmapdata, viewSetting);
 
         const leafhead = props?.nolink ? (
             <HtmlCustom markup={kmhead} />
