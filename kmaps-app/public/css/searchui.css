@@ -419,7 +419,7 @@
     height: 36px;
 }
 .sui-advBox {
- /* border: 1px solid #a4baec;
+    /* border: 1px solid #a4baec;
     width: calc(100% - 10px);
     margin: 0 0 8px 12px;
     padding: 4px 8px 2px 8px;
@@ -433,17 +433,16 @@
 }
 
 .sui-advTerm {
-    margin: -.5rem 0 0 1rem;
+    margin: -0.5rem 0 0 1rem;
     font-size: 1.1rem;
     padding: 0.5rem 0.5rem 0 1.5rem;
 }
 .sui-advTerm .facetItem::before {
-
 }
 .sui-advTermRem {
     display: inline-block;
     cursor: pointer;
-    margin-left: .2rem;
+    margin-left: 0.2rem;
     position: absolute;
     right: -1.45rem;
 }
@@ -461,22 +460,22 @@
     font-size: 1.2rem;
     position: absolute;
     right: 0;
-    top: .2rem;
+    top: 0.2rem;
 }
 .sui-facetList-horiz .sui-advTermRem.u-icon__cancel-circle:hover {
-color:blueviolet;
+    color: blueviolet;
 }
 .sui-advEdit {
-display: none;
-background-color: #fafafa;
-text-align: left;
-border: 1px solid #e0e0e0;
-border-bottom-width: 0.2rem;
-border-radius: 0 0 2rem 2rem;
-padding: 0.8rem 0.8rem 0.3rem;
-font-size: 1.25rem;
-color: #000;
-margin: 1.5rem 0.5rem 0;
+    display: none;
+    background-color: #fafafa;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+    border-bottom-width: 0.2rem;
+    border-radius: 0 0 2rem 2rem;
+    padding: 0.8rem 0.8rem 0.3rem;
+    font-size: 1.25rem;
+    color: #000;
+    margin: 1.5rem 0.5rem 0;
 }
 /*
 .sui-advEditBut {
@@ -498,21 +497,25 @@ color: #a4baec;
 .sui-advEditBool {
     display: inline-block;
     cursor: pointer;
-    font-size: .9rem;
+    font-size: 0.9rem;
     color: #668eec;
-    border: .15rem solid #668eec;
-    border-radius: .75rem;
-    padding: 0 0 0 .3rem;
-    margin: -0.2rem 0 0;
+    border: 0.15rem solid #668eec;
+    border-radius: 0.75rem;
 }
 .sui-boolItem:hover,
 .sui-advEditBool:hover {
     border-color: #4d59ca;
-    color:#4d59ca;
+    color: #4d59ca;
+}
+.sui-advEditBool {
+    position: relative;
+    top: -0.15rem;
+    padding-left: 0.3rem;
 }
 .sui-boolItem {
-    border:none;
-    color:#4d59ca;
+    border: none;
+    color: #4d59ca;
+    padding: 0.1rem 0 0.05rem 0.3rem;
 }
 .sui-advEditList {
     overflow-x: hidden;
@@ -520,7 +523,7 @@ color: #a4baec;
 }
 .sui-advEditLine {
     cursor: pointer;
-    color:#000;
+    color: #000;
     padding: 0.2rem 1rem;
     border-bottom: 2px solid #fafafa;
 }

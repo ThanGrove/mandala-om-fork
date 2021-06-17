@@ -71,11 +71,13 @@
     color: #444;
 }
 .sui-advHeader .badge {
-    padding: 0.5rem 3.5rem 0.5rem 1rem;
+    padding: 0.55rem 3.5rem 0.5rem 1rem;
     border-radius: 0.5rem;
     color: #fff;
     cursor: pointer;
     font-size: 1.25rem;
+    letter-spacing: 0.05rem;
+    text-shadow: 0 0 0.1rem #161a3c;
 }
 
 .sui-advHeader .badge.badge-secondary {
@@ -94,10 +96,11 @@
 .sui-advHeader .u-icon__minus {
     position: absolute;
     right: 0.65rem;
-    top: 0.75rem;
-    font-size: 0.85rem;
+    top: 0.7rem;
+    font-size: 0.9rem;
     color: #eee;
     cursor: pointer;
+    text-shadow: 0 0 0.1rem #161a3c;
 }
 
 .sui-advHeader > .app-name {
@@ -238,33 +241,37 @@
 .sui-advEdit-facet-ctrls-btns .btn {
     padding: 0.2rem 1rem;
     font-size: 1.3rem;
-    border-color: #ccc;
+    border-color: #4d59ca;
     border-style: solid;
-    background-color: #fff;
-    color: #555;
+    background-color: #4d59ca;
+    color: #fff;
+    opacity: 0.65;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child {
     border-radius: 1rem 0 0 1rem !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1rem 1rem 0 !important;
+    font-size: 1.175rem;
 }
 .sui-advEdit-facet-ctrls-btns .btn:hover,
 .btn-primary:not(:disabled):not(.disabled):active,
 .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-    background-color: #668eec;
-    color: #fff;
+    background-color: #fefeff;
+    color: #0a0a0a;
     border-style: solid;
     border-color: #668eec;
+    opacity: 1;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
 .sui-advEdit-facet-ctrls-btns .btn:active,
+.sui-advEdit-facet-ctrls-btns .btn.active,
 .sui-advEdit-facet-ctrls-btns .btn:focus-visible,
-.sui-advEdit-facet-ctrls-btns .btn:active input,
 .sui-advEdit-facet-ctrls-btns .btn input:focus,
 .sui-advEdit-facet-ctrls-btns .btn input:active,
 .sui-advEdit-facet-ctrls-btns .btn input:focus-visible,
+.sui-advEdit-facet-ctrls-btns .btn.active input,
 .sui-advEdit-facet-ctrls-btns .btn:active input {
     box-shadow: none !important;
     outline: none !important;
@@ -273,6 +280,7 @@
 .sui-advEdit-facet-ctrls-btns .btn:first-of-type {
     font-size: 1.5rem;
     padding: 0 1rem;
+    text-align: center;
 }
 
 .sui-advEdit input {

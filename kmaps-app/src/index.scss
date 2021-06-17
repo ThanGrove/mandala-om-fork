@@ -25,8 +25,8 @@ body.html {
     padding-right: 0.75rem;
 }
 .two-columns > div:nth-child(2) {
-    border-right: 0.1rem double #ccc;
-    border-width: 0 0.6rem;
+    border: none;
+    border-right: 0.4rem double #ccc;
     background: transparent !important;
 }
 .l-site__wrap,
@@ -171,6 +171,10 @@ div.image-wrapper.center figcaption {
 .c-content__main__kmaps .images.legacy img {
     height: auto !important;
     max-width: 100% !important;
+}
+
+.c-content__main__kmaps > h3 {
+    margin-left: 2rem;
 }
 
 //---------------------------------------
@@ -402,9 +406,8 @@ div.image-wrapper.center figcaption {
     text-align: center;
     border: none;
     border-right: 1px solid #aaa;
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #888;
+    font-size: 1.54rem;
+    color: #555;
     letter-spacing: 0.0375rem;
 }
 .advanced-search-and-tree .nav-tabs .nav-link:nth-of-type(2) {
@@ -415,6 +418,7 @@ div.image-wrapper.center figcaption {
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active {
     background-color: transparent;
+    font-weight: bold;
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-places {
     color: $color-places !important;
@@ -495,17 +499,22 @@ ul.fancytree-container {
 }
 .l-column__search nav:nth-of-type(2) > div a {
     font-style: italic;
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     letter-spacing: 0.075rem;
-    padding: 0.05rem 1rem 0;
+    padding: 0.1rem 1rem;
     border: 1px solid #ddd;
     background: #eee;
     margin: 0 0.25rem 0;
     border-radius: 0.5rem;
+    background-color: #6b77ea;
+    color: #fff;
 }
 .l-column__search nav:nth-of-type(2) > div a:hover {
-    border-color: #aaa;
-    color: #000;
+    background-color: #6b77ea;
+    background-color: #4d59ca;
+    border-color: #4d59ca;
+    color: #fff;
+    transition: background-color 0.5s;
 }
 .l-column__search nav:nth-of-type(2) > a .badge {
     margin: 0 0 0 0.75rem;
@@ -552,8 +561,8 @@ ul.fancytree-container {
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
-    margin: 0;
-    float: right;
+    margin: 0 0 1rem;
+    text-align: right;
 }
 .sui-facetList-horiz {
     margin-bottom: 0;
@@ -567,6 +576,8 @@ ul.fancytree-container {
 .sui-facetList-horiz .facetItem {
     font-size: 1.8rem;
     margin-left: 1.75rem;
+    position: relative;
+    top: 0.2rem;
 }
 .sui-facetList-horiz > div {
     display: inline;
@@ -604,6 +615,7 @@ ul.fancytree-container {
         /* text-align: center; */
         margin-bottom: 1rem;
         padding: 3rem 1rem 0;
+        padding-top: 1rem;
         .icon {
         }
         &.top {
