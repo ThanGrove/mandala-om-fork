@@ -71,7 +71,7 @@
     color: #444;
 }
 .sui-advHeader .badge {
-    padding: 0.55rem 3.5rem 0.5rem 1rem;
+    padding: 0.55rem 2.75rem 0.5rem 1rem;
     border-radius: 0.5rem;
     color: #fff;
     cursor: pointer;
@@ -245,18 +245,21 @@
     border-style: solid;
     background-color: #4d59ca;
     color: #fff;
-    opacity: 0.65;
+    opacity: 0.55;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child {
     border-radius: 1rem 0 0 1rem !important;
+    font-size: 1.5rem;
+    padding: 0 1rem;
+    text-align: center;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1rem 1rem 0 !important;
     font-size: 1.175rem;
 }
 .sui-advEdit-facet-ctrls-btns .btn:hover,
-.btn-primary:not(:disabled):not(.disabled):active,
-.btn-primary:not(:disabled):not(.disabled).active,
+.sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled):active,
+.sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
     background-color: #fefeff;
     color: #0a0a0a;
@@ -277,10 +280,10 @@
     outline: none !important;
 }
 
-.sui-advEdit-facet-ctrls-btns .btn:first-of-type {
-    font-size: 1.5rem;
-    padding: 0 1rem;
-    text-align: center;
+.sui-advEdit-facet-ctrls-btns
+    .btn-primary:not(.active):not(:disabled):not(.disabled):hover {
+    background-color: #4d59ca;
+    color: #fff;
 }
 
 .sui-advEdit input {

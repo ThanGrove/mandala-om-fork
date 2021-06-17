@@ -11,7 +11,6 @@
 .c-site__header-standalone {
     height: 40px;
     padding: 0;
-    background: #fff;
     display: none;
 }
 .navbar-brand {
@@ -32,6 +31,7 @@
 }
 .c-site__header > nav {
     flex: 1 1;
+    background-color: #fff !important;
     /* padding: 0;
     font-size: 1.5rem;*/
 }

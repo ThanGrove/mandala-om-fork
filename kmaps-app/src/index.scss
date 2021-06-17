@@ -406,8 +406,8 @@ div.image-wrapper.center figcaption {
     text-align: center;
     border: none;
     border-right: 1px solid #aaa;
-    font-size: 1.54rem;
-    color: #555;
+    font-size: 1.75rem;
+    color: #333;
     letter-spacing: 0.0375rem;
 }
 .advanced-search-and-tree .nav-tabs .nav-link:nth-of-type(2) {
@@ -499,22 +499,23 @@ ul.fancytree-container {
 }
 .l-column__search nav:nth-of-type(2) > div a {
     font-style: italic;
-    font-size: 1.15rem;
-    letter-spacing: 0.075rem;
+    font-size: 1.2rem;
+    letter-spacing: 0.125rem;
     padding: 0.1rem 1rem;
     border: 1px solid #ddd;
-    background: #eee;
     margin: 0 0.25rem 0;
     border-radius: 0.5rem;
     background-color: #6b77ea;
     color: #fff;
+    transition: all 0.25s;
 }
 .l-column__search nav:nth-of-type(2) > div a:hover {
-    background-color: #6b77ea;
     background-color: #4d59ca;
     border-color: #4d59ca;
     color: #fff;
-    transition: background-color 0.5s;
+}
+.l-column__search nav:nth-of-type(2) > div a:active {
+    border-color: transparent !important;
 }
 .l-column__search nav:nth-of-type(2) > a .badge {
     margin: 0 0 0 0.75rem;

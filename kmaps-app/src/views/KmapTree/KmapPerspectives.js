@@ -93,7 +93,8 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     return (
         <div className={pclass}>
             <label>
-                Persepective: <PerspectiveDescs domain={domain} />
+                Persepective
+                <PerspectiveDescs domain={domain} />
             </label>
             <select defaultValue={current} onChange={changeMe}>
                 {choices.map((persp, i) => {
