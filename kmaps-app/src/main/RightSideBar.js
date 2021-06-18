@@ -1,6 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import { Section } from 'react-simple-resizer';
 import ReactDOM from 'react-dom';
+import { closeStore } from '../hooks/useCloseStore';
 import { AdvancedToggle } from './MainSearchToggle/AdvancedToggle';
 import './RightSideBar.css';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
@@ -16,6 +17,9 @@ export default function RightSideBar() {
         setState({ ...state, ...new_state });
     };
 
+    // Get Close Button state.
+    const closeButton = closeStore((state) => state.buttonState);
+
     function chooseViewMode(mode) {
         setViewMode(mode);
         if (mode === 'off') {
@@ -28,7 +32,9 @@ export default function RightSideBar() {
     }
     const advancedSearchPortal = (
         <Section
-            className="l-content__rightsidebar"
+            className={`l-content__rightsidebar ${
+                closeButton ? 'openSideBar' : 'closeSideBar'
+            }`}
             maxSize={500}
             minSize={350}
             defaultSize={350}

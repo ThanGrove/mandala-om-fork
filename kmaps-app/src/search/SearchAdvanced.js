@@ -6,6 +6,7 @@ import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
+import { closeStore } from '../hooks/useCloseStore';
 import {
     useQueryParams,
     StringParam,
@@ -22,6 +23,9 @@ const SEARCH_PATH = '/search/:view';
 export default function SearchAdvanced(props) {
     const history = useHistory();
     let [reset, setReset] = useState(0);
+
+    // Get function to handle closeButton state.
+    const handleCloseButton = closeStore((state) => state.changeButtonState);
 
     // eslint-disable-next-line no-unused-vars
     const [query, setQuery] = useQueryParams({
@@ -181,9 +185,6 @@ export default function SearchAdvanced(props) {
         );
     }
 
-    // console.log ("SEARCHY ", props );
-    function closeAdvanced() {}
-
     if (searchView?.params?.view === ':view') {
         return <Redirect to={'/search/deck'} />;
     }
@@ -195,7 +196,7 @@ export default function SearchAdvanced(props) {
             className={`l-column__search ${openclass}`}
         >
             <Navbar className={'justify-content-end'}>
-                <Nav.Link onClick={closeAdvanced}>
+                <Nav.Link onClick={handleCloseButton}>
                     <span className={'icon shanticon-cancel'}></span>
                 </Nav.Link>
             </Navbar>
