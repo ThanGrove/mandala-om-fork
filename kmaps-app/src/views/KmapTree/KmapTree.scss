@@ -1,8 +1,7 @@
 @import '../../index-variables';
 
 .c-kmaptree {
-    margin-top: 2rem;
-    margin-left: 2rem;
+    margin: 2rem 0 0 2rem;
     max-height: 50rem;
     overflow-y: scroll;
 }
@@ -18,6 +17,10 @@
 
 #l-column__search--treeNav .c-kmaptree {
     max-height: 70rem;
+}
+
+.l-column_related .c-kmaptree {
+    margin-top: 0rem;
 }
 
 .c-perspective-select {
@@ -50,6 +53,7 @@ aside .c-perspective-select {
     }
     select {
         max-width: 18rem;
+        margin-right: 1rem;
     }
 }
 
@@ -59,7 +63,7 @@ aside#l-column__search--treeNav .c-perspective-select {
         display: inline-block;
     }
     select {
-        max-width: unset;
+        /* max-width: unset; */
     }
 }
 
@@ -99,15 +103,24 @@ aside#l-column__search--treeNav .c-perspective-select {
         }
     }
     &.selected > .c-kmapnode > .label {
-        font-weight: bold;
+        border-bottom: 0.2rem solid #cca843;
     }
 }
 
 .leafend {
     padding-left: 0.3rem;
 
-    .toggle-icon {
-        color: $color-text--lighter !important;
+    .toggle-icon::before {
+        content: '';
+        width: 0.6rem;
+        height: 0.6rem;
+        margin-right: 0.55rem;
+        margin-left: 0.15rem;
+        background-color: #a27f1c;
+        display: inline-block;
+        position: relative;
+        top: -0.3rem;
+        transform: rotate(45deg);
     }
 }
 

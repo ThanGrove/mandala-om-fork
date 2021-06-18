@@ -36,8 +36,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 45px 16px 22px;
-    font-size: 14px;
+    padding: 6px 45px 6px 20px;
+    font-size: 1.6rem;
     color: #3b3b3b;
     cursor: pointer;
     border-width: 1px 0 1px 0;
@@ -101,7 +101,7 @@
 .custSelect__option {
     position: relative;
     display: block;
-    padding: 16px;
+    padding: 0.6rem 2rem;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.5s;
@@ -113,6 +113,6 @@
 }
 .custSelect__option.cs_selected {
     color: #ffffff;
-    background-color: #305c91;
-    border: 1px solid #fff;
+    background-color: #91693c;
+    border: none;
 }

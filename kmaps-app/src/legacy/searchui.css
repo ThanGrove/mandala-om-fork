@@ -452,7 +452,7 @@
 }
 
 .sui-advEdit {
-  /*  display: none;
+    /*  display: none;
     background-color: #fafafa;
     text-align: left;
     border: 0.1rem solid #555;
@@ -498,12 +498,12 @@
     max-height: 360px;
 }
 .sui-advEditLine {
-    cursor: pointer;
+    /* cursor: pointer;
     padding: 0.2rem 1rem;
-    border-bottom: 2px solid #fafafa;
+    border-bottom: none;*/
 }
 .sui-advEditLine:hover {
-    background-color: #dee7f1;
+    /* background-color: #dee7f1;*/
 }
 .sui-advViewListPage {
     display: inline-block;

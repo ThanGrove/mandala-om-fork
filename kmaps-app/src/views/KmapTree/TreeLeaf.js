@@ -141,7 +141,7 @@ export default function TreeLeaf({
 
     // if no children, replace icon with dash
     if (!childrenData || childrenData?.numFound === 0) {
-        icon = '–';
+        icon = '';
         toggleclass = 'leafend';
     }
 

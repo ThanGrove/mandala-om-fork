@@ -61,12 +61,8 @@
 .c-pager__counterWrapper .c-pager__counterMax {
     padding: 0 1rem;
 }
-
 .c-featurePager__itemCount {
-    /* display: inline;
-    float: right; */
-    text-align: left;
-    margin-top: .5rem;
+    float: right;
 }
 .c-featurePager__itemCount .react-numeric-input {
     padding-right: 2rem;

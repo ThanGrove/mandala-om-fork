@@ -2,14 +2,15 @@
 // * CONTENT SECTION: Content Header
 // --------------------------------------
 .c-content__header__main {
-    padding: 0.7rem 0 0;
-    height: 5.5rem;
+    padding: 0.3rem 0 0;
+    height: 3rem;
     color: #fff;
 }
 .c-content__header__main__title {
     margin: 0 0 0 1.5rem;
     font-size: 2rem;
     line-height: 1;
+    display: none;
 }
 .c-content__header__main__title .icon {
     margin-right: 0.75rem;
@@ -34,9 +35,9 @@
 // Breadcrumbs
 .c-content__header__breadcrumb {
     background-color: transparent;
-    font-size: 1.275rem;
+    font-size: 1.35rem;
     padding: 0;
-    margin: 0.25rem 0 0.25rem 1.5rem;
+    margin: 0.25rem 0 0.25rem 3rem;
 }
 
 .c-content__header__breadcrumb,
@@ -50,13 +51,14 @@
 }
 
 .c-content__header__breadcrumb .breadcrumb-item:hover {
-    border-bottom-color: #ddd;
-    text-decoration: none !important;
+    border: none;
+    text-decoration: none;
 }
 
 .c-content__header__breadcrumb .breadcrumb-item:first-of-type {
     font-weight: bold;
     text-decoration: none;
+    text-transform: uppercase;
     &:hover {
         cursor: default;
         text-decoration: none;

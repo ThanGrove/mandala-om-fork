@@ -24,13 +24,13 @@
     width: calc(100% - 10px);
     cursor: default;
 }
-.l-column__search > section .sui-advBox:nth-child(even) {
+.l-column__search > section .sui-advBox:first-child {
+    border-top: 1px solid #e0e0e0;
+    margin-top: 1rem;
 }
-
 .l-column__search > section .sui-advBox:first-child .facetItem {
     display: none;
 }
-
 .sui-advBox.sui-advBox-associated.subjects {
     display: none;
 }
@@ -159,8 +159,8 @@
 }
 
 .sui-advBox-recent .sui-advEdit {
-    padding-right: 0;
-    padding-left: 0.5rem;
+    /*   padding-right: 0;
+    padding-left: 0.5rem; */
 }
 
 /*.sui-advTermRem {*/
@@ -264,7 +264,7 @@
     background-color: #fefeff;
     color: #0a0a0a;
     border-style: solid;
-    border-color: #668eec;
+    border-color: #cad1e0;
     opacity: 1;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
@@ -349,7 +349,7 @@ input:focus-visible,
 .sui-advEditLine {
     cursor: pointer;
     padding: 0 1rem 0.25rem;
-    border-bottom: 0.2rem solid #fafafa;
+    margin-bottom: 0.1rem;
 }
 
 .sui-advEditLine:hover {
@@ -394,7 +394,7 @@ input:focus-visible,
 .sui-advBox:first-child .sui-advEditLine .icon {
     font-size: 1.5rem;
     position: relative;
-    left: -0.5rem;
+    left: -0.15rem;
     top: 0.15rem;
 }
 .sui-advBox-asset_type .sui-adv-facetlist .facetItem {

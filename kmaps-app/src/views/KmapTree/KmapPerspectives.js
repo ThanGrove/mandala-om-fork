@@ -154,7 +154,7 @@ export function PerspectiveDescs({ domain, ...props }) {
             <a
                 onClick={handleShow}
                 title={`About ${domain} perspectives`}
-                style={{ cursor: 'pointer', float: 'right' }}
+                style={{ cursor: 'pointer' }}
             >
                 <BsInfoCircle />
             </a>

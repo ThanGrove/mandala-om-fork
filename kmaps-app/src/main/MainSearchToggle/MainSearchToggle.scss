@@ -23,23 +23,23 @@
 .c-MainSearchToggle--group svg {
     font-size: 1.75rem;
 }
-.c-MainSearchToggle--group .btn.active::before {
+.c-MainSearchToggle--group label.active::before {
+    width: 0;
+    height: 0;
     content: '';
     display: inline-block;
-    width: 1rem;
-    height: 1rem;
-    background-color: #4d59ca;
-    background-color: #fff;
+    border-style: solid;
+    border-width: 7px 7px 0 7px;
+    border-color: white transparent transparent transparent;
     position: absolute;
-    top: 3.6rem;
-    top: 3.4rem;
-    left: -0.35rem;
-    margin-left: 50%;
-    transform: rotate(45deg);
+    bottom: -0.7rem;
+    left: 50%;
+    margin-left: -0.6rem;
 }
-.c-MainSearchToggle--group .btn.active svg {
-    font-size: 2rem;
+.c-MainSearchToggle--group label.btn.active svg {
+    font-size: 2.2rem;
     color: #4d59ca;
+    padding-left: 0.2rem;
 }
 .c-MainSearchToggle--button {
     color: black;
@@ -49,8 +49,7 @@
 }
 .c-MainSearchToggle--button:hover {
     color: #000 !important;
-    background-color: #eee !important;
-    opacity: 1;
+    background-color: #e9f4ff !important;
 }
 .c-MainSearchToggle--button.focus,
 .c-MainSearchToggle--button.active,
@@ -76,8 +75,4 @@
     }
     &:nth-child(n + 2) {
     }
-}
-
-.c-MainSearchToggle--button .btn {
-    /* border: none; */
 }

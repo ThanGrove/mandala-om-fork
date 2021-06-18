@@ -32,6 +32,7 @@
 .c-site__header > nav {
     flex: 1 1;
     background-color: #fff !important;
+    padding: 0.25rem 1rem 0.5rem;
     /* padding: 0;
     font-size: 1.5rem;*/
 }
@@ -44,16 +45,21 @@
     //   justify-content: flex-end;
     //   flex:1;
     display: flex;
-    //   max-width: 250px;
-    margin-right: 20rem;
+    min-width: 15rem;
+    max-width: 25rem;
+    margin-right: 15rem;
 }
 .c-site__search > * {
     display: inline;
 }
 
 .sui-search2 {
-    width: 20rem;
-    padding-left: 0.75rem;
+    padding: 0.15rem 0 0.15rem 1.25rem;
+    border-radius: 4rem;
+    border: 1px solid #ccc;
+    font-size: 1.35rem;
+    margin: 0;
+    min-width: 21rem;
 }
 
 .l-search__input__buttons {
