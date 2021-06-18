@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { closeStore } from '../../hooks/useCloseStore';
 import { ADVANCED_LABEL, BASIC_LABEL } from '../../App';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
@@ -7,6 +8,9 @@ import './MainSearchToggle.scss';
 
 export function AdvancedToggle({ chooseViewMode, viewMode }) {
     const [mode, setMode] = useState(viewMode || 'off'); // "search" | "tree" | "off"
+
+    // Get function to change state of the rightsidebar (open/close)
+    const openButtonState = closeStore((state) => state.openButtonState);
 
     return (
         <ToggleButtonGroup
@@ -22,6 +26,7 @@ export function AdvancedToggle({ chooseViewMode, viewMode }) {
                 id={'main-search-tree-toggle'}
                 className={'c-MainSearchToggle--button tree'}
                 onClick={(evt) => {
+                    openButtonState();
                     if (evt.target.value === 'tree') {
                         if (mode === 'tree') {
                             evt.stopPropagation();
@@ -44,6 +49,7 @@ export function AdvancedToggle({ chooseViewMode, viewMode }) {
                 id={'advanced-search-tree-toggle'}
                 className={'c-MainSearchToggle--button advanced'}
                 onClick={(evt) => {
+                    openButtonState();
                     if (evt.target.value === 'advanced') {
                         if (mode === 'advanced') {
                             evt.stopPropagation();
