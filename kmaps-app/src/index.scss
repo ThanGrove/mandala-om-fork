@@ -162,7 +162,7 @@ div.image-wrapper.center figcaption {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
-    padding: 1rem 2rem 6rem 2.5rem;
+    padding: 1rem 1.5rem 6rem 1.5rem;
     font-size: 1.4rem;
     /* height: 100vh;*/
     min-height: 50vh;
@@ -526,6 +526,7 @@ ul.fancytree-container {
 .l-column__search nav:nth-of-type(2) > div a {
     font-style: italic;
     font-size: 1.2rem;
+    font-weight: bold;
     letter-spacing: 0.125rem;
     padding: 0.1rem 1rem;
     border: 1px solid #ddd;
@@ -585,6 +586,7 @@ ul.fancytree-container {
     background: #fff;
     padding: 1rem 1.6rem 2rem;
     border: 1px solid #e0e0e0;
+    border-top: 2px solid #ddd;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
@@ -668,6 +670,7 @@ ul.fancytree-container {
 }
 .list .c-view {
     margin: 0 2rem;
+    margin: 0;
 
     .card {
         border: unset;
@@ -829,7 +832,6 @@ ul.fancytree-container {
     .title .header {
         color: #000;
         font-size: 1.4rem;
-        background: rgba(0, 50, 255, 0.075);
     }
     .feature-types span {
         font-size: 1.1rem;

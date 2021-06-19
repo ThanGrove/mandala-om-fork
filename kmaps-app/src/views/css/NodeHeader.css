@@ -12,4 +12,6 @@
     font-size: 1.75rem;
     font-family: 'EB Garamond', serif;
     text-transform: capitalize;
+    display: block;
+    text-indent: 5rem;
 }

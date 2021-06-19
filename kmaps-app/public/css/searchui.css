@@ -506,7 +506,7 @@ color: #a4baec;
 .sui-boolItem:hover,
 .sui-advEditBool:hover {
     border-color: #4d59ca;
-    color: #4d59ca;
+    color: red;
 }
 .sui-advEditBool {
     position: relative;

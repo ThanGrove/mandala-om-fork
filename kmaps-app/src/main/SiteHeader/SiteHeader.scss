@@ -47,7 +47,11 @@
     display: flex;
     min-width: 15rem;
     max-width: 25rem;
+    height: 42px;
     margin-right: 15rem;
+    padding-left: 2rem;
+    padding-top: 0.5rem;
+    border-left: 1px solid #ddd;
 }
 .c-site__search > * {
     display: inline;
@@ -58,7 +62,7 @@
     border-radius: 4rem;
     border: 1px solid #ccc;
     font-size: 1.35rem;
-    margin: 0;
+    margin: 0.65rem 0 0;
     min-width: 21rem;
 }
 
