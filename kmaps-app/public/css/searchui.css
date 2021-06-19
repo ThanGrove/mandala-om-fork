@@ -446,6 +446,12 @@
     position: absolute;
     right: -1.45rem;
 }
+.sui-advTermRem .icon::before {
+    color: blue;
+}
+.sui-advTermRem .icon:hover::before {
+    color: #333;
+}
 
 .sui-advValueRem:hover {
     color: #668eec;
@@ -455,15 +461,10 @@
     position: relative;
 }
 .sui-facetList-horiz .sui-advTermRem.u-icon__cancel-circle {
-    cursor: pointer;
-    color: red;
     font-size: 1.2rem;
     position: absolute;
     right: 0;
     top: 0.2rem;
-}
-.sui-facetList-horiz .sui-advTermRem.u-icon__cancel-circle:hover {
-    color: blueviolet;
 }
 .sui-advEdit {
     display: none;
@@ -534,7 +535,7 @@ color: #a4baec;
     border-radius: 1rem;
 }
 .sui-advEditLine:hover {
-    background-color: #e9f4ff;
+    background-color: #edf2f7;
     border-right: 0.4rem solid #6b77ea;
 }
 .sui-advViewListPage {
