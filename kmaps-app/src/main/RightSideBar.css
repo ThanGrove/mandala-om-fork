@@ -360,6 +360,8 @@ input:focus-visible,
 }
 .sui-advEditLine.chosen {
     background-color: #dee7f1;
+    border-right: 0.4rem solid #6b77ea;
+    border-radius: 1rem 0 0 1rem;
 }
 
 .sui-advEdit-facet-ctrls {
@@ -388,6 +390,7 @@ input:focus-visible,
     max-height: 15rem;
     padding: 0.25rem 0;
     border-radius: 1.25rem;
+    border-radius: 0 0 1.25rem 1.25rem;
 }
 .sui-adv-facetlist .facetItem,
 .sui-advBox-asset_type .sui-advEditLine .icon,

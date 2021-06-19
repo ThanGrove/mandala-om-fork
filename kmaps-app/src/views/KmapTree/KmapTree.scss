@@ -17,10 +17,15 @@
 
 #l-column__search--treeNav .c-kmaptree {
     max-height: 70rem;
+    min-height: 70rem;
+    border: 0.4rem solid #ccc;
+    border-width: 0 0.3rem 0.5rem 0;
 }
 
 .l-column_related .c-kmaptree {
     margin-top: 0rem;
+    border: 0.4rem solid #ccc;
+    border-width: 0 0.3rem 0.5rem 0;
 }
 
 .c-perspective-select {
@@ -112,9 +117,9 @@ aside#l-column__search--treeNav .c-perspective-select {
 
     .toggle-icon::before {
         content: '';
-        width: 0.6rem;
-        height: 0.6rem;
-        margin-right: 0.55rem;
+        width: 0.7rem;
+        height: 0.7rem;
+        margin-right: 0.45rem;
         margin-left: 0.15rem;
         background-color: #a27f1c;
         display: inline-block;

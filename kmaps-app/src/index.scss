@@ -458,8 +458,11 @@ ul.fancytree-container {
     z-index: 1000;
     /*max-width: 35rem;*/
 }
-.l-column__search.open {
+.l-column__search.c-TreeNav--tabs.open {
     z-index: 1000;
+}
+.l-column__search.c-TreeNav--tabs {
+    padding-right: 1rem;
 }
 .l-column__search.open.standalone {
     z-index: inherit;
