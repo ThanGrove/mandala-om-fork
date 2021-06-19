@@ -12,9 +12,6 @@
     flex: none;
     resize: horizontal;
 }
-.l-column__related__wrap {
-    padding-top: 0.5rem;
-}
 .l-related__list__wrap .icon {
     margin-right: 0.75rem;
     position: relative;
@@ -144,6 +141,10 @@
 }
 .c-related__item:not(.selected):hover {
     background: #fff;
+    color: #333;
+}
+.c-related__item:not(.selected):active {
+    color: #333;
 }
 .c-related__list--icon {
     border-color: transparent;

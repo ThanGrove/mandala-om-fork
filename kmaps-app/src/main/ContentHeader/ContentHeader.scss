@@ -75,9 +75,8 @@ $bcm-right: 0.5rem;
 }
 
 .breadcrumb .breadcrumb-item::after {
-    content: '>';
-    margin-right: $bcm-right;
-    margin-left: 1rem;
+    content: '/';
+    margin: 0 0.75rem;
 }
 
 .breadcrumb .breadcrumb-item:last-of-type::after {
