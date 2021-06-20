@@ -142,7 +142,7 @@ export default function Home(props) {
                             </li>
                             <li>
                                 <Link to={'/subjects/4102'}>
-                                    Tibetan Contemporaneous Art: (subjects-4102)
+                                    Tibetan Contemporary Art: (subjects-4102)
                                 </Link>
                             </li>
                         </ul>

@@ -37,12 +37,12 @@
     margin-left: -0.6rem;
 }
 .c-MainSearchToggle--group label.active::after {
-    width: 0;
-    height: 0;
+    height: 0.325rem;
     content: '';
-    display: inline-block;
     position: absolute;
     top: 0;
+    left: 0;
+    background: #4d59ca;
     width: 100%;
 }
 .c-MainSearchToggle--group label.btn.active svg {
