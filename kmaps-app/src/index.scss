@@ -310,7 +310,7 @@ div.image-wrapper.center figcaption {
 // * CONTENT SECTION: Node Header -- move this
 // --------------------------------------
 .c-nodeHeader {
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
     padding-bottom: 0;
 }
 .c-nodeHeader > .icon {
@@ -325,10 +325,12 @@ div.image-wrapper.center figcaption {
     position: relative;
 }
 .c-nodeHeader__backLink {
-    font-size: 1.06em;
+    font-size: 1em;
+    font-weight: bold;
     letter-spacing: 0.0275rem;
-    color: #555;
+    color: #4d59ca;
     display: flex;
+    font-style: italic;
 }
 .c-nodeHeader__backLink:hover {
     //  color: #fff;
@@ -344,14 +346,14 @@ div.image-wrapper.center figcaption {
     top: 0.1rem;
 }
 .c-nodeHeader-itemHeader {
-    background-color: $color-terms;
+    background-color: #a27f1c;
     color: #fff;
-    padding: 0 1rem 0.5rem 1.5rem;
+    padding: 0 1rem 1rem 1.5rem;
     margin-top: 0.5rem;
     margin-bottom: -0.25rem;
     /*margin-left: -0.75rem;*/
     font-size: 1.44rem;
-    line-height: 1.8;
+    line-height: 1.4;
     border-radius: 0.5rem 0.5rem 0 0;
 }
 .av .c-nodeHeader-itemHeader {

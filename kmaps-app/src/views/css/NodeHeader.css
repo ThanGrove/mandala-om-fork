@@ -9,9 +9,12 @@
 }
 
 .sui-relatedSubHeader {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     font-family: 'EB Garamond', serif;
     text-transform: capitalize;
     display: block;
     text-indent: 5rem;
+    font-weight: bold;
+    color: #555;
+    letter-spacing: 0.025rem;
 }
