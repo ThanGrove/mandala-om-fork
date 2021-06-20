@@ -61,8 +61,8 @@ body.html {
     resize: horizontal;
 
     .advanced-search-and-tree {
-        border-left: 2px solid #ccc;
-        border-right: 2px solid #ccc;
+        /*border-left: 2px solid #ccc;
+        border-right: 2px solid #ccc;*/
         border: none;
     }
 }
@@ -162,7 +162,7 @@ div.image-wrapper.center figcaption {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
-    padding: 1rem 1.5rem 6rem 1.5rem;
+    padding: 0.25rem 1.5rem 6rem 1.5rem;
     font-size: 1.4rem;
     /* height: 100vh;*/
     min-height: 50vh;
