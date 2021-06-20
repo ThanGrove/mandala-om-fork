@@ -63,7 +63,8 @@
 
 .c-MainSearchToggle--group .c-MainSearchToggle--button.active {
     &:first-child {
-        border-left: 0.15rem solid #ccc !important;
+        /* border-left: 0.15rem solid #ccc !important; */
+        border-left: none !important;
     }
     &:nth-child(n + 2) {
         border-right: 0.15rem solid #ccc !important;
@@ -73,6 +74,7 @@
 .c-MainSearchToggle--button:not(.active) {
     &:first-child {
         border-right: 1px outset #ccc !important;
+        border-left: none !important;
     }
     &:nth-child(n + 2) {
     }
