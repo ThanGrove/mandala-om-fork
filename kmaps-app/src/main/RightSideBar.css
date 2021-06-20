@@ -174,17 +174,13 @@
 }
 .sui-advTerm {
     font-size: 1.175rem;
-    padding: 0 0.5rem 0.3rem 2.5rem;
-    margin: 0.5rem 0 0 1rem;
+    padding: 0.8rem 0.5rem 0.3rem 1.5rem;
+    margin: 0.5rem 0 0.2rem;
     text-transform: capitalize;
     cursor: default;
-    padding-left: 1rem;
-    padding-top: 0.8rem;
-    margin-left: 0;
     background: #f9f9f9;
     border: 1px solid #ddd;
     border-width: 0.2rem 0.1rem 0.1rem;
-    margin-bottom: 2px;
 }
 
 .l-column__search .sui-advTermRem {
