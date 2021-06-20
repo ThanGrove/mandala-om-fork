@@ -88,7 +88,7 @@ export function BasicSearch(props) {
                     id="sui-search"
                     className="sui-search2"
                     defaultValue={search}
-                    placeholder="Enter Search"
+                    placeholder="Search"
                     onKeyDownCapture={handleKey}
                     ref={inputEl}
                 />
