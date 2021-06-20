@@ -4,8 +4,15 @@
     margin: 0 0 0 1.5rem;
     max-height: 50rem;
     overflow-y: scroll;
+    border: 2px solid #ddd;
+    border-width: 0 2px 4px 0;
+    border-radius: 0 0 3rem 0;
 }
-
+#l-column__search--treeNav .c-kmaptree {
+    max-height: 70rem;
+    min-height: 70rem;
+    margin-top: 1.5rem;
+}
 .tree-test .c-kmaptree {
     height: 80vh;
     min-width: 365px;
@@ -14,21 +21,6 @@
     padding: 1.25rem;
     font-size: 1.45rem;
 }
-
-#l-column__search--treeNav .c-kmaptree {
-    max-height: 70rem;
-    min-height: 70rem;
-    border: 0.4rem solid #ccc;
-    border-width: 0 0.3rem 0.5rem 0;
-    margin-top: 1.5rem;
-}
-
-.l-column_related .c-kmaptree {
-    margin-top: 0rem;
-    border: 0.4rem solid #ccc;
-    border-width: 0 0.3rem 0.5rem 0;
-}
-
 .c-perspective-select {
     white-space: nowrap;
     font-size: 1.15rem;
