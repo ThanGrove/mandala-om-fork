@@ -457,10 +457,10 @@
     color: #668eec;
 }
 
-.sui-facetList-horiz div {
+.l-content__main .sui-facetList-horiz div {
     position: relative;
 }
-.sui-facetList-horiz .sui-advTermRem.u-icon__cancel-circle {
+.l-content__main .sui-facetList-horiz div .sui-advTermRem {
     font-size: 1.2rem;
     position: absolute;
     right: 0;
