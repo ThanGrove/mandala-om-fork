@@ -499,7 +499,7 @@ color: #a4baec;
     display: inline-block;
     cursor: pointer;
     font-size: 0.9rem;
-    color: #668eec;
+    color: #4d59ca;
     border: 0.15rem solid #668eec;
     border-radius: 0.75rem;
 }
@@ -513,6 +513,7 @@ color: #a4baec;
     top: -0.15rem;
     padding-left: 0.3rem;
     margin-left: 1.25rem;
+    background: #fff;
 }
 .sui-boolItem {
     border: none;

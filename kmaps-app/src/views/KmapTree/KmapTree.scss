@@ -1,13 +1,6 @@
 @import '../../index-variables';
 
 .c-kmaptree {
-    margin: 0 0 0 1rem;
-    max-height: 50rem;
-    overflow-y: scroll;
-    border: 2px solid #ddd;
-    border-width: 0 2px 4px 0;
-    border-radius: 0 0 3rem 0;
-
     margin: 0 1rem;
     max-height: 50rem;
     overflow-y: scroll;
@@ -15,16 +8,15 @@
     border-width: 0 2px 4px 0;
     border-radius: 0 0 3rem 0;
     background: white;
-    padding: 0.5rem 0.5rem 2rem 1rem;
-    margin-right: 1rem;
+    padding: 0.5rem 1rem 2rem;
 }
-#l-column__search--treeNav .c-kmaptree {
+.l-column__search .c-kmaptree {
     max-height: 70rem;
     min-height: 70rem;
     margin-top: 1.5rem;
+    margin-left: 0;
     margin-right: 0;
-    padding: 0;
-    background: transparent;
+    padding-left: 2rem;
 }
 .tree-test .c-kmaptree {
     height: 80vh;
