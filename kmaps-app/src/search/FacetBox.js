@@ -336,7 +336,7 @@ export function FacetBox(props) {
                     />
                 </div>
 
-                <div className={'sui-adv-facetlist overflow-auto'}>
+                <div className={'sui-adv-facetlist'}>
                     {status === 'loading' && <MandalaSkeleton />}
                     {status === 'error' && (
                         <span>Error: {searchError.message}</span>

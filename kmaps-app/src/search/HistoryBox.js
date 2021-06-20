@@ -210,7 +210,7 @@ export function HistoryBox(props) {
                     </Navbar.Collapse>
                 </Navbar>
 
-                <div className={'sui-adv-facetlist overflow-auto'}>
+                <div className={'sui-adv-facetlist'}>
                     {historyLength ? historyList : 'Search History is empty.'}
                 </div>
             </div>

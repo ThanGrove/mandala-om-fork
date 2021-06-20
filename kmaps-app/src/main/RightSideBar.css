@@ -233,6 +233,7 @@
     font-size: 1.3rem;
     color: #333;
     margin: 0 0 0.75rem;
+    overflow: auto !important;
 }
 
 .sui-advBox:first-child .sui-advEdit {
@@ -241,6 +242,7 @@
 }
 .sui-advEdit-facet-ctrls {
     position: relative;
+    cursor: default;
 }
 .sui-advEdit-facet-ctrls-btns {
     position: absolute;
