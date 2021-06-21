@@ -50,6 +50,7 @@
     border-bottom: 1px solid transparent;
     margin-left: 2.5rem;
     transition: border 200ms ease-in-out;
+    position: relative;
 }
 
 .c-content__header__breadcrumb .breadcrumb-item:hover {
@@ -62,18 +63,12 @@
     font-weight: bold;
     text-decoration: none;
     text-transform: uppercase;
-    margin-right: 0.5rem;
+    margin-right: 0;
     margin-left: 1rem;
     &:hover {
         cursor: default;
         text-decoration: none;
     }
-}
-.breadcrumb .breadcrumb-item:first-of-type::after {
-    content: ':';
-    margin-right: -0.75rem;
-    margin-left: 0;
-    left: 0.3rem;
 }
 .c-content__header__breadcrumb .breadcrumb-item:nth-of-type(2) {
     margin-left: 1.5rem;
@@ -81,14 +76,17 @@
 .breadcrumb .breadcrumb-item::after {
     content: '/';
     margin: 0;
-    position: relative;
-    left: 1.25rem;
+    position: absolute;
+    right: -1.25rem;
 }
-
+.breadcrumb .breadcrumb-item:first-of-type::after {
+    content: ':';
+    position: absolute;
+    right: -0.75rem;
+}
 .breadcrumb .breadcrumb-item:last-of-type::after {
     content: '';
 }
-
 #root .breadcrumb-item + .breadcrumb-item::before {
     display: none !important;
     margin: 0;
