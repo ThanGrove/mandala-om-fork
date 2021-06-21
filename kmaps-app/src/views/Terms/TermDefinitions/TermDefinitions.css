@@ -49,8 +49,10 @@
 .sui-termDefinitions__extra {
     text-align: right;
     color: #91693e;
-    margin-top: 0.8rem;
-    font-size: smaller;
+    margin-top: 0;
+    margin-bottom: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: bold;
 }
 .sui-termDefinitions__extra-author,
 .sui-termDefinitions__extra-lang {

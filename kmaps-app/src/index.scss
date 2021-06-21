@@ -163,7 +163,7 @@ div.image-wrapper.center figcaption {
     border: 1px solid #ccc;
     border-radius: 0.5rem;
     padding: 0.25rem 1.5rem 6rem 1.5rem;
-    font-size: 1.4rem;
+    font-size: 1.325rem;
     /* height: 100vh;*/
     min-height: 50vh;
 }
@@ -505,10 +505,11 @@ ul.fancytree-container {
     font-size: 1.75rem;
 }
 .l-column__search nav:nth-of-type(2) > a {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
+    font-weight: bold;
     letter-spacing: 0.075rem;
     font-style: italic;
-    margin-left: 1.5rem;
+    margin-left: 0.5rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     color: $color-mandala;
@@ -547,11 +548,10 @@ ul.fancytree-container {
     border-color: transparent !important;
 }
 .l-column__search nav:nth-of-type(2) > a .badge {
-    margin: 0 0 0 0.75rem;
+    /*margin: 0 0 0 0.75rem;*/
     background: transparent;
     color: #14479c;
-    font-size: 1.2rem;
-    font-weight: 600;
+    font-size: 1.025rem;
     letter-spacing: 0.0575rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover .badge {
