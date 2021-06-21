@@ -46,37 +46,43 @@
 }
 
 .c-content__header__breadcrumb .breadcrumb-item {
-    padding: 0;
+    padding: 0 0 0.1rem;
     border-bottom: 1px solid transparent;
+    margin-left: 2.5rem;
+    transition: border 200ms ease-in-out;
 }
 
 .c-content__header__breadcrumb .breadcrumb-item:hover {
-    border: none;
-    text-decoration: none;
+    border-bottom-color: #fff;
 }
-
+.c-content__header__breadcrumb .breadcrumb-item:active {
+    border-bottom-color: #aaa;
+}
 .c-content__header__breadcrumb .breadcrumb-item:first-of-type {
     font-weight: bold;
     text-decoration: none;
     text-transform: uppercase;
     margin-right: 0.5rem;
+    margin-left: 1rem;
     &:hover {
         cursor: default;
         text-decoration: none;
     }
 }
-
-$bcm-right: 0.5rem;
-
 .breadcrumb .breadcrumb-item:first-of-type::after {
     content: ':';
-    margin-right: $bcm-right;
+    margin-right: -0.75rem;
     margin-left: 0;
+    left: 0.3rem;
 }
-
+.c-content__header__breadcrumb .breadcrumb-item:nth-of-type(2) {
+    margin-left: 1.5rem;
+}
 .breadcrumb .breadcrumb-item::after {
     content: '/';
-    margin: 0 0.75rem;
+    margin: 0;
+    position: relative;
+    left: 1.25rem;
 }
 
 .breadcrumb .breadcrumb-item:last-of-type::after {
