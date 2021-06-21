@@ -58,6 +58,11 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     const changeMe = (evt) => {
         const persp_code = evt.target.value;
         setPerspective(domain, persp_code);
+        /*
+        console.log(
+            `********** New Perspective: ${persp_code} *****************`
+        );
+         */
     };
 
     return (

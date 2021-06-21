@@ -52,6 +52,7 @@ export default function TreeLeaf({
             io = true;
         }
     }
+
     const leafRef = React.createRef();
     const [isOpen, setIsOpen] = useState(io);
 
@@ -131,7 +132,7 @@ export default function TreeLeaf({
         }
     }, [kmapdata, childrenData, settings.selPath]);
 
-    if (isKmapLoading) {
+    if (isKmapLoading || isChildrenLoading) {
         return (
             <div data-id={queryID(domain, kid)}>
                 <MandalaSkeleton height={5} width={50} />
@@ -168,6 +169,9 @@ export default function TreeLeaf({
 
     // If it's a initial node with setting to show ancestors, find the most senior ancestor to show and send path to filter out aunts and uncles
     if (props.showAncestors) {
+        if (kid === '26870') {
+            console.log('26870 in show ancestors');
+        }
         let treepath = kmapdata?.ancestor_id_path
             ? kmapdata.ancestor_id_path?.split('/')
             : false;
@@ -188,6 +192,9 @@ export default function TreeLeaf({
             />
         );
     } else if (props.treePath) {
+        if (kid === '26870') {
+            console.log('26870 in treepath');
+        }
         // treePath is set when showing ancestors, only show the direct line ancestor not aunts and uncles
         let treepath = props.treePath.split('/');
         const currentid = treepath.shift();
@@ -258,7 +265,9 @@ export default function TreeLeaf({
                 <HtmlCustom markup={kmhead} />
             </Link>
         );
-
+        if (kid === '26870') {
+            console.log('Displaying kmap', `[${leafhead}]`);
+        }
         // return the div structure for a regular tree leaf
         return (
             <div className={divclass} ref={leafRef}>

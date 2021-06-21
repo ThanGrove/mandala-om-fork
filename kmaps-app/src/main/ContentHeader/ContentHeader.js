@@ -23,10 +23,10 @@ export function ContentHeader({ siteClass, title, location }) {
         data: itemData,
         isError: isItemError,
         error: itemError,
-    } = useKmap(queryID(queryType, itemId), 'asset');
+    } = useKmap(queryID(queryType, itemId), 'info');
     // some comment
     let convertedPath = '';
-    let mytitle = itemData?.title ? itemData.title : '';
+    let mytitle = itemData?.header ? itemData.header : '';
     if (isItemLoading) {
         return (
             <MandalaSkeleton
@@ -37,6 +37,7 @@ export function ContentHeader({ siteClass, title, location }) {
             />
         );
     }
+    console.log('itemData in content header for: ' + mytitle, itemData);
     // Handle an Error
     if (isItemError) {
         return <div>There was a problem!</div>;
@@ -53,14 +54,7 @@ export function ContentHeader({ siteClass, title, location }) {
                 />
             );
         }
-        mytitle = itemData?.title;
-        convertedPath = (
-            <ContentHeaderBreadcrumbs
-                itemData={itemData}
-                itemTitle={mytitle}
-                itemType={itemType}
-            />
-        );
+
         if (itemType === 'search') {
             let srchstr = document.getElementById('sui-search').value;
             if (srchstr.length > 0) {
@@ -84,7 +78,13 @@ export function ContentHeader({ siteClass, title, location }) {
                     </h1>
 
                     <div className={'c-content__header__breadcrumb breadcrumb'}>
-                        {convertedPath}
+                        {itemType !== 'search' && (
+                            <ContentHeaderBreadcrumbs
+                                itemData={itemData}
+                                itemTitle={mytitle}
+                                itemType={itemType}
+                            />
+                        )}
                     </div>
                     <h5 className={'c-content__header__main__id'}>{itemId}</h5>
                     <h4 className={'c-content__header__main__sub'}>
@@ -125,7 +125,7 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
         case 'terms':
             return (
                 <KmapsBreadcrumbs
-                    itemData={itemData}
+                    kmapData={itemData}
                     itemTitle={itemTitle}
                     itemType={itemType}
                 />

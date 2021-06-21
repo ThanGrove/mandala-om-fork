@@ -5,11 +5,7 @@ import KmapTree from '../../KmapTree/KmapTree';
 import HistoryViewer from '../../History/HistoryViewer';
 import { useKmapRelated } from '../../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../../hooks/utils';
-import {
-    getPerspective,
-    getProject,
-    queryID,
-} from '../../../views/common/utils';
+import { getProject, queryID } from '../../../views/common/utils';
 import './RelatedsViewer.scss';
 import { useHistory } from '../../../hooks/useHistory';
 import MandalaSkeleton from '../../common/MandalaSkeleton';
@@ -233,7 +229,7 @@ function RelatedTree(props) {
     const fid = kid ? queryID(domain, kid) : false;
     // places settings
     let level = false;
-    let showAnc = true;
+    let showAnc = false;
 
     // Subject settings
     if (domain === 'subjects') {

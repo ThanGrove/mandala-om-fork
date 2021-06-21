@@ -106,6 +106,7 @@ export default function KmapTree(props) {
             fl: 'uid',
         },
     };
+
     const {
         isLoading: isRootLoading,
         data: rootData,
@@ -198,7 +199,6 @@ export default function KmapTree(props) {
 
     if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
         settings.root.kid = rootData.docs[0].uid.split('-')[1];
-
         if (settings.kid === 0 && settings.level === false) {
             settings.kid = settings.root.kid;
         }
@@ -222,22 +222,19 @@ export default function KmapTree(props) {
         treeclass += ` ${props.className}`;
     }
     let perspChooser = null;
-    if (settings.domain !== 'subjects') {
-        perspChooser = (
-            <PerspectiveChooser
-                domain={settings.domain}
-                current={perspective}
-            />
-        );
-    }
 
     /*if (settings.domain === 'places') {
         console.log(rootkid, perspective, settings);
     }*/
-    //console.log("Settings", settings);
+
+    // console.log('root kid', settings.root.kid);
+    // console.log('Settings', settings);
     return (
         <div id={settings.elid} className={treeclass}>
-            {perspChooser}
+            <PerspectiveChooser
+                domain={settings.domain}
+                current={perspective}
+            />
             {settings.level && (
                 <LeafGroup
                     domain={settings.root.domain}
