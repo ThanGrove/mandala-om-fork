@@ -3,18 +3,25 @@ main.l-column__main.sources {
 }
 
 .c-source {
-    max-width: 1000px;
-    margin: 8px auto 8px 0;
+    max-width: 85rem;
+    min-height: 65rem;
+    margin: 1rem auto;
     background-color: #f7f7f7;
-    border: 1px solid #999;
+    border: 1px solid #ccc;
     border-radius: 0.6rem;
-    padding: 4rem;
+    padding: 2.5rem 3rem 5rem 3.5rem;
     font-weight: 400;
     color: #000;
 
     .c-source__head {
         padding-bottom: 1rem;
-        border-bottom: thin solid #000;
+        border-bottom: 0.1rem solid #ccc;
+    }
+    .c-source__head .u-icon__sources::before {
+        position: relative;
+        margin-right: 0.75rem;
+        top: 0.3rem;
+        left: 0.2rem;
     }
 
     .c-source__title {

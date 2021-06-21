@@ -165,7 +165,7 @@ div.image-wrapper.center figcaption {
     padding: 0.25rem 1.5rem 6rem 1.5rem;
     font-size: 1.325rem;
     /* height: 100vh;*/
-    min-height: 50vh;
+    min-height: 75rem;
 }
 // * Local fix for responsive display - temp
 .c-content__main__kmaps img,
@@ -175,7 +175,8 @@ div.image-wrapper.center figcaption {
 }
 
 .c-content__main__kmaps > h3 {
-    margin-left: 2rem;
+    margin-left: 1rem;
+    margin-top: 0.75rem;
 }
 .c-content__main__kmaps > .nav-tabs {
     margin-top: 1.5rem;
@@ -419,7 +420,7 @@ div.image-wrapper.center figcaption {
     text-align: center;
     border: none;
     border-right: 1px solid #aaa;
-    font-size: 1.65rem;
+    font-size: 1.6rem;
     color: #000;
     letter-spacing: 0.0375rem;
 }
@@ -586,9 +587,9 @@ ul.fancytree-container {
 // gallery display buttons for view options
 .c-buttonGroup__viewMode__wrap {
     background: #fff;
-    padding: 1rem 1.6rem 2rem;
-    border: 1px solid #e0e0e0;
-    border-top: 2px solid #ddd;
+    padding: 1rem 1rem 4rem 2.5rem;
+    border: 1px solid #ddd;
+    border-top: 2px solid #ccc;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
