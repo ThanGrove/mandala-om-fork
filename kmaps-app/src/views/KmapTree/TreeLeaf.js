@@ -265,9 +265,7 @@ export default function TreeLeaf({
                 <HtmlCustom markup={kmhead} />
             </Link>
         );
-        if (kid === '26870') {
-            console.log('Displaying kmap', `[${leafhead}]`);
-        }
+
         // return the div structure for a regular tree leaf
         return (
             <div className={divclass} ref={leafRef}>

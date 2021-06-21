@@ -37,7 +37,7 @@ export function ContentHeader({ siteClass, title, location }) {
             />
         );
     }
-    console.log('itemData in content header for: ' + mytitle, itemData);
+
     // Handle an Error
     if (isItemError) {
         return <div>There was a problem!</div>;
