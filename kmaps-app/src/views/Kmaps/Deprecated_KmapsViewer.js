@@ -31,9 +31,14 @@ const ImagesViewer = React.lazy(() => import('../Images/ImagesViewer'));
 const SourcesViewer = React.lazy(() => import('../Sources/SourcesViewer'));
 const VisualsViewer = React.lazy(() => import('../Visuals/VisualsViewer'));
 
+/**
+ * DEPRECATED: Old Kmaps Viewer. No longer used.
+ *
+ * @param props
+ * @returns {JSX.Element}
+ * @constructor
+ */
 export default function KmapsViewer(props) {
-    console.log('KmapsViewer props = ', props);
-
     const route = useRouteMatch();
     const [modalShow, setModalShow] = useState();
     const status = useStatus();

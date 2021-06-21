@@ -90,7 +90,10 @@ export default function PlacesInfo(props) {
                                     <PlacesNames id={queryID(baseType, id)} />
                                 </Tab>
                                 <Tab eventKey="location" title="Location">
-                                    <PlacesLocation kmap={kmapData} />
+                                    <PlacesLocation
+                                        kmap={kmapData}
+                                        id={queryID(baseType, id)}
+                                    />
                                 </Tab>
                             </Tabs>
                         </div>
@@ -232,21 +235,29 @@ export function PlacesNames(props) {
     return (
         <Row className={'c-place-names'}>
             <Col>
-                <h1>Names</h1>
-                {childlist.map((l, i) => {
-                    return (
-                        <div key={`place-name-${i}`} className={`lv-${l.tab}`}>
-                            <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
-                            {l.write}, {l.rel}){' '}
-                            {l.note && (
-                                <GenericPopover
-                                    title={l.note.title}
-                                    content={l.note.content}
-                                />
-                            )}
-                        </div>
-                    );
-                })}
+                {/* <h1>Names</h1> */}
+                {childlist?.length === 0 && <p>No names found!</p>}
+                {childlist?.length > 0 && (
+                    <>
+                        {childlist.map((l, i) => {
+                            return (
+                                <div
+                                    key={`place-name-${i}`}
+                                    className={`lv-${l.tab}`}
+                                >
+                                    <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
+                                    {l.write}, {l.rel}){' '}
+                                    {l.note && (
+                                        <GenericPopover
+                                            title={l.note.title}
+                                            content={l.note.content}
+                                        />
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </>
+                )}
             </Col>
 
             <PlaceNameEtymologies etymologies={etymologies} />
@@ -314,6 +325,7 @@ export function PlacesLocation(props) {
     const data_s = props?.kmap?.shapes_centroid_grptgeom;
     const data = data_s ? JSON.parse(data_s) : false;
     let coords = false;
+
     if (
         data &&
         data?.features &&
@@ -326,7 +338,7 @@ export function PlacesLocation(props) {
         coords = `${lat}º N, ${lng}º E`;
     }
 
-    const altchild = props?.kmap?._childDocuments_.filter((c, i) => {
+    const altchild = props?.kmap?._childDocuments_?.filter((c, i) => {
         return c.id.includes('altitude');
     });
 
@@ -346,8 +358,12 @@ export function PlacesLocation(props) {
                         altchild[0]?.estimate_s}
                 </p>
             )}
-            {!coords && altchild && altchild?.length === 0 && (
-                <p>There is no location information for {props.kmap.header}</p>
+            {!coords && (!altchild || altchild?.length === 0) && (
+                <p>
+                    There is no location information for{' '}
+                    {props.kmap.header ||
+                        'this location, because no record was found.'}
+                </p>
             )}
         </div>
     );
