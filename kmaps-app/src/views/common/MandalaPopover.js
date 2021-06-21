@@ -6,23 +6,26 @@ import { useKmap } from '../../hooks/useKmap';
 import _ from 'lodash';
 import { HtmlCustom } from './MandalaMarkup';
 import { getKeyHash } from './utils';
+import { getViewLanguageClass, useView } from '../../hooks/useView';
 
 const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     const [show, setShow] = useState(false);
     const [byPass, setByPass] = useState(true);
+    const viewdata = useView((state) => state[domain]);
+    const viewcode = viewdata?.split('|')[1];
 
     // Info for Kmap Itself: kmapRes
-    const { isError: kmapIsError, data: kmapRes, error: kmapError } = useKmap(
-        `${domain}-${kid}`,
-        'info',
-        byPass
-    );
+    const {
+        isError: kmapIsError,
+        data: kmapRes,
+        error: kmapError,
+    } = useKmap(`${domain}-${kid}`, 'info', byPass);
     // Info of Related Kmaps/Assets: relRes
-    const { isError: relIsError, data: relRes, error: relError } = useKmap(
-        `${domain}-${kid}`,
-        'related',
-        byPass
-    );
+    const {
+        isError: relIsError,
+        data: relRes,
+        error: relError,
+    } = useKmap(`${domain}-${kid}`, 'related', byPass);
 
     const target = useRef(null);
     placement = placement ?? 'bottom';
@@ -57,6 +60,19 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     if (kmapRes && relRes) {
         isTib = kmapRes.tree === 'terms' ? !!kmapRes.name_tibt : false;
         title = isTib ? kmapRes.name_tibt[0] : kmapRes.header;
+
+        if (
+            kmapRes[`name_${viewcode}`] &&
+            kmapRes[`name_${viewcode}`].length > 0
+        ) {
+            title = Array.isArray(kmapRes[`name_${viewcode}`])
+                ? kmapRes[`name_${viewcode}`][0]
+                : kmapRes[`name_${viewcode}`];
+            /*let title_lang = getViewLanguageClass(viewcode);
+            title = `<span>${title}</span>`;*/
+            title = <HtmlCustom markup={title} />;
+        }
+
         content = (
             <MandalaPopoverBody
                 domain={domain}
@@ -125,7 +141,8 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
                         className="related-resources-popover processed"
                     >
                         <Popover.Title as="h5" className={isTib ? 'bo' : ''}>
-                            {title} <span className={'kmid'}>{kid}</span>
+                            {title}
+                            <span className={'kmid'}>{kid}</span>
                         </Popover.Title>
                         <Popover.Content>{content}</Popover.Content>
                     </Popover>

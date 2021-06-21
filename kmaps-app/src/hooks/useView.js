@@ -14,3 +14,13 @@ export const useView = create((set, get) => ({
     setSubjectsView: (val) => set((state) => ({ subjects: val })),
     setTermsView: (val) => set((state) => ({ terms: val })),
 }));
+
+export function getViewLanguageClass(viewcode) {
+    if (viewcode.includes('.chi')) {
+        return 'zh';
+    } else if (viewcode.includes('.tib')) {
+        return 'bo';
+    } else if (viewcode.includes('deva')) {
+        return 'ne';
+    }
+}
