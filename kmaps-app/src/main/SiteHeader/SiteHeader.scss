@@ -41,19 +41,13 @@
 }
 
 .c-site__search {
-    //   align-items: center;
-    //   justify-content: flex-end;
-    //   flex:1;
     display: flex;
-    min-width: 15rem;
-    max-width: 25rem;
     height: 42px;
     margin-right: 15.25rem;
     padding-left: 2rem;
     padding-top: 0.5rem;
-    border-left: 1px solid #d0d0d0;
-
-    border-right: 1px solid #d0d0d0;
+    border-left: 0.2rem solid #d0d0d0;
+    border-right: 0.2rem solid #d0d0d0;
     min-width: 27rem;
     max-width: 30rem;
 

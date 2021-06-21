@@ -11,12 +11,13 @@
     padding: 0.5rem 1rem 2rem;
 }
 .l-column__search .c-kmaptree {
-    max-height: 70rem;
-    min-height: 70rem;
+    max-height: 75rem;
+    min-height: 75rem;
     margin-top: 1.5rem;
     margin-left: 0;
     margin-right: 0;
     padding-left: 2rem;
+    box-shadow: 1rem 2rem 5rem 0.2rem #eee;
 }
 .tree-test .c-kmaptree {
     height: 80vh;
