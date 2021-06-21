@@ -1,4 +1,10 @@
 import create from 'zustand';
+/*
+    Current view values can be retrieved through Rail API, e.g.:
+        http://places.kmaps.virginia.edu/admin/views.json
+        http://subjects.kmaps.virginia.edu/admin/views.json
+        http://terms.kmaps.virginia.edu/admin/views.json
+ */
 
 export const useView = create((set, get) => ({
     places: '69|roman.popular',

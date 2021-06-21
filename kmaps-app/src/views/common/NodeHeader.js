@@ -6,6 +6,8 @@ import { queryID } from './utils';
 import { useHistory } from '../../hooks/useHistory';
 import '../css/NodeHeader.css';
 import MandalaSkeleton from './MandalaSkeleton';
+import { useView } from '../../hooks/useView';
+import { HtmlCustom } from './MandalaMarkup';
 
 function NodeHeader() {
     //const match = useRouteMatch();
@@ -37,6 +39,16 @@ function NodeHeader() {
         isError: isKmAssetError,
         error: kmAssetError,
     } = useKmap(queryID(baseType, id), 'asset');
+    /* Currently assets records for kmaps do not have all names. Asked Yuji to add (June 21, 2021) */
+    const {
+        isLoading: isKmInfoLoading,
+        data: kmInfo,
+        isError: isKmInfoError,
+        error: kmInfoError,
+    } = useKmap(queryID(baseType, id), 'info');
+
+    let viewcode = useView((state) => state[baseType]);
+    viewcode = viewcode.includes('|') ? viewcode.split('|')[1] : viewcode;
 
     useEffect(() => {
         if (baseType && assetData?.title) {
@@ -46,7 +58,7 @@ function NodeHeader() {
         }
     }, [baseType, assetData]);
 
-    if (isAssetLoading || isKmAssetLoading) {
+    if (isAssetLoading || isKmAssetLoading || isKmInfoLoading) {
         return (
             <div className="c-nodeHeader">
                 <MandalaSkeleton />
@@ -120,6 +132,18 @@ function NodeHeader() {
         label = kmAssetData.title;
     }
 
+    let viewLabel = null;
+    if (viewcode) {
+        if (
+            kmInfo[`name_${viewcode}`] &&
+            kmInfo[`name_${viewcode}`].length > 0
+        ) {
+            viewLabel = Array.isArray(viewLabel)
+                ? `<span>${kmInfo[`name_${viewcode}`][0]}</span>`
+                : `<span>${kmInfo[`name_${viewcode}`]}</span>`;
+        }
+    }
+
     return (
         <div className="c-nodeHeader">
             {back && (
@@ -133,7 +157,7 @@ function NodeHeader() {
             )}
             <span className={`icon u-icon__${kmAssetData?.asset_type}`}></span>
             <span className="sui-termTitle sui-nodeTitle" id="sui-termTitle">
-                {label} {nameTibtElem} {nameLatinElem}
+                {label} {nameTibtElem} <HtmlCustom markup={viewLabel} />
             </span>{' '}
             {subHeader && (
                 <span className="sui-relatedSubHeader">{subHeader}</span>
