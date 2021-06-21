@@ -492,19 +492,24 @@ ul.fancytree-container {
     padding: 0.5rem 0 0 1.5rem;
 }
 .l-column__search nav:first-child {
-    display: flex;
-    position: absolute;
-    right: 2rem;
-    top: 3.75rem;
+    float: left;
+    margin: 0.4rem 0 0;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
-    color: #fff;
-    opacity: 0.5;
+    color: darkgoldenrod;
+    opacity: 0.6;
+    border: 5px double darkgoldenrod;
+    border-radius: 50%;
 }
+.l-column__search nav:first-child .shanticon-cancel::before:hover {
+    opacity: 1;
+}
+
 .l-column__search nav:nth-of-type(1) > a {
     padding: 0;
-    font-size: 1.75rem;
+    font-size: 1.6rem;
 }
+
 .l-column__search nav:nth-of-type(2) > a {
     font-size: 1.25rem;
     font-weight: bold;
