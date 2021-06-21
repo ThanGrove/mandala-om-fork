@@ -12,7 +12,7 @@ export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
     const [first, mid, last] = pgpath?.split('/');
     const itemType = first;
-    const queryType = itemType + '*';
+    const queryType = itemType; // had  "+ '*'" was breaking query
     const isCollection = mid === 'collection';
     let itemId = isCollection ? last : mid;
     if (!itemId || typeof itemId === 'undefined') {
@@ -40,7 +40,13 @@ export function ContentHeader({ siteClass, title, location }) {
 
     // Handle an Error
     if (isItemError) {
-        return <div>There was a problem!</div>;
+        console.log(queryID(queryType, itemId), itemError);
+        return (
+            <div>
+                There was a problem in the Content Header for{' '}
+                {queryID(queryType, itemId)}!
+            </div>
+        );
     }
 
     // What to return if the SOLR query returned a hit
