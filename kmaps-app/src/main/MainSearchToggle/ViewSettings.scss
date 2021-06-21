@@ -1,0 +1,48 @@
+.c-modal__settings {
+    color: #555;
+    .modal-header {
+        background-color: #d3d3d3;
+
+        button.close span {
+            font-size: 2rem;
+        }
+    }
+
+    .modal-title.h4 {
+        color: #ffffff;
+        font-weight: bold;
+        font-size: 2rem;
+    }
+
+    .input-group,
+    .input-group * {
+        background-color: #ffffff;
+        border: none;
+        font-size: 1.25rem;
+    }
+
+    .input-group-text {
+        color: #222222;
+    }
+
+    .c-modal_subsection {
+        margin-top: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #dee2e6;
+        h2 {
+            font-size: 1.75rem;
+        }
+        p {
+        }
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+
+    .modal-footer {
+        button {
+            font-weight: bold;
+            font-size: 1.25rem;
+        }
+    }
+}

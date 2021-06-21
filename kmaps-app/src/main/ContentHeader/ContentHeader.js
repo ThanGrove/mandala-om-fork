@@ -5,6 +5,8 @@ import './ContentHeader.scss';
 import { useKmap } from '../../hooks/useKmap';
 import { capitalAsset, parseParams, queryID } from '../../views/common/utils';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
+import { KmapsBreadcrumbs } from './KmapsBreadcrumbs';
+import { AssetBreadcrumbs } from './AssetBreadcrumbs';
 
 export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
@@ -21,10 +23,10 @@ export function ContentHeader({ siteClass, title, location }) {
         data: itemData,
         isError: isItemError,
         error: itemError,
-    } = useKmap(queryID(queryType, itemId), 'asset');
-
+    } = useKmap(queryID(queryType, itemId), 'info');
+    // some comment
     let convertedPath = '';
-    let mytitle = itemData?.title ? itemData.title : '';
+    let mytitle = itemData?.header ? itemData.header : '';
     if (isItemLoading) {
         return (
             <MandalaSkeleton
@@ -35,6 +37,7 @@ export function ContentHeader({ siteClass, title, location }) {
             />
         );
     }
+
     // Handle an Error
     if (isItemError) {
         return <div>There was a problem!</div>;
@@ -51,14 +54,7 @@ export function ContentHeader({ siteClass, title, location }) {
                 />
             );
         }
-        mytitle = itemData?.title;
-        convertedPath = (
-            <ContentHeaderBreadcrumbs
-                itemData={itemData}
-                itemTitle={mytitle}
-                itemType={itemType}
-            />
-        );
+
         if (itemType === 'search') {
             let srchstr = document.getElementById('sui-search').value;
             if (srchstr.length > 0) {
@@ -82,7 +78,13 @@ export function ContentHeader({ siteClass, title, location }) {
                     </h1>
 
                     <div className={'c-content__header__breadcrumb breadcrumb'}>
-                        {convertedPath}
+                        {itemType !== 'search' && (
+                            <ContentHeaderBreadcrumbs
+                                itemData={itemData}
+                                itemTitle={mytitle}
+                                itemType={itemType}
+                            />
+                        )}
                     </div>
                     <h5 className={'c-content__header__main__id'}>{itemId}</h5>
                     <h4 className={'c-content__header__main__sub'}>
@@ -121,57 +123,22 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
         case 'places':
         case 'subjects':
         case 'terms':
-            const tree = itemData.asset_type;
-            breadcrumbs = itemData?.ancestor_ids_is?.map((aid, idn) => {
-                const label = itemData.ancestors_txt[idn];
-                return (
-                    <Link
-                        key={`bc-kmap-${idn}`}
-                        to={`/${tree}/${aid}`}
-                        className="breadcrumb-item"
-                    >
-                        {label}
-                    </Link>
-                );
-            });
-            break;
+            return (
+                <KmapsBreadcrumbs
+                    kmapData={itemData}
+                    itemTitle={itemTitle}
+                    itemType={itemType}
+                />
+            );
 
         default:
-            // Asset Breadcrumbs
-            breadcrumbs = itemData?.collection_uid_path_ss?.map((cup, cind) => {
-                const cplabel = itemData?.collection_title_path_ss[cind];
-                const url =
-                    '/' +
-                    cup
-                        .replace(/-/g, '/')
-                        .replace('audio/video', 'audio-video');
-                return (
-                    <Link
-                        key={`bc-asset-${cind}`}
-                        to={url}
-                        className="breadcrumb-item"
-                    >
-                        {' '}
-                        {cplabel}
-                    </Link>
-                );
-            });
-            if (typeof breadcrumbs === 'undefined') {
-                breadcrumbs = [];
-            }
-            breadcrumbs.push(
-                <Link key={'bc-title'} to="#" className="breadcrumb-item">
-                    {itemTitle}
-                </Link>
+            return (
+                <AssetBreadcrumbs
+                    itemData={itemData}
+                    itemTitle={itemTitle}
+                    itemType={itemType}
+                />
             );
-    }
-    if (breadcrumbs) {
-        breadcrumbs.unshift(
-            <Link key={'bc-asset-title'} to="#" className="breadcrumb-item">
-                {capitalAsset(itemType)}
-            </Link>
-        );
-        return breadcrumbs;
     }
     return null;
 }

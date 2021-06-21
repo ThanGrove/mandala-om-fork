@@ -1,24 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import './KmapTree.scss';
 import { useKmap } from '../../hooks/useKmap';
-import {
-    getPerspective,
-    getProject,
-    queryID,
-    stringToHash,
-} from '../common/utils';
-import MandalaSkeleton from '../common/MandalaSkeleton';
-import { Container, Row, Col } from 'react-bootstrap';
 import { useSolr } from '../../hooks/useSolr';
-import $ from 'jquery';
-import {
-    getPerspectiveRoot,
-    KmapPerpsectiveData,
-    PerspectiveChooser,
-} from './KmapPerspectives';
+import { usePerspective } from '../../hooks/usePerspective';
+import { PerspectiveChooser } from './KmapPerspectives';
 import FilterTree from './FilterTree';
 import LeafGroup from './LeafGroup';
 import TreeLeaf from './TreeLeaf';
+import MandalaSkeleton from '../common/MandalaSkeleton';
+import { queryID, stringToHash } from '../common/utils';
+import $ from 'jquery';
+import './KmapTree.scss';
 
 /**
  * Kmap Tree: React Version of Kmaps Fancy Tree. Tree initializing function. Can pass any of the props listed in settings, but two basic modes;
@@ -75,6 +66,10 @@ export default function KmapTree(props) {
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
+
+    const perspective = usePerspective((state) => state[settings.domain]);
+    settings.perspective = perspective;
+
     // console.log(JSON.stringify(settings, null, 4));
     // Remove domain and dash from selectedNode value
     if (
@@ -85,21 +80,22 @@ export default function KmapTree(props) {
     }
 
     // Default perspective from function in utils.js
+    /*
     if (!settings?.perspective) {
         settings.perspective = getPerspective(settings.domain);
-    }
+    }*/
 
     // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
         domain: settings?.domain,
         kid: settings?.kid,
         level: settings?.level,
-        perspective: settings?.perspective,
+        perspective: perspective,
     };
 
     // useState Calls for Perspectives
     //const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
-    const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
+    // const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
 
     const rootquery = {
         index: 'terms',
@@ -110,6 +106,7 @@ export default function KmapTree(props) {
             fl: 'uid',
         },
     };
+
     const {
         isLoading: isRootLoading,
         data: rootData,
@@ -202,7 +199,6 @@ export default function KmapTree(props) {
 
     if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
         settings.root.kid = rootData.docs[0].uid.split('-')[1];
-
         if (settings.kid === 0 && settings.level === false) {
             settings.kid = settings.root.kid;
         }
@@ -226,26 +222,19 @@ export default function KmapTree(props) {
         treeclass += ` ${props.className}`;
     }
     let perspChooser = null;
-    if (
-        settings.domain in KmapPerpsectiveData &&
-        KmapPerpsectiveData[settings.domain]?.length > 1
-    ) {
-        perspChooser = (
-            <PerspectiveChooser
-                domain={settings.domain}
-                current={perspective}
-                setter={setPerspective}
-            />
-        );
-    }
 
     /*if (settings.domain === 'places') {
         console.log(rootkid, perspective, settings);
     }*/
-    //console.log("Settings", settings);
+
+    // console.log('root kid', settings.root.kid);
+    // console.log('Settings', settings);
     return (
         <div id={settings.elid} className={treeclass}>
-            {perspChooser}
+            <PerspectiveChooser
+                domain={settings.domain}
+                current={perspective}
+            />
             {settings.level && (
                 <LeafGroup
                     domain={settings.root.domain}

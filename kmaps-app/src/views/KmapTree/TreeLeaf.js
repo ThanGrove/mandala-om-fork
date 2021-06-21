@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import { getHeaderForView, queryID } from '../common/utils';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -9,6 +9,8 @@ import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
+import { useView } from '../../hooks/useView';
+import { usePerspective } from '../../hooks/usePerspective';
 
 /**
  * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
@@ -50,17 +52,24 @@ export default function TreeLeaf({
             io = true;
         }
     }
+
     const leafRef = React.createRef();
     const [isOpen, setIsOpen] = useState(io);
+
+    const perspectiveSetting = usePerspective(
+        (state) => state[settings.domain]
+    );
+    const viewSetting = useView((state) => state[settings.domain]);
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(domain, kid), 'info');
-    if (perspective === undefined) {
-        perspective = settings.perspective;
+    if (!perspective) {
+        perspective = perspectiveSetting;
     }
+
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
     const qid = `leaf-children-${domain}-${kid}-${perspective}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
@@ -123,7 +132,7 @@ export default function TreeLeaf({
         }
     }, [kmapdata, childrenData, settings.selPath]);
 
-    if (isKmapLoading) {
+    if (isKmapLoading || isChildrenLoading) {
         return (
             <div data-id={queryID(domain, kid)}>
                 <MandalaSkeleton height={5} width={50} />
@@ -160,6 +169,9 @@ export default function TreeLeaf({
 
     // If it's a initial node with setting to show ancestors, find the most senior ancestor to show and send path to filter out aunts and uncles
     if (props.showAncestors) {
+        if (kid === '26870') {
+            console.log('26870 in show ancestors');
+        }
         let treepath = kmapdata?.ancestor_id_path
             ? kmapdata.ancestor_id_path?.split('/')
             : false;
@@ -180,6 +192,9 @@ export default function TreeLeaf({
             />
         );
     } else if (props.treePath) {
+        if (kid === '26870') {
+            console.log('26870 in treepath');
+        }
         // treePath is set when showing ancestors, only show the direct line ancestor not aunts and uncles
         let treepath = props.treePath.split('/');
         const currentid = treepath.shift();
@@ -240,20 +255,11 @@ export default function TreeLeaf({
             );
         }
 
-        // Deal with unnaturally long headers
-        let kmhead = kmapdata?.header ? kmapdata.header : '';
-        if (kmhead.length > 55) {
-            let kmtemp = kmhead;
-            kmhead = '';
-            while (kmtemp.length > 55) {
-                let spaceind = kmtemp.substr(0, 65).lastIndexOf(' ');
-                kmhead += `${kmtemp.substr(0, spaceind)}<br/>`;
-                kmtemp = kmtemp.substr(spaceind);
-            }
-            kmhead = `<span>${kmhead}${kmtemp}</span>`;
-        }
+        // Get Header based on View Settings (see hook useView)
+        const kmhead = getHeaderForView(kmapdata, viewSetting);
+
         const leafhead = props?.nolink ? (
-            kmapdata?.header
+            <HtmlCustom markup={kmhead} />
         ) : (
             <Link to={'/' + kmapdata?.id.replace('-', '/')}>
                 <HtmlCustom markup={kmhead} />

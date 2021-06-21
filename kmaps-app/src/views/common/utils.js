@@ -343,29 +343,6 @@ export function getProject() {
 }
 
 /**
- * Function to get the default perspective setting for each domain. If this is a stand alone project, then
- * it may have perspective settings set as, e.g.:
- *      REACT_APP_TERMS_PERSPECTIVE=eng.alpha
- * That then becomes the default.
- *
- * @param domain
- * @returns {string|*}
- */
-export function getPerspective(domain) {
-    const defaults = {
-        places: 'pol.admin.hier',
-        subjects: 'gen',
-        terms: 'tib.alpha',
-    };
-    const envPerspVar = `REACT_APP_${domain.toUpperCase()}_PERSPECTIVE`;
-    if (envPerspVar in process.env && process.env[envPerspVar] !== '') {
-        return process.env[envPerspVar];
-    } else {
-        return defaults[domain];
-    }
-}
-
-/**
  * Creates a hash for a React element key value by taking an index and creating a string with the timestamp and
  * hashing it.
  * @param indexin : string
@@ -408,4 +385,20 @@ export function stringToHash(astr) {
         hash = hash & hash; // Convert to 32bit integer
     }
     return Math.abs(hash);
+}
+
+export function getHeaderForView(kmapdata, viewdata) {
+    const view = viewdata.includes('|') ? viewdata.split('|')[1] : viewdata;
+    const fieldname = `name_${view}`;
+    const kmkeys = Object.keys(kmapdata);
+    let kmhead = kmkeys.includes(fieldname)
+        ? kmapdata[fieldname]
+        : kmapdata?.header;
+    if (Array.isArray(kmhead)) {
+        kmhead = kmhead.length > 1 ? kmhead[1] : kmhead[0];
+    }
+    if (!kmhead) {
+        kmhead = kmapdata?.header;
+    }
+    return kmhead;
 }

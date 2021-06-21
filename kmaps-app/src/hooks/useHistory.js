@@ -1,4 +1,3 @@
-import Reacte from 'react';
 import create from 'zustand';
 
 export const useHistory = create((set, get) => ({
@@ -28,7 +27,6 @@ export const useHistory = create((set, get) => ({
         set((state) => ({ pages: newPages }));
     },
     removePage: (itempath) => {
-        console.log('Item path: ' + itempath);
         let pglist = Array.from(get().pages);
         pglist = pglist.filter((pgstr) => {
             return !pgstr.includes('::' + itempath);
