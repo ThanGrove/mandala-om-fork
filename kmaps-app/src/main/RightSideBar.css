@@ -398,9 +398,7 @@ input:focus-visible,
     background-color: transparent !important;
 }
 .sui-advEditLine.chosen {
-    background-color: #edf2f7;
     border-right: 0.4rem solid #6b77ea;
-    border-left: 0.2rem solid #6b77ea;
     border-radius: 0.5rem 0 0 0.5rem;
 }
 .sui-advEditLine.chosen::after {
