@@ -190,7 +190,7 @@ export default function ContentMain(props) {
                     <Bar
                         size={10}
                         style={{
-                            background: '#cecece',
+                            background: 'transparent',
                             cursor: 'col-resize',
                         }}
                     />
