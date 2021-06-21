@@ -41,39 +41,36 @@
 }
 
 .c-site__search {
+    display: -webkit-flex;
     display: flex;
-    height: 42px;
+    height: 40px;
     margin-right: 15.25rem;
     padding-left: 2rem;
-    padding-top: 0.5rem;
+    padding-top: 0rem;
     border-left: 0.2rem solid #d0d0d0;
     border-right: 0.2rem solid #d0d0d0;
+    border-top: 4px solid #4d59ca;
+    margin-top: 0.5rem;
     min-width: 27rem;
     max-width: 30rem;
-
-    box-shadow: inset 0 0 1.25rem #ddd;
+    box-shadow: inset 0 0 1rem #ddd;
 }
 .c-site__search > * {
     display: inline;
 }
 
 .sui-search2 {
-    padding: 0.1rem 0 0.15rem 1.25rem;
     border-radius: 4rem;
-    border: 1px solid #ccc;
     font-size: 1.45rem;
-    margin: 0.5rem 0 0;
     min-width: 21rem;
     font-style: italic;
-
     border-radius: 0;
     min-width: 23rem;
-    font-size: 1.75rem;
+    font-size: 1.65rem;
     padding: 0 0 0 1.25rem;
-    margin: 0.4rem 0 0;
-    border-color: transparent transparent #6b77ea;
-
-    border-bottom: 5px solid #e0c780;
+    margin: 0.5rem 0 0;
+    border: 1px solid transparent;
+    border-bottom: 4px solid #e0c780;
 }
 
 .l-search__input__buttons {
