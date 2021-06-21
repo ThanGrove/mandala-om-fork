@@ -79,7 +79,7 @@
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
 }
-
+/*
 .sui-advHeader .badge.badge-secondary {
     color: #fff;
     padding-right: 1rem;
@@ -91,7 +91,7 @@
     visibility: hidden;
     cursor: default;
 }
-
+*/
 .sui-advHeader .u-icon__plus,
 .sui-advHeader .u-icon__minus {
     font-size: 0.9rem;
