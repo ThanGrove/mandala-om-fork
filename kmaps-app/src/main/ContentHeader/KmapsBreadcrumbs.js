@@ -31,6 +31,7 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
 
     let perspCode = usePerspective((state) => state[tree]);
     let perspective = 'National Administrative Units';
+    /*
     const {
         isLoading: isPerspDataLoading,
         data: perspData,
@@ -61,6 +62,8 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
         ancestor_ids = kmapData?.ancestor_ids_generic;
     }
 
+     */
+    let ancestor_ids = kmapData?.ancestor_ids_generic;
     const perspEl = (
         <div className="c-content__header__perspective">
             (Perspective: {perspective})
