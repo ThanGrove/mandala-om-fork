@@ -44,11 +44,14 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
     } = useQuery(['perspective', 'data', tree], () => getPerspectiveData(tree));
 
     useEffect(() => {
-        setAncestorIds(kmapData[`ancestor_ids_closest_${perspCode}`]);
+        const newAncestors = kmapData[`ancestor_ids_${perspCode}`]
+            ? kmapData[`ancestor_ids_${perspCode}`]
+            : kmapData[`ancestor_ids_closest_${perspCode}`];
+        setAncestorIds(kmapData[`ancestor_ids_${perspCode}`]);
         if (Object.keys(perspData).includes(perspCode)) {
             setPerspName(perspData[perspCode]);
         }
-    }, [perspCode, perspData]);
+    }, [kmapData, perspCode, perspData]);
 
     if (isPerspDataLoading || !kmapData) {
         return null;
@@ -57,7 +60,7 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
             perspData[p.code] = p.name;
         });
     }
-
+    console.log(ancestor_ids, kmapData);
     return (
         <>
             <Link to="#" className="breadcrumb-item">
