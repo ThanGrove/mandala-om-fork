@@ -173,7 +173,7 @@ export function RelatedsViewer() {
                         </span>
                     </div>
 
-                    <RelatedTree {...baseArgs} />
+                    <SideTree {...baseArgs} />
                 </section>
             </div>
         </aside>
@@ -222,7 +222,7 @@ function RelatedCount(props) {
     ) : null;
 }
 
-function RelatedTree(props) {
+function SideTree(props) {
     // Determine which tree (browse_tree) to display in the relateds sidebar
     const domain = props.baseType;
     const kid = props?.id ? props.id : false;

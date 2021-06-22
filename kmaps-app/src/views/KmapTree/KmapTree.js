@@ -70,7 +70,6 @@ export default function KmapTree(props) {
     const perspective = usePerspective((state) => state[settings.domain]);
     settings.perspective = perspective;
 
-    // console.log(JSON.stringify(settings, null, 4));
     // Remove domain and dash from selectedNode value
     if (
         typeof settings?.selectedNode === 'string' &&
@@ -78,13 +77,6 @@ export default function KmapTree(props) {
     ) {
         settings.selectedNode = settings.selectedNode.split('-')[1];
     }
-
-    // Default perspective from function in utils.js
-    /*
-    if (!settings?.perspective) {
-        settings.perspective = getPerspective(settings.domain);
-    }*/
-
     // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
         domain: settings?.domain,
@@ -92,10 +84,6 @@ export default function KmapTree(props) {
         level: settings?.level,
         perspective: perspective,
     };
-
-    // useState Calls for Perspectives
-    //const [rootkid, setRoot] = useState(settings.root?.kid); // Needed to make tree reload on perspective change
-    // const [perspective, setPerspective] = useState(settings.perspective); // Needed to pass to perspective chooser
 
     const rootquery = {
         index: 'terms',
@@ -113,7 +101,7 @@ export default function KmapTree(props) {
         isError: isRootError,
         error: rootError,
     } = useSolr(
-        ['filter', 'tree', 'root', settings.domain, settings.kid, perspective],
+        ['kmaptree', 'root', settings.domain, settings.kid, perspective],
         rootquery
     );
 
@@ -196,19 +184,19 @@ export default function KmapTree(props) {
             }
         }
     }
+    /*
+    if (true || settings.elid.startsWith('related-places-tree-')) {
+        console.log('selpath', settings.selPath);
+        console.log('selnode', selNode);
+    }
 
+     */
     if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
         settings.root.kid = rootData.docs[0].uid.split('-')[1];
         if (settings.kid === 0 && settings.level === false) {
             settings.kid = settings.root.kid;
         }
         // console.log('Setting root data', rootData, settings);
-    }
-
-    // Assign an element (div) id for tree if not given in settings
-    if (!settings?.elid) {
-        const rndid = Math.floor(Math.random() * 999) + 1;
-        settings['elid'] = `${settings.domain}-tree-${rndid}`;
     }
 
     // If the project attribute is set, call create a filtered tree
@@ -221,14 +209,10 @@ export default function KmapTree(props) {
     if (props?.className) {
         treeclass += ` ${props.className}`;
     }
-    let perspChooser = null;
-
-    /*if (settings.domain === 'places') {
-        console.log(rootkid, perspective, settings);
-    }*/
 
     // console.log('root kid', settings.root.kid);
-    // console.log('Settings', settings);
+    // console.log('Kmap Tree Settings', settings);
+
     return (
         <div id={settings.elid} className={treeclass}>
             <PerspectiveChooser

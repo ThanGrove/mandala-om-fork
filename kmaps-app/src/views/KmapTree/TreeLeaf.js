@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useKmap } from '../../hooks/useKmap';
-import { getHeaderForView, queryID } from '../common/utils';
+import { getHeaderForView, getProject, queryID } from '../common/utils';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -168,119 +168,54 @@ export default function TreeLeaf({
         return null;
     }
 
-    // If it's a initial node with setting to show ancestors, find the most senior ancestor to show and send path to filter out aunts and uncles
-    if (props.showAncestors) {
-        let treepath = kmapdata?.ancestor_id_path
-            ? kmapdata.ancestor_id_path?.split('/')
-            : false;
-        if (!treepath) {
-            console.warn('No treepath found for “showAncestors” in KmapTree');
-            return null;
-        }
-        const rootid = treepath.shift();
-        treepath = treepath.join('/');
-        return (
-            <TreeLeaf
-                domain={settings.root.domain}
-                kid={rootid}
-                leaf_level={0}
-                settings={settings}
-                isopen={true}
-                treePath={treepath}
-            />
-        );
-    } else if (props.treePath) {
-        // treePath is set when showing ancestors, only show the direct line ancestor not aunts and uncles
-        let treepath = props.treePath.split('/');
-        const currentid = treepath.shift();
-        treepath = treepath.length > 0 ? treepath.join('/') : false;
-        const stayopen = treepath ? true : settings.isOpen;
-        const newlevel = leaf_level + 1;
-        return (
-            <div className={divclass}>
-                <span
-                    className={settings.spanClass}
-                    data-domain={kmapdata?.tree}
-                    data-id={kmapdata?.id}
-                >
-                    <span className={settings.iconClass} onClick={handleClick}>
-                        {icon}
-                    </span>
-                    <span className={settings.headerClass}>
-                        <Link to={'/' + kmapdata?.id.replace('-', '/')}>
-                            {kmapdata?.header}
-                        </Link>
-                    </span>
-                    <MandalaPopover domain={domain} kid={kid} />
-                </span>
-                <div className={settings.childrenClass}>
-                    <TreeLeaf
-                        domain={settings.root.domain}
-                        kid={currentid}
-                        leaf_level={newlevel}
-                        settings={settings}
-                        isopen={stayopen}
-                        treePath={treepath}
-                    />
-                </div>
-            </div>
-        );
-    } else {
-        // Define the child_content based on whether it is open or not (only loads children when open)
-        let child_content = isOpen ? (
-            <LeafChildren
-                settings={settings}
-                quid={qid.replace('-count', '')}
-                query={query}
-                leaf_level={leaf_level}
-                isOpen={isOpen}
-                perspective={perspective}
-            />
-        ) : (
-            <div className={settings.childrenClass}> </div>
-        );
+    // Define the child_content based on whether it is open or not (only loads children when open)
+    let child_content = isOpen ? (
+        <LeafChildren
+            settings={settings}
+            quid={qid.replace('-count', '')}
+            query={query}
+            leaf_level={leaf_level}
+            isOpen={isOpen}
+            perspective={perspective}
+        />
+    ) : (
+        <div className={settings.childrenClass}> </div>
+    );
 
-        if (settings?.showRelatedPlaces) {
-            child_content = (
-                <RelatedChildren
-                    settings={settings}
-                    domain={domain}
-                    kid={kid}
-                />
-            );
-        }
-
-        // Get Header based on View Settings (see hook useView)
-        const kmhead = getHeaderForView(kmapdata, viewSetting);
-
-        const leafhead = props?.nolink ? (
-            <HtmlCustom markup={kmhead} />
-        ) : (
-            <Link to={'/' + kmapdata?.id.replace('-', '/')}>
-                <HtmlCustom markup={kmhead} />
-            </Link>
-        );
-
-        // return the div structure for a regular tree leaf
-        return (
-            <div className={divclass} ref={leafRef}>
-                <span
-                    className={settings.spanClass}
-                    data-domain={kmapdata?.tree}
-                    data-id={kmapdata?.id}
-                >
-                    <span className={settings.iconClass} onClick={handleClick}>
-                        {icon}
-                    </span>
-                    <span className={settings.headerClass}>{leafhead}</span>
-                    {!props?.nolink && (
-                        <MandalaPopover domain={domain} kid={kid} />
-                    )}
-                </span>
-                {child_content}
-            </div>
+    if (settings?.showRelatedPlaces && settings.selectedNode === kid) {
+        child_content = (
+            <RelatedChildren settings={settings} domain={domain} kid={kid} />
         );
     }
+
+    // Get Header based on View Settings (see hook useView)
+    const kmhead = getHeaderForView(kmapdata, viewSetting);
+
+    const leafhead = props?.nolink ? (
+        <HtmlCustom markup={kmhead} />
+    ) : (
+        <Link to={'/' + kmapdata?.id.replace('-', '/')}>
+            <HtmlCustom markup={kmhead} />
+        </Link>
+    );
+
+    // return the div structure for a regular tree leaf
+    return (
+        <div className={divclass} ref={leafRef}>
+            <span
+                className={settings.spanClass}
+                data-domain={kmapdata?.tree}
+                data-id={kmapdata?.id}
+            >
+                <span className={settings.iconClass} onClick={handleClick}>
+                    {icon}
+                </span>
+                <span className={settings.headerClass}>{leafhead}</span>
+                {!props?.nolink && <MandalaPopover domain={domain} kid={kid} />}
+            </span>
+            {child_content}
+        </div>
+    );
 }
 
 /**
@@ -323,28 +258,37 @@ export function LeafChildren({
             return 0;
         });
     }
+
     return (
         <div className={settings.childrenClass}>
             {children.map((child, i) => {
                 const lckey = `treeleaf-${child['id']}-children`;
                 const kidpts = child['id'].split('-');
                 let io = false;
+                // Filter out kids not in project ids
                 if (
-                    !settings?.project_ids ||
-                    settings.project_ids.includes(kidpts[1])
+                    settings?.project_ids &&
+                    !settings.project_ids.includes(kidpts[1])
                 ) {
-                    return (
-                        <TreeLeaf
-                            key={lckey}
-                            domain={kidpts[0]}
-                            kid={kidpts[1]}
-                            leaf_level={leaf_level + 1}
-                            settings={settings}
-                            isopen={io}
-                            perspective={perspective}
-                        />
-                    );
+                    return null;
                 }
+                if (
+                    settings?.showRelatedPlaces &&
+                    !settings?.selPath.includes(kidpts[1] * 1)
+                ) {
+                    return null;
+                }
+                return (
+                    <TreeLeaf
+                        key={lckey}
+                        domain={kidpts[0]}
+                        kid={kidpts[1]}
+                        leaf_level={leaf_level + 1}
+                        settings={settings}
+                        isopen={io}
+                        perspective={perspective}
+                    />
+                );
             })}
         </div>
     );

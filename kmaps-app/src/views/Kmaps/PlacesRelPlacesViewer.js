@@ -6,7 +6,7 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { Route, useParams, useRouteMatch } from 'react-router-dom';
 import { useHistory } from '../../hooks/useHistory';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import { getProject, queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import KmapTree from '../KmapTree/KmapTree';
@@ -98,26 +98,13 @@ export default function PlacesRelPlacesViewer() {
                         </p>
                     </Row>
                     <Row>
-                        {/*
-                            <FancyTree
-                                domain="places"
-                                tree="places"
-                                descendants={true}
-                                directAncestors={true}
-                                displayPopup={true}
-                                perspective="pol.admin.hier"
-                                view="roman.scholar"
-                                sortBy="header_ssort+ASC"
-                                currentFeatureId={uid}
-                            />
-                            */}
                         <KmapTree
-                            domain="places"
-                            kid={id}
                             elid={`related-places-tree-${id}`}
+                            className="l-place-content-tree"
+                            domain="places"
+                            selectedNode={`places-${id}`}
                             showAncestors={true}
                             showRelatedPlaces={true}
-                            isOpen={true}
                         />
                     </Row>
                 </Container>
