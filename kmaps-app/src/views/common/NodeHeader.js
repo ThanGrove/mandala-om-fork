@@ -142,7 +142,7 @@ function NodeHeader() {
                 ? `<span>${kmInfo[`name_${viewcode}`][0]}</span>`
                 : `<span>${kmInfo[`name_${viewcode}`]}</span>`;
         } else {
-            viewLabel = '<span>I am not Found!</span>';
+            viewLabel = '<span>Not Found</span>';
         }
     }
 

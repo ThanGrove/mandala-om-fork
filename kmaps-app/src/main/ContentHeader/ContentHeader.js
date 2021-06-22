@@ -51,6 +51,7 @@ export function ContentHeader({ siteClass, title, location }) {
 
     // What to return if the SOLR query returned a hit
     if (itemData) {
+        // If nothing found
         if (itemData?.response?.numFound === 0) {
             return (
                 <AltContentHeader
@@ -188,7 +189,8 @@ function AltContentHeader({ domain, kid, siteClass }) {
     }
     useEffect(() => {
         const contentTitle = document.getElementById('sui-termTitle');
-        if (contentTitle) {
+        const cttext = contentTitle?.innerText.toLowerCase();
+        if (contentTitle && !cttext.includes('not found')) {
             contentTitle.innerText = alttitle;
         }
     });
