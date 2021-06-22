@@ -7,6 +7,8 @@ import { queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 import GenericPopover from '../common/GenericPopover';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { ImStack } from 'react-icons/im';
+import { BsLayoutTextSidebarReverse } from 'react-icons/all';
 
 export default function PlacesRelSubjectsViewer() {
     let { id } = useParams();
@@ -81,6 +83,11 @@ export function PlacesRelSubjects({ children }) {
             <h3 className={'head-related'}>Related Subjects</h3>
             <ul>
                 {relsubjs.map((relsb, cind) => {
+                    const source =
+                        relsb?.related_subjects_citation_references_ss &&
+                        relsb.related_subjects_citation_references_ss.length > 0
+                            ? relsb.related_subjects_citation_references_ss[0]
+                            : false;
                     const notes = getRelatedSubjNotes(relsb);
                     return (
                         <li
@@ -112,6 +119,14 @@ export function PlacesRelSubjects({ children }) {
                                     </span>{' '}
                                 </>
                             )}
+                            {source && (
+                                <GenericPopover
+                                    title={'Citation'}
+                                    content={source}
+                                    icon={<BsLayoutTextSidebarReverse />}
+                                />
+                            )}
+
                             {notes && (
                                 <GenericPopover
                                     title={notes['title']}
@@ -139,7 +154,6 @@ function getFeatureTypeNotes(kmap) {
                 break;
             }
         }
-        console.log(note);
     });
     return note;
 }
