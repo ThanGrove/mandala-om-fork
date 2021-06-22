@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useView } from '../../hooks/useView';
 import { useKmap } from '../../hooks/useKmap';
@@ -12,11 +12,13 @@ import { HtmlCustom } from '../../views/common/MandalaMarkup';
 import { usePerspective } from '../../hooks/usePerspective';
 import { useQuery } from 'react-query';
 import { getPerspectiveData } from '../../views/KmapTree/KmapPerspectives';
+import axios from 'axios';
 
 /**
  * Grouping element for kmaps breadcrumbs.
  * Creates breadcrumbs based on current Kmap's itemData (Solr record in kmassets)
- * Uses ancestor_ids
+ * Uses the usePerspective hook that keeps track of when the perspective is changed
+ * Uses state for perspName and ancetor_ids that are used to generate the breadcrumbs
  *
  * TODO: Determine ancestor_id list based on perspective (may have to use _closets_ancetsors_
  *
@@ -28,47 +30,34 @@ import { getPerspectiveData } from '../../views/KmapTree/KmapPerspectives';
  */
 export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
     const tree = kmapData?.tree ? kmapData.tree : 'places';
-
+    const [perspName, setPerspName] = useState('National Administrative Units');
+    const [ancestor_ids, setAncestorIds] = useState(
+        kmapData?.ancestor_ids_generic
+    );
     let perspCode = usePerspective((state) => state[tree]);
-    let perspective = 'National Administrative Units';
-    /*
+    let perspData = {};
     const {
         isLoading: isPerspDataLoading,
-        data: perspData,
+        data: perspDataRaw,
         isError: isPerspDataError,
         error: perspDataError,
     } = useQuery(['perspective', 'data', tree], () => getPerspectiveData(tree));
 
+    useEffect(() => {
+        setAncestorIds(kmapData[`ancestor_ids_closest_${perspCode}`]);
+        if (Object.keys(perspData).includes(perspCode)) {
+            setPerspName(perspData[perspCode]);
+        }
+    }, [perspCode, perspData]);
+
     if (isPerspDataLoading || !kmapData) {
         return null;
-    }
-
-    let ancestor_ids = kmapData?.ancestor_ids_is
-        ? kmapData.ancestor_ids_is
-        : [];
-    const prsp_ancestors =
-        kmapData[`ancestor_ids_closest_${perspCode}`] &&
-        kmapData[`ancestor_ids_closest_${perspCode}`].length > 0
-            ? kmapData[`ancestor_ids_closest_${perspCode}`]
-            : false;
-    if (prsp_ancestors) {
-        ancestor_ids = prsp_ancestors;
-        perspData.forEach((prsp) => {
-            if (prsp.code === perspCode) {
-                perspective = prsp.name;
-            }
-        });
     } else {
-        ancestor_ids = kmapData?.ancestor_ids_generic;
+        perspDataRaw.forEach((p) => {
+            perspData[p.code] = p.name;
+        });
     }
 
-     */
-    let ancestor_ids = kmapData?.ancestor_ids_generic;
-    const perspEl = (
-        <div className="c-content__header__perspective">
-            (Perspective: {perspective})
-        </div>
-    );
     return (
         <>
             <Link to="#" className="breadcrumb-item">
@@ -84,7 +73,9 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
                 );
             })}
 
-            {perspEl}
+            <div className="c-content__header__perspective">
+                (Perspective: {perspName})
+            </div>
         </>
     );
 }
