@@ -45,6 +45,11 @@ ul.sui-nameEntry.first-entry ul {
     padding-left: 0;
 }
 
+ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
+    font-size: 140%;
+    font-weight: normal;
+}
+
 .sui-nameEntry-meta ~ ul {
     /*    background: #fff;
     padding: 1rem 1.5rem 1rem 2rem;

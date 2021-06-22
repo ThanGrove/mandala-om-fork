@@ -31,11 +31,15 @@ export default function TermNames(props) {
 export function NameEntry(props) {
     let outlist = [];
 
-    // console.log('NameEntry: props.names=', props.names);
     Object.entries(props.names).map(([id, entry]) => {
+        const headerclass =
+            entry.related_names_language_s === 'Tibetan' &&
+            entry.related_names_relationship_s === 'Original'
+                ? 'sui-nameEntry-header bo'
+                : 'sui-nameEntry-header';
         outlist.push(
             <li id={id} key={id} className="sui-nameEntry">
-                <span className="sui-nameEntry-header">
+                <span className={headerclass}>
                     {entry.related_names_header_s}
                 </span>
                 <span className="sui-nameEntry-meta">

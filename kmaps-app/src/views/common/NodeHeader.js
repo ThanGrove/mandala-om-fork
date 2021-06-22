@@ -159,7 +159,7 @@ function NodeHeader() {
             )}
             <span className={`icon u-icon__${kmAssetData?.asset_type}`}></span>
             <span className="sui-termTitle sui-nodeTitle" id="sui-termTitle">
-                {label} {nameTibtElem} <HtmlCustom markup={viewLabel} />
+                {label} <HtmlCustom markup={viewLabel} />
             </span>{' '}
             {subHeader && (
                 <span className="sui-relatedSubHeader">{subHeader}</span>
