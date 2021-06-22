@@ -326,6 +326,34 @@ export function PlacesLocation(props) {
     const data = data_s ? JSON.parse(data_s) : false;
     let coords = false;
 
+    const {
+        isLoading: isFullDataLoading,
+        data: fullData,
+        isError: isFullDataError,
+        error: fullDataError,
+    } = useKmap(props?.kmap?.id, 'infofull');
+
+    if (isFullDataLoading) {
+        return <MandalaSkeleton />;
+    }
+    let shape = fullData._childDocuments_.filter((c, i) => {
+        return c.block_child_type === 'places_shape';
+    });
+    shape = shape.length > 0 ? shape[0] : false;
+    const note_key = shape
+        ? Object.keys(shape).filter((k, i) => {
+              return k.includes('note_');
+          })
+        : false;
+
+    let note =
+        shape && note_key ? (
+            <GenericPopover
+                title="Note on Location"
+                content={shape[note_key][0]}
+            />
+        ) : null;
+
     if (
         data &&
         data?.features &&
@@ -348,6 +376,7 @@ export function PlacesLocation(props) {
                 <p>
                     <span className={'icon shanticon-places'}> </span>{' '}
                     <label>Lat/Long</label> {coords}
+                    {note}
                 </p>
             )}
             {altchild && altchild?.length > 0 && altchild[0]?.estimate_s && (

@@ -19,8 +19,21 @@ const queries = (id) => {
             url: solr_urls.terms,
             params: {
                 q: `uid:${id}`,
-                fl:
-                    '*,[child parentFilter=block_type:parent childFilter=-block_child_type:places_shape limit=1000]',
+                fl: '*,[child parentFilter=block_type:parent childFilter=-block_child_type:places_shape limit=1000]',
+                start: 0,
+                rows: 1,
+            },
+            dataFilter: function (data) {
+                return data.response && data.response.numFound > 0
+                    ? data.response.docs[0]
+                    : false;
+            },
+        },
+        infofull: {
+            url: solr_urls.terms,
+            params: {
+                q: `uid:${id}`,
+                fl: '*,[child parentFilter=block_type:parent limit=1000]',
                 start: 0,
                 rows: 1,
             },

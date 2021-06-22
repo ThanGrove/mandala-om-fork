@@ -12,7 +12,7 @@ const GenericPopover = ({ title, ...props }) => {
         setShow(true);
     };
     let content = props?.content;
-    content = !content.startsWith('<p>') ? `<p>${content}</p>` : content;
+    content = !content?.startsWith('<p>') ? `<p>${content}</p>` : content;
     const icon = props?.icon ? props.icon : <ImStack />;
 
     return (

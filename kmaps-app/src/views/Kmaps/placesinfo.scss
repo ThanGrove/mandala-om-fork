@@ -60,6 +60,12 @@
     label:after {
         content: ':';
     }
+
+    .popover-link {
+        top: -0.75rem;
+        left: 0.25rem;
+        font-size: 120%;
+    }
 }
 
 .c-relplaces-list.places {
