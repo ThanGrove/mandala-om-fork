@@ -60,7 +60,7 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
             perspData[p.code] = p.name;
         });
     }
-    console.log(ancestor_ids, kmapData);
+
     return (
         <>
             <Link to="#" className="breadcrumb-item">
