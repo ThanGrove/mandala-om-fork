@@ -507,11 +507,12 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 1.5rem 0 0 1.5rem;
+    padding: 1.5rem 0 0 2rem;
     flex-flow: row wrap;
 }
 .l-column__search .navbar-expand .navbar-collapse {
     justify-content: flex-start !important;
+    margin-bottom: 0.5rem;
     /*  position: absolute;
     left: 2rem;
     top: 1rem; */
@@ -547,8 +548,8 @@ ul.fancytree-container {
     font-weight: bold;
     letter-spacing: 0.075rem;
     text-transform: uppercase;
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
+    margin-right: 2rem;
+    margin-bottom: 0.5rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     color: $color-mandala;
