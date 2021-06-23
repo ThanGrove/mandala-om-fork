@@ -47,7 +47,7 @@ export function KmapsBreadcrumbs({ kmapData, itemTitle, itemType }) {
         const newAncestors = kmapData[`ancestor_ids_${perspCode}`]
             ? kmapData[`ancestor_ids_${perspCode}`]
             : kmapData[`ancestor_ids_closest_${perspCode}`];
-        setAncestorIds(kmapData[`ancestor_ids_${perspCode}`]);
+        setAncestorIds(newAncestors);
         if (Object.keys(perspData).includes(perspCode)) {
             setPerspName(perspData[perspCode]);
         }

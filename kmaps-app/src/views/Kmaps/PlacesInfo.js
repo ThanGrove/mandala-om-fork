@@ -13,6 +13,7 @@ import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import GenericPopover from '../common/GenericPopover';
+import { BsLayoutTextSidebarReverse } from 'react-icons/all';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -201,11 +202,19 @@ export function PlacesNames(props) {
             rows: 300,
         },
     }; // Need to make new query because _childDocuments_ does not contain all name children returned by this query
-    const namedoc = useSolr(`place-${props.id}-names`, query);
+    const {
+        isLoading: isNamesLoading,
+        data: namedoc,
+        isError: isNameError,
+        error: nameError,
+    } = useSolr(`place-${props.id}-names`, query);
     let childlist = [];
     let etymologies = [];
-    if (namedoc?.data?.numFound && namedoc.data.numFound > 0) {
-        childlist = namedoc.data.docs[0]._childDocuments_;
+    if (isNamesLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (namedoc?.numFound && namedoc.numFound > 0) {
+        childlist = namedoc.docs[0]._childDocuments_;
         childlist = childlist.map((o, ind) => {
             // console.log('o', o);
             return {
@@ -217,6 +226,10 @@ export function PlacesNames(props) {
                 path: o.related_names_path_s, // Path
                 tab: o.related_names_level_i - 1,
                 note: getRelNameNote(o),
+                citation:
+                    o?.related_names_citation_references_ss?.length > 0
+                        ? o.related_names_citation_references_ss[0]
+                        : false,
             };
         });
         childlist.sort(function (a, b) {
@@ -247,6 +260,15 @@ export function PlacesNames(props) {
                                 >
                                     <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
                                     {l.write}, {l.rel}){' '}
+                                    {l.citation && (
+                                        <GenericPopover
+                                            title="Citation"
+                                            content={l.citation}
+                                            icon={
+                                                <BsLayoutTextSidebarReverse />
+                                            }
+                                        />
+                                    )}
                                     {l.note && (
                                         <GenericPopover
                                             title={l.note.title}
