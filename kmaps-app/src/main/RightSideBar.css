@@ -287,11 +287,9 @@
 .sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled):active,
 .sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-    color: #000;
+    color: #fff;
     cursor: default;
     border-color: #4d59ca;
-    height: 4.8rem;
-    border: none;
     background-color: #4d59ca !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
