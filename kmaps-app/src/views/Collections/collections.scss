@@ -23,6 +23,11 @@
             }
         }
 
+        .card,
+        .card-body {
+            background: #fcfcfc;
+        }
+
         .card.sources {
             border: none;
             margin-left: 3rem !important;

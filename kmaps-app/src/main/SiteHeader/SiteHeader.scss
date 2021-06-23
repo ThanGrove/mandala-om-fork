@@ -3,7 +3,7 @@
 // --------------------------------------
 
 .c-site__header {
-    height: 40px;
+    height: 44px;
     padding: 0;
     background: #fff;
     display: flex;
@@ -44,15 +44,15 @@
     display: -webkit-flex;
     display: flex;
     height: 3.8rem;
-    margin-right: 17.35rem;
+    margin-right: 18rem;
     padding-left: 1.75rem;
     padding-top: 0;
     border-left: 0.2rem solid #d0d0d0;
     border-right: 0.2rem solid #d0d0d0;
     border-top: 0.3rem solid #4d59ca;
+    border-bottom: 0.1rem solid #4d59ca;
     margin-top: 0.5rem;
     min-width: 32rem;
-    max-width: 40rem;
     box-shadow: inset 0 0 0.75rem #ddd;
 }
 .c-site__search > * {
@@ -61,18 +61,17 @@
 
 .sui-search2 {
     font-style: italic;
-    min-width: 28rem;
-    font-size: 1.65rem;
-    padding: 0 0 0 1.25rem;
-    margin: 0.5rem 0 0;
-    border: 1px solid transparent;
-    border-bottom: 4px solid #e0c780;
+    min-width: 35rem;
+    font-size: 1.85rem;
+    padding: 0.25rem 2rem 0 1.25rem;
+    margin: 0.1rem 0 0;
+    border: none !important;
 }
 
 .l-search__input__buttons {
     position: relative;
-    left: -2rem;
-    top: 0.1rem;
+    left: -0.75rem;
+    top: -0.1rem;
 }
 
 .sui-search3 {

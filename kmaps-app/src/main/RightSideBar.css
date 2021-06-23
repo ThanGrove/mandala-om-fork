@@ -1,11 +1,4 @@
 /* ADVANCED SEARCH */
-
-.l-column__search {
-    height: 100%;
-    padding-bottom: 8rem;
-    padding-right: 1rem;
-}
-
 .sui-advTop {
     text-align: center;
     color: #fff;
@@ -294,11 +287,10 @@
 .sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled):active,
 .sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled).active,
 .show > .btn-primary.dropdown-toggle {
-    background-color: #fefeff;
-    color: #0a0a0a;
-    border-style: solid;
-    border-color: #cad1e0;
-    opacity: 1;
+    color: #fff;
+    cursor: default;
+    border-color: #4d59ca;
+    background-color: #4d59ca !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,
 .sui-advEdit-facet-ctrls-btns .btn:active,
