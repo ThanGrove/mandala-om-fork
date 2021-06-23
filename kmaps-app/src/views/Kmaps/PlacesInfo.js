@@ -4,7 +4,13 @@ import useDimensions from 'react-use-dimensions';
 import KmapsMap from '../KmapsMap/KmapsMap';
 import { useSolr } from '../../hooks/useSolr';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../../views/common/utils';
+import {
+    getFieldData,
+    getNoteData,
+    getSolrCitation,
+    getSolrNote,
+    queryID,
+} from '../../views/common/utils';
 import { MandalaPopover } from '../../views/common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
@@ -217,6 +223,7 @@ export function PlacesNames(props) {
         childlist = namedoc.docs[0]._childDocuments_;
         childlist = childlist.map((o, ind) => {
             // console.log('o', o);
+
             return {
                 label: o.related_names_header_s, // Label
                 lang: o.related_names_language_s, // Language
@@ -226,10 +233,11 @@ export function PlacesNames(props) {
                 path: o.related_names_path_s, // Path
                 tab: o.related_names_level_i - 1,
                 note: getRelNameNote(o),
-                citation:
-                    o?.related_names_citation_references_ss?.length > 0
-                        ? o.related_names_citation_references_ss[0]
-                        : false,
+                citation: getSolrCitation(
+                    o,
+                    'Citation',
+                    'related_names_citation_references_ss'
+                ),
             };
         });
         childlist.sort(function (a, b) {
@@ -259,22 +267,8 @@ export function PlacesNames(props) {
                                     className={`lv-${l.tab}`}
                                 >
                                     <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
-                                    {l.write}, {l.rel}){' '}
-                                    {l.citation && (
-                                        <GenericPopover
-                                            title="Citation"
-                                            content={l.citation}
-                                            icon={
-                                                <BsLayoutTextSidebarReverse />
-                                            }
-                                        />
-                                    )}
-                                    {l.note && (
-                                        <GenericPopover
-                                            title={l.note.title}
-                                            content={l.note.content}
-                                        />
-                                    )}
+                                    {l.write}, {l.rel}) {l.citation}
+                                    {l.note}
                                 </div>
                             );
                         })}
@@ -287,6 +281,13 @@ export function PlacesNames(props) {
     );
 }
 
+/**
+ * Special function to get related name notes because such notes have the title, author, and content each in a
+ * separate field in the Solr record. For generic notes, use utils.js/getSolrNote(data, title, field)
+ *
+ * @param nameobj
+ * @returns {boolean|{title: string, content: boolean, authors: boolean}}
+ */
 function getRelNameNote(nameobj) {
     const note = {
         title: 'Related Name Note',
@@ -307,7 +308,7 @@ function getRelNameNote(nameobj) {
         }
     });
     if (!note['content']) {
-        return false;
+        return null;
     }
     if (typeof note['content'] !== 'string') {
         note['content'] = note['content'].join(', ');
@@ -315,7 +316,8 @@ function getRelNameNote(nameobj) {
     if (note['authors']) {
         note['content'] += ` (${note['authors']})`;
     }
-    return note;
+    const noteel = <GenericPopover title={note.title} content={note.content} />;
+    return noteel;
 }
 
 function PlaceNameEtymologies({ etymologies }) {
@@ -344,7 +346,9 @@ function PlaceNameEtymologies({ etymologies }) {
 export function PlacesLocation(props) {
     // Places "Location" tab contents
     // Uses centroid for lat long and child altitude for altitude and displays these is they exist
-    const data_s = props?.kmap?.shapes_centroid_grptgeom;
+    const kmap = props?.kmap;
+    const children = kmap?._childDocuments_ ? kmap._childDocuments_ : [];
+    const data_s = kmap?.shapes_centroid_grptgeom;
     const data = data_s ? JSON.parse(data_s) : false;
     let coords = false;
 
@@ -358,23 +362,17 @@ export function PlacesLocation(props) {
     if (isFullDataLoading) {
         return <MandalaSkeleton />;
     }
-    let shape = fullData._childDocuments_.filter((c, i) => {
+    let shape = children.filter((c, i) => {
         return c.block_child_type === 'places_shape';
     });
     shape = shape.length > 0 ? shape[0] : false;
-    const note_key = shape
-        ? Object.keys(shape).filter((k, i) => {
-              return k.includes('note_');
-          })
-        : false;
+    let note = getSolrNote(shape, 'Note on Location');
 
-    let note =
-        shape && note_key ? (
-            <GenericPopover
-                title="Note on Location"
-                content={shape[note_key][0]}
-            />
-        ) : null;
+    // Date (time_units_ss)
+    let shapedate = getFieldData(shape, 'time_units_ss');
+    shapedate = shapedate ? (
+        <span className="refdate shape">{shapedate}</span>
+    ) : null;
 
     if (
         data &&
@@ -388,8 +386,17 @@ export function PlacesLocation(props) {
         coords = `${lat}º N, ${lng}º E`;
     }
 
-    const altchild = props?.kmap?._childDocuments_?.filter((c, i) => {
+    const altchild = children.filter((c, i) => {
         return c.id.includes('altitude');
+    });
+    const citesuff = '_citation_references_ss';
+    const placerefs = Object.keys(kmap).filter((k) => k.endsWith(citesuff));
+    const refs = placerefs.map((fnm, n) => {
+        const fldpref = fnm.replace(citesuff, '');
+        const valfld = `${fldpref}_value_s`;
+        const timefld = `${fldpref}_time_units_ss`;
+        const mu = `<p>See ${kmap[fnm]} ${kmap[valfld]} (${kmap[timefld]}).</p>`;
+        return <HtmlCustom markup={mu} />;
     });
 
     return (
@@ -398,6 +405,7 @@ export function PlacesLocation(props) {
                 <p>
                     <span className={'icon shanticon-places'}> </span>{' '}
                     <label>Lat/Long</label> {coords}
+                    {shapedate}
                     {note}
                 </p>
             )}
@@ -409,6 +417,7 @@ export function PlacesLocation(props) {
                         altchild[0]?.estimate_s}
                 </p>
             )}
+            {refs}
             {!coords && (!altchild || altchild?.length === 0) && (
                 <p>
                     There is no location information for{' '}

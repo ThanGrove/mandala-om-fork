@@ -16,7 +16,7 @@ export default function SourcesViewer(props) {
     const { id } = useParams();
     const srcId = props.id ? props.id : id;
     const queryID = `${baseType}*-${srcId}`;
-
+    const ismain = props?.ismain;
     const addPage = useHistory((state) => state.addPage);
 
     const {
@@ -27,15 +27,17 @@ export default function SourcesViewer(props) {
     } = useKmap(queryID, 'asset');
     const {
         isLoading: isNodeLoading,
-        data: nodeData,
+        data: nodejson,
         isError: isNodeError,
         error: nodeError,
     } = useMandala(kmasset);
 
-    if (!isAssetLoading && !isAssetError) {
-        // history.addPage(baseType, kmasset.title, window.location.pathname);
-        addPage(baseType, kmasset.title, window.location.pathname);
-    }
+    useEffect(() => {
+        if (kmasset) {
+            addPage(baseType, kmasset.title, window.location.pathname);
+        }
+    }, [kmasset]);
+
     if (isAssetLoading || isNodeLoading) {
         return (
             <Container fluid className="c-source__container">
@@ -68,12 +70,10 @@ export default function SourcesViewer(props) {
     }
 
     const solrdoc = kmasset;
-    const nodejson = nodeData;
 
-    console.log('nodejson', nodejson);
     const data_col_width = solrdoc?.url_thumb?.length > 0 ? 8 : 12;
 
-    /* This is the bulk of the component here */
+    /* The component is here */
     return (
         <>
             {props?.id && (
