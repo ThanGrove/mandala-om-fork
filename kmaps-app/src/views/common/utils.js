@@ -1,8 +1,14 @@
 import _ from 'lodash';
 import $ from 'jquery';
-import { BsCheckCircle, BsMap, ImStack } from 'react-icons/all';
+import {
+    BsCheckCircle,
+    BsLayoutTextSidebarReverse,
+    BsMap,
+    ImStack,
+} from 'react-icons/all';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import GenericPopover from './GenericPopover';
 
 export function buildNestedDocs(docs, child_type, path_field) {
     path_field = path_field ? path_field : child_type + '_path_s';
@@ -401,4 +407,81 @@ export function getHeaderForView(kmapdata, viewdata) {
         kmhead = kmapdata?.header;
     }
     return kmhead;
+}
+
+/**
+ * Generic function to retrieve date or citation reference from a SOLR document
+ * Given the field name. Checks to see if value exists and if value is an array,
+ * then returns the first item in array.
+ * If field is not in record or has no date, it returns false
+ *
+ * @param data
+ * @param field
+ * @returns {boolean|string}
+ */
+export function getFieldData(data, field) {
+    if (!data || !field || !Object.keys(data).includes(field) || !data[field]) {
+        return false;
+    }
+    let val = Array.isArray(data[field]) ? data[field][0] : data[field];
+    if (val && val.length > 0) {
+        return val;
+    }
+    return false;
+}
+
+/**
+ *
+ * Checks if SOLR document has a note field and returns the data from that field.
+ * Either searches for parameter with name note_... or uses given field name
+ * and then calls getFieldData() to get the data from that field
+ *
+ * @param data
+ * @param title
+ * @param field
+ * @returns {JSX.Element|null}
+ */
+export function getSolrNote(data, title, field) {
+    let note_key = null;
+    if (field !== undefined) {
+        note_key = field;
+    } else {
+        note_key = Object.keys(data).filter((k, i) => {
+            return k.includes('note_');
+        });
+        if (note_key.length === 0) {
+            return null;
+        }
+        note_key = note_key[0];
+    }
+    const notedata = getFieldData(data, note_key);
+    return notedata ? (
+        <GenericPopover title={title} content={notedata} />
+    ) : null;
+}
+
+/**
+ * Get a citation JSX element from solr doc and field if citation exists
+ *
+ * @param data
+ * @param title
+ * @param field
+ * @returns {JSX.Element|null}
+ */
+export function getSolrCitation(data, title, field) {
+    if (!data || !title || !field) {
+        return null;
+    }
+    const citedata = getFieldData(data, field);
+    if (citedata) {
+        const srcicon = <span className="u-icon__sources"> </span>;
+        return (
+            <GenericPopover
+                title={title}
+                content={citedata.replace(', .', '.')}
+                icon={srcicon}
+            />
+        );
+    }
+    return null;
 }

@@ -1035,3 +1035,13 @@ main.subjects .shanti-texts-section-title.text-level-7 {
 .shanti-texts-section-content h1 {
     margin-top: 3rem;
 }
+
+span.refdate {
+    &:before {
+        content: ' (';
+        padding-left: 0.5rem;
+    }
+    &:after {
+        content: ')';
+    }
+}
