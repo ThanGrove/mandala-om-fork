@@ -60,6 +60,8 @@ body.html {
         /*border-left: 2px solid #ccc;
         border-right: 2px solid #ccc;*/
         border: none;
+        top: -2.9rem;
+        position: relative;
     }
 }
 
@@ -469,9 +471,9 @@ ul.fancytree-container {
     font-size: 1.3rem;
     z-index: 1000;
     padding-right: 1rem;
-    margin-top: -2.9rem;
+    /*margin-top: -2.9rem;*/
     background: white;
-    padding-top: 3rem;
+    /*padding-top: 3rem;*/
     border-top: 4px solid #4d59ca;
 }
 .l-column__search::before {
@@ -505,20 +507,25 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 2rem 0 2rem 1.5rem;
+    padding: 1.5rem 0 0 1.5rem;
+    flex-flow: row wrap;
 }
 .l-column__search .navbar-expand .navbar-collapse {
-    position: absolute;
+    justify-content: flex-start !important;
+    /*  position: absolute;
     left: 2rem;
-    top: 1rem;
+    top: 1rem; */
 }
 .l-column__search nav:first-child {
-    margin: 0;
+    /*  margin: 0;
     padding: 0;
     position: absolute;
     z-index: 10;
     top: 1.55rem;
-    right: 1.75rem;
+    right: 1.75rem; */
+
+    float: right;
+    padding: 1.25rem 0 0;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
     color: darkgoldenrod;
@@ -539,11 +546,9 @@ ul.fancytree-container {
     font-size: 1.35rem;
     font-weight: bold;
     letter-spacing: 0.075rem;
-    position: absolute;
-    top: -1.75rem;
-    left: 2rem;
-    z-index: 1;
     text-transform: uppercase;
+    margin-top: -0.5rem;
+    margin-bottom: 1rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     color: $color-mandala;
