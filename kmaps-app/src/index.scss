@@ -459,17 +459,6 @@ ul.fancytree-container {
 .advanced-search-and-tree {
     position: relative;
 }
-.advanced-search-and-tree::before {
-    content: '';
-    display: inline-block;
-    height: 3rem;
-    width: 100%;
-    background: white;
-    position: absolute;
-    top: -2.9rem;
-    right: 0;
-    border-top: 0.4rem solid #4d5aca;
-}
 /* targeting search results page to close the margin created for Show Results button */
 .mandala.null ~ .two-columns .l-column__search > section {
     margin-top: 0.5rem;
@@ -480,8 +469,10 @@ ul.fancytree-container {
     font-size: 1.3rem;
     z-index: 1000;
     padding-right: 1rem;
-    /*position: relative;*/
-    /*max-width: 35rem;*/
+    margin-top: -2.9rem;
+    background: white;
+    padding-top: 3rem;
+    border-top: 4px solid #4d59ca;
 }
 .l-column__search::before {
     /*  content:'';
@@ -525,7 +516,7 @@ ul.fancytree-container {
     padding: 0;
     position: absolute;
     z-index: 10;
-    top: -1rem;
+    top: 1.55rem;
     right: 1.75rem;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
