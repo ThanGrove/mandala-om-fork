@@ -155,7 +155,9 @@ ndg, Nov. 11, 2020)
         }
         & + .tab-content {
             padding: 2rem 2rem 9rem;
-            background: white;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-top: none;
         }
     }
 

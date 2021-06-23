@@ -55,7 +55,7 @@ body.html {
     font-size: 1.4rem;
     background-color: #fff;
     resize: horizontal;
-
+    overflow: visible !important;
     .advanced-search-and-tree {
         /*border-left: 2px solid #ccc;
         border-right: 2px solid #ccc;*/
@@ -162,6 +162,7 @@ div.image-wrapper.center figcaption {
     font-size: 1.325rem;
     /* height: 100vh;*/
     min-height: 75rem;
+    position: relative;
 }
 // * Local fix for responsive display - temp
 .c-content__main__kmaps img,
@@ -455,7 +456,20 @@ div.image-wrapper.center figcaption {
 ul.fancytree-container {
     height: auto !important;
 }
-
+.advanced-search-and-tree {
+    position: relative;
+}
+.advanced-search-and-tree::before {
+    content: '';
+    display: inline-block;
+    height: 3rem;
+    width: 100%;
+    background: white;
+    position: absolute;
+    top: -2.9rem;
+    right: 0;
+    border-top: 0.4rem solid #4d5aca;
+}
 /* targeting search results page to close the margin created for Show Results button */
 .mandala.null ~ .two-columns .l-column__search > section {
     margin-top: 0.5rem;
@@ -465,7 +479,21 @@ ul.fancytree-container {
     height: 100vh;
     font-size: 1.3rem;
     z-index: 1000;
+    padding-right: 1rem;
+    /*position: relative;*/
     /*max-width: 35rem;*/
+}
+.l-column__search::before {
+    /*  content:'';
+    display:inline-block;
+    height:3rem;
+    width:100%;
+    background:white;
+    opacity:0.5;
+    position:absolute;
+    z-index:10;
+    top:-4rem;
+    right:0;*/
 }
 .l-column__search.c-TreeNav--tabs.open {
     z-index: 1000;
@@ -485,11 +513,20 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 0.5rem 0 0 1.5rem;
+    padding: 2rem 0 2rem 1.5rem;
+}
+.l-column__search .navbar-expand .navbar-collapse {
+    position: absolute;
+    left: 2rem;
+    top: 1rem;
 }
 .l-column__search nav:first-child {
-    float: left;
-    margin: 0.4rem 0 0;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    z-index: 10;
+    top: -1rem;
+    right: 1.75rem;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
     color: darkgoldenrod;
@@ -507,11 +544,14 @@ ul.fancytree-container {
 }
 
 .l-column__search nav:nth-of-type(2) > a {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     font-weight: bold;
     letter-spacing: 0.075rem;
-    font-style: italic;
-    margin-left: 0.5rem;
+    position: absolute;
+    top: -1.75rem;
+    left: 2rem;
+    z-index: 1;
+    text-transform: uppercase;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     color: $color-mandala;
@@ -553,7 +593,7 @@ ul.fancytree-container {
     /*margin: 0 0 0 0.75rem;*/
     background: transparent;
     color: #14479c;
-    font-size: 1.025rem;
+    font-size: 1.25rem;
     letter-spacing: 0.0575rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover .badge {
@@ -587,14 +627,14 @@ ul.fancytree-container {
 
 // gallery display buttons for view options
 .c-buttonGroup__viewMode__wrap {
-    background: #fff;
-    padding: 1rem 1rem 4rem 2.5rem;
-    border: 1px solid #ddd;
+    background: #fcfcfc;
+    padding: 1rem 0 4rem 0.5rem;
+    /* border: 1px solid #ddd;*/
     border-top: 2px solid #ccc;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
-    margin: 0;
+    margin: 0 1rem 0 0;
     text-align: right;
 }
 .sui-facetList-horiz {
@@ -668,6 +708,9 @@ ul.fancytree-container {
 
 .c-view .c-featurePager__container:last-of-type {
     margin-top: 2rem;
+    position: absolute;
+    bottom: 2rem;
+    width: 97%;
 }
 
 .c-buttoneGroup__viewMode {
@@ -684,12 +727,10 @@ ul.fancytree-container {
 .list .c-view {
     margin: 0 2rem;
     margin: 0;
-
     .card {
-        border: unset;
-        border-top: 1px solid #cde3f7;
+        /* border: unset; */
+        border-color: #cde3f7;
     }
-
     .u-icon__plus {
         color: #333;
         opacity: 0.5;
