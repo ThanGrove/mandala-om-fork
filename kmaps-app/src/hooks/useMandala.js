@@ -56,6 +56,7 @@ const useMandala = (solrobj) => {
     }
     // Get UID for Query Key
     const uid = solrdoc?.uid ? solrdoc.uid : 'unknown';
+
     return useQuery([QUERY_KEY, uid], () => getMandalaAPI(json_url), {
         enabled: !!solrdoc?.id,
     });
