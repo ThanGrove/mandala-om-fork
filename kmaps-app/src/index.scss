@@ -407,7 +407,15 @@ div.image-wrapper.center figcaption {
     }
 }
 
+//
 // SEARCH Section ------- move this
+//
+ul.fancytree-container {
+    height: auto !important;
+}
+.advanced-search-and-tree {
+    position: relative;
+}
 .advanced-search-and-tree .nav-tabs {
     padding: 0 0 0.5rem;
     margin: 0 1rem 0;
@@ -422,6 +430,7 @@ div.image-wrapper.center figcaption {
     font-size: 1.6rem;
     color: #000;
     letter-spacing: 0.0375rem;
+    position: relative;
 }
 .advanced-search-and-tree .nav-tabs .nav-link:nth-of-type(2) {
     width: 38%;
@@ -435,32 +444,42 @@ div.image-wrapper.center figcaption {
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-places {
     color: $color-places !important;
+    border-color: $color-places !important;
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-subjects {
     color: $color-subjects !important;
+    border-color: $color-subjects !important;
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-terms {
     color: $color-terms !important;
+    border-color: $color-terms !important;
 }
-.advanced-search-and-tree .nav-tabs .nav-link.active::before {
+.advanced-search-and-tree .c-TreeNav--tabs .nav-tabs .nav-link.active::before {
     width: 0;
     height: 0;
     content: '';
     display: inline-block;
     border-style: solid;
-    border-width: 8px 8px 0 8px;
-    border-color: red transparent transparent transparent;
+    border-width: 8px 7px 1px 7px;
+    border-color: white;
+    border-top-color: inherit;
     position: absolute;
-    top: -1rem;
+    top: 3.2rem;
     left: 50%;
-    margin-left: -0.5rem;
+    margin-left: -1rem;
+    background: white;
 }
-ul.fancytree-container {
-    height: auto !important;
+.advanced-search-and-tree .c-TreeNav--tabs .nav-tabs .nav-link.active::after {
+    width: 100%;
+    height: 8px;
+    content: '';
+    display: inline-block;
+    border-bottom-style: solid;
+    position: absolute;
+    bottom: -0.75rem;
+    left: 0;
 }
-.advanced-search-and-tree {
-    position: relative;
-}
+
 /* targeting search results page to close the margin created for Show Results button */
 .mandala.null ~ .two-columns .l-column__search > section {
     margin-top: 0.5rem;
