@@ -3,12 +3,9 @@ import $ from 'jquery';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
-import { PlacesSummary } from './PlacesInfo';
+import { getSolrCitation, queryID } from '../common/utils';
 import GenericPopover from '../common/GenericPopover';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import { ImStack } from 'react-icons/im';
-import { BsLayoutTextSidebarReverse } from 'react-icons/all';
 
 export default function PlacesRelSubjectsViewer() {
     let { id } = useParams();
@@ -36,14 +33,29 @@ export default function PlacesRelSubjectsViewer() {
 }
 
 export function PlacesFeatureTypes({ parent }) {
-    // TODO: Make this go through each feature type and look for distinctive notes for that feature
-
+    let ftcites = {};
+    parent._childDocuments_
+        .filter((cld) => {
+            return cld.block_child_type === 'feature_types';
+        })
+        .forEach((cld, n) => {
+            ftcites[cld.feature_type_id_i] =
+                cld?.feature_type_citation_references_ss &&
+                cld?.feature_type_citation_references_ss.length > 0
+                    ? cld
+                    : false;
+        });
     const ftnote = getFeatureTypeNotes(parent);
     return (
         <>
             <h3 className={'head-related'}>Feature Types</h3>
             <ul>
                 {parent.feature_type_ids.map((kid, cind) => {
+                    const citation = getSolrCitation(
+                        ftcites[kid],
+                        'Citation',
+                        'feature_type_citation_references_ss'
+                    );
                     return (
                         <li key={kid + Math.random()}>
                             <MandalaPopover
@@ -51,6 +63,7 @@ export function PlacesFeatureTypes({ parent }) {
                                 kid={kid}
                                 children={[parent.feature_types[cind]]}
                             />
+                            {citation}
                             {ftnote && (
                                 <GenericPopover
                                     title="Note on Feature Types"
@@ -83,12 +96,20 @@ export function PlacesRelSubjects({ children }) {
             <h3 className={'head-related'}>Related Subjects</h3>
             <ul>
                 {relsubjs.map((relsb, cind) => {
-                    const source =
-                        relsb?.related_subjects_citation_references_ss &&
-                        relsb.related_subjects_citation_references_ss.length > 0
-                            ? relsb.related_subjects_citation_references_ss[0]
-                            : false;
-                    const notes = getRelatedSubjNotes(relsb);
+                    const source = getSolrCitation(
+                        relsb,
+                        'Citation',
+                        'related_subjects_citation_references_ss'
+                    );
+                    let notes = getRelatedSubjNotes(relsb);
+                    if (notes) {
+                        notes = (
+                            <GenericPopover
+                                title={notes['title']}
+                                content={notes['content']}
+                            />
+                        );
+                    }
                     return (
                         <li
                             key={
@@ -119,20 +140,8 @@ export function PlacesRelSubjects({ children }) {
                                     </span>{' '}
                                 </>
                             )}
-                            {source && (
-                                <GenericPopover
-                                    title={'Citation'}
-                                    content={source}
-                                    icon={<BsLayoutTextSidebarReverse />}
-                                />
-                            )}
-
-                            {notes && (
-                                <GenericPopover
-                                    title={notes['title']}
-                                    content={notes['content']}
-                                />
-                            )}
+                            {source}
+                            {notes}
                         </li>
                     );
                 })}

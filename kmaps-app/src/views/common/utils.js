@@ -423,7 +423,9 @@ export function getFieldData(data, field) {
     if (!data || !field || !Object.keys(data).includes(field) || !data[field]) {
         return false;
     }
-    let val = Array.isArray(data[field]) ? data[field][0] : data[field];
+    let val = Array.isArray(data[field])
+        ? data[field].join('<br/>')
+        : data[field];
     if (val && val.length > 0) {
         return val;
     }

@@ -346,7 +346,9 @@ function PlaceNameEtymologies({ etymologies }) {
 export function PlacesLocation(props) {
     // Places "Location" tab contents
     // Uses centroid for lat long and child altitude for altitude and displays these is they exist
-    const data_s = props?.kmap?.shapes_centroid_grptgeom;
+    const kmap = props?.kmap;
+    const children = kmap?._childDocuments_ ? kmap._childDocuments_ : [];
+    const data_s = kmap?.shapes_centroid_grptgeom;
     const data = data_s ? JSON.parse(data_s) : false;
     let coords = false;
 
@@ -360,7 +362,7 @@ export function PlacesLocation(props) {
     if (isFullDataLoading) {
         return <MandalaSkeleton />;
     }
-    let shape = fullData._childDocuments_.filter((c, i) => {
+    let shape = children.filter((c, i) => {
         return c.block_child_type === 'places_shape';
     });
     shape = shape.length > 0 ? shape[0] : false;
@@ -384,8 +386,17 @@ export function PlacesLocation(props) {
         coords = `${lat}º N, ${lng}º E`;
     }
 
-    const altchild = props?.kmap?._childDocuments_?.filter((c, i) => {
+    const altchild = children.filter((c, i) => {
         return c.id.includes('altitude');
+    });
+    const citesuff = '_citation_references_ss';
+    const placerefs = Object.keys(kmap).filter((k) => k.endsWith(citesuff));
+    const refs = placerefs.map((fnm, n) => {
+        const fldpref = fnm.replace(citesuff, '');
+        const valfld = `${fldpref}_value_s`;
+        const timefld = `${fldpref}_time_units_ss`;
+        const mu = `<p>See ${kmap[fnm]} ${kmap[valfld]} (${kmap[timefld]}).</p>`;
+        return <HtmlCustom markup={mu} />;
     });
 
     return (
@@ -406,6 +417,7 @@ export function PlacesLocation(props) {
                         altchild[0]?.estimate_s}
                 </p>
             )}
+            {refs}
             {!coords && (!altchild || altchild?.length === 0) && (
                 <p>
                     There is no location information for{' '}
