@@ -444,15 +444,15 @@ ul.fancytree-container {
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-places {
     color: $color-places !important;
-    border-color: $color-places !important;
+    border-color: $color-places;
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-subjects {
     color: $color-subjects !important;
-    border-color: $color-subjects !important;
+    border-color: $color-subjects;
 }
 .advanced-search-and-tree .nav-tabs .nav-link.active#kmaps-tab-tab-terms {
     color: $color-terms !important;
-    border-color: $color-terms !important;
+    border-color: $color-terms;
 }
 .advanced-search-and-tree .c-TreeNav--tabs .nav-tabs .nav-link.active::before {
     width: 0;

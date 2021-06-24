@@ -269,10 +269,13 @@
     font-size: 1.5rem;
     padding: 0 1rem;
     text-align: center;
+    padding-left: 1.25rem;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1rem 1rem 0 !important;
     font-size: 1.175rem;
+    padding-right: 1.25rem;
+    border-left-color: transparent;
 }
 .sui-advEdit-facet-ctrls-btns .btn:hover,
 .sui-advEdit-facet-ctrls-btns .btn-primary:not(:disabled):not(.disabled):active,
