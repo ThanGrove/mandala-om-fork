@@ -418,7 +418,7 @@ ul.fancytree-container {
 }
 .advanced-search-and-tree .nav-tabs {
     padding: 0 0 0.5rem;
-    margin: 0 1rem 0;
+    margin: 0 1rem 1rem;
 }
 .advanced-search-and-tree .nav-tabs .nav-link {
     padding: 0 0.3rem;
@@ -536,7 +536,8 @@ ul.fancytree-container {
     left: 2rem;
     top: 1rem; */
 }
-.l-column__search nav:first-child {
+/* .l-column__search nav:first-child */
+.l-column__search nav.justify-content-end {
     /*  margin: 0;
     padding: 0;
     position: absolute;
@@ -562,9 +563,10 @@ ul.fancytree-container {
     padding: 0;
     font-size: 2.25rem;
     transform: scale(1);
+    transition: all 0.15s ease-in-out;
 }
 .l-column__search nav:nth-of-type(1) > a:hover {
-    transform: scale(0.9);
+    transform: scale(0.85);
 }
 .l-column__search nav:nth-of-type(1) > a:hover .icon::before {
     opacity: 0.8;
@@ -671,7 +673,11 @@ ul.fancytree-container {
 }
 .sui-facetList-horiz > span {
     display: block;
-    font-size: 1.75rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    letter-spacing: 0.0575rem;
+    text-transform: uppercase;
+    margin-left: 2rem;
 }
 .sui-facetList-horiz .facetItem {
     font-size: 1.8rem;
@@ -723,14 +729,16 @@ ul.fancytree-container {
     .c-featurePager__container {
         text-align: center;
         margin-bottom: 1rem;
-        padding: 3rem 1rem 0;
-        padding-top: 1rem;
+        padding: 1rem 3rem 0;
         .icon {
         }
         &.top {
             margin-bottom: 1.3rem;
         }
     }
+}
+.c-view .c-featurePager__container {
+    padding: 1rem 3rem 0;
 }
 
 .c-view .c-featurePager__container:last-of-type {
