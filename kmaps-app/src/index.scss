@@ -466,7 +466,7 @@ ul.fancytree-container {
     position: absolute;
     top: 3.2rem;
     left: 50%;
-    margin-left: -1rem;
+    margin-left: -0.4rem;
     background: white;
 }
 .advanced-search-and-tree .c-TreeNav--tabs .nav-tabs .nav-link.active::after {
@@ -526,7 +526,7 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 1.5rem 0 0 2rem;
+    padding: 0.5rem 0 0 2rem;
     flex-flow: row wrap;
 }
 .l-column__search .navbar-expand .navbar-collapse {
@@ -545,11 +545,12 @@ ul.fancytree-container {
     right: 1.75rem; */
 
     float: right;
-    padding: 1.25rem 0 0;
+    padding: 1rem 0 0;
+    margin-right: 1rem;
 }
 .l-column__search nav:first-child .shanticon-cancel::before {
     color: darkgoldenrod;
-    opacity: 0.6;
+    opacity: 0.4;
     border: 5px double darkgoldenrod;
     border-radius: 50%;
 }
@@ -559,9 +560,18 @@ ul.fancytree-container {
 
 .l-column__search nav:nth-of-type(1) > a {
     padding: 0;
-    font-size: 1.6rem;
+    font-size: 2.25rem;
+    transform: scale(1);
 }
-
+.l-column__search nav:nth-of-type(1) > a:hover {
+    transform: scale(0.9);
+}
+.l-column__search nav:nth-of-type(1) > a:hover .icon::before {
+    opacity: 0.8;
+}
+.l-column__search nav:nth-of-type(1) > a:active .icon::before {
+    opacity: 1;
+}
 .l-column__search nav:nth-of-type(2) > a {
     font-size: 1.35rem;
     font-weight: bold;
@@ -724,10 +734,8 @@ ul.fancytree-container {
 }
 
 .c-view .c-featurePager__container:last-of-type {
-    margin-top: 2rem;
-    position: absolute;
-    bottom: 2rem;
-    width: 97%;
+    margin: 0.4rem 1.5rem 0;
+    border-top: 3px solid #eee;
 }
 
 .c-buttoneGroup__viewMode {
