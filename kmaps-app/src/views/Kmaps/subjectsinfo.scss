@@ -9,7 +9,7 @@ ndg, Nov. 11, 2020)
 
 /* main.subjects { */
 .l-content__main__wrap {
-    max-width: unset;
+    /*  max-width: unset; */
 }
 .c-content__main__kmaps {
     background-color: #fcfcfc;
@@ -40,8 +40,8 @@ ndg, Nov. 11, 2020)
         > span.sui-nameEntry-header:first-child {
         display: inline-block;
         color: #000;
-        font-size: 1.5rem;
-        font-weight: 600;
+        /* font-size: 1.5rem;
+        font-weight: 600; */
     }
 
     .sui-nameEntry-meta {
