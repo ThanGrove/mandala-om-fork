@@ -20,6 +20,7 @@ import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import GenericPopover from '../common/GenericPopover';
 import { BsLayoutTextSidebarReverse } from 'react-icons/all';
+import { PlacesFeatureTypes } from './PlacesRelSubjectsViewer';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -165,21 +166,7 @@ export function PlacesSummary({ kmapData }) {
                     <Col>
                         {/* Feature type list if exists */}
                         {kmapData?.feature_type_ids?.length > 0 && (
-                            <p className={'featureTypes'}>
-                                <label>Feature Types</label>
-                                {kmapData.feature_type_ids.map((ftid, ftn) => {
-                                    return (
-                                        <MandalaPopover
-                                            key={`place-popover-${ftn}`}
-                                            domain={'subjects'}
-                                            kid={ftid}
-                                            children={
-                                                kmapData.feature_types[ftn]
-                                            }
-                                        />
-                                    );
-                                })}
-                            </p>
+                            <PlacesFeatureTypes parent={kmapData} />
                         )}
                         {/* Custom Html summary if exists */}
                         {/* TODO: account for other language summaries */}
@@ -331,10 +318,10 @@ function getTimeUnits(nameobj, pref) {
         }
         if (typeof val === 'string') {
             val = val.trim();
-            if (parseInt(val) > 0) {
-                val += ' CE';
-            } else {
+            if (!isNaN(val) && parseInt(val) < 0) {
                 val += ' BCE';
+            } else {
+                val += ' CE';
             }
             return `, ${val}`;
         }
@@ -395,9 +382,10 @@ export function PlacesLocation(props) {
 
     // Date (time_units_ss)
     let shapedate = getFieldData(shape, 'time_units_ss');
-    shapedate = shapedate ? (
-        <span className="refdate shape">{shapedate}</span>
-    ) : null;
+    shapedate =
+        shapedate && shapedate?.length > 0 ? (
+            <span className="refdate shape">{shapedate}</span>
+        ) : null;
 
     if (
         data &&
@@ -420,12 +408,13 @@ export function PlacesLocation(props) {
         const fldpref = fnm.replace(citesuff, '');
         const valfld = `${fldpref}_value_s`;
         const timefld = `${fldpref}_time_units_ss`;
-        const mu = `<p>See ${kmap[fnm]} ${kmap[valfld]} (${kmap[timefld]}).</p>`;
-        return <HtmlCustom markup={mu} />;
+        let datestr = kmap[timefld] ? ` (${kmap[timefld]})` : '';
+        const mu = `<p>See ${kmap[fnm]} ${kmap[valfld]}${datestr}.</p>`;
+        return <HtmlCustom key={`place-info-custom-ref-${n}`} markup={mu} />;
     });
 
     return (
-        <div className={'c-place-location'}>
+        <div key={`${kmap.uid}-placeinfo`} className={'c-place-location'}>
             {coords && (
                 <p>
                     <span className={'icon shanticon-places'}> </span>{' '}

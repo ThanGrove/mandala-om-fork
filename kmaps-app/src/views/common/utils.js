@@ -423,9 +423,7 @@ export function getFieldData(data, field) {
     if (!data || !field || !Object.keys(data).includes(field) || !data[field]) {
         return false;
     }
-    let val = Array.isArray(data[field])
-        ? data[field].join('<br/>')
-        : data[field];
+    let val = Array.isArray(data[field]) ? data[field].join(' ') : data[field];
     if (val && val.length > 0) {
         return val;
     }
@@ -474,8 +472,12 @@ export function getSolrCitation(data, title, field) {
     if (!data || !title || !field) {
         return null;
     }
-    const citedata = getFieldData(data, field);
+    let citedata = getFieldData(data, field);
     if (citedata) {
+        const tufield = field.replace('_citation_references_', '_time_units_');
+        if (Object.keys(data).includes(tufield) && data[tufield].length > 0) {
+            citedata += ' ' + data[tufield].join(' ') + '.';
+        }
         const srcicon = <span className="u-icon__sources"> </span>;
         return (
             <GenericPopover
