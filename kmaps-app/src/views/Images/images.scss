@@ -126,9 +126,11 @@
             display: inline-block;
             height: 100px;
             margin: 0 0.15rem 1rem;
+            padding-top: 0.5rem;
             cursor: pointer;
             border-radius: 3px;
             border: 1px solid transparent;
+            border-top: 0.5rem solid transparent;
             img {
                 height: 100%;
             }

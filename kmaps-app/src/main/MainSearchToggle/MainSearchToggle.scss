@@ -9,8 +9,8 @@
 .c-MainSearchToggle--group label {
     background-color: #fff;
     padding: 0.8rem 0;
-    width: 6.2rem;
-    height: 4.5rem;
+    width: 6.5rem;
+    height: 4.55rem;
 }
 .c-MainSearchToggle--group label,
 .c-MainSearchToggle--group label input:focus {
@@ -41,7 +41,7 @@
     left: 50%;
     z-index: 1005;
     margin-left: -0.6rem;
-    background-color: #4d59ca;
+    background-color: transparent;
 }
 .c-MainSearchToggle--group label.btn.active svg {
     color: #fff;

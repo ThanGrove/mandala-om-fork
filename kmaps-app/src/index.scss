@@ -50,30 +50,39 @@ body.html {
     /*  flex: 0 0 28rem;*/
     /*min-width: 25%;*/
     margin: 0;
-    max-width: 35rem;
-    min-width: calc(max(25vw, 290px));
+    max-width: 45rem;
+    min-width: calc(max(25vw, 30rem));
     font-size: 1.4rem;
     background-color: #fff;
     resize: horizontal;
     overflow: visible !important;
     .advanced-search-and-tree {
-        /*border-left: 2px solid #ccc;
-        border-right: 2px solid #ccc;*/
         border: none;
-        top: -3.2rem;
+        top: -3.45rem;
         position: relative;
     }
 }
+.l-content__main__wrap {
+    max-width: 90rem;
+    margin: 0 auto;
+}
 
+/*
 .terms .l-content__main__wrap,
 .subjects .l-content__main__wrap {
     max-width: 90rem;
     margin: 0 auto;
 }
+.terms .l-content__main__wrap {
 
+}
+.places .l-content__main__wrap {
+
+}
 .texts .l-content__main {
     display: block;
 }
+*/
 
 a {
     text-decoration: none;
@@ -160,8 +169,8 @@ div.image-wrapper.center figcaption {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
-    padding: 0.25rem 1.5rem 6rem 1.5rem;
-    font-size: 1.325rem;
+    padding: 0.5rem 1.5rem 6rem 1.5rem;
+    font-size: 1.375rem;
     /* height: 100vh;*/
     min-height: 75rem;
     position: relative;
@@ -312,6 +321,7 @@ div.image-wrapper.center figcaption {
 .c-nodeHeader {
     margin-bottom: 1.25rem;
     padding-bottom: 0;
+    padding-left: 1rem;
 }
 .c-nodeHeader > .icon {
     margin: 0 1.25rem 0 0;
@@ -418,7 +428,7 @@ ul.fancytree-container {
 }
 .advanced-search-and-tree .nav-tabs {
     padding: 0 0 0.5rem;
-    margin: 0 1rem 0;
+    margin: 0 1rem 1rem;
 }
 .advanced-search-and-tree .nav-tabs .nav-link {
     padding: 0 0.3rem;
@@ -466,7 +476,7 @@ ul.fancytree-container {
     position: absolute;
     top: 3.2rem;
     left: 50%;
-    margin-left: -1rem;
+    margin-left: -0.4rem;
     background: white;
 }
 .advanced-search-and-tree .c-TreeNav--tabs .nav-tabs .nav-link.active::after {
@@ -512,7 +522,7 @@ ul.fancytree-container {
 }
 .l-column__search.c-TreeNav--tabs {
     padding-right: 1rem;
-    padding-top: 0.6rem;
+    padding-top: 1rem;
 }
 .l-column__search.open.standalone {
     z-index: inherit;
@@ -526,7 +536,7 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 1.5rem 0 0 2rem;
+    padding: 1rem 0 0 2rem;
     flex-flow: row wrap;
 }
 .l-column__search .navbar-expand .navbar-collapse {
@@ -536,39 +546,52 @@ ul.fancytree-container {
     left: 2rem;
     top: 1rem; */
 }
-.l-column__search nav:first-child {
-    /*  margin: 0;
-    padding: 0;
-    position: absolute;
-    z-index: 10;
-    top: 1.55rem;
-    right: 1.75rem; */
-
+/* .l-column__search nav:first-child */
+.l-column__search nav.justify-content-end {
     float: right;
-    padding: 1.25rem 0 0;
+    padding: 0.5rem 0 0;
+    margin-right: 0.8rem;
 }
-.l-column__search nav:first-child .shanticon-cancel::before {
-    color: darkgoldenrod;
-    opacity: 0.6;
-    border: 5px double darkgoldenrod;
+.l-column__search nav.justify-content-end > a .icon::before {
+    color: #b8860b;
+    position: relative;
+    top: -0.49rem;
+    left: 0.125rem;
+}
+.l-column__search nav.justify-content-end > a:hover .icon::before {
+    transform: scale(0.85);
+}
+.l-column__search nav.justify-content-end > a:active .icon::before {
+    transform: scale(1);
+}
+.l-column__search nav.justify-content-end > a {
+    padding: 0;
+    margin: 0;
+    font-size: 2.75rem;
+    transform: scale(0.8);
+    transition: all 0.15s ease-in-out;
+    border: 5px double #b8860b;
     border-radius: 50%;
+    height: 4rem;
+    width: 4rem;
+    opacity: 0.25;
 }
-.l-column__search nav:first-child .shanticon-cancel::before:hover {
+.l-column__search nav.justify-content-end > a:hover {
+    transform: scale(0.85);
+    opacity: 7;
+}
+.l-column__search nav.justify-content-end > a:active {
+    transform: scale(0.9);
     opacity: 1;
 }
 
-.l-column__search nav:nth-of-type(1) > a {
-    padding: 0;
-    font-size: 1.6rem;
-}
-
 .l-column__search nav:nth-of-type(2) > a {
-    font-size: 1.35rem;
+    font-size: 1.5rem;
     font-weight: bold;
     letter-spacing: 0.075rem;
     text-transform: uppercase;
     margin-right: 2rem;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.75rem;
 }
 .l-column__search nav:nth-of-type(2) > a:hover {
     color: $color-mandala;
@@ -661,7 +684,11 @@ ul.fancytree-container {
 }
 .sui-facetList-horiz > span {
     display: block;
-    font-size: 1.75rem;
+    font-size: 1.25rem;
+    font-weight: bold;
+    letter-spacing: 0.0575rem;
+    text-transform: uppercase;
+    margin-left: 2rem;
 }
 .sui-facetList-horiz .facetItem {
     font-size: 1.8rem;
@@ -674,10 +701,13 @@ ul.fancytree-container {
     padding-right: 1.5rem;
 }
 .c-buttonGroup__viewMode-header {
-    font-size: 1.2rem;
+    font-size: 1.25rem;
     margin-right: 0.8rem;
     white-space: nowrap;
-    font-style: italic;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 2.5;
+    letter-spacing: 0.025rem;
 }
 
 .c-buttonGroup__viewMode .icon::before {
@@ -713,8 +743,7 @@ ul.fancytree-container {
     .c-featurePager__container {
         text-align: center;
         margin-bottom: 1rem;
-        padding: 3rem 1rem 0;
-        padding-top: 1rem;
+        padding: 1rem 3rem 0;
         .icon {
         }
         &.top {
@@ -722,12 +751,13 @@ ul.fancytree-container {
         }
     }
 }
+.c-view .c-featurePager__container {
+    padding: 1rem 3rem 0;
+}
 
 .c-view .c-featurePager__container:last-of-type {
-    margin-top: 2rem;
-    position: absolute;
-    bottom: 2rem;
-    width: 97%;
+    margin: 0.4rem 1.5rem 0;
+    border-top: 3px solid #eee;
 }
 
 .c-buttoneGroup__viewMode {

@@ -18,8 +18,8 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     grid-gap: 0.8rem;
-    margin-left: 0;
-    margin-right: 0;
+    margin-left: 2rem;
+    margin-right: 2rem;
     //margin: 1.5rem 1rem 5rem;
 }
 .card-deck .card {

@@ -534,7 +534,7 @@ color: #a4baec;
     color: #000;
     padding: 0.2rem 1rem;
     border-bottom: none !important;
-    border-radius: 1rem;
+    border-radius: 0.5rem;
 }
 .sui-advEditLine:hover {
     background-color: #edf2f7;

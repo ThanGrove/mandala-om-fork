@@ -41,8 +41,7 @@ export default class Texts {
             $('<link/>', {
                 rel: 'stylesheet',
                 type: 'text/css',
-                href:
-                    'https://texts-dev.shanti.virginia.edu/sites/all/themes/shanti_sarvaka_texts/css/shanti_texts.css',
+                href: 'https://texts-dev.shanti.virginia.edu/sites/all/themes/shanti_sarvaka_texts/css/shanti_texts.css',
             }).appendTo('head'); // Load CSS
         var url =
             o.url_ajax.replace(/node_ajax/i, 'node_embed') + '?callback=pfunc'; // Make url
@@ -78,7 +77,7 @@ export default class Texts {
                 // For each tag group
                 let facet = $(this).data('kmdomain'); // Get facet
                 let id = facet + '-' + $(this).data('kmid'); // Make id
-                let str = `<span style='font-family:"Open Sans",shanticon;color:${
+                let str = `<span style='font-family:"Open Sans",sans-serif;color:${
                     sui.assets[facet].c
                 }'>
 					${sui.assets[facet].g}&nbsp;</span>
