@@ -74,6 +74,14 @@ aside#l-column__search--treeNav .c-perspective-select {
     }
 }
 
+aside#l-column__search--treeNav {
+    .treeNav-header {
+        display: flex;
+        justify-content: space-between;
+        margin: 0.5rem 2rem;
+    }
+}
+
 .modal-dialog.modal-persp-desc {
     min-width: 60vw;
 

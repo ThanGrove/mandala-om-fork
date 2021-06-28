@@ -13,6 +13,8 @@ import {
     withDefault,
     encodeQueryParams,
 } from 'use-query-params';
+import { IconContext } from 'react-icons';
+import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
@@ -205,13 +207,21 @@ export default function SearchAdvanced(props) {
                 <Navbar.Toggle />
                 {!searchView &&
                     process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                        <Link to={`/search/deck`}>
-                            {' '}
-                            Total Results{' '}
-                            <Badge pill variant={'secondary'}>
-                                {searchData.response?.numFound}
-                            </Badge>
-                        </Link>
+                        <>
+                            <Link to={`/search/deck`}>
+                                <IconContext.Provider
+                                    value={{ className: 'icon' }}
+                                >
+                                    <FaRegArrowAltCircleRight />
+                                </IconContext.Provider>
+                            </Link>
+                            <span>
+                                Total Results
+                                <Badge pill variant={'secondary'}>
+                                    {searchData.response?.numFound}
+                                </Badge>
+                            </span>
+                        </>
                     )}
                 {!searchView &&
                     process.env.REACT_APP_STANDALONE === 'standalone' && (

@@ -46,6 +46,12 @@ const TreeNav = (props) => {
                         'sacrifical-dummy-element-that-is-not-displayed-for-some-reason'
                     }
                 ></span>
+                <div className="treeNav-header">
+                    <div className="treeNav-header__title">Browse Places</div>
+                    <div className="treeNav-header__closeButton">
+                        <span className={'icon shanticon-cancel'}></span>
+                    </div>
+                </div>
                 <Tabs defaultActiveKey={domain} id="kmaps-tab">
                     <Tab eventKey="places" title="Places">
                         <KmapTree
