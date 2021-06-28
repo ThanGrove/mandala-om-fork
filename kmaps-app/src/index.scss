@@ -536,7 +536,7 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 0.5rem 0 0 2rem;
+    padding: 1rem 0 0 2rem;
     flex-flow: row wrap;
 }
 .l-column__search .navbar-expand .navbar-collapse {
@@ -568,13 +568,13 @@ ul.fancytree-container {
     padding: 0;
     margin: 0;
     font-size: 2.75rem;
-    transform: scale(1);
+    transform: scale(0.8);
     transition: all 0.15s ease-in-out;
     border: 5px double #b8860b;
     border-radius: 50%;
     height: 4rem;
     width: 4rem;
-    opacity: 0.4;
+    opacity: 0.25;
 }
 .l-column__search nav.justify-content-end > a:hover {
     transform: scale(0.85);
