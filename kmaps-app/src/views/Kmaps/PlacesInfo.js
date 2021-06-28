@@ -202,7 +202,7 @@ export function PlacesNames(props) {
     const query = {
         index: 'terms',
         params: {
-            fl: `uid,[child childFilter=id:${props.id}_names-* parentFilter=block_type:parent]`,
+            fl: `uid,[child childFilter=id:${props.id}_names-* parentFilter=block_type:parent limit=1000]`,
             q: `uid:${props.id}`,
             wt: 'json',
             rows: 300,
@@ -232,6 +232,7 @@ export function PlacesNames(props) {
                 ety: o.related_names_etymology_s, // Etymology
                 path: o.related_names_path_s, // Path
                 tab: o.related_names_level_i - 1,
+                date: getTimeUnits(o, 'related_names'),
                 note: getRelNameNote(o),
                 citation: getSolrCitation(
                     o,
@@ -267,7 +268,8 @@ export function PlacesNames(props) {
                                     className={`lv-${l.tab}`}
                                 >
                                     <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
-                                    {l.write}, {l.rel}) {l.citation}
+                                    {l.write}, {l.rel}
+                                    {l.date}) {l.citation}
                                     {l.note}
                                 </div>
                             );
@@ -318,6 +320,26 @@ function getRelNameNote(nameobj) {
     }
     const noteel = <GenericPopover title={note.title} content={note.content} />;
     return noteel;
+}
+
+function getTimeUnits(nameobj, pref) {
+    const fieldnm = `${pref}_time_units_ss`;
+    if (Object.keys(nameobj).includes(fieldnm)) {
+        let val = nameobj[fieldnm];
+        if (Array.isArray(val)) {
+            val = val.join(', ');
+        }
+        if (typeof val === 'string') {
+            val = val.trim();
+            if (parseInt(val) > 0) {
+                val += ' CE';
+            } else {
+                val += ' BCE';
+            }
+            return `, ${val}`;
+        }
+    }
+    return '';
 }
 
 function PlaceNameEtymologies({ etymologies }) {
