@@ -104,6 +104,7 @@ const getKmapData = async (id, qtype) => {
     const { data } = await axios.request(request);
     // console.log("Axios request params = ", myparams);
     // console.log('Axios request/response = ', request, data);
+
     return data;
 };
 

@@ -347,7 +347,6 @@ export function PlacesLocation(props) {
     // Places "Location" tab contents
     // Uses centroid for lat long and child altitude for altitude and displays these is they exist
     const kmap = props?.kmap;
-    const children = kmap?._childDocuments_ ? kmap._childDocuments_ : [];
     const data_s = kmap?.shapes_centroid_grptgeom;
     const data = data_s ? JSON.parse(data_s) : false;
     let coords = false;
@@ -362,6 +361,10 @@ export function PlacesLocation(props) {
     if (isFullDataLoading) {
         return <MandalaSkeleton />;
     }
+
+    const children = fullData?._childDocuments_
+        ? fullData._childDocuments_
+        : [];
     let shape = children.filter((c, i) => {
         return c.block_child_type === 'places_shape';
     });
