@@ -45,7 +45,7 @@
     select {
         display: inline-block;
         width: fit-content;
-        max-width: unset;
+        /*max-width: unset;*/
         border-radius: 1.5rem;
         padding: 0.2rem 0.9rem;
         border-color: #aaa;
@@ -78,7 +78,40 @@ aside#l-column__search--treeNav {
     .treeNav-header {
         display: flex;
         justify-content: space-between;
-        margin: 0.5rem 2rem;
+        margin: 0 2rem;
+        font-size: 1.65rem;
+        font-weight: bold;
+        letter-spacing: 0.0375rem;
+        .treeNav-header__closeButton {
+            padding: 0;
+            margin: 0;
+            cursor: pointer;
+            font-size: 2.75rem;
+            transform: scale(0.8);
+            transition: all 0.15s ease-in-out;
+            border: 5px double #b8860b;
+            border-radius: 50%;
+            height: 4rem;
+            width: 4rem;
+            opacity: 0.25;
+            position: relative;
+            top: -0.5rem;
+            right: -1.2rem;
+            .icon::before {
+                color: #b8860b;
+                position: relative;
+                top: -0.49rem;
+                left: 0.125rem;
+            }
+            &:hover {
+                transform: scale(0.85);
+                opacity: 7;
+            }
+            &:active {
+                transform: scale(0.9);
+                opacity: 1;
+            }
+        }
     }
 }
 
@@ -121,7 +154,7 @@ aside#l-column__search--treeNav {
         font-size: 130%;
     }
     &.selected > .c-kmapnode > .label {
-        border-bottom: 0.2rem solid #cca843;
+        border-bottom: 0.3rem solid #cca843;
     }
 }
 
@@ -134,11 +167,15 @@ aside#l-column__search--treeNav {
         height: 0.7rem;
         margin-right: 0.45rem;
         margin-left: 0.15rem;
-        background-color: #a27f1c;
+        /*  background-color: #a27f1c; */
+        border: 2px solid #b99b45;
         display: inline-block;
         position: relative;
         top: -0.3rem;
         transform: rotate(45deg);
+    }
+    .toggle-icon::before:hover {
+        background-color: #a27f1c;
     }
 }
 

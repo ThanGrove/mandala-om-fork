@@ -110,10 +110,9 @@
     font-weight: bold;
     border: 1px solid transparent;
 }
-.c-related__item.selected {
-    background: #fff;
-    border-color: #ddd;
-    border-radius: 0.5rem;
+.c-related__item.selected > span:not(.icon) {
+    padding: 0 0.3rem 0.1rem;
+    border-bottom: 0.3rem solid #cca843;
 }
 .c-relatedViewer #sui-rln-places {
     font-size: 1.15rem;

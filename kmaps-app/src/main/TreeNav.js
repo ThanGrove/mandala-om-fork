@@ -47,7 +47,7 @@ const TreeNav = (props) => {
                     }
                 ></span>
                 <div className="treeNav-header">
-                    <div className="treeNav-header__title">Browse Places</div>
+                    <div className="treeNav-header__title">Browse Kmaps</div>
                     <div className="treeNav-header__closeButton">
                         <span className={'icon shanticon-cancel'}></span>
                     </div>
