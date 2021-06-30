@@ -49,9 +49,10 @@ body.html {
 .l-content__rightsidebar {
     /*  flex: 0 0 28rem;*/
     /*min-width: 25%;*/
+    flex: 0 0 !important;
     margin: 0;
-    max-width: 35rem;
-    min-width: calc(max(25vw, 290px));
+    max-width: 45rem;
+    min-width: calc(max(25vw, 32rem));
     font-size: 1.4rem;
     background-color: #fff;
     resize: horizontal;
