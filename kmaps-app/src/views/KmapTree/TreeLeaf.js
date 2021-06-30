@@ -60,6 +60,7 @@ export default function TreeLeaf({
         (state) => state[settings.domain]
     );
     const viewSetting = useView((state) => state[settings.domain]);
+    // console.log('Trea leaf', viewSetting);
     const {
         isLoading: isKmapLoading,
         data: kmapdata,

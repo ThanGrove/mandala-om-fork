@@ -31,9 +31,15 @@ export function ViewSettings(props) {
     };
 
     const saveChanges = () => {
-        viewSettingsState.setPlacesView(viewSettings['places_view']);
-        viewSettingsState.setSubjectsView(viewSettings['subjects_view']);
-        viewSettingsState.setTermsView(viewSettings['terms_view']);
+        if (viewSettings['places_view']) {
+            viewSettingsState.setPlacesView(viewSettings['places_view']);
+        }
+        if (viewSettings['subjects_view']) {
+            viewSettingsState.setSubjectsView(viewSettings['subjects_view']);
+        }
+        if (viewSettings['terms_view']) {
+            viewSettingsState.setTermsView(viewSettings['terms_view']);
+        }
         setShow(false);
     };
 

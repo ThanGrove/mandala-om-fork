@@ -394,7 +394,7 @@ export function stringToHash(astr) {
 }
 
 export function getHeaderForView(kmapdata, viewdata) {
-    const view = viewdata.includes('|') ? viewdata.split('|')[1] : viewdata;
+    const view = viewdata?.includes('|') ? viewdata.split('|')[1] : viewdata;
     const fieldname = `name_${view}`;
     const kmkeys = Object.keys(kmapdata);
     let kmhead = kmkeys.includes(fieldname)
