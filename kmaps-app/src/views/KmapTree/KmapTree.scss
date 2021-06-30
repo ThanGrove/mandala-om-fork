@@ -9,7 +9,8 @@
     border-radius: 0 0 3rem 0;
     background: white;
     font-size: 1.25rem;
-    padding: 0.5rem 1rem 2rem;
+    padding: 0 1rem 2rem;
+    box-shadow: inset 0 -3rem 5rem #eee;
 }
 .l-column__search .c-kmaptree {
     max-height: 75rem;
@@ -19,7 +20,7 @@
     margin-right: 0;
     padding-left: 2rem;
     border-width: 0 0.2rem 0.4rem 0;
-    box-shadow: 1rem 2rem 5rem 0.2rem #eee;
+    /*box-shadow: 1rem 2rem 5rem 0.2rem #eee;*/
 }
 .tree-test .c-kmaptree {
     height: 80vh;
@@ -81,7 +82,7 @@ aside#l-column__search--treeNav {
         margin: 0 2rem;
         font-size: 1.65rem;
         font-weight: bold;
-        letter-spacing: 0.0375rem;
+        letter-spacing: 0.0525rem;
         .treeNav-header__closeButton {
             padding: 0;
             margin: 0;

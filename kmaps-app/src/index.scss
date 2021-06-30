@@ -537,12 +537,13 @@ ul.fancytree-container {
     border-left: none;
 }
 .l-column__search .navbar-expand {
-    padding: 0.25rem 0 0 2rem;
+    padding: 0.25rem 0 0 1.75rem;
     flex-flow: row wrap;
 }
 .l-column__search .navbar-expand .navbar-collapse {
     justify-content: flex-start !important;
     margin-bottom: 0.5rem;
+    margin-top: 0.75rem;
     /*  position: absolute;
     left: 2rem;
     top: 1rem; */
