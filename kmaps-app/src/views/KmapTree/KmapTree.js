@@ -66,7 +66,6 @@ export default function KmapTree(props) {
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
-
     const perspective = usePerspective((state) => state[settings.domain]);
     settings.perspective = perspective;
 
@@ -185,13 +184,25 @@ export default function KmapTree(props) {
         }
     }
     /*
+    if (
+        settings.domain === 'subjects' &&
+        settings.elid.includes('subject-context-tree')
+    ) {
+        console.log('query results', {
+            root: rootData,
+            selnode: selNode,
+            settings: settings,
+        });
+    }
+    */
+    /*
     if (true || settings.elid.startsWith('related-places-tree-')) {
         console.log('selpath', settings.selPath);
         console.log('selnode', selNode);
     }
 
      */
-    if (rootData?.numFound > 0 && rootData.docs[0]?.uid?.includes('-')) {
+    if (rootData?.numFound == 1 && rootData.docs[0]?.uid?.includes('-')) {
         settings.root.kid = rootData.docs[0].uid.split('-')[1];
         if (settings.kid === 0 && settings.level === false) {
             settings.kid = settings.root.kid;

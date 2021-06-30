@@ -273,9 +273,18 @@ export function LeafChildren({
                 ) {
                     return null;
                 }
+                // Filter out related places not in path
                 if (
                     settings?.showRelatedPlaces &&
                     !settings?.selPath.includes(kidpts[1] * 1)
+                ) {
+                    return null;
+                }
+                // Filter out uncles/aunts not in showAncestor of selnode path
+                if (
+                    settings?.showAncestors &&
+                    settings?.selPath &&
+                    !settings.selPath.includes(child['id'].split('-')[1] * 1)
                 ) {
                     return null;
                 }

@@ -109,16 +109,16 @@ export function SubjectsRelSubjectsViewer({ id }) {
                         related to it.
                     </p>
 
-                    {/*
                     <KmapTree
                         elid={`subject-context-tree-${kid}`}
                         className="l-subject-context-tree"
                         domain={domain}
+                        level={1}
                         selectedNode={`${domain}-${kid}`}
                         showAncestors={true}
                     />
-                    */}
 
+                    {/*
                     <FancyTree
                         domain={domain}
                         tree={domain}
@@ -132,6 +132,8 @@ export function SubjectsRelSubjectsViewer({ id }) {
                         perspective={'gen'}
                         sortBy={'related_subjects_header_s+ASC'}
                     />
+
+                    */}
                     {/*
                         <pre>
                             {
