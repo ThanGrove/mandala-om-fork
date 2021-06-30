@@ -77,22 +77,35 @@ export default function LeafGroup({
                 const tlkey = `treeleaf-${doc.id}-${i}`;
                 const kid = doc.id.split('-')[1];
                 if (
-                    !settings?.project_ids ||
-                    settings.project_ids.includes(kid)
+                    settings?.project_ids &&
+                    !settings.project_ids.includes(kid)
                 ) {
-                    return (
-                        <TreeLeaf
-                            key={tlkey}
-                            domain={doc.tree}
-                            kid={kid}
-                            leaf_level={0}
-                            nolink={noRootLinks}
-                            settings={settings}
-                        />
-                    );
-                } /*else {
-                    console.log('not included', kid, settings.project_ids);
+                    return null;
+                }
+                /*
+                if (
+                    settings?.domain === 'subjects' &&
+                    settings?.elid.includes('subject-context-tree')
+                ) {
+                    console.log(settings.selPath, kid);
                 }*/
+                if (
+                    settings?.showAncestors &&
+                    settings?.selPath &&
+                    !settings.selPath.includes(kid * 1)
+                ) {
+                    return null;
+                }
+                return (
+                    <TreeLeaf
+                        key={tlkey}
+                        domain={doc.tree}
+                        kid={kid}
+                        leaf_level={0}
+                        nolink={noRootLinks}
+                        settings={settings}
+                    />
+                );
             })}
         </>
     );
