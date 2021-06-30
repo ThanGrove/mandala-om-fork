@@ -132,11 +132,10 @@ export function PlacesRelSubjects({ children }) {
                                     {' '}
                                     <span>
                                         (
-                                        {
-                                            relsb
-                                                ?.related_subjects_time_units_t[0]
-                                        }
-                                        )
+                                        {relsb?.related_subjects_time_units_t.join(
+                                            ', '
+                                        )}
+                                        {' CE)'}
                                     </span>{' '}
                                 </>
                             )}

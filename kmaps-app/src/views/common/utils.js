@@ -476,7 +476,7 @@ export function getSolrCitation(data, title, field) {
     if (citedata) {
         const tufield = field.replace('_citation_references_', '_time_units_');
         if (Object.keys(data).includes(tufield) && data[tufield].length > 0) {
-            citedata += ' ' + data[tufield].join(' ') + '.';
+            citedata += ' (' + data[tufield].join(' ') + ' CE).';
         }
         const srcicon = <span className="u-icon__sources"> </span>;
         return (

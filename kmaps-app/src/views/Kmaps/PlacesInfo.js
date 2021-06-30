@@ -409,7 +409,13 @@ export function PlacesLocation(props) {
         const valfld = `${fldpref}_value_s`;
         const timefld = `${fldpref}_time_units_ss`;
         let datestr = kmap[timefld] ? ` (${kmap[timefld]})` : '';
-        const mu = `<p>See ${kmap[fnm]} ${kmap[valfld]}${datestr}.</p>`;
+        if (!datestr) {
+            datestr = '';
+        }
+        if (!kmap[valfld]) {
+            kmap[valfld] = '';
+        }
+        const mu = `<p>See ${kmap[fnm]} ${kmap[valfld]}${datestr}</p>`;
         return <HtmlCustom key={`place-info-custom-ref-${n}`} markup={mu} />;
     });
 

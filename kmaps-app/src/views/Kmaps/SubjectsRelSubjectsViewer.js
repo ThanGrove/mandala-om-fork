@@ -6,6 +6,7 @@ import FancyTree from '../FancyTree';
 import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import KmapTree from '../KmapTree/KmapTree';
 
 export function SubjectsRelSubjectsViewer({ id }) {
     const baseType = 'subjects';
@@ -30,15 +31,16 @@ export function SubjectsRelSubjectsViewer({ id }) {
         : 0;
     let child_count = 0;
     if (kmap?._childDocuments_?.length > 0) {
-        const filtered_children = $.map(kmap._childDocuments_, function (
-            child
-        ) {
-            if (child.block_child_type === 'related_subjects') {
-                return child;
-            } else {
-                return null;
+        const filtered_children = $.map(
+            kmap._childDocuments_,
+            function (child) {
+                if (child.block_child_type === 'related_subjects') {
+                    return child;
+                } else {
+                    return null;
+                }
             }
-        });
+        );
         child_count = filtered_children.length - 1; // seems to include self
     }
 
@@ -52,12 +54,18 @@ export function SubjectsRelSubjectsViewer({ id }) {
         }
         const relcode = cd?.related_subjects_relation_code_s;
         if (relcode === 'is.part.of') {
+            const rsrtu = cd?.related_subjects_relation_time_units_ss
+                ? ` (${cd?.related_subjects_relation_time_units_ss} CE)`
+                : null;
             ispartof.push(
-                <MandalaPopover
-                    domain={relsub[0]}
-                    kid={relsub[1]}
-                    children={[cd.related_subjects_header_s]}
-                />
+                <>
+                    <MandalaPopover
+                        domain={relsub[0]}
+                        kid={relsub[1]}
+                        children={[cd.related_subjects_header_s]}
+                    />
+                    {rsrtu}
+                </>
             );
         }
         if (relcode === 'has.as.a.part') {
@@ -100,6 +108,17 @@ export function SubjectsRelSubjectsViewer({ id }) {
                         as well as {kmtype.toLowerCase()} non-hierarchically
                         related to it.
                     </p>
+
+                    {/*
+                    <KmapTree
+                        elid={`subject-context-tree-${kid}`}
+                        className="l-subject-context-tree"
+                        domain={domain}
+                        selectedNode={`${domain}-${kid}`}
+                        showAncestors={true}
+                    />
+                    */}
+
                     <FancyTree
                         domain={domain}
                         tree={domain}
