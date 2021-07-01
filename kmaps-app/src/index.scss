@@ -47,8 +47,6 @@ body.html {
 }
 
 .l-content__rightsidebar {
-    /*  flex: 0 0 28rem;*/
-    /*min-width: 25%;*/
     margin: 0 0 9rem;
     max-width: 45rem;
     min-width: calc(max(25vw, 32rem));
@@ -58,14 +56,16 @@ body.html {
     overflow: visible !important;
     .advanced-search-and-tree {
         border: none;
-        /*top: -3.45rem;
-        position: relative;*/
         margin-top: -3.4rem;
     }
 }
 .l-content__main__wrap {
     max-width: 90rem;
     margin: 0 auto;
+}
+.closeSideBar.l-content__rightsidebar,
+.closeSideBar .l-content__rightsidebar {
+    display: none;
 }
 
 /*
@@ -325,7 +325,7 @@ div.image-wrapper.center figcaption {
     padding-left: 1rem;
 }
 .c-nodeHeader > .icon {
-    margin: 0 1.25rem 0 0;
+    margin: 0 1rem 0 0.3rem;
     position: relative;
     top: 0.3rem;
     left: 0.1rem;
