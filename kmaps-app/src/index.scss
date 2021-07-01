@@ -433,7 +433,7 @@ ul.fancytree-container {
 }
 .advanced-search-and-tree .nav-tabs .nav-link {
     padding: 0 0.3rem;
-    margin: 0.85rem 0 0.1rem;
+    margin: 0 0 0.1rem;
     width: 31%;
     text-align: center;
     border: none;
@@ -442,6 +442,9 @@ ul.fancytree-container {
     color: #000;
     letter-spacing: 0.0375rem;
     position: relative;
+}
+.advanced-search-and-tree .treeNav-header ~ .nav-tabs .nav-link {
+    margin-top: 0;
 }
 .advanced-search-and-tree .nav-tabs .nav-link:nth-of-type(2) {
     width: 38%;
