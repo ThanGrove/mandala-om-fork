@@ -79,17 +79,20 @@
 
 .head-related {
     width: 100%;
-    margin: 1rem;
-    padding: 0.4rem 1rem;
+    margin: 1.5rem 1rem 0.25rem;
+    padding: 0.6rem 1rem 0.4rem;
     /* color: white; */
     font-weight: bold;
     font-size: 1.45rem;
+    border: 0.2rem solid #ddd;
+    border-width: 0.15rem 0 0 0.5rem;
 }
-
 .places .head-related {
-    background-color: $color-places;
+    border-left-color: $color-places;
 }
-
 .subjects .head-related {
-    background-color: $color-subjects;
+    border-left-color: $color-subjects;
+}
+.terms .head-related {
+    border-left-color: $color-terms;
 }
