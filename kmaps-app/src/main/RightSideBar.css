@@ -243,7 +243,7 @@
     color: #333;
     margin: 0 0 0.75rem;
     overflow: auto !important;
-    box-shadow: inset -1rem -2rem 3rem #c0c3d03d;
+    box-shadow: inset -1rem -2rem 2rem #c9ccd83d;
 }
 
 .sui-advBox:first-child .sui-advEdit {
