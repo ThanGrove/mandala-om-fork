@@ -511,7 +511,8 @@ color: #a4baec;
 .sui-advEditBool {
     position: relative;
     top: -0.15rem;
-    padding-left: 0.3rem;
+    padding-left: 0.4rem;
+    padding-right: 0.15rem;
     margin-left: 1.25rem;
     background: #fff;
 }

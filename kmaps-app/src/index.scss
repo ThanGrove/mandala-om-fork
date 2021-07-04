@@ -47,7 +47,7 @@ body.html {
 }
 
 .l-content__rightsidebar {
-    margin: 0 0 9rem;
+    margin: 0;
     max-width: 45rem;
     min-width: calc(max(25vw, 32rem));
     font-size: 1.4rem;
@@ -651,9 +651,10 @@ ul.fancytree-container {
     margin: 0 2rem 0 1rem;
     position: relative;
     top: -0.2rem;
+    padding: 0.3rem 1rem;
 }
 .l-column__search nav:nth-of-type(2) > span {
-    font-size: 1.625rem;
+    font-size: 1.5rem;
     font-weight: bold;
 }
 /*
