@@ -177,8 +177,8 @@ div#sui-transSrcGo input#sui-transSrcInp {
     border: 1px solid #d0d0d0;
     border-radius: 1.8rem;
     background-clip: padding-box;
-    font-size: 1.38em;
-    height: 2.25em;
+    font-size: 1.5rem;
+    height: 2em;
     margin: 0rem 2rem 0rem 2rem;
     padding: 0.2rem 4rem 0 3.7rem;
     max-width: 88%;
@@ -199,8 +199,8 @@ div#sui-transSrcGo input#sui-transSrcInp:focus {
 
 div#sui-transSrcGo .icon.search {
     position: absolute;
-    right: 44%;
-    top: 7.2rem;
+    right: 38.8rem;
+    top: 7.1rem;
     font-size: 1.38rem;
     color: #999;
 }
