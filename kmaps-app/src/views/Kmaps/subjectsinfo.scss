@@ -7,204 +7,162 @@ ndg, Nov. 11, 2020)
 
 @import '../../index-variables';
 
-/* main.subjects { */
-.l-content__main__wrap {
-    /*  max-width: unset; */
+.c-content__main__kmaps .featured-image {
+    float: right;
+    padding: 0.5rem;
+    background-color: #ffffff;
+    margin: 0 1rem 1rem 1rem;
+    img {
+        max-height: 21rem;
+        max-width: 23rem !important;
+        border-radius: 1px;
+        border: 1px solid #d0d0d0;
+        box-shadow: 0 0 2px 5px #f5f5f5;
+    }
 }
-.c-content__main__kmaps {
-    background-color: #fcfcfc;
-    min-height: 80rem;
-    .featured-image {
+
+ul.sui-nameEntry.first-entry
+    > li.sui-nameEntry:first-child
+    > span.sui-nameEntry-header:first-child {
+    display: inline-block;
+    color: #000;
+}
+
+.sui-nameEntry-meta {
+    display: inline-block;
+    font-style: italic;
+}
+
+.c-subject-info > div {
+    margin-left: 0.5rem;
+    min-height: 19rem;
+}
+
+.desc > h3 {
+    margin-left: -0.5rem;
+    padding: 0.5rem 0.5rem 0.5rem 1rem;
+    color: #ffffff;
+    background-color: #cc4c39;
+    font-weight: bold;
+    .text-id {
         float: right;
-        padding: 0.5rem;
-        background-color: #ffffff;
-        margin: 0 1rem 1rem 1rem;
-        img {
-            max-height: 21rem;
-            max-width: 23rem !important;
-            border-radius: 1px;
-            border: 1px solid #d0d0d0;
-            box-shadow: 0 0 2px 5px #f5f5f5;
+        font-size: 1.2rem;
+        margin-top: 0.4rem;
+        a {
+            color: #f0f0f0;
+            &:hover {
+                color: #fff;
+            }
         }
     }
+}
 
-    .c-nodeHeader {
-        /*  border-bottom: 1px solid #cc4c39; */
-    }
-
-    .sui-nameEntry__wrapper {
-    }
-
-    ul.sui-nameEntry.first-entry
-        > li.sui-nameEntry:first-child
-        > span.sui-nameEntry-header:first-child {
-        display: inline-block;
-        color: #000;
-        /* font-size: 1.5rem;
-        font-weight: 600; */
-    }
-
-    .sui-nameEntry-meta {
-        display: inline-block;
-        font-style: italic;
-    }
-
-    .c-subject-info > div {
-        margin-left: 0.5rem;
-        min-height: 19rem;
-    }
-
-    .summary {
-        /*  max-width: 75%;*/
-    }
-
-    .desc > h3 {
-        margin-left: -0.5rem;
-        padding: 0.5rem 0.5rem 0.5rem 1rem;
-        color: #ffffff;
-        background-color: #cc4c39;
+.desc .desc-toc {
+    float: right;
+    max-width: 350px;
+    margin: 2rem 0 2rem 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    background-color: #f7f7f7;
+    h3 {
         font-weight: bold;
-
-        .text-id {
-            float: right;
-            font-size: 1.2rem;
-            margin-top: 0.4rem;
-
-            a {
-                color: #f0f0f0;
-
-                &:hover {
-                    color: #fff;
-                }
-            }
+    }
+    ul {
+        padding-inline-start: 2rem;
+        line-height: 2.5rem;
+        li {
+            list-style-type: none;
         }
     }
+    ul > li::before {
+        content: '';
+        color: #999;
+        background-color: transparent;
+        border-radius: 0;
+        opacity: 0.8;
+        display: inline-block;
+        transform: rotate(45deg);
+        border: 4px double rgb(0, 0, 139);
+        position: relative;
+        top: -0.1rem;
+        margin-left: -2rem;
+        margin-right: 1rem;
+    }
+    ul > li > ul > li::before {
+        position: relative;
+        top: -0.15rem;
+        right: 0.2rem;
+        margin-right: 0.6rem;
+        margin-left: -1.5rem;
+        border-color: rgb(0, 0, 139);
+        border-radius: 0;
+        border-width: 0.1rem;
+        width: 0.7rem;
+        height: 0.7rem;
+    }
+}
 
-    .desc .desc-toc {
-        float: right;
-        max-width: 350px;
-        margin: 2rem 0 2rem 1rem;
+.info tr.shanti-texts-field.group_content_access {
+    display: none;
+}
+
+.kmaps-related-viewer {
+    a.nav-item {
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        font-weight: bold;
+        font-size: 1.35rem;
+        padding: 1.2rem 2.75rem 0.75rem;
+        &.active {
+            color: #000;
+            border-bottom: thin solid #fff;
+            border-top: 0.3rem solid #cc4c39;
+        }
+    }
+    & + .tab-content {
+        padding: 2rem 2rem 9rem;
+        background: #fff;
+        border: 1px solid #ddd;
+        border-top: none;
+    }
+}
+
+.kmap-related h3 {
+    margin-top: 1rem;
+}
+
+.c-relplaces-list.container-fluid {
+    margin: 2rem;
+    .c-featurePager__container.row {
         padding: 1rem;
-        border: 1px solid #ccc;
-        border-radius: 0.5rem;
-        background-color: #f7f7f7;
+        margin-left: -1.75rem;
+        background-color: #777;
+        color: white;
+        max-width: 1100px;
+        .c-featurePager__navButtons .icon {
+            color: #bcbcbc;
 
-        h3 {
-            font-weight: bold;
-        }
-
-        ul {
-            padding-inline-start: 2rem;
-            line-height: 2.5rem;
-
-            li {
-                list-style-type: none;
+            &:hover {
+                color: #fff;
             }
         }
-
-        ul > li::before {
-            content: '';
-            color: #999;
-            background-color: transparent;
-            border-radius: 0;
-            opacity: 0.8;
-            display: inline-block;
-            margin-right: 1rem;
-            transform: rotate(45deg);
-            border: 4px double rgb(0, 0, 139);
-            position: relative;
-            top: -0.1rem;
-            margin-left: -2rem;
-            margin-right: 1rem;
-        }
-
-        ul > li > ul > li::before {
-            position: relative;
-            top: -0.15rem;
-            right: 0.2rem;
-            margin-right: 0.6rem;
-            border-radius: 0;
-            border-width: 0.25rem;
-            border-color: rgb(0, 0, 139);
-            margin-left: -1.5rem;
-            border-radius: 0;
-            border-width: 0.1rem;
-            width: 0.7rem;
-            height: 0.7rem;
-        }
     }
-
-    .info tr.shanti-texts-field.group_content_access {
-        display: none;
+    .c-featurePager__container.row > div {
+        width: 30%;
+        text-align: left;
     }
-
-    .kmaps-related-viewer {
-        a.nav-item {
-            text-align: center;
-            text-transform: uppercase;
-            letter-spacing: 0.1rem;
-            font-weight: bold;
-            font-size: 1.35rem;
-            padding: 1.2rem 2.75rem 0.75rem;
-
-            &.active {
-                color: #000;
-                border-bottom: thin solid #fff;
-                border-top: 0.3rem solid #cc4c39;
-            }
-        }
-        & + .tab-content {
-            padding: 2rem 2rem 9rem;
-            background: #fff;
-            border: 1px solid #ddd;
-            border-top: none;
-        }
+    .row > div {
+        padding-left: 0;
     }
+}
+/*  End of c-content__main__kmaps */
 
-    .kmap-related h3 {
-        margin-top: 1rem;
-    }
-
-    .c-relplaces-list.container-fluid {
-        margin: 2rem;
-        .c-featurePager__container.row {
-            padding: 1rem;
-            margin-left: -1.75rem;
-            background-color: #777;
-            color: white;
-            max-width: 1100px;
-
-            .c-featurePager__navButtons .icon {
-                color: #bcbcbc;
-
-                &:hover {
-                    color: #fff;
-                }
-            }
-        }
-        .c-featurePager__container.row > div {
-            width: 30%;
-            text-align: left;
-        }
-
-        .row > div {
-            padding-left: 0;
-        }
-
-        /* ul,
-            li {
-                list-style-type: none;
-                padding-inline-start: 0;
-                margin: 0;
-                padding: 0;
-            } */
-    }
-} /*  End of c-content__main__kmaps */
-
-/* Styles from mandala that possible should be global */
+/* Styles from mandala that probably should be global */
 
 .shanti-texts-section-title {
-    margin: 2rem 0rem 1rem;
+    margin: 2rem 0 1rem;
     font-weight: 500;
     line-height: 2.75rem;
     color: #555 !important;

@@ -176,6 +176,9 @@ div.image-wrapper.center figcaption {
     min-height: 70rem;
     position: relative;
 }
+.c-content__main__kmaps > * {
+    max-width: 90rem;
+}
 // * Local fix for responsive display - temp
 .c-content__main__kmaps img,
 .c-content__main__kmaps .images.legacy img {
