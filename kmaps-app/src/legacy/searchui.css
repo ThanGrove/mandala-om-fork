@@ -878,7 +878,7 @@
 .sui-transSrc {
     background-color: #999;
     display: none;
-    height: 55px;
+    height: 7rem;
     width: calc(100% - 1px);
 }
 .sui-transRow {
