@@ -205,35 +205,31 @@ export default function SearchAdvanced(props) {
             <Navbar>
                 {/*<Navbar.Brand href="#home">Navbar with text</Navbar.Brand>*/}
                 <Navbar.Toggle />
-                {!searchView &&
-                    process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                        <>
-                            <Link to={`/search/deck`}>
-                                <IconContext.Provider
-                                    value={{ className: 'icon' }}
-                                >
-                                    <FaRegArrowAltCircleRight />
-                                </IconContext.Provider>
-                            </Link>
-                            <span>
-                                Total Results
-                                <Badge pill variant={'secondary'}>
-                                    {searchData.response?.numFound}
-                                </Badge>
-                            </span>
-                        </>
-                    )}
-                {!searchView &&
-                    process.env.REACT_APP_STANDALONE === 'standalone' && (
-                        <a
-                            href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search`}
-                        >
-                            {'<<'} Show Results{' '}
+                {process.env.REACT_APP_STANDALONE !== 'standalone' && (
+                    <>
+                        <Link to={`/search/deck`}>
+                            <IconContext.Provider value={{ className: 'icon' }}>
+                                <FaRegArrowAltCircleRight />
+                            </IconContext.Provider>
+                        </Link>
+                        <span>
+                            Total Results
                             <Badge pill variant={'secondary'}>
                                 {searchData.response?.numFound}
                             </Badge>
-                        </a>
-                    )}
+                        </span>
+                    </>
+                )}
+                {process.env.REACT_APP_STANDALONE === 'standalone' && (
+                    <a
+                        href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search`}
+                    >
+                        {'<< '} Total Results{' '}
+                        <Badge pill variant={'secondary'}>
+                            {searchData.response?.numFound}
+                        </Badge>
+                    </a>
+                )}
                 <Navbar.Collapse className="justify-content-end">
                     <Navbar.Text>Reset:</Navbar.Text>
                     <Nav.Link
