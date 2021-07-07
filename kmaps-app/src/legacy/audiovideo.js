@@ -425,7 +425,8 @@ export default class AudioVideo {
                 for (i = 0; i < d.field_pbcore_contributor.und.length; ++i) {
                     f = d.field_pbcore_contributor.und[i]; // Point at it
                     // For each creator
-                    agrole = f.field_contributor_role.und[0].value.toLowerCase();
+                    agrole =
+                        f.field_contributor_role.und[0].value.toLowerCase();
                     agroleprefix =
                         agrole.indexOf('assistant') > -1 ? '' : 'CONTRIBUTING';
                     agname = sui.pages.WrapInLangSpan(
@@ -973,9 +974,9 @@ export default class AudioVideo {
                     <div class="transSrcWrap ${browser}">
                         <div class="navigator">
                             <div class="navwrapper" style="display: none;">
-                                <div id='sui-transSrcB' style='display:inline-block;color:#fff;font-size:20px;cursor:pointer' title='Previous result'>&#xe640</div>
-                                <div id='sui-transSrcN' style='display:inline-block;color:#fff;margin:0 16px;font-size:12px;cursor:pointer;vertical-align:4px'>0 of 0</div>
-                                <div id='sui-transSrcF' style='display:inline-block;color:#fff;font-size:20px;cursor:pointer' title='Previous result'>&#xe641</div>
+                                <div id='sui-transSrcB' title='Previous result'>&#xe640</div>
+                                <div id='sui-transSrcN'>0 of 0</div>
+                                <div id='sui-transSrcF' title='Previous result'>&#xe641</div>
                             </div>
                         </div>
                         <div id='sui-transSrcGo' class='sui-search4'>
