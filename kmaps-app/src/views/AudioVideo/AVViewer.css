@@ -147,17 +147,6 @@ div#av-trscrpt-wrapper {
     width: 99.7%;
 }
 
-#av-trscrpt-wrapper .av-trscrpt-ctrls .sui-transTab {
-    /* height: 6rem;
-    padding-top: 1.4rem;*/
-}
-#av-trscrpt-wrapper .av-trscrpt-ctrls .sui-transTab {
-    /* font-size: 2.5rem;*/
-}
-#av-trscrpt-wrapper .av-trscrpt-ctrls #sui-transTab1 {
-    font-size: 1.75rem;
-    padding-top: 1.8rem;
-}
 #sui-transSrc .transSrcWrap {
     display: flex;
 }

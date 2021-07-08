@@ -1264,7 +1264,7 @@ export default class AudioVideo {
                 )}'>&#xe680</div> 
 				</div>
 				<div class='sui-transMinBox' id='sui-transMinBox-${i}'
-				style='margin:${res.rev ? '0 150px 0 0' : '0  0 0 150px'}'>`;
+				style='margin:${res.rev ? '0 4rem 0 0' : '0  0 0 4rem'}'>`;
                 for (lang in res.languages) // For each language
                     if (res.segs[i][lang] && res.languages[lang])
                         // If something there and checked
@@ -1278,14 +1278,16 @@ export default class AudioVideo {
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
-				<div style='float:${res.rev ? 'right' : 'left'};font-size:18px;'>
+				<div style='float:${res.rev ? 'right' : 'left'};'>
 				${res.segs[i].speaker ? res.segs[i].speaker + '<br>' : ''}
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680
-				<span style='margin-left:24px;font-size:12px;vertical-align:4px'>
-				${this.SecondsToTimecode(res.segs[i].start)}</span></div></div> 
-				<div class='sui-transBox' id='sui-transBox-${i}'
-				style='margin:${res.rev ? '0 150px 0 0' : '0  0 0 150px'}'>`;
+				<span class='sui-transPlay-duration'>${this.SecondsToTimecode(
+                    res.segs[i].start
+                )}</span></div></div> 
+				<div class='sui-transBox' id='sui-transBox-${i}' style='margin:${
+                    res.rev ? '0 14rem 0 0' : '0  0 0 14rem'
+                }'>`;
                 for (lang in res.languages) // For each language
                     if (res.segs[i][lang] && res.languages[lang])
                         // If something there and checked
