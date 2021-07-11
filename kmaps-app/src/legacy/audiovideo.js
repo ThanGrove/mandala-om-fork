@@ -963,7 +963,7 @@ export default class AudioVideo {
 
         var str = `<div id='av-trscrpt-wrapper' class='col'>
             <div class='av-trscrpt-ctrls row'>
-                <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f&#xe609</div>
+                <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f<span>&#xe609</span></div>
                 <div id='sui-transTab1' class='sui-transTab col' title='Play/Pause'>&#xe641</div>
                 <div id='sui-transTab2' class='sui-transTab col' title='Previous line'>&#xe602</div>
                 <div id='sui-transTab3' class='sui-transTab col' title='Same line'>&#xe632</div>

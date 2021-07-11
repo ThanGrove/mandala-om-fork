@@ -87,10 +87,12 @@ div#av-trscrpt-wrapper {
 
 #av-meta-row .nav-tabs a {
     line-height: 3rem;
+    font-size: 1.65rem;
     width: 50%;
     text-align: center;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    letter-spacing: 0.175rem;
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
     background-color: rgb(88, 170, 180);
 }
 
@@ -100,20 +102,21 @@ div#av-trscrpt-wrapper {
 
 #av-meta-row .nav-tabs a.active {
     background-color: white;
-    border: 2px solid rgb(88, 170, 180);
+    border: 2px solid #ccc;
     color: rgb(88, 170, 180);
     font-weight: bold;
     border-bottom: none;
 }
 
 #av-meta-row .tab-content .tab-pane {
-    padding: 1.2rem 2.4rem;
+    padding: 2rem 2.4rem 3rem;
     min-height: 50rem;
     background-color: #fff;
-    border: 2px solid rgb(88, 170, 180);
+    border: 2px solid #ccc;
     border-top: none;
     width: 100%;
     margin-right: 0.6rem;
+    border-radius: 0 1rem 1rem;
 }
 
 .sui-popover {
@@ -349,26 +352,19 @@ div#sui-transSrcGo .icon.clear {
 div#meta-details {
     font-size: 1.25rem;
 }
-
 div#meta-details p {
-    margin: 0;
+    margin: 0 0 0 18rem;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
-
 div#meta-details p strong {
-    width: 15em !important;
+    width: 20em !important;
     display: inline-block;
-    border-right: 2px solid #ddd;
-    margin-right: 1rem;
-    padding-bottom: 1rem;
     text-transform: uppercase;
     letter-spacing: 0.0475rem;
-    font-weight: 400;
     font-size: 1.25rem;
-    margin-bottom: -3px;
-    padding-top: 3px;
+    margin: 0 0 0 -18rem;
+    padding: 0.3rem 0 1rem;
 }
-
 div#meta-details p strong:after {
     content: '';
 }

@@ -188,6 +188,7 @@ export default function ContentMain(props) {
                         </React.Suspense>
                     </Section>
                     <Bar
+                        className="resize-column"
                         size={10}
                         style={{
                             background: 'transparent',

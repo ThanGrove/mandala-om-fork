@@ -903,8 +903,11 @@ color: #a4baec;
     background-color: #444;
 }
 .av-trscrpt-ctrls .sui-transTab:first-child {
-    font-size: 2.1rem;
-    padding-top: 1.8rem;
+    font-size: 2.65rem;
+    padding-top: 1.25rem;
+}
+.av-trscrpt-ctrls .sui-transTab:first-child span {
+    font-size: 1.5rem;
 }
 .av-trscrpt-ctrls .sui-transTab:nth-child(2) {
     font-size: 1.9rem;
@@ -1014,20 +1017,19 @@ color: #a4baec;
     font-size: 1.75rem;
     cursor: pointer;
     border-radius: 6px;
-    width: 8rem;
+    width: 9rem;
     height: 2.6rem;
-    padding: 1px 0 0 8px;
+    padding: 0.1rem 0 0 8px;
     background-color: #999;
-    margin: 6px 44px 0 0;
     margin: 0;
 }
 .sui-transPlay:hover {
     background-color: #888;
 }
 .sui-transPlay-duration {
-    margin-left: 1.5rem;
-    font-size: 1.2rem;
-    vertical-align: 0.4rem;
+    margin-left: 1.35rem;
+    font-size: 1.35rem;
+    vertical-align: 0.3rem;
 }
 /* SUBJECTS & PLACES TAB MENUS */
 .sui-spCat {
