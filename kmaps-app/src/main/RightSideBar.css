@@ -72,8 +72,9 @@
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
     border: 1px solid #ddd;
-    opacity: 0.9;
+    opacity: 0.8;
 }
+.sui-advHeader:hover .badge,
 .sui-advHeader .badge:hover {
     border-color: #4d59ca;
     opacity: 1;
