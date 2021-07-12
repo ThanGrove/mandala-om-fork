@@ -1131,8 +1131,8 @@ span.refdate {
     top: 1rem;
     display: inline-block;
     content: '';
-    width: 1.25rem;
-    border: 1px solid #444cf7;
+    width: 1.5rem;
+    border: 1px solid #aaa;
     border-width: 1.5rem 0.1rem 1.5rem 0.2rem;
     border-radius: 0.5rem 0 0 0.5rem;
     opacity: 0.3;
@@ -1141,6 +1141,7 @@ span.refdate {
 .resize-column:hover div::before {
     opacity: 0.3;
     left: -0.6rem;
+    border-color: #444cf7;
     border-left-width: 0.1rem;
     background-color: #ccc;
     background-size: 3px 3px;
