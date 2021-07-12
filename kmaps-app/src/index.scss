@@ -1133,7 +1133,7 @@ span.refdate {
     content: '';
     width: 1.5rem;
     border: 1px solid #aaa;
-    border-width: 1.5rem 0.1rem 1.5rem 0.2rem;
+    border-width: 2rem 0.1rem 2rem 0.2rem;
     border-radius: 0.5rem 0 0 0.5rem;
     opacity: 0.3;
     transition: all 0.2s ease-in-out;
@@ -1143,17 +1143,18 @@ span.refdate {
     left: -0.6rem;
     border-color: #444cf7;
     border-left-width: 0.1rem;
-    background-color: #ccc;
-    background-size: 3px 3px;
+    background-color: #fff;
+    background-size: 0.3rem 0.3rem;
     background-image: repeating-linear-gradient(
         0deg,
         #444cf7,
-        #444cf7 1px,
-        #e5e5f7 1px,
+        #444cf7 0.1rem,
+        #e5e5f7 0.1rem,
         #e5e5f7
     );
 }
 .resize-column:active div::before {
     opacity: 0.6;
-    background-color: #fff;
+    background-size: 0.35rem 0.35rem;
+    border-width: 1.5rem 0.1rem 1.5rem 0.1rem;
 }
