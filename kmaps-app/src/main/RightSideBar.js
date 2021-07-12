@@ -35,7 +35,7 @@ export default function RightSideBar() {
             className={`l-content__rightsidebar ${
                 closeButton ? 'openSideBar' : 'closeSideBar'
             }`}
-            maxSize={500}
+            maxSize={600}
             minSize={350}
             defaultSize={350}
         >
