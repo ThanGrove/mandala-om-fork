@@ -34,16 +34,23 @@ export default function PlacesRelSubjectsViewer() {
 
 export function PlacesFeatureTypes({ parent }) {
     let ftcites = {};
+    let ftdates = {};
     parent._childDocuments_
         .filter((cld) => {
             return cld.block_child_type === 'feature_types';
         })
         .forEach((cld, n) => {
+            console.log('child', cld);
             ftcites[cld.feature_type_id_i] =
                 cld?.feature_type_citation_references_ss &&
                 cld?.feature_type_citation_references_ss.length > 0
                     ? cld
                     : false;
+            ftdates[cld.feature_type_id_i] =
+                cld?.feature_type_time_units_ss &&
+                cld?.feature_type_time_units_ss.length > 0
+                    ? `(${cld?.feature_type_time_units_ss[0]})`
+                    : null;
         });
     const ftnote = getFeatureTypeNotes(parent);
     return (
@@ -70,6 +77,7 @@ export function PlacesFeatureTypes({ parent }) {
                                     content={ftnote['content']}
                                 />
                             )}
+                            {ftdates[kid]}
                         </li>
                     );
                 })}
