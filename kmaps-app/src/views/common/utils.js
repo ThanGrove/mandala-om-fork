@@ -489,3 +489,8 @@ export function getSolrCitation(data, title, field) {
     }
     return null;
 }
+
+export function findFieldNames(data, regex) {
+    const keys = Object.keys(data);
+    return keys.filter((k, ki) => {});
+}

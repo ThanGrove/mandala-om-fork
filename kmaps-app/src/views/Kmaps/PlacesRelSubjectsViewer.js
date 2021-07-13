@@ -33,6 +33,9 @@ export default function PlacesRelSubjectsViewer() {
 }
 
 export function PlacesFeatureTypes({ parent }) {
+    if (!parent?.feature_type_ids?.length > 0) {
+        return null;
+    }
     let ftcites = {};
     let ftdates = {};
     parent._childDocuments_
@@ -40,7 +43,6 @@ export function PlacesFeatureTypes({ parent }) {
             return cld.block_child_type === 'feature_types';
         })
         .forEach((cld, n) => {
-            console.log('child', cld);
             ftcites[cld.feature_type_id_i] =
                 cld?.feature_type_citation_references_ss &&
                 cld?.feature_type_citation_references_ss.length > 0
