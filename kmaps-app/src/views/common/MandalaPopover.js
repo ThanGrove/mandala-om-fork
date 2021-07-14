@@ -105,26 +105,28 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     }
 
     return (
-        <span
-            data-kmdomain={domain}
-            data-kmid={kid}
-            className="d-inline-flex align-items-center kmap-tag-group"
-        >
-            {children}
-            {termdefs && (
-                <span className="deflinks">
-                    {termdefs.map((defn) => {
-                        return (
-                            <Link
-                                to={`/${domain}/${kid}#def-${defn}`}
-                                title={`Definition ${defn}`}
-                            >
-                                {defn}
-                            </Link>
-                        );
-                    })}
-                </span>
-            )}
+        <span className="text-nowrap">
+            <span
+                data-kmdomain={domain}
+                data-kmid={kid}
+                className="d-inline-flex align-items-center kmap-tag-group"
+            >
+                {children}
+                {termdefs && (
+                    <span className="deflinks">
+                        {termdefs.map((defn) => {
+                            return (
+                                <Link
+                                    to={`/${domain}/${kid}#def-${defn}`}
+                                    title={`Definition ${defn}`}
+                                >
+                                    {defn}
+                                </Link>
+                            );
+                        })}
+                    </span>
+                )}
+            </span>
             <span onMouseEnter={showPop} onMouseLeave={() => setShow(false)}>
                 <span ref={target} className="popover-link">
                     <span className="icon u-icon__kmaps-popover" />

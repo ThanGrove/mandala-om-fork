@@ -200,27 +200,6 @@ export function PlacesNames(props) {
     // Places Name tab content. Displays main name, alternative names and etymologies
     // Code for query from Bill's code, searchui.js function GetChildNamesFromID()
     // Code for processing results from places.js line 446ff
-    /*
-
-    const query = {
-        index: 'terms',
-        params: {
-            fl: `uid,[child childFilter=id:${props.id}_names-* parentFilter=block_type:parent limit=1000]`,
-            q: `uid:${props.id}`,
-            wt: 'json',
-            rows: 300,
-        },
-    }; // Need to make new query because _childDocuments_ does not contain all name children returned by this query
-       // Update: the need to make a new query was only because the original one did not have a limit=1000, but that has since been added.
-
-    const {
-        isLoading: isNamesLoading,
-        data: namedoc,
-        isError: isNameError,
-        error: nameError,
-    } = useSolr(`place-${props.id}-names`, query);
-    */
-    let childlist = [];
     let etymologies = [];
     if (!props?.kmap) {
         return <MandalaSkeleton />;
