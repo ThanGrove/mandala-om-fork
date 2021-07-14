@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import React, { useLayoutEffect, useState } from 'react';
 import { SearchBar } from '../../search/SearchBar';
+import { AdvancedToggle } from '../MainSearchToggle/AdvancedToggle';
 // import Headroom from '../../../node_modules/headroom.js'; // see https://wicky.nillia.ms/headroom.js/
 import './SiteHeader.scss';
 
@@ -59,6 +60,8 @@ export function SiteHeader(props) {
                 </div>
 
                 <SearchBar advanced={props.advanced} tree={props.tree} />
+
+                <AdvancedToggle />
 
                 <button
                     className="navbar-toggler"
