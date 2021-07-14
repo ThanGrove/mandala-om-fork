@@ -98,14 +98,14 @@
 }
 
 .card-title {
-    margin: 0.5rem 0 0.5rem;
+    margin: 0.5rem 0;
     font-size: 1.2rem;
     font-weight: bold;
-    margin-top: 0.75rem;
+    line-height: 1.4;
     word-break: break-word;
 }
 .card-title a {
-    padding: 0 0.75rem 0 0.25rem;
+    padding: 0 0 0 0.25rem;
     border-bottom: none !important;
     display: inline-block;
     width: 100%;
@@ -147,18 +147,20 @@
 .c-card__footer:active {
     background-color: #907325;
 }
-.c-card__footer a {
+.c-card__footer a,
+.c-card__footer .shanti-field-path {
     color: #fff;
     border: none !important;
-    padding: 0.3rem 0 0.3rem 0.8rem;
+    padding: 0.2rem 0 0.2rem 0.8rem;
     font-size: 1.25rem;
+    line-height: 1.75;
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 98%;
     font-weight: 400;
-    font-family: $font-family-sans;
+    font-family: 'Open Sans', sans-serif;
 }
 .c-card__footer a:hover {
     background-color: transparent;
@@ -170,40 +172,31 @@
 .c-card__footer .icon::before {
     font-size: 1.2em;
     position: relative;
-    top: 0.2rem;
+    top: 0.1rem;
 }
-.c-card__footer .shanti-field-content {
-    color: #fff;
-}
-.c-card__footer .shanti-field-path {
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    width: 98%;
-    display: block;
+.c-card__footer .shanti-field-path .icon::before {
+    margin-right: 0.5rem;
+    font-size: 1.2em;
     position: relative;
-    right: 0.2rem !important;
-    color: white;
+    top: 0.2rem;
 }
 .c-card__grid--places .c-card__footer .shanti-field-path,
 .c-card__grid--subjects .c-card__footer .shanti-field-path,
 .c-card__grid--terms .c-card__footer .shanti-field-path {
-    margin: 0.5em 0 0 0.5em;
+    /*  margin: 0.5em 0 0 0.5em; */
 }
 .c-card__footer .shanti-field-path .shanti-field-content:empty {
     display: none;
 }
-.c-card__footer .shanti-field-path span::before {
-    /* this targets only kmaps info in footer */
+.c-card__footer span::before {
+    /* this targets only kmaps info in footer
     color: #fff;
     position: relative;
     top: 0.15rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
+    margin-right: 0.5rem; */
 }
 .c-card__footer .u-icon__places {
-    color: #fff;
+    /* color: #fff; */
 }
 
 .c-card__content-field a {

@@ -125,7 +125,8 @@ export function FeatureCard(props) {
                 <div className="info shanti-field-path">
                     <span
                         className={
-                            'shanti-field-content u-icon__' + doc.asset_type
+                            'shanti-field-content icon u-icon__' +
+                            doc.asset_type
                         }
                     >
                         <SmartPath doc={doc} />
