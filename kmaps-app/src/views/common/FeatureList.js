@@ -157,7 +157,9 @@ function FeatureAssetListItem(props) {
                         <span className={'uid'}>{doc.uid}</span>
                         {collection && (
                             <span className={'coll'}>
-                                <span className={'u-icon__collections'}></span>
+                                <span
+                                    className={'u-icon__collections icon'}
+                                ></span>
                                 {collection}
                             </span>
                         )}

@@ -799,6 +799,7 @@ ul.fancytree-container {
         /* border: unset; */
         border-color: #cde3f7;
         border-width: 0.1rem 0 0;
+        background-color: #fcfcfc;
         margin-left: 5rem !important;
     }
     .u-icon__plus {
@@ -888,11 +889,20 @@ ul.fancytree-container {
         min-height: 3rem;
         font-size: 1.25rem;
         /*  min-width: 40vw;*/
+        background-color: #fcfcfc;
         overflow: visible;
         padding: 0.25rem 0.5rem 0.5rem !important;
         .shanticon-audio-video::before {
             position: relative;
             left: 0.1rem;
+        }
+        .icon {
+            margin-right: 0.3rem;
+        }
+        .icon.u-icon__collections::before {
+            font-size: 1.35rem;
+            position: relative;
+            top: 0.2rem;
         }
         span.img {
             float: left;
@@ -907,9 +917,6 @@ ul.fancytree-container {
         }
         .info {
             padding-top: 0.75rem;
-            .icon {
-                margin-right: 0.25rem;
-            }
         }
         .creator {
             display: block;

@@ -114,7 +114,7 @@ export function FeatureCard(props) {
     }
     const footer_text = doc.collection_title ? (
         <Link to={footer_coll_link}>
-            <span className={'icon u-icon__collections'}>
+            <span className={'u-icon__collections icon'}>
                 {' '}
                 {doc.collection_title}{' '}
             </span>
