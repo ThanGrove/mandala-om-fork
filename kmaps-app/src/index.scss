@@ -13,7 +13,7 @@ body {
     font-family: $font-family-sans, sans-serif;
     text-rendering: optimizeLegibility;
     background-color: #eee;
-    font-size: 1.4rem;
+    font-size: 1.35rem;
 }
 
 body.html {
@@ -22,7 +22,6 @@ body.html {
 
 .two-columns {
     display: flex;
-    padding: 0 0.75rem 0 0.5rem;
     padding: 0 0 0 0.5rem;
 }
 
@@ -394,16 +393,22 @@ div.image-wrapper.center figcaption {
 }
 
 .c-nodeHeader-itemSummary {
-    margin: 1rem 0rem;
+    margin: 1rem 0;
 }
 
 .c-nodeHeader-itemSummary .featured {
     margin: 0 0.2rem 0 -1rem;
 
     & > img {
-        padding: 0.3rem;
+        /*  padding: 0.3rem;
         border: 2px solid #777;
-        min-width: 130px;
+        min-width: 130px; */
+        background-color: #fff;
+        border-radius: 0.3rem !important;
+        padding: 0.8rem;
+        box-shadow: 0 0 5px 1px #999 inset;
+        margin: 0.5rem 1rem 0.5rem 0;
+        max-height: 180px !important;
     }
 }
 
@@ -787,34 +792,38 @@ ul.fancytree-container {
     margin: 0 2rem 0 0;
 }
 .list .c-view {
-    margin: 0 2rem;
-    margin: 0;
+    /* margin: 0 2rem; */
+    margin: 0 1rem 0 0.5rem;
     .card {
         /* border: unset; */
         border-color: #cde3f7;
+        border-width: 0.1rem 0 0;
+        margin-left: 5rem !important;
     }
     .u-icon__plus {
         color: #4d59ca;
-        opacity: 0.6;
+        opacity: 0.4;
         display: inline-block;
-        margin-right: 1rem;
+        margin-right: 1.5rem;
+        margin-left: -3rem;
         font-size: 1.2rem;
         cursor: pointer;
-
         &:hover {
             opacity: 0.8;
         }
         &.open,
         &.openitem {
             transform: rotate(45deg);
+            opacity: 1;
         }
     }
 
     .card .type.icon {
         font-size: 1.2rem;
-        padding: 0.3rem;
+        padding: 0.4rem;
         border: 3px double #fff;
         border-radius: 0.5rem;
+        margin-right: 0.25rem;
         &.shanticon-audio-video {
             background-color: $color-audio-video;
             color: #fff;
@@ -851,6 +860,7 @@ ul.fancytree-container {
 
     .title {
         padding-top: 0.5rem;
+        margin-left: -2rem;
         .header .subtitle {
             display: inline-block;
             margin-left: 0.5rem;
@@ -875,26 +885,30 @@ ul.fancytree-container {
     .card-body {
         max-height: unset;
         min-height: 3rem;
-        font-size: 1.4rem;
+        font-size: 1.25rem;
         /*  min-width: 40vw;*/
         overflow: visible;
         padding: 0.25rem 0.5rem 0.5rem !important;
+        .shanticon-audio-video::before {
+            position: relative;
+            left: 0.1rem;
+        }
         span.img {
-            margin: 0 1rem 1rem 0;
-            border: thin solid #aaa;
+            margin: 0 1rem 1rem 1rem;
+            /* border: thin solid #aaa;
             background-color: #ddd;
             padding: 0.4rem;
-            border-radius: 6px;
+            border-radius: 6px; */
             float: left;
         }
-
         img {
             background-color: #fff;
-            max-width: 150px;
-            padding: 0.3rem;
-            border-radius: 6px;
+            border-radius: 0.3rem !important;
+            padding: 0.8rem;
+            box-shadow: 0 0 5px 1px #999 inset;
+            margin: 0.5rem 1rem 0.5rem 0;
+            max-width: 150px !important;
         }
-
         .creator {
             display: block;
             margin: 0.3rem 0;
@@ -906,16 +920,19 @@ ul.fancytree-container {
             clear: both;
             h5 {
                 text-transform: uppercase;
-                font-size: 1.2rem;
+                font-size: 1.3rem;
                 font-weight: 600;
+                color: #555;
+                margin-left: -0.75rem;
             }
             span.icon {
                 display: inline-block;
-                margin-right: 0.5rem;
+                margin-right: 0.75rem;
+                font-size: 1.5rem;
             }
 
             ul {
-                margin-left: 0px;
+                margin-left: 0;
                 padding-inline-start: 1.5rem;
             }
             li {
@@ -970,10 +987,10 @@ ul.fancytree-container {
     // Ancestors (and captions) for kmaps in list view
     .ancestors,
     .caption {
-        margin-left: 5.5rem;
+        /* margin-left: 5.5rem; */
         font-size: 1.3rem;
         white-space: nowrap;
-
+        margin-left: 3rem;
         span {
             display: inline-block;
             margin-left: 0.25rem;
@@ -1004,19 +1021,22 @@ ul.fancytree-container {
 
     .collapse .info.kmaps,
     .collapsing .info.kmaps {
-        margin-bottom: -1.5rem;
+        /* margin-bottom: -1.5rem; */
         & > * {
-            margin-left: 5.5rem;
+            /*  margin-left: 5.5rem;
             font-size: 1.4rem;
-            line-height: 2.5rem;
+            line-height: 2.5rem; */
         }
         p.caption {
             margin-bottom: 0;
             font-style: italic;
         }
         div.altnames {
-            margin-top: 0;
-            font-size: 1.5rem;
+            margin: 0 0 0 1rem;
+            font-size: 1.25rem;
+            .bo {
+                font-size: 1.9rem;
+            }
         }
     }
 } // End list view styles
@@ -1133,7 +1153,8 @@ span.refdate {
     display: inline-block;
     content: '';
     width: 1.5rem;
-    border: 1px solid #aaa;
+    border-style: solid;
+    border-color: #aaa;
     border-width: 2rem 0.1rem 2rem 0.2rem;
     border-radius: 0.5rem 0 0 0.5rem;
     opacity: 0.3;

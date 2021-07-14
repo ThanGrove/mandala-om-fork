@@ -4,7 +4,7 @@
     margin: 0 1rem;
     max-height: 50rem;
     overflow-y: scroll;
-    border: 2px solid #999;
+    border-style: solid;
     border-color: #929ae4 #929ae4 #929ae4 #ddd;
     border-width: 0.2rem 0.15rem 0.3rem 0.1rem;
     border-radius: 0.5rem 0.5rem 3rem 0.5rem;
@@ -189,7 +189,7 @@ aside#l-column__search--treeNav {
 }
 
 .lvl-0 {
-    margin-left: 0rem !important;
+    margin-left: 0 !important;
 }
 
 [class*='lvl-'] {

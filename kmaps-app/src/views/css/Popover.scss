@@ -56,6 +56,14 @@
     top: 0.4rem;
     margin: 0 1rem 0 0.2rem;
     font-size: 1.75rem;
+    svg {
+        margin-top: -0.5rem;
+    }
+    .u-icon__sources {
+        position: relative;
+        top: -0.2rem;
+        font-size: 1.4rem;
+    }
 }
 .popover-link .icon::before {
     color: $color-mandala;
