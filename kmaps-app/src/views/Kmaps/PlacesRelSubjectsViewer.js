@@ -120,6 +120,10 @@ export function PlacesRelSubjects({ children }) {
                             />
                         );
                     }
+                    const cname =
+                        relsb?.related_subjects_display_string_s.length < 80
+                            ? 'text-nowrap'
+                            : '';
                     return (
                         <li
                             key={
@@ -127,6 +131,7 @@ export function PlacesRelSubjects({ children }) {
                                 '-' +
                                 cind
                             }
+                            className={cname}
                         >
                             {
                                 <MandalaPopover

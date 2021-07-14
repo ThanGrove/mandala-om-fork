@@ -189,7 +189,7 @@ export function PlacesSummary({ kmapData }) {
                 {/* Add column with summary if exists */}
                 {(kmapData?.summary_eng?.length > 0 ||
                     kmapData?.feature_type_ids?.length > 0) && (
-                    <Col>
+                    <Col md={8}>
                         {/* Feature type list if exists */}
                         <PlacesFeatureTypes parent={kmapData} />
                         <PlacesRelSubjects
@@ -290,8 +290,11 @@ export function PlacesNames(props) {
                                     <strong>{l.label} </strong> ({llang}
                                     {lwrite}
                                     {l.rel}
-                                    {l.date}) {l.citation}
-                                    {l.note}
+                                    {l.date}
+                                    <span className="text-nowrap">
+                                        ) {l.citation}
+                                        {l.note}
+                                    </span>
                                 </div>
                             );
                         })}
