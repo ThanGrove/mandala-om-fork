@@ -48,8 +48,13 @@ export default function Home(props) {
                         <h4>Terms</h4>
                         <ul>
                             <li>
+                                <Link to={'/terms/247732'}>
+                                    Yam (terms-247732)
+                                </Link>
+                            </li>
+                            <li>
                                 <Link to={'/terms/12434'}>
-                                    /terms/terms-12434
+                                    skyes pa ‘brus phyung ba (terms-12434)
                                 </Link>
                             </li>
                             <li>
@@ -66,6 +71,11 @@ export default function Home(props) {
                         <h4>Places</h4>
                         <ul>
                             <li>
+                                <Link to={'/places/134685'}>
+                                    Sawtelle: (places-134685)
+                                </Link>
+                            </li>
+                            <li>
                                 <Link to={'/places/16408'}>
                                     Potala Palace: (places-16408)
                                 </Link>
@@ -80,51 +90,19 @@ export default function Home(props) {
                                     Sera Gön: (places-23332 — has a note)
                                 </Link>
                             </li>
-
-                            <ul>
-                                <li>
-                                    <Link
-                                        to={'/places/637/related-images/deck'}
-                                    >
-                                        Related Images
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to={
-                                            '/places/637/related-audio-video/deck'
-                                        }
-                                    >
-                                        Related Audio-Video
-                                    </Link>
-                                </li>
-                            </ul>
                             <li>
                                 <Link to={'/places/427'}>
                                     Bhutan: (places-427)
                                 </Link>
                             </li>
-                            <ul>
-                                <li>
-                                    <Link
-                                        to={'/places/427/related-images/deck'}
-                                    >
-                                        Related Images
-                                    </Link>
-                                </li>
-                                <li>
-                                    <Link
-                                        to={
-                                            '/places/427/related-audio-video/deck'
-                                        }
-                                    >
-                                        Related Audio-Video
-                                    </Link>
-                                </li>
-                            </ul>
                         </ul>
                         <h4>Subjects</h4>
                         <ul>
+                            <li>
+                                <Link to={'/subjects/3719'}>
+                                    Whaling Station Test: (subjects-3719)
+                                </Link>
+                            </li>
                             <li>
                                 <Link to={'/subjects/20'}>
                                     Geographical Features: (subjects-20)
@@ -133,11 +111,6 @@ export default function Home(props) {
                             <li>
                                 <Link to={'/subjects/8260'}>
                                     Bhutan Cultural Library: (subjects-8260)
-                                </Link>
-                            </li>
-                            <li>
-                                <Link to={'/subjects/3719'}>
-                                    Whaling Station Test: (subjects-3719)
                                 </Link>
                             </li>
                             <li>
@@ -155,7 +128,10 @@ export default function Home(props) {
                                 <Link to={'/treetest'}>Tree Test</Link>
                             </li>
                         </ul>
-
+                    </Jumbotron>
+                </Col>
+                <Col>
+                    <Jumbotron>
                         <h4>Collections</h4>
                         <ul>
                             <li>

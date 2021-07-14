@@ -489,3 +489,18 @@ export function getSolrCitation(data, title, field) {
     }
     return null;
 }
+
+export function findFieldNames(data, substr, pos) {
+    if (pos === undefined) pos = 'includes';
+    const keys = Object.keys(data);
+    return keys.filter((k, ki) => {
+        switch (pos) {
+            case 'starts':
+                return k.startsWith(substr);
+            case 'ends':
+                return k.endsWith(substr);
+            default:
+                return k.includes(substr);
+        }
+    });
+}
