@@ -54,7 +54,7 @@ export function PlacesGeocodes({ kmap }) {
     const codes = new Set(codelist);
     let codeelements = [];
     for (let code of codes) {
-        codeelements.push(<Geocode kmap={kmap} code={code} />);
+        codeelements.push(<Geocode key={code} kmap={kmap} code={code} />);
     }
     return codeelements;
 }

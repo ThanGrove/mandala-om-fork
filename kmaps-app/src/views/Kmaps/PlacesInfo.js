@@ -1,17 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouteMatch, useParams, Switch, Route } from 'react-router-dom';
 import useDimensions from 'react-use-dimensions';
 import KmapsMap from '../KmapsMap/KmapsMap';
-import { useSolr } from '../../hooks/useSolr';
 import { useKmap } from '../../hooks/useKmap';
 import {
+    findFieldNames,
     getFieldData,
-    getNoteData,
     getSolrCitation,
     getSolrNote,
     queryID,
 } from '../../views/common/utils';
-import { MandalaPopover } from '../../views/common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
@@ -19,7 +17,7 @@ import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import GenericPopover from '../common/GenericPopover';
-import { BsLayoutTextSidebarReverse } from 'react-icons/all';
+
 import {
     PlacesFeatureTypes,
     PlacesRelSubjects,
@@ -171,9 +169,16 @@ export function PlacesSummary({ kmapData }) {
             !imgurl && kmapData?.illustration_external_url?.length > 0
                 ? kmapData?.illustration_external_url[0]
                 : imgurl;
+        const capnames = findFieldNames(kmapData, 'caption_', 'starts');
+        // TODO: Currently just uses the first caption field it finds. Make this more robust
+        const cap =
+            capnames.length > 0 ? (
+                <HtmlCustom markup={kmapData[capnames[0]][0]} />
+            ) : null;
         const plimg = imgurl ? (
-            <Col md={3} className={'img featured'}>
+            <Col md={4} className={'img featured'}>
                 <img src={imgurl} alt={kmapData.header} />
+                {cap}
             </Col>
         ) : null;
         itemSummary = (
@@ -428,7 +433,7 @@ export function PlacesLocation(props) {
         coords = `${lat}º N, ${lng}º E`;
     }
 
-    const altchild = children.filter((c, i) => {
+    let altchild = children.filter((c, i) => {
         return c.id.includes('altitude');
     });
     const citesuff = '_citation_references_ss';
@@ -448,6 +453,29 @@ export function PlacesLocation(props) {
         return <HtmlCustom key={`place-info-custom-ref-${n}`} markup={mu} />;
     });
 
+    // Figure out Altitude Display
+    let altitude = null;
+    if (altchild && altchild?.length > 0) {
+        altchild = altchild[0];
+        if (altchild?.estimate_s?.length > 0) {
+            altitude = altchild.estimate_s;
+        } else if (altchild?.average_i) {
+            altitude = altchild.average_i;
+            if (altchild?.unit_s) {
+                altitude += ` ${altchild.unit_s}`;
+            }
+        }
+        if (altchild?.time_units_ss?.length > 0) {
+            altitude += ` (${altchild.time_units_ss[0]})`;
+        }
+        altitude = (
+            <p>
+                <span className={'altitude'}>↑ </span> <label>Alt</label>
+                {` ${altitude}`}
+            </p>
+        );
+    }
+
     return (
         <div key={`${kmap.uid}-placeinfo`} className={'c-place-location'}>
             {coords && (
@@ -458,14 +486,7 @@ export function PlacesLocation(props) {
                     {note}
                 </p>
             )}
-            {altchild && altchild?.length > 0 && altchild[0]?.estimate_s && (
-                <p>
-                    <span className={'altitude'}>↑ </span> <label>Alt</label>{' '}
-                    {altchild &&
-                        altchild?.length > 0 &&
-                        altchild[0]?.estimate_s}
-                </p>
-            )}
+            {altitude}
             {refs}
             {!coords && (!altchild || altchild?.length === 0) && (
                 <p>
@@ -484,6 +505,9 @@ export function PlacesIds({ kmap }) {
             <br />
             <p>
                 <strong>Mandala ID: </strong> {kmap.id}
+            </p>
+            <p>
+                <strong>Place ID: </strong> F{kmap.id.replace('places-', '')}
             </p>
             <PlacesGeocodes kmap={kmap} />
         </div>
