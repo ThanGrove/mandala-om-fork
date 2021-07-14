@@ -766,6 +766,7 @@ ul.fancytree-container {
         margin-bottom: 1rem;
         padding: 1rem 3rem 0;
         .icon {
+            margin-right: 0.25rem;
         }
         &.top {
             margin-bottom: 1.3rem;
@@ -801,7 +802,7 @@ ul.fancytree-container {
         margin-left: 5rem !important;
     }
     .u-icon__plus {
-        color: #4d59ca;
+        color: $color-terms;
         opacity: 0.4;
         display: inline-block;
         margin-right: 1.5rem;
@@ -894,11 +895,6 @@ ul.fancytree-container {
             left: 0.1rem;
         }
         span.img {
-            margin: 0 1rem 1rem 1rem;
-            /* border: thin solid #aaa;
-            background-color: #ddd;
-            padding: 0.4rem;
-            border-radius: 6px; */
             float: left;
         }
         img {
@@ -906,12 +902,24 @@ ul.fancytree-container {
             border-radius: 0.3rem !important;
             padding: 0.8rem;
             box-shadow: 0 0 5px 1px #999 inset;
-            margin: 0.5rem 1rem 0.5rem 0;
+            margin: 0 1rem 1rem 1rem;
             max-width: 150px !important;
+        }
+        .info {
+            padding-top: 0.75rem;
+            .icon {
+                margin-right: 0.25rem;
+            }
         }
         .creator {
             display: block;
             margin: 0.3rem 0;
+            position: relative;
+            left: 0.25rem;
+            .icon {
+                position: relative;
+                left: -0.25rem;
+            }
         }
         p {
             max-width: 93%;
@@ -927,10 +935,9 @@ ul.fancytree-container {
             }
             span.icon {
                 display: inline-block;
-                margin-right: 0.75rem;
+                margin-right: 0.5rem;
                 font-size: 1.5rem;
             }
-
             ul {
                 margin-left: 0;
                 padding-inline-start: 1.5rem;

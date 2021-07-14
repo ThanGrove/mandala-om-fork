@@ -183,7 +183,7 @@ function FeatureAssetListItem(props) {
                             </span>
                             {doc?.creator && doc.creator.length > 0 && (
                                 <span className={'creator text-capitalize'}>
-                                    <span className={'u-icon__agents'} />
+                                    <span className={'u-icon__agents icon'} />
                                     {doc.creator.join(', ')}
                                 </span>
                             )}
