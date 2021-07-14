@@ -40,7 +40,7 @@
     box-shadow: 0 2px 5px #ccc;
 }
 .c-card__wrap--image {
-    height: 13rem;
+    height: 12rem;
     overflow: hidden;
 }
 .card-image,
@@ -54,15 +54,15 @@
     top: 0;
     right: 0;
     z-index: 1;
-    background: rgba(142, 117, 46, 0.85);
-    width: 35px;
-    height: 32px;
-    border-radius: 0 0 0 0.3rem;
+    background-color: rgba(142, 117, 46, 0.85);
+    width: 3.4rem;
+    height: 3rem;
+    border-radius: 0 0 0 0.4rem;
     background-clip: padding-box;
     text-shadow: 0 0 1px #555;
     color: white;
     font-size: 1.06em;
-    line-height: 1.88em;
+    line-height: 2.8rem;
     font-weight: normal;
     text-align: center;
     box-shadow: none;
@@ -98,16 +98,14 @@
 }
 
 .card-title {
-    margin: 0 0 0.5rem;
-    font-size: 0.85rem;
-    padding-top: 0.75rem;
+    margin: 0.5rem 0 0.5rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-top: 0.75rem;
+    word-break: break-word;
 }
 .card-title a {
-    font-size: 1.5em;
-    line-height: 1.44em;
     padding: 0 0.75rem 0 0.25rem;
-    font-weight: 600;
-    word-break: break-word;
     border-bottom: none !important;
     display: inline-block;
     width: 100%;
@@ -136,7 +134,7 @@
 
 .card-deck .c-card__footer {
     background: $color-amber;
-    height: 3rem;
+
     font-size: 1.25rem;
     text-transform: capitalize;
     padding: 0;
@@ -152,14 +150,14 @@
 .c-card__footer a {
     color: #fff;
     border: none !important;
-    padding: 0.6rem 0 0.5rem 1.2rem;
-    line-height: 1em;
+    padding: 0.3rem 0 0.3rem 0.8rem;
+    font-size: 1.25rem;
     display: block;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 98%;
-    font-weight: 600;
+    font-weight: 400;
     font-family: $font-family-sans;
 }
 .c-card__footer a:hover {
@@ -170,10 +168,9 @@
     color: #fff;
 }
 .c-card__footer .icon::before {
-    margin-right: 0.2rem;
-    font-size: 1.25em;
+    font-size: 1.2em;
     position: relative;
-    top: 0.25rem;
+    top: 0.2rem;
 }
 .c-card__footer .shanti-field-content {
     color: #fff;
