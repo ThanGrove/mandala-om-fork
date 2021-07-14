@@ -72,8 +72,9 @@
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
     border: 1px solid #ddd;
-    opacity: 0.9;
+    opacity: 0.8;
 }
+.sui-advHeader:hover .badge,
 .sui-advHeader .badge:hover {
     border-color: #4d59ca;
     opacity: 1;
@@ -181,7 +182,8 @@
     color: #000;
     background: #f7f7f7;
     border: 1px solid #c4c8ef;
-    border-width: 0.2rem 0.1rem 0.2rem 0.5rem;
+    border-left-color: #6b77ea;
+    border-width: 0.2rem 0.1rem 0.2rem 0.3rem;
     border-radius: 0.5rem;
 }
 
@@ -394,7 +396,7 @@ input:focus-visible,
     background-color: transparent !important;
 }
 .sui-advEditLine.chosen {
-    border-right: 0.4rem solid #6b77ea;
+    border-right: 0.3rem solid #6b77ea;
     border-radius: 0.5rem 0 0 0.5rem;
 }
 .sui-advEditLine.chosen::after {

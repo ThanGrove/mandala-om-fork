@@ -425,7 +425,8 @@ export default class AudioVideo {
                 for (i = 0; i < d.field_pbcore_contributor.und.length; ++i) {
                     f = d.field_pbcore_contributor.und[i]; // Point at it
                     // For each creator
-                    agrole = f.field_contributor_role.und[0].value.toLowerCase();
+                    agrole =
+                        f.field_contributor_role.und[0].value.toLowerCase();
                     agroleprefix =
                         agrole.indexOf('assistant') > -1 ? '' : 'CONTRIBUTING';
                     agname = sui.pages.WrapInLangSpan(
@@ -962,7 +963,7 @@ export default class AudioVideo {
 
         var str = `<div id='av-trscrpt-wrapper' class='col'>
             <div class='av-trscrpt-ctrls row'>
-                <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f&#xe609</div>
+                <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f<span>&#xe609</span></div>
                 <div id='sui-transTab1' class='sui-transTab col' title='Play/Pause'>&#xe641</div>
                 <div id='sui-transTab2' class='sui-transTab col' title='Previous line'>&#xe602</div>
                 <div id='sui-transTab3' class='sui-transTab col' title='Same line'>&#xe632</div>
@@ -973,9 +974,9 @@ export default class AudioVideo {
                     <div class="transSrcWrap ${browser}">
                         <div class="navigator">
                             <div class="navwrapper" style="display: none;">
-                                <div id='sui-transSrcB' style='display:inline-block;color:#fff;font-size:20px;cursor:pointer' title='Previous result'>&#xe640</div>
-                                <div id='sui-transSrcN' style='display:inline-block;color:#fff;margin:0 16px;font-size:12px;cursor:pointer;vertical-align:4px'>0 of 0</div>
-                                <div id='sui-transSrcF' style='display:inline-block;color:#fff;font-size:20px;cursor:pointer' title='Previous result'>&#xe641</div>
+                                <div id='sui-transSrcB' title='Previous result'>&#xe640</div>
+                                <div id='sui-transSrcN'>0 of 0</div>
+                                <div id='sui-transSrcF' title='Previous result'>&#xe641</div>
                             </div>
                         </div>
                         <div id='sui-transSrcGo' class='sui-search4'>
@@ -1257,13 +1258,13 @@ export default class AudioVideo {
                 // For each seg
                 str += `<div class='sui-transMinSeg' id='sui-transMinSeg-${i}'>										
 				<div style='float:${res.rev ? 'right' : 'left'};font-size:18px;'>
-				${res.segs[i].speaker ? res.segs[i].speaker + '<br>' : ''}
 				<div class='sui-transMinPlay' id='sui-transPlay-${i}' title='Play line ${this.SecondsToTimecode(
                     res.segs[i].start
                 )}'>&#xe680</div> 
-				</div>
+                ${res.segs[i].speaker ? res.segs[i].speaker : ''}
+                </div>
 				<div class='sui-transMinBox' id='sui-transMinBox-${i}'
-				style='margin:${res.rev ? '0 150px 0 0' : '0  0 0 150px'}'>`;
+				style='margin:${res.rev ? '0 4rem 0 0' : '0  0 0 4rem'}'>`;
                 for (lang in res.languages) // For each language
                     if (res.segs[i][lang] && res.languages[lang])
                         // If something there and checked
@@ -1277,14 +1278,18 @@ export default class AudioVideo {
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
-				<div style='float:${res.rev ? 'right' : 'left'};font-size:18px;'>
-				${res.segs[i].speaker ? res.segs[i].speaker + '<br>' : ''}
+				<div style='float:${res.rev ? 'right' : 'left'};'>
+				
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680
-				<span style='margin-left:24px;font-size:12px;vertical-align:4px'>
-				${this.SecondsToTimecode(res.segs[i].start)}</span></div></div> 
-				<div class='sui-transBox' id='sui-transBox-${i}'
-				style='margin:${res.rev ? '0 150px 0 0' : '0  0 0 150px'}'>`;
+				<span class='sui-transPlay-duration'>${this.SecondsToTimecode(
+                    res.segs[i].start
+                )}</span></div>
+                ${res.segs[i].speaker ? res.segs[i].speaker : ''}</div> 
+                
+				<div class='sui-transBox' id='sui-transBox-${i}' style='margin:${
+                    res.rev ? '0 14rem 0 0' : '0  0 0 14rem'
+                }'>`;
                 for (lang in res.languages) // For each language
                     if (res.segs[i][lang] && res.languages[lang])
                         // If something there and checked

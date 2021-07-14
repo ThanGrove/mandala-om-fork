@@ -33,7 +33,11 @@ export default function PlacesRelSubjectsViewer() {
 }
 
 export function PlacesFeatureTypes({ parent }) {
+    if (!parent?.feature_type_ids?.length > 0) {
+        return null;
+    }
     let ftcites = {};
+    let ftdates = {};
     parent._childDocuments_
         .filter((cld) => {
             return cld.block_child_type === 'feature_types';
@@ -44,6 +48,11 @@ export function PlacesFeatureTypes({ parent }) {
                 cld?.feature_type_citation_references_ss.length > 0
                     ? cld
                     : false;
+            ftdates[cld.feature_type_id_i] =
+                cld?.feature_type_time_units_ss &&
+                cld?.feature_type_time_units_ss.length > 0
+                    ? `(${cld?.feature_type_time_units_ss[0]})`
+                    : null;
         });
     const ftnote = getFeatureTypeNotes(parent);
     return (
@@ -70,6 +79,7 @@ export function PlacesFeatureTypes({ parent }) {
                                     content={ftnote['content']}
                                 />
                             )}
+                            {ftdates[kid]}
                         </li>
                     );
                 })}
@@ -110,6 +120,10 @@ export function PlacesRelSubjects({ children }) {
                             />
                         );
                     }
+                    const cname =
+                        relsb?.related_subjects_display_string_s.length < 80
+                            ? 'text-nowrap'
+                            : '';
                     return (
                         <li
                             key={
@@ -117,6 +131,7 @@ export function PlacesRelSubjects({ children }) {
                                 '-' +
                                 cind
                             }
+                            className={cname}
                         >
                             {
                                 <MandalaPopover

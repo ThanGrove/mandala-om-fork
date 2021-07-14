@@ -105,7 +105,7 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     }
 
     return (
-        <>
+        <span className="text-nowrap">
             <span
                 data-kmdomain={domain}
                 data-kmid={kid}
@@ -148,7 +148,7 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
                     </Popover>
                 </Overlay>
             </span>
-        </>
+        </span>
     );
 };
 

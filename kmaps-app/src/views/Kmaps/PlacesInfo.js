@@ -1,17 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useRouteMatch, useParams, Switch, Route } from 'react-router-dom';
 import useDimensions from 'react-use-dimensions';
 import KmapsMap from '../KmapsMap/KmapsMap';
-import { useSolr } from '../../hooks/useSolr';
 import { useKmap } from '../../hooks/useKmap';
 import {
+    findFieldNames,
     getFieldData,
-    getNoteData,
     getSolrCitation,
     getSolrNote,
     queryID,
 } from '../../views/common/utils';
-import { MandalaPopover } from '../../views/common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Tabs, Tab, Row, Col } from 'react-bootstrap';
 import './placesinfo.scss';
@@ -19,8 +17,12 @@ import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import GenericPopover from '../common/GenericPopover';
-import { BsLayoutTextSidebarReverse } from 'react-icons/all';
-import { PlacesFeatureTypes } from './PlacesRelSubjectsViewer';
+
+import {
+    PlacesFeatureTypes,
+    PlacesRelSubjects,
+} from './PlacesRelSubjectsViewer';
+import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -95,10 +97,20 @@ export default function PlacesInfo(props) {
                                     )}
                                 </Tab>
                                 <Tab eventKey="names" title="Names">
-                                    <PlacesNames id={queryID(baseType, id)} />
+                                    <PlacesNames
+                                        id={queryID(baseType, id)}
+                                        kmap={kmapData}
+                                    />
                                 </Tab>
                                 <Tab eventKey="location" title="Location">
                                     <PlacesLocation
+                                        kmap={kmapData}
+                                        id={queryID(baseType, id)}
+                                    />
+                                </Tab>
+
+                                <Tab eventKey="ids" title="Ids">
+                                    <PlacesIds
                                         kmap={kmapData}
                                         id={queryID(baseType, id)}
                                     />
@@ -144,40 +156,43 @@ export default function PlacesInfo(props) {
 export function PlacesSummary({ kmapData }) {
     // Kmaps Summary (Mainly for Places)
     let itemSummary = null;
-    if (
-        kmapData?.illustration_mms_url?.length > 0 ||
-        kmapData?.summary_eng?.length > 0
-    ) {
-        itemSummary = (
-            <Row className={'c-nodeHeader-itemSummary'}>
-                {/* Add column with illustration if exists */}
-                {kmapData?.illustration_mms_url?.length > 0 && (
-                    <Col md={3} className={'img featured'}>
-                        <img
-                            src={kmapData.illustration_mms_url[0]}
-                            alt={kmapData.header}
-                        />
-                    </Col>
+    // See if there is some kind of image url
+    let imgurl =
+        kmapData?.illustration_mms_url?.length > 0
+            ? kmapData.illustration_mms_url[0]
+            : false;
+    imgurl =
+        !imgurl && kmapData?.illustration_external_url?.length > 0
+            ? kmapData?.illustration_external_url[0]
+            : imgurl;
+    const capnames = findFieldNames(kmapData, 'caption_', 'starts');
+    // TODO: Currently just uses the first caption field it finds. Make this more robust
+    const cap =
+        capnames.length > 0 ? (
+            <HtmlCustom markup={kmapData[capnames[0]][0]} />
+        ) : null;
+    const plimg = imgurl ? (
+        <Col md={4} className={'img featured'}>
+            <img src={imgurl} alt={kmapData.header} />
+            {cap}
+        </Col>
+    ) : null;
+    itemSummary = (
+        <Row className={'c-nodeHeader-itemSummary'}>
+            {/* Add column with illustration if exists (if not is null) */}
+            {plimg}
+            <Col md={8}>
+                {/* Feature type list if exists */}
+                <PlacesFeatureTypes parent={kmapData} />
+                <PlacesRelSubjects children={kmapData?._childDocuments_} />
+                {/* Custom Html summary if exists */}
+                {/* TODO: account for other language summaries */}
+                {kmapData?.summary_eng?.length > 0 && (
+                    <HtmlCustom markup={kmapData.summary_eng[0]} />
                 )}
-
-                {/* Add column with summary if exists */}
-                {(kmapData?.summary_eng?.length > 0 ||
-                    kmapData?.feature_type_ids?.length > 0) && (
-                    <Col>
-                        {/* Feature type list if exists */}
-                        {kmapData?.feature_type_ids?.length > 0 && (
-                            <PlacesFeatureTypes parent={kmapData} />
-                        )}
-                        {/* Custom Html summary if exists */}
-                        {/* TODO: account for other language summaries */}
-                        {kmapData?.summary_eng?.length > 0 && (
-                            <HtmlCustom markup={kmapData.summary_eng[0]} />
-                        )}
-                    </Col>
-                )}
-            </Row>
-        );
-    }
+            </Col>
+        </Row>
+    );
     return itemSummary;
 }
 
@@ -185,79 +200,68 @@ export function PlacesNames(props) {
     // Places Name tab content. Displays main name, alternative names and etymologies
     // Code for query from Bill's code, searchui.js function GetChildNamesFromID()
     // Code for processing results from places.js line 446ff
-
-    const query = {
-        index: 'terms',
-        params: {
-            fl: `uid,[child childFilter=id:${props.id}_names-* parentFilter=block_type:parent limit=1000]`,
-            q: `uid:${props.id}`,
-            wt: 'json',
-            rows: 300,
-        },
-    }; // Need to make new query because _childDocuments_ does not contain all name children returned by this query
-    const {
-        isLoading: isNamesLoading,
-        data: namedoc,
-        isError: isNameError,
-        error: nameError,
-    } = useSolr(`place-${props.id}-names`, query);
-    let childlist = [];
     let etymologies = [];
-    if (isNamesLoading) {
+    if (!props?.kmap) {
         return <MandalaSkeleton />;
     }
-    if (namedoc?.numFound && namedoc.numFound > 0) {
-        childlist = namedoc.docs[0]._childDocuments_;
-        childlist = childlist.map((o, ind) => {
-            // console.log('o', o);
+    const namelist = props?.kmap._childDocuments_.filter((cd, i) => {
+        return cd?.block_child_type === 'related_names';
+    });
+    const nameobjs = namelist.map((o, ind) => {
+        // console.log('o', o);
 
-            return {
-                label: o.related_names_header_s, // Label
-                lang: o.related_names_language_s, // Language
-                rel: o.related_names_relationship_s, // Relationship
-                write: o.related_names_writing_system_s, // Writing system
-                ety: o.related_names_etymology_s, // Etymology
-                path: o.related_names_path_s, // Path
-                tab: o.related_names_level_i - 1,
-                date: getTimeUnits(o, 'related_names'),
-                note: getRelNameNote(o),
-                citation: getSolrCitation(
-                    o,
-                    'Citation',
-                    'related_names_citation_references_ss'
-                ),
-            };
-        });
-        childlist.sort(function (a, b) {
-            // Sort by path
-            if (a.path > b.path) return 1;
-            // Higher
-            else if (a.path < b.path) return -1;
-            // Lower
-            else return 0; // The same
-        });
-        etymologies = childlist.filter((c, i) => {
-            return c.ety && c.ety.length > 0;
-        });
-    }
+        return {
+            label: o.related_names_header_s, // Label
+            lang: o.related_names_language_s, // Language
+            rel: o.related_names_relationship_s, // Relationship
+            write: o.related_names_writing_system_s, // Writing system
+            ety: o.related_names_etymology_s, // Etymology
+            path: o.related_names_path_s, // Path
+            tab: o.related_names_level_i - 1,
+            date: getTimeUnits(o, 'related_names'),
+            note: getRelNameNote(o),
+            citation: getSolrCitation(
+                o,
+                'Citation',
+                'related_names_citation_references_ss'
+            ),
+        };
+    });
+    nameobjs.sort(function (a, b) {
+        // Sort by path
+        if (a.path > b.path) return 1;
+        // Higher
+        else if (a.path < b.path) return -1;
+        // Lower
+        else return 0; // The same
+    });
+    etymologies = nameobjs.filter((c, i) => {
+        return c.ety && c.ety.length > 0;
+    });
 
     return (
         <Row className={'c-place-names'}>
             <Col>
                 {/* <h1>Names</h1> */}
-                {childlist?.length === 0 && <p>No names found!</p>}
-                {childlist?.length > 0 && (
+                {nameobjs?.length === 0 && <p>No names found!</p>}
+                {nameobjs?.length > 0 && (
                     <>
-                        {childlist.map((l, i) => {
+                        {nameobjs.map((l, i) => {
+                            const llang = l?.lang ? `${l.lang}, ` : '';
+                            const lwrite = l?.write ? ` ${l.write}, ` : '';
                             return (
                                 <div
                                     key={`place-name-${i}`}
                                     className={`lv-${l.tab}`}
                                 >
-                                    <strong>{l.label} </strong>&nbsp; ({l.lang},{' '}
-                                    {l.write}, {l.rel}
-                                    {l.date}) {l.citation}
-                                    {l.note}
+                                    <strong>{l.label} </strong> ({llang}
+                                    {lwrite}
+                                    {l.rel}
+                                    {l.date}
+                                    <span className="text-nowrap">
+                                        ) {l.citation}
+                                        {l.note}
+                                    </span>
                                 </div>
                             );
                         })}
@@ -399,7 +403,7 @@ export function PlacesLocation(props) {
         coords = `${lat}º N, ${lng}º E`;
     }
 
-    const altchild = children.filter((c, i) => {
+    let altchild = children.filter((c, i) => {
         return c.id.includes('altitude');
     });
     const citesuff = '_citation_references_ss';
@@ -419,6 +423,29 @@ export function PlacesLocation(props) {
         return <HtmlCustom key={`place-info-custom-ref-${n}`} markup={mu} />;
     });
 
+    // Figure out Altitude Display
+    let altitude = null;
+    if (altchild && altchild?.length > 0) {
+        altchild = altchild[0];
+        if (altchild?.estimate_s?.length > 0) {
+            altitude = altchild.estimate_s;
+        } else if (altchild?.average_i) {
+            altitude = altchild.average_i;
+            if (altchild?.unit_s) {
+                altitude += ` ${altchild.unit_s}`;
+            }
+        }
+        if (altchild?.time_units_ss?.length > 0) {
+            altitude += ` (${altchild.time_units_ss[0]})`;
+        }
+        altitude = (
+            <p>
+                <span className={'altitude'}>↑ </span> <label>Alt</label>
+                {` ${altitude}`}
+            </p>
+        );
+    }
+
     return (
         <div key={`${kmap.uid}-placeinfo`} className={'c-place-location'}>
             {coords && (
@@ -429,14 +456,7 @@ export function PlacesLocation(props) {
                     {note}
                 </p>
             )}
-            {altchild && altchild?.length > 0 && altchild[0]?.estimate_s && (
-                <p>
-                    <span className={'altitude'}>↑ </span> <label>Alt</label>{' '}
-                    {altchild &&
-                        altchild?.length > 0 &&
-                        altchild[0]?.estimate_s}
-                </p>
-            )}
+            {altitude}
             {refs}
             {!coords && (!altchild || altchild?.length === 0) && (
                 <p>
@@ -445,6 +465,21 @@ export function PlacesLocation(props) {
                         'this location, because no record was found.'}
                 </p>
             )}
+        </div>
+    );
+}
+
+export function PlacesIds({ kmap }) {
+    return (
+        <div key={`${kmap.uid}-placeids`} className={'c-place-ids'}>
+            <br />
+            <p>
+                <strong>Mandala ID: </strong> {kmap.id}
+            </p>
+            <p>
+                <strong>Place ID: </strong> F{kmap.id.replace('places-', '')}
+            </p>
+            <PlacesGeocodes kmap={kmap} />
         </div>
     );
 }

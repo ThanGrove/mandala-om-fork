@@ -37,7 +37,7 @@ body.html {
     //height: 100vh; //causing issues with standalone
     /*  width: 100vw; */
     display: flex;
-    margin: 1rem 0 10rem 1rem;
+    margin: 1rem 1rem 10rem;
 }
 .l-site__wrap > *,
 .l-content__main,
@@ -48,12 +48,13 @@ body.html {
 
 .l-content__rightsidebar {
     margin: 0;
-    max-width: 45rem;
+    /* max-width: 45rem; */
     min-width: calc(max(25vw, 32rem));
     font-size: 1.4rem;
     background-color: #fff;
     resize: horizontal;
     overflow: visible !important;
+    border-left: 0.15rem solid #d0d0d0;
     .advanced-search-and-tree {
         border: none;
         margin-top: -3.4rem;
@@ -771,8 +772,7 @@ ul.fancytree-container {
 }
 
 .c-view .c-featurePager__container:last-of-type {
-    margin: 0.4rem 1.5rem 0;
-    border-top: 3px solid #eee;
+    margin: 0 1.5rem;
 }
 
 .c-buttoneGroup__viewMode {
@@ -794,17 +794,17 @@ ul.fancytree-container {
         border-color: #cde3f7;
     }
     .u-icon__plus {
-        color: #333;
-        opacity: 0.5;
+        color: #4d59ca;
+        opacity: 0.6;
         display: inline-block;
         margin-right: 1rem;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         cursor: pointer;
 
         &:hover {
             opacity: 0.8;
         }
-
+        &.open,
         &.openitem {
             transform: rotate(45deg);
         }
@@ -814,7 +814,7 @@ ul.fancytree-container {
         font-size: 1.2rem;
         padding: 0.3rem;
         border: 3px double #fff;
-
+        border-radius: 0.5rem;
         &.shanticon-audio-video {
             background-color: $color-audio-video;
             color: #fff;
@@ -878,7 +878,7 @@ ul.fancytree-container {
         font-size: 1.4rem;
         /*  min-width: 40vw;*/
         overflow: visible;
-
+        padding: 0.25rem 0.5rem 0.5rem !important;
         span.img {
             margin: 0 1rem 1rem 0;
             border: thin solid #aaa;
@@ -1114,4 +1114,49 @@ span.refdate {
     &:after {
         content: ')';
     }
+}
+
+.resize-column {
+    background: transparent;
+    flex: 0 0 0.5rem;
+}
+.resize-column div {
+    background-color: transparent;
+    cursor: default !important;
+}
+.resize-column div::before {
+    height: 70rem;
+    cursor: col-resize;
+    position: relative;
+    left: -0.1rem;
+    top: 1rem;
+    display: inline-block;
+    content: '';
+    width: 1.5rem;
+    border: 1px solid #aaa;
+    border-width: 2rem 0.1rem 2rem 0.2rem;
+    border-radius: 0.5rem 0 0 0.5rem;
+    opacity: 0.3;
+    transition: all 0.2s ease-in-out;
+}
+.resize-column:hover div::before {
+    opacity: 0.3;
+    left: -0.6rem;
+    border-color: #444cf7;
+    border-left-width: 0.1rem;
+    background-color: #fff;
+    background-size: 0.3rem 0.3rem;
+    background-image: repeating-linear-gradient(
+        0deg,
+        #444cf7,
+        #444cf7 0.1rem,
+        #e5e5f7 0.1rem,
+        #e5e5f7
+    );
+}
+.resize-column:active div::before {
+    opacity: 0.6;
+    border-left-color: #929ae4;
+    background-size: 0.325rem 0.325rem;
+    border-width: 1.5rem 0.1rem 1.5rem 0.1rem;
 }
