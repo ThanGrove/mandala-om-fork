@@ -156,55 +156,43 @@ export default function PlacesInfo(props) {
 export function PlacesSummary({ kmapData }) {
     // Kmaps Summary (Mainly for Places)
     let itemSummary = null;
-    if (
-        kmapData?.illustration_mms_url?.length > 0 ||
-        kmapData?.summary_eng?.length > 0
-    ) {
-        // See if there is some kind of image url
-        let imgurl =
-            kmapData?.illustration_mms_url?.length > 0
-                ? kmapData.illustration_mms_url[0]
-                : false;
-        imgurl =
-            !imgurl && kmapData?.illustration_external_url?.length > 0
-                ? kmapData?.illustration_external_url[0]
-                : imgurl;
-        const capnames = findFieldNames(kmapData, 'caption_', 'starts');
-        // TODO: Currently just uses the first caption field it finds. Make this more robust
-        const cap =
-            capnames.length > 0 ? (
-                <HtmlCustom markup={kmapData[capnames[0]][0]} />
-            ) : null;
-        const plimg = imgurl ? (
-            <Col md={4} className={'img featured'}>
-                <img src={imgurl} alt={kmapData.header} />
-                {cap}
-            </Col>
+    // See if there is some kind of image url
+    let imgurl =
+        kmapData?.illustration_mms_url?.length > 0
+            ? kmapData.illustration_mms_url[0]
+            : false;
+    imgurl =
+        !imgurl && kmapData?.illustration_external_url?.length > 0
+            ? kmapData?.illustration_external_url[0]
+            : imgurl;
+    const capnames = findFieldNames(kmapData, 'caption_', 'starts');
+    // TODO: Currently just uses the first caption field it finds. Make this more robust
+    const cap =
+        capnames.length > 0 ? (
+            <HtmlCustom markup={kmapData[capnames[0]][0]} />
         ) : null;
-        itemSummary = (
-            <Row className={'c-nodeHeader-itemSummary'}>
-                {/* Add column with illustration if exists (if not is null) */}
-                {plimg}
-
-                {/* Add column with summary if exists */}
-                {(kmapData?.summary_eng?.length > 0 ||
-                    kmapData?.feature_type_ids?.length > 0) && (
-                    <Col md={8}>
-                        {/* Feature type list if exists */}
-                        <PlacesFeatureTypes parent={kmapData} />
-                        <PlacesRelSubjects
-                            children={kmapData?._childDocuments_}
-                        />
-                        {/* Custom Html summary if exists */}
-                        {/* TODO: account for other language summaries */}
-                        {kmapData?.summary_eng?.length > 0 && (
-                            <HtmlCustom markup={kmapData.summary_eng[0]} />
-                        )}
-                    </Col>
+    const plimg = imgurl ? (
+        <Col md={4} className={'img featured'}>
+            <img src={imgurl} alt={kmapData.header} />
+            {cap}
+        </Col>
+    ) : null;
+    itemSummary = (
+        <Row className={'c-nodeHeader-itemSummary'}>
+            {/* Add column with illustration if exists (if not is null) */}
+            {plimg}
+            <Col md={8}>
+                {/* Feature type list if exists */}
+                <PlacesFeatureTypes parent={kmapData} />
+                <PlacesRelSubjects children={kmapData?._childDocuments_} />
+                {/* Custom Html summary if exists */}
+                {/* TODO: account for other language summaries */}
+                {kmapData?.summary_eng?.length > 0 && (
+                    <HtmlCustom markup={kmapData.summary_eng[0]} />
                 )}
-            </Row>
-        );
-    }
+            </Col>
+        </Row>
+    );
     return itemSummary;
 }
 
