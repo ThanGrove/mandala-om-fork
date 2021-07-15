@@ -398,7 +398,6 @@ div.image-wrapper.center figcaption {
 
 .c-nodeHeader-itemSummary .featured {
     margin: 0 0.2rem 0 -1rem;
-
     & > img {
         /*  padding: 0.3rem;
         border: 2px solid #777;
@@ -409,6 +408,9 @@ div.image-wrapper.center figcaption {
         box-shadow: 0 0 5px 1px #999 inset;
         margin: 0.5rem 1rem 0.5rem 0;
         max-height: 180px !important;
+    }
+    & > p {
+        font-size: 1.25rem;
     }
 }
 
@@ -1003,7 +1005,7 @@ ul.fancytree-container {
     .caption {
         /* margin-left: 5.5rem; */
         font-size: 1.3rem;
-        white-space: nowrap;
+        /* white-space: nowrap; */
         margin-left: 3rem;
         span {
             display: inline-block;
