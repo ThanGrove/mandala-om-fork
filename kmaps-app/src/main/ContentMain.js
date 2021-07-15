@@ -187,7 +187,7 @@ export default function ContentMain(props) {
                             </Switch>
                         </React.Suspense>
                     </Section>
-                    <Bar className="resize-column" />
+                    <Bar className="resize-right-column" />
                     <React.Suspense fallback={<MandalaSkeleton count={10} />}>
                         <RightSideBar />
                     </React.Suspense>

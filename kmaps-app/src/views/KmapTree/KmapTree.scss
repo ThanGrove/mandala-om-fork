@@ -157,6 +157,11 @@ aside#l-column__search--treeNav {
     &.selected > .c-kmapnode > .label {
         border-bottom: 0.3rem solid #cca843;
     }
+    &.selected > .c-kmapnode > .toggle-icon::before {
+        background-color: #b99b45;
+        background-color: red;
+        border-color: red;
+    }
 }
 
 .leafend {
@@ -172,7 +177,7 @@ aside#l-column__search--treeNav {
         border: 2px solid #b99b45;
         display: inline-block;
         position: relative;
-        top: -0.3rem;
+        top: -0.25rem;
         transform: rotate(45deg);
     }
 }
