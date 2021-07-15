@@ -175,9 +175,10 @@ aside#l-column__search--treeNav {
         top: -0.3rem;
         transform: rotate(45deg);
     }
-    .toggle-icon::before:hover {
-        background-color: #a27f1c;
-    }
+}
+
+.leafend:hover .toggle-icon::before {
+    background-color: #b99b45;
 }
 
 .leafopen .children {

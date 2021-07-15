@@ -134,7 +134,7 @@
 
 .card-deck .c-card__footer {
     background: $color-amber;
-
+    height: 2.7rem;
     font-size: 1.25rem;
     text-transform: capitalize;
     padding: 0;
@@ -172,13 +172,10 @@
 .c-card__footer .icon::before {
     font-size: 1.2em;
     position: relative;
-    top: 0.1rem;
+    top: 0.2rem;
 }
 .c-card__footer .shanti-field-path .icon::before {
     margin-right: 0.5rem;
-    font-size: 1.2em;
-    position: relative;
-    top: 0.2rem;
 }
 .c-card__grid--places .c-card__footer .shanti-field-path,
 .c-card__grid--subjects .c-card__footer .shanti-field-path,

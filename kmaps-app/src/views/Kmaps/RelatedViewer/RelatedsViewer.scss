@@ -2,8 +2,8 @@
 
 .l-column__related {
     /* min-width: 20rem;
-    max-width: 34rem; */
-    width: 25rem;
+    max-width: 34rem;
+    width: 25rem; */
     height: 100vh;
     margin: 0 0 0 -25rem;
     padding: 0;
@@ -348,4 +348,13 @@
 .l-column__related .fancytree-node:not(.fancytree-active):hover,
 .l-column__related .fancytree-node:not(.fancytree-active):active {
     background-color: #ffffff !important;
+}
+
+.l-relatedTreeLeft {
+    min-width: 22rem;
+    max-width: 22rem;
+}
+.l-relatedTreeLeft:hover {
+    max-width: 40rem;
+    transition: max-width 0.5s ease-in-out;
 }
