@@ -80,37 +80,28 @@ aside#l-column__search--treeNav {
         display: flex;
         justify-content: space-between;
         margin: 0 2rem;
-        font-size: 1.65rem;
+        font-size: 1.45rem;
         font-weight: bold;
         letter-spacing: 0.0525rem;
+        position: relative;
+        top: -0.25rem;
         .treeNav-header__closeButton {
-            padding: 0;
-            margin: 0;
             cursor: pointer;
-            font-size: 2.75rem;
-            transform: scale(0.8);
-            transition: all 0.15s ease-in-out;
-            border: 5px double #b8860b;
-            border-radius: 50%;
-            height: 4rem;
-            width: 4rem;
-            opacity: 0.25;
+            font-size: 2rem;
+            opacity: 0.5;
             position: relative;
+            left: 0.25rem;
             top: -0.5rem;
-            right: -1.2rem;
             .icon::before {
                 color: #b8860b;
-                position: relative;
-                top: -0.49rem;
-                left: 0.125rem;
             }
             &:hover {
-                transform: scale(0.85);
-                opacity: 7;
+                /* transform: scale(0.85);
+                opacity: 7; */
             }
             &:active {
-                transform: scale(0.9);
-                opacity: 1;
+                /* transform: scale(0.9);
+                opacity: 1; */
             }
         }
     }
