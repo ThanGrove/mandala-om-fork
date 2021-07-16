@@ -102,7 +102,7 @@ const TermsInfo = (props) => {
                 <Route exact path={path}>
                     <>
                         <TermNames kmap={kmapData} />
-                        <TermsDetails kmAsset={assetData} />
+                        <TermsDetails kmAsset={assetData} kmap={kmapData} />
                         <TermAudioPlayer kmap={kmapData} />
                         {kmapData.etymologies_ss && (
                             <TermEtymology kmap={kmapData} />

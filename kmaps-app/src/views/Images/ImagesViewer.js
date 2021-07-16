@@ -44,7 +44,6 @@ export default function ImagesViewer(props) {
         isError: isNodeError,
         error: nodeError,
     } = useMandala(kmasset);
-    // console.log('nodejson', nodejson);
 
     // const history = useContext(HistoryContext);
     const addPage = useHistory((state) => state.addPage);

@@ -1,4 +1,4 @@
-import { buildNestedDocs } from '../../common/utils';
+import { buildNestedDocs, getSolrCitation } from '../../common/utils';
 import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import _ from 'lodash';
@@ -15,6 +15,9 @@ export default function TermNames(props) {
 
     return (
         <div className="sui-nameEntry__wrapper">
+            <span className="term_id float-right p-2">
+                ID: T{props?.kmap?.id?.replace('terms-', '')}
+            </span>
             <ul className="sui-nameEntry first-entry">
                 <NameEntry names={namesTree} />
             </ul>
@@ -30,13 +33,17 @@ export default function TermNames(props) {
  */
 export function NameEntry(props) {
     let outlist = [];
-
     Object.entries(props.names).map(([id, entry]) => {
         const headerclass =
             entry.related_names_language_s === 'Tibetan' &&
             entry.related_names_relationship_s === 'Original'
                 ? 'sui-nameEntry-header bo'
                 : 'sui-nameEntry-header';
+        const citation = getSolrCitation(
+            entry,
+            'Citation',
+            'related_names_citation_references_ss'
+        );
         outlist.push(
             <li id={id} key={id} className="sui-nameEntry">
                 <span className={headerclass}>
@@ -52,6 +59,7 @@ export function NameEntry(props) {
                     <span className="sui-nameEntry-writing-system">
                         {entry.related_names_writing_system_s}
                     </span>
+                    {citation}
                 </span>
                 <span className="sui-nameEntry-etymology">
                     {ReactHtmlParser(entry.related_names_etymology_s)}
