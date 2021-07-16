@@ -35,22 +35,18 @@
 #sui-av,
 #av-meta-row {
     overflow: visible;
-    margin-top: 2rem !important;
-    /* width: 98%;
-    max-width: 200rem; */
-    margin: 0 auto;
+    margin: 1rem auto;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
 .c-content__main__kmaps #av-meta-row {
     margin: 0;
 }
 #sui-viewerSide {
-    padding-top: 1rem;
     padding-left: 2.5rem;
     max-width: 90rem;
 }
 .c-content__main__kmaps #sui-viewerSide {
-    padding: 0;
+    padding: 0 0 0 1.5rem;
 }
 #sui-kplayer {
     width: 100%;
@@ -376,7 +372,7 @@ div#meta-details p strong:after {
     text-rendering: optimizeLegibility !important;
     font-family: 'Babelstone', 'Jomolhari-ID', 'Jomolhari', 'Noto Sans Tibetan',
         'Tibetan Machine Uni', 'Kailasa', 'Uchen_05', 'Microsoft Himalaya' !important;
-    font-size: 130%;
+    font-size: 160%;
     line-height: 140%;
     vertical-align: middle;
 }

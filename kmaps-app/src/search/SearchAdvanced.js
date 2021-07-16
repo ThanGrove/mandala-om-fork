@@ -197,7 +197,7 @@ export default function SearchAdvanced(props) {
             id="l-column__search"
             className={`l-column__search ${openclass}`}
         >
-            <Navbar className={'justify-content-end'}>
+            <Navbar className={'justify-content-start'}>
                 <Nav.Link onClick={handleCloseButton}>
                     <span className={'icon shanticon-cancel'}></span>
                 </Nav.Link>
@@ -230,7 +230,7 @@ export default function SearchAdvanced(props) {
                         </Badge>
                     </a>
                 )}
-                <Navbar.Collapse className="justify-content-end">
+                <Navbar.Collapse className="justify-content-start">
                     <Navbar.Text>Reset:</Navbar.Text>
                     <Nav.Link
                         eventKey="resetFilters"

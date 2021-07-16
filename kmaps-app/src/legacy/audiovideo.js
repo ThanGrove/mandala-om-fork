@@ -1278,7 +1278,7 @@ export default class AudioVideo {
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
-				<div style='float:${res.rev ? 'right' : 'left'};'>
+				<div style='float:${res.rev ? 'right' : 'left'};width:13rem;'>
 				
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680

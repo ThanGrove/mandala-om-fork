@@ -645,9 +645,7 @@ color: #a4baec;
 }
 .sui-sourceText {
     font-family: 'EB Garamond', serif, shanticon;
-    font-weight: 400;
-    line-height: 24px;
-    font-size: 17px;
+    font-size: 1.6rem;
 }
 .sui-sourceTitle {
     font-family: 'EB Garamond', serif;
@@ -884,7 +882,7 @@ color: #a4baec;
     max-height: calc(100vh - 208px);
     border-right: 1px solid #999;
     width: calc(100% - 2px);
-    font-size: 15px;
+    font-size: 1.3rem;
 }
 .sui-transTab {
     display: inline-block;
@@ -905,6 +903,7 @@ color: #a4baec;
 .av-trscrpt-ctrls .sui-transTab:first-child {
     font-size: 2.65rem;
     padding-top: 1.25rem;
+    padding-left: 4.5%;
 }
 .av-trscrpt-ctrls .sui-transTab:first-child span {
     font-size: 1.5rem;
@@ -1011,6 +1010,7 @@ color: #a4baec;
     border-radius: 6px;
     padding: 12px;
     width: calc(100% - 14rem);
+    font-size: 1.25rem;
 }
 .sui-transPlay {
     color: #fff;
