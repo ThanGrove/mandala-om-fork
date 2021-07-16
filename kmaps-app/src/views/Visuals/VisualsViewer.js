@@ -15,7 +15,6 @@ export default function VisualsViewer(props) {
     const { id } = useParams();
     const visId = props.id ? props.id : id;
     const queryID = `${baseType}*-${visId}`;
-
     const addPage = useHistory((state) => state.addPage);
 
     const {
@@ -42,7 +41,7 @@ export default function VisualsViewer(props) {
             const jstr = nodejson.shivanode_json.und[0].value;
             setSnJson(JSON.parse(jstr));
         }
-    }, [nodejson]);
+    }, [nodejson, kmasset]);
 
     if (isAssetLoading || isNodeLoading) {
         return (

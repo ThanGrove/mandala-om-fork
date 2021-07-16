@@ -89,7 +89,7 @@ const getKmapData = async (id, qtype) => {
 
     if (
         qtype === 'asset' &&
-        id.match(/(audio-video|images|sources|texts|visual)\*?-\d+/)
+        id.match(/(audio-video|images|sources|texts|visuals)\*?-\d+/)
     ) {
         const idpts = id.replace('*', '').split('-');
         const nid = idpts.pop();
