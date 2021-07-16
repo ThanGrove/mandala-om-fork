@@ -105,7 +105,7 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
     }
 
     return (
-        <span className="text-nowrap">
+        <span>
             <span
                 data-kmdomain={domain}
                 data-kmid={kid}
@@ -223,7 +223,7 @@ function MandalaPopoverBody(props) {
         ancestors = (
             <div className="parents clearfix">
                 <p>
-                    <strong>{anclabel}</strong>&nbsp;
+                    <strong>{anclabel}</strong>
                     {ancestor_ids.map((aid, index) => {
                         if (index === ancestor_ids.length - 1) {
                             return;

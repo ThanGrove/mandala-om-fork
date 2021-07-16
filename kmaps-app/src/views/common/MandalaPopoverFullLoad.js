@@ -246,7 +246,7 @@ function MandalaPopoverFullLoadBody(props) {
         ancestors = (
             <div className="parents clearfix">
                 <p>
-                    <strong>{anclabel}</strong>&nbsp;
+                    <strong>{anclabel}</strong>
                     {ancestor_ids.map((aid, index) => {
                         if (index == ancestor_ids.length - 1) {
                             return;

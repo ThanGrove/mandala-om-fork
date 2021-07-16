@@ -821,49 +821,38 @@ export default class Pages {
         content = [
             {
                 title: 'The Shinjé Yapyum Cham is performed',
-                text:
-                    'One of the most common sacred masked dances performed during religious festivals in Bhutan is the Shinjé Yapyum Cham. The dance is often performed early during a festival’s program as it is believed to subdue negative spirits and harmful influences. Although known as the Shinjé Yapyum Cham, or the Dance of the Male and Female Lords of Death, it represents the male and female Yamāntaka is the Destroyer of Death...',
-                pic:
-                    'https://cicada.shanti.virginia.edu/images/mandala/shanti-image-550401/full/!600,/0/default.jpg',
+                text: 'One of the most common sacred masked dances performed during religious festivals in Bhutan is the Shinjé Yapyum Cham. The dance is often performed early during a festival’s program as it is believed to subdue negative spirits and harmful influences. Although known as the Shinjé Yapyum Cham, or the Dance of the Male and Female Lords of Death, it represents the male and female Yamāntaka is the Destroyer of Death...',
+                pic: 'https://cicada.shanti.virginia.edu/images/mandala/shanti-image-550401/full/!600,/0/default.jpg',
                 id: 'images-stage_shanti_virginia_edu-1187696',
             },
             {
                 title: 'A Song Called Ja legmo Tsering',
-                text:
-                    'Unlike today, meeting a person was extremely difficult in the past. The lyrics of this song say that meeting someone was considered as an act of fate. People would meet even if they had never thought of meeting that person. The composer wishes for two people who have met through fate, to stay together for their entire life...',
-                pic:
-                    'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/1_xvwn4fvx/version/100021/600/600/height/0',
+                text: 'Unlike today, meeting a person was extremely difficult in the past. The lyrics of this song say that meeting someone was considered as an act of fate. People would meet even if they had never thought of meeting that person. The composer wishes for two people who have met through fate, to stay together for their entire life...',
+                pic: 'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/1_xvwn4fvx/version/100021/600/600/height/0',
                 id: 'audio-video-stage_shanti_virginia_edu-22741',
             },
             {
                 title: 'Tongue Twister in the Kheng Language',
-                text:
-                    'In the past, parents taught their kids tongue twisters as a way to practice pronunciation. Rinchen Drakpa from Sharigang presents two tongue twisters in his local language, Khengkha. Rinchen Drakpa says that in his childhood he witnessed villagers competing to be the one who could say the tongue twisters with the most perfect pronunciation.',
-                pic:
-                    'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/0_ou7n6lp9/version/100021/600/600/height/0',
+                text: 'In the past, parents taught their kids tongue twisters as a way to practice pronunciation. Rinchen Drakpa from Sharigang presents two tongue twisters in his local language, Khengkha. Rinchen Drakpa says that in his childhood he witnessed villagers competing to be the one who could say the tongue twisters with the most perfect pronunciation.',
+                pic: 'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/0_ou7n6lp9/version/100021/600/600/height/0',
                 id: 'audio-video-stage_shanti_virginia_edu-3806',
             },
             {
                 title: 'Seven Limbs of Practice: Chöpa',
-                text:
-                    'Most Bhutanese Buddhist rituals contain the set of seven practices known as yoen lak duen pa (ཡན་ལག་བདུན་པ་). The seven practices prostration (ཕྱག་), offering (མཆོད་པ་), confession (བཤགས་པ་), rejoicing (རྗེས་སུ་ཡི་རང་བ་), request to live long (བཞུགས་པར་གསོལ་བ་འདེབས་པ་), request to turn the wheel of Dharma (ཆོས་ཀྱི་འཁོར་ལོ་སྐོསྐོར་བར་བསྐུལ་བ་) and to dedicate the merits (བསྔོ་བ་).This piece was initially published in Bhutan’s national newspaper Kuensel..',
+                text: 'Most Bhutanese Buddhist rituals contain the set of seven practices known as yoen lak duen pa (ཡན་ལག་བདུན་པ་). The seven practices prostration (ཕྱག་), offering (མཆོད་པ་), confession (བཤགས་པ་), rejoicing (རྗེས་སུ་ཡི་རང་བ་), request to live long (བཞུགས་པར་གསོལ་བ་འདེབས་པ་), request to turn the wheel of Dharma (ཆོས་ཀྱི་འཁོར་ལོ་སྐོསྐོར་བར་བསྐུལ་བ་) and to dedicate the merits (བསྔོ་བ་).This piece was initially published in Bhutan’s national newspaper Kuensel..',
                 pic: 'https://mms.thlib.org/images/0050/8753/63691_large.jpg',
                 id: 'texts-stage_shanti_virginia_edu-38836',
             },
             {
                 title: 'A Story of a Rich and a Poor Girl',
-                text:
-                    'Ap Tempo of Karna Gewog, Dagana narrates a story of a poor girl who is straight forward and faithful. Her rich friend was always insecure. The poor girl gets rewarded by a deity for her kind heart and good attitude; she suddenly becomes rich, and her rich friend became insecure about her. She tries to achieve what the poor girl has achieved, but gets punished due to her jealousy and greediness.',
-                pic:
-                    'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/1_607tfowl/version/100031/600/600/height/0',
+                text: 'Ap Tempo of Karna Gewog, Dagana narrates a story of a poor girl who is straight forward and faithful. Her rich friend was always insecure. The poor girl gets rewarded by a deity for her kind heart and good attitude; she suddenly becomes rich, and her rich friend became insecure about her. She tries to achieve what the poor girl has achieved, but gets punished due to her jealousy and greediness.',
+                pic: 'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/1_607tfowl/version/100031/600/600/height/0',
                 id: 'audio-video-stage_shanti_virginia_edu-24651',
             },
             {
                 title: 'An Exchange of Tsangmo Poems',
-                text:
-                    "Tsangmo is a type of song used to express individual's emotions, conveying their inner warmth and affection to another person, through numerious lyrical tunes. Tsangmo can be sung to express love, hatred and any other feelings. While it is sung, the Tsangmo songs are never sung with dance, as it is a poetry song for a singing expression without a dance. It is usually a composition limited to a verse of four lines for an expression.",
-                pic:
-                    'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/1_zk9hsnff/version/100011/609/600/height/0',
+                text: "Tsangmo is a type of song used to express individual's emotions, conveying their inner warmth and affection to another person, through numerious lyrical tunes. Tsangmo can be sung to express love, hatred and any other feelings. While it is sung, the Tsangmo songs are never sung with dance, as it is a poetry song for a singing expression without a dance. It is usually a composition limited to a verse of four lines for an expression.",
+                pic: 'https://cfvod.kaltura.com/p/381832/sp/38183200/thumbnail/entry_id/1_zk9hsnff/version/100011/609/600/height/0',
                 id: 'audio-video-stage_shanti_virginia_edu-22596',
             },
         ];
@@ -1059,7 +1048,7 @@ export default class Pages {
         window.sui = this.sui;
         let popimg_data =
             'data:image/png;base64,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';
-        let str = `&nbsp;<img class='popover-icon' style='display:inline-block' src='${popimg_data}' 
+        let str = `<img class='popover-icon' style='display:inline-block' src='${popimg_data}' 
                     ${small ? "style='width:13px'" : ''}
                     onmouseenter='sui.pages.ShowPopover("${id}",event); return false;'
                     onmousemove='sui.pages.ShowPopover("${id}",event); return false;'

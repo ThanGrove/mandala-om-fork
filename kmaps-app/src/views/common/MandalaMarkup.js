@@ -81,8 +81,8 @@ function transform(node, index) {
         node.next.attribs['class'] &&
         node.next.attribs['class'] === 'popover-icon'
     ) {
-        // In Bill's code text preceded by two spaces
-        return ReactHtmlParser('&nbsp;&nbsp;');
+        // In Bill's code text preceded by two spaces - I removed the two spaces (&nbsp;&nbsp;) - mf8yk july 16, 2021
+        return ReactHtmlParser('');
     }
 
     // Process External Links in Mandala Markup to turn into Modals or Internal links TODO: Process internal Mandala links
