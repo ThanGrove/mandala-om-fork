@@ -84,11 +84,18 @@ const getKmapData = async (id, qtype) => {
     // Need to copy this way to prevent overwriting the templates in queries
     // Can't use deep JSON copy because that doesn't copy functions.
 
-    if (id.match(/(audio-video|images|sources|texts|visual)\*-\d+/)) {
-        id = `*${id}`;
-    }
     const query = { ...queries(id)[qtype] }; // shallow copy
     query.params = { ...query.params }; // deeper copy of params
+
+    if (
+        qtype === 'asset' &&
+        id.match(/(audio-video|images|sources|texts|visual)\*?-\d+/)
+    ) {
+        const idpts = id.replace('*', '').split('-');
+        const nid = idpts.pop();
+        const atype = idpts.join('-');
+        query.params.q = `asset_type:${atype} AND id:${nid}`;
+    }
 
     // Most kmap queries are wt=json. So added here by default.
     let myparams = query.params;

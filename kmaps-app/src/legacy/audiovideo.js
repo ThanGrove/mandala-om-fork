@@ -1,14 +1,14 @@
 /* 	AUDIO VIDEO PAGES ****************************************************************************************************************************
 
-	This module puts up the audio video pages based on a kmap from SOLR. It uses the Kaltura media 
+	This module puts up the audio video pages based on a kmap from SOLR. It uses the Kaltura media
 	player to actually play the video and has a transcript section that tracks the video.
 
-	The SHANTI-styled Kaltura player is loaded into an iFrame using their kwidget API. Once loaded, 
-	events are bound to trap whenever the video is played or paused. On play, PlayAV() is called to 
-	start a ~10fps time that calls a function to update the transcript code (see section below) to 
+	The SHANTI-styled Kaltura player is loaded into an iFrame using their kwidget API. Once loaded,
+	events are bound to trap whenever the video is played or paused. On play, PlayAV() is called to
+	start a ~10fps time that calls a function to update the transcript code (see section below) to
 	track the video. On pause, that timer is canceled.
 
-	Some metadata is displyed under the video along with the summary. A MORE link will reveal and 
+	Some metadata is displyed under the video along with the summary. A MORE link will reveal and
 	additonal summary information about the clip. A tabbed menu appears below that
 	to reduce coginitive load, with sections showing video DETAILS, PEOPLE, involved and TECHNICAL data.
 
@@ -45,7 +45,7 @@ export default class AudioVideo {
 
     // Added by Ndg8f: Separated out from Draw in order to make player into its own component
     DrawPlayer(o, d) {
-        console.log('o in player', o);
+        // console.log('o in player', o);
         const sui = this.sui;
         let i,
             f,

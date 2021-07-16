@@ -7,7 +7,6 @@ const TermsDetails = (props) => {
         <div className="sui-termsDetails__wrapper">
             <ul className="sui-termsDetails__list">
                 {props.kmAsset?.associated_subject_map_idfacet?.map((asset) => {
-                    console.log(asset);
                     const assetSplit = asset.split('|');
                     const assocSubject = assetSplit[1].split('=');
                     const subID = assocSubject[1].split('-');
