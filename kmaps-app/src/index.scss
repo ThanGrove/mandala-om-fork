@@ -523,15 +523,17 @@ div.image-wrapper.center figcaption {
     .treeNav-header {
         display: flex;
         justify-content: space-between;
-        margin: 0 -1rem 1rem 0;
+        margin: 0 -1rem 0.5rem 0;
         font-size: 1.45rem;
         font-weight: bold;
         letter-spacing: 0.0525rem;
         background-color: #3f49b1;
-        height: 2.9rem;
+        height: 3.5rem;
+        border-bottom: 0.6rem double #fff;
+
         .treeNav-header__title {
             margin-left: 2rem;
-            color: #e0e0e0;
+            color: #fcfcfc;
             padding: 0.3rem 0;
         }
         .treeNav-header__closeButton {
@@ -544,7 +546,7 @@ div.image-wrapper.center figcaption {
             transform: scale(1);
             opacity: 0.5;
             position: relative;
-            right: 1rem;
+            right: 2rem;
             top: 0.1rem;
             .icon::before {
                 color: #fff;
@@ -563,6 +565,7 @@ div.image-wrapper.center figcaption {
         margin-right: -1rem;
         transition: opacity 0.2s ease-in-out;
         opacity: 0.9;
+        border-bottom: 0.6rem double #fff;
         &:hover {
             opacity: 1;
         }
@@ -570,9 +573,9 @@ div.image-wrapper.center figcaption {
             color: #fff;
             padding: 0.45rem 2rem 0.2rem 1.25rem;
             display: inline-block;
-
+            height: 2.9rem;
             .header-icon svg {
-                font-size: 2rem;
+                font-size: 1.8rem;
                 position: relative;
                 top: -0.15rem;
                 transition: all 0.2s ease-in-out;
@@ -620,7 +623,7 @@ div.image-wrapper.center figcaption {
         /* CLOSE - Search Column -- Filters */
         .search-column-close-filters {
             position: absolute;
-            right: 1rem;
+            right: 2rem;
             top: 0.1rem;
             padding: 0;
             margin: 0;
@@ -650,7 +653,6 @@ div.image-wrapper.center figcaption {
         letter-spacing: 0.075rem;
         margin: 0 -1rem 0 0;
         padding: 1rem 0 0 1.5rem;
-        border-top: 0.5rem double $color-mandala;
 
         button {
             font-style: italic;

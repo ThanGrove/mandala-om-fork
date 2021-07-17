@@ -206,7 +206,7 @@ export default function SearchAdvanced(props) {
                             </IconContext.Provider>
                         </span>
                         <span className={'header-label-count'}>
-                            Total Results
+                            View Results
                             <Badge pill variant={'secondary'}>
                                 {searchData.response?.numFound}
                             </Badge>
@@ -217,7 +217,7 @@ export default function SearchAdvanced(props) {
                     <a
                         href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search`}
                     >
-                        {'<< '} Total Results{' '}
+                        {'<< '} View Results{' '}
                         <Badge pill variant={'secondary'}>
                             {searchData.response?.numFound}
                         </Badge>
