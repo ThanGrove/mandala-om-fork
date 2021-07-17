@@ -206,9 +206,9 @@ export default function SearchAdvanced(props) {
                             </IconContext.Provider>
                         </span>
                         <span className={'header-label-count'}>
-                            Total Results
+                            View Results
                             <Badge pill variant={'secondary'}>
-                                ({searchData.response?.numFound})
+                                {searchData.response?.numFound}
                             </Badge>
                         </span>
                     </Link>

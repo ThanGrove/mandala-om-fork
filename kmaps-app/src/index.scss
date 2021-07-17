@@ -561,36 +561,40 @@ ul.fancytree-container {
 }
 */
 
+/*
+ * ----- RightSideBar Search Column Header -----
+ */
 .search-column-header-filters {
     position: relative;
     border-left: 1px solid #fff;
+    background-color: #3f49b1;
+    margin-right: -1rem;
+    transition: opacity 0.2s ease-in-out;
+    opacity: 0.9;
+}
+.search-column-header-filters:hover {
+    opacity: 1;
 }
 .search-column-header-filters a {
     color: #fff;
-    margin-right: -1rem;
-    padding: 0 2rem 0.35rem 1.25rem;
-    background-color: #4d59ca;
-    display: block;
-    position: relative;
-    top: -0.1rem;
-    opacity: 0.9;
+    padding: 0.4rem 2rem 0.5rem 1.25rem;
+    display: inline-block;
 }
 .search-column-header-filters a:hover {
-    opacity: 1;
 }
 .search-column-header-filters a:active {
 }
-.search-column-header-filters a .header-icon {
+.search-column-header-filters a .header-icon svg {
     font-size: 1.75rem;
-    margin-right: 1rem;
     position: relative;
-    top: -0.1rem;
+    top: -0.15rem;
     left: 0;
-    transition: all 0.5s ease-in-out;
-    transform: scale(1);
+    transition: all 0.2s ease-in-out;
+    transform: scale(1.075);
 }
-.search-column-header-filters a:hover .header-icon {
-    transform: scale(1.1);
+.search-column-header-filters a:hover .header-icon svg {
+    left: 0;
+    transform: scale(1);
 }
 .search-column-header-filters a:active .header-icon {
 }
@@ -599,6 +603,7 @@ ul.fancytree-container {
     font-weight: bold;
     letter-spacing: 0.075rem;
     text-transform: uppercase;
+    margin-left: 1rem;
 }
 .search-column-header-filters a:hover .header-label-count {
 }
@@ -607,14 +612,19 @@ ul.fancytree-container {
 .search-column-header-filters .header-label-count .badge {
     font-size: 1.15rem;
     letter-spacing: 0.075rem;
-    color: #fff;
-    background: transparent;
+    color: #555;
+    background: #fff;
     margin: 0 0 0 0.75rem;
-    padding: 0 0.5rem;
+    padding: 0.2rem 0.5rem;
     position: relative;
     top: -0.1rem;
+    transition: all 0.4s ease-in-out;
+    border-left: 1px solid #fff;
+    border-right: 1px solid #fff;
 }
 .search-column-header-filters a:hover .badge {
+    background-color: transparent;
+    color: #fff;
 }
 .search-column-header-filters a:active .badge {
 }
