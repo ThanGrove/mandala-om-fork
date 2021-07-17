@@ -225,7 +225,7 @@ export default function SearchAdvanced(props) {
                 )}
                 <button
                     onClick={handleCloseButton}
-                    className={'search-column-filters-close'}
+                    className={'search-column-close-filters'}
                 >
                     <span className={'icon shanticon-cancel'}></span>
                 </button>
