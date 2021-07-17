@@ -1,5 +1,8 @@
 @import '../../index-variables';
 
+ul.fancytree-container {
+    height: auto !important;
+}
 .c-kmaptree {
     margin: 0 1rem;
     max-height: 50rem;
@@ -53,59 +56,6 @@
     }
 }
 
-/* All perspective selects in aside (right and left) */
-aside .c-perspective-select {
-    label {
-        display: block;
-    }
-    select {
-        max-width: 18rem;
-        margin-right: 1rem;
-        margin-bottom: 0.5rem;
-    }
-}
-
-/* Right side nav trees only  (#kmaps-tab-tabpane-terms) */
-aside#l-column__search--treeNav .c-perspective-select {
-    label {
-        display: inline-block;
-    }
-    select {
-        /* max-width: unset; */
-    }
-}
-
-aside#l-column__search--treeNav {
-    .treeNav-header {
-        display: flex;
-        justify-content: space-between;
-        margin: 0 2rem;
-        font-size: 1.45rem;
-        font-weight: bold;
-        letter-spacing: 0.0525rem;
-        padding-top: 0.5rem;
-        .treeNav-header__closeButton {
-            cursor: pointer;
-            font-size: 2rem;
-            opacity: 0.5;
-            position: relative;
-            left: 0.25rem;
-            top: -0.5rem;
-            .icon::before {
-                color: #b8860b;
-            }
-            &:hover {
-                /* transform: scale(0.85);
-                opacity: 7; */
-            }
-            &:active {
-                /* transform: scale(0.9);
-                opacity: 1; */
-            }
-        }
-    }
-}
-
 .modal-dialog.modal-persp-desc {
     min-width: 60vw;
 
@@ -121,7 +71,6 @@ aside#l-column__search--treeNav {
 }
 
 /* Leaf Styles */
-
 .c-kmapleaf {
     margin-top: 0.1rem;
     /* white-space: nowrap; */
