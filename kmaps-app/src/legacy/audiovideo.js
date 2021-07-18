@@ -949,7 +949,7 @@ export default class AudioVideo {
             ? 'firefox'
             : 'safari';
 
-        var str = `<div id='av-trscrpt-wrapper' class='col'>
+        var str = `<div id='av-trscrpt-wrapper' class='col col-xl-6 col-lg-12'>
             <div class='av-trscrpt-ctrls row'>
                 <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f<span>&#xe609</span></div>
                 <div id='sui-transTab1' class='sui-transTab col' title='Play/Pause'>&#xe641</div>
