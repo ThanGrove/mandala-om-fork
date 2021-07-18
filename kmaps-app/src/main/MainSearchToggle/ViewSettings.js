@@ -45,16 +45,16 @@ export function ViewSettings(props) {
 
     return (
         <>
-            <ToggleButton
+            <Button
                 name={'siteSettings'}
                 value={'open'}
-                type={'radio'}
+                type={'button'}
                 id={'advanced-site-settings'}
-                className={'c-MainSearchToggle--button settings'}
+                className={'siteSettings-Toggle--button settings'}
                 onClick={_.debounce(toggle)}
             >
                 <BsGear></BsGear>
-            </ToggleButton>
+            </Button>
 
             <Modal show={show} className={'c-modal__settings'}>
                 <Modal.Header closeButton onClick={toggle}>

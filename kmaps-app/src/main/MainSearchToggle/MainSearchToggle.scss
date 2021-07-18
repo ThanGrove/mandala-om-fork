@@ -1,6 +1,4 @@
 .c-MainSearchToggle--group {
-    position: relative;
-
     label {
         background-color: #fff;
         padding: 0.8rem 0;
@@ -47,8 +45,6 @@
         border-color: #ddd !important;
         border-bottom-color: transparent !important;
         opacity: 1;
-        position: relative;
-        top: 0.2rem;
         &:hover {
             color: #000 !important;
             background-color: #e9f4ff !important;

@@ -72,8 +72,6 @@ export function AdvancedToggle() {
             >
                 <BsSearch></BsSearch>
             </ToggleButton>
-
-            <ViewSettings />
         </ToggleButtonGroup>
     );
 }

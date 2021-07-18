@@ -199,7 +199,7 @@ export default function SearchAdvanced(props) {
         >
             <div className="search-column-header-filters">
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <Link to={`/search/deck`}>
+                    <button to={`/search/deck`}>
                         <span className={'header-icon'}>
                             <IconContext.Provider value={{ className: 'icon' }}>
                                 <FaRegArrowAltCircleRight />
@@ -211,7 +211,7 @@ export default function SearchAdvanced(props) {
                                 {searchData.response?.numFound}
                             </Badge>
                         </span>
-                    </Link>
+                    </button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <a

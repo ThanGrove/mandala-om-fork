@@ -569,8 +569,10 @@ div.image-wrapper.center figcaption {
         &:hover {
             opacity: 1;
         }
-        a {
+        button {
             color: #fff;
+            background-color: #3f49b1;
+            border: none;
             padding: 0.25rem 2rem 0.2rem 1.9rem;
             display: inline-block;
             height: 2.9rem;
