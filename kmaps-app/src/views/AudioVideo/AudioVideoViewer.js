@@ -151,12 +151,12 @@ function AudioVideoMeta(props) {
                 activeKey={tabkey}
                 onSelect={(k) => setTabkey(k)}
             >
-                <Tab eventKey="details" title="DETAILS ">
+                <Tab eventKey="details" title="DETAILS">
                     <div id={'meta-details'}>
                         <HtmlWithPopovers markup={metamarkup} />
                     </div>
                 </Tab>
-                <Tab eventKey="related" title="RELATED ">
+                <Tab eventKey="related" title="RELATED">
                     <AudioVideoRelated asset={kmasset} node={node} />
                 </Tab>
             </Tabs>
