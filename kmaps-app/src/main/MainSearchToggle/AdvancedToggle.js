@@ -4,7 +4,7 @@ import { browseSearchToggle } from '../../hooks/useBrowseSearchToggle';
 import { ADVANCED_LABEL, BASIC_LABEL } from '../../App';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { BsGear, BsMap, BsSearch, ImTree } from 'react-icons/all';
+import { BsGear, BsMap, ImTree } from 'react-icons/all';
 import './MainSearchToggle.scss';
 import { ViewSettings } from './ViewSettings';
 
@@ -70,7 +70,7 @@ export function AdvancedToggle() {
                     // }
                 }}
             >
-                <BsSearch></BsSearch>
+                <span className={'icon shanticon-preview'}></span>
             </ToggleButton>
         </ToggleButtonGroup>
     );
