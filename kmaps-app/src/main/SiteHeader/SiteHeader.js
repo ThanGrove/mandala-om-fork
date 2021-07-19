@@ -4,6 +4,7 @@ import { SearchBar } from '../../search/SearchBar';
 import { AdvancedToggle } from '../MainSearchToggle/AdvancedToggle';
 // import Headroom from '../../../node_modules/headroom.js'; // see https://wicky.nillia.ms/headroom.js/
 import './SiteHeader.scss';
+import { ViewSettings } from '../MainSearchToggle/ViewSettings';
 
 export function SiteHeader(props) {
     //   useLayoutEffect(() => {
@@ -25,16 +26,30 @@ export function SiteHeader(props) {
                     : 'c-site__header-standalone'
             }
         >
-            <nav className="navbar navbar-expand-lg bg-light">
-                <Link to={'/home'} className={'navbar-brand'}>
-                    <img
-                        src={process.env.PUBLIC_URL + '/img/bhutanleft.gif'}
-                        alt={'Home Page'}
-                        className={'o-image-logo d-inline-block align-top'}
-                    />
-                    <h1 className="sr-only">Bhutan Library</h1>
-                </Link>
+            <ViewSettings />
 
+            <button
+                className="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
+                <span className="navbar-toggler-icon"></span>
+            </button>
+
+            <Link to={'/home'} className={'navbar-brand'}>
+                <h1 className="sr-only">Bhutan Library</h1>
+                <img
+                    src={process.env.PUBLIC_URL + '/img/bhutanleft.gif'}
+                    alt={'Site Logo Image'}
+                    className={'o-image-logo'}
+                />
+            </Link>
+
+            <nav className="navbar navbar-expand-lg bg-light">
                 <div
                     className="collapse navbar-collapse"
                     id="navbarNav"
@@ -58,23 +73,10 @@ export function SiteHeader(props) {
                         </li>
                     </ul>
                 </div>
-
-                <SearchBar advanced={props.advanced} tree={props.tree} />
-
-                <AdvancedToggle />
-
-                <button
-                    className="navbar-toggler"
-                    type="button"
-                    data-toggle="collapse"
-                    data-target="#navbarNav"
-                    aria-controls="navbarNav"
-                    aria-expanded="false"
-                    aria-label="Toggle navigation"
-                >
-                    <span className="navbar-toggler-icon"></span>
-                </button>
             </nav>
+
+            <SearchBar advanced={props.advanced} tree={props.tree} />
+            <AdvancedToggle />
         </header>
     );
     return topBar;

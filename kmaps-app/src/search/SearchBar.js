@@ -3,11 +3,11 @@ import { BasicSearch } from './BasicSearch';
 
 export function SearchBar(props) {
     const searchbar = (
-        <section id="c-site__search" className="c-site__search">
+        <div id="c-site__search" className="c-site__search">
             {/*<form onSubmit={this.handleSubmit}>*/}
             <BasicSearch />
             {/*</form>*/}
-        </section>
+        </div>
     );
     return searchbar;
 }

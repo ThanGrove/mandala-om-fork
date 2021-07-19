@@ -87,15 +87,15 @@ export default class AudioVideo {
         str += `<div class='sui-vPlayer' id='sui-kplayer'>
         <img src="https://cfvod.kaltura.com/p/${partnerId}/sp/${partnerId}00/thumbnail/entry_id/${entryId}/version/100301/width/560/height/0" fill-height"></div>`;
         str += `<div style='display:inline-block;width:300px;margin-left:16px'>
-                <div title='Published'>&#xe60c&nbsp;&nbsp;&nbsp;`;
+                <div title='Published'>&#xe60c&nbsp;&nbsp;`;
         if (d.field_year_published && d.field_year_published.en) {
             str += sui.pages.FormatDate(d.field_year_published.en[0].value);
         } else if (o.node_created) {
             str += sui.pages.FormatDate(o.node_created, 'short');
         }
         str += '</div>';
-        str += `<div title='Duration'>&#xe61c&nbsp;&nbsp;&nbsp;${o.duration_s}</div>`;
-        str += `<div title='Uploader'>&#xe673&nbsp;&nbsp;&nbsp;${o.node_user_full_s}</div>`;
+        str += `<div title='Duration'>&#xe61c&nbsp;&nbsp;${o.duration_s}</div>`;
+        str += `<div title='Uploader'>&#xe673&nbsp;&nbsp;${o.node_user_full_s}</div>`;
         // End of left side list of metadata items under video
         str += `</div><div style='display:inline-block;vertical-align:top;width:calc(100% - 320px)'>`;
         try {
@@ -104,7 +104,7 @@ export default class AudioVideo {
                     sui.pages.GetPublicUrlPath('audio-video') +
                     'audio-video/collection/' +
                     o.collection_nid;
-                str += `&#xe633&nbsp;&nbsp;&nbsp;
+                str += `&#xe633&nbsp;
                 <a title='Collection' id='sui-avCol' href='${collpath}'>${o.collection_title}</a>`;
             }
         } catch (e) {}
@@ -129,13 +129,13 @@ export default class AudioVideo {
                 creator_short_list = o.creator;
             }
             str +=
-                "<div title='Creators'>&#xe600&nbsp;&nbsp;&nbsp;" +
+                "<div title='Creators'>&#xe600&nbsp;&nbsp;" +
                 creator_short_list.join(', ') +
                 '</div>';
         } catch (e) {
             //console.error("in audiovideo.js: " + e.toString());
         }
-        str += "<div title='Visibility'>&#xe67c&nbsp;&nbsp;&nbsp;Public</div>"; // TODO: sniff out actual visibility when available in solr index. For now all indexed nodes are public.
+        str += "<div title='Visibility'>&#xe67c&nbsp;&nbsp;Public</div>"; // TODO: sniff out actual visibility when available in solr index. For now all indexed nodes are public.
         let desc_text = o.summary ? o.summary : o.caption ? o.caption : '';
         let langclass = sui.pages.GetLangCode(desc_text);
         if (langclass.length > 0) {
@@ -226,20 +226,20 @@ export default class AudioVideo {
         try {
             if (o.title)
                 str +=
-                    "<p title='Title'><strong>TITLE</strong>&nbsp;&nbsp;" +
+                    "<p title='Title'><strong>TITLE</strong>" +
                     o.title +
                     '</p>';
         } catch (e) {}
         try {
             if (o.collection_title)
                 str +=
-                    "<p title='Collection'><strong>COLLECTION</strong>&nbsp;&nbsp;" +
+                    "<p title='Collection'><strong>COLLECTION</strong>" +
                     o.collection_title +
                     '</p>';
         } catch (e) {}
         try {
             if (d.field_subcollection_new.und.length > 0) {
-                str += '<p><strong>SUBCOLLECTION</strong>&nbsp;&nbsp;';
+                str += '<p><strong>SUBCOLLECTION</strong>';
                 for (i = 0; i < d.field_subcollection_new.und.length; ++i) {
                     str +=
                         d.field_subcollection_new.und[i].header +
@@ -247,8 +247,7 @@ export default class AudioVideo {
                             d.field_subcollection_new.und[i].domain +
                                 '-' +
                                 d.field_subcollection_new.und[i].id
-                        ) +
-                        '&nbsp;&nbsp; ';
+                        );
                 }
                 str += '</p>';
             }
@@ -256,7 +255,7 @@ export default class AudioVideo {
 
         try {
             if (d.field_subject.und.length > 0) {
-                str += '<p><strong>SUBJECT</strong>&nbsp;&nbsp;';
+                str += '<p><strong>SUBJECT</strong>';
                 for (i = 0; i < d.field_subject.und.length; ++i) {
                     str +=
                         d.field_subject.und[i].header +
@@ -264,15 +263,14 @@ export default class AudioVideo {
                             d.field_subject.und[i].domain +
                                 '-' +
                                 d.field_subject.und[i].id
-                        ) +
-                        '&nbsp;&nbsp; ';
+                        );
                 }
                 str += '</p>';
             }
         } catch (e) {}
         try {
             if (d.field_location.und.length > 0) {
-                str += '<p><strong>REFERENCED PLACES</strong>&nbsp;&nbsp;';
+                str += '<p><strong>REFERENCED PLACES</strong>';
                 for (i = 0; i < d.field_location.und.length; ++i) {
                     str +=
                         d.field_location.und[i].header +
@@ -280,15 +278,14 @@ export default class AudioVideo {
                             d.field_location.und[i].domain +
                                 '-' +
                                 d.field_location.und[i].id
-                        ) +
-                        '&nbsp;&nbsp; ';
+                        );
                 }
                 str += '</p>';
             }
         } catch (e) {}
         try {
             str +=
-                '<p><strong>RECORDING LOCATION</strong>&nbsp;&nbsp;' +
+                '<p><strong>RECORDING LOCATION</strong>' +
                 d.field_recording_location_new.und[0].header +
                 sui.pages.AddPop(
                     d.field_recording_location_new.und[0].domain +
@@ -299,7 +296,7 @@ export default class AudioVideo {
         } catch (e) {}
         try {
             str +=
-                '<p><strong>LANGUAGE</strong>&nbsp;&nbsp;' +
+                '<p><strong>LANGUAGE</strong>' +
                 d.field_language_kmap.und[0].header +
                 sui.pages.AddPop(
                     d.field_language_kmap.und[0].domain +
@@ -310,7 +307,7 @@ export default class AudioVideo {
         } catch (e) {}
         try {
             if (d.field_kmap_terms.und.length > 0) {
-                str += '<p><strong>TERMS</strong>&nbsp;&nbsp;';
+                str += '<p><strong>TERMS</strong>';
                 for (i = 0; i < d.field_kmap_terms.und.length; ++i) {
                     str +=
                         d.field_kmap_terms.und[i].header +
@@ -318,33 +315,32 @@ export default class AudioVideo {
                             d.field_kmap_terms.und[i].domain +
                                 '-' +
                                 d.field_kmap_terms.und[i].id
-                        ) +
-                        '&nbsp;&nbsp; ';
+                        );
                 }
                 str += '</p>';
             }
         } catch (e) {}
         try {
             str +=
-                '<p><strong>COPYRIGHT OWNER</strong>&nbsp;&nbsp;' +
+                '<p><strong>COPYRIGHT OWNER</strong>' +
                 d.field_copyright_owner.en[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>YEAR PUBLISHED</strong>&nbsp;&nbsp;' +
+                '<p><strong>YEAR PUBLISHED</strong>' +
                 d.field_year_published.en[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>RIGHTS SUMMARY</strong>&nbsp;&nbsp;' +
+                '<p><strong>RIGHTS SUMMARY</strong>' +
                 d.field_pbcore_rights_summary.en[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>UPLOADED</strong>&nbsp;&nbsp;' +
+                '<p><strong>UPLOADED</strong>' +
                 o.timestamp.substr(0, 10) +
                 ' by ' +
                 o.node_user_full_s +
@@ -390,7 +386,7 @@ export default class AudioVideo {
                 for (agrole in agents) {
                     let agrolelabel =
                         agents[agrole].length > 1 ? agrole + 's' : agrole;
-                    str += `<p><strong>${agrolelabel.toUpperCase()}</strong>&nbsp;&nbsp;${agents[
+                    str += `<p><strong>${agrolelabel.toUpperCase()}</strong>${agents[
                         agrole
                     ].join(', ')}</p>`;
                 }
@@ -441,7 +437,7 @@ export default class AudioVideo {
                 for (agrole in agents) {
                     let agrolelabel =
                         agents[agrole].length > 1 ? agrole + 's' : agrole;
-                    str += `<p><strong>${agroleprefix} ${agrolelabel.toUpperCase()}</strong>&nbsp;&nbsp;${agents[
+                    str += `<p><strong>${agroleprefix} ${agrolelabel.toUpperCase()}</strong>${agents[
                         agrole
                     ].join(', ')}</p>`;
                 }
@@ -451,15 +447,13 @@ export default class AudioVideo {
         }
         try {
             str +=
-                '<p><strong>PUBLISHER</strong>&nbsp;&nbsp;' +
+                '<p><strong>PUBLISHER</strong>' +
                 d.field_pbcore_publisher.und[0].field_publisher.und[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>DATA ENTRY</strong>&nbsp;&nbsp;' +
-                o.node_user_full_s +
-                '</p>';
+                '<p><strong>DATA ENTRY</strong>' + o.node_user_full_s + '</p>';
         } catch (e) {}
 
         if (
@@ -473,7 +467,7 @@ export default class AudioVideo {
                 v = d.field_pbcore_instantiation.und[0][i]; // Point at it
                 t = i.replace(/field_/, '').replace(/_/g, ' '); // Remove header and spaces
                 try {
-                    str += `<p><strong>${t.toUpperCase()}</strong>&nbsp;&nbsp;<span>${v.und[0].value.replace(
+                    str += `<p><strong>${t.toUpperCase()}</strong><span>${v.und[0].value.replace(
                         /(<([^>]+)>)/gi,
                         ''
                     )}</span></p>`;
@@ -482,12 +476,11 @@ export default class AudioVideo {
         }
         try {
             str +=
-                '<p><strong>FORMAT ID</strong>&nbsp;&nbsp;' +
+                '<p><strong>FORMAT ID</strong>' +
                 d.field_video.und[0].entryid +
                 '</p>';
         } catch (e) {}
-        str +=
-            '<p><strong>FORMAT ID SOURCE</strong>&nbsp;&nbsp;(Kaltura.com)</p>';
+        str += '<p><strong>FORMAT ID SOURCE</strong>&nbsp;(Kaltura.com)</p>';
         return '<div>' + str + '</div>';
     }
 
@@ -538,8 +531,8 @@ export default class AudioVideo {
             str += `<div class='sui-vPlayer' id='sui-kplayer'>
 			<img src="https://cfvod.kaltura.com/p/${partnerId}/sp/${partnerId}00/thumbnail/entry_id/${entryId}/version/100301/width/560/height/0" fill-height"></div>`;
             str += `<br><br><div style='display:inline-block;width:300px;margin-left:16px'>
-			<div title='Duration'>&#xe61c&nbsp;&nbsp;&nbsp;${o.duration_s}</div>
-			<div title='Published'>&#xe60c&nbsp;&nbsp;&nbsp;Published `;
+			<div title='Duration'>&#xe61c&nbsp;&nbsp;${o.duration_s}</div>
+			<div title='Published'>&#xe60c&nbsp;&nbsp;Published `;
             if (d.field_year_published && d.field_year_published.en)
                 str += +d.field_year_published.en[0].value;
             else if (o.node_created)
@@ -549,13 +542,13 @@ export default class AudioVideo {
                 if (o.collection_title)
                     str += `<a title='Collection' id='sui-avCol'
 					href='#c=${o.asset_type}-${o.id}=${o.collection_idfacet[0]}'>
-					&#xe633&nbsp;&nbsp;&nbsp;
-					<a title='Collection' id='sui-avCol'	href='#p=${o.collection_uid_s}'>${o.collection_title}</a>`;
+					&#xe633&nbsp;
+					<a title='Collection' id='sui-avCol' href='#p=${o.collection_uid_s}'>${o.collection_title}</a>`;
             } catch (e) {}
             str += `</div><div style='display:inline-block;vertical-align:top;width:calc(100% - 320px)'>`;
             try {
                 str +=
-                    "<div title='Creators'>&#xe600&nbsp;&nbsp;&nbsp;" +
+                    "<div title='Creators'>&#xe600&nbsp;&nbsp;" +
                     o.creator.join(', ') +
                     '</div>';
             } catch (e) {}
@@ -675,21 +668,21 @@ export default class AudioVideo {
         try {
             if (o.title)
                 str +=
-                    "<p title='Title'><strong>TITLE</strong>&nbsp;&nbsp;" +
+                    "<p title='Title'><strong>TITLE</strong>" +
                     o.title +
                     '</p>';
         } catch (e) {}
         try {
             if (o.collection_title)
                 str +=
-                    "<p title='Collection'><strong>COLLECTION</strong>&nbsp;&nbsp;" +
+                    "<p title='Collection'><strong>COLLECTION</strong>" +
                     o.collection_title +
                     '</p>';
         } catch (e) {}
 
         try {
             if (d.field_subcollection_new.und.length > 0) {
-                str += '<p><strong>SUBCOLLECTION</strong>&nbsp;&nbsp;';
+                str += '<p><strong>SUBCOLLECTION</strong>';
                 for (i = 0; i < d.field_subcollection_new.und.length; ++i) {
                     str +=
                         d.field_subcollection_new.und[i].header +
@@ -697,14 +690,13 @@ export default class AudioVideo {
                             d.field_subcollection_new.und[i].domain +
                                 '-' +
                                 d.field_subcollection_new.und[i].id
-                        ) +
-                        '&nbsp;&nbsp; ';
+                        );
                 }
                 str += '</p>';
             }
         } catch (e) {}
         try {
-            str += '<p><strong>SUBJECT</strong>&nbsp;&nbsp;';
+            str += '<p><strong>SUBJECT</strong>';
             for (i = 0; i < d.field_subject.und.length; ++i) {
                 str +=
                     d.field_subject.und[i].header +
@@ -712,14 +704,13 @@ export default class AudioVideo {
                         d.field_subject.und[i].domain +
                             '-' +
                             d.field_subject.und[i].id
-                    ) +
-                    '&nbsp;&nbsp; ';
+                    );
             }
             str += '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>RECORDING LOCATION</strong>&nbsp;&nbsp;' +
+                '<p><strong>RECORDING LOCATION</strong>' +
                 d.field_recording_location_new.und[0].header +
                 sui.pages.AddPop(
                     d.field_recording_location_new.und[0].domain +
@@ -730,7 +721,7 @@ export default class AudioVideo {
         } catch (e) {}
         try {
             str +=
-                "<p'><strong>LANGUAGE</strong>&nbsp;&nbsp;" +
+                "<p'><strong>LANGUAGE</strong>" +
                 d.field_language_kmap.und[0].header +
                 sui.pages.AddPop(
                     d.field_language_kmap.und[0].domain +
@@ -741,31 +732,31 @@ export default class AudioVideo {
         } catch (e) {}
         try {
             str +=
-                '<p><strong>TERMS</strong>&nbsp;&nbsp;' +
+                '<p><strong>TERMS</strong>' +
                 d.field_terms.und[0].header +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>COPYRIGHT OWNER</strong>&nbsp;&nbsp;' +
+                '<p><strong>COPYRIGHT OWNER</strong>' +
                 d.field_copyright_owner.en[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>YEAR PUBLISHED</strong>&nbsp;&nbsp;' +
+                '<p><strong>YEAR PUBLISHED</strong>' +
                 d.field_year_published.en[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>RIGHTS SUMMARY</strong>&nbsp;&nbsp;' +
+                '<p><strong>RIGHTS SUMMARY</strong>' +
                 d.field_pbcore_rights_summary.en[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>UPLOADED</strong>&nbsp;&nbsp;' +
+                '<p><strong>UPLOADED</strong>' +
                 o.timestamp.substr(0, 10) +
                 ' by ' +
                 o.node_user_full_s +
@@ -784,7 +775,7 @@ export default class AudioVideo {
                 // For each creator
                 f = d.field_pbcore_creator.und[i]; // Point at it
                 try {
-                    str += `<p><strong>${f.field_creator_role.und[0].value.toUpperCase()}</strong>&nbsp;&nbsp;${sui.pages.WrapInLangSpan(
+                    str += `<p><strong>${f.field_creator_role.und[0].value.toUpperCase()}</strong>${sui.pages.WrapInLangSpan(
                         f.field_creator.und[0].value
                     )}</p>`;
                 } catch (e) {}
@@ -800,7 +791,7 @@ export default class AudioVideo {
                 // For each item
                 f = d.field_pbcore_contributor.und[i]; // Point at it
                 try {
-                    str += `<p><strong>CONTRIBUTING ${f.field_contributor_role.und[0].value.toUpperCase()}</strong>&nbsp;&nbsp;${
+                    str += `<p><strong>CONTRIBUTING ${f.field_contributor_role.und[0].value.toUpperCase()}</strong>${
                         f.field_contributor.und[0].value
                     }</p>`;
                 } catch (e) {}
@@ -808,15 +799,13 @@ export default class AudioVideo {
         }
         try {
             str +=
-                '<p><strong>PUBLISHER</strong>&nbsp;&nbsp;' +
+                '<p><strong>PUBLISHER</strong>' +
                 d.field_pbcore_publisher.und[0].field_publisher.und[0].value +
                 '</p>';
         } catch (e) {}
         try {
             str +=
-                '<p><strong>DATA ENTRY</strong>&nbsp;&nbsp;' +
-                o.node_user_full_s +
-                '</p>';
+                '<p><strong>DATA ENTRY</strong>' + o.node_user_full_s + '</p>';
         } catch (e) {}
         this.content[1] = "<div style='height:2px'/>" + str + '<br>'; // Add to tab
 
@@ -832,7 +821,7 @@ export default class AudioVideo {
                 v = d.field_pbcore_instantiation.und[0][i]; // Point at it
                 t = i.replace(/field_/, '').replace(/_/g, ' '); // Remove header and spaces
                 try {
-                    str += `<p><strong>${t.toUpperCase()}</strong>&nbsp;&nbsp;${
+                    str += `<p><strong>${t.toUpperCase()}</strong>${
                         v.und[0].value
                     }</p>`;
                 } catch (e) {}
@@ -840,12 +829,11 @@ export default class AudioVideo {
         }
         try {
             str +=
-                '<p><strong>FORMAT ID</strong>&nbsp;&nbsp;' +
+                '<p><strong>FORMAT ID</strong>' +
                 d.field_video.und[0].entryid +
                 '</p>';
         } catch (e) {}
-        str +=
-            '<p><strong>FORMAT ID SOURCE</strong>&nbsp;&nbsp;(Kaltura.com)</p>';
+        str += '<p><strong>FORMAT ID SOURCE</strong>(Kaltura.com)</p>';
         this.content[2] = "<div style='height:2px'/>" + str + '<br>'; // Add to tab
     } //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -961,7 +949,7 @@ export default class AudioVideo {
             ? 'firefox'
             : 'safari';
 
-        var str = `<div id='av-trscrpt-wrapper' class='col'>
+        var str = `<div id='av-trscrpt-wrapper' class='col col-xl-6 col-lg-12'>
             <div class='av-trscrpt-ctrls row'>
                 <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f<span>&#xe609</span></div>
                 <div id='sui-transTab1' class='sui-transTab col' title='Play/Pause'>&#xe641</div>
@@ -1278,7 +1266,7 @@ export default class AudioVideo {
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
-				<div style='float:${res.rev ? 'right' : 'left'};'>
+				<div style='float:${res.rev ? 'right' : 'left'};width:13rem;'>
 				
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680

@@ -197,28 +197,21 @@ export default function SearchAdvanced(props) {
             id="l-column__search"
             className={`l-column__search ${openclass}`}
         >
-            <Navbar className={'justify-content-end'}>
-                <Nav.Link onClick={handleCloseButton}>
-                    <span className={'icon shanticon-cancel'}></span>
-                </Nav.Link>
-            </Navbar>
-            <Navbar>
-                {/*<Navbar.Brand href="#home">Navbar with text</Navbar.Brand>*/}
-                <Navbar.Toggle />
+            <div className="search-column-header-filters">
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <>
-                        <Link to={`/search/deck`}>
+                    <Link to={`/search/deck`}>
+                        <span className={'header-icon'}>
                             <IconContext.Provider value={{ className: 'icon' }}>
                                 <FaRegArrowAltCircleRight />
                             </IconContext.Provider>
-                        </Link>
-                        <span>
+                        </span>
+                        <span className={'header-label-count'}>
                             Total Results
                             <Badge pill variant={'secondary'}>
                                 {searchData.response?.numFound}
                             </Badge>
                         </span>
-                    </>
+                    </Link>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <a
@@ -230,20 +223,22 @@ export default function SearchAdvanced(props) {
                         </Badge>
                     </a>
                 )}
-                <Navbar.Collapse className="justify-content-end">
-                    <Navbar.Text>Reset:</Navbar.Text>
-                    <Nav.Link
-                        eventKey="resetFilters"
-                        onClick={handleResetFilters}
-                    >
-                        Filters
-                    </Nav.Link>
-                    <Nav.Link eventKey="resetAll" onClick={handleResetAll}>
-                        All
-                    </Nav.Link>
-                </Navbar.Collapse>
-            </Navbar>
-
+                <button
+                    onClick={handleCloseButton}
+                    className={'search-column-close-filters'}
+                >
+                    <span className={'icon shanticon-cancel'}></span>
+                </button>
+            </div>
+            <div className="search-column-reset-filters">
+                <label>Reset:</label>
+                <button eventKey="resetFilters" onClick={handleResetFilters}>
+                    Filters
+                </button>
+                <button eventKey="resetAll" onClick={handleResetAll}>
+                    All
+                </button>
+            </div>
             <section>
                 <FacetBox
                     id="asset_count"
@@ -374,7 +369,7 @@ export default function SearchAdvanced(props) {
                 <HistoryBox
                     historyStack={historyStack}
                     id="recent"
-                    label="recent searches"
+                    label="Recently Viewed"
                     facetType="recent-searches"
                 />
             </section>

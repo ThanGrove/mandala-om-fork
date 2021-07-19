@@ -82,6 +82,7 @@ export function BasicSearch(props) {
     const basicSearchPortal = (
         <>
             <div className="sui-search1">
+                <span className={'icon shanticon-magnify'}></span>
                 <input
                     key={search}
                     type="text"

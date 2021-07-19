@@ -12,7 +12,8 @@ const TermsDetails = (props) => {
                     const subID = assocSubject[1].split('-');
                     return (
                         <li className="sui-termsDetails__list-item" key={asset}>
-                            {assetSplit[0].split('=')[0].toUpperCase()}: {` `}
+                            {assetSplit[0].split('=')[0].toUpperCase()}:&nbsp;{' '}
+                            {` `}
                             <MandalaPopover domain={subID[0]} kid={subID[1]}>
                                 <span className="sui-termsDetails__li-subjects">
                                     {assocSubject[0]}
