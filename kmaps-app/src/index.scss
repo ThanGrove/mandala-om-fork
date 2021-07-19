@@ -569,13 +569,12 @@ div.image-wrapper.center figcaption {
         &:hover {
             opacity: 1;
         }
-        button {
+        > a {
             color: #fff;
             background-color: #3f49b1;
             border: none;
-            padding: 0 2rem 0.2rem 1.9rem;
+            padding: 0.2rem 2rem;
             display: inline-block;
-            height: 2.9rem;
             .header-icon svg {
                 font-size: 1.8rem;
                 position: relative;
