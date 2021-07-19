@@ -369,7 +369,7 @@ export default function SearchAdvanced(props) {
                 <HistoryBox
                     historyStack={historyStack}
                     id="recent"
-                    label="recent searches"
+                    label="Recently Viewed"
                     facetType="recent-searches"
                 />
             </section>
