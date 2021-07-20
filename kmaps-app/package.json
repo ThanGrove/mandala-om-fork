@@ -68,6 +68,7 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "devbuild": "env-cmd -f ./.env.development npm run-script build",
+        "prodbuild": "env-cmd -f ./.env.production npm run-script build",
         "ufbuild": "env-cmd -f ./.env.uf npm run-script build",
         "standalone:nofiltering": "REACT_APP_STANDALONE=standalone npm run-script devbuild",
         "standalone:uf": "REACT_APP_STANDALONE=standalone npm run-script ufbuild",
