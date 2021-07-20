@@ -96,12 +96,10 @@
     .c-image__caption {
         color: white;
         text-align: center;
-        letter-spacing: 0.15rem;
     }
     .c-image__title {
         margin-top: 0px;
         color: white;
-        letter-spacing: 0.15rem;
         font-size: 1.5rem;
         span {
             color: #c0c0c0;
@@ -126,7 +124,7 @@
             display: inline-block;
             height: 100px;
             margin: 0 0.15rem 1rem;
-            padding-top: 0.5rem;
+            padding-top: 0.2rem;
             cursor: pointer;
             border-radius: 3px;
             border: 1px solid transparent;
@@ -135,7 +133,7 @@
                 height: 100%;
             }
             &:hover {
-                border-color: #ccc;
+                border-color: #f0f0f0;
             }
             &:active {
                 border-color: transparent;
