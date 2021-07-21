@@ -1,6 +1,6 @@
 /*@import url('https://fonts.googleapis.com/css?family=EB+Garamond:400,400i,500%7COpen+Sans:400,400i,600&amp;subset=cyrillic,cyrillic-ext,greek,greek-ext,latin-ext');*/
 /*@font-face { font-family: 'shanticon'; src: url('shanticon.ttf?ueun15') format('truetype'); font-weight: normal; font-style: normal; }*/
-
+/*
 .sui-main {
     all: initial;
     position: ABSOLUTE;
@@ -48,7 +48,7 @@
 .sui-editBut:hover {
     color: #ccc;
 }
-
+*/
 /* SEARCH BOX */
 
 .sui-nameEntry-header:first-child {
@@ -130,7 +130,7 @@
     width: 60px;
     text-transform: uppercase;*/
 }
-
+/*
 .sui-search5:hover {
     color: #668eec;
 }
@@ -219,7 +219,7 @@
     border-radius: 8px 8px 0 0;
     overflow-y: auto;
 }
-
+*/
 /* LIST RESULTS */
 
 .sui-item {
@@ -677,9 +677,9 @@
 }
 
 .sui-advEdit-facet-ctrls-btns {
-    position: relative;
+    /*  position: relative;
     top: 0.4rem;
-    float: right;
+    float: right; */
 }
 
 .sui-advEdit-facet-ctrls-btns .btn {
