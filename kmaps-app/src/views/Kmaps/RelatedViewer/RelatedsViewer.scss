@@ -25,11 +25,11 @@
     margin-left: 0.1rem;
 }
 
-.l-column__list__wrap .l-terms__tree__wrap .fancytree-title {
+.l-column__list__wrap .l-related__tree__wrap .fancytree-title {
     color: #000 !important;
 }
 
-.l-column__list__wrap .l-terms__tree__wrap .popover-link {
+.l-column__list__wrap .l-related__tree__wrap .popover-link {
     margin-left: 0.15rem;
     top: 0.5rem;
 }
@@ -166,10 +166,10 @@
     padding-top: 0;
 }
 
-.l-terms__tree__wrap .view-wrap {
+.l-related__tree__wrap .view-wrap {
     padding: 0 1.2rem !important;
 }
-.l-terms__tree__wrap .fancytree-container {
+.l-related__tree__wrap .fancytree-container {
     border: 1px solid #ddd !important;
     box-shadow: inset 0 0 8px #ddd;
     padding: 0.5rem;
@@ -178,25 +178,25 @@
     max-height: 50rem;
     background-color: #fff !important;
 }
-.l-terms__tree__wrap .fancytree-container li {
+.l-related__tree__wrap .fancytree-container li {
 }
-.l-terms__tree__wrap .fancytree-node {
+.l-related__tree__wrap .fancytree-node {
     margin-top: 0;
     padding-top: 0;
     outline: none;
 }
-.l-terms__tree__wrap .fancytree-exp-nl .fancytree-title::before,
-.l-terms__tree__wrap .fancytree-exp-n .fancytree-title::before {
+.l-related__tree__wrap .fancytree-exp-nl .fancytree-title::before,
+.l-related__tree__wrap .fancytree-exp-n .fancytree-title::before {
     /*content: '–' !important;*/
     margin-right: 0.75rem !important;
     font-weight: bold !important;
     background-color: transparent;
 }
-.l-terms__tree__wrap .fancytree-exp-nl:hover .fancytree-title::before,
-.l-terms__tree__wrap .fancytree-exp-n:hover .fancytree-title::before {
+.l-related__tree__wrap .fancytree-exp-nl:hover .fancytree-title::before,
+.l-related__tree__wrap .fancytree-exp-n:hover .fancytree-title::before {
     background: transparent !important;
 }
-.l-terms__tree__wrap .fancytree-expander {
+.l-related__tree__wrap .fancytree-expander {
     margin-right: 0.9rem;
     color: $color-terms !important;
 }

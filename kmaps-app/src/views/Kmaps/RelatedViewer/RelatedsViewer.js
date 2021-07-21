@@ -165,7 +165,7 @@ export function RelatedsViewer() {
                         <HistoryViewer />
                     </section>
                 )}
-                <section className="l-terms__tree__wrap">
+                <section className="l-related__tree__wrap">
                     <div className="u-related__list__header">
                         Browse{' '}
                         <span className={'text-capitalize'}>
