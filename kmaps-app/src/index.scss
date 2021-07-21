@@ -122,11 +122,10 @@ div.image-wrapper.center figcaption {
     background-color: transparent;
 }
 
-.open {
+.sui-hamburger.open {
     display: block;
 }
-
-.closed {
+.sui-hamburger.closed {
     display: none;
 }
 
@@ -486,6 +485,7 @@ div.image-wrapper.center figcaption {
 
 .l-column__search {
     height: 100vh;
+    min-height: 80rem;
     font-size: 1.3rem;
     z-index: 1000;
     padding-right: 1rem;

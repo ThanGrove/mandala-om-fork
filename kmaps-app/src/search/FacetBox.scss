@@ -1,7 +1,9 @@
 .c-FacetBox--expander.open {
-    display: block;
+    max-height: 15rem !important;
 }
-
 .c-FacetBox--expander.closed {
-    display: none;
+    max-height: 0 !important;
+    border-color: transparent !important;
+    border-width: 0 !important;
+    margin: 0 !important;
 }

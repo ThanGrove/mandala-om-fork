@@ -351,10 +351,8 @@
 }
 
 .l-relatedTreeLeft {
-    min-width: 22rem;
     max-width: 22rem;
 }
 .l-relatedTreeLeft:hover {
     max-width: 40rem;
-    transition: max-width 0.5s ease-in-out;
 }
