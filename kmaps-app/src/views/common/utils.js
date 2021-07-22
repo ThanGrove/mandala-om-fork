@@ -468,14 +468,21 @@ export function getSolrNote(data, title, field) {
  * @param field
  * @returns {JSX.Element|null}
  */
-export function getSolrCitation(data, title, field) {
+export function getSolrCitation(data, title, field, nodate) {
     if (!data || !title || !field) {
         return null;
+    }
+    if (typeof nodate === undefined) {
+        nodate = false;
     }
     let citedata = getFieldData(data, field);
     if (citedata) {
         const tufield = field.replace('_citation_references_', '_time_units_');
-        if (Object.keys(data).includes(tufield) && data[tufield].length > 0) {
+        if (
+            !nodate &&
+            Object.keys(data).includes(tufield) &&
+            data[tufield].length > 0
+        ) {
             citedata += ' (' + data[tufield].join(' ') + ' CE).';
         }
         const srcicon = <span className="u-icon__sources"> </span>;
@@ -488,6 +495,24 @@ export function getSolrCitation(data, title, field) {
         );
     }
     return null;
+}
+
+/**
+ * Return the value from the date field of a SOLR doc, assuming there is one field with _time_units_ in its name.
+ * Optionally, can provide a date field namet
+ * @param data
+ * @param field
+ * @returns {*|string}
+ */
+export function getSolrDate(data, datefieldname) {
+    let dateval = datefieldname ? data[datefieldname] : '';
+    if (!datefieldname) {
+        const fldnms = findFieldNames(data, '_time_units_');
+        if (fldnms.length > 0) {
+            dateval = data[fldnms[0]];
+        }
+    }
+    return dateval;
 }
 
 export function findFieldNames(data, substr, pos) {

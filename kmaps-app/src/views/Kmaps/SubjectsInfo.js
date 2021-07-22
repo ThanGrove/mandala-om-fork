@@ -4,7 +4,12 @@ import './subjectsinfo.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import {
+    getSolrCitation,
+    getSolrDate,
+    getSolrNote,
+    queryID,
+} from '../common/utils';
 import RelatedsGallery from '../common/RelatedsGallery';
 import KmapsDescText from './KmapsDescText';
 import { useHistory } from '../../hooks/useHistory';
@@ -133,12 +138,22 @@ function SubjectDetails({ kmapData }) {
                     <label className={'font-weight-bold'}>Names:</label>
                     <ul>
                         {sbjnames.map((nmo) => {
+                            const srn_note = getSolrNote(nmo, 'Note on Name');
+                            const srn_ref = getSolrCitation(
+                                nmo,
+                                'Citation for Name',
+                                'related_names_citation_references_ss',
+                                true
+                            );
+                            const srn_date = getSolrDate(nmo);
                             return (
                                 <li key={nmo.id}>
                                     {nmo.related_names_header_s} (
                                     {nmo.related_names_language_s},{' '}
                                     {nmo.related_names_writing_system_s},{' '}
                                     {nmo.related_names_relationship_s})
+                                    {srn_note} {srn_ref}{' '}
+                                    {srn_date && `(${srn_date})`}
                                 </li>
                             );
                         })}
