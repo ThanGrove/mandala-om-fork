@@ -11,11 +11,12 @@ import {
     queryID,
 } from '../common/utils';
 import RelatedsGallery from '../common/RelatedsGallery';
-import KmapsDescText from './KmapsDescText';
+
 import { useHistory } from '../../hooks/useHistory';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { RelatedTextFinder } from '../common/utilcomponents';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);
@@ -112,12 +113,8 @@ function SubjectSummary({ kmapData, path }) {
                         <SubjectDetails kmapData={kmapData} />
                     </div>
                 </div>
+                <RelatedTextFinder kmapdata={kmapData} />
             </div>
-            {txtid && (
-                <div className={'c-subject-essay desc'}>
-                    <KmapsDescText txtid={txtid} />
-                </div>
-            )}
         </>
     );
 }
@@ -127,8 +124,13 @@ function SubjectDetails({ kmapData }) {
     const sbjnames = kmapData?._childDocuments_?.filter((cd) => {
         return cd?.id.includes(kid + '_name');
     });
+    const summary = kmapData?.summary_eng ? (
+        <HtmlCustom markup={kmapData.summary_eng} />
+    ) : null;
+
     return (
         <>
+            {summary}
             <div>
                 <label className={'font-weight-bold'}>ID:</label>{' '}
                 <span className={'kmapid'}>{kid}</span>

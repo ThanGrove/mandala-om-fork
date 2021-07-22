@@ -7,6 +7,10 @@ ndg, Nov. 11, 2020)
 
 @import '../../index-variables';
 
+.subjects .c-content__main__kmaps > .c-subject-info {
+    max-width: 95%;
+}
+
 .c-content__main__kmaps .featured-image {
     float: right;
     padding: 0.5rem;
@@ -217,4 +221,8 @@ ul.sui-nameEntry.first-entry
 
 main.subjects .shanti-texts-section-title::before {
     border-color: #cc4c34;
+}
+
+.shanti-texts-section-controls {
+    display: none !important;
 }
