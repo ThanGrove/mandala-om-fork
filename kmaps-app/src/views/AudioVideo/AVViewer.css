@@ -348,17 +348,17 @@ div#meta-details {
     font-size: 1.25rem;
 }
 div#meta-details p {
-    margin: 0 0 0.5rem 22rem;
+    margin: 0 0 0.5rem 26rem;
     line-height: 1.25;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
 div#meta-details p strong {
-    width: 20rem !important;
+    width: 24rem !important;
     display: inline-block;
     text-transform: uppercase;
     letter-spacing: 0.0475rem;
     font-size: 1.25rem;
-    margin: 0 0 0 -22rem;
+    margin: 0 0 0 -26rem;
     padding: 0.3rem 0 0;
 }
 div#meta-details p strong:after {
