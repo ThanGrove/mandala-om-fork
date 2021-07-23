@@ -199,7 +199,11 @@ export default function SearchAdvanced(props) {
             <div className="search-column-header-filters">
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
                     <Button
-                        onClick={() => history.push(`/search/deck`)}
+                        onClick={() =>
+                            history.push(
+                                `/search/deck${window.location.search}`
+                            )
+                        }
                         variant="link"
                     >
                         <span className={'header-icon'}>
@@ -217,7 +221,7 @@ export default function SearchAdvanced(props) {
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <a
-                        href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search`}
+                        href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                     >
                         {'<< '} Total Results{' '}
                         <Badge pill variant={'secondary'}>

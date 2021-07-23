@@ -158,7 +158,7 @@ export function FeatureCard(props) {
 
     const asset_view = inline
         ? createAssetViewURL(avuid, doc.asset_type, location)
-        : `/${viewer}/${avid}`;
+        : `/${viewer}/${avid}${window.location.search}`;
 
     const subtitle =
         doc.asset_type === 'texts' ? (
@@ -314,5 +314,5 @@ function createAssetViewURL(avuid, asset_type, location) {
     let path = location.pathname
         .replace(/\/?any\/?.*/, '') // remove the /any from terms
         .replace(/\/?(deck|gallery|list)\/?.*/, '');
-    return `${path}/view/${aid}`; // ${avuid}?asset_type=${asset_type}
+    return `${path}/view/${aid}${window.location.search}`; // ${avuid}?asset_type=${asset_type}
 }
