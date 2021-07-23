@@ -1,8 +1,7 @@
 import { FacetBox } from './FacetBox';
 import React, { useState } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
@@ -199,7 +198,10 @@ export default function SearchAdvanced(props) {
         >
             <div className="search-column-header-filters">
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <Link to={`/search/deck`}>
+                    <Button
+                        onClick={() => history.push(`/search/deck`)}
+                        variant="link"
+                    >
                         <span className={'header-icon'}>
                             <IconContext.Provider value={{ className: 'icon' }}>
                                 <FaRegArrowAltCircleRight />
@@ -211,7 +213,7 @@ export default function SearchAdvanced(props) {
                                 {searchData.response?.numFound}
                             </Badge>
                         </span>
-                    </Link>
+                    </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <a
