@@ -10,6 +10,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import GenericPopover from './GenericPopover';
 import MandalaCitation from '../Sources/MandalaCitation';
+import { HtmlCustom } from './MandalaMarkup';
 
 export function buildNestedDocs(docs, child_type, path_field) {
     path_field = path_field ? path_field : child_type + '_path_s';
@@ -477,14 +478,20 @@ export function getSolrCitation(data, title, field, nodate) {
         nodate = false;
     }
     let citedata = getFieldData(data, field);
-    const cdstripped = citedata.replace(/[\s\.\,\;]+/g, '');
-
+    if (!citedata || citedata.length === 0) {
+        // console.log('No citation data found for field: ', field, data);
+        return null;
+    }
+    const cdstripped = citedata?.replace(/[\s\.\,\;]+/g, '');
     if (!isNaN(cdstripped)) {
         citedata = <MandalaCitation srcid={cdstripped} />;
+    } else if (citedata.search(/<\/[^>]+>/)) {
+        citedata = <HtmlCustom markup={citedata} />;
     } else {
         citedata = citedata.replace(', .', '.');
     }
-    if (citedata) {
+    const srcicon = <span className="u-icon__sources"> </span>;
+    if (typeof citedata === 'string') {
         const tufield = field.replace('_citation_references_', '_time_units_');
         if (
             !nodate &&
@@ -493,7 +500,11 @@ export function getSolrCitation(data, title, field, nodate) {
         ) {
             citedata += ' (' + data[tufield].join(' ') + ' CE).';
         }
-        const srcicon = <span className="u-icon__sources"> </span>;
+
+        return (
+            <GenericPopover title={title} content={citedata} icon={srcicon} />
+        );
+    } else {
         return (
             <GenericPopover
                 title={title}
