@@ -31,6 +31,7 @@ export function RelatedAssetHeader({ type, subtype, header }) {
     const retpath = window.location.pathname.split('/view')[0];
     return (
         <>
+            {' '}
             <div className="c-nodeHeader__backLink__wrap">
                 <Link to={retpath} className="c-nodeHeader__backLink">
                     <span className="icon u-icon__arrow-left_2">Return</span>

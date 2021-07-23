@@ -105,6 +105,9 @@ export default function AudioVideoViewer(props) {
     // Return the av-viewer div with div for Bill's drawing of AV player and AV metadata
     return (
         <div id={'av-viewer'}>
+            {kmasset?.title?.length > 0 && (
+                <h1 className="title av">{kmasset.title[0]}</h1>
+            )}
             {kmasset && props?.id && (
                 <RelatedAssetHeader
                     type="audio-video"
