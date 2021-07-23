@@ -258,7 +258,15 @@ export function CollectionsViewer(props) {
         return <NotFoundPage type={asset_type + ' collection'} id={asset_id} />;
     }
 
-    //console.log('solrq', solrq);
+    // console.log('solrq', solrq);
+    // console.log(collsolr);
+
+    const colltitle =
+        collsolr?.title?.length > 0
+            ? `${collsolr.title[0].replace(/collections?/gi, '')} ${
+                  collsolr.asset_subtype
+              } Collection`
+            : false;
 
     // Return the Container with the Collection page
     return (
@@ -314,6 +322,11 @@ export function CollectionsViewer(props) {
                 }
             >
                 <div className={'c-content__main__kmaps c-collection'}>
+                    {colltitle && (
+                        <h1 className="title collection text-capitalize">
+                            {colltitle}
+                        </h1>
+                    )}
                     {(collsolr?.url_thumb?.length > 0 ||
                         $.trim(collsolr?.summary).length > 0) && (
                         <p className={'colldesc clearfix'}>

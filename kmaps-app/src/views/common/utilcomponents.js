@@ -261,3 +261,19 @@ export function RelatedText({ kid }) {
         </>
     );
 }
+
+export function AssetTitle({ kmasset }) {
+    if (!kmasset || !kmasset?.title?.length > 0) {
+        return null;
+    }
+    const mytype = kmasset?.asset_type;
+    const title = kmasset.title[0];
+    let mylang = 'en';
+    if (title.includes('་')) {
+        mylang = 'bo';
+    }
+    if (title.charCodeAt(0) > 19967) {
+        mylang = 'zh';
+    }
+    return <h1 className={`title ${mytype} ${mylang}`}>{kmasset.title[0]}</h1>;
+}

@@ -10,6 +10,7 @@ import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import { AssetTitle } from '../common/utilcomponents';
 
 /**
  * Compontent that creates the Image Viewer page, including:
@@ -127,9 +128,9 @@ export default function ImagesViewer(props) {
         const rotation = nodejson?.field_image_rotation?.und[0]
             ? nodejson.field_image_rotation.und[0].value
             : false;
-
         return (
             <div className={'c-image'}>
+                <AssetTitle kmasset={kmasset} />
                 {props?.id && (
                     <RelatedAssetHeader
                         type="images"
