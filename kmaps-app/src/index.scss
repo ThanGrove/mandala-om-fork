@@ -122,11 +122,10 @@ div.image-wrapper.center figcaption {
     background-color: transparent;
 }
 
-.open {
+.sui-hamburger.open {
     display: block;
 }
-
-.closed {
+.sui-hamburger.closed {
     display: none;
 }
 
@@ -410,6 +409,7 @@ div.image-wrapper.center figcaption {
     .advanced-search-and-tree {
         position: relative;
         border: none;
+        background-color: #fff;
         /*  margin-top: -3.4rem; */
         .nav-tabs {
             padding: 0 0 0.5rem;
@@ -486,6 +486,7 @@ div.image-wrapper.center figcaption {
 
 .l-column__search {
     height: 100vh;
+    min-height: 80rem;
     font-size: 1.3rem;
     z-index: 1000;
     padding-right: 1rem;
@@ -695,24 +696,26 @@ div.image-wrapper.center figcaption {
             height: 70rem;
             cursor: col-resize;
             position: relative;
-            left: -0.1rem;
+            left: -0.25rem;
             top: 1rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
             border-style: solid;
-            border-color: #aaa;
-            border-width: 2rem 0.1rem 2rem 0.2rem;
+            border-left-style: dotted;
+            border-color: $color-mandala;
+            border-width: 2.5rem 0 2.5rem 0.25rem;
             border-radius: 0.5rem 0 0 0.5rem;
-            opacity: 0.3;
-            transition: all 0.2s ease-in-out;
+            opacity: 0.35;
+            transition: all 0.25s;
         }
     }
     &:hover div::before {
-        opacity: 0.3;
-        left: -0.6rem;
+        opacity: 0.425;
+        left: -0.9rem;
         border-color: #444cf7;
         border-left-width: 0.1rem;
+        border-left-style: solid;
         background-color: #fff;
         background-size: 0.3rem 0.3rem;
         background-image: repeating-linear-gradient(

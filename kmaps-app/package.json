@@ -69,9 +69,11 @@
         "build": "react-scripts build",
         "devbuild": "env-cmd -f ./.env.development npm run-script build",
         "prodbuild": "env-cmd -f ./.env.production npm run-script build",
+        "tibetbuild": "env-cmd -f ./.env.tibet npm run-script build",
         "ufbuild": "env-cmd -f ./.env.uf npm run-script build",
         "standalone:nofiltering": "REACT_APP_STANDALONE=standalone npm run-script devbuild",
         "standalone:uf": "REACT_APP_STANDALONE=standalone npm run-script ufbuild",
+        "standalone:tibet": "REACT_APP_STANDALONE=standalone npm run-script tibetbuild",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

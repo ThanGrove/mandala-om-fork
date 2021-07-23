@@ -4,13 +4,19 @@ import './subjectsinfo.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
-import { queryID } from '../common/utils';
+import {
+    getSolrCitation,
+    getSolrDate,
+    getSolrNote,
+    queryID,
+} from '../common/utils';
 import RelatedsGallery from '../common/RelatedsGallery';
-import KmapsDescText from './KmapsDescText';
+
 import { useHistory } from '../../hooks/useHistory';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { RelatedTextFinder } from '../common/utilcomponents';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);
@@ -107,12 +113,8 @@ function SubjectSummary({ kmapData, path }) {
                         <SubjectDetails kmapData={kmapData} />
                     </div>
                 </div>
+                <RelatedTextFinder kmapdata={kmapData} />
             </div>
-            {txtid && (
-                <div className={'c-subject-essay desc'}>
-                    <KmapsDescText txtid={txtid} />
-                </div>
-            )}
         </>
     );
 }
@@ -122,8 +124,13 @@ function SubjectDetails({ kmapData }) {
     const sbjnames = kmapData?._childDocuments_?.filter((cd) => {
         return cd?.id.includes(kid + '_name');
     });
+    const summary = kmapData?.summary_eng ? (
+        <HtmlCustom markup={kmapData.summary_eng} />
+    ) : null;
+
     return (
         <>
+            {summary}
             <div>
                 <label className={'font-weight-bold'}>ID:</label>{' '}
                 <span className={'kmapid'}>{kid}</span>
@@ -133,12 +140,22 @@ function SubjectDetails({ kmapData }) {
                     <label className={'font-weight-bold'}>Names:</label>
                     <ul>
                         {sbjnames.map((nmo) => {
+                            const srn_note = getSolrNote(nmo, 'Note on Name');
+                            const srn_ref = getSolrCitation(
+                                nmo,
+                                'Citation for Name',
+                                'related_names_citation_references_ss',
+                                true
+                            );
+                            const srn_date = getSolrDate(nmo);
                             return (
                                 <li key={nmo.id}>
                                     {nmo.related_names_header_s} (
                                     {nmo.related_names_language_s},{' '}
                                     {nmo.related_names_writing_system_s},{' '}
                                     {nmo.related_names_relationship_s})
+                                    {srn_note} {srn_ref}{' '}
+                                    {srn_date && `(${srn_date})`}
                                 </li>
                             );
                         })}

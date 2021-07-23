@@ -5,6 +5,16 @@ import { MandalaModal } from './MandalaModal';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
 
+export function reactMandalaGotoColl() {
+    const cid = $('input[name=mandala-collection-id]')?.val();
+    const atype = $('input[name=mandala-asset-type]')?.val();
+    if (cid && atype) {
+        // TODO: Account for stand alone
+        const collurl = `/${atype}/collection/${cid}`;
+        window.location.pathname = collurl;
+    }
+}
+
 /**
  * The transform function sent to ReactHtmlParse for converting raw HTML into React Components
  * Used to:
@@ -134,7 +144,30 @@ function transform(node, index) {
             // or if a mandala app name is not in domain.
             if (pathparts.length == 1 || !mtch) {
                 if (pathparts[0] === '') {
-                    return <>{linkcontents}</>;
+                    if (
+                        linkurl.startsWith('/collection') ||
+                        linkurl.startsWith('/subcollection')
+                    ) {
+                        return (
+                            <a
+                                className="collection-link"
+                                href="#"
+                                onClick={reactMandalaGotoColl}
+                                data-href={linkurl}
+                            >
+                                {linkcontents}
+                            </a>
+                        );
+                    }
+                    return (
+                        <a
+                            className="original-link"
+                            href="#"
+                            data-href={linkurl}
+                        >
+                            {linkcontents}
+                        </a>
+                    );
                 } else {
                     return (
                         <MandalaModal
@@ -206,7 +239,6 @@ export function HtmlWithPopovers(props) {
         decodeEntities: true,
         transform,
     };
-
     return <>{ReactHtmlParser(htmlInput, options)}</>;
 }
 

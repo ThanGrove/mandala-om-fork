@@ -1,7 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from './MandalaPopover';
-import { Col, Container, Row, Button } from 'react-bootstrap';
+import { Col, Container, Row, Button, Tabs } from 'react-bootstrap';
+import { findFieldNames, queryID } from './utils';
+import { useKmap } from '../../hooks/useKmap';
+import useMandala from '../../hooks/useMandala';
+import MandalaSkeleton from './MandalaSkeleton';
+import { HtmlWithPopovers } from './MandalaMarkup';
+import Tab from 'react-bootstrap/Tab';
 
 export function CollectionField(props) {
     const solrdoc = props?.solrdoc;
@@ -191,5 +197,67 @@ export function NotFoundPage(props) {
                 </Row>
             </Container>
         </div>
+    );
+}
+
+export function RelatedTextFinder({ kmapdata }) {
+    let txtidfield = findFieldNames(kmapdata, 'homepage_text_', 'starts');
+    if (!txtidfield || txtidfield.length === 0) return null;
+    txtidfield = txtidfield[0];
+    const kid = kmapdata[txtidfield];
+    return <RelatedText kid={kid} />;
+}
+
+export function RelatedText({ kid }) {
+    const {
+        isLoading: isAssetLoading,
+        data: textasset,
+        isError: isAssetError,
+        error: assetError,
+    } = useKmap(queryID('texts', kid), 'asset');
+
+    const {
+        isLoading: isJsonLoading,
+        data: textjson,
+        isError: isJsonError,
+        error: jsonError,
+    } = useMandala(textasset);
+
+    if (isAssetLoading || isJsonLoading) return <MandalaSkeleton />;
+    if (!textjson?.full_markup) return null;
+    const isToc = textjson?.toc_links && textjson.toc_links.length > 0;
+    const defkey = isToc ? 'toc' : 'info';
+    return (
+        <>
+            <Container className="c-kmaps-related-text">
+                <Row>
+                    <Col lg={7}>
+                        <HtmlWithPopovers markup={textjson?.full_markup} />
+                    </Col>
+                    <Col lg={5}>
+                        <Tabs defaultActiveKey={defkey} id="text-meta-tabs">
+                            {isToc && (
+                                <Tab eventKey="toc" title="Table of Contents">
+                                    <div className={'toc'}>
+                                        <HtmlWithPopovers
+                                            markup={textjson?.toc_links}
+                                        />
+                                    </div>
+                                </Tab>
+                            )}
+                            <Tab eventKey="info" title="Info">
+                                {textjson?.bibl_summary && (
+                                    <div className={'info'}>
+                                        <HtmlWithPopovers
+                                            markup={textjson?.bibl_summary}
+                                        />
+                                    </div>
+                                )}
+                            </Tab>
+                        </Tabs>
+                    </Col>
+                </Row>
+            </Container>
+        </>
     );
 }
