@@ -235,6 +235,16 @@ export default function TextsViewer(props) {
                 )}
                 <Container className={'l-site__wrap astviewer texts'} fluid>
                     <Row id={'shanti-texts-container'}>
+                        <input
+                            type="hidden"
+                            name="mandala-collection-id"
+                            value={kmasset.collection_nid}
+                        />
+                        <input
+                            type="hidden"
+                            name="mandala-asset-type"
+                            value="texts"
+                        />
                         <TextBody
                             id={nodejson.nid}
                             alias={nodejson.alias}
