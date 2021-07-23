@@ -9,6 +9,7 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GenericPopover from './GenericPopover';
+import MandalaCitation from '../Sources/MandalaCitation';
 
 export function buildNestedDocs(docs, child_type, path_field) {
     path_field = path_field ? path_field : child_type + '_path_s';
@@ -476,6 +477,13 @@ export function getSolrCitation(data, title, field, nodate) {
         nodate = false;
     }
     let citedata = getFieldData(data, field);
+    const cdstripped = citedata.replace(/[\s\.\,\;]+/g, '');
+
+    if (!isNaN(cdstripped)) {
+        citedata = <MandalaCitation srcid={cdstripped} />;
+    } else {
+        citedata = citedata.replace(', .', '.');
+    }
     if (citedata) {
         const tufield = field.replace('_citation_references_', '_time_units_');
         if (
@@ -489,7 +497,8 @@ export function getSolrCitation(data, title, field, nodate) {
         return (
             <GenericPopover
                 title={title}
-                content={citedata.replace(', .', '.')}
+                content=""
+                children={citedata}
                 icon={srcicon}
             />
         );

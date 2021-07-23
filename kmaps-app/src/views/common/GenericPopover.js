@@ -13,6 +13,11 @@ const GenericPopover = ({ title, ...props }) => {
     };
     let content = props?.content;
     content = !content?.startsWith('<p>') ? `<p>${content}</p>` : content;
+    let children = props?.children ? (
+        props.children
+    ) : (
+        <HtmlCustom markup={content} />
+    );
     const icon = props?.icon ? props.icon : <ImStack />;
 
     return (
@@ -28,9 +33,7 @@ const GenericPopover = ({ title, ...props }) => {
                 >
                     <Popover className="generic-popover processed">
                         <Popover.Title as="h5">{title}</Popover.Title>
-                        <Popover.Content>
-                            <HtmlCustom markup={content} />
-                        </Popover.Content>
+                        <Popover.Content>{children}</Popover.Content>
                     </Popover>
                 </Overlay>
             </span>
