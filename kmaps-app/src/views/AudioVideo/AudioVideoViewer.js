@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import { AssetTitle } from '../common/utilcomponents';
 
 /**
  * AudioVideoViewer is called from ContentMain.js and is wrapped in a MdlAssetContext that supplies it with a SOLR
@@ -105,9 +106,7 @@ export default function AudioVideoViewer(props) {
     // Return the av-viewer div with div for Bill's drawing of AV player and AV metadata
     return (
         <div id={'av-viewer'}>
-            {kmasset?.title?.length > 0 && (
-                <h1 className="title av">{kmasset.title[0]}</h1>
-            )}
+            <AssetTitle kmasset={kmasset} />
             {kmasset && props?.id && (
                 <RelatedAssetHeader
                     type="audio-video"

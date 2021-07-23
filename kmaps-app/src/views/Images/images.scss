@@ -13,6 +13,13 @@
 .c-image {
     //  background-color: #fafafa;
 }
+
+.c-image h1.title {
+    min-height: 25px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
 .c-image__viewer {
     background-color: #222222;
     border-bottom: 10px solid #b49c59;
