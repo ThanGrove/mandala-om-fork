@@ -486,6 +486,17 @@ export function getSolrCitation(data, title, field, nodate) {
     if (!isNaN(cdstripped)) {
         citedata = <MandalaCitation srcid={cdstripped} />;
     } else if (citedata.search(/<\/[^>]+>/)) {
+        // remove links as will probably be broken in citations.
+        citedata = citedata.replace(/<\/?a[^>]*>/g, '');
+        // Add links to new tab to URL strings.
+        let mre = RegExp(/(https?\:[^\s\)\]]+)[\s\)$]/);
+        const mtchs = mre.exec(citedata);
+        if (mtchs) {
+            citedata = citedata.replace(
+                mtchs[1],
+                `<a href="${mtchs[1]}" target="_blank">${mtchs[1]}</a>`
+            );
+        }
         citedata = <HtmlCustom markup={citedata} />;
     } else {
         citedata = citedata.replace(', .', '.');
