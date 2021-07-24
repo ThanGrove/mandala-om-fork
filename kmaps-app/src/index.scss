@@ -129,35 +129,6 @@ div.image-wrapper.center figcaption {
     display: none;
 }
 
-// MAIN Kmaps Column ------- move this
-.c-content__main__kmaps {
-    background-color: #fcfcfc;
-    border: 1px solid #ccc;
-    border-radius: 0.5rem;
-    padding: 0.5rem 1.5rem 4rem 2.5rem;
-    font-size: 1.375rem;
-    /* height: 100vh;*/
-    min-height: 70rem;
-    position: relative;
-    > * {
-        max-width: 90rem;
-    }
-    > h3 {
-        margin-left: 1rem;
-        margin-top: 0.75rem;
-    }
-    > .nav-tabs {
-        margin-top: 1.5rem;
-        padding-left: 4rem;
-        a {
-            font-size: 1.25rem;
-            text-transform: uppercase;
-            font-weight: bold;
-            padding: 1rem 2rem 0.25rem;
-        }
-    }
-}
-
 //---------------------------------------
 // *** THEME COLORS & ICONS
 //---------------------------------------
@@ -291,7 +262,33 @@ div.image-wrapper.center figcaption {
 // --------------------------------------
 // * CONTENT SECTION: Node Header
 // --------------------------------------
+
 .c-content__main__kmaps {
+    background-color: #fcfcfc;
+    border: 1px solid #ccc;
+    border-radius: 0.5rem;
+    padding: 0.5rem 1.5rem 4rem 2.5rem;
+    font-size: 1.375rem;
+    /* height: 100vh;*/
+    min-height: 70rem;
+    position: relative;
+    > * {
+        max-width: 90rem;
+    }
+    > h3 {
+        margin-left: 1rem;
+        margin-top: 0.75rem;
+    }
+    > .nav-tabs {
+        margin-top: 1.5rem;
+        padding-left: 4rem;
+        a {
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 1rem 2rem 0.25rem;
+        }
+    }
     .c-nodeHeader {
         margin-bottom: 1.25rem;
         padding-bottom: 0;
@@ -352,6 +349,14 @@ div.image-wrapper.center figcaption {
         color: #fff;
     }
 }
+
+.nodeHeader-placesInfo + div {
+    clear: both;
+}
+.nodeHeader-placesInfo .nodeHeader-summary > ul {
+    margin-right: 1rem;
+}
+
 .av .c-nodeHeader-itemHeader {
     background-color: $color-audio-video;
     margin-bottom: -1.8rem;
@@ -409,7 +414,7 @@ div.image-wrapper.center figcaption {
     }
 }
 
-@media (min-width: 1140px) {
+@media (min-width: 1150px) {
     .c-nodeHeader-itemSummary {
         .featured {
             float: right;

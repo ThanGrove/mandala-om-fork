@@ -364,7 +364,17 @@ div#meta-details p strong {
 div#meta-details p strong:after {
     content: '';
 }
-
+@media (max-width: 1150px) {
+    div#meta-details p {
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+    div#meta-details p strong {
+        width: auto !important;
+        display: block;
+        margin-left: 0;
+    }
+}
 .av .u-bo {
     color: #222;
     font-style: normal !important;
