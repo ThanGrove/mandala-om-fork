@@ -8,6 +8,7 @@
 .sui-nameEntry {
     list-style-type: none;
     line-height: 1.5;
+    padding-bottom: 1rem;
 }
 
 .sui-nameEntry span {
@@ -47,6 +48,7 @@ ul.sui-nameEntry.first-entry
 
 ul.sui-nameEntry.first-entry ul {
     padding-left: 0;
+    margin-top: 1.5rem;
 }
 
 ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
