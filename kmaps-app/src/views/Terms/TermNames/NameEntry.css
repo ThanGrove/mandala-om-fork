@@ -2,10 +2,12 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-
+.sui-nameEntry__wrapper .term__id {
+    margin: 0.75rem 1.5rem;
+}
 .sui-nameEntry {
     list-style-type: none;
-    line-height: 1.85;
+    line-height: 1.5;
 }
 
 .sui-nameEntry span {
@@ -30,7 +32,8 @@
 ul.sui-nameEntry.first-entry {
     background: #fff;
     padding: 1rem 1rem 1rem 2.5rem;
-    margin: 1rem 0rem 1.5rem;
+    margin-bottom: 1.5rem;
+    margin: 1rem 0 0;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
 }
@@ -39,6 +42,7 @@ ul.sui-nameEntry.first-entry
     > li.sui-nameEntry:first-child
     > span.sui-nameEntry-header:first-child {
     margin-bottom: 1.5rem;
+    margin-bottom: 0;
 }
 
 ul.sui-nameEntry.first-entry ul {
@@ -46,7 +50,7 @@ ul.sui-nameEntry.first-entry ul {
 }
 
 ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
-    font-size: 140%;
+    font-size: 2.25rem;
     font-weight: normal;
 }
 

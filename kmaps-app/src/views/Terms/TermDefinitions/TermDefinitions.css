@@ -20,6 +20,7 @@
     color: #f5f5f5;
     padding: 0.6rem 2rem;
     margin-bottom: -0.2rem;
+    font-weight: bold;
 }
 .sui-termDefinitions__content .nav.nav-tabs > a.nav-item.disabled {
     background-color: #c5c5c5;

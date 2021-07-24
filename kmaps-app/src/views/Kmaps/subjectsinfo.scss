@@ -8,7 +8,7 @@ ndg, Nov. 11, 2020)
 @import '../../index-variables';
 
 .subjects .c-content__main__kmaps > .c-subject-info {
-    max-width: 95%;
+    max-width: 85rem;
 }
 
 .c-content__main__kmaps .featured-image {
@@ -39,7 +39,8 @@ ul.sui-nameEntry.first-entry
 
 .c-subject-info > div {
     margin-left: 1rem;
-    min-height: 19rem;
+    /* min-height: 19rem;*/
+    margin-bottom: 2.5rem;
 }
 
 .desc > h3 {
