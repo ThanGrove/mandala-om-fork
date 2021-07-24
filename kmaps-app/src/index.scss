@@ -134,7 +134,7 @@ div.image-wrapper.center figcaption {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
-    padding: 0.5rem 1.5rem 6rem 1.5rem;
+    padding: 0.5rem 1.5rem 4rem 2.5rem;
     font-size: 1.375rem;
     /* height: 100vh;*/
     min-height: 70rem;
@@ -359,23 +359,26 @@ div.image-wrapper.center figcaption {
 }
 
 .c-nodeHeader-itemSummary {
-    margin: 1rem 0;
     .featured {
-        margin: 0 0.2rem 0 -1rem;
+        float: left;
+        margin: 0 2rem 0.5rem 0;
         & > img {
-            /*  padding: 0.3rem;
-            border: 2px solid #777;
-            min-width: 130px; */
             background-color: #fff;
             border-radius: 0.3rem !important;
             padding: 0.8rem;
             box-shadow: 0 0 5px 1px #999 inset;
-            margin: 0.5rem 1rem 0.5rem 0;
-            max-height: 180px !important;
+            margin: 0 2rem 0.5rem 1.5rem;
+            max-width: 24rem;
         }
         & > p {
             font-size: 1.25rem;
+            max-width: 23rem;
+            margin: 0 0 1rem 2rem;
         }
+    }
+    .nodeHeader-summary {
+        margin-right: 0;
+        padding-top: 0;
     }
     .featureTypes {
         margin-top: -0.8rem;
@@ -388,6 +391,43 @@ div.image-wrapper.center figcaption {
             &::after {
                 content: ':';
                 margin-right: 1rem;
+            }
+        }
+    }
+    &.nodeHeader-subjectsInfo {
+        .featured {
+            float: left;
+            margin: 0;
+            img {
+                margin: 0 2rem 0.5rem 0;
+                max-width: 22rem;
+            }
+        }
+        .nodeHeader-summary {
+            margin-right: 0;
+        }
+    }
+}
+
+@media (min-width: 1140px) {
+    .c-nodeHeader-itemSummary {
+        .featured {
+            float: right;
+            margin: 0 0 0.5rem;
+            & > img {
+                max-width: 24rem;
+            }
+            & > p {
+                max-width: 23rem;
+                margin: 0 0 1rem 2rem;
+            }
+        }
+        .nodeHeader-summary {
+            margin-right: 27rem;
+            padding-top: 0.25rem;
+        }
+        &.nodeHeader-subjectsInfo {
+            .featured {
             }
         }
     }
@@ -691,12 +731,11 @@ div.image-wrapper.center figcaption {
     flex: 0 0 0.5rem;
     div {
         background-color: transparent;
-        cursor: default !important;
+        cursor: col-resize !important;
         &::before {
-            height: 70rem;
-            cursor: col-resize;
+            height: 80vh;
             position: relative;
-            left: -0.25rem;
+            left: -0.1rem;
             top: 1rem;
             display: inline-block;
             content: '';
@@ -706,12 +745,12 @@ div.image-wrapper.center figcaption {
             border-color: $color-mandala;
             border-width: 2.5rem 0 2.5rem 0.25rem;
             border-radius: 0.5rem 0 0 0.5rem;
-            opacity: 0.35;
+            opacity: 0.15;
             transition: all 0.25s;
         }
     }
     &:hover div::before {
-        opacity: 0.425;
+        opacity: 0.5;
         left: -0.9rem;
         border-color: #444cf7;
         border-left-width: 0.1rem;
@@ -727,7 +766,7 @@ div.image-wrapper.center figcaption {
         );
     }
     &:active div::before {
-        opacity: 0.6;
+        opacity: 0.75;
         border-left-color: #929ae4;
         background-size: 0.325rem 0.325rem;
         border-width: 1.5rem 0.1rem 1.5rem 0.1rem;

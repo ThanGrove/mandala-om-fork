@@ -180,7 +180,7 @@ export function CollectionsViewer(props) {
     let parentcoll = collsolr?.collection_nid;
     if (parentcoll) {
         parentcoll = (
-            <li className={'text-nowrap'}>
+            <li>
                 <Link to={`/${asset_type}/collection/${parentcoll}`}>
                     {collsolr.collection_title}
                 </Link>
@@ -213,7 +213,7 @@ export function CollectionsViewer(props) {
         const scurl = `/${asset_type}/collection/${scid}`;
         const key = `${scid}-${sctitle}`;
         return (
-            <li key={key} className={'text-nowrap'}>
+            <li key={key}>
                 <Link to={scurl} title={alttitle}>
                     {sctitleval}
                 </Link>
@@ -306,11 +306,7 @@ export function CollectionsViewer(props) {
                                 '_'
                             );
                             // const uid = collsolr.members_uid_ss[n]; // if needed add  data-uid={uid} to li
-                            return (
-                                <li key={mykey} className={'text-nowrap'}>
-                                    {member}
-                                </li>
-                            );
+                            return <li key={mykey}>{member}</li>;
                         })}
                     </ul>
                 </section>

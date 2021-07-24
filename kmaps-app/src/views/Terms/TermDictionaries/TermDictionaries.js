@@ -10,7 +10,7 @@ const TermDictionaries = ({ definitions }) => {
                 {Object.keys(definitions).map((key, i) => (
                     <React.Fragment key={key}>
                         <div className="sui-termDicts__dict-name">
-                            {i + 1}. {key}
+                            {i + 1}. <span>{key}</span>
                         </div>
                         <ul className="sui-termDicts__dict-wrapper">
                             {definitions[key].map((dict) => (

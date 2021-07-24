@@ -2,7 +2,7 @@
 // * CONTENT SECTION: Content Header
 // --------------------------------------
 .c-content__header__main {
-    padding: 0.25rem 0 0;
+    padding: 0.65rem 0 0;
     height: 3.75rem;
     color: #fff;
     border-top: 0.6rem double #fff;
@@ -44,6 +44,7 @@
 .c-content__header__breadcrumb,
 .c-content__header__breadcrumb .breadcrumb-item {
     color: #fff;
+    line-height: 1;
 }
 
 .c-content__header__breadcrumb .breadcrumb-item {

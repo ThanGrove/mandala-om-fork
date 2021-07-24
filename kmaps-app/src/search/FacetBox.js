@@ -361,7 +361,7 @@ export function FacetBox(props) {
                                     </button>
                                 )}
                             </div>
-                            <div>
+                            <div className="facetlist-updating">
                                 {isFetching && !isFetchingNextPage
                                     ? 'Background Updating...'
                                     : null}

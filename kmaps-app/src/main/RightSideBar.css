@@ -558,3 +558,9 @@ input:focus-visible,
 .sui-tree ul li ul li {
     position: relative;
 }
+
+.facetlist-updating {
+    margin-left: 2rem;
+    font-size: 1.25rem;
+    font-style: italic;
+}

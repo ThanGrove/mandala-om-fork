@@ -25,15 +25,16 @@ export function KmapsRelatedsViewer(props) {
         : 0;
     let child_count = 0;
     if (kmap?._childDocuments_?.length > 0) {
-        const filtered_children = $.map(kmap._childDocuments_, function (
-            child
-        ) {
-            if (child.block_child_type === 'related_subjects') {
-                return child;
-            } else {
-                return null;
+        const filtered_children = $.map(
+            kmap._childDocuments_,
+            function (child) {
+                if (child.block_child_type === 'related_subjects') {
+                    return child;
+                } else {
+                    return null;
+                }
             }
-        });
+        );
         child_count = filtered_children.length - 1; // seems to include self
     }
 
@@ -262,7 +263,7 @@ export function SubjectsRelPlacesViewer(props) {
             const pts = uid.split('-');
             if (pts.length === 2) {
                 return (
-                    <li key={mykey} className="text-nowrap">
+                    <li key={mykey}>
                         <MandalaPopover
                             domain={pts[0]}
                             kid={pts[1]}
@@ -277,7 +278,7 @@ export function SubjectsRelPlacesViewer(props) {
             const uid = 'places-' + kid;
             const iheader = uid in nmlist ? nmlist[uid] : 'Loading...';
             return (
-                <li key={mykey} className="text-nowrap">
+                <li key={mykey}>
                     <MandalaPopover
                         domain={item.tree}
                         kid={kid}

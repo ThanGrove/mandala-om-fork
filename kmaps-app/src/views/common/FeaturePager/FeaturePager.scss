@@ -26,8 +26,9 @@
     }
 }
 .c-featurePager__navButtons {
-    display: inline;
+    display: inline-block;
     font-size: 1.25rem;
+    white-space: nowrap;
 }
 .c-featurePager__navButtons .icon {
     margin: 0;

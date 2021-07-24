@@ -2,12 +2,12 @@
     position: relative;
 }
 .sui-termDefDetails__item {
-    margin-bottom: 0.8rem;
+    margin-bottom: 0.2rem;
 }
 .sui-termDefDetails__title {
     text-transform: uppercase;
     margin-right: 0.8rem;
-    font-size: smaller;
+    font-size: 1.25rem;
 }
 .sui-termDefDetails__text {
     font-weight: 400;

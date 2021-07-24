@@ -1,7 +1,7 @@
 @import '../../_index-variables.scss';
 
 #place-kmap-tabs-tabpane-map {
-    min-height: 75vh;
+    min-height: 30vh;
 }
 
 .c-place-names {
@@ -81,12 +81,10 @@
     width: 100%;
     margin: 1.5rem 1rem 0.25rem;
     padding: 0.6rem 1rem 0.4rem;
-    /* color: white; */
     font-weight: bold;
     font-size: 1.45rem;
-    border: 0.2rem solid #ddd;
-    border-width: 0.15rem 0 0 0.5rem;
 }
+/*
 .places .head-related {
     border-left-color: $color-places;
 }
@@ -96,3 +94,4 @@
 .terms .head-related {
     border-left-color: $color-terms;
 }
+*/

@@ -96,13 +96,13 @@ function SubjectSummary({ kmapData, path }) {
     return (
         <>
             <div className={'c-subject-info'}>
-                <div className="c-nodeHeader-itemSummary row">
+                <div className="c-nodeHeader-itemSummary nodeHeader-subjectsInfo">
                     {sbjimg && (
-                        <div className="img featured col-md-3">
+                        <div className="img featured">
                             <img src={sbjimg} />
                         </div>
                     )}
-                    <div className="col">
+                    <div className={'nodeHeader-summary'}>
                         {!txtid &&
                             'summary_eng' in kmapData &&
                             kmapData['summary_eng'].length > 0 && (

@@ -133,7 +133,7 @@ export function SubjectsRelPlacesViewer(props) {
             const pts = uid.split('-');
             if (pts.length === 2) {
                 return (
-                    <li key={mykey} className="text-nowrap">
+                    <li key={mykey}>
                         <MandalaPopover
                             domain={pts[0]}
                             kid={pts[1]}
@@ -146,7 +146,7 @@ export function SubjectsRelPlacesViewer(props) {
             const mykey = item.uid + '-' + n + rndn;
             const kid = item.uid.replace('places-', '');
             return (
-                <li key={mykey} className="text-nowrap">
+                <li key={mykey}>
                     <MandalaPopover
                         domain={item.tree}
                         kid={kid}

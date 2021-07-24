@@ -172,16 +172,16 @@ export function PlacesSummary({ kmapData }) {
             <HtmlCustom markup={kmapData[capnames[0]][0]} />
         ) : null;
     const plimg = imgurl ? (
-        <Col md={4} className={'img featured'}>
+        <div className={'img featured'}>
             <img src={imgurl} alt={kmapData.header} />
             {cap}
-        </Col>
+        </div>
     ) : null;
     itemSummary = (
-        <Row className={'c-nodeHeader-itemSummary'}>
+        <div className={'c-nodeHeader-itemSummary nodeHeader-placesInfo'}>
             {/* Add column with illustration if exists (if not is null) */}
             {plimg}
-            <Col md={8}>
+            <div className={'nodeHeader-summary'}>
                 {/* Feature type list if exists */}
                 <PlacesFeatureTypes parent={kmapData} />
                 <PlacesRelSubjects children={kmapData?._childDocuments_} />
@@ -190,8 +190,8 @@ export function PlacesSummary({ kmapData }) {
                 {kmapData?.summary_eng?.length > 0 && (
                     <HtmlCustom markup={kmapData.summary_eng[0]} />
                 )}
-            </Col>
-        </Row>
+            </div>
+        </div>
     );
     return itemSummary;
 }
@@ -258,7 +258,7 @@ export function PlacesNames(props) {
                                     {lwrite}
                                     {l.rel}
                                     {l.date}
-                                    <span className="text-nowrap">
+                                    <span>
                                         ) {l.citation}
                                         {l.note}
                                     </span>

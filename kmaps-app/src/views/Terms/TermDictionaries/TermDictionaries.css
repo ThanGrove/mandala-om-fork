@@ -18,12 +18,17 @@
     font-weight: 400;
     font-style: italic;
     font-size: 1.75rem;
+    margin-left: -0.75;
+}
+.sui-termDicts__dict-name span {
+    margin-left: 0.25rem;
 }
 ul.sui-termDicts__dict-wrapper {
-    margin-top: 1rem;
+    margin-top: 0.7rem;
     margin-bottom: 2.4rem;
     border-bottom: 1px solid #91693e;
     list-style: none;
+    padding-inline-start: 20px;
 }
 .sui-termDicts__dict-extra {
     text-align: right;

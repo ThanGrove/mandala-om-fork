@@ -37,12 +37,12 @@
     align-items: center;
     justify-content: space-between;
     padding: 6px 45px 6px 20px;
-    font-size: 1.6rem;
     color: #3b3b3b;
     cursor: pointer;
     border-width: 1px 0 1px 0;
     border-style: solid;
     border-color: #ccc;
+    font-size: 1.3rem;
 }
 .custSelect__trigger .custSelect__arrow {
     position: relative;
@@ -92,8 +92,6 @@
     visibility: hidden;
     pointer-events: none;
     z-index: 2;
-    max-height: 400px;
-    overflow-y: scroll;
 }
 .custSelect__options > * + * {
     border-top: 1px solid #d8d8d8;
