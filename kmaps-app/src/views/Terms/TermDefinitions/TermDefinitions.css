@@ -11,7 +11,7 @@
     /* min-height: 14.4rem; */
 }
 .sui-termDefinitions__content .nav.nav-tabs {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     padding-left: 2.5rem;
     border-bottom: 2px solid #ccc;
 }
@@ -80,10 +80,10 @@
         border-left: none;
     }
     .sui-termDefinitions__content .nav.nav-tabs > a.nav-item {
-        padding: 0.25rem 2rem 0.35rem 3.75rem;
+        padding: 0.25rem 2rem 0.35rem 3.1rem;
         width: 100%;
         margin-bottom: 0.2rem;
-        margin-left: 1rem;
+        margin-left: 0.75rem;
         background: #a27f1c;
         border-left: 1rem double #fff !important;
         font-size: 1.25rem;
