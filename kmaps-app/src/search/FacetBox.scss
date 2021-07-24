@@ -6,4 +6,8 @@
     border-color: transparent;
     border-width: 0;
     margin: 0;
+    transition: all 0.2s;
+}
+.c-FacetBox--expander.open:hover {
+    max-height: 35rem;
 }
