@@ -442,7 +442,7 @@ div.image-wrapper.center figcaption {
 // SEARCH Section ------- move this
 //
 .l-content__rightsidebar {
-    margin: -3.6rem 0 0 0;
+    margin: -3.54rem 0 0 0;
     /* max-width: 45rem;
     min-width: calc(max(25vw, 32rem)); */
     font-size: 1.4rem;
@@ -575,13 +575,12 @@ div.image-wrapper.center figcaption {
         font-weight: bold;
         letter-spacing: 0.0525rem;
         background-color: #3f49b1;
-        height: 3.5rem;
         border-bottom: 0.6rem double #fff;
 
         .treeNav-header__title {
             margin-left: 2rem;
-            color: #fcfcfc;
-            padding: 0.3rem 0;
+            color: #f0f0f0;
+            padding: 0.2rem 0 0.5rem;
         }
         .treeNav-header__closeButton {
             padding: 0;
@@ -589,20 +588,21 @@ div.image-wrapper.center figcaption {
             border: none;
             background: transparent;
             font-size: 1.75rem;
+            position: relative;
+            right: 2rem;
+            bottom: 0rem;
             transition: all 0.2s;
             transform: scale(1);
             opacity: 0.5;
-            position: relative;
-            right: 2rem;
-            top: 0.1rem;
             .icon::before {
                 color: #fff;
             }
             &:hover {
-                opacity: 0.9;
+                opacity: 0.8;
+                transform: scale(1.05);
             }
             &:active {
-                transform: scale(1.1);
+                transform: scale(0.95);
             }
         }
     }
@@ -618,14 +618,13 @@ div.image-wrapper.center figcaption {
         }
         button {
             color: #fff;
-            background-color: #3f49b1;
             border: none;
-            padding: 0.4rem 2rem 0.5rem;
+            padding: 0.3rem 2rem 0.325rem;
             display: inline-block;
             .header-icon svg {
                 font-size: 1.8rem;
                 position: relative;
-                top: -0.15rem;
+                bottom: 0.27rem;
                 transition: all 0.2s ease-in-out;
                 transform: scale(1.08);
                 opacity: 0.8;
@@ -643,7 +642,7 @@ div.image-wrapper.center figcaption {
                 margin-left: 1rem;
                 font-style: italic;
                 .badge {
-                    font-size: 1.15rem;
+                    font-size: 1.1rem;
                     letter-spacing: 0.075rem;
                     color: #000;
                     background: #fff;
@@ -655,7 +654,7 @@ div.image-wrapper.center figcaption {
                     border-radius: 0.75rem;
                     opacity: 0.8;
                     position: relative;
-                    top: 0rem;
+                    bottom: 0.1rem;
                 }
             }
             &:hover .badge {
@@ -671,23 +670,24 @@ div.image-wrapper.center figcaption {
         .search-column-close-filters {
             position: absolute;
             right: 2rem;
-            top: 0;
+            bottom: 0.025rem;
             padding: 0;
             margin: 0;
             border: none;
             background: transparent;
             font-size: 1.75rem;
-            transition: all 0.2s ease-in-out;
+            transition: all 2mzs;
             transform: scale(1);
             opacity: 0.5;
             .icon::before {
                 color: #fff;
             }
             &:hover {
-                opacity: 0.9;
+                opacity: 0.8;
+                transform: scale(1.05);
             }
             &:active {
-                transform: scale(1.1);
+                transform: scale(0.95);
             }
         }
     }
@@ -739,7 +739,7 @@ div.image-wrapper.center figcaption {
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: 88vh;
+            height: 80vh;
             position: relative;
             left: -0.1rem;
             top: 1rem;
