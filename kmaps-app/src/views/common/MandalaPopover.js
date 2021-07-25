@@ -109,7 +109,7 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
             <span
                 data-kmdomain={domain}
                 data-kmid={kid}
-                className="d-inline-flex align-items-center kmap-tag-group"
+                className="kmap-tag-group"
             >
                 {children}
                 {termdefs && (

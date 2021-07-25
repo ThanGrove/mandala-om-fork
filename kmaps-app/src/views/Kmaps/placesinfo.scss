@@ -76,13 +76,31 @@
         font-size: 1.45rem;
     }
 }
-
-.head-related {
-    width: 100%;
-    margin: 1.5rem 1rem 0.25rem;
-    padding: 0.6rem 1rem 0.4rem;
-    font-weight: bold;
-    font-size: 1.45rem;
+.nodeHeader-placesInfo + div {
+    clear: both;
+    max-width: 100%;
+}
+.nodeHeader-placesInfo .nodeHeader-summary {
+    & > ul {
+        margin-right: 1rem;
+        list-style-type: none;
+        padding-inline-start: 0;
+        li::before {
+            content: '–';
+            display: inline-block;
+            color: #555;
+            margin-right: 0.75rem;
+            position: relative;
+        }
+    }
+    .head-related {
+        width: 100%;
+        margin: 1.5rem 1rem 0.25rem 0;
+        padding: 0.6rem 1rem 0.4rem 0;
+        font-weight: bold;
+        font-size: 1.45rem;
+        text-transform: uppercase;
+    }
 }
 /*
 .places .head-related {
