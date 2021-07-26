@@ -68,6 +68,12 @@
     display: none;
 }
 
+.sui-termDefinitions__content .definition.deflvl2 {
+    padding-left: 3rem;
+    padding-right: 3rem;
+    margin-bottom: 2rem;
+}
+
 @media (max-width: 850px) {
     .sui-termDefinitions__content .tab-content {
         /* padding-bottom:1rem; */
