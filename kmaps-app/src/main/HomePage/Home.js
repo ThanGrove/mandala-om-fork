@@ -209,8 +209,9 @@ export default function Home(props) {
                         <h4>Sources</h4>
                         <ul>
                             <li>
-                                <Link to={'/sources/26856'}>
-                                    Source: Winternitz Dummy Test
+                                <Link to={'/sources/36896'}>
+                                    Source: Emulsifying Properties of Dried
+                                    Soy-Whey
                                 </Link>
                             </li>
                             <li>
