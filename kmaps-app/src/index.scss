@@ -29,8 +29,14 @@ a {
     }
 }
 .btn:not(:disabled):not(.disabled) {
+    /* cursor: default !important; */
+}
+button,
+[role='button'],
+[role='tab'] {
     cursor: default !important;
 }
+
 h1,
 .h1,
 h2,
@@ -268,7 +274,7 @@ div.image-wrapper.center figcaption {
 .c-content__main__kmaps {
     background-color: #fcfcfc;
     border: 1px solid #ccc;
-    border-radius: 0.5rem;
+    border-radius: 1rem;
     padding: 0.5rem 2.5rem 4rem;
     font-size: 1.375rem;
     /* height: 100vh;*/
@@ -283,7 +289,8 @@ div.image-wrapper.center figcaption {
     }
     > .nav-tabs {
         margin-top: 1.5rem;
-        padding-left: 4rem;
+        padding-left: 2rem;
+        border-bottom: none;
         a {
             font-size: 1.25rem;
             text-transform: uppercase;
@@ -711,7 +718,7 @@ div.image-wrapper.center figcaption {
             font-size: 1.25rem;
             font-weight: bold;
             letter-spacing: 0.175rem;
-            padding: 0.2rem 1rem;
+            padding: 0.2rem 1.35rem;
             border: 1px solid #ddd;
             margin: 0 0.35rem;
             border-radius: 0.5rem;
@@ -802,7 +809,9 @@ div.image-wrapper.center figcaption {
 .c-buttonGroup__viewMode__wrap {
     background: #fcfcfc;
     padding: 1rem 0 4rem 0.5rem;
-    border-top: 2px solid #ccc;
+    border: 2px solid #ccc;
+    border-radius: 1rem;
+    margin-bottom: 3rem;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {

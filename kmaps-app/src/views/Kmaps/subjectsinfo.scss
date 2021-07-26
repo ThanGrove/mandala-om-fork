@@ -118,24 +118,32 @@ ul.sui-nameEntry.first-entry
         text-transform: uppercase;
         letter-spacing: 0.1rem;
         font-weight: bold;
-        font-size: 1.35rem;
-        padding: 1.2rem 2.75rem 0.75rem;
+        font-size: 1.2rem;
+        padding: 1.2rem 2rem 0.75rem;
+        border-color: #ddd;
+        &:hover,
+        &:active,
+        &:focus {
+            border-color: #c0c0c0;
+        }
         &.active {
             color: #000;
             border-bottom: thin solid #fff;
             border-top: 0.3rem solid #cc4c39;
         }
     }
+
     & + .tab-content {
         padding: 2rem 2rem 9rem;
         background: #fff;
-        border: 1px solid #ddd;
-        border-top: none;
+        border: 1px solid #ccc;
+        border-radius: 1rem;
+        .kmap-related h3 {
+            margin-top: 2rem;
+            font-size: 1.35rem;
+            font-weight: bold;
+        }
     }
-}
-
-.kmap-related h3 {
-    margin-top: 1rem;
 }
 
 .c-relplaces-list.container-fluid {
