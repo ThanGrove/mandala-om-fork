@@ -12,6 +12,7 @@ import { KmapLink } from '../KmapLink';
 import { SmartTitle } from '../SmartTitle';
 import { SmartPath } from '../SmartPath';
 import { SmartRelateds } from '../SmartRelateds';
+import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
@@ -34,6 +35,8 @@ export function FeatureCard(props) {
     const inline = props.inline || false;
 
     const [modalShow, setModalShow] = React.useState(false);
+
+    const setBrowse = browseSearchToggle((state) => state.setBrowse);
 
     const doc = props.doc;
 
@@ -181,6 +184,7 @@ export function FeatureCard(props) {
             <Link
                 to={asset_view}
                 className={'c-card__link--asset c-card__wrap--image'}
+                onClick={setBrowse}
             >
                 <Card.Img
                     className={'c-card__grid__image--top'}
@@ -195,7 +199,11 @@ export function FeatureCard(props) {
 
             <Card.Body>
                 <Card.Title>
-                    <Link to={asset_view} className={'c-card__link--asset'}>
+                    <Link
+                        to={asset_view}
+                        className={'c-card__link--asset'}
+                        onClick={setBrowse}
+                    >
                         <SmartTitle doc={doc} />
                         {subtitle}
                     </Link>
