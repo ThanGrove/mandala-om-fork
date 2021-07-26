@@ -90,7 +90,7 @@ export function SubjectsRelSubjectsViewer({ id }) {
     return (
         <Tabs
             id="kmaps-relateds-tabs"
-            className={'kmaps-related-viewer'}
+            className={'kmaps-related-viewer subjects'}
             activeKey={tabKey}
             onSelect={(k) => setTabKey(k)}
         >

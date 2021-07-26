@@ -78,7 +78,11 @@ export default function PlacesRelPlacesViewer() {
     }
 
     return (
-        <Tabs defaultActiveKey="context" id="place-kmap-tabs" className={'row'}>
+        <Tabs
+            defaultActiveKey="context"
+            id="place-kmap-tabs"
+            className={'kmaps-related-viewer places'}
+        >
             <Tab eventKey="context" title="Place Context">
                 <Container fluid className={'c-relplaces-list places'}>
                     <h2 className={'row head-related'}>

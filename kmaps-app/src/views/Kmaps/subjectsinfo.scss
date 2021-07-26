@@ -112,64 +112,6 @@ ul.sui-nameEntry.first-entry
     display: none;
 }
 
-.kmaps-related-viewer {
-    a.nav-item {
-        text-align: center;
-        text-transform: uppercase;
-        letter-spacing: 0.1rem;
-        font-weight: bold;
-        font-size: 1.2rem;
-        padding: 1.2rem 2rem 0.75rem;
-        border-color: #ddd;
-        &:hover,
-        &:active,
-        &:focus {
-            border-color: #c0c0c0;
-        }
-        &.active {
-            color: #000;
-            border-bottom: thin solid #fff;
-            border-top: 0.3rem solid #cc4c39;
-        }
-    }
-
-    & + .tab-content {
-        padding: 2rem 2rem 9rem;
-        background: #fff;
-        border: 1px solid #ccc;
-        border-radius: 1rem;
-        .kmap-related h3 {
-            margin-top: 2rem;
-            font-size: 1.35rem;
-            font-weight: bold;
-        }
-    }
-}
-
-.c-relplaces-list.container-fluid {
-    margin: 2rem;
-    .c-featurePager__container.row {
-        padding: 1rem;
-        margin-left: -1.75rem;
-        background-color: #777;
-        color: white;
-        max-width: 1100px;
-        .c-featurePager__navButtons .icon {
-            color: #bcbcbc;
-
-            &:hover {
-                color: #fff;
-            }
-        }
-    }
-    .c-featurePager__container.row > div {
-        width: 30%;
-        text-align: left;
-    }
-    .row > div {
-        padding-left: 0;
-    }
-}
 /*  End of c-content__main__kmaps */
 
 /* Styles from mandala that probably should be global */
