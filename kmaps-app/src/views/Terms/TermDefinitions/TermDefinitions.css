@@ -7,7 +7,7 @@
     font-weight: bold;*/
 }
 .sui-termDefinitions__content .tab-content {
-    padding: 1rem 1.6rem 1rem;
+    padding: 1.25rem 2rem 1rem 2.5rem;
     background: white;
     border: 0.1rem solid #ccc;
     border-radius: 1rem;
@@ -143,5 +143,11 @@
 
     .sui-termDefinitions__extra {
         text-align: left;
+    }
+
+    .sui-termDefinitions__content .definition.deflvl2 {
+        padding-left: 1.5rem;
+        padding-right: 0;
+        margin-bottom: 0;
     }
 }
