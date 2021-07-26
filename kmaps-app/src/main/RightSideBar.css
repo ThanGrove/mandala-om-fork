@@ -96,7 +96,7 @@
 .sui-advHeader .u-icon__minus {
     font-size: 0.9rem;
     color: #fff;
-    cursor: pointer;
+    cursor: default;
     position: absolute;
     right: 0.9rem;
     top: 0.58rem;

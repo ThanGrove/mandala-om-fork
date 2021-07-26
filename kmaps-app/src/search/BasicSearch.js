@@ -82,7 +82,6 @@ export function BasicSearch(props) {
     const basicSearchPortal = (
         <>
             <div className="sui-search1">
-                <span className={'icon shanticon-magnify'}></span>
                 <input
                     key={search}
                     type="text"
@@ -93,22 +92,20 @@ export function BasicSearch(props) {
                     onKeyDownCapture={handleKey}
                     ref={inputEl}
                 />
-                <span className={'l-search__input__buttons'}>
-                    <span
-                        id="sui-searchgo"
-                        className="sui-search4"
-                        onClick={handleSubmit}
-                    >
-                        <span className={'icon'}></span>
-                    </span>
-                    <span
-                        id="sui-clear"
-                        className="sui-search3"
-                        onClick={clearInput}
-                    >
-                        {' '}
-                        x{' '}
-                    </span>
+
+                <span
+                    id="sui-clear"
+                    className="sui-search3"
+                    onClick={clearInput}
+                >
+                    {' '}
+                </span>
+                <span
+                    id="sui-searchgo"
+                    className="sui-search4"
+                    onClick={handleSubmit}
+                >
+                    <span className={'icon shanticon-magnify'}></span>
                 </span>
             </div>
         </>
