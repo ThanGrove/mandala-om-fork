@@ -84,10 +84,13 @@ export default function PlacesRelPlacesViewer() {
             className={'kmaps-related-viewer places'}
         >
             <Tab eventKey="context" title="Place Context">
-                <Container fluid className={'c-relplaces-list places'}>
-                    <h2 className={'row head-related'}>
+                <Container
+                    fluid
+                    className={'c-relplaces-list kmap-related places'}
+                >
+                    <h3 className={'row head-related'}>
                         Hierarchy of Places Related to {kmap.header}
-                    </h2>
+                    </h3>
                     <Row>
                         <p>
                             {kmap.header} has {ancestors.length} superordinate
@@ -114,10 +117,13 @@ export default function PlacesRelPlacesViewer() {
                 </Container>
             </Tab>
             <Tab eventKey="related" title="Related Places">
-                <Container fluid className={'c-relplaces-list places'}>
-                    <h2 className={'row head-related'}>
+                <Container
+                    fluid
+                    className={'c-relplaces-list kmap-related places'}
+                >
+                    <h3 className={'row head-related'}>
                         Places Related to {kmap.header} by Feature Type
-                    </h2>
+                    </h3>
                     <Row>
                         <Col>
                             <p>
@@ -161,9 +167,7 @@ function PlaceRelPlaceFtColumns(props) {
                             }
                             return (
                                 <div key={`col-${chki}-cat-${cdi}`}>
-                                    <h3 className={'text-capitalize'}>
-                                        {feattype.label}
-                                    </h3>
+                                    <h3 className={'row'}>{feattype.label}</h3>
                                     <ul>
                                         {feattype.children.map(
                                             (clitem, cli) => {

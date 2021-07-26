@@ -158,8 +158,8 @@ export function SubjectsRelPlacesViewer(props) {
     });
     const chunks = chunkIt(placeitems, colSize);
     return (
-        <Container fluid className={'c-relplaces-list subjects'}>
-            <h2 className={'row'}>Related Places </h2>
+        <Container fluid className={'c-relplaces-list kmap-related subjects'}>
+            <h3 className={'row'}>Related Places </h3>
             {numFound > pageSize && (
                 <FeaturePager
                     pager={pager}

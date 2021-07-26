@@ -3,8 +3,8 @@
     margin-left: 2rem;
 }
 .c-audioPlayer__button {
-    width: 4rem;
-    height: 3.75rem;
+    width: 3.5rem;
+    height: 3.25rem;
     border: 0.3rem double #fff;
     border-radius: 50%;
     color: white;
@@ -31,9 +31,9 @@
 }
 .c-audioPlayer__button .u-icon__audio::before {
     position: relative;
-    top: 0.2rem;
+    top: 0.1rem;
     color: #fff;
-    font-size: 1.5em;
+    font-size: 1.25em;
 }
 .c-audioPlayer__select--wrapper {
     margin-left: 2rem;

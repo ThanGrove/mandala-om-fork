@@ -364,15 +364,16 @@
 
         &.active {
             color: #000;
-            border-bottom: thin solid #fff;
-            border-top: 0.3rem solid $color-subjects;
+            border-top: 0.2rem solid $color-subjects;
         }
     }
-    &.places a.nav-item {
-        &.active {
-            color: #000;
-            border-bottom: thin solid #fff;
-            border-top: 0.3rem solid $color-places;
+    &.places {
+        a.nav-item {
+            &.active {
+                color: #000;
+                border-bottom: thin solid #fff;
+                border-top: 0.3rem solid $color-places;
+            }
         }
     }
     & + .tab-content {
@@ -384,12 +385,19 @@
             margin-top: 2rem;
             font-size: 1.35rem;
             font-weight: bold;
+            text-transform: capitalize;
+        }
+    }
+    &.places + .tab-content {
+        .kmap-related h3 {
+            margin-top: 2rem;
+            font-size: 1.35rem;
+            font-weight: bold;
         }
     }
 }
 
 .c-relplaces-list.container-fluid {
-    margin: 2rem;
     .c-featurePager__container.row {
         padding: 1rem;
         margin-left: -1.75rem;

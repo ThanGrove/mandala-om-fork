@@ -75,12 +75,6 @@ ul.fancytree-container {
     }
 }
 
-.c-content__main__kmaps .c-kmaptree {
-    border: none;
-    box-shadow: none;
-    background-color: transparent;
-}
-
 /*
 .tree-test .c-kmaptree {
     height: 80vh;
@@ -94,8 +88,6 @@ ul.fancytree-container {
 
 /* Leaf Styles */
 .c-kmapleaf {
-    margin-top: 0.1rem;
-    /* white-space: nowrap; */
     max-width: inherit;
     overflow: hidden;
     .toggle-icon {
@@ -186,4 +178,16 @@ ul.fancytree-container {
     color: #555;
     margin-left: 1.5rem;
     font-style: italic;
+}
+
+.c-content__main__kmaps {
+    .c-kmaptree {
+        border: none;
+        box-shadow: none;
+        background-color: transparent;
+        .leafend .toggle-icon {
+            color: transparent;
+            font-size: 0;
+        }
+    }
 }
