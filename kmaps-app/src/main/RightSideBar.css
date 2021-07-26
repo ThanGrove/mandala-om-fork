@@ -246,7 +246,7 @@
     margin: 0 0.5rem 0.75rem 0.5rem;
     overflow: auto !important;
     box-shadow: inset -1rem -2rem 1.5rem #c9ccd82b;
-    transition: max-height 0.35s, border 0.25s, margin 0.25s;
+    transition: max-height 0.5s, border 0.25s, margin 0.5s;
     max-height: 0;
 }
 
