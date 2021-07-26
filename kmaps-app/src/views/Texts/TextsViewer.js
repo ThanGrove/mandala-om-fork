@@ -65,9 +65,6 @@ export default function TextsViewer(props) {
         error: nodeError,
     } = useMandala(kmasset);
 
-    if (!isAssetLoading && !isAssetError) {
-        addPage(baseType, kmasset.title, window.location.pathname);
-    }
     const nodejson = nodeData;
     const tid = nodejson ? nodejson.nid : '';
     const title = nodejson ? nodejson.title : '';
@@ -82,6 +79,12 @@ export default function TextsViewer(props) {
     ]);
 
     const [alt_viewer_url, setAltViewerUrl] = useState(''); // alt_viewer has url for alt view to show if showing or empty string is hidden
+
+    useEffect(() => {
+        if (!isAssetLoading && !isAssetError) {
+            addPage(baseType, kmasset.title, window.location.pathname);
+        }
+    }, [kmasset]);
 
     // Setting text_sections variable with array of sections in text for TOC highlighting on scrolling and
     // also highlights first TOC link
@@ -235,16 +238,6 @@ export default function TextsViewer(props) {
                 )}
                 <Container className={'l-site__wrap astviewer texts'} fluid>
                     <Row id={'shanti-texts-container'}>
-                        <input
-                            type="hidden"
-                            name="mandala-collection-id"
-                            value={kmasset.collection_nid}
-                        />
-                        <input
-                            type="hidden"
-                            name="mandala-asset-type"
-                            value="texts"
-                        />
                         <TextBody
                             id={nodejson.nid}
                             alias={nodejson.alias}
