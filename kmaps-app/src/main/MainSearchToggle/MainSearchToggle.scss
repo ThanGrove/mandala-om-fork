@@ -10,6 +10,7 @@
         border-color: #ddd !important;
         border-bottom-color: transparent !important;
         opacity: 1;
+        transition: all 0.35s;
         &.focus,
         &.active,
         &.active:hover,
