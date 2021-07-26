@@ -97,6 +97,7 @@ export function RelatedsViewer() {
                     <div className="c-relatedViewer">
                         <Link
                             id="sui-rl-Home"
+                            role={'tab'}
                             to={'/' + baseArgs.baseType + '/' + baseArgs.id}
                             className={`c-related__link--home c-related__item ${locMatch['home']}`}
                         >
@@ -107,31 +108,37 @@ export function RelatedsViewer() {
                         <RelatedCount
                             type={'all'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch['mandala']}
                         />
                         <RelatedCount
                             type={'places'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch['places']}
                         />
                         <RelatedCount
                             type={'audio-video'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch['audio-video']}
                         />
                         <RelatedCount
                             type={'images'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch.images}
                         />
                         <RelatedCount
                             type={'sources'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch.sources}
                         />
                         <RelatedCount
                             type={'texts'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch.texts}
                         />
                         <RelatedCount
@@ -142,16 +149,19 @@ export function RelatedsViewer() {
                         <RelatedCount
                             type={'subjects'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch.subjects}
                         />
                         <RelatedCount
                             type={'terms'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch.terms}
                         />
                         <RelatedCount
                             type={'collections'}
                             {...baseArgs}
+                            role={'button'}
                             className={locMatch.collections}
                         />
                     </div>
@@ -203,6 +213,7 @@ function RelatedCount(props) {
             id={'sui-rl-' + props.type}
             href="#"
             className={'c-related__item c-related__link--' + props.type}
+            role={'tab'}
             to={
                 '/' +
                 props.baseType +
