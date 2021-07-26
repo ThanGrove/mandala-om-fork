@@ -56,8 +56,8 @@
 }
 
 #av-player-row {
-    overflow-x: hidden;
-    overflow-y: visible;
+    /* overflow-x: hidden;
+    overflow-y: visible; */
     height: 800px;
 }
 
