@@ -75,8 +75,8 @@
 }
 
 .sui-termDefinitions__content .definition.deflvl2 {
-    padding-left: 3rem;
-    padding-right: 3rem;
+    padding-left: 1rem;
+    padding-right: 0rem;
     margin-bottom: 2rem;
 }
 
@@ -143,11 +143,5 @@
 
     .sui-termDefinitions__extra {
         text-align: left;
-    }
-
-    .sui-termDefinitions__content .definition.deflvl2 {
-        padding-left: 1.5rem;
-        padding-right: 0;
-        margin-bottom: 0;
     }
 }

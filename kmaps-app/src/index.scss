@@ -580,7 +580,7 @@ div.image-wrapper.center figcaption {
     .treeNav-header {
         display: flex;
         justify-content: space-between;
-        margin: 0 -1rem 0.5rem 0;
+        margin: 0 -1rem 0.15rem 0;
         font-size: 1.45rem;
         font-weight: bold;
         letter-spacing: 0.0525rem;
@@ -751,17 +751,17 @@ div.image-wrapper.center figcaption {
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: 80vh;
+            height: 85vh;
             position: relative;
             left: -1rem;
-            top: 1rem;
+            top: 1.5rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
             border-style: solid;
             border-left-style: dotted;
             border-color: $color-mandala;
-            border-width: 3.5rem 0 3.5rem 0.1rem;
+            border-width: 2.5rem 0 2.5rem 0.1rem;
             border-radius: 0.5rem 0 0 0.5rem;
             opacity: 0.2;
             transition: all 0.25s;
@@ -791,7 +791,7 @@ div.image-wrapper.center figcaption {
         opacity: 0.75;
         border-left-color: #929ae4;
         background-size: 0.325rem 0.325rem;
-        border-width: 2rem 0.1rem 2rem 0.1rem;
+        border-width: 4rem 0.1rem 4rem 0.1rem;
     }
 }
 
@@ -812,7 +812,7 @@ div.image-wrapper.center figcaption {
 // gallery display buttons for view options
 .c-buttonGroup__viewMode__wrap {
     background: #fcfcfc;
-    padding: 1rem 0 4rem 0.5rem;
+    padding: 1rem 0.5rem 4rem 0.5rem;
     border: 2px solid #ccc;
     border-radius: 1rem;
     margin-bottom: 3rem;
