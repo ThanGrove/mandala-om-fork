@@ -31,10 +31,18 @@ export function CollectionBreadcrumbs({ collData }) {
             </Link>
         );
     }
-    breadcrumbs.push(
-        <Link key={'bc-asset-self'} to="#" className="breadcrumb-item">
-            {collData?.title[0]}
-        </Link>
-    );
+    if (collData?.title?.length > 0) {
+        breadcrumbs.push(
+            <Link key={'bc-asset-self'} to="#" className="breadcrumb-item">
+                {collData?.title[0]}
+            </Link>
+        );
+    } else {
+        breadcrumbs.push(
+            <Link key={'bc-asset-self'} to="#" className="breadcrumb-item">
+                No Collection Data Found!
+            </Link>
+        );
+    }
     return breadcrumbs;
 }
