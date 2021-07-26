@@ -34,9 +34,13 @@ export function FeatureCollection(props) {
     // console.log("FeatureCollection: requestedViewMode = ", requestedViewMode);
     // console.log("FeatureCollection: paramsViewMode = ", paramsViewMode);
     useEffect(() => {
-        document.getElementById('mandala-coll-no-items').style.display =
-            'block';
-        document.getElementById('mandala-coll-no-items').style.color = 'red';
+        setTimeout(() => {
+            const divel = document.getElementById('mandala-coll-no-items');
+            if (divel && divel?.style) {
+                divel.style.display = 'block';
+                divel.style.color = 'red';
+            }
+        }, 500);
     }, []);
 
     if (!_.isEmpty(requestedViewMode) && viewMode !== requestedViewMode) {
