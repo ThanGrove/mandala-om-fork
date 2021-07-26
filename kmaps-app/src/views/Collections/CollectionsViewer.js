@@ -63,14 +63,6 @@ export function CollectionsViewer(props) {
         error: itemsError,
     } = useSolr(qkey, query);
 
-    if (!isCollLoading && !isCollError) {
-        addPage(
-            'collections-' + asset_type,
-            collsolr.title,
-            window.location.pathname
-        );
-    }
-
     const loadingState = isCollLoading || isItemsLoading;
 
     const solrq = items?.docs ? items.docs : [];
@@ -116,6 +108,16 @@ export function CollectionsViewer(props) {
             pager.setPage(0);
         },
     };
+
+    useEffect(() => {
+        if (!isCollLoading && !isCollError) {
+            addPage(
+                'collections-' + asset_type,
+                collsolr.title,
+                window.location.pathname
+            );
+        }
+    }, [colldata]);
 
     // Use Effect for when page num or size change
     useEffect(() => {
