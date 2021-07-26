@@ -86,11 +86,15 @@
         list-style-type: none;
         padding-inline-start: 0;
         li::before {
-            content: '–';
+            content: '';
             display: inline-block;
-            color: #555;
+            width: 0.8rem;
+            height: 0.8rem;
+            border: 0.15rem solid #555;
             margin-right: 0.75rem;
             position: relative;
+            left: 0;
+            border-radius: 0.15rem;
         }
     }
     .head-related {
