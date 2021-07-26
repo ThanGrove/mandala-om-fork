@@ -1,5 +1,5 @@
 import { FeatureGallery } from './FeatureGallery';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect, useHistory, useLocation, useParams } from 'react-router';
 import _ from 'lodash';
 import { FeatureDeck } from './FeatureDeck';
@@ -33,6 +33,11 @@ export function FeatureCollection(props) {
     // console.log("FeatureCollection: props.viewMode = ", props.viewMode);
     // console.log("FeatureCollection: requestedViewMode = ", requestedViewMode);
     // console.log("FeatureCollection: paramsViewMode = ", paramsViewMode);
+    useEffect(() => {
+        document.getElementById('mandala-coll-no-items').style.display =
+            'block';
+        document.getElementById('mandala-coll-no-items').style.color = 'red';
+    }, []);
 
     if (!_.isEmpty(requestedViewMode) && viewMode !== requestedViewMode) {
         setViewMode(requestedViewMode);
@@ -61,14 +66,14 @@ export function FeatureCollection(props) {
     }
 
     let inclGallery = viewMode === 'gallery' ? true : false;
+    let viewModeDiv = null;
+
     if (props?.docs && props.docs.length > 0) {
         const atype = props.docs[0]?.asset_type;
         if (atype && 'audio-video|images'.includes(atype)) {
             inclGallery = true;
         }
-    }
-    return (
-        <div className={'c-buttonGroup__viewMode__wrap'}>
+        viewModeDiv = (
             <div className={'c-buttonGroup__viewMode'}>
                 {/* View Mode:{' '} */}
                 <span className="c-buttonGroup__viewMode-header">
@@ -84,6 +89,17 @@ export function FeatureCollection(props) {
                     </Spinner>
                 )}
             </div>
+        );
+    } else {
+        viewer = (
+            <div id="mandala-coll-no-items" style={{ display: 'none' }}>
+                <p>There are no items in this collection.</p>
+            </div>
+        );
+    }
+    return (
+        <div className={'c-buttonGroup__viewMode__wrap'}>
+            {viewModeDiv}
 
             {props.showSearchFilters && <FeatureFilters />}
             {viewer}
