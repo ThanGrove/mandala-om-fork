@@ -58,17 +58,33 @@ const TermDefinitions = (props) => {
             }
         }
     }
-
+    let subdef = 0;
+    let defnumber = 1;
     return (
         <div className="sui-termDefinitions_wrapper">
             <div className="sui-termDefinitions__content">
                 {_.orderBy(props.mainDefs, (val) => val.order, 'asc').map(
                     (def, order) => {
                         const defid = 'def-' + def.id.split('-').pop(); // simplified def.id
+                        const deflevel = def.related_definitions_level_i;
+                        if (deflevel === 1) {
+                            subdef = 0;
+                            if (order > 0) {
+                                defnumber++;
+                            }
+                        } else {
+                            subdef++;
+                        }
+                        let numberlabel = defnumber;
+                        if (subdef > 0) {
+                            numberlabel += '.' + subdef;
+                        }
+                        numberlabel += '. ';
                         const defclass =
                             defid == window.location.hash.substr(1)
-                                ? 'selected'
-                                : false;
+                                ? `selected deflvl${deflevel}`
+                                : `deflvl${deflevel}`;
+
                         return (
                             <div
                                 key={defid}
@@ -84,9 +100,7 @@ const TermDefinitions = (props) => {
                                         title={
                                             <>
                                                 <span className="sui-termDefinitions__tabHeading">
-                                                    {`${
-                                                        parseInt(order, 10) + 1
-                                                    }. `}
+                                                    {`${numberlabel}`}
                                                     Definition{' '}
                                                 </span>
                                                 <IconContext.Provider
