@@ -15,11 +15,10 @@
     margin-right: 0.75rem;
     position: relative;
     top: 0.125rem;
-    /* color: #555; */
-    font-size: 1.6rem;
+    font-size: 2rem;
 }
 .l-related__list__wrap .u-icon__logo-shanti {
-    font-size: 1.75rem;
+    font-size: 2rem;
 }
 .l-related__list__wrap .u-icon__overview {
     margin-left: 0.1rem;
@@ -93,21 +92,15 @@
   */
 
 .c-relatedViewer {
-    padding: 0;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 1rem;
-}
-.c-relatedViewer > * {
-    padding: 0 1rem 0 2rem;
+    margin: 0 1rem 1rem 1.75rem;
 }
 .c-related__item {
     display: block;
-    line-height: 1.15;
-    padding: 0 0 0.4rem 0.75rem;
+    line-height: 1.55;
+    padding: 0;
     color: #555;
     font-weight: bold;
-    border: 1px solid transparent;
+    font-size: 1.5rem;
 }
 .c-related__item.selected > span:not(.icon) {
     /* padding: 0 0.3rem 0.1rem;
@@ -348,11 +341,4 @@
 .l-column__related .fancytree-node:not(.fancytree-active):hover,
 .l-column__related .fancytree-node:not(.fancytree-active):active {
     background-color: #ffffff !important;
-}
-
-.l-relatedTreeLeft {
-    max-width: 22rem;
-}
-.l-relatedTreeLeft:hover {
-    max-width: 40rem;
 }
