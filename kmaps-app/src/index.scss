@@ -785,7 +785,7 @@ div.image-wrapper.center figcaption {
             height: 85vh;
             position: relative;
             left: -1rem;
-            top: 2rem;
+            top: 1.75rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
@@ -843,7 +843,7 @@ div.image-wrapper.center figcaption {
 .c-buttonGroup__viewMode__wrap {
     background: #fcfcfc;
     padding: 1rem 0.5rem 4rem 0.5rem;
-    border: 2px solid #ccc;
+    border: 0.1rem solid #ccc;
     border-radius: 1rem;
     margin-bottom: 3rem;
 }
@@ -899,6 +899,9 @@ div.image-wrapper.center figcaption {
 // View Styles
 .c-view__wrapper {
     border: none;
+}
+.c-view__wrapper.gallery {
+    margin: 1.5rem;
 }
 
 .c-view {
