@@ -96,20 +96,15 @@
                 right: 2.8rem;
                 display: inline-block;
                 font-size: 1.85rem;
-                transition: scale 500ms;
+                transition: scale 200ms;
                 transform: scale(1);
                 span::before {
-                    color: #444cf7;
-                    transition: scale 0.5s;
-                    transform: scale(1);
+                    color: $color-mandala;
                 }
                 span:hover::before {
-                    color: cornflowerblue;
-                    transform: scale(1.05);
+                    color: #000;
                 }
                 span:active::before {
-                    color: $color-mandala;
-                    transform: scale(1);
                 }
             }
         }
