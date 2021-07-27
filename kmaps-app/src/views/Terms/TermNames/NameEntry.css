@@ -90,6 +90,11 @@ ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
 .sui-nameEntry-writing-system {
     position: relative;
 }
-
-@media (max-width: 950px) {
+/*
+@media (min-width: 1450px) {
+    .sui-nameEntry-header {
+        display:inline-block;
+        width:15rem;
+    }
 }
+*/

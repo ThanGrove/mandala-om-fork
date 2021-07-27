@@ -155,10 +155,13 @@
 
 .c-related__item:hover {
     background-color: white !important;
-    border: 0.15rem solid #ccc;
+    border: 0.15rem solid $color-mandala;
     color: #555 !important;
     padding: 0.15rem 0 0.5rem 1.25rem;
     margin: 0.125rem 0 0 0.25rem;
+}
+.c-related__item:active {
+    border-color: #aaa;
 }
 .c-related__item:hover,
 .c-related__item:hover .icon::before {
@@ -401,6 +404,9 @@
         &.active {
             color: #000;
             border-top: 0.2rem solid $color-subjects;
+            &:hover {
+                border-bottom: none;
+            }
         }
     }
     &.places {

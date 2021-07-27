@@ -381,6 +381,7 @@ header.terms
 }
 
 .c-nodeHeader-itemSummary {
+    max-width: 90rem;
     .featured {
         float: left;
         margin: 0;
@@ -924,12 +925,14 @@ header.terms
     .c-featurePager__container {
         text-align: center;
         margin-bottom: 1rem;
-        padding: 1rem 3rem 0;
+        padding: 2.5rem 3rem 0;
         .icon {
             margin-right: 0.25rem;
         }
         &.top {
             margin-bottom: 1.3rem;
+            padding-bottom: 1rem;
+            padding-top: 1rem;
         }
     }
 }
@@ -938,7 +941,6 @@ header.terms
 }
 
 .c-view .c-featurePager__container:last-of-type {
-    margin: 0 1.5rem;
 }
 
 .c-buttoneGroup__viewMode {
