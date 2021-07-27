@@ -81,9 +81,10 @@
     max-width: 100%;
     padding-top: 1rem;
 }
-.nodeHeader-placesInfo .nodeHeader-summary {
-    & > ul {
+.l-content__main__wrap {
+    ul {
         margin-right: 1rem;
+        margin-left: 0.75rem;
         list-style-type: none;
         padding-inline-start: 0;
         li::before {
@@ -98,7 +99,7 @@
             border-radius: 0.15rem;
         }
     }
-    .head-related {
+    .nodeHeader-summary .head-related {
         width: 100%;
         margin: 1.5rem 1rem 0.25rem 0;
         padding: 0.6rem 1rem 0.4rem 0;
