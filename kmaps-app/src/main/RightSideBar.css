@@ -66,6 +66,9 @@
     left: 0;
     color: #444;
 }
+.sui-advHeader > .icon > .icon::before {
+    color: #555;
+}
 .sui-advHeader .badge {
     padding: 0.55rem 2.75rem 0.5rem 1rem;
     border-radius: 0.5rem;

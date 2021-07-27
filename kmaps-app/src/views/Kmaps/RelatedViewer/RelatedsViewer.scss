@@ -17,6 +17,9 @@
     top: 0.125rem;
     font-size: 1.6rem;
 }
+.l-related__list__wrap .icon::before {
+    color: #555 !important;
+}
 .l-related__list__wrap .u-icon__logo-shanti {
     font-size: 1.7rem;
 }
@@ -96,17 +99,6 @@
 .c-relatedViewer {
     margin: 0 1rem 1.5rem 0.8rem;
 }
-
-.c-related__item.active {
-    background-color: white !important;
-    border: 1px solid #ccc;
-    color: #555 !important;
-}
-.c-related__item.active,
-.c-related__item.active .icon {
-    color: #555;
-}
-
 .c-related__item {
     display: block;
     line-height: 1.5;
@@ -115,7 +107,7 @@
     font-size: 1.25rem;
     text-transform: uppercase;
     padding: 0.15rem 0 0.5rem 1.25rem;
-    margin: 0.125rem 0 0;
+    margin: 0.125rem 0 0 0.25rem;
     background-color: #fff;
     border: 0.15rem solid #ddd;
 }
@@ -143,11 +135,9 @@
     color: #999;
     font-weight: normal;
 }
-.c-related__link--home {
-    /* padding-top: 0.4rem;
-    line-height: 1.25;
-    margin-bottom: 0.25rem;*/
-    padding-top: 0.25rem;
+.c-related__link--home span:not(.icon) {
+    position: relative;
+    left: 0.2rem;
 }
 .c-related__item:not(.selected):hover {
     /* background: #fff;
@@ -162,6 +152,35 @@
 }
 .c-related__item__label {
 }
+
+.c-related__item:hover {
+    background-color: white !important;
+    border: 0.15rem solid #ccc;
+    color: #555 !important;
+    padding: 0.15rem 0 0.5rem 1.25rem;
+    margin: 0.125rem 0 0 0.25rem;
+}
+.c-related__item:hover,
+.c-related__item:hover .icon::before {
+    color: #555;
+}
+.c-related__link--home,
+.c-related__link--home:hover {
+    padding-top: 0.2rem;
+    padding-bottom: 0.2rem;
+    line-height: 0.1rem;
+}
+/*
+.c-related__item.active {
+    background-color: white !important;
+    border: 1px solid #ccc;
+    color: #555 !important;
+}
+.c-related__item.active,
+.c-related__item.active .icon {
+    color: #555;
+}
+*/
 
 .u-related__list__header {
     padding: 0 0 0.25rem 0.5rem;
