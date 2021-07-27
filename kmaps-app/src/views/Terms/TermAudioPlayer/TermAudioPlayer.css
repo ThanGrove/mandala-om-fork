@@ -16,6 +16,8 @@
     transition: scale 0.25s ease-in-out;
     background: #4d59ca;
     padding: inherit;
+    position: relative;
+    bottom: 0.15rem;
 }
 .c-audioPlayer__button:hover {
     transform: scale(1.05);
@@ -36,7 +38,7 @@
     font-size: 1.25em;
 }
 .c-audioPlayer__select--wrapper {
-    margin-left: 2rem;
+    margin-left: 1.75rem;
     padding: 0.65rem 0 0.7rem;
     display: inline-block;
 }

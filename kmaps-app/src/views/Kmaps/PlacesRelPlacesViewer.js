@@ -167,7 +167,7 @@ function PlaceRelPlaceFtColumns(props) {
                             }
                             return (
                                 <div key={`col-${chki}-cat-${cdi}`}>
-                                    <h3 className={'row'}>{feattype.label}</h3>
+                                    <h3>{feattype.label}</h3>
                                     <ul>
                                         {feattype.children.map(
                                             (clitem, cli) => {
