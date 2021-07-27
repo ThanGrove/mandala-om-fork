@@ -94,12 +94,12 @@ export function RelatedsViewer() {
                     <div className="u-related__list__header">
                         Related Resources
                     </div>
-                    <div className="c-relatedViewer">
+                    <nav className="c-relatedViewer nav nav-pills flex-column">
                         <Link
                             id="sui-rl-Home"
                             role={'tab'}
                             to={'/' + baseArgs.baseType + '/' + baseArgs.id}
-                            className={`c-related__link--home c-related__item ${locMatch['home']}`}
+                            className={`c-related__link--home c-related__item nav-item nav-link ${locMatch['home']}`}
                         >
                             <span className={'icon u-icon__overview'}></span>{' '}
                             <span>Home</span>
@@ -108,63 +108,64 @@ export function RelatedsViewer() {
                         <RelatedCount
                             type={'all'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch['mandala']}
                         />
                         <RelatedCount
                             type={'places'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch['places']}
                         />
                         <RelatedCount
                             type={'audio-video'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch['audio-video']}
                         />
                         <RelatedCount
                             type={'images'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch.images}
                         />
                         <RelatedCount
                             type={'sources'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch.sources}
                         />
                         <RelatedCount
                             type={'texts'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch.texts}
                         />
                         <RelatedCount
                             type={'visuals'}
                             {...baseArgs}
+                            role={'tab'}
                             className={locMatch.visuals}
                         />
                         <RelatedCount
                             type={'subjects'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch.subjects}
                         />
                         <RelatedCount
                             type={'terms'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch.terms}
                         />
                         <RelatedCount
                             type={'collections'}
                             {...baseArgs}
-                            role={'button'}
+                            role={'tab'}
                             className={locMatch.collections}
                         />
-                    </div>
+                    </nav>
                 </section>
 
                 {statePages.length > 0 && (
@@ -212,7 +213,10 @@ function RelatedCount(props) {
         <Link
             id={'sui-rl-' + props.type}
             href="#"
-            className={'c-related__item c-related__link--' + props.type}
+            className={
+                'nav-item nav-link c-related__item c-related__link--' +
+                props.type
+            }
             role={'tab'}
             to={
                 '/' +

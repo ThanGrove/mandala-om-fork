@@ -15,13 +15,15 @@
     margin-right: 0.75rem;
     position: relative;
     top: 0.125rem;
-    font-size: 2rem;
+    font-size: 1.6rem;
 }
 .l-related__list__wrap .u-icon__logo-shanti {
-    font-size: 2rem;
+    font-size: 1.7rem;
 }
 .l-related__list__wrap .u-icon__overview {
     margin-left: 0.1rem;
+    font-size: 1.4rem;
+    line-height: 2;
 }
 
 .l-column__list__wrap .l-related__tree__wrap .fancytree-title {
@@ -92,16 +94,30 @@
   */
 
 .c-relatedViewer {
-    margin: 0 1rem 2rem 1.75rem;
+    margin: 0 1rem 1.5rem 0.8rem;
 }
+
+.c-related__item.active {
+    background-color: white !important;
+    border: 1px solid #ccc;
+    color: #555 !important;
+}
+.c-related__item.active,
+.c-related__item.active .icon {
+    color: #555;
+}
+
 .c-related__item {
     display: block;
     line-height: 1.5;
-    padding: 0;
     color: #555;
     font-weight: bold;
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     text-transform: uppercase;
+    padding: 0.15rem 0 0.5rem 1.25rem;
+    margin: 0.125rem 0 0;
+    background-color: #fff;
+    border: 0.15rem solid #ddd;
 }
 .c-related__item.selected > span:not(.icon) {
     /* padding: 0 0.3rem 0.1rem;
@@ -131,6 +147,7 @@
     /* padding-top: 0.4rem;
     line-height: 1.25;
     margin-bottom: 0.25rem;*/
+    padding-top: 0.25rem;
 }
 .c-related__item:not(.selected):hover {
     /* background: #fff;
