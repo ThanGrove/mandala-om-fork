@@ -878,7 +878,7 @@ color: #a4baec;
     display: inline-block;
     background-color: #fefefe;
     overflow-y: auto;
-    max-height: calc(100vh - 208px);
+    max-height: 72rem;
     border-right: 1px solid #999;
     width: calc(100% - 2px);
     font-size: 1.3rem;
