@@ -52,6 +52,7 @@
     // -------------------
     .c-site__search {
         margin-top: 0.9rem;
+        margin-right: -1rem;
         padding-left: 0.5rem;
         .sui-search1 {
             position: relative;
@@ -63,8 +64,6 @@
                 border-bottom: 0.1rem solid #999;
                 margin: 0;
                 width: 24rem;
-                border-radius: 2rem;
-                border-radius: 0.15rem;
                 transition: width 0.5s;
                 color: #555;
                 box-shadow: none;
@@ -74,6 +73,7 @@
                     width: 34rem;
                     outline: none;
                     background: #fff;
+                    border-bottom: 0 0.15rem solid #3f49b1;
                 }
             }
             .sui-search3 {
@@ -84,21 +84,30 @@
                 height: 2rem;
                 width: 2rem;
                 &:hover::before {
-                    color: #555;
+                    color: red;
                 }
             }
             .sui-search4 {
                 // --- search enter - Go get it!
                 position: absolute;
-                top: 0.85rem;
-                right: 3.5rem;
+                top: 0.2rem;
+                right: 2.8rem;
                 display: inline-block;
+                font-size: 1.85rem;
+                transition: scale 500ms;
+                transform: scale(1);
                 span::before {
-                    color: #777;
-                    font-size: 1.6rem;
+                    color: #444cf7;
+                    transition: scale 0.5s;
+                    transform: scale(1);
                 }
                 span:hover::before {
-                    color: #222;
+                    color: cornflowerblue;
+                    transform: scale(1.05);
+                }
+                span:active::before {
+                    color: $color-mandala;
+                    transform: scale(1);
                 }
             }
         }
@@ -121,11 +130,16 @@ input.sui-search2:active + .sui-search3 {
         display: inline-block;
         width: 0.15rem;
         height: 1.75rem;
-        background-color: #c0c0c0;
+        background-color: #ddd;
         position: absolute;
         top: 0.5rem;
         right: 0;
     }
+}
+input.sui-search2:focus ~ .sui-search4::before,
+input.sui-search2:active ~ .sui-search4::before {
+    color: deepskyblue;
+    transform: scale(1.1);
 }
 
 .navbar-nav,

@@ -70,7 +70,7 @@ h3,
     // height: 100vh; -- causing issues with standalone
     /*  width: 100vw; */
     display: flex;
-    margin: 1rem 1rem 0;
+    margin: 1rem 1.25rem 0 1rem;
 }
 .l-site__wrap > *,
 .l-content__main,
@@ -474,9 +474,12 @@ div.image-wrapper.center figcaption {
                 border-right: 1px solid #aaa;
                 font-size: 1.6rem;
                 color: #000;
+                color: $color-mandala;
                 letter-spacing: 0.0375rem;
                 position: relative;
                 cursor: default;
+                transition: all 0.35s;
+
                 &:nth-of-type(2) {
                     width: 38%;
                 }
@@ -761,10 +764,10 @@ div.image-wrapper.center figcaption {
             border-style: solid;
             border-left-style: dotted;
             border-color: $color-mandala;
-            border-width: 2.5rem 0 2.5rem 0.1rem;
-            border-radius: 0.5rem 0 0 0.5rem;
+            border-width: 3rem 0 2.5rem 0.1rem;
+            border-radius: 0.05rem 0 0.75rem 0.75rem;
             opacity: 0.2;
-            transition: all 0.25s;
+            transition: all 0.35s;
         }
         &:-webkit-direct-focus {
             outline-color: transparent;
@@ -773,8 +776,7 @@ div.image-wrapper.center figcaption {
         }
     }
     &:hover div::before {
-        opacity: 0.5;
-        border-color: #444cf7;
+        opacity: 0.6;
         border-left-width: 0.1rem;
         border-left-style: solid;
         background-color: #fff;
@@ -819,7 +821,7 @@ div.image-wrapper.center figcaption {
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
-    margin: 0 1rem 0 0;
+    margin: 0 2rem 0 0;
     text-align: right;
     .btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {

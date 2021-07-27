@@ -219,10 +219,10 @@ div#sui-transSrcGo .icon.search {
     color: #999;
 }
 .firefox div#sui-transSrcGo .icon.search {
-    right: 50%;
+    /*  right: 50%; */
 }
 .safari div#sui-transSrcGo .icon.search {
-    right: 50%;
+    /*  right: 50%; */
 }
 
 div#sui-transSrcGo button.search {
