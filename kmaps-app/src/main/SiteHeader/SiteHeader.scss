@@ -61,7 +61,7 @@
                 padding: 0.4rem 8.5rem 0.25rem 1.75rem;
                 background: transparent;
                 border: none;
-                border-bottom: 0.15rem solid rgba(145, 105, 60, 0.5); // --- color from Terms, 50% opacity
+                border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, 50% opacity
                 margin: 0;
                 width: 24rem;
                 transition: width 0.5s, border 0.35s;
@@ -73,6 +73,7 @@
                     width: 34rem;
                     outline: none;
                     background: #fff;
+                    border-bottom-width: 0.15rem;
                     border-bottom-color: $color-mandala;
                 }
             }
