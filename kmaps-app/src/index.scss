@@ -481,7 +481,7 @@ div.image-wrapper.center figcaption {
                 font-weight: bold;
                 border-radius: 0;
                 transition: all 1s;
-
+                /*
                 &:hover::before {
                     width: 0;
                     height: 0;
@@ -508,7 +508,7 @@ div.image-wrapper.center figcaption {
                     left: 0;
                     background: white;
                 }
-
+*/
                 &:nth-of-type(2) {
                     width: 38%;
                 }
@@ -544,8 +544,8 @@ div.image-wrapper.center figcaption {
                     background: white;
 
                     &:hover::before {
-                        border-color: inherit;
-                        background: white;
+                        /*  border-color: inherit;
+                        background: white; */
                     }
                 }
                 &.active::after {
