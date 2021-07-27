@@ -57,9 +57,9 @@
 }
 .custSelect__trigger .custSelect__arrow {
     position: relative;
-    height: 15px;
-    width: 15px;
-    left: 2rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    left: 3.5rem;
 }
 .custSelect__trigger .custSelect__arrow::before,
 .custSelect__trigger .custSelect__arrow::after {
@@ -134,6 +134,7 @@
     background: #eee;
     color: #222;
     text-align: right;
+    text-align: center;
     padding-right: 1.5rem;
     font-weight: bold;
 }
