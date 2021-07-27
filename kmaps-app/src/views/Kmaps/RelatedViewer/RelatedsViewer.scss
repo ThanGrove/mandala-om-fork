@@ -397,6 +397,12 @@
     }
 }
 
+.kmap-content > p,
+.kmap-context > p,
+.kmap-related > p {
+    max-width: 90rem;
+}
+
 .c-relplaces-list.container-fluid {
     .c-featurePager__container.row {
         padding: 1rem;

@@ -145,35 +145,41 @@ export function SubjectsRelSubjectsViewer({ id }) {
             </Tab>
             <Tab eventKey="related" title={`Related ${kmtype}`}>
                 <div className={'kmap-related'}>
-                    <strong>{kmaphead}</strong> has{' '}
-                    {hasaspart.length + ispartof.length} other subject
-                    {hasaspart.length + ispartof.length > 1 && 's'} directly
-                    related to it, presented here. See the{' '}
-                    {kmtype.toUpperCase()} CONTEXT tab if you instead prefer to
-                    browse all subordinate and superordinate categories for{' '}
-                    {kmaphead}.
-                    {ispartof.length > 0 && (
-                        <>
-                            <h3>{kmaphead} Is a Part Of These Types</h3>
-                            <ul>
-                                {$.map(ispartof, function (pt, pn) {
-                                    return (
-                                        <li key={`km-parent-${pn}`}>{pt}</li>
-                                    );
-                                })}
-                            </ul>
-                        </>
-                    )}
-                    {hasaspart.length > 0 && (
-                        <>
-                            <h3>{kmaphead} Has These Types</h3>
-                            <ul>
-                                {$.map(hasaspart, function (pt, pn) {
-                                    return <li key={`km-part-${pn}`}>{pt}</li>;
-                                })}
-                            </ul>
-                        </>
-                    )}
+                    <p>
+                        <strong>{kmaphead}</strong> has{' '}
+                        {hasaspart.length + ispartof.length} other subject
+                        {hasaspart.length + ispartof.length > 1 && 's'} directly
+                        related to it, presented here. See the{' '}
+                        {kmtype.toUpperCase()} CONTEXT tab if you instead prefer
+                        to browse all subordinate and superordinate categories
+                        for {kmaphead}.
+                        {ispartof.length > 0 && (
+                            <>
+                                <h3>{kmaphead} Is a Part Of These Types</h3>
+                                <ul>
+                                    {$.map(ispartof, function (pt, pn) {
+                                        return (
+                                            <li key={`km-parent-${pn}`}>
+                                                {pt}
+                                            </li>
+                                        );
+                                    })}
+                                </ul>
+                            </>
+                        )}
+                        {hasaspart.length > 0 && (
+                            <>
+                                <h3>{kmaphead} Has These Types</h3>
+                                <ul>
+                                    {$.map(hasaspart, function (pt, pn) {
+                                        return (
+                                            <li key={`km-part-${pn}`}>{pt}</li>
+                                        );
+                                    })}
+                                </ul>
+                            </>
+                        )}
+                    </p>
                 </div>
             </Tab>
         </Tabs>
