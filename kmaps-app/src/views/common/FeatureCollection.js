@@ -78,7 +78,7 @@ export function FeatureCollection(props) {
             inclGallery = true;
         }
         viewModeDiv = (
-            <div className={'c-buttonGroup__viewMode'}>
+            <div className={'c-buttonGroup__viewMode'} role={'button'}>
                 {/* View Mode:{' '} */}
                 <span className="c-buttonGroup__viewMode-header">
                     Switch View:
@@ -138,6 +138,7 @@ function FeatureCollectionViewModeSelector(props) {
                 name={'viewMode'}
                 value={'deck'}
                 type={'radio'}
+                role={'button'}
                 title={'View Mode: Cards'}
             >
                 {deckLabel}
@@ -147,6 +148,7 @@ function FeatureCollectionViewModeSelector(props) {
                     name={'viewMode'}
                     value={'gallery'}
                     type={'radio'}
+                    role={'button'}
                     title={'View Mode: Gallery'}
                 >
                     {galleryLabel}
@@ -156,6 +158,7 @@ function FeatureCollectionViewModeSelector(props) {
                 name={'viewMode'}
                 value={'list'}
                 type={'radio'}
+                role={'button'}
                 title={'View Mode: List'}
             >
                 {listLabel}

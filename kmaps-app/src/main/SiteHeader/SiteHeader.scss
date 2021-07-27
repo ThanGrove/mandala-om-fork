@@ -61,10 +61,10 @@
                 padding: 0.4rem 8.5rem 0.25rem 1.75rem;
                 background: transparent;
                 border: none;
-                border-bottom: 0.1rem solid #999;
+                border-bottom: 0.15rem solid rgba(145, 105, 60, 0.5); // --- color from Terms, 50% opacity
                 margin: 0;
                 width: 24rem;
-                transition: width 0.5s;
+                transition: width 0.5s, border 0.35s;
                 color: #555;
                 box-shadow: none;
                 background: transparent;
@@ -73,7 +73,7 @@
                     width: 34rem;
                     outline: none;
                     background: #fff;
-                    border-bottom: 0 0.15rem solid #3f49b1;
+                    border-bottom-color: $color-mandala;
                 }
             }
             .sui-search3 {
@@ -83,8 +83,9 @@
                 display: inline-block;
                 height: 2rem;
                 width: 2rem;
-                &:hover::before {
-                    color: red;
+                transition: color 0.75s;
+                &:hover {
+                    color: $color-subjects;
                 }
             }
             .sui-search4 {
@@ -138,8 +139,7 @@ input.sui-search2:active + .sui-search3 {
 }
 input.sui-search2:focus ~ .sui-search4::before,
 input.sui-search2:active ~ .sui-search4::before {
-    color: deepskyblue;
-    transform: scale(1.1);
+    color: $color-mandala;
 }
 
 .navbar-nav,
