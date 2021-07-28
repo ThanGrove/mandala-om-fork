@@ -8,7 +8,7 @@ ul.fancytree-container {
     overflow-y: scroll;
     border-style: solid;
     border-color: #929ae4 #929ae4 #929ae4 #c0c0c0;
-    box-shadow: inset -0.5rem -2rem 3rem #c0cbd04d;
+    /* box-shadow: inset -0.5rem -2rem 3rem #c0cbd04d; */
     border-width: 0.2rem 0.15rem 0.3rem 0.15rem;
     border-radius: 0.5rem 0.5rem 3rem 0.5rem;
     background: white;
@@ -106,7 +106,8 @@ ul.fancytree-container {
     }
     span.bo,
     span.zh {
-        font-size: 130%;
+        font-size: 2rem;
+        line-height: 1.35;
     }
     &.selected > .c-kmapnode > .label {
         border-bottom: 0.3rem solid #cca843;

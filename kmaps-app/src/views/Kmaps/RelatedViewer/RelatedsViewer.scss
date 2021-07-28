@@ -107,7 +107,7 @@
     font-size: 1.25rem;
     text-transform: uppercase;
     padding: 0.15rem 0 0.5rem 1.25rem;
-    margin: 0.125rem 0 0 0.25rem;
+    margin: 0 0 0 0.25rem;
     background-color: #fff;
     border: 0.15rem solid #ddd;
 }
@@ -171,8 +171,8 @@
 .c-related__link--home:hover {
     padding-top: 0.2rem;
     padding-bottom: 0.2rem;
-    line-height: 0.1rem;
 }
+
 /*
 .c-related__item.active {
     background-color: white !important;
@@ -399,6 +399,7 @@
         &:active,
         &:focus {
             border-color: #aaa;
+            border-bottom-color: #ccc;
         }
 
         &.active {
@@ -425,6 +426,7 @@
         border-radius: 1rem;
         .kmap-related h3 {
             margin-top: 2rem;
+            margin-bottom: 0;
             font-size: 1.35rem;
             font-weight: bold;
             text-transform: capitalize;

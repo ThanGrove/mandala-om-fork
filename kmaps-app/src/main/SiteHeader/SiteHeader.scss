@@ -118,7 +118,7 @@
             }
             .sui-search3 {
                 position: relative;
-                right: 6.65rem;
+                right: 6.5rem;
                 top: 0.1rem;
                 display: inline-block;
                 height: 2rem;
@@ -128,17 +128,14 @@
             .sui-search4 {
                 // --- search enter - Go get it!
                 position: absolute;
-                top: 0.2rem;
+                top: 0.35rem;
                 right: 3.1rem;
                 display: inline-block;
-                font-size: 1.85rem;
-                transition: scale 200ms;
-                transform: scale(1);
+                font-size: 1.8rem;
                 span::before {
-                    color: #aaa;
-                }
-                span:hover::before {
-                    color: #000;
+                    color: $color-mandala;
+                    opacity: 0.6;
+                    transition: opacity 400ms;
                 }
             }
         }
@@ -164,7 +161,7 @@ input.sui-search2:active + .sui-search3 {
         display: inline-block;
         width: 0.15rem;
         height: 1.75rem;
-        background-color: #ddd;
+        background-color: #c0c0c0;
         position: absolute;
         top: 0.5rem;
         right: 0;
@@ -173,7 +170,7 @@ input.sui-search2:active + .sui-search3 {
 
 input.sui-search2:focus + .sui-search3 + .sui-search4 span::before,
 input.sui-search2:active + .sui-search3 + .sui-search4 span::before {
-    color: $color-mandala;
+    opacity: 1;
 }
 
 .navbar-nav,

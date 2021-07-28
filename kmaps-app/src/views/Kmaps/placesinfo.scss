@@ -89,6 +89,9 @@
         margin-left: 0.75rem;
         list-style-type: none;
         padding-inline-start: 0;
+        li {
+            line-height: 0.75;
+        }
         li::before {
             content: '';
             display: inline-block;
