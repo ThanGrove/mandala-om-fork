@@ -35,7 +35,7 @@
 #sui-av,
 #av-meta-row {
     overflow: visible;
-    margin: 1rem auto;
+    margin: 1rem auto 0;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
 .c-content__main__kmaps #av-meta-row {
@@ -88,8 +88,8 @@ div#av-trscrpt-wrapper {
     width: 50%;
     text-align: center;
     letter-spacing: 0.175rem;
-    border-top-left-radius: 1.5rem;
-    border-top-right-radius: 1.5rem;
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
     background-color: rgb(88, 170, 180);
 }
 
