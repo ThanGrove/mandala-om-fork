@@ -65,7 +65,7 @@
                 margin: 0;
                 width: 24rem;
                 transition: width 0.5s, border 0.35s;
-                color: #222;
+                color: #000;
                 box-shadow: none;
                 background: transparent;
                 &:focus,
@@ -113,6 +113,7 @@
                 &:-moz-placeholder {
                     /* Firefox 18- */
                     color: $color-mandala;
+                    opacity: 1;
                     font-style: italic;
                 }
             }

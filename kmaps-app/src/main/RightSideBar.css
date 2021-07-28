@@ -17,9 +17,6 @@
     width: calc(100% - 10px);
     cursor: default !important;
 }
-.sui-advBox * {
-    cursor: default !important;
-}
 .l-column__search > section .sui-advBox:first-child {
     border-top: 1px solid #e0e0e0;
     margin-top: 1rem;
@@ -38,19 +35,15 @@
 .sui-advBox-asset_type {
     text-transform: capitalize;
 }
-/*
-.sui-advHeader:hover {
-  color: #668eec;
-}
-*/
+
 .sui-advHeader {
-    cursor: pointer;
     text-transform: capitalize;
     display: flex;
     font-size: 1.56rem;
     height: 3.5rem;
     padding-top: 1.25rem;
     margin-bottom: 0.8rem;
+    cursor: default !important;
 }
 .sui-advBox:hover,
 .sui-advHeader:hover {
@@ -85,19 +78,7 @@
     border-color: #4d59ca;
     opacity: 1;
 }
-/*
-.sui-advHeader .badge.badge-secondary {
-    color: #fff;
-    padding-right: 1rem;
-    cursor: default;
-}
 
-.sui-advHeader .badge-secondary ~ .u-icon__plus,
-.sui-advHeader .badge-secondary ~ .u-icon__minus {
-    visibility: hidden;
-    cursor: default;
-}
-*/
 .sui-advHeader .u-icon__plus,
 .sui-advHeader .u-icon__minus {
     font-size: 0.9rem;
@@ -236,7 +217,17 @@
 .sui-advTerm div > span:last-child::before {
     display: none;
 }
-
+.sui-advEdit {
+    /* display: none;
+    background-color: #fafafa;
+    text-align: left;
+    border: 1px solid #e0e0e0;
+    border-bottom-width: 0.2rem;
+    border-radius: 0 0 2rem 2rem;
+    font-size: 1.25rem;
+    color: #000;
+    margin: 1.5rem 0.5rem 0;  */
+}
 .sui-advEdit {
     /* display: none;*/
     background-color: #fafafa;
@@ -319,35 +310,61 @@
     color: #fff;
 }
 
-.sui-advEdit input {
+.sui-advEdit-facet-ctrls input {
     border: 1px solid #aaa;
     border-radius: 2rem;
     font-size: 1.25rem;
-    padding: 0.3rem 1.25rem 0.1rem;
+    padding: 0.1rem 1.25rem;
     margin: 0.75rem 0 0.5rem 1rem;
+    line-height: 1.6;
+    color: #000;
 }
-input:focus-visible,
-.sui-advEdit input:focus,
+/*
+.sui-advEdit-facet-ctrls-btns input::-webkit-input-placeholder {
+    color: #aaa;
+    font-style:italic;
+}
+.sui-advEdit-facet-ctrls-btns input::-moz-placeholder {
+    color: #aaa;
+    font-style:italic;
+    opacity:1;
+}
+.sui-advEdit-facet-ctrls-btns input:-ms-input-placeholder {
+    color: #aaa;
+    font-style:italic;
+}
+.sui-advEdit-facet-ctrls-btns input:-moz-placeholder {
+    color: #aaa;
+    font-style:italic;
+    opacity:1;
+}
+.sui-advEdit-facet-ctrls-btns input:focus::-webkit-input-placeholder {
+    color: transparent;
+}
+.sui-advEdit-facet-ctrls-btns input:focus::-moz-placeholder {
+    color: transparent;
+}
+.sui-advEdit-facet-ctrls-btns input:focus:-ms-input-placeholder {
+    color: transparent;
+}
+.sui-advEdit-facet-ctrls-btns input:focus:-moz-placeholder {
+    color: transparent;
+}
+*/
+
 .sui-advEdit-facet-ctrls-btns input:focus,
 .sui-advEdit-facet-ctrls-btns input:focus-visible {
-    border: none;
-    outline: -webkit-focus-ring-color solid 0.1rem;
+    outline: 0 none;
     outline: none !important;
     border: 1px solid #668eec;
 }
+
 .sui-advPlus {
     position: relative;
     top: -0.3rem;
     margin-right: 0.5rem;
 }
-/* - selectors not working right yet -
-.sui-advPlus .u-icon__minus ~ .btn-primary {
-    padding-bottom:1.5rem;
-    background-color:transparent;
-    color:#333;
-    border-bottom-color:transparent;
-}
-*/
+
 .sui-advEditBut {
     display: inline-block;
     cursor: pointer;
@@ -363,26 +380,6 @@ input:focus-visible,
     padding-top: 5px;
 }
 
-/*
-.sui-advEditBool {
-    display: inline-block;
-    cursor: pointer;
-    color: #668eec;
-    border: 0.1rem solid #999;
-    border-radius: 2px;
-    padding: 0 0 1px 3px;
-    margin: 2px 0;
-}
-
-.sui-boolItem {
-    display: inline-block;
-    color: #999;
-}
-
-.sui-boolItem:hover {
-    color: #668eec;
-}
-*/
 .sui-advEditList {
     overflow-x: hidden;
     max-height: 360px;
