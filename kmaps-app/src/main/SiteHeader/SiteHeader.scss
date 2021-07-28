@@ -58,14 +58,14 @@
             position: relative;
             input.sui-search2 {
                 font-size: 1.65rem;
-                padding: 0.4rem 8.5rem 0.25rem 1.75rem;
+                padding: 0.4rem 8.5rem 0.25rem 1rem;
                 background: transparent;
                 border: none;
                 border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, 50% opacity
                 margin: 0;
                 width: 24rem;
                 transition: width 0.5s, border 0.35s;
-                color: #555;
+                color: #222;
                 box-shadow: none;
                 background: transparent;
                 &:focus,
@@ -75,6 +75,45 @@
                     background: #fff;
                     border-bottom-width: 0.15rem;
                     border-bottom-color: $color-mandala;
+                    &::-webkit-input-placeholder {
+                        /* Chrome/Opera/Safari */
+                        color: transparent;
+                    }
+                    &::-moz-placeholder {
+                        /* Chrome/Opera/Safari */
+                        color: transparent;
+                    }
+                    &:-ms-input-placeholder {
+                        /* Chrome/Opera/Safari */
+                        color: transparent;
+                    }
+                    &:-moz-placeholder {
+                        /* Chrome/Opera/Safari */
+                        color: transparent;
+                    }
+                }
+                &::-webkit-input-placeholder {
+                    /* Chrome/Opera/Safari */
+                    color: $color-mandala;
+                    font-style: italic;
+                    font-size: 1.7rem;
+                    letter-spacing: 0.0125rem;
+                }
+                &::-moz-placeholder {
+                    /* Firefox 19+ */
+                    color: $color-mandala;
+                    opacity: 1;
+                    font-style: italic;
+                }
+                &:-ms-input-placeholder {
+                    /* IE 10+ */
+                    color: $color-mandala;
+                    font-style: italic;
+                }
+                &:-moz-placeholder {
+                    /* Firefox 18- */
+                    color: $color-mandala;
+                    font-style: italic;
                 }
             }
             .sui-search3 {
@@ -85,9 +124,6 @@
                 height: 2rem;
                 width: 2rem;
                 transition: color 0.75s;
-                &:hover {
-                    color: $color-subjects;
-                }
             }
             .sui-search4 {
                 // --- search enter - Go get it!
@@ -99,12 +135,10 @@
                 transition: scale 200ms;
                 transform: scale(1);
                 span::before {
-                    color: $color-mandala;
+                    color: #aaa;
                 }
                 span:hover::before {
                     color: #000;
-                }
-                span:active::before {
                 }
             }
         }
@@ -116,11 +150,14 @@ input.sui-search2:active + .sui-search3 {
     &::before {
         content: 'X';
         display: inline-block;
-        color: #ccc;
+        color: #aaa;
         font-size: 1.75rem;
         position: absolute;
         top: 0;
         right: 1.6rem;
+    }
+    &:hover::before {
+        color: $color-subjects;
     }
     &::after {
         content: '';
@@ -133,8 +170,9 @@ input.sui-search2:active + .sui-search3 {
         right: 0;
     }
 }
-input.sui-search2:focus ~ .sui-search4::before,
-input.sui-search2:active ~ .sui-search4::before {
+
+input.sui-search2:focus + .sui-search3 + .sui-search4 span::before,
+input.sui-search2:active + .sui-search3 + .sui-search4 span::before {
     color: $color-mandala;
 }
 
