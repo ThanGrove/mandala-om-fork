@@ -123,6 +123,8 @@ div.image-wrapper.center figcaption {
     color: #000;
     cursor: default;
     border-color: #6b77ea;
+    border-top-width: 0.2rem;
+    border-bottom-width: 0.2rem;
 }
 
 // --- JSON button on kmaps views
@@ -967,8 +969,9 @@ header.terms
         color: $color-terms;
         opacity: 0.4;
         display: inline-block;
-        margin-right: 1.5rem;
-        margin-left: -3rem;
+        margin-right: 0.5rem;
+        margin-left: -4rem;
+        padding: 1rem;
         font-size: 1.2rem;
         cursor: pointer;
         &:hover {
@@ -1078,6 +1081,7 @@ header.terms
         }
         .info {
             padding-top: 0.75rem;
+            margin-left: 2rem;
         }
         .creator {
             display: block;
@@ -1092,30 +1096,34 @@ header.terms
         p {
             max-width: 93%;
         }
-        .kmaps {
+        .kmap-container {
             clear: both;
-            h5 {
-                text-transform: uppercase;
-                font-size: 1.3rem;
-                font-weight: 600;
-                color: #555;
-                margin-left: -0.75rem;
-            }
-            span.icon {
-                display: inline-block;
-                margin-right: 0.5rem;
-                font-size: 1.5rem;
-            }
-            ul {
-                margin-left: 0;
-                padding-inline-start: 1.5rem;
-            }
-            li {
-                list-style-type: none;
-                font-family: 'EB Garamond', serif;
-                font-size: 1.5rem;
-            }
-        } // Ends kmaps for relateds in accordion
+            .kmaps {
+                max-width: 27rem;
+                float: left;
+                h5 {
+                    text-transform: uppercase;
+                    font-size: 1.3rem;
+                    font-weight: 600;
+                    color: #555;
+                    margin-left: -0.75rem;
+                }
+                span.icon {
+                    display: inline-block;
+                    margin-right: 0.5rem;
+                    font-size: 1.5rem;
+                }
+                ul {
+                    margin-left: 0;
+                    padding-inline-start: 1.5rem;
+                }
+                li {
+                    list-style-type: none;
+                    font-family: 'EB Garamond', serif;
+                    font-size: 1.5rem;
+                }
+            } // Ends kmaps for relateds in accordion
+        }
     } // Ends card-body in List View
 
     // Kmaps card styles in List View
