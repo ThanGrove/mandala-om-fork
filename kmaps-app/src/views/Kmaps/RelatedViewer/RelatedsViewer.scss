@@ -1,9 +1,6 @@
 @import '../../../index-variables';
 
 .l-column__related {
-    /* min-width: 20rem;
-    max-width: 34rem;
-    width: 25rem; */
     height: 100vh;
     margin: 0 0 0 -24rem;
     padding: 0;
@@ -11,226 +8,6 @@
     flex: none;
     resize: horizontal;
 }
-.l-related__list__wrap .icon {
-    margin-right: 0.75rem;
-    position: relative;
-    top: 0.125rem;
-    font-size: 1.6rem;
-}
-.l-related__list__wrap .icon::before {
-    color: #555 !important;
-}
-.l-related__list__wrap .u-icon__logo-shanti {
-    font-size: 1.7rem;
-}
-.l-related__list__wrap .u-icon__overview {
-    margin-left: 0.1rem;
-    font-size: 1.4rem;
-    line-height: 2;
-}
-
-.l-column__list__wrap .l-related__tree__wrap .fancytree-title {
-    color: #000 !important;
-}
-
-.l-column__list__wrap .l-related__tree__wrap .popover-link {
-    margin-left: 0.15rem;
-    top: 0.5rem;
-}
-
-@media (min-width: 1250px) {
-    .l-column__related {
-        margin-left: -1rem;
-    }
-}
-
-/**
-  * css brought from searchui.css
-  */
-/*
-.l-related__list__wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 168px;
-    background-color: #ddd;
-    border-left: 12px solid transparent;
-    padding: 18px 0 0 12px;
-    color: #000;
-}
-.sui-relatedImg {
-    width: 150px;
-    margin: 12px 0 12px 0;
-    outline: 1px solid #999;
-    outline-offset: 4px;
-}
-.c-relatedViewer {
-    font-size: 1.4rem;
-    color: #222;
-    padding: 0;
-}
-.c-related__item {
-    cursor: pointer;
-    padding: 6px 3px 3px 6px;
-    border-radius: 4px;
-    color: #000;
-    font-weight: normal;
-}
-.sui-relatedRecent {
-    font-size: 12px;
-    color: #222;
-    padding: 0;
-    max-height: 84px;
-    user-select: none;
-    overflow-x: hidden;
-    cursor: pointer;
-    margin-right: 12px;
-}
-.sui-relatedRecentItem:hover {
-    background-color: #a4baec;
-}
-*/
-/**
-  * END ---------------------
-  * This code needs to be integrated with css below
-  * css brought from searchui.css
-  */
-
-.c-relatedViewer {
-    margin: 0 1rem 1.5rem 0.8rem;
-}
-.c-related__item {
-    display: block;
-    line-height: 1.5;
-    color: #222;
-    font-weight: bold;
-    font-size: 1.25rem;
-    text-transform: uppercase;
-    padding: 0.15rem 0 0.5rem 1.25rem;
-    margin: 0 0 0 0.25rem;
-    background-color: #fff;
-    border: 0.1rem solid #ddd;
-}
-.c-related__item:hover {
-    background-color: white !important;
-    border-color: $color-mandala;
-    color: #555 !important;
-}
-.c-related__item:active {
-    border-color: #aaa;
-}
-.c-related__item:hover,
-.c-related__item:hover .icon::before {
-    color: #555;
-}
-.c-related__link--home,
-.c-related__link--home:hover {
-    padding-top: 0.2rem;
-    padding-bottom: 0.2rem;
-}
-
-.c-related__item.selected > span:not(.icon) {
-    /* padding: 0 0.3rem 0.1rem;
-    border-bottom: 0.3rem solid #cca843; */
-}
-.c-relatedViewer #sui-rln-places {
-    font-size: 1.2rem;
-    margin-left: 0.8rem;
-}
-.c-relatedViewer #sui-rln-places::before {
-    content: '(';
-    position: relative;
-    left: -0.15rem;
-    font-size: 120%;
-    color: #999;
-    font-weight: normal;
-}
-.c-relatedViewer #sui-rln-places::after {
-    content: ')';
-    position: relative;
-    right: -0.15rem;
-    font-size: 120%;
-    color: #999;
-    font-weight: normal;
-}
-.c-related__link--home span:not(.icon) {
-    position: relative;
-    left: 0.2rem;
-}
-.c-related__item:not(.selected):hover {
-    /* background: #fff;
-    color: #333; */
-}
-.c-related__item:not(.selected):active {
-    /* color: #333; */
-}
-.c-related__list--icon {
-    border-color: transparent;
-    height: 6px;
-}
-.c-related__item__label {
-}
-
-/*
-.c-related__item.active {
-    background-color: white !important;
-    border: 1px solid #ccc;
-    color: #555 !important;
-}
-.c-related__item.active,
-.c-related__item.active .icon {
-    color: #555;
-}
-*/
-
-.u-related__list__header {
-    padding: 0 0 0.25rem 0.5rem;
-    margin: 0 1rem;
-    font-size: 1.45rem;
-    font-weight: bold;
-    color: #111;
-    letter-spacing: 0.075rem;
-    text-transform: uppercase;
-}
-.l-related__list__wrap > .u-related__list__header {
-    padding-top: 0;
-}
-
-.l-related__tree__wrap .view-wrap {
-    padding: 0 1.2rem !important;
-}
-.l-related__tree__wrap .fancytree-container {
-    border: 1px solid #ddd !important;
-    box-shadow: inset 0 0 8px #ddd;
-    padding: 0.5rem;
-    font-size: 1.2rem;
-    height: auto;
-    max-height: 50rem;
-    background-color: #fff !important;
-}
-.l-related__tree__wrap .fancytree-container li {
-}
-.l-related__tree__wrap .fancytree-node {
-    margin-top: 0;
-    padding-top: 0;
-    outline: none;
-}
-.l-related__tree__wrap .fancytree-exp-nl .fancytree-title::before,
-.l-related__tree__wrap .fancytree-exp-n .fancytree-title::before {
-    /*content: '–' !important;*/
-    margin-right: 0.75rem !important;
-    font-weight: bold !important;
-    background-color: transparent;
-}
-.l-related__tree__wrap .fancytree-exp-nl:hover .fancytree-title::before,
-.l-related__tree__wrap .fancytree-exp-n:hover .fancytree-title::before {
-    background: transparent !important;
-}
-.l-related__tree__wrap .fancytree-expander {
-    margin-right: 0.9rem;
-    color: $color-terms !important;
-}
-
 .l-column__related .fancytree-exp-nl .fancytree-title::before,
 .l-column__related .fancytree-exp-n .fancytree-title::before {
     background-color: #333;
@@ -243,48 +20,13 @@
 .l-column__related .fancytree-exp-n:hover .fancytree-title::before {
     background-color: #000 !important;
 }
-
 .l-column__related .fancytree-active:hover .fancytree-title::before {
     background-color: #fff !important;
 }
-/*
-.sui-relatedRecent {q
-    font-size: 12px;
-    color: #222;
-    padding: 0;
-    max-height: 84px;
-    user-select: none;
-    overflow-x: hidden;
-    cursor: pointer;
-    margin-right: 12px;
+.l-column__related .fancytree-node:not(.fancytree-active):hover,
+.l-column__related .fancytree-node:not(.fancytree-active):active {
+    background-color: #ffffff !important;
 }
-
-.sui-relatedRecentItem:hover {
-    background-color: #a4baec;
-}
-
-.sui-recent {
-    margin-top: 2em;
-}
-
-.sui-relatedHeader {
-    text-transform: uppercase;
-}
-.sui-relatedSubHeader {
-    text-transform: capitalize;
-}
-.sui-relatedSubHeader::before {
-    content: ' / ';
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-}
-.sui-relatedImg {
-    width: 150px;
-    margin: 12px 0 12px 0;
-    outline: 1px solid #999;
-    outline-offset: 4px;
-}
-*/
 
 .sui-relatedHeader {
     text-transform: uppercase;
@@ -293,6 +35,162 @@
 
 .l-history__list__wrap .u-related__list__header {
     margin-bottom: 0.75rem;
+}
+
+.l-related__list__wrap {
+    .icon {
+        margin-right: 0.75rem;
+        position: relative;
+        top: 0.125rem;
+        font-size: 1.6rem;
+        &::before {
+            color: #555 !important;
+        }
+    }
+    .u-icon__logo-shanti {
+        font-size: 1.7rem;
+    }
+    .u-icon__overview {
+        margin-left: 0.1rem;
+        font-size: 1.4rem;
+        line-height: 2;
+    }
+    .l-related__tree__wrap .fancytree-title {
+        color: #000 !important;
+    }
+    .l-related__tree__wrap .popover-link {
+        margin-left: 0.15rem;
+        top: 0.5rem;
+    }
+}
+
+@media (min-width: 1250px) {
+    .l-column__related {
+        margin-left: -1rem;
+    }
+}
+
+.c-related__item {
+    display: block;
+    line-height: 1.5;
+    color: #222;
+    font-weight: bold;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    padding: 0.15rem 0 0.5rem 1.25rem;
+    margin: 0 0 0.2rem 0.25rem !important;
+    background-color: #fff;
+    border: 0.1rem solid #555;
+    &.selected > span:not(.icon) {
+    }
+    &.c-related__link--home {
+        padding-top: 0.2rem;
+        padding-bottom: 0.2rem;
+        span:not(.icon) {
+            position: relative;
+            left: 0.2rem;
+        }
+        &:hover {
+            padding-top: 0.2rem;
+            padding-bottom: 0.2rem;
+        }
+    }
+    &:hover {
+        background-color: white !important;
+        border-color: $color-mandala;
+        color: #000 !important;
+    }
+    &:active {
+        border-color: #aaa;
+    }
+    &:hover,
+    &:hover .icon::before {
+        color: #555;
+    }
+    &:not(.selected):hover {
+        border-color: transparent;
+        color: #000;
+    }
+    &:not(.selected):active {
+    }
+}
+
+.c-relatedViewer {
+    margin: 0 1rem 1.5rem 0.8rem;
+
+    #sui-rln-places {
+        font-size: 1.2rem;
+        margin-left: 0.8rem;
+    }
+    #sui-rln-places::before {
+        content: '(';
+        position: relative;
+        left: -0.15rem;
+        font-size: 120%;
+        color: #999;
+        font-weight: normal;
+    }
+    #sui-rln-places::after {
+        content: ')';
+        position: relative;
+        right: -0.15rem;
+        font-size: 120%;
+        color: #999;
+        font-weight: normal;
+    }
+}
+
+.c-related__list--icon {
+    border-color: transparent;
+    height: 6px;
+}
+.u-related__list__header {
+    padding: 0 0 0.25rem 0.5rem;
+    margin: 0 1rem;
+    font-size: 1.45rem;
+    font-weight: bold;
+    color: #111;
+    letter-spacing: 0.075rem;
+    text-transform: uppercase;
+}
+
+.l-related__tree__wrap {
+    > .u-related__list__header {
+        padding-top: 0;
+    }
+    .view-wrap {
+        padding: 0 1.2rem !important;
+    }
+    .fancytree-container {
+        border: 1px solid #ddd !important;
+        box-shadow: inset 0 0 8px #ddd;
+        padding: 0.5rem;
+        font-size: 1.2rem;
+        height: auto;
+        max-height: 50rem;
+        background-color: #fff !important;
+    }
+    .fancytree-container li {
+    }
+    .fancytree-node {
+        margin-top: 0;
+        padding-top: 0;
+        outline: none;
+    }
+    .fancytree-exp-nl .fancytree-title::before,
+    .fancytree-exp-n .fancytree-title::before {
+        margin-right: 0.75rem !important;
+        font-weight: bold !important;
+        background-color: transparent;
+    }
+    .fancytree-exp-nl:hover .fancytree-title::before,
+    .fancytree-exp-n:hover .fancytree-title::before {
+        background: transparent !important;
+    }
+    .fancytree-expander {
+        margin-right: 0.9rem;
+        color: $color-terms !important;
+    }
 }
 
 /* Related Icons Styles */
@@ -373,11 +271,6 @@
     span.badge {
         vertical-align: top;
     }
-}
-
-.l-column__related .fancytree-node:not(.fancytree-active):hover,
-.l-column__related .fancytree-node:not(.fancytree-active):active {
-    background-color: #ffffff !important;
 }
 
 // --- moved here from subjectsinfo.scss

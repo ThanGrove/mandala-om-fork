@@ -94,7 +94,7 @@ export function RelatedsViewer() {
                     <div className="u-related__list__header">
                         Related Resources
                     </div>
-                    <nav className="c-relatedViewer nav nav-pills flex-column">
+                    <nav className="c-relatedViewer nav nav-tabs flex-column">
                         <Link
                             id="sui-rl-Home"
                             role={'tab'}
