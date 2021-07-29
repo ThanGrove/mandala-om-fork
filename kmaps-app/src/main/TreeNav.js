@@ -50,16 +50,21 @@ const TreeNav = (props) => {
                         'sacrifical-dummy-element-that-is-not-displayed-for-some-reason'
                     }
                 ></span>
-                <div className="treeNav-header">
-                    <div className="treeNav-header__title">Browse Kmaps</div>
+                <header className="treeNav-header">
+                    <h4 className="treeNav-header__title">Browse Kmaps</h4>
                     <button
                         onClick={handleCloseButton}
                         className="treeNav-header__closeButton"
                     >
                         <span className={'icon shanticon-cancel'}></span>
                     </button>
-                </div>
-                <Tabs defaultActiveKey={domain} id="kmaps-tab">
+                </header>
+                <Tabs
+                    defaultActiveKey={domain}
+                    id="kmaps-tab"
+                    role="navigation"
+                    className="treeNav-tabs__wrap justify-content-center"
+                >
                     <Tab eventKey="places" title="Places">
                         <KmapTree
                             elid="tab-tree-places"

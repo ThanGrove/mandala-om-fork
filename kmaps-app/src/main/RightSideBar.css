@@ -289,6 +289,7 @@
     color: #000;
     cursor: default;
     border-color: #6b77ea;
+    border-width: 0.1rem;
     background-color: #fff !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,

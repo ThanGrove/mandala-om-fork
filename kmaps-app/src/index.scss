@@ -638,8 +638,12 @@ header.terms
 
         .treeNav-header__title {
             margin-left: 2rem;
+            font-weight: bold;
             color: #f0f0f0;
-            padding: 0.2rem 0 0.5rem;
+            padding: 0.2rem 0 0;
+            line-height: 1.55;
+            vertical-align: middle;
+            letter-spacing: 0.0525rem;
         }
         .treeNav-header__closeButton {
             padding: 0;
@@ -969,9 +973,9 @@ header.terms
         color: $color-terms;
         opacity: 0.4;
         display: inline-block;
-        margin-right: 0.5rem;
-        margin-left: -4rem;
-        padding: 1rem;
+        margin-right: 0;
+        margin-left: -4.5rem;
+        padding: 0 1.5rem;
         font-size: 1.2rem;
         cursor: pointer;
         &:hover {
@@ -1100,6 +1104,8 @@ header.terms
             clear: both;
             .kmaps {
                 max-width: 27rem;
+                max-width: 31%;
+                min-width: 22rem;
                 float: left;
                 h5 {
                     text-transform: uppercase;
