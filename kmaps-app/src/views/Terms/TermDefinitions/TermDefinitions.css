@@ -32,7 +32,8 @@
     background-color: #fff;
 }
 .sui-termDefinitions__content .nav.nav-tabs > a.nav-item:not(.active):hover {
-    border-color: #c0c0c0;
+    border-color: #999;
+    border-bottom: white;
 }
 .sui-termDefinitions__content .nav.nav-tabs > a.nav-item.active {
     background-color: #fff;
