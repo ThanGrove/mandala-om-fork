@@ -29,8 +29,12 @@
 }
 
 .sui-relatedHeader {
-    text-transform: uppercase;
     margin: 0.75rem 0 0;
+    display: inline;
+    position: relative;
+    top: -1.75rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
 }
 
 .l-history__list__wrap .u-related__list__header {
