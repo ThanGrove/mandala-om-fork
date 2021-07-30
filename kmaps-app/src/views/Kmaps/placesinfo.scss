@@ -68,59 +68,8 @@
     }
 }
 
-.c-relplaces-list.places {
-    h2.row {
-        margin: 1rem 0 1rem -1.5rem;
-        font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif;
-        font-weight: 600;
-        font-size: 1.45rem;
-    }
-}
 .nodeHeader-placesInfo + div {
     clear: both;
     max-width: 100%;
     padding-top: 1rem;
 }
-.kmap-related,
-.nodeHeader-summary,
-.l-content__main__wrap {
-    ul {
-        margin-right: 1rem;
-        margin-left: 0.75rem;
-        list-style-type: none;
-        padding-inline-start: 0;
-        li {
-            /* line-height: 0.75; */
-        }
-        li::before {
-            content: '';
-            display: inline-block;
-            width: 0.75rem;
-            height: 0.75rem;
-            border: 0.15rem solid #555;
-            margin-right: 0.75rem;
-            position: relative;
-            left: 0;
-            border-radius: 0.15rem;
-        }
-    }
-    .nodeHeader-summary .head-related {
-        width: 100%;
-        margin: 1.5rem 1rem 0.25rem 0;
-        padding: 0.6rem 1rem 0.4rem 0;
-        font-weight: bold;
-        font-size: 1.45rem;
-        text-transform: uppercase;
-    }
-}
-/*
-.places .head-related {
-    border-left-color: $color-places;
-}
-.subjects .head-related {
-    border-left-color: $color-subjects;
-}
-.terms .head-related {
-    border-left-color: $color-terms;
-}
-*/

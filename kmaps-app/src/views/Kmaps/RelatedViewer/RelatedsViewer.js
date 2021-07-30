@@ -112,10 +112,28 @@ export function RelatedsViewer() {
                             className={locMatch['mandala']}
                         />
                         <RelatedCount
+                            type={'subjects'}
+                            {...baseArgs}
+                            role={'tab'}
+                            className={locMatch.subjects}
+                        />
+                        <RelatedCount
                             type={'places'}
                             {...baseArgs}
                             role={'tab'}
                             className={locMatch['places']}
+                        />
+                        <RelatedCount
+                            type={'terms'}
+                            {...baseArgs}
+                            role={'tab'}
+                            className={locMatch.terms}
+                        />
+                        <RelatedCount
+                            type={'collections'}
+                            {...baseArgs}
+                            role={'tab'}
+                            className={locMatch.collections}
                         />
                         <RelatedCount
                             type={'audio-video'}
@@ -146,24 +164,6 @@ export function RelatedsViewer() {
                             {...baseArgs}
                             role={'tab'}
                             className={locMatch.visuals}
-                        />
-                        <RelatedCount
-                            type={'subjects'}
-                            {...baseArgs}
-                            role={'tab'}
-                            className={locMatch.subjects}
-                        />
-                        <RelatedCount
-                            type={'terms'}
-                            {...baseArgs}
-                            role={'tab'}
-                            className={locMatch.terms}
-                        />
-                        <RelatedCount
-                            type={'collections'}
-                            {...baseArgs}
-                            role={'tab'}
-                            className={locMatch.collections}
                         />
                     </nav>
                 </section>

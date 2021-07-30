@@ -243,7 +243,7 @@
     margin: 0 0.5rem 0.75rem 0.5rem;
     overflow: auto !important;
     box-shadow: inset -1rem -2rem 1.5rem #c9ccd82b;
-    transition: max-height 0.5s, border 0.25s, margin 0.5s;
+    transition: max-height 0.5s, border 0.25s, margin 0.25s;
     max-height: 0;
 }
 
@@ -407,14 +407,20 @@
     border-radius: 0.5rem 0 0 0.5rem;
 }
 .sui-advEditLine.chosen::after {
-    content: '√';
+    content: '';
     display: inline-block;
+
     font-size: 1.5rem;
     font-weight: bold;
     color: #6b77ea;
+
     position: absolute;
     right: 0.75rem;
     top: 0.2rem;
+
+    width: 0.6rem;
+    height: 0.6rem;
+    border: 0.15rem solid #555;
 }
 .sui-advEdit-facet-ctrls {
     margin-bottom: 0.5rem;

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+const ImagesViewer = React.lazy(() => import('../Images/ImagesViewer'));
 const AudioVideoViewer = React.lazy(() =>
     import('../AudioVideo/AudioVideoViewer')
 );
-const ImagesViewer = React.lazy(() => import('../Images/ImagesViewer'));
 const SourcesViewer = React.lazy(() => import('../Sources/SourcesViewer'));
 const TextsViewer = React.lazy(() => import('../Texts/TextsViewer'));
 const VisualsViewer = React.lazy(() => import('../Visuals/VisualsViewer'));

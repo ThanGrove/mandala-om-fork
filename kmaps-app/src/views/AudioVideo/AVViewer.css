@@ -170,7 +170,7 @@ div#av-trscrpt-wrapper {
 }
 #sui-transSrc .navwrapper > div:last-child,
 #sui-transSrc .navwrapper > div:first-child {
-    font-size: 1.5rem !important;
+    font-size: 1rem !important;
     display: flex;
     align-self: center;
     cursor: pointer;
@@ -216,7 +216,7 @@ div#sui-transSrcGo input:focus {
 div#sui-transSrcGo .icon.search {
     position: absolute;
     left: 1.7rem;
-    top: 0.75rem;
+    top: 0.65rem;
     font-size: 1.75rem;
     color: #999;
 }
