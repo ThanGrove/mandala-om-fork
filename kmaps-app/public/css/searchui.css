@@ -486,7 +486,7 @@ color: #a4baec;
 .sui-boolItem,
 .sui-advEditBool {
     display: inline-block;
-    cursor: pointer;
+    cursor: default;
     font-size: 0.9rem;
     color: #4d59ca;
     border: 0.15rem solid #668eec;

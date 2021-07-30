@@ -66,5 +66,8 @@
                 background-color: transparent;
             }
         }
+        &.btn:not(:disabled):not(.disabled) {
+            cursor: default;
+        }
     }
 }

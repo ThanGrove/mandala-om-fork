@@ -66,7 +66,7 @@
     padding: 0.55rem 2.75rem 0.5rem 1rem;
     border-radius: 0.5rem;
     color: #fff;
-    cursor: pointer;
+    cursor: default;
     font-size: 1.2rem;
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
@@ -387,7 +387,7 @@
 }
 
 .sui-advEditLine {
-    cursor: pointer;
+    cursor: default;
     padding: 0 1rem 0.25rem;
     margin: 0 0.8rem 0.1rem;
     position: relative;
@@ -409,18 +409,14 @@
 .sui-advEditLine.chosen::after {
     content: '';
     display: inline-block;
-
-    font-size: 1.5rem;
-    font-weight: bold;
-    color: #6b77ea;
-
+    width: 1rem;
+    height: 1rem;
+    border-radius: 50%;
+    border: 0.15rem solid #555;
+    background-color: #6b77ea;
     position: absolute;
     right: 0.75rem;
-    top: 0.2rem;
-
-    width: 0.6rem;
-    height: 0.6rem;
-    border: 0.15rem solid #555;
+    top: 0.75rem;
 }
 .sui-advEdit-facet-ctrls {
     margin-bottom: 0.5rem;
