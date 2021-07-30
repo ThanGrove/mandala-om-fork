@@ -28,7 +28,7 @@ export function RelatedsViewer() {
 
     const loc = match?.params.type || 'home';
     let locMatch = {};
-    locMatch[loc] = 'selected';
+    locMatch[loc] = 'active';
 
     let baseArgs = {
         baseType: match?.params.baseType,
@@ -115,7 +115,7 @@ export function RelatedsViewer() {
                             type={'subjects'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.subjects}
+                            className={locMatch['subjects']}
                         />
                         <RelatedCount
                             type={'places'}
@@ -127,13 +127,13 @@ export function RelatedsViewer() {
                             type={'terms'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.terms}
+                            className={locMatch['terms']}
                         />
                         <RelatedCount
                             type={'collections'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.collections}
+                            className={locMatch['collections']}
                         />
                         <RelatedCount
                             type={'audio-video'}
@@ -145,25 +145,25 @@ export function RelatedsViewer() {
                             type={'images'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.images}
+                            className={locMatch['images']}
                         />
                         <RelatedCount
                             type={'sources'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.sources}
+                            className={locMatch['sources']}
                         />
                         <RelatedCount
                             type={'texts'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.texts}
+                            className={locMatch['texts']}
                         />
                         <RelatedCount
                             type={'visuals'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch.visuals}
+                            className={locMatch['visuals']}
                         />
                     </nav>
                 </section>
@@ -208,27 +208,29 @@ function RelatedCount(props) {
     if (props.type === 'images') {
         display = 'gallery';
     }
+
+    // Link path.
+    let path =
+        '/' +
+        props.baseType +
+        '/' +
+        props.id +
+        '/related-' +
+        props.type +
+        '/' +
+        (props.baseType === 'terms' ? 'any/' : '') +
+        display;
+
+    let activeClass = props.className || '';
+
     // return null if the count doesn't exist or is === 0
     return count ? (
         <Link
             id={'sui-rl-' + props.type}
             href="#"
-            className={
-                'nav-item nav-link c-related__item c-related__link--' +
-                props.type
-            }
+            className={`nav-item nav-link c-related__item c-related__link--${props.type} ${activeClass}`}
             role={'tab'}
-            to={
-                '/' +
-                props.baseType +
-                '/' +
-                props.id +
-                '/related-' +
-                props.type +
-                '/' +
-                (props.baseType === 'terms' ? 'any/' : '') +
-                display
-            }
+            to={path}
         >
             <span className={'u-icon__' + props.type + ' ' + iconClass}></span>
             <span className={'c-related__item__label'}> {props.type}</span>
