@@ -45,16 +45,14 @@
         position: absolute;
         top: 0;
         right: 0;
-        width: 5rem;
-        height: 5rem;
+        width: 4rem;
+        height: 4rem;
         border: 0.1rem solid #444;
         border-radius: 0 0 0 0.5rem;
         border-width: 0 0 0.1rem 0.1rem;
         background-color: #292929;
 
         span {
-            width: 0.3rem;
-            height: 4rem;
             transform: rotate(45deg);
             background-color: #999;
             position: relative;
@@ -64,12 +62,12 @@
                 font-family: sans-serif;
                 color: transparent;
                 position: absolute;
-                left: 2.5rem;
+                left: 2rem;
                 top: 0.5rem;
                 z-index: 100;
                 display: inline-block;
                 width: 0.2rem;
-                height: 4rem;
+                height: 3rem;
                 background-color: #777;
                 transform: rotate(45deg);
             }
@@ -77,12 +75,12 @@
             &::after {
                 content: '';
                 position: absolute;
-                left: 2.5rem;
+                left: 2rem;
                 top: 0.5rem;
                 z-index: 100;
                 display: inline-block;
                 width: 0.2rem;
-                height: 4rem;
+                height: 3rem;
                 background-color: #777;
                 transform: rotate(315deg);
             }
