@@ -109,7 +109,7 @@ export function RelatedsViewer() {
                             type={'all'}
                             {...baseArgs}
                             role={'tab'}
-                            className={locMatch['mandala']}
+                            className={locMatch['all']}
                         />
                         <RelatedCount
                             type={'subjects'}
