@@ -104,8 +104,9 @@
         border-color: $color-mandala;
         color: #000 !important;
     }
+    &.active,
     &:active {
-        border-color: #aaa;
+        border-color: red !important;
     }
     &:hover,
     &:hover .icon::before {

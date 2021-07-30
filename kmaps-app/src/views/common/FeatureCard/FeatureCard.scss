@@ -94,8 +94,8 @@
 .card-body {
     max-height: 25rem;
     min-height: 10rem;
-    overflow-y: auto;
-    overflow-x: hidden;
+    /*  overflow-y: auto;
+    overflow-x: hidden; */
     padding: 0 0.8rem 1rem 1rem;
     white-space: normal;
     word-break: break-word;
@@ -129,6 +129,9 @@
 .card-body .list-group {
     border-top: 1px solid rgba(205, 169, 66, 1);
     padding: 0.5rem 0;
+    overflow: hidden;
+    overflow-y: scroll;
+    max-height: 18rem;
 }
 .card-body .list-group-item {
     /*padding: 0.15rem 1.15rem 0.25rem 0.3rem;*/
