@@ -108,7 +108,7 @@
         color: #555;
     }
     &:not(.selected):hover {
-        border-color: transparent;
+        border-color: $color-mandala;
         color: #000;
     }
     &:not(.selected):active {

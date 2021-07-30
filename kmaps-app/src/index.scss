@@ -870,7 +870,7 @@ header.terms
 // View mode for content column
 .c-buttonGroup__viewMode {
     margin: 0 2rem 0 0;
-    text-align: right;
+    float: right;
     .btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
         transform: scale(1.04);
@@ -921,7 +921,10 @@ header.terms
     border: none;
 }
 .c-view__wrapper.gallery {
-    margin: 1.5rem;
+    margin: 2rem 1.5rem 2rem;
+}
+.react-photo-gallery--gallery {
+    margin-top: 3rem;
 }
 
 .c-view {
