@@ -70,6 +70,7 @@ ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
 
 .sui-nameEntry-meta {
     position: relative;
+    margin-bottom: 1.5rem;
 }
 
 .sui-nameEntry-writing-system:before {

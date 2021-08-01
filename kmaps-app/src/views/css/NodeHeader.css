@@ -13,9 +13,10 @@
     /* font-family: 'EB Garamond', serif; */
     text-transform: uppercase;
     display: block;
-    text-indent: 2.5rem;
+    text-indent: 3.5rem;
     font-weight: bold;
     color: #222;
+    margin-top: 0.2rem;
     letter-spacing: 0.175rem;
 }
 .sui-relatedSubHeader::before {
