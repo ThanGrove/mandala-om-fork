@@ -278,7 +278,7 @@ export function FeatureGallery(props) {
 
 function FeatureGalleryHeaderLine(props) {
     if (props.title) {
-        return <h5 className={'sui-relatedHeader'}>{props.title}</h5>;
+        return <h5 className={'sui-relatedHeader'}> </h5>;
     } else {
         return null;
     }
