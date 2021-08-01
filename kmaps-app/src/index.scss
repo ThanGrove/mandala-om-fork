@@ -870,18 +870,33 @@ header.terms
     border: 0.1rem solid #ccc;
     border-radius: 1rem;
     margin-bottom: 3rem;
+    position: relative;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
     margin: 0 2rem 0 0;
     position: absolute;
-    top: 1rem;
-    right: 0;
+    top: -6rem;
+    right: -1.5rem;
     .btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
         transform: scale(1.04);
     }
 }
+header.terms + .two-columns .c-buttonGroup__viewMode,
+header.search + .two-columns .c-buttonGroup__viewMode {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 100%;
+    text-align: right;
+    padding-right: 2rem;
+}
+header.terms + .two-columns .c-buttonGroup__viewMode {
+    position: absolute;
+    top: -16rem;
+}
+
 .sui-facetList-horiz {
     margin-bottom: 0;
     padding-right: 1.5rem;
@@ -925,6 +940,7 @@ header.terms
 // View Styles
 .c-view__wrapper {
     border: none;
+    padding-top: 1rem;
 }
 .c-view__wrapper.gallery {
     margin: 2rem 1.5rem 2rem;
@@ -1038,9 +1054,14 @@ header.terms
     .title {
         padding-top: 0.5rem;
         /*  margin-left: -2rem; */
-        .header .subtitle {
-            display: inline-block;
-            margin-left: 0.5rem;
+        .header {
+            &:hover {
+                color: red;
+            }
+            .subtitle {
+                display: inline-block;
+                margin-left: 0.5rem;
+            }
         }
     }
 

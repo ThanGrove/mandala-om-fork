@@ -238,7 +238,7 @@
     border-radius: 0.5rem 0.5rem 1.5rem 1.5rem;
     border-color: #929ae4 #ddd;
     /* padding: 0.3rem 0.8rem; */
-    font-size: 1.3rem;
+    font-size: 1.45rem; /* --- value was 1.3rem --- */
     color: #333;
     margin: 0 0.5rem 0.75rem 0.5rem;
     overflow: auto !important;
@@ -452,8 +452,8 @@
 .sui-advBox:first-child .sui-advEditLine .icon {
     font-size: 1.5rem;
     position: relative;
-    left: -0.15rem;
-    top: 0.15rem;
+    left: -0.35rem;
+    top: 0.05rem;
 }
 .sui-advBox-asset_type .sui-adv-facetlist .facetItem {
     display: none;
@@ -468,7 +468,7 @@
     background-color: transparent !important;
     font-style: italic;
     font-size: 1.25rem;
-    color: #555;
+    color: $color-mandala;
     margin-left: 1rem;
 }
 .sui-advEditLine > button:hover,
