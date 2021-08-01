@@ -398,9 +398,11 @@
             width: 0.6rem;
             height: 0.6rem;
             border: 0.15rem solid #888;
-            margin-right: 0.75rem;
+            margin-right: 1rem;
             position: relative;
-            left: 0;
+            left: 0.1rem;
+            top: 0.8rem;
+            float: left;
             transform: rotate(45deg);
         }
     }

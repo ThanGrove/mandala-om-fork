@@ -871,6 +871,8 @@ header.terms
 .c-buttonGroup__viewMode {
     margin: 0 2rem 0 0;
     float: right;
+    position: relative;
+    top: -6rem;
     .btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
         transform: scale(1.04);

@@ -120,6 +120,12 @@
                     font-style: italic;
                 }
             }
+            &:hover::-webkit-input-placeholder,
+            &:hover::-moz-placeholder,
+            &:hover:-ms-input-placeholder,
+            &:hover:-moz-placeholder {
+                color: red;
+            }
             .sui-search3 {
                 position: relative;
                 right: 6.5rem;

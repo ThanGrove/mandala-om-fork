@@ -66,7 +66,7 @@ export default class AudioVideo {
 
         //sui.LoadingIcon(true, 64); // Show loading icon
         // Get details from JSON
-        var str = `<div id="av-player-row" class="row avplayer"><div id='sui-viewerSide' class="av col col-xl-6 col-lg-12 col-md-12 col-sm-12">`; // Left side
+        var str = `<div id="av-player-row" class="row avplayer"><div id='sui-viewerSide' class="av col col-xl-6 col-sm-12">`; // Left side
         if (d.field_video && d.field_video.und)
             // If video
             entryId = d.field_video.und[0].entryid;
@@ -949,7 +949,7 @@ export default class AudioVideo {
             ? 'firefox'
             : 'safari';
 
-        var str = `<div id='av-trscrpt-wrapper' class='col col-xl-6 col-lg-12 col-md-12 col-sm-12'>
+        var str = `<div id='av-trscrpt-wrapper' class='col col-xl-6 col-sm-12'>
             <div class='av-trscrpt-ctrls row'>
                 <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f<span>&#xe609</span></div>
                 <div id='sui-transTab1' class='sui-transTab col' title='Play/Pause'>&#xe641</div>

@@ -1,7 +1,7 @@
 // Selected Image in Gallery
 
 .sui-featureGallery-selectedImg {
-    margin-bottom: -1rem;
+    margin-bottom: -0.5rem;
 
     img {
         margin-bottom: -0.3rem !important;
@@ -36,6 +36,7 @@
     background-color: #222;
     padding: 2rem;
     position: relative;
+    margin-bottom: 1rem;
 
     // Icons and arrows, close-x
 
