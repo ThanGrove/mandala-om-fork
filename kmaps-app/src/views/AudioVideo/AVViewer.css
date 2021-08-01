@@ -5,6 +5,9 @@
     max-width: 180rem;
     margin: 0 auto;
 }
+#av-viewer h1 {
+    font-size: 1.85rem;
+}
 .av .c-columnContent__main {
     overflow-x: hidden;
 }
