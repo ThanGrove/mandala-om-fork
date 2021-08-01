@@ -325,8 +325,6 @@ header.terms
     .c-nodeHeader {
         margin-bottom: 1.25rem;
         padding-bottom: 0;
-        padding-left: 1rem;
-
         & > .icon {
             margin: 0 1rem 0 0.3rem;
             position: relative;
@@ -365,6 +363,8 @@ header.terms
     font-size: 1.44rem;
     line-height: 1.4;
     border-radius: 0.5rem 0.5rem 0 0;
+    display: none;
+
     .c-nodeHeader-itemHeader-subType {
         text-transform: capitalize;
         &::after {
@@ -874,10 +874,15 @@ header.terms
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
-    margin: 0 2rem 0 0;
+    margin: 0 1.5rem 0 0;
     position: absolute;
-    top: -6rem;
+    top: -6.75rem;
     right: -1.5rem;
+
+    position: relative;
+    text-align: right;
+    right: -2rem;
+
     .btn-primary:not(:disabled):not(.disabled):active,
     .btn-primary:not(:disabled):not(.disabled).active {
         transform: scale(1.04);
@@ -891,10 +896,15 @@ header.search + .two-columns .c-buttonGroup__viewMode {
     width: 100%;
     text-align: right;
     padding-right: 2rem;
+
+    width: 100%;
+    text-align: right;
+    margin-bottom: 1.5rem;
 }
 header.terms + .two-columns .c-buttonGroup__viewMode {
     position: absolute;
-    top: -16rem;
+    top: -18rem;
+    padding-right: 0;
 }
 
 .sui-facetList-horiz {
@@ -947,6 +957,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 }
 .react-photo-gallery--gallery {
     margin-top: 3rem;
+}
+
+header.terms + .two-columns .c-view__wrapper.gallery {
+    margin-top: 0;
 }
 
 .c-view {
