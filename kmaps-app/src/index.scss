@@ -130,8 +130,8 @@ div.image-wrapper.center figcaption {
 }
 
 .c-buttonGroup__viewMode .btn:not(:disabled):not(.disabled) {
-    line-height: 2rem;
-    width: 3.5rem;
+    line-height: 2.5rem;
+    width: 4rem;
 }
 
 // --- JSON button on kmaps views
@@ -902,9 +902,9 @@ header.search + .two-columns .c-buttonGroup__viewMode {
     margin-bottom: 1.5rem;
 }
 header.terms + .two-columns .c-buttonGroup__viewMode {
-    position: absolute;
-    top: -18rem;
-    padding-right: 0;
+    position: relative;
+    top: 0;
+    padding-right: 1rem;
 }
 
 .sui-facetList-horiz {
@@ -970,11 +970,12 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         margin-bottom: 1rem;
         padding: 2.5rem 3rem 0;
         .icon {
-            margin-right: 0.25rem;
+            margin-right: 0.75rem;
+            padding: 0 0.75rem;
         }
         &.top {
             margin-bottom: 1.3rem;
-            padding-bottom: 1rem;
+            padding-bottom: 2.5rem;
             padding-top: 1rem;
         }
     }

@@ -11,8 +11,9 @@
 }
 .custSelect__header .custSelect__header-title {
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     text-transform: uppercase;
+    letter-spacing: 0.125rem;
 }
 .custSelect__wrapper {
     position: relative;
@@ -61,6 +62,11 @@
     letter-spacing: 0.075rem;
     border-left: 0.8rem double #91693c;
 }
+.custSelect__trigger .custSelect__selected_item {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-size: 1.35rem;
+}
 .custSelect__trigger .custSelect__arrow {
     position: relative;
     height: 1.5rem;
@@ -100,8 +106,8 @@
     top: 100%;
     left: 0;
     right: 0;
-    border: 1px solid #91693c;
-    border-bottom: 5px solid #91693c;
+    border: 1px solid #4d59ca;
+    border-bottom: 5px solid #4d59ca;
     border-top: 0;
     border-radius: 0 0 1rem 1rem;
     background: #fff;
@@ -110,6 +116,7 @@
     visibility: hidden;
     pointer-events: none;
     z-index: 2;
+    box-shadow: 1rem 1rem 2.5rem 0.1rem #a2a2a28a;
 }
 .custSelect__options > * + * {
     border-top: 1px solid #d8d8d8;

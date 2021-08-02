@@ -19,7 +19,7 @@ const CustomSelect = (props) => {
     // Find the object that matches the selectedOption.
     const selectedOption = _.find(options, ['id', selectedID]) ?? {
         id: 'any',
-        text: `Select Definition`,
+        text: `Select Related Definition`,
     };
 
     const changeSelected = (event) => {
