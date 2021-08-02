@@ -97,11 +97,6 @@ export function ContentHeader({ siteClass, title, location }) {
                     id="c-content__header__main__wrap"
                     className="c-content__header__main__wrap legacy"
                 >
-                    <h1 className={'c-content__header__main__title'}>
-                        <span className={`icon u-icon__${itemType}`}></span>
-                        {mytitle}
-                    </h1>
-
                     <div className={'c-content__header__breadcrumb breadcrumb'}>
                         {itemType !== 'search' && (
                             <ContentHeaderBreadcrumbs
@@ -111,10 +106,6 @@ export function ContentHeader({ siteClass, title, location }) {
                             />
                         )}
                     </div>
-                    <h5 className={'c-content__header__main__id'}>{itemId}</h5>
-                    <h4 className={'c-content__header__main__sub'}>
-                        {itemData?.subTitle}
-                    </h4>
                 </div>
             </header>
         );
