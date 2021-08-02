@@ -253,13 +253,15 @@
     /*border-top: 2px solid #ddd;*/
 }
 .sui-advEdit-facet-ctrls {
-    position: relative;
     cursor: default;
+    padding: 0.8rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
 }
 .sui-advEdit-facet-ctrls-btns {
-    position: absolute;
+    /* position: absolute;
     top: 0.75rem;
-    right: 1.5rem;
+    right: 1.5rem; */
 }
 .sui-advEdit-facet-ctrls-btns .btn {
     padding: 0.2rem 1rem;
@@ -271,14 +273,14 @@
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child {
     border-radius: 1rem 0 0 1rem !important;
-    font-size: 1.5rem;
+    font-size: 1.85rem;
     padding: 0 1rem;
     text-align: center;
     padding-left: 1.25rem;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1rem 1rem 0 !important;
-    font-size: 1.175rem;
+    font-size: 1.5rem;
     padding-right: 1.25rem;
     border-left-color: transparent;
 }
@@ -314,11 +316,12 @@
 .sui-advEdit-facet-ctrls input {
     border: 1px solid #aaa;
     border-radius: 2rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     padding: 0.1rem 1.25rem;
-    margin: 0.75rem 0 0.5rem 1rem;
-    line-height: 1.6;
+    margin: 0 0 0.5rem 1rem;
+    line-height: 1.85;
     color: #000;
+    width: 16rem;
 }
 /*
 .sui-advEdit-facet-ctrls-btns input::-webkit-input-placeholder {

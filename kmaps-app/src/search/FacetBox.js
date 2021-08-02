@@ -318,6 +318,12 @@ export function FacetBox(props) {
                 id={'sui-advEdit-' + props.id}
             >
                 <div className={'sui-advEdit-facet-ctrls'}>
+                    <FacetControls
+                        onChange={(val) => setSortField(val)}
+                        name={name}
+                        value={sortField}
+                        onClick={handleSortClick}
+                    />
                     <input
                         key={facetSearch}
                         type={'text'}
@@ -326,13 +332,6 @@ export function FacetBox(props) {
                         defaultValue={facetSearch}
                         onKeyDownCapture={handleKey}
                         ref={inputEl}
-                    />
-
-                    <FacetControls
-                        onChange={(val) => setSortField(val)}
-                        name={name}
-                        value={sortField}
-                        onClick={handleSortClick}
                     />
                 </div>
 

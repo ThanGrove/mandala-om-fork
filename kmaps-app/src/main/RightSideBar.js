@@ -22,9 +22,9 @@ export default function RightSideBar() {
             className={`l-content__rightsidebar ${
                 closeButton ? 'openSideBar' : 'closeSideBar'
             }`}
-            maxSize={500}
+            maxSize={580}
             minSize={350}
-            defaultSize={350}
+            defaultSize={420}
         >
             <div className="advanced-search-and-tree">
                 {browseSearch === 'search' && (
