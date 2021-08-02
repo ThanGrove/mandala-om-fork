@@ -291,6 +291,7 @@
         border-color: #ccc;
         border-radius: 0.75rem 0.75rem 0 0;
         background-color: #fff;
+
         &:hover,
         &:active,
         &:focus {
@@ -320,6 +321,8 @@
         background: #fff;
         border: 1px solid #ccc;
         border-radius: 1rem;
+        height: calc(100vh - 25rem);
+
         .kmap-related h3 {
             margin-top: 2rem;
             margin-bottom: 0;
@@ -347,7 +350,7 @@
 
 .c-relplaces-list.container-fluid {
     .c-kmaptree {
-        height: 80vh;
+        // height: 80vh;
         padding: 1.25rem 1rem 2rem 1.5rem;
     }
     .c-featurePager__container.row {
@@ -419,6 +422,29 @@
         font-weight: bold;
         font-size: 1.45rem;
         text-transform: uppercase;
+    }
+}
+
+.c-content__main__kmaps .head-related ~ ul {
+    margin-right: 1rem;
+    margin-left: 0.75rem;
+    list-style-type: none;
+    padding-inline-start: 0;
+    li {
+        /* line-height: 0.75; */
+    }
+    li::before {
+        content: '';
+        display: inline-block;
+        width: 0.6rem;
+        height: 0.6rem;
+        border: 0.15rem solid #888;
+        margin-right: 1rem;
+        position: relative;
+        left: 0.1rem;
+        top: 0.85rem;
+        float: left;
+        transform: rotate(45deg);
     }
 }
 /*

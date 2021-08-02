@@ -17,7 +17,7 @@
     margin-left: 0;
     margin-bottom: 0.75rem;
     position: relative;
-    top: 0.1rem;
+    top: 1rem;
     font-size: 1.35rem;
     .start,
     .end {
@@ -28,8 +28,9 @@
 }
 .c-featurePager__navButtons {
     display: inline-block;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     white-space: nowrap;
+    margin: 1rem 0;
 }
 .c-featurePager__navButtons .icon {
     margin: 0;
@@ -53,7 +54,7 @@
     width: 15px;
 }
 .c-featurePager__navButtons span input {
-    height: 20px;
+    height: 2.5rem;
     position: relative;
     top: -0.05rem;
     margin-left: 1rem;
@@ -73,4 +74,7 @@
 }
 .c-featurePager__itemCount input {
     margin-left: 0.5rem;
+    padding: 0.5rem 0;
+    text-align: center;
+    width: 6rem;
 }

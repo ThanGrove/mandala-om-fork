@@ -34,11 +34,10 @@ ul.fancytree-container {
     width: 22rem;
     transition: width 0.4s;
     transition-delay: 0.5s;
-    height: calc(100vh - 5rem);
-    height: 70vh;
+    height: calc(100vh - 38rem);
 }
 .l-column__related .c-kmaptree:hover {
-    width: 40rem;
+    width: 45rem;
 }
 .c-perspective-select {
     white-space: nowrap;
@@ -93,6 +92,7 @@ ul.fancytree-container {
 .c-kmapleaf {
     max-width: inherit;
     overflow: hidden;
+    line-height: 1.5;
     .toggle-icon {
         display: inline-block;
         margin-right: 0.6rem;
@@ -122,7 +122,7 @@ ul.fancytree-container {
 
 .leafend {
     padding-left: 0.3rem;
-    line-height: 1;
+    line-height: 1.35;
     .toggle-icon::before {
         content: '';
         width: 0.7rem;
