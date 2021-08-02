@@ -88,10 +88,10 @@ export function FeaturePager(props) {
                 <span>Items per page:</span>
                 <NumericInput
                     aria-label="Set number of items per page"
-                    min={1}
+                    min={25}
                     max={100}
-                    size={3}
-                    step={10}
+                    size={5}
+                    step={25}
                     // style={{width: "4em"}}
                     value={props.perPage}
                     onChange={(ps) => {
