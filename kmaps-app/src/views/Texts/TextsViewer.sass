@@ -8,6 +8,13 @@
   height: 100vh
   -webkit-tap-highlight-color: transparent
   flex: none
+  max-width: 140rem
+  margin: 0
+
+  &.astviewer
+    background-color: #fcfcfc
+    padding-right: 0
+    padding-left: 0
 
   .sui-content
     background-color: #eee
@@ -324,7 +331,6 @@
   #shanti-texts-sidebar .tab-content
     padding: 1.25rem 1.5rem
     overflow-y: scroll !important
-    max-height: 54rem
     width: 100%
 
     /* for mobile height
@@ -334,13 +340,13 @@
     border-bottom: 1px solid #aaa
     border-top: none
     position: relative
-    top: 130px
 
   #shanti-texts-body
     padding: 0 0 0 2.5rem
-    margin: 0
-    height: 84vh
-    max-width: 85rem
+    margin: 0 0 2rem
+    min-width: 40rem
+    width: 60%
+    height: calc(100vh - 10rem)
     background-color: white
     box-shadow: inset 0 -0.2rem 5px #ddd
     overflow-y: scroll
@@ -352,12 +358,11 @@
     border-left: 2px solid #ccc
     border-right: 1px solid #d0d0d0
 
-
   #shanti-texts-sidebar
     /* INITIAL CONDITION to prevent showing un-tabbed content */
-    padding: 2rem 0 0
-    height: 84vh !important
-    min-height: 30rem
+    padding: 0
+    min-width: 30rem
+    max-width: 100%
     background-color: #eee
     color: #333
 
@@ -1038,9 +1043,8 @@
   @media screen and (min-width: 768px)
     #shanti-texts-sidebar
       .tab-content
-        max-height: 62rem
         position: relative
-        top: 56px
+        top: 1px
 
       #shanti-texts-sidebar-tabs-tabpane-text_bibl .shanti-texts-field-label
         white-space: nowrap
@@ -1055,10 +1059,12 @@
 
   @media screen and (min-width: 850px)
     #shanti-texts-sidebar .tab-content
-      top: 15px
+
 
   @media screen and (min-width: 992px)
     /* testing these two rulesets is for positioning book reader height */
+    .l-site__wrap.texts
+      margin: 0
 
     .astviewer.texts
       article.main-col
@@ -1075,31 +1081,31 @@
         bottom: 0.1rem
         padding: 0
         margin-bottom: 0
+        margin: 0
 
     .has-tabs.astviewer.texts #shanti-texts-container
       position: absolute
       top: 0.5rem
 
     #shanti-texts-sidebar
-      height: 100%
       padding: 0
-      width: 32%
+      margin-bottom: 2rem
+
 
     #shanti-texts-body
       margin-right: 1.25rem
+      margin-bottom: 2rem
       padding: 3.5rem 1.5rem 0 3.25rem
 
+
     #shanti-texts-sidebar .tab-content
-      position: absolute
-      top: 45px
-      bottom: 0
-      max-height: 100%
       border: 1px solid #ddd
       border-right: 1px solid #d0d0d0
       border-bottom: 1px solid #aaa
       border-top: none
       overflow-y: auto !important
       padding-top: 0
+      height: calc(100vh - 14.5rem)
 
       &::-webkit-scrollbar
         height: 0.7rem
@@ -1196,12 +1202,25 @@
     &.active::before
       color: #555 !important
 
+
+    #shanti-texts-sidebar
+      max-width: 30rem
+
+    #shanti-texts-body
+      min-width: 65%
+
+
+
+
   @media screen and (min-width: 1440px)
     .astviewer.texts #shanti-texts-container
-      margin-left: auto
-      margin-right: auto
-      padding-left: 0
-      padding-right: 0
+      margin: 0
+
+    #shanti-texts-sidebar
+      padding: 0
+      margin-bottom: 2rem
+      max-width: 30%
+
 
   @media print
     div
@@ -1294,3 +1313,8 @@
       position: relative
       top: 2.5rem
       right: 1.5rem
+
+
+
+
+

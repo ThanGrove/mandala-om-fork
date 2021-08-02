@@ -299,11 +299,10 @@ header.terms
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 1rem;
-    padding: 0.5rem 2.5rem 4rem;
+    padding: 0.5rem 1.5rem 4rem;
     font-size: 1.375rem;
-    /* height: 100vh;*/
-    min-height: 70rem;
     position: relative;
+
     > * {
         // --- max-width: 90rem;
     }
@@ -354,16 +353,14 @@ header.terms
 }
 
 .c-nodeHeader-itemHeader {
-    background-color: #a27f1c;
+    /* background-color: #a27f1c;
     color: #fff;
     padding: 0 1rem 1rem 1.5rem;
     margin-top: 0.5rem;
     margin-bottom: -0.25rem;
-    /*margin-left: -0.75rem;*/
     font-size: 1.44rem;
     line-height: 1.4;
-    border-radius: 0.5rem 0.5rem 0 0;
-    display: none;
+    border-radius: 0.5rem 0.5rem 0 0; */
 
     .c-nodeHeader-itemHeader-subType {
         text-transform: capitalize;
@@ -473,7 +470,7 @@ header.terms
 // SEARCH Section ------- move this
 //
 .l-content__rightsidebar {
-    margin: -3.54rem 0 0 0;
+    margin: -4.3rem 0 0 0;
     /* max-width: 45rem;
     min-width: calc(max(25vw, 32rem)); */
     font-size: 1.4rem;
@@ -690,7 +687,7 @@ header.terms
         button {
             color: #fff;
             border: none;
-            padding: 0.3rem 2rem 0.325rem;
+            padding: 0.325rem 2rem 0.35rem;
             display: inline-block;
             .header-icon svg {
                 font-size: 1.95rem;
@@ -1357,4 +1354,12 @@ span.refdate {
     &::after {
         content: ')';
     }
+}
+
+.c-content__main__kmaps .l-site__wrap.texts #shanti-texts-sidebar .tab-content {
+    height: calc(100vh - 28.5rem);
+}
+
+.c-content__main__kmaps .l-site__wrap.texts #shanti-texts-body {
+    height: calc(100vh - 24rem);
 }

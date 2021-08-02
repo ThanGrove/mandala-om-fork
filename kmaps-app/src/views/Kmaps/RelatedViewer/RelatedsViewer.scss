@@ -389,7 +389,7 @@
 }
 .kmap-related,
 .nodeHeader-summary,
-.l-content__main__wrap {
+.astviewer:not(.texts) {
     ul {
         margin-right: 1rem;
         margin-left: 0.75rem;

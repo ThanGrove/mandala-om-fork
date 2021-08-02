@@ -37,7 +37,7 @@ export function RelatedAssetHeader({ type, subtype, header }) {
                     <span className="icon u-icon__arrow-left_2">Return</span>
                 </Link>
             </div>
-            <h5 className="c-nodeHeader-itemHeader">
+            <h2 className="c-nodeHeader-itemHeader">
                 <span className={`icon u-icon__${type}`}> </span>
                 <span className="c-nodeHeader-itemHeader-subType">
                     {' '}
@@ -47,7 +47,7 @@ export function RelatedAssetHeader({ type, subtype, header }) {
                     {' '}
                     {header}{' '}
                 </span>
-            </h5>
+            </h2>
         </>
     );
 }

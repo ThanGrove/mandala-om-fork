@@ -366,7 +366,7 @@ function TextTabs(props) {
                 </a>
             </div>
             <Collapse in={open} onExited={update_icon} onEnter={update_icon}>
-                <Col id={'shanti-texts-sidebar'} md={4}>
+                <Col id={'shanti-texts-sidebar'}>
                     <Tabs
                         id={'shanti-texts-sidebar-tabs'}
                         className={'nav-justified'}
