@@ -1,5 +1,5 @@
 .c-FacetBox--expander.open {
-    max-height: 15rem;
+    max-height: 35rem;
 }
 .c-FacetBox--expander.closed {
     max-height: 0;
@@ -8,6 +8,9 @@
     margin: 0;
     transition: all 0.2s;
 }
+
+/*
 .c-FacetBox--expander.open:hover {
     max-height: 35rem;
 }
+*/
