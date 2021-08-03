@@ -78,7 +78,7 @@ export function FeatureCollection(props) {
             inclGallery = true;
         }
         viewModeDiv = (
-            <div className={'c-buttonGroup__viewMode'} role={'button'}>
+            <div className={'c-buttonGroup__viewMode'}>
                 {/* View Mode:{' '} */}
                 <span className="c-buttonGroup__viewMode-header">
                     Switch View:
