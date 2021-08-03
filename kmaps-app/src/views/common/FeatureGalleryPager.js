@@ -32,12 +32,13 @@ export function FeatureGalleryPager(props) {
             </span>
 
             <span className={'c-featurePager__itemCount'}>
-                <span>Items per page:</span>
+                <span>Items per page::</span>
                 <InputNumber
                     aria-label="Set number of items per page"
-                    min={1}
+                    min={25}
                     max={100}
-                    style={{ width: '4em' }}
+                    size={5}
+                    step={25}
                     value={props.pager.getPageSize()}
                     onChange={(ps) => {
                         props.pager.setPageSize(ps);

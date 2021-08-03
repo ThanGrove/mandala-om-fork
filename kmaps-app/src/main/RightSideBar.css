@@ -305,6 +305,7 @@
 .sui-advEdit-facet-ctrls-btns .btn:active input {
     box-shadow: none !important;
     outline: none !important;
+    font-weight: bold;
 }
 
 .sui-advEdit-facet-ctrls-btns

@@ -37,7 +37,6 @@ button,
 [role='button'] {
     cursor: default !important;
 }
-
 h1,
 .h1,
 h2,
@@ -47,7 +46,6 @@ h3,
     font-weight: 400;
     font-family: $font-family-sans, sans-serif;
 }
-
 .bo,
 .u-bo {
     font-size: 2rem;
@@ -56,35 +54,6 @@ h3,
     font-family: 'Babelstone', 'Jomolhari-ID', 'Jomolhari', 'Noto Sans Tibetan',
         'Tibetan Machine Uni', 'Kailasa', 'Uchen_05', 'Microsoft Himalaya',
         sans-serif !important;
-}
-
-.two-columns {
-    display: flex;
-    padding: 0 0 0 0.5rem;
-}
-.l-site__wrap,
-.l-column__main,
-.l-column__main__wrap,
-.l-content__main,
-.l-content__main__wrap {
-    //height: 100vh; -- causing issues with standalone
-}
-.l-content__main {
-    // height: 100vh; -- causing issues with standalone
-    /*  width: 100vw; */
-    display: flex;
-    margin: 1rem 1.25rem 0 1rem;
-}
-.l-site__wrap > *,
-.l-content__main,
-.l-content__main > *,
-.c-content__header__main {
-    flex: 1;
-}
-
-.l-content__main__wrap {
-    /* max-width: 90rem; */
-    margin: 0 auto;
 }
 /**
 .l-site__wrap ::-webkit-scrollbar {
@@ -132,6 +101,7 @@ div.image-wrapper.center figcaption {
 .c-buttonGroup__viewMode .btn:not(:disabled):not(.disabled) {
     line-height: 2.5rem;
     width: 4rem;
+    margin: 0 0.1rem;
 }
 
 // --- JSON button on kmaps views
@@ -264,35 +234,42 @@ div.image-wrapper.center figcaption {
     background-color: $color-subjects;
 }
 
-// All perspective selects in aside (right and left)
-.c-perspective-select {
-    label {
-        display: block;
-    }
-    select {
-        max-width: 18rem;
-        margin-right: 1rem;
-        margin-bottom: 0.5rem;
-    }
+// --------------------------------------
+// * CONTENT SECTION: LAYOUT
+// --------------------------------------
+.two-columns {
+    display: flex;
+    padding: 0 0 0 0.5rem;
+}
+.l-content__main {
+    display: flex;
+    margin: 1rem 1.25rem 0 1rem;
+}
+.l-site__wrap > *,
+.l-content__main,
+.l-content__main > *,
+.c-content__header__main {
+    flex: 1;
+}
+.l-content__main__wrap {
+    margin: 0 auto 5rem;
 }
 
 // --------------------------------------
-// * CONTENT SECTION: Node Header
+// * KMAPS SECTION
 // --------------------------------------
 
 header.terms + .two-columns .c-content__main__kmaps > * {
     max-width: 90rem;
 }
-
-.custSelect__component {
-    margin-bottom: 2rem;
-}
-
 header.terms
     + .two-columns
     .c-content__main__kmaps
     .c-buttonGroup__viewMode__wrap {
     max-width: 100% !important;
+}
+.custSelect__component {
+    margin-bottom: 2rem;
 }
 
 .c-content__main__kmaps {
@@ -356,15 +333,6 @@ header.terms
 }
 
 .c-nodeHeader-itemHeader {
-    /* background-color: #a27f1c;
-    color: #fff;
-    padding: 0 1rem 1rem 1.5rem;
-    margin-top: 0.5rem;
-    margin-bottom: -0.25rem;
-    font-size: 1.44rem;
-    line-height: 1.4;
-    border-radius: 0.5rem 0.5rem 0 0; */
-
     .c-nodeHeader-itemHeader-subType {
         text-transform: capitalize;
         &::after {
@@ -443,31 +411,6 @@ header.terms
         }
     }
 }
-/*
-@media (min-width: 1150px) {
-    .c-nodeHeader-itemSummary {
-        .featured {
-            float: right;
-            margin: 0 0 0.5rem;
-            & > img {
-                max-width: 24rem;
-            }
-            & > p {
-                max-width: 23rem;
-                margin: 0 0 1rem 2rem;
-            }
-        }
-        .nodeHeader-summary {
-            margin-right: 27rem;
-            padding-top: 0.25rem;
-        }
-        &.nodeHeader-subjectsInfo {
-            .featured {
-            }
-        }
-    }
-}
-*/
 
 //
 // SEARCH Section ------- move this
@@ -506,41 +449,12 @@ header.terms
                 font-weight: bold;
                 border-radius: 0;
                 transition: all 0.35s;
-                /*
-                &:hover::before {
-                    width: 0;
-                    height: 0;
-                    content: '';
-                    display: inline-block;
-                    border-style: solid;
-                    border-width: 0.1rem 0.55rem 0.55rem 0.55rem;
-                    border-color: transparent transparent #ccc;
-                    position: absolute;
-                    bottom: -0.3rem;
-                    left: 50%;
-                    margin-left: -0.4rem;
-                    background: white;
-                }
-                &:hover::after {
-                    width: 100%;
-                    height: 8px;
-                    content: '';
-                    display: inline-block;
-                    border-bottom-color: #ccc;
-                    border-bottom-style: solid;
-                    position: absolute;
-                    bottom: -0.65rem;
-                    left: 0;
-                    background: white;
-                }
-*/
                 &:nth-of-type(2) {
                     width: 38%;
                 }
                 &:last-of-type {
                     border-right: none;
                 }
-
                 &.active#kmaps-tab-tab-places {
                     color: $color-places !important;
                     border-color: $color-places;
@@ -594,6 +508,18 @@ header.terms
 .closeSideBar.l-content__rightsidebar,
 .closeSideBar .l-content__rightsidebar {
     display: none;
+}
+
+// All perspective selects in aside (right and left)
+.c-perspective-select {
+    label {
+        display: block;
+    }
+    select {
+        max-width: 18rem;
+        margin-right: 1rem;
+        margin-bottom: 0.5rem;
+    }
 }
 
 .l-column__search {
@@ -811,10 +737,10 @@ header.terms
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: 85vh;
+            height: 75vh;
             position: relative;
             left: -1rem;
-            top: 1.75rem;
+            top: 5.25rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
@@ -822,7 +748,8 @@ header.terms
             border-left-style: dashed;
             border-color: $color-mandala;
             border-width: 2rem 0 2.5rem 0.1rem;
-            border-radius: 0.05rem 0 0.75rem 0.75rem;
+            border-radius: 0.75rem;
+            border-radius: 0.25rem;
             opacity: 0.25;
             transition: all 0.35s;
         }
@@ -949,38 +876,13 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     padding-top: 1rem;
 }
 .c-view__wrapper.gallery {
-    margin: 2rem 1.5rem 2rem;
+    margin: 0 1.5rem 2rem;
 }
 .react-photo-gallery--gallery {
-    margin-top: 3rem;
 }
 
 header.terms + .two-columns .c-view__wrapper.gallery {
     margin-top: 0;
-}
-
-.c-view {
-    margin: 0;
-    .c-featurePager__container {
-        text-align: center;
-        margin-bottom: 1rem;
-        padding: 2.5rem 3rem 0;
-        .icon {
-            margin-right: 0.75rem;
-            padding: 0 0.75rem;
-        }
-        &.top {
-            margin-bottom: 1.3rem;
-            padding-bottom: 2.5rem;
-            padding-top: 1rem;
-        }
-    }
-}
-.c-view .c-featurePager__container {
-    padding: 1rem 3rem 0;
-}
-
-.c-view .c-featurePager__container:last-of-type {
 }
 
 .c-buttoneGroup__viewMode {
@@ -994,6 +896,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
 .sources .list .c-view {
     margin: 0 2rem 0 0;
 }
+
 .list .c-view {
     margin: 0 1rem 0 0.5rem;
     .card {
@@ -1064,8 +967,10 @@ header.terms + .two-columns .c-view__wrapper.gallery {
 
     .title {
         padding-top: 0.5rem;
-        /*  margin-left: -2rem; */
+        line-height: 2.5rem;
+        font-size: 1.75rem;
         .header {
+            color: #000;
             &:hover {
                 color: red;
             }
@@ -1187,13 +1092,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         display: none;
     }
 
-    .title {
-        line-height: 2.25rem;
-    }
-    .title .header {
-        color: #000;
-        font-size: 1.4rem;
-    }
     .feature-types span {
         font-size: 1.1rem;
         font-style: italic;
@@ -1215,9 +1113,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
     // Ancestors (and captions) for kmaps in list view
     .ancestors,
     .caption {
-        /* margin-left: 5.5rem; */
-        font-size: 1.3rem;
-        /* white-space: nowrap; */
         margin-left: 3rem;
         span {
             display: inline-block;
