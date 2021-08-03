@@ -53,13 +53,13 @@ export function ImageMetadata(props) {
     return (
         <>
             <Row className={'l-top'}>
-                <Col className={'l-first col-sm-12 col-md-6'}>
+                <Col className={'l-first col-sm-12 col-xl-6'}>
                     <h5 className={'c-image__colhead'}>Mandala Collections</h5>
                     <div>
                         <CollectionField solrdoc={solrdoc} />
                     </div>
                 </Col>
-                <Col className={'col-sm-12 col-md-6'}>
+                <Col className={'col-sm-12 col-xl-6'}>
                     <h5 className={'c-image__colhead'}>Classifications</h5>
                     <div className={'c-kmaps-list'}>
                         <KmapsFields
@@ -70,7 +70,7 @@ export function ImageMetadata(props) {
                 </Col>
             </Row>
             <Row className={'l-meta'}>
-                <Col className={'l-first col-sm-12 col-md-6'}>
+                <Col className={'l-first col-sm-12 col-xl-6'}>
                     <ImageRow
                         key={capkey}
                         cls={'c-image__caprow'}
@@ -117,7 +117,7 @@ export function ImageMetadata(props) {
                         );
                     })}
                 </Col>
-                <Col className={'l-second col-sm-12 col-md-6'}>
+                <Col className={'l-second col-sm-12 col-xl-6'}>
                     {IMAGE_FIELDS.map((fdstr, i) => {
                         let pts = fdstr.split('|');
                         if (pts.length < 3) {
