@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { closeStore } from '../hooks/useCloseStore';
 import { browseSearchToggle } from '../hooks/useBrowseSearchToggle';
 //import { AdvancedToggle } from './MainSearchToggle/AdvancedToggle';
-import './RightSideBar.css';
+import './RightSideBar.scss';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 const TreeNav = React.lazy(() => import('./TreeNav'));
 const SearchAdvanced = React.lazy(() => import('../search/SearchAdvanced'));

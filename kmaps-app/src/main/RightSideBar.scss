@@ -1,4 +1,6 @@
-/* ADVANCED SEARCH */
+@import '../index-variables';
+@import '../css/fonts/shanticon/style.css';
+
 .sui-advTop {
     text-align: center;
     color: #fff;
@@ -147,15 +149,7 @@
 }
 
 .sui-advBox-recent .sui-advEdit {
-    /*   padding-right: 0;
-    padding-left: 0.5rem; */
 }
-
-/*.sui-advTermRem {*/
-/*    display: inline-block;*/
-/*    cursor: pointer;*/
-/*    margin-right: 4px;*/
-/*}*/
 
 .sui-advValueRem:hover {
     color: #668eec;
@@ -173,13 +167,7 @@
     border-width: 0.2rem 0.1rem 0.2rem 0.3rem;
     border-radius: 0.5rem;
 }
-
 .l-column__search .sui-advTermRem {
-    /*   display: inline-block;
-    cursor: pointer;
-    margin-left: 0.2rem;
-    position: absolute;
-    left: -2rem; */
 }
 .sui-advTermRem::before {
     color: red;
@@ -187,7 +175,6 @@
 .sui-advTermRem:hover::before {
     color: blue;
 }
-
 .sui-advTerm:empty {
     display: none;
 }
@@ -199,7 +186,6 @@
     position: relative;
     padding-bottom: 0.2rem;
 }
-
 .sui-advTerm div > span:first-child::before {
     color: #999;
     font-size: 1.35rem;
@@ -212,21 +198,11 @@
 .sui-advTerm div > span:first-child:hover::before {
     color: red;
 }
-
 .sui-advTerm div .facetItem,
 .sui-advTerm div > span:last-child::before {
     display: none;
 }
 .sui-advEdit {
-    /* display: none;
-    background-color: #fafafa;
-    text-align: left;
-    border: 1px solid #e0e0e0;
-    border-bottom-width: 0.2rem;
-    border-radius: 0 0 2rem 2rem;
-    font-size: 1.25rem;
-    color: #000;
-    margin: 1.5rem 0.5rem 0;  */
 }
 .sui-advEdit {
     /* display: none;*/
@@ -246,7 +222,6 @@
     transition: max-height 0.65s, border 0.25s, margin 0.25s;
     max-height: 0;
 }
-
 .sui-advBox:first-child .sui-advEdit {
     font-size: 1.4rem;
     text-transform: capitalize;
@@ -256,32 +231,30 @@
     cursor: default;
     padding: 0.8rem 1.5rem;
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-start;
 }
 .sui-advEdit-facet-ctrls-btns {
-    /* position: absolute;
-    top: 0.75rem;
-    right: 1.5rem; */
 }
 .sui-advEdit-facet-ctrls-btns .btn {
-    padding: 0.2rem 1rem;
     font-size: 1.3rem;
+    line-height: 1.4;
     border-color: #aaa;
     border-style: solid;
     background-color: #eee;
     color: #000;
+    white-space: nowrap;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child {
     border-radius: 1rem 0 0 1rem !important;
     font-size: 1.85rem;
-    padding: 0 1rem;
+    padding: 0 1rem 0 1.25rem;
     text-align: center;
     padding-left: 1.25rem;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1rem 1rem 0 !important;
     font-size: 1.5rem;
-    padding-right: 1.25rem;
+    padding: 0.2rem 1.25rem 0 1rem;
     border-left-color: transparent;
 }
 .sui-advEdit-facet-ctrls-btns .btn:hover,
@@ -322,26 +295,26 @@
     margin: 0 0 0.5rem 1rem;
     line-height: 1.85;
     color: #000;
-    width: 18rem;
+    width: 19rem;
 }
-/*
+
 .sui-advEdit-facet-ctrls-btns input::-webkit-input-placeholder {
     color: #aaa;
-    font-style:italic;
+    font-style: italic;
 }
 .sui-advEdit-facet-ctrls-btns input::-moz-placeholder {
     color: #aaa;
-    font-style:italic;
-    opacity:1;
+    font-style: italic;
+    opacity: 1;
 }
 .sui-advEdit-facet-ctrls-btns input:-ms-input-placeholder {
     color: #aaa;
-    font-style:italic;
+    font-style: italic;
 }
 .sui-advEdit-facet-ctrls-btns input:-moz-placeholder {
     color: #aaa;
-    font-style:italic;
-    opacity:1;
+    font-style: italic;
+    opacity: 1;
 }
 .sui-advEdit-facet-ctrls-btns input:focus::-webkit-input-placeholder {
     color: transparent;
@@ -355,7 +328,6 @@
 .sui-advEdit-facet-ctrls-btns input:focus:-moz-placeholder {
     color: transparent;
 }
-*/
 
 .sui-advEdit-facet-ctrls-btns input:focus,
 .sui-advEdit-facet-ctrls-btns input:focus-visible {
@@ -445,9 +417,7 @@
 }
 
 .sui-adv-facetlist {
-    /* max-height: 15rem;
-    transition: max-height .75s; */
-    padding: 0;
+    padding: 0 0 1rem;
     border-radius: 1.25rem;
     border-radius: 0 0 1.25rem 1.25rem;
 }

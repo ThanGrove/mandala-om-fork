@@ -1,4 +1,5 @@
 @import '../../index-variables';
+@import '../../css/fonts/shanticon/style.css';
 
 ul.fancytree-container {
     height: auto !important;
@@ -43,7 +44,6 @@ ul.fancytree-container {
 .c-perspective-select {
     white-space: nowrap;
     font-size: 1.2rem;
-    margin-top: 0.75rem;
     label {
         display: inline-block;
         font-weight: bold;
