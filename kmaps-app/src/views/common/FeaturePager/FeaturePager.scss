@@ -82,11 +82,18 @@
     }
 }
 .c-view .c-featurePager__container {
-    padding: 0 3rem 0;
+    padding: 0 3rem;
     display: flex;
     justify-content: space-between;
     flex-flow: row wrap;
 }
 .c-view .c-featurePager__container > * {
     margin-bottom: 1.5rem;
+}
+
+.c-view__wrapper.list .c-featurePager__container {
+    padding: 0 2rem 0 2.5rem;
+}
+.c-view__wrapper.gallery .c-featurePager__container {
+    padding: 0 1.5rem 0 1.5rem;
 }

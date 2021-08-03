@@ -27,13 +27,14 @@ ul.fancytree-container {
     margin: 0.45rem 0 0;
     padding-top: 1rem;
     padding-left: 2rem;
-    border-width: 0.075rem 0.1rem 0.3rem 0;
+    border-width: 0.075rem 0.1rem 0.3rem 0.1rem;
     border-top-left-radius: 0;
 }
 .l-column__related .c-kmaptree {
     width: 23.5rem;
-    transition: width 0.4s;
-    transition-delay: 0.35s;
+    margin-left: 1rem;
+    transition: width 0.35s;
+    transition-delay: 0.3s;
     height: calc(100vh - 38rem);
 }
 .l-column__related .c-kmaptree:hover {
