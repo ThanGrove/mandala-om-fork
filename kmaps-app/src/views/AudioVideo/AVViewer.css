@@ -87,13 +87,13 @@ div#av-trscrpt-wrapper {
 }
 
 #av-meta-row .nav-tabs a {
-    line-height: 3rem;
+    line-height: 3.75rem;
     font-size: 1.65rem;
     width: 50%;
     text-align: center;
     letter-spacing: 0.175rem;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
     background-color: rgb(88, 170, 180);
 }
 
@@ -220,7 +220,7 @@ div#sui-transSrcGo input:focus {
 div#sui-transSrcGo .icon.search {
     position: absolute;
     left: 1.7rem;
-    top: 0.95rem;
+    top: 0.8rem;
     font-size: 1.95rem;
     color: #999;
 }
