@@ -37,13 +37,17 @@
 
 #sui-av,
 #av-meta-row {
-    overflow: visible;
+    /* overflow: visible; */
     margin: 1rem auto 0;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
-.c-content__main__kmaps #av-meta-row {
-    margin: 0;
+#av-meta-row {
+    margin: 0 auto 5rem;
 }
+.c-content__main__kmaps #av-meta-row {
+    /*  margin: 0 0 5rem; */
+}
+
 #sui-viewerSide {
     padding-left: 2.5rem;
     max-width: 90rem;
@@ -79,10 +83,6 @@ div#av-trscrpt-wrapper {
 #av-player-row .sui-sourceText,
 #sui-viewerSide p {
     overflow-wrap: break-word;
-}
-
-#av-meta-row {
-    margin: 0 auto;
 }
 
 #av-meta-row .nav-tabs a {

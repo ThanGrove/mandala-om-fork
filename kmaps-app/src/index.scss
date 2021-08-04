@@ -287,13 +287,25 @@ header.terms
     height: 100%;
     //   height: calc(100vh - 11rem);
     //   overflow-y: scroll;
+    &.c-collection {
+        h1.title {
+            font-size: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .c-buttonGroup__viewMode {
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+    }
 
     > * {
         // --- max-width: 90rem;
     }
     > h3 {
-        margin-left: 1rem;
-        margin-top: 0.75rem;
+        margin-left: 2rem;
+        margin-top: 1.75rem;
+        font-size: 1.75rem;
     }
     > .nav-tabs {
         margin-top: 1.5rem;
@@ -581,8 +593,8 @@ header.terms
             margin-left: 2.5rem;
             color: #f0f0f0;
             padding: 0;
-            line-height: 2.3;
-            font-size: 1.85rem;
+            line-height: 2.4;
+            font-size: 1.75rem;
             letter-spacing: 0.075rem;
         }
         .treeNav-header__closeButton {
@@ -863,12 +875,11 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
         padding-right: 1.5rem;
     }
     > span {
-        display: block;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
         font-weight: bold;
         letter-spacing: 0.0575rem;
         text-transform: uppercase;
-        margin-left: 2rem;
+        margin-left: 0.5rem;
     }
     .facetItem {
         font-size: 1.8rem;
