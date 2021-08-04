@@ -309,7 +309,7 @@ header.terms
     }
     > .nav-tabs {
         margin-top: 1.5rem;
-        padding-left: 2rem;
+        padding-left: 1.25rem;
         border-bottom: none;
         a {
             font-size: 1.25rem;
@@ -867,10 +867,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 
 .sui-facetList-horiz {
     padding-right: 1.5rem;
-    margin: 0 2rem 2rem;
-    padding-bottom: 1rem;
-    // border-bottom: 2px solid #ccc;
-    border-bottom: 0.2rem dashed rgba(77, 89, 201, 0.5);
+    margin: 1rem 2rem 2rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 0.2rem dashed rgba(77, 89, 201, 0.5);
     > div {
         display: inline;
         padding-right: 1.5rem;

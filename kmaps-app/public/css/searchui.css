@@ -207,7 +207,7 @@
 .sui-legacy {
     position: absolute;
     left: 0;
-    top: 52;
+    top: 0;
     min-height: calc(100% - 77px);
     width: calc(100% - 24px);
     background-color: #ddd;
@@ -673,7 +673,7 @@ color: #a4baec;
 .sui-termSpeak {
     border-radius: 16px;
     background-color: #f8f8f8;
-    border: 1px-solid #999;
+    border: 1px solid #999;
     padding: 4px;
     color: #000;
 }
@@ -758,7 +758,7 @@ color: #a4baec;
 .sui-imageMid {
     max-width: 900px;
     margin: 8px auto 8px auto;
-    padding-left: 0 50px 0 50px;
+    padding: 0 50px;
     width: 100%;
 }
 .sui-images {
@@ -1240,7 +1240,7 @@ color: #a4baec;
     z-index: 1001;
     border: 1px solid #999;
     background-color: #fff;
-    box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 .sui-pageLab {
     font-weight: 400;

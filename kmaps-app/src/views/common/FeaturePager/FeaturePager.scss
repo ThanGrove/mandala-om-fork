@@ -39,13 +39,14 @@
             }
         }
         span input {
-            height: 2.5rem;
+            line-height: 1.75;
             position: relative;
             top: -0.05rem;
             margin-left: 1rem;
             margin-right: 0.85rem;
             text-align: center;
             border: 1px solid #ccc;
+            border-radius: 0.35rem;
         }
         .c-pager__counterWrapper {
             margin-right: 1rem;
@@ -67,6 +68,7 @@
         margin: 0 auto;
         padding-left: 1rem;
         padding-right: 1rem;
+
         .react-numeric-input {
             padding-right: 2rem;
             padding-left: 0.5rem;
@@ -76,6 +78,8 @@
             padding: 0.5rem 0;
             text-align: center;
             width: 6rem;
+            border-radius: 0.35rem;
+            line-height: 1.75;
         }
     }
 }
