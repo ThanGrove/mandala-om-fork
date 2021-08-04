@@ -2,18 +2,18 @@
 @import '../../../css/fonts/shanticon/style.css';
 
 .c-featurePager__container {
-    text-align: end;
-    margin: 0;
+    margin: 0 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    padding: 0 3rem;
 
-    &.top {
-        margin-bottom: 1rem;
-    }
     &.bottom {
-        margin-top: 2rem;
+        margin-top: 3rem;
     }
-
     .c-featurePager__resultSummary {
         white-space: nowrap;
+        margin-bottom: 1.5rem;
         .start,
         .end {
             display: inline-block;
@@ -23,9 +23,10 @@
     }
     .c-featurePager__navButtons {
         white-space: nowrap;
+        margin-bottom: 1.5rem;
         .icon {
-            margin: 0;
-            padding: 0.2rem 1rem;
+            margin: 0 0.75rem 0 0;
+            padding: 0 0.75rem;
             color: #888;
             cursor: pointer;
             font-size: 90%;
@@ -44,7 +45,7 @@
         }
         .c-pager__counterWrapper {
             margin-right: 1rem;
-
+            margin-bottom: 1.5rem;
             span {
                 padding: 0;
                 margin: 0;
@@ -69,29 +70,6 @@
             }
         }
     }
-}
-
-.c-view {
-    margin: 0;
-    .c-featurePager__container {
-        margin-bottom: 1rem;
-        padding: 2.5rem 3rem 0;
-        .icon {
-            margin-right: 0.75rem;
-            padding: 0 0.75rem;
-        }
-        &.top {
-        }
-    }
-}
-.c-view .c-featurePager__container {
-    padding: 0 3rem;
-    display: flex;
-    justify-content: space-between;
-    flex-flow: row wrap;
-}
-.c-view .c-featurePager__container > * {
-    margin-bottom: 1.5rem;
 }
 
 .c-view__wrapper.list .c-featurePager__container {

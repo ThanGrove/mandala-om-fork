@@ -24,7 +24,7 @@ export default function RightSideBar() {
             }`}
             maxSize={580}
             minSize={350}
-            defaultSize={420}
+            defaultSize={380}
         >
             <div className="advanced-search-and-tree">
                 {browseSearch === 'search' && (

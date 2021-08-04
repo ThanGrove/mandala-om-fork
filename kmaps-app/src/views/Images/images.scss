@@ -25,6 +25,7 @@
     background-color: #222222;
     border-bottom: 10px solid #b49c59;
     width: 100%;
+    border-radius: 1rem;
 
     .c-image__viewer-row {
         /*  padding-top: 35px;*/
@@ -104,6 +105,7 @@
     .c-image__caption {
         color: white;
         text-align: center;
+        padding-bottom: 2rem;
     }
     .c-image__title {
         margin-top: 0px;
@@ -126,8 +128,8 @@
         overflow-x: auto;
         overflow-y: hidden;
         white-space: nowrap;
-        margin: 2rem 0 1.25rem;
-        max-width: 81vw;
+        margin: 2rem auto 1.25rem;
+        max-width: 50vw;
         .thumb {
             display: inline-block;
             height: 100px;
@@ -158,8 +160,9 @@
 
 .c-image__metadata {
     font-size: 1.25rem;
-    max-width: 120rem;
+    max-width: 130rem;
     margin: 8px auto 9rem;
+    padding: 0;
     hr {
         border-top: 2px solid #dddddd;
     }
@@ -206,13 +209,14 @@
     }
     .l-meta.row {
         min-height: 400px;
-        margin: 2rem 1rem 0;
+        margin: 2rem 0 0;
         border: 1px solid #ddd;
         border-top: 4px solid #b49c59;
+        border-bottom: 4px solid #b49c59;
         color: #000000;
         background-color: white;
-        padding: 2rem 1rem 5rem;
-        box-shadow: 0 24rem 32rem 20rem rgba(150, 150, 150, 0.1);
+        padding: 2rem 0 5rem;
+        box-shadow: 0 20rem 29rem 20rem rgba(50, 50, 50, 0.08);
     }
     .c-image__metatitle {
         color: #777;

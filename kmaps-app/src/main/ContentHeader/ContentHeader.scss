@@ -3,7 +3,7 @@
 // --------------------------------------
 .c-content__header__main {
     padding: 0.7rem;
-    height: 4.5rem;
+    height: 5rem;
     color: #fff;
     border-top: 0.6rem double #fff;
     border-bottom: 0.6rem double #fff;
@@ -37,7 +37,7 @@
 // Breadcrumbs
 .c-content__header__breadcrumb {
     background-color: transparent;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     padding: 0;
     margin: 0.325rem 0 0.25rem 3rem;
 }
@@ -45,11 +45,11 @@
 .c-content__header__breadcrumb,
 .c-content__header__breadcrumb .breadcrumb-item {
     color: #fff;
-    line-height: 1;
+    line-height: 1.45;
 }
 
 .c-content__header__breadcrumb .breadcrumb-item {
-    padding: 0 0 0.175rem;
+    padding: 0;
     border-bottom: 1px solid transparent;
     margin-left: 2rem;
     transition: border 0.3s;
@@ -66,10 +66,11 @@
     font-weight: bold;
     text-decoration: none;
     text-transform: uppercase;
+    letter-spacing: 0.095rem;
     margin-right: 0;
     margin-left: 1rem;
     font-size: 1.6rem;
-    line-height: 0.75;
+    line-height: 1.25;
     &:hover {
         cursor: default;
         text-decoration: none;

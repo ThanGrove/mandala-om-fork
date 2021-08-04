@@ -212,7 +212,7 @@ export default function SearchAdvanced(props) {
                             </IconContext.Provider>
                         </span>
                         <span className={'header-label-count'}>
-                            Total Results
+                            View Results
                             <Badge pill variant={'secondary'}>
                                 {searchData.response?.numFound}
                             </Badge>
@@ -220,14 +220,16 @@ export default function SearchAdvanced(props) {
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <a
-                        href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
-                    >
-                        {'<< '} Total Results{' '}
-                        <Badge pill variant={'secondary'}>
-                            {searchData.response?.numFound}
-                        </Badge>
-                    </a>
+                    <span className={'header-label-count'}>
+                        <a
+                            href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
+                        >
+                            View Results
+                            <Badge pill variant={'secondary'}>
+                                {searchData.response?.numFound}
+                            </Badge>
+                        </a>
+                    </span>
                 )}
                 <button
                     onClick={handleCloseButton}
