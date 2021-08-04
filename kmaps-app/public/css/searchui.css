@@ -875,7 +875,7 @@ color: #a4baec;
 }
 .sui-transTab {
     display: inline-block;
-    background-color: #555;
+    background-color: #404040;
     height: 6rem;
     width: calc(16.6667% - 1px);
     text-align: center;
@@ -885,9 +885,10 @@ color: #a4baec;
     cursor: pointer;
     padding-top: 1.8rem;
     border-right: 1px solid #ccc;
+    transition: background-color 0.4s;
 }
 .sui-transTab:hover {
-    background-color: #444;
+    background-color: #111;
 }
 .av-trscrpt-ctrls .sui-transTab:first-child {
     font-size: 2.65rem;
@@ -908,6 +909,7 @@ color: #a4baec;
     border-radius: 0 0 6px 6px;
     display: none;
     width: 180px;
+    padding-bottom: 1rem;
     font-size: 13px;
     z-index: 1000;
     top: 6rem;
@@ -915,7 +917,7 @@ color: #a4baec;
 .sui-transSrc {
     background-color: #999;
     display: none;
-    height: 7rem;
+    height: 8rem;
     width: calc(100% - 1px);
     text-align: right;
 }
@@ -936,6 +938,7 @@ color: #a4baec;
     color: #333;
     font-weight: 600;
     font-style: italic;
+    font-size: 1.4rem;
 }
 .sui-transCheck {
     float: right;
@@ -1011,9 +1014,10 @@ color: #a4baec;
     padding: 0.1rem 0 0 8px;
     background-color: #999;
     margin: 0;
+    transition: background-color 0.4s;
 }
 .sui-transPlay:hover {
-    background-color: #888;
+    background-color: #404040;
 }
 .sui-transPlay-duration {
     margin-left: 1.35rem;
