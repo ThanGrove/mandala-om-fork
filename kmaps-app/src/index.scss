@@ -867,9 +867,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 
 .sui-facetList-horiz {
     padding-right: 1.5rem;
-    margin: 0 3rem 2rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid #ccc;
+    margin: 0 2rem 2rem;
+    padding-bottom: 1rem;
+    // border-bottom: 2px solid #ccc;
+    border-bottom: 0.2rem dashed rgba(77, 89, 201, 0.5);
     > div {
         display: inline;
         padding-right: 1.5rem;
@@ -885,7 +886,7 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
         font-size: 1.8rem;
         margin-left: 1.75rem;
         position: relative;
-        top: 0.2rem;
+        top: 0;
     }
 }
 

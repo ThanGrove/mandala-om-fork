@@ -231,6 +231,8 @@
     .c-card__content-field:first-of-type
     > .icon::before {
     display: inline-block; // adding the icon on the first list item only
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
 }
 
 // setup the icon at start of related asset lists
