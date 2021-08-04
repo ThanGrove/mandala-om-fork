@@ -956,7 +956,7 @@ export default class AudioVideo {
                 <div id='sui-transTab2' class='sui-transTab col' title='Previous line'>&#xe602</div>
                 <div id='sui-transTab3' class='sui-transTab col' title='Same line'>&#xe632</div>
                 <div id='sui-transTab4' class='sui-transTab col' title='Next line'>&#xe604</div>
-                <div id='sui-transTab5' class='sui-transTab col' style='border:none' title='Search transcript'>&#xe623</div>
+                <div id='sui-transTab5' class='sui-transTab col' title='Search transcript'>&#xe623</div>
                 <div id='sui-transOps' class='sui-transOps'></div>
                 <div id='sui-transSrc' class='sui-transSrc'>
                     <div class="transSrcWrap ${browser}">

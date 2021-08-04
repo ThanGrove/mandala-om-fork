@@ -53,13 +53,13 @@ export function ImageMetadata(props) {
     return (
         <>
             <Row className={'l-top'}>
-                <Col className={'l-first col-sm-12 col-xl-6'}>
+                <Col className={'l-first col-sm-12 col-md-6'}>
                     <h5 className={'c-image__colhead'}>Mandala Collections</h5>
                     <div>
                         <CollectionField solrdoc={solrdoc} />
                     </div>
                 </Col>
-                <Col className={'col-sm-12 col-xl-6'}>
+                <Col className={'col-sm-12 col-md-6'}>
                     <h5 className={'c-image__colhead'}>Classifications</h5>
                     <div className={'c-kmaps-list'}>
                         <KmapsFields
