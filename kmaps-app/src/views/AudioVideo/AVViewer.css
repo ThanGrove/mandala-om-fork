@@ -350,11 +350,11 @@ div#sui-transSrcGo .icon.clear {
 }
 
 div#meta-details {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
 }
 div#meta-details p {
     margin: 0 0 0.5rem 26rem;
-    line-height: 1.25;
+    line-height: 1.5;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
 div#meta-details p strong {
@@ -362,7 +362,7 @@ div#meta-details p strong {
     display: inline-block;
     text-transform: uppercase;
     letter-spacing: 0.0175rem;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     margin: 0 0 0 -26rem;
     padding: 0.3rem 0 0;
 }
