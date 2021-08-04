@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls } from './utils';
+import { getProject } from '../views/common/utils';
 
 const solrurls = getSolrUrls();
 
@@ -16,7 +17,7 @@ const solrurls = getSolrUrls();
  * @param query
  * @returns {Promise<any>}
  */
-const getSolrData = async (query) => {
+const getSolrData = async (query, filtered) => {
     if (!(query.index in solrurls) || !query.params) {
         console.warn(
             'The query object sent to useSolr() did not have proper index or params values: ',
@@ -30,6 +31,18 @@ const getSolrData = async (query) => {
         myparams['wt'] = 'json';
     }
 
+    // Filter by project if filtered boolean is true
+    const project = getProject();
+    if (query.index === 'assets' && filtered && project) {
+        let q = myparams['q'];
+        if (!q.includes('projects_ss:')) {
+            q += ` AND projects_ss:${project}`;
+        }
+        myparams['q'] = q;
+    }
+    console.log('query params: ', myparams);
+
+    // Make request
     const request = {
         adapter: jsonpAdapter,
         callbackParamName: 'json.wrf',
@@ -74,13 +87,13 @@ function processFacets(facetdata) {
  * @param byPass {boolean} : (optional) whether to byPass or not (set to true if it depends on another query, i.e. send that query's isLoading value)
  * @returns {any}
  */
-export function useSolr(qkey, queryobj, byPass = false) {
+export function useSolr(qkey, queryobj, byPass = false, filtered = false) {
     // console.log("useSolr: qkey = ", qkey, " queryobj = ", queryobj);
     // split qkey by '-' and pass array as key
     if (typeof qkey === 'string') {
         qkey = qkey.split('-');
     }
-    return useQuery(qkey, () => getSolrData(queryobj), {
+    return useQuery(qkey, () => getSolrData(queryobj, filtered), {
         enabled: !byPass,
     });
 }

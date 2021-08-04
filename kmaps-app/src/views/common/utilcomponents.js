@@ -8,6 +8,7 @@ import useMandala from '../../hooks/useMandala';
 import MandalaSkeleton from './MandalaSkeleton';
 import { HtmlWithPopovers } from './MandalaMarkup';
 import Tab from 'react-bootstrap/Tab';
+import { useSolr } from '../../hooks/useSolr';
 
 export function CollectionField(props) {
     const solrdoc = props?.solrdoc;
@@ -276,4 +277,34 @@ export function AssetTitle({ kmasset }) {
         mylang = 'zh';
     }
     return <h1 className={`title ${mytype} ${mylang}`}>{kmasset.title[0]}</h1>;
+}
+
+export function SAProjectName({ pid }) {
+    const querySpecs = {
+        index: 'assets',
+        params: {
+            q: `asset_type:projects AND project_id_s:${pid}`,
+            rows: 10,
+        },
+    };
+    const {
+        isLoading: isProjLoading,
+        data: projData,
+        isError: isProjError,
+        error: projError,
+    } = useSolr(`mandala-projects-${pid}`, querySpecs, false, false);
+
+    if (isProjLoading) {
+        return '...';
+    }
+
+    if (isProjError) {
+        console.log('Error loading project: ' + pid, projError);
+        return '';
+    }
+
+    if (projData?.docs?.length > 0) {
+        return projData.docs[0].title[0];
+    }
+    return '';
 }
