@@ -103,6 +103,10 @@ div.image-wrapper.center figcaption {
     line-height: 2.5rem;
     width: 4rem;
     margin: 0 0.1rem;
+    transition: border-radius 0.3s;
+    &:hover {
+        border-radius: 1rem;
+    }
 }
 
 // --- JSON button on kmaps views
@@ -351,13 +355,13 @@ header.terms
         color: #fff;
     }
 }
-
+/*
 .av .c-nodeHeader-itemHeader {
     background-color: $color-audio-video;
     margin-bottom: -1.8rem;
     margin-left: -0.2rem;
 }
-
+*/
 .c-nodeHeader-itemSummary {
     max-width: 90rem;
     .featured {
@@ -624,7 +628,7 @@ header.terms
             background-color: #3f49b1;
             border: none;
             opacity: 0.9;
-            padding: 0.35rem 1rem 0.25rem 0.75rem;
+            padding: 0.35rem 1.25rem 0.25rem 0.75rem;
             display: inline-block;
             border-radius: 2rem;
             border: 1px dashed #999;
@@ -814,8 +818,8 @@ header.terms
 
 // gallery display buttons for view options
 .c-buttonGroup__viewMode__wrap {
-    background: #fcfcfc;
-    padding: 1rem 0.5rem 4rem 0.5rem;
+    background: #fff;
+    padding: 2rem 0.5rem 4rem 0.5rem;
     border: 0.1rem solid #ccc;
     border-radius: 1rem;
     margin-bottom: 3rem;
@@ -850,9 +854,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 }
 
 .sui-facetList-horiz {
-    margin-bottom: 0;
     padding-right: 1.5rem;
-    margin-left: 1rem;
+    margin: 0 3rem 2rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid #ccc;
     > div {
         display: inline;
         padding-right: 1.5rem;
@@ -890,13 +895,19 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 }
 
 // View Styles
+
 .c-view__wrapper {
-    border: none;
-    padding-top: 1rem;
-    background: white;
+    /*   border: none;
+    padding-top: 2.5rem;
+    background: #fff;
+    margin: 1rem 1.5rem;
+    border: 1px solid #ccc;
+    border-radius: 1rem; */
 }
 .c-view__wrapper.gallery {
     margin: 0 1.5rem 2rem;
+    padding-top: 0;
+    border: none;
 }
 .react-photo-gallery--gallery {
 }
@@ -927,7 +938,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         margin-left: 4rem !important;
     }
     .u-icon__plus {
-        color: $color-terms;
+        color: $color-mandala;
         opacity: 0.4;
         display: inline-block;
         margin-right: 0;

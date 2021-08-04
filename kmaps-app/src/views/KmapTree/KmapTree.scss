@@ -28,14 +28,14 @@ ul.fancytree-container {
     border-top-left-radius: 0;
 }
 .l-column__related .c-kmaptree {
-    width: 23.5rem;
+    width: 23rem;
     margin-left: 1rem;
-    transition: width 0.35s;
-    transition-delay: 0.3s;
+    transition: width 0.5s;
+    transition-delay: 0.4s;
     height: calc(100vh - 38rem);
 }
 .l-column__related .c-kmaptree:hover {
-    width: 55rem;
+    width: 50rem;
 }
 .c-perspective-select {
     white-space: nowrap;
@@ -110,6 +110,7 @@ ul.fancytree-container {
     }
     &.selected > .c-kmapnode > .label {
         border-bottom: 0.3rem solid #cca843;
+        line-height: 2.25;
     }
     &.selected > .c-kmapnode > .toggle-icon::before {
         background-color: red;
