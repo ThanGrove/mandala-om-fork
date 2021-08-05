@@ -7,6 +7,7 @@
 }
 #av-viewer h1 {
     font-size: 1.85rem;
+    margin-left: 2rem;
 }
 .av .c-columnContent__main {
     overflow-x: hidden;
@@ -37,13 +38,17 @@
 
 #sui-av,
 #av-meta-row {
-    overflow: visible;
+    /* overflow: visible; */
     margin: 1rem auto 0;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
-.c-content__main__kmaps #av-meta-row {
-    margin: 0;
+#av-meta-row {
+    margin: 0 auto 5rem;
 }
+.c-content__main__kmaps #av-meta-row {
+    /*  margin: 0 0 5rem; */
+}
+
 #sui-viewerSide {
     padding-left: 2.5rem;
     max-width: 90rem;
@@ -81,18 +86,14 @@ div#av-trscrpt-wrapper {
     overflow-wrap: break-word;
 }
 
-#av-meta-row {
-    margin: 0 auto;
-}
-
 #av-meta-row .nav-tabs a {
-    line-height: 3rem;
+    line-height: 3.75rem;
     font-size: 1.65rem;
     width: 50%;
     text-align: center;
     letter-spacing: 0.175rem;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem;
+    border-top-left-radius: 0.75rem;
+    border-top-right-radius: 0.75rem;
     background-color: rgb(88, 170, 180);
 }
 
@@ -198,12 +199,12 @@ div#sui-transSrcGo input {
     flex-grow: 1;
     min-width: 12rem;
     border: 1px solid #d0d0d0 !important;
-    border-radius: 1.8rem;
+    border-radius: 2.25rem;
     background-clip: padding-box;
     font-size: 1.85rem;
-    height: 3.5rem;
+    line-height: 1;
     margin: 0 2rem 0 0;
-    padding: 0 4rem;
+    padding: 0 4rem 0 4.5rem;
     overflow: auto;
     vertical-align: middle;
     box-shadow: 0 0.5rem 1rem #aaa inset;
@@ -219,8 +220,8 @@ div#sui-transSrcGo input:focus {
 div#sui-transSrcGo .icon.search {
     position: absolute;
     left: 1.7rem;
-    top: 0.65rem;
-    font-size: 1.75rem;
+    top: 0.8rem;
+    font-size: 1.95rem;
     color: #999;
 }
 .firefox div#sui-transSrcGo .icon.search {
@@ -262,7 +263,7 @@ div#sui-transSrcGo button.search .icon::before {
 
 div#sui-transSrcGo .icon.clear {
     position: absolute;
-    top: 0.4rem;
+    top: 0.8rem;
     right: 3.25rem;
     z-index: 10;
     color: #ccc;
@@ -350,11 +351,11 @@ div#sui-transSrcGo .icon.clear {
 }
 
 div#meta-details {
-    font-size: 1.25rem;
+    font-size: 1.75rem;
 }
 div#meta-details p {
     margin: 0 0 0.5rem 26rem;
-    line-height: 1.25;
+    line-height: 1.5;
     font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif, shanticon;
 }
 div#meta-details p strong {
@@ -362,7 +363,7 @@ div#meta-details p strong {
     display: inline-block;
     text-transform: uppercase;
     letter-spacing: 0.0175rem;
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     margin: 0 0 0 -26rem;
     padding: 0.3rem 0 0;
 }

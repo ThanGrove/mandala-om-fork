@@ -287,17 +287,29 @@ header.terms
     height: 100%;
     //   height: calc(100vh - 11rem);
     //   overflow-y: scroll;
+    &.c-collection {
+        h1.title {
+            font-size: 2rem;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        .c-buttonGroup__viewMode {
+            top: 1.5rem;
+            right: 1.5rem;
+        }
+    }
 
     > * {
         // --- max-width: 90rem;
     }
     > h3 {
-        margin-left: 1rem;
-        margin-top: 0.75rem;
+        margin-left: 2rem;
+        margin-top: 1.75rem;
+        font-size: 1.75rem;
     }
     > .nav-tabs {
         margin-top: 1.5rem;
-        padding-left: 2rem;
+        padding-left: 1.25rem;
         border-bottom: none;
         a {
             font-size: 1.25rem;
@@ -581,8 +593,8 @@ header.terms
             margin-left: 2.5rem;
             color: #f0f0f0;
             padding: 0;
-            line-height: 2.3;
-            font-size: 1.85rem;
+            line-height: 2.4;
+            font-size: 1.75rem;
             letter-spacing: 0.075rem;
         }
         .treeNav-header__closeButton {
@@ -855,26 +867,26 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 
 .sui-facetList-horiz {
     padding-right: 1.5rem;
-    margin: 0 3rem 2rem;
-    padding-bottom: 0.75rem;
-    border-bottom: 2px solid #ccc;
+    margin: 1rem 2rem 2rem;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 0.2rem dashed rgba(77, 89, 201, 0.5);
     > div {
         display: inline;
         padding-right: 1.5rem;
     }
     > span {
-        display: block;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
         font-weight: bold;
         letter-spacing: 0.0575rem;
         text-transform: uppercase;
-        margin-left: 2rem;
+        margin-left: 0.5rem;
     }
     .facetItem {
         font-size: 1.8rem;
         margin-left: 1.75rem;
         position: relative;
-        top: 0.2rem;
+        top: 0;
     }
 }
 
@@ -1034,7 +1046,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         min-height: 3rem;
         font-size: 1.25rem;
         /*  min-width: 40vw;*/
-        background-color: #fcfcfc;
+        background-color: #fff;
         overflow: visible;
         padding: 0.25rem 0.5rem 0.5rem !important;
         .shanticon-audio-video::before {

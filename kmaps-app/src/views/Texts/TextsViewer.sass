@@ -15,7 +15,7 @@
     background-color: #fcfcfc
     padding-right: 0
     padding-left: 0
-    max-height: 82vh;
+    height: calc(100vh - 50rem)
 
   .sui-content
     background-color: #eee
@@ -24,8 +24,10 @@
     top: 0
     height: inherit
 
-  #sui-results, .astviewer, .astviewer.texts #shanti-texts-container
-    height: inherit !important
+  #sui-results,
+  .astviewer,
+  .astviewer.texts #shanti-texts-container
+  height: calc(100vh - 50rem)
 
 
 
@@ -59,20 +61,20 @@
   #shanti-texts-body figure.image
     margin: 0 1rem
 
-  #shanti-texts-body figure.image figcaption
-    margin: 1.1rem 0 0
-    font-family: Verdana, Arial, sans-serif
-    font-size: 1.08rem
-    font-weight: bold
-    color: #555
-    text-align: center
-    line-height: 1.4rem
-    letter-spacing: 0
+    figcaption
+      margin: 1.1rem 0 0
+      font-family: Verdana, Arial, sans-serif
+      font-size: 1.08rem
+      font-weight: bold
+      color: #555
+      text-align: center
+      line-height: 1.4rem
+      letter-spacing: 0
 
-  #shanti-texts-body figure.image.center figcaption
+    &.center figcaption
     margin-bottom: 1rem
 
-  #shanti-texts-body figure.image img
+    img
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8)
 
   h2.image-header
@@ -98,24 +100,27 @@
     right: 8px
     color: #777
 
-  .close-iframe a
+    a
     color: #777
-
-  .close-iframe a:hover
+    &:hover
     color: red
 
   .full-page-frame
     background-color: #fff
 
   /* Embeds in Texts: images, av, texts, etc */
-  figure.image, div.assetplayer, div.image-wrapper
+  figure.image,
+  div.assetplayer,
+  div.image-wrapper
     margin: 0.5rem 1.5rem 0
     width: auto
 
-  figure.image img, div.assetplayer iframe
+  figure.image img,
+  div.assetplayer iframe
     box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8)
 
-  figure figcaption, div.assetplayer p.avcaption
+  figure figcaption,
+  div.assetplayer p.avcaption
     margin: 0.5rem 0 0
     font-family: Verdana, Arial, sans-serif
     font-size: 1.1rem
@@ -125,7 +130,8 @@
     line-height: 1.1rem
     letter-spacing: 0
 
-  figure figcaption.bo, div.assetplayer p.caption.bo
+  figure figcaption.bo,
+  div.assetplayer p.caption.bo
     font-size: 1.75rem
     font-weight: normal
 
@@ -136,7 +142,8 @@
     margin: -2px 6px 0 20px
     vertical-align: middle !important
 
-  .tib, .bo
+  .tib,
+  .bo
     letter-spacing: normal !important
 
   .link-external
@@ -173,12 +180,14 @@
 
   /* shanticon-agent */
 
-  .field_book_editor .shanti-texts-field-label:before, .field_book_translator .shanti-texts-field-label:before
+  .field_book_editor .shanti-texts-field-label:before,
+  .field_book_translator .shanti-texts-field-label:before
     content: '\e675'
 
   /* shanticon-user-check */
 
-  .field_dc_date_publication_year .shanti-texts-field-label:before, .field_dc_date_orginial_year .shanti-texts-field-label:before
+  .field_dc_date_publication_year .shanti-texts-field-label:before,
+  .field_dc_date_orginial_year .shanti-texts-field-label:before
     content: '\e60c'
 
   /* shanticon-events */
@@ -347,7 +356,7 @@
     margin: 0 0 2rem
     min-width: 40rem
     width: 60%
-    height: calc(100vh - 10rem)
+    height: calc(100vh - 12rem)
     background-color: white
     box-shadow: inset 0 -0.2rem 5px #ddd
     overflow-y: scroll
@@ -1107,7 +1116,7 @@
       border-top: none
       overflow-y: auto !important
       padding-top: 0
-      height: calc(100vh - 14.5rem)
+      height: calc(100vh - 16.5rem)
 
       &::-webkit-scrollbar
         height: 0.7rem
