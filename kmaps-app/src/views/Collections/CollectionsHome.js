@@ -1,17 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSolr } from '../../hooks/useSolr';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { FeatureCollection } from '../common/FeatureCollection';
 import { getProject } from '../common/utils';
 import { SAProjectName } from '../common/utilcomponents';
+import AssetHomeCollection from '../common/AssetHomeCollection';
 
 export function CollectionsHome(props) {
+    const [startRow, setStartRow] = useState(0);
+    const [pageNum, setPageNum] = useState(1);
+    const [pageSize, setPageSize] = useState(30);
+
     const querySpecs = {
         index: 'assets',
         params: {
             q: `asset_type:collections`,
             sort: 'title_sort_s asc',
-            rows: 1000,
+            start: startRow,
+            rows: pageSize,
         },
     };
     const {
@@ -19,7 +25,20 @@ export function CollectionsHome(props) {
         data: collsData,
         isError: isCollsError,
         error: collsError,
-    } = useSolr('all-collections', querySpecs, false, true);
+    } = useSolr(
+        `all-collections-${pageSize}-${startRow}`,
+        querySpecs,
+        false,
+        true
+    );
+
+    const numFound = collsData?.numFound ? collsData?.numFound : 0;
+    const hasMore =
+        collsData?.numFound && (pageNum + 1) * pageSize < collsData.numFound;
+    useEffect(() => {
+        console.log('setting start row: ' + pageNum, pageSize);
+        setStartRow(pageNum * pageSize);
+    }, [pageNum, pageSize]);
 
     let mscope = 'all of Mandala';
     const current_project = getProject();
@@ -39,10 +58,20 @@ export function CollectionsHome(props) {
         <div>
             <h1>All Collections</h1>
             <p>
-                This page shows all the asset collections and subcollections for
-                the {mscope} project:
+                This page now shows all the asset collections and subcollections
+                for the {mscope} project:
             </p>
-            <FeatureCollection docs={collsData.docs} />
+            <FeatureCollection
+                docs={collsData.docs}
+                assetCount={collsData.numFound}
+                viewMode={'deck'}
+                page={pageNum}
+                setPage={setPageNum}
+                perPage={pageSize}
+                setPerPage={setPageSize}
+                isPreviousData={false}
+                hasMore={hasMore}
+            />
         </div>
     );
 }

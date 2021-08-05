@@ -68,6 +68,7 @@ export function FeaturePager(props) {
                 </span>
                 <span
                     onClick={() => {
+                        console.log('I am clicked', props);
                         if (!props.isPreviousData && props.hasMore) {
                             props.setPage((old) => old + 1);
                         }
