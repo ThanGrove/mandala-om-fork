@@ -38,7 +38,7 @@ export function CollectionsHome(props) {
         setStartRow(pageNum * pageSize);
     }, [pageNum, pageSize]);
 
-    let mscope = 'all of Mandala';
+    let mscope = 'complete Mandala';
     const current_project = getProject();
     if (current_project) {
         mscope = <SAProjectName pid={current_project} />;
