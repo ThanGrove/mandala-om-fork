@@ -103,6 +103,7 @@ div.image-wrapper.center figcaption {
     line-height: 2.5rem;
     width: 4rem;
     margin: 0 0.1rem;
+    transform: scale(0.8);
     transition: border-radius 0.3s;
     &:hover {
         border-radius: 1rem;
@@ -257,7 +258,8 @@ div.image-wrapper.center figcaption {
     flex: 1;
 }
 .l-content__main__wrap {
-    margin: 0 auto 5rem;
+    margin: 0 auto;
+    padding-bottom: 5rem;
 }
 
 // --------------------------------------
@@ -281,12 +283,13 @@ header.terms
     background-color: #fcfcfc;
     border: 1px solid #ccc;
     border-radius: 1rem;
-    padding: 0.5rem 1.5rem 4rem 2rem;
+    padding: 0.5rem 1.5rem 3rem 2rem;
     font-size: 1.375rem;
     position: relative;
     height: 100%;
-    //   height: calc(100vh - 11rem);
-    //   overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+
     &.c-collection {
         h1.title {
             font-size: 2rem;
@@ -376,6 +379,55 @@ header.terms
 */
 .c-nodeHeader-itemSummary {
     max-width: 90rem;
+    &.nodeHeader-placesInfo {
+        & + div {
+            clear: both;
+            max-width: 100%;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+
+            .nav-tabs {
+                padding-left: 0.5rem;
+                border-bottom: 0.8rem double $color-places;
+                margin: 0 1.5rem;
+                border-radius: 0.5rem;
+
+                .nav-link {
+                    text-transform: uppercase;
+                    border: 0.1rem solid #ccc;
+                    background: white;
+                    border-radius: 1rem 1rem 0 0;
+                    letter-spacing: 0.125rem;
+                    font-weight: bold;
+                    font-size: 1.2rem;
+                    padding: 1rem 2.5rem 0.4rem;
+                    transition: all 0.3s;
+
+                    &.active {
+                        border-top: 0.3rem solid $color-places;
+                        padding: 0.75rem 2.5rem 0.5rem;
+                    }
+                }
+            }
+            .tab-content {
+                border: 8px double $color-places;
+                border-width: 0.8rem 0.5rem;
+                border-radius: 1rem;
+                min-height: 50rem;
+
+                #place-kmap-tabs-tabpane-map {
+                    padding: 0;
+                }
+
+                #place-kmap-tabs-tabpane-names,
+                #place-kmap-tabs-tabpane-location,
+                #place-kmap-tabs-tabpane-ids {
+                    padding: 0.75rem 1.5rem 3rem 2.25rem;
+                }
+            }
+        }
+    }
     .featured {
         float: left;
         margin: 0;
@@ -388,12 +440,13 @@ header.terms
             max-width: 24rem;
         }
         & > p {
-            font-size: 1.2rem;
+            font-size: 1.55rem;
             max-width: 23rem;
-            margin: 0 0 1rem 0.5rem;
-            line-height: 1.25;
+            margin: 0 0 1rem 0.85rem;
+            line-height: 1.2;
             font-style: italic;
-            letter-spacing: 0.0175rem;
+            letter-spacing: 0.0375rem;
+            font-family: 'GB Garamond', serif;
         }
     }
     .nodeHeader-summary {
@@ -775,7 +828,7 @@ header.terms
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: 75vh;
+            height: calc(100vh - 16rem);
             position: relative;
             left: -1rem;
             top: 5.25rem;
@@ -785,7 +838,7 @@ header.terms
             border-style: solid;
             border-left-style: dashed;
             border-color: $color-mandala;
-            border-width: 2rem 0 2.5rem 0.1rem;
+            border-width: 2rem 0 2rem 0.1rem;
             border-radius: 0.75rem;
             border-radius: 0.25rem;
             opacity: 0.25;
@@ -1179,7 +1232,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         }
 
         a {
-            color: #333;
+            //  color: #333;
             font-style: italic;
         }
 
