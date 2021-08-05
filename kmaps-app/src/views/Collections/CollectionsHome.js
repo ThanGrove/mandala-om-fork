@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSolr } from '../../hooks/useSolr';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { FeatureCollection } from '../common/FeatureCollection';
@@ -6,12 +6,17 @@ import { getProject } from '../common/utils';
 import { SAProjectName } from '../common/utilcomponents';
 
 export function CollectionsHome(props) {
+    const [startRow, setStartRow] = useState(0);
+    const [pageNum, setPageNum] = useState(1);
+    const [pageSize, setPageSize] = useState(30);
+
     const querySpecs = {
         index: 'assets',
         params: {
             q: `asset_type:collections`,
             sort: 'title_sort_s asc',
-            rows: 1000,
+            start: startRow,
+            rows: pageSize,
         },
     };
     const {
@@ -19,9 +24,21 @@ export function CollectionsHome(props) {
         data: collsData,
         isError: isCollsError,
         error: collsError,
-    } = useSolr('all-collections', querySpecs, false, true);
+    } = useSolr(
+        `all-collections-${pageSize}-${startRow}`,
+        querySpecs,
+        false,
+        true
+    );
 
-    let mscope = 'all of Mandala';
+    const numFound = collsData?.numFound ? collsData?.numFound : 0;
+    const hasMore =
+        collsData?.numFound && (pageNum + 1) * pageSize < collsData.numFound;
+    useEffect(() => {
+        setStartRow(pageNum * pageSize);
+    }, [pageNum, pageSize]);
+
+    let mscope = 'complete Mandala';
     const current_project = getProject();
     if (current_project) {
         mscope = <SAProjectName pid={current_project} />;
@@ -33,16 +50,28 @@ export function CollectionsHome(props) {
 
     if (isCollsError) {
         console.log('Error loading all collections: ', collsError);
+        collsData.docs = [];
+        collsData.numFound = 0;
     }
 
     return (
         <div>
             <h1>All Collections</h1>
             <p>
-                This page shows all the asset collections and subcollections for
-                the {mscope} project:
+                This page now shows all the asset collections and subcollections
+                for the {mscope} project:
             </p>
-            <FeatureCollection docs={collsData.docs} />
+            <FeatureCollection
+                docs={collsData.docs}
+                assetCount={collsData.numFound}
+                viewMode={'deck'}
+                page={pageNum}
+                setPage={setPageNum}
+                perPage={pageSize}
+                setPerPage={setPageSize}
+                isPreviousData={false}
+                hasMore={hasMore}
+            />
         </div>
     );
 }

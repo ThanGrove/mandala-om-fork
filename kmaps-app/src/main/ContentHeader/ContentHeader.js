@@ -54,6 +54,9 @@ export function ContentHeader({ siteClass, title, location }) {
         ? itemData.title[0]
         : 'No Title';
 
+    if (window.location.pathname === '/collections') {
+        mytitle = 'All Collections';
+    }
     // console.log('item data', queryID(queryType, itemId), itemData);
     // Handle an Error
     if (isItemError) {
@@ -69,7 +72,8 @@ export function ContentHeader({ siteClass, title, location }) {
     // What to return if the SOLR query returned a hit
     if (itemData) {
         // If nothing found
-        if (itemData?.response?.numFound === 0) {
+        if (itemData?.response?.numFound === 0 && itemId) {
+            // console.log('no item data item id: ' + itemId);
             return (
                 <AltContentHeader
                     domain={itemType}

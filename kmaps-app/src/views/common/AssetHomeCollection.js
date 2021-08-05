@@ -15,14 +15,14 @@ export function AssetHomeCollection(props) {
     const query = {
         index: 'assets',
         params: {
-            q: `asset_type: ${asset_type} and -asset_subtype:page`,
+            q: `asset_type: ${asset_type} AND -asset_subtype:page`,
             sort: 'title_sort_s asc',
             start: startRow,
             rows: pageSize,
         },
     };
 
-    const solrq = useSolr(`asset-${asset_type}-all`, query);
+    const solrq = useSolr(`asset-${asset_type}-all`, query, false, true);
     const newNumFound = solrq?.numFound;
 
     let view_mode = 'deck';

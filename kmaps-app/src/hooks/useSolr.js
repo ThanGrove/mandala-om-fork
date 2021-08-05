@@ -40,7 +40,6 @@ const getSolrData = async (query, filtered) => {
         }
         myparams['q'] = q;
     }
-    console.log('query params: ', myparams);
 
     // Make request
     const request = {
