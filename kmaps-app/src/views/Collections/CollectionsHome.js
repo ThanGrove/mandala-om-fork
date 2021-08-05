@@ -4,7 +4,6 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
 import { FeatureCollection } from '../common/FeatureCollection';
 import { getProject } from '../common/utils';
 import { SAProjectName } from '../common/utilcomponents';
-import AssetHomeCollection from '../common/AssetHomeCollection';
 
 export function CollectionsHome(props) {
     const [startRow, setStartRow] = useState(0);
@@ -36,7 +35,6 @@ export function CollectionsHome(props) {
     const hasMore =
         collsData?.numFound && (pageNum + 1) * pageSize < collsData.numFound;
     useEffect(() => {
-        console.log('setting start row: ' + pageNum, pageSize);
         setStartRow(pageNum * pageSize);
     }, [pageNum, pageSize]);
 
@@ -52,6 +50,8 @@ export function CollectionsHome(props) {
 
     if (isCollsError) {
         console.log('Error loading all collections: ', collsError);
+        collsData.docs = [];
+        collsData.numFound = 0;
     }
 
     return (
