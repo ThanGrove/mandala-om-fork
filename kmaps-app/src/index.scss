@@ -396,7 +396,6 @@ header.terms
                 .nav-link {
                     text-transform: uppercase;
                     border: 0.1rem solid #ccc;
-                    background: white;
                     border-radius: 1rem 1rem 0 0;
                     letter-spacing: 0.125rem;
                     font-weight: bold;
@@ -405,8 +404,10 @@ header.terms
                     transition: all 0.3s;
 
                     &.active {
+                        border-color: #aaa;
                         border-top: 0.3rem solid $color-places;
                         padding: 0.75rem 2.5rem 0.5rem;
+                        background-color: #fff;
                     }
                 }
             }
