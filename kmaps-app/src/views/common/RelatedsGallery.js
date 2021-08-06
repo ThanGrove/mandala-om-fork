@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useRouteMatch, Redirect } from 'react-router-dom';
 import { FeatureCollection } from './FeatureCollection';
 import { useKmapRelated } from '../../hooks/useKmapRelated';
@@ -32,6 +32,11 @@ export default function RelatedsGallery({ baseType }) {
         page,
         perPage
     );
+
+    // If page has been updated by previous relateds viewer (e.g. images), set it back to 0 when new related asset (e.g. sources) is chosen.
+    useEffect(() => {
+        setPage(0);
+    }, [type]);
 
     if (isRelatedLoading) {
         return <span>Relateds Gallery Skeleton</span>;
