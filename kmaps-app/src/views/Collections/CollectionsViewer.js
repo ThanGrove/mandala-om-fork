@@ -134,6 +134,10 @@ export function CollectionsViewer(props) {
         setNumFound(items?.numFound);
     }, [items?.numFound]);
 
+    useEffect(() => {
+        console.log('sort mode:', sortMode);
+    }, [sortMode]);
+
     let coll_paths = [];
 
     // Set page Info (header and breadcrumbs) based on collsolr returned
@@ -371,7 +375,7 @@ function CollectionSortModeSelector({ sortMode, setSort }) {
         setSort(newSortVal);
     };
 
-    const sortByVals = ['Title:collitems', 'Date:node_created'];
+    const sortByVals = ['Title:title_sort_s', 'Date:node_created'];
     const sortOrderVals = ['Asc', 'Desc'];
     return (
         <div className={'c-buttonGroup__sortMode'}>
