@@ -314,7 +314,9 @@ function DetailModal(props) {
 
 function createAssetViewURL(avuid, asset_type, location) {
     if (asset_type === 'collections') {
-        return `/${avuid.replace(/\-/g, '/')}`;
+        return `/${avuid
+            .replace(/\-/g, '/')
+            .replace('audio/video', 'audio-video')}`;
     }
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {

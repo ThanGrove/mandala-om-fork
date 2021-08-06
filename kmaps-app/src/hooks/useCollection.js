@@ -1,6 +1,15 @@
 import { useSolr } from './useSolr';
 const QUERY_BASE = 'kmassets';
 
+/**
+ * Hook to get metadata about a collection. Does not return items in the collection
+ * Takes an asset type, e.g. "images" or "audio-video", and the NID for the collection
+ *
+ * @param asset_type
+ * @param nid
+ * @returns {*}
+ */
+
 const useCollection = (asset_type, nid) => {
     const querySpecs = {
         index: 'assets',

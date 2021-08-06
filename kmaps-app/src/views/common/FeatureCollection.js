@@ -21,15 +21,16 @@ import { DropdownButton } from 'react-bootstrap';
 //  2. viewMode path id
 //
 
+// ndg8f added recognition of a props.sorter JSX component of selects with states for determining sort order
+// See CollectionViewer.js as example
+
 const DEFAULT_VIEWMODE = 'deck'; //  deck or gallery or list
-const DEFAULT_SORTMODE = 'title:asc';
 
 export function FeatureCollection(props) {
     const params = useParams();
     // console.log("FeatureCollection: params: ", params);
     const { viewMode: paramsViewMode } = params;
     const [viewMode, setViewMode] = useState(DEFAULT_VIEWMODE);
-    const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
 
     // let determine the requested viewMode from props or from params.
     const requestedViewMode = paramsViewMode ? paramsViewMode : props.viewMode;
@@ -75,20 +76,12 @@ export function FeatureCollection(props) {
 
     let inclGallery = viewMode === 'gallery' ? true : false;
     let viewModeDiv = null;
-    let sortModeDiv = null;
 
     if (props?.docs && props.docs.length > 0) {
         const atype = props.docs[0]?.asset_type;
         if (atype && 'audio-video|images'.includes(atype)) {
             inclGallery = true;
         }
-
-        sortModeDiv = (
-            <FeatureCollectionSortModeSelector
-                sortMode={sortMode}
-                setSort={setSortMode}
-            />
-        );
 
         viewModeDiv = (
             <div className={'c-buttonGroup__viewMode'}>
@@ -116,7 +109,7 @@ export function FeatureCollection(props) {
     }
     return (
         <div className={'c-buttonGroup__viewMode__wrap'}>
-            {sortModeDiv}
+            {props?.sorter}
             {viewModeDiv}
             {props.showSearchFilters && <FeatureFilters />}
             {viewer}
@@ -177,56 +170,5 @@ function FeatureCollectionViewModeSelector(props) {
                 {listLabel}
             </ToggleButton>
         </ToggleButtonGroup>
-    );
-}
-
-function FeatureCollectionSortModeSelector({ sortMode, setSort }) {
-    const { sortBy, sortOrder } = sortMode.split(':');
-    const sortChange = (me) => {
-        console.log(me);
-    };
-
-    const sortByVals = ['Title', 'Date', 'Creator'];
-    const sortOrderVals = ['Asc', 'Desc'];
-    return (
-        <div className={'c-buttonGroup__sortMode'}>
-            <span className="c-buttonGroup__sortMode-header">Sort By:</span>
-            <select
-                className="c-featureCollection-sortBy-select"
-                onChange={sortChange}
-            >
-                {sortByVals.map((v, i) => {
-                    const optval = v.toLowerCase();
-                    const selme = optval === sortBy;
-                    return (
-                        <option
-                            key={`sortby-val-${i}`}
-                            value={optval}
-                            selected={selme}
-                        >
-                            {v}
-                        </option>
-                    );
-                })}
-            </select>
-            <select
-                className="c-featureCollection-sort-order"
-                onChange={sortChange}
-            >
-                {sortOrderVals.map((v, i) => {
-                    const optval = v.toLowerCase();
-                    const selme = optval === sortBy;
-                    return (
-                        <option
-                            key={`sortby-val-${i}`}
-                            value="{optval}"
-                            selected={selme}
-                        >
-                            {v}
-                        </option>
-                    );
-                })}
-            </select>
-        </div>
     );
 }

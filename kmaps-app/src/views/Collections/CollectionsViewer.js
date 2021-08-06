@@ -30,13 +30,18 @@ export function CollectionsViewer(props) {
         isError: isCollError,
         error: collError,
     } = useCollection(asset_type, asset_id);
+
     const collsolr = colldata?.numFound === 1 ? colldata.docs[0] : false;
+    const DEFAULT_SORTMODE = 'title_sort_s asc';
 
     // Set up state variables for pager
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(100);
     const [numFound, setNumFound] = useState(0);
+
+    // Set up sort mode state
+    const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
 
     // On Load One time Use Effect to clear previous page and set type
     /*useEffect(() => {
@@ -50,12 +55,12 @@ export function CollectionsViewer(props) {
         params: {
             fq: ['asset_type:' + asset_type, '-asset_subtype:page'],
             q: 'collection_nid_path_is:' + asset_id,
-            sort: 'title_sort_s asc',
+            sort: sortMode,
             start: startRow,
             rows: pageSize,
         },
     };
-    const qkey = 'collection-' + asset_type + '-' + asset_id;
+    const qkey = `collection-${asset_type}-${asset_id}-${sortMode}`;
     const {
         isLoading: isItemsLoading,
         data: items,
@@ -65,9 +70,9 @@ export function CollectionsViewer(props) {
 
     const loadingState = isCollLoading || isItemsLoading;
 
-    const solrq = items?.docs ? items.docs : [];
+    const collitems = items?.docs ? items.docs : [];
     //if (items?.numFound && !isNaN(items?.numFound)) { setNumFound(items.numFound); }
-    //console.log("collections solr doc", solrq);
+    //console.log("collections solr doc", collitems);
 
     // Create the Pager
     const pager = {
@@ -129,12 +134,6 @@ export function CollectionsViewer(props) {
         setNumFound(items?.numFound);
     }, [items?.numFound]);
 
-    // console.log(solrq);
-    // Get Coll Nids in Collection Path for Breadcrumbs
-    const collnids =
-        solrq?.docs && solrq.docs?.length > 0
-            ? solrq.docs[0].collection_nid_path_is
-            : [];
     let coll_paths = [];
 
     // Set page Info (header and breadcrumbs) based on collsolr returned
@@ -260,7 +259,7 @@ export function CollectionsViewer(props) {
         return <NotFoundPage type={asset_type + ' collection'} id={asset_id} />;
     }
 
-    // console.log('solrq', solrq);
+    // console.log('collitems', collitems);
     // console.log(collsolr);
 
     const colltitle =
@@ -269,6 +268,10 @@ export function CollectionsViewer(props) {
                   collsolr.asset_subtype
               } Collection`
             : false;
+
+    const sorter = (
+        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+    );
 
     // Return the Container with the Collection page
     return (
@@ -336,16 +339,73 @@ export function CollectionsViewer(props) {
                         {atypeLabel} Items in This Collection
                     </h3>
                     <FeatureCollection
-                        docs={solrq}
+                        docs={collitems}
                         numFound={numFound}
                         pager={pager}
                         viewMode={view_mode}
                         inline={false}
                         loadingState={loadingState}
                         className={'c-collection__items'}
+                        sorter={sorter}
                     />
                 </div>
             </section>
         </>
+    );
+}
+
+function CollectionSortModeSelector({ sortMode, setSort }) {
+    const SORTBYID = 'coll-sortby';
+    const SORTORDERID = 'coll-sortorder';
+    let { sortBy, sortOrder } = sortMode.split(' ');
+    const sortChange = (sel) => {
+        let newSortVal = sortMode;
+        const selid = sel.target.id;
+        if (selid === SORTBYID) {
+            const sortpts = sortMode.split(' ');
+            newSortVal = sel.target.value + ' ' + sortpts[1];
+        } else if (selid === SORTORDERID) {
+            const sortpts = sortMode.split(' ');
+            newSortVal = sortpts[0] + ' ' + sel.target.value;
+        }
+        setSort(newSortVal);
+    };
+
+    const sortByVals = ['Title:collitems', 'Date:node_created'];
+    const sortOrderVals = ['Asc', 'Desc'];
+    return (
+        <div className={'c-buttonGroup__sortMode'}>
+            <span className="c-buttonGroup__sortMode-header">Sort By:</span>
+            <select
+                id={SORTBYID}
+                className="c-featureCollection-sortBy-select"
+                onChange={sortChange}
+                defaultValue={sortBy}
+            >
+                {sortByVals.map((v, i) => {
+                    let [alabel, avalue] = v.split(':');
+                    return (
+                        <option key={`sortby-val-${i}`} value={avalue}>
+                            {alabel}
+                        </option>
+                    );
+                })}
+            </select>
+            <select
+                id={SORTORDERID}
+                className="c-featureCollection-sort-order"
+                onChange={sortChange}
+                defaultValue={sortOrder}
+            >
+                {sortOrderVals.map((v, i) => {
+                    const optval = v.toLowerCase();
+                    return (
+                        <option key={`sortby-val-${i}`} value={optval}>
+                            {v}
+                        </option>
+                    );
+                })}
+            </select>
+        </div>
     );
 }
