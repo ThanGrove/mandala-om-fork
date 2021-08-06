@@ -12,6 +12,7 @@ export default function RelatedsGallery({ baseType }) {
     let { path } = useRouteMatch();
     const [perPage, setPerPage] = useState(100);
     const [page, setPage] = useState(0); // Start will always be page * perPage
+    const start = page * perPage;
     const {
         isLoading: isRelatedLoading,
         data: relatedData,
@@ -21,7 +22,7 @@ export default function RelatedsGallery({ baseType }) {
     } = useKmapRelated(
         queryID(baseType, id),
         type,
-        page,
+        start,
         perPage,
         definitionID
     );
@@ -29,7 +30,7 @@ export default function RelatedsGallery({ baseType }) {
         relatedData,
         queryID(baseType, id),
         type,
-        page,
+        start,
         perPage
     );
 
@@ -70,6 +71,7 @@ export default function RelatedsGallery({ baseType }) {
     }
     // Give a nice title.
     const title = type !== 'all' ? `Related ${type}` : 'All Related Items';
+
     return (
         <FeatureCollection
             docs={docs}
