@@ -25,7 +25,7 @@ export default function PlacesRelSubjectsViewer() {
         return <MandalaSkeleton />;
     }
     return (
-        <div>
+        <div class={'places--related-subjects'}>
             <PlacesFeatureTypes parent={kmap} />
             <PlacesRelSubjects children={kmap?._childDocuments_} />
         </div>

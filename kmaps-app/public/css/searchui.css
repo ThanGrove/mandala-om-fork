@@ -893,6 +893,7 @@ color: #a4baec;
     z-index: 1000;
     top: 6rem;
 }
+
 .sui-transSrc {
     background-color: #999;
     display: none;
@@ -905,8 +906,43 @@ color: #a4baec;
     cursor: default;
 }
 .sui-transRow:hover {
-    background-color: #f5f5f5;
+    background-color: #888;
+    color: #fff;
 }
+.sui-transRow:first-of-type {
+    color: #000;
+    line-height: 2.2;
+}
+.sui-transRow:first-of-type:hover {
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.sui-transCheck {
+    color: #ccc;
+    float: right;
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: default;
+}
+.sui-transRow:hover .sui-transCheck {
+    color: #fff !important;
+}
+.sui-transRow:hover .sui-transCheck.trans-opts-close {
+    color: #888 !important;
+}
+.sui-transRow:hover .sui-transCheck:hover {
+    color: red !important;
+}
+
+.sui-transRow:first-of-type .sui-transCheck {
+    position: absolute;
+    top: -0.4rem;
+    right: 1.15rem;
+    float: none;
+    font-size: 2rem;
+}
+
 .sui-transOps .sui-transRow:first-child {
     font-size: 1.1rem;
     text-transform: uppercase;
@@ -920,20 +956,7 @@ color: #a4baec;
     font-size: 1.5rem;
     cursor: default;
 }
-.sui-transCheck {
-    float: right;
-    color: #ccc;
-    font-size: 1.25rem;
-    cursor: default;
-}
-.trans-opts-close {
-    font-size: 1.5rem;
-    color: #aaa;
-    font-style: normal;
-}
-.trans-opts-close:hover {
-    color: red;
-}
+
 .sui-transMinSeg {
     background-color: #fff;
     padding: 0 0 0 8px;

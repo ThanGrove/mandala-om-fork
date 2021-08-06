@@ -90,15 +90,14 @@
     &.selected > span:not(.icon) {
     }
     &.c-related__link--home {
-        padding-top: 0.2rem;
-        padding-bottom: 0.2rem;
+        padding-top: 0.65rem;
+
         span:not(.icon) {
             position: relative;
             left: 0.2rem;
         }
         &:hover {
-            padding-top: 0.2rem;
-            padding-bottom: 0.2rem;
+            padding-top: 0.65rem;
         }
     }
     &:hover {
@@ -303,6 +302,7 @@
 
         &.active {
             color: #000;
+            position: relative;
             border-top: 0.2rem solid $color-subjects;
             &:hover {
                 border-bottom: 0.1rem solid #fff;
@@ -422,31 +422,50 @@
         font-weight: bold;
         font-size: 1.45rem;
         text-transform: uppercase;
+
+        font-size: 1.35rem;
+        font-weight: bold;
     }
 }
 
-.c-content__main__kmaps .head-related ~ ul {
-    margin-right: 1rem;
-    margin-left: 0.75rem;
-    list-style-type: none;
-    padding-inline-start: 0;
-    li {
-        /* line-height: 0.75; */
-    }
-    li::before {
-        content: '';
-        display: inline-block;
-        width: 0.6rem;
-        height: 0.6rem;
-        border: 0.15rem solid #888;
+.head-related {
+    text-transform: capitalize;
+    font-size: 1.35rem;
+    font-weight: bold;
+}
+
+.c-content__main__kmaps {
+    .head-related ~ ul {
         margin-right: 1rem;
-        position: relative;
-        left: 0.1rem;
-        top: 0.85rem;
-        float: left;
-        transform: rotate(45deg);
+        margin-left: 0.75rem;
+        list-style-type: none;
+        padding-inline-start: 0;
+        li {
+            /* line-height: 0.75; */
+        }
+        li::before {
+            content: '';
+            display: inline-block;
+            width: 0.6rem;
+            height: 0.6rem;
+            border: 0.15rem solid #888;
+            margin-right: 1rem;
+            position: relative;
+            left: 0.1rem;
+            top: 0.85rem;
+            float: left;
+            transform: rotate(45deg);
+        }
+    }
+    .places--related-subjects {
+        border: 1px solid #ccc;
+        border-radius: 1rem;
+        padding: 2rem 1.5rem 5rem 2rem;
+        height: 100%;
+        background-color: #fff;
     }
 }
+
 /*
 .places .head-related {
     border-left-color: $color-places;

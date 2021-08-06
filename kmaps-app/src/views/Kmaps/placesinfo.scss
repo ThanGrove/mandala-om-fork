@@ -1,7 +1,7 @@
 @import '../../_index-variables.scss';
 
 #place-kmap-tabs-tabpane-map {
-    min-height: 90vh;
+    min-height: calc(100vh - 12rem);
 }
 
 .c-place-names {
@@ -66,10 +66,4 @@
         left: 0.25rem;
         font-size: 120%;
     }
-}
-
-.nodeHeader-placesInfo + div {
-    clear: both;
-    max-width: 100%;
-    padding-top: 1rem;
 }
