@@ -403,6 +403,10 @@ header.terms
                     padding: 1rem 2.5rem 0.4rem;
                     transition: all 0.3s;
 
+                    &:hover {
+                        border-color: #999;
+                    }
+
                     &.active {
                         border-color: #aaa;
                         border-top: 0.3rem solid $color-places;
@@ -425,6 +429,7 @@ header.terms
                 #place-kmap-tabs-tabpane-location,
                 #place-kmap-tabs-tabpane-ids {
                     padding: 0.75rem 1.5rem 3rem 2.25rem;
+                    font-size: 1.55rem;
                 }
             }
         }
@@ -829,10 +834,10 @@ header.terms
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: calc(100vh - 16rem);
+            height: calc(100vh - 12rem);
             position: relative;
             left: -1rem;
-            top: 5.25rem;
+            top: 1.25rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
