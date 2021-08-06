@@ -39,6 +39,7 @@ export function FeatureCard(props) {
     const setBrowse = browseSearchToggle((state) => state.setBrowse);
 
     const doc = props.doc;
+    console.log('card doc', doc);
 
     const subTypeGlyph = typeGlyphMap[doc.asset_type + '/' + doc.asset_subtype];
     const typeGlyph = doc.uid ? (
@@ -312,6 +313,9 @@ function DetailModal(props) {
 }
 
 function createAssetViewURL(avuid, asset_type, location) {
+    if (asset_type === 'collections') {
+        return `/${avuid.replace(/\-/g, '/')}`;
+    }
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');

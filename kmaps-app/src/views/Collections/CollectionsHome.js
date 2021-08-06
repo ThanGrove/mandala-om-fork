@@ -8,7 +8,7 @@ import { SAProjectName } from '../common/utilcomponents';
 export function CollectionsHome(props) {
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
-    const [pageSize, setPageSize] = useState(30);
+    const [pageSize, setPageSize] = useState(25);
 
     const querySpecs = {
         index: 'assets',
