@@ -7,7 +7,7 @@ import { SAProjectName } from '../common/utilcomponents';
 
 export function CollectionsHome(props) {
     const [startRow, setStartRow] = useState(0);
-    const [pageNum, setPageNum] = useState(1);
+    const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(30);
 
     const querySpecs = {
@@ -63,7 +63,7 @@ export function CollectionsHome(props) {
             </p>
             <FeatureCollection
                 docs={collsData.docs}
-                assetCount={collsData.numFound}
+                assetCount={numFound}
                 viewMode={'deck'}
                 page={pageNum}
                 setPage={setPageNum}
