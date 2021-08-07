@@ -8,6 +8,8 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { FeatureFilters } from './FeatureFilters';
+import Dropdown from 'react-bootstrap/Dropdown';
+import { DropdownButton } from 'react-bootstrap';
 
 // There are three view modes encapsulated by three different components
 //          gallery:    FeatureGallery
@@ -18,6 +20,9 @@ import { FeatureFilters } from './FeatureFilters';
 //  1. viewMode property
 //  2. viewMode path id
 //
+
+// ndg8f added recognition of a props.sorter JSX component of selects with states for determining sort order
+// See CollectionViewer.js as example
 
 const DEFAULT_VIEWMODE = 'deck'; //  deck or gallery or list
 
@@ -77,6 +82,7 @@ export function FeatureCollection(props) {
         if (atype && 'audio-video|images'.includes(atype)) {
             inclGallery = true;
         }
+
         viewModeDiv = (
             <div className={'c-buttonGroup__viewMode'}>
                 {/* View Mode:{' '} */}
@@ -103,8 +109,8 @@ export function FeatureCollection(props) {
     }
     return (
         <div className={'c-buttonGroup__viewMode__wrap'}>
+            {props?.sorter}
             {viewModeDiv}
-
             {props.showSearchFilters && <FeatureFilters />}
             {viewer}
         </div>

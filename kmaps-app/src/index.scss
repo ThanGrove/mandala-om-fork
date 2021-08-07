@@ -967,6 +967,30 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     top: 0.2rem;
 }
 
+.c-buttonGroup__sortMode {
+    margin-top: -0.5rem;
+    margin-bottom: 0;
+    padding-left: 1rem;
+    * {
+        display: inline-block;
+    }
+
+    select {
+        margin-right: 1rem;
+        border: none;
+    }
+}
+
+.c-buttonGroup__sortMode-header {
+    font-size: 1.25rem;
+    margin-right: 0.8rem;
+    white-space: nowrap;
+    font-weight: bold;
+    text-transform: uppercase;
+    line-height: 2.5;
+    letter-spacing: 0.025rem;
+}
+
 // View Styles
 
 .c-view__wrapper {

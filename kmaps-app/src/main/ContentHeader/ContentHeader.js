@@ -54,9 +54,13 @@ export function ContentHeader({ siteClass, title, location }) {
         ? itemData.title[0]
         : 'No Title';
 
-    if (window.location.pathname === '/collections') {
+    if (
+        window.location.pathname === '/collections' ||
+        window.location.hash === '#/collections'
+    ) {
         mytitle = 'All Collections';
     }
+
     // console.log('item data', queryID(queryType, itemId), itemData);
     // Handle an Error
     if (isItemError) {
