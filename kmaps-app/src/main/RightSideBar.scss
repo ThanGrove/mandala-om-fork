@@ -88,7 +88,7 @@
     cursor: default;
     position: absolute;
     right: 0.9rem;
-    top: 0.58rem;
+    top: 0.9rem;
     font-size: 0.95rem;
     text-shadow: 0 0 0.1rem #161a3c;
 }
@@ -235,6 +235,7 @@
 }
 .sui-advEdit-facet-ctrls-btns {
 }
+
 .sui-advEdit-facet-ctrls-btns .btn {
     font-size: 1.3rem;
     line-height: 1.4;
@@ -263,8 +264,8 @@
 .show > .btn-primary.dropdown-toggle {
     color: #000;
     cursor: default;
-    border-color: #6b77ea;
-    border-width: 0.1rem;
+    border-color: #668eec;
+    border-width: 0.15rem;
     background-color: #fff !important;
 }
 .sui-advEdit-facet-ctrls-btns .btn:focus,

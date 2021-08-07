@@ -3,10 +3,10 @@
 
 // Site Banner
 .c-site__header {
-    height: 4.5rem;
     padding: 0;
     background: #fff;
     display: flex;
+    height: 4.5rem;
     .siteSettings-Toggle--button {
         background-color: transparent;
         border: none;
@@ -50,7 +50,7 @@
     // --- Search Box ----
     // -------------------
     .c-site__search {
-        margin-top: 0.9rem;
+        margin-top: 1rem;
         margin-right: -1rem;
         padding-left: 0.5rem;
         .sui-search1 {
