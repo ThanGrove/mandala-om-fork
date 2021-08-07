@@ -474,7 +474,7 @@ color: #a4baec;
     display: inline-block;
     cursor: default;
     font-weight: bold;
-    font-size: 0.975rem;
+    font-size: 1.1rem;
     color: #4d59ca;
     border: 0.15rem solid #668eec;
     border-radius: 1rem;
@@ -494,7 +494,7 @@ color: #a4baec;
 .sui-advEditBool {
     position: relative;
     top: -0.15rem;
-    padding: 0.3rem 0.75rem 0.3rem 1rem;
+    padding: 0.2rem 0.6rem 0.2rem 1rem;
     margin-left: 1.25rem;
     margin-right: 0.25rem;
     background: #fff;
@@ -877,6 +877,7 @@ color: #a4baec;
     font-size: 2.65rem;
     padding-top: 1.25rem;
     padding-left: 4.5%;
+    border-top-left-radius: 0.75rem;
 }
 .av-trscrpt-ctrls .sui-transTab:first-child span {
     font-size: 1.5rem;
@@ -884,6 +885,9 @@ color: #a4baec;
 .av-trscrpt-ctrls .sui-transTab:nth-child(2) {
     font-size: 1.9rem;
     padding-top: 1.9rem;
+}
+.sui-transTab#sui-transTab5 {
+    border-top-right-radius: 0.75rem;
 }
 .sui-transOps {
     position: absolute;

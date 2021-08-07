@@ -63,6 +63,7 @@
     max-width: 85rem;
     height: 50rem;
     margin-bottom: 1rem;
+    border-radius: 0.75rem 0.75rem 0.5rem 0.5rem;
 }
 
 #av-player-row {
