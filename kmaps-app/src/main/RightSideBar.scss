@@ -162,8 +162,8 @@
     cursor: default;
     color: #000;
     background: #f7f7f7;
-    border: 1px solid #c4c8ef;
-    border-left-color: #6b77ea;
+    border: 1px dashed #c4c8ef;
+    border-left: 0.3rem solid #6b77ea;
     border-width: 0.2rem 0.1rem 0.2rem 0.3rem;
     border-radius: 0.5rem;
 }
