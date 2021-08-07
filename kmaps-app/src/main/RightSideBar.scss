@@ -43,7 +43,7 @@
     display: flex;
     font-size: 1.56rem;
     height: 3.5rem;
-    padding-top: 1.25rem;
+    padding-top: 1.2rem;
     margin-bottom: 0.8rem;
     cursor: default !important;
 }
@@ -65,11 +65,12 @@
     color: #555;
 }
 .sui-advHeader .badge {
-    padding: 0.55rem 2.75rem 0.5rem 1rem;
-    border-radius: 0.5rem;
+    padding: 0.65rem 2.75rem 0.65rem 1.25rem;
+    border-radius: 0.5em 0.5rem 0.2rem 0.2rem;
     color: #fff;
     cursor: default;
-    font-size: 1.2rem;
+    line-height: 1.45;
+    font-size: 1.3rem;
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
     border: 1px solid #ddd;
@@ -80,7 +81,9 @@
     border-color: #4d59ca;
     opacity: 1;
 }
-
+.sui-advHeader .badge.badge-secondary {
+    opacity: 0.5;
+}
 .sui-advHeader .u-icon__plus,
 .sui-advHeader .u-icon__minus {
     font-size: 0.9rem;
@@ -88,7 +91,7 @@
     cursor: default;
     position: absolute;
     right: 0.9rem;
-    top: 0.9rem;
+    top: 1rem;
     font-size: 0.95rem;
     text-shadow: 0 0 0.1rem #161a3c;
 }

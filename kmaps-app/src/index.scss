@@ -102,7 +102,7 @@ div.image-wrapper.center figcaption {
 .c-buttonGroup__viewMode .btn:not(:disabled):not(.disabled) {
     line-height: 2.5rem;
     width: 4rem;
-    margin: 0 0.1rem;
+    margin: 0 0.35rem;
     transform: scale(0.8);
     transition: border-radius 0.3s;
     &:hover {
@@ -705,25 +705,27 @@ header.terms
             border-radius: 2rem;
             border: 0.2rem dashed #999;
             margin: 0.5rem 1rem 0.6rem 1.5rem;
+            transition: all 0.2s;
 
             &:hover {
                 opacity: 1;
                 border-width: 0.1rem;
+                margin-left: 1.6rem;
 
                 .header-icon svg {
-                    transform: scale(1.1);
+                    //  transform: scale(1.1);
                 }
             }
             &:active {
                 .header-icon svg {
-                    transform: scale(1.2);
+                    // transform: scale(1.2);
                 }
             }
             .header-icon svg {
                 font-size: 2rem;
                 position: relative;
-                bottom: 0.275rem;
-                transition: all 0.2s ease-in-out;
+                bottom: 0.25rem;
+                transition: all 0.2s;
                 transform: scale(1);
             }
             .header-label-count {
@@ -739,7 +741,7 @@ header.terms
                     color: #000;
                     background: #fff;
                     margin: 0 0 0 1rem;
-                    padding: 0.2rem 0.5rem;
+                    padding: 0.3rem 0.5rem;
                     transition: all 0.4s ease-in-out;
                     border-left: 1px solid #fff;
                     border-right: 1px solid #fff;
@@ -770,12 +772,13 @@ header.terms
         /* CLOSE - Search Column -- Filters */
         .search-column-close-filters {
             padding: 0;
-            margin: 0;
+            margin: 0.2rem 0.25rem 0 0;
             border: none;
             cursor: default;
             background: transparent;
             font-size: 1.75rem;
             transition: all 0.2s;
+            -webkit-transform: scale(1);
             transform: scale(1);
             opacity: 0.5;
             .icon::before {
@@ -935,10 +938,12 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     transition: all 0.4s;
     border-radius: 0.75rem;
     border: 0.2rem dashed rgba(77, 89, 201, 0.5);
+    border-left: 0.3rem solid #6b77ea;
+    background-color: #f9f9f9;
 
     &:empty {
         border: none;
-        margin: 0;
+        padding: 0;
     }
     > div {
         display: inline;
