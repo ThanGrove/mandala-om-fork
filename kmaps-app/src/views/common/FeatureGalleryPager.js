@@ -11,7 +11,7 @@ export function FeatureGalleryPager(props) {
                     aria-label="Set number of items per page"
                     min={1}
                     max={props.pager.getMaxPage() + 1}
-                    style={{ width: '4em' }}
+                    style={{ width: '5rem' }}
                     value={props.pager.getPage() + 1}
                     onChange={(pg) => {
                         console.log(
@@ -37,7 +37,7 @@ export function FeatureGalleryPager(props) {
                     aria-label="Set number of items per page"
                     min={25}
                     max={100}
-                    size={5}
+                    size={3}
                     step={25}
                     value={props.pager.getPageSize()}
                     onChange={(ps) => {

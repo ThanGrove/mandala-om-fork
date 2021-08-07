@@ -98,7 +98,8 @@
                     /* Chrome/Opera/Safari */
                     color: $color-mandala;
                     font-style: italic;
-                    font-size: 1.8rem;
+                    font-size: 2.25rem;
+                    font-family: 'GB Garamond', serif;
                     letter-spacing: 0.0125rem;
                 }
                 &::-moz-placeholder {
@@ -137,10 +138,10 @@
             .sui-search4 {
                 // --- search enter - Go get it!
                 position: absolute;
-                top: 0.35rem;
-                right: 3.1rem;
+                top: 0.025rem;
+                right: 3.15rem;
                 display: inline-block;
-                font-size: 1.8rem;
+                font-size: 1.95rem;
                 span {
                     &::before {
                         color: $color-mandala;

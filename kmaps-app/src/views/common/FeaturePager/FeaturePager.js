@@ -14,7 +14,7 @@ export function FeaturePager(props) {
             aria-label="Goto page"
             min={1}
             max={maxPage}
-            size={5}
+            size={3}
             value={props.page + 1}
             onChange={(pg) => {
                 pg = parseInt(pg, 10);
@@ -37,7 +37,7 @@ export function FeaturePager(props) {
     return (
         <div className={`c-featurePager__container${position}${classname}`}>
             <div className="c-featurePager__resultSummary">
-                Displaying{' '}
+                Displaying ( )
                 <span className="start">{props.page * props.perPage + 1}</span>
                 to{' '}
                 <span className="end">
@@ -91,7 +91,7 @@ export function FeaturePager(props) {
                     aria-label="Set number of items per page"
                     min={25}
                     max={100}
-                    size={5}
+                    size={3}
                     step={25}
                     // style={{width: "4em"}}
                     value={props.perPage}
