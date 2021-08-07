@@ -60,14 +60,13 @@
                 padding: 0.4rem 4rem 0.25rem 1rem;
                 background: transparent;
                 border: none;
-                border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, 50% opacity
+                border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, w/ opacity
                 margin: 0;
                 width: 24rem;
                 transition: width 0.5s, border 0.35s;
                 color: #000;
                 box-shadow: none;
                 background: transparent;
-
                 &:placeholder-shown {
                     cursor: default;
                 }
@@ -120,12 +119,6 @@
                     opacity: 1;
                     font-style: italic;
                 }
-            }
-            &:hover::-webkit-input-placeholder,
-            &:hover::-moz-placeholder,
-            &:hover:-ms-input-placeholder,
-            &:hover:-moz-placeholder {
-                color: red;
             }
             .sui-search3 {
                 position: relative;
