@@ -89,13 +89,13 @@ ul.fancytree-container {
 .c-kmapleaf {
     max-width: inherit;
     overflow: hidden;
-    line-height: 1.75;
+    line-height: 1.5;
     .toggle-icon {
         display: inline-block;
-        margin-right: 0.6rem;
-        font-size: 1.65rem;
+        margin-right: 0.9rem;
+        font-size: 1.95rem;
         position: relative;
-        top: 0.15rem;
+        top: 0.25rem;
     }
     .label a {
         color: #000;
@@ -123,7 +123,7 @@ ul.fancytree-container {
 
 .leafend {
     padding-left: 0.3rem;
-    line-height: 1.75;
+    line-height: 1.5;
     .toggle-icon::before {
         content: '';
         width: 0.7rem;
