@@ -38,7 +38,7 @@
             font-size: 90%;
             background-color: transparent;
             border-radius: 1.5rem;
-            border: 0.2rem solid #f0f0f0;
+            border: 0.15rem solid #f0f0f0;
             transition: all 0.4s;
             &:hover {
                 color: $color-mandala;
@@ -47,7 +47,6 @@
             }
             &:active {
                 border-color: #ccc;
-                border-width: 0.1rem;
                 background-color: #fff;
             }
         }
