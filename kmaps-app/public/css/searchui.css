@@ -1006,6 +1006,9 @@ color: #a4baec;
 .sui-trans .sui-transSeg {
     border-radius: 1rem 0 0 1rem;
 }
+.sui-trans .sui-transSeg:first-child {
+    border-top-left-radius: 0;
+}
 .sui-transSeg > div:first-of-type {
     font-size: 1.75rem;
     padding: 0.5rem 1rem;

@@ -184,10 +184,13 @@
 .sui-advTerm > div {
     display: inline-block;
     margin-right: 1.5rem;
-    /*  margin-left: 2rem; */
+    margin-bottom: 0.75rem;
     white-space: nowrap;
     position: relative;
     padding-bottom: 0.2rem;
+}
+.sui-advTerm > div:last-child {
+    margin-bottom: 0;
 }
 .sui-advTerm div > span:first-child::before {
     color: #999;

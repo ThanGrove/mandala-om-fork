@@ -21,11 +21,13 @@ body.html {
 a {
     text-decoration: none;
     color: $link-color;
+    border-bottom: 0.2rem dotted #ccc;
     &:hover,
     &:focus,
     &:active {
         text-decoration: none;
         color: $link-hover-color;
+        border-bottom-color: $color-mandala;
     }
 }
 .btn:not(:disabled):not(.disabled) {
@@ -258,7 +260,7 @@ div.image-wrapper.center figcaption {
     flex: 1;
 }
 .l-content__main__wrap {
-    margin: 0 auto;
+    margin: 2rem auto 0;
     padding-bottom: 5rem;
 }
 
@@ -700,55 +702,58 @@ header.terms
             color: #fff;
             background-color: #3f49b1;
             border: none;
-            opacity: 0.9;
-            padding: 0.35rem 1.25rem 0.25rem 0.75rem;
+            opacity: 0.95;
+            padding: 0.35rem 0.75rem 0.25rem 0.75rem;
             display: inline-block;
             border-radius: 2rem;
-            border: 0.2rem dashed #999;
+            border: 0.15rem dashed #999;
             margin: 0.5rem 1rem 0.6rem 1.5rem;
-            transition: all 0.2s;
+            transition: all 0.25s;
 
             &:hover {
                 opacity: 1;
                 border-width: 0.1rem;
                 margin-left: 1.6rem;
-
                 .header-icon svg {
-                    //  transform: scale(1.1);
+                    transform: scale(1);
+                    transition: all 0.35s;
                 }
             }
             &:active {
+                border-style: solid;
                 .header-icon svg {
-                    // transform: scale(1.2);
+                    transform: scale(0.9);
                 }
             }
             .header-icon svg {
-                font-size: 2rem;
-                position: relative;
-                bottom: 0.25rem;
+                font-size: 2.15rem;
                 transition: all 0.2s;
                 transform: scale(1);
+                position: relative;
+                bottom: 0.075rem;
             }
             .header-label-count {
-                font-size: 1.2rem;
+                font-size: 1.25rem;
                 letter-spacing: 0.125rem;
                 margin-left: 1rem;
                 font-weight: bold;
                 text-transform: uppercase;
+                position: relative;
+                top: 0.1rem;
 
                 .badge {
-                    font-size: 1.1rem;
+                    font-size: 1.25rem;
                     letter-spacing: 0.075rem;
                     color: #000;
                     background: #fff;
                     margin: 0 0 0 1rem;
-                    padding: 0.3rem 0.5rem;
+                    padding: 0.35rem 0.65rem;
                     transition: all 0.4s ease-in-out;
                     border-left: 1px solid #fff;
                     border-right: 1px solid #fff;
-                    border-radius: 0.75rem;
+                    border-radius: 1.25rem;
                     position: relative;
-                    bottom: 0.1rem;
+                    top: 0;
                 }
             }
             &:hover .badge {
@@ -762,8 +767,8 @@ header.terms
         }
         button:first-of-type {
             background-color: #5963c9;
-            opacity: 0.95;
-            line-height: 1.95;
+            opacity: 0.75;
+            position: relative;
             &:hover {
                 border-color: #ccc;
                 border-style: solid;
@@ -1056,7 +1061,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         margin-left: -5rem;
         padding: 0 1.5rem;
         font-size: 1.4rem;
-        cursor: pointer;
         position: relative;
         top: 0.15rem;
         &:hover {
@@ -1284,7 +1288,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
 
         a:hover {
             color: #df3d26;
-            text-decoration: underline;
+            // text-decoration: none;
         }
     }
 

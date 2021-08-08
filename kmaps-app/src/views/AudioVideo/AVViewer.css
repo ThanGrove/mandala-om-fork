@@ -160,7 +160,7 @@ div#av-trscrpt-wrapper {
     margin: 2.25rem 1.5rem 0;
     user-select: none;
     flex-grow: 1;
-    min-width: 13rem;
+    /*  min-width: 13rem; */
 
     /* text-align: center;*/
     /* white-space:nowrap; */

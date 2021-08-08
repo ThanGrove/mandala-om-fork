@@ -15,9 +15,9 @@
         &.active,
         &.active:hover,
         &:focus {
-            background-color: #646cbd !important;
+            background-color: #3f49b1 !important;
             opacity: 1;
-            box-shadow: inset 0 0 2.5rem #3f49b1 !important;
+            // box-shadow: inset 0 0 2.5rem #3f49b1 !important;
         }
         &:not(.active) {
             &:first-child {
