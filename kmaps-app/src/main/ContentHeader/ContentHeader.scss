@@ -50,7 +50,7 @@
 
 .c-content__header__breadcrumb .breadcrumb-item {
     padding: 0;
-    border-bottom: 1px solid transparent;
+    border-bottom-color: transparent;
     margin-left: 2rem;
     transition: border 0.3s;
     position: relative;
@@ -58,10 +58,10 @@
 }
 
 .c-content__header__breadcrumb .breadcrumb-item:hover {
-    border-bottom-color: #fff;
+    //  border-bottom-color: #fff;
 }
 .c-content__header__breadcrumb .breadcrumb-item:active {
-    border-bottom-color: #aaa;
+    //  border-bottom-color: #aaa;
 }
 .c-content__header__breadcrumb .breadcrumb-item:first-of-type {
     font-weight: bold;
