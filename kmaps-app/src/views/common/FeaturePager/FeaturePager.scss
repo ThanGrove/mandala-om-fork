@@ -32,21 +32,21 @@
 
         .icon {
             margin: 0 0.75rem 0 0;
-            padding: 0.6rem 0.75rem 0.6rem 1rem;
+            padding: 0.7rem 0.75rem 0.6rem 1rem;
             color: #888;
-            cursor: pointer;
+            cursor: default;
             font-size: 90%;
             background-color: transparent;
             border-radius: 1.5rem;
             border: 0.2rem solid #f0f0f0;
             transition: all 0.4s;
             &:hover {
-                color: #555;
-                border-color: #888;
+                color: $color-mandala;
+                border-color: $color-mandala;
                 background-color: #fff;
             }
             &:active {
-                border-color: $color-mandala;
+                border-color: #ccc;
                 border-width: 0.1rem;
                 background-color: #fff;
             }

@@ -50,7 +50,7 @@
 .sui-advBox:hover,
 .sui-advHeader:hover {
     color: #000;
-    cursor: pointer;
+    cursor: default;
 }
 
 .sui-advHeader > .icon {
@@ -74,7 +74,7 @@
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
     border: 1px solid #ddd;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 .sui-advHeader:hover .badge,
 .sui-advHeader .badge:hover {
@@ -119,7 +119,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
     width: 95%;
-    cursor: pointer;
+    cursor: default;
     padding-left: 0.4rem;
     padding-bottom: 0.25rem;
 }
@@ -129,7 +129,7 @@
 }
 
 .sui-advBox-recent .c-HistoryViewer__removeItem {
-    cursor: pointer;
+    cursor: default;
     font-size: 1.25rem;
     color: transparent;
     margin-top: 0.35rem;
@@ -198,7 +198,7 @@
     position: relative;
     top: 0.2rem;
     display: inline-block;
-    cursor: pointer;
+    cursor: default;
     margin-right: 4px;
 }
 .sui-advTerm div > span:first-child:hover::before {
@@ -354,7 +354,7 @@
 
 .sui-advEditBut {
     display: inline-block;
-    cursor: pointer;
+    cursor: default;
     vertical-align: -2px;
     color: #999;
 }
@@ -482,7 +482,7 @@
     margin-top: 4px;
     padding: 0 12px;
     border: 1px solid #999;
-    cursor: pointer;
+    cursor: default;
     text-align: center;
     float: right;
     color: #fff;
@@ -505,7 +505,7 @@
 
 .sui-tree li a {
     line-height: 19px;
-    cursor: pointer;
+    cursor: default;
 }
 
 .sui-tree > ul > li > a {
