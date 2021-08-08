@@ -56,7 +56,6 @@
             width: 5.5rem;
             position: relative;
             top: 0.1rem;
-            margin-left: 1rem;
             margin-right: 0.85rem;
             text-align: center;
             border: 1px solid #4d59ca;
@@ -68,11 +67,11 @@
             }
         }
         .c-pager__counterWrapper {
-            margin-right: 2.5rem;
-            margin-left: 2.5rem;
+            margin-right: 1.5rem;
+            margin-left: 2rem;
             margin-bottom: 1.5rem;
             font-style: italic;
-            font-size: 1.75rem;
+            font-size: 1.5rem;
             span {
                 padding: 0;
                 margin: 0;
