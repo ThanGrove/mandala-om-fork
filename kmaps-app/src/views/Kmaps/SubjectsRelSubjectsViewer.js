@@ -18,10 +18,14 @@ export function SubjectsRelSubjectsViewer({ id }) {
         error: kmapError,
     } = useKmap(queryID(baseType, id), 'info');
 
+    let descend_q =
+        kmap?.level_gen_i === 1
+            ? `ancestor_id_path:${id}/*`
+            : `ancestor_id_path:*/${id}/*`;
     const descend_ct_query = {
         index: 'terms',
         params: {
-            q: `ancestor_id_path:${id}`,
+            q: descend_q,
             fq: 'tree:subjects',
             fl: 'uid',
             start: 0,
@@ -34,7 +38,11 @@ export function SubjectsRelSubjectsViewer({ id }) {
         data: descendCount,
         isError: isDescendCountError,
         error: descendCountError,
-    } = useSolr(`subjects-${id}-descend-count`, descend_ct_query);
+    } = useSolr(
+        `subjects-${id}-descend-count`,
+        descend_ct_query,
+        isKmapLoading
+    );
 
     const [tabKey, setTabKey] = useState('context'); // For showing the two tabs
 
@@ -115,7 +123,7 @@ export function SubjectsRelSubjectsViewer({ id }) {
     if (isKmapLoading) {
         return <MandalaSkeleton />;
     }
-    console.log('kmap', kmap);
+
     const descendant_str =
         desc_ct > 0 ? `, ${desc_ct} subordinate ${kmtype.toLowerCase()},` : '';
     return (
