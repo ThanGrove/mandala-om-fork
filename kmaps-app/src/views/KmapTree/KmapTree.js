@@ -42,7 +42,6 @@ import './KmapTree.scss';
  * @constructor
  */
 export default function KmapTree(props) {
-    // console.log("Ktree init props", props);
     const uniqueTreeID = stringToHash(JSON.stringify(props));
     let settings = {
         domain: 'places', // Default domain is places
@@ -93,6 +92,9 @@ export default function KmapTree(props) {
             fl: 'uid',
         },
     };
+    if (props?.startNode) {
+        rootquery['params']['q'] += ` AND uid:${settings.startNode}`;
+    }
 
     const {
         isLoading: isRootLoading,
@@ -183,6 +185,7 @@ export default function KmapTree(props) {
             }
         }
     }
+
     /*
     if (
         settings.domain === 'subjects' &&
@@ -230,7 +233,7 @@ export default function KmapTree(props) {
                 domain={settings.domain}
                 current={perspective}
             />
-            {settings.level && (
+            {settings.level && !settings.startNode && (
                 <LeafGroup
                     domain={settings.root.domain}
                     level={settings.level}
@@ -240,7 +243,7 @@ export default function KmapTree(props) {
                     newperspective={perspective}
                 />
             )}
-            {!settings.level && (
+            {(!settings.level || settings.startNode) && (
                 <TreeLeaf
                     domain={settings.root.domain}
                     kid={settings.root.kid}

@@ -115,6 +115,7 @@ export function SubjectsRelSubjectsViewer({ id }) {
                         domain={domain}
                         level={1}
                         selectedNode={`${domain}-${kid}`}
+                        startNode={`${domain}-${kid}`}
                         showAncestors={true}
                     />
 
