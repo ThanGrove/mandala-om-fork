@@ -44,7 +44,7 @@ export function SiteHeader(props) {
                 <h1 className="sr-only">Bhutan Library</h1>
                 <img
                     src={process.env.PUBLIC_URL + '/img/bhutanleft.gif'}
-                    alt={'Site Logo Image'}
+                    alt={'Site Logo'}
                     className={'o-image-logo'}
                 />
             </Link>

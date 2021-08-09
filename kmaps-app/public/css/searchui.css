@@ -426,17 +426,18 @@
 }
 .sui-advTerm .facetItem::before {
 }
+
 .sui-advTermRem {
     display: inline-block;
     margin-left: 0.2rem;
     position: absolute;
-    right: -1.45rem;
+    right: -2.2rem;
+    bottom: 0.1rem;
+    font-size: 1.75rem;
+    color: #888;
 }
-.sui-advTermRem .icon::before {
-    color: blue;
-}
-.sui-advTermRem .icon:hover::before {
-    color: #333;
+.sui-advTermRem:hover::before {
+    color: red;
 }
 
 .sui-advValueRem:hover {
@@ -447,10 +448,10 @@
     position: relative;
 }
 .l-content__main .sui-facetList-horiz div .sui-advTermRem {
-    font-size: 1.2rem;
+    font-size: 1.65rem;
     position: absolute;
-    right: 0;
-    top: 0.2rem;
+    right: -0.55rem;
+    top: -0.3rem;
 }
 
 /*
@@ -495,7 +496,7 @@ color: #a4baec;
     position: relative;
     top: -0.15rem;
     padding: 0.2rem 0.6rem 0.2rem 1rem;
-    margin-left: 1.25rem;
+    margin-left: 2rem;
     margin-right: 0.25rem;
     background: #fff;
 }
