@@ -952,14 +952,6 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     border-right: 0.3rem solid #6b77ea;
     background-color: #f9f9f9;
 
-    &:empty {
-        border: none;
-        padding: 0;
-    }
-    > div {
-        display: inline;
-        padding-right: 1.5rem;
-    }
     > span {
         font-size: 1.5rem;
         font-weight: bold;
@@ -967,11 +959,23 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
         text-transform: uppercase;
         margin-left: 0.5rem;
     }
-    .facetItem {
-        font-size: 1.8rem;
-        margin-left: 1.75rem;
-        position: relative;
-        top: 0;
+    > div {
+        display: inline;
+        padding-right: 1.5rem;
+
+        .facetItem {
+            font-size: 1.8rem;
+            margin-left: 2.5rem;
+            position: relative;
+            top: 0;
+        }
+    }
+    &:empty {
+        border: none;
+        padding: 0;
+    }
+    > div:first-of-type .facetItem {
+        margin-left: 0.5rem;
     }
 }
 

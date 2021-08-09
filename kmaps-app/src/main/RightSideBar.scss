@@ -170,14 +170,7 @@
     border-right: 0.3rem solid #6b77ea;
     border-radius: 0.5rem;
 }
-.l-column__search .sui-advTermRem {
-}
-.sui-advTermRem::before {
-    color: red;
-}
-.sui-advTermRem:hover::before {
-    color: blue;
-}
+
 .sui-advTerm:empty {
     display: none;
 }
