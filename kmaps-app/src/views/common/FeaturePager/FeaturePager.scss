@@ -31,11 +31,9 @@
         padding-right: 1rem;
 
         .icon {
-            margin: 0 0.75rem 0 0;
+            margin: 0 1.5rem 0 0;
             padding: 0.7rem 0.75rem 0.6rem 1rem;
             color: #888;
-            cursor: default;
-            font-size: 90%;
             background-color: transparent;
             border-radius: 1.5rem;
             border: 0.15rem solid #f0f0f0;
@@ -50,11 +48,26 @@
                 background-color: #fff;
             }
         }
+        .icon:last-child {
+            padding-right: 1.5rem;
+        }
+        .icon:last-child::before {
+            position: relative;
+            left: 0.3rem;
+        }
+        .icon:first-child {
+            padding-left: 1.5rem;
+        }
+        .u-icon__arrow3-right::before,
+        .shanticon-arrow3-right:before {
+            position: relative;
+            left: 0.5rem;
+        }
         span input {
             line-height: 1.15;
             width: 5.5rem;
             position: relative;
-            top: 0.1rem;
+            top: -0.1rem;
             margin-right: 0.85rem;
             text-align: center;
             border: 1px solid #4d59ca;
@@ -66,8 +79,8 @@
             }
         }
         .c-pager__counterWrapper {
-            margin-right: 1.5rem;
-            margin-left: 2rem;
+            margin-right: 1.25rem;
+            margin-left: 1.5rem;
             margin-bottom: 1.5rem;
             font-style: italic;
             font-size: 1.5rem;
