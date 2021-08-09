@@ -387,10 +387,10 @@
     border-right: 0.3rem solid #6b77ea;
     border-radius: 0.5rem 0 0 0.5rem;
     font-weight: bold;
-    color: #888;
+    color: $color-amber;
 }
 .sui-advEditLine.chosen:hover {
-    font-style: normal;
+    color: #555;
 }
 .sui-advEditLine.chosen::after {
     content: '';
