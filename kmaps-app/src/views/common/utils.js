@@ -417,8 +417,8 @@ export function getHeaderForView(kmapdata, viewdata) {
  * then returns the first item in array.
  * If field is not in record or has no date, it returns false
  *
- * @param data
- * @param field
+ * @param {Object} data - The kmaps SOLR document as a JS object
+ * @param {string} field - The name of the field whose value is to be retrieved
  * @returns {boolean|string}
  */
 export function getFieldData(data, field) {
@@ -465,9 +465,9 @@ export function getSolrNote(data, title, field) {
 /**
  * Get a citation JSX element from solr doc and field if citation exists
  *
- * @param data
- * @param title
- * @param field
+ * @param {Object} data - The kmaps items solr doc as a JS object
+ * @param {string} title - Title for top of not popupe
+ * @param {string} field - Name of the field that contains the reference info
  * @returns {JSX.Element|null}
  */
 export function getSolrCitation(data, title, field, nodate) {
@@ -546,6 +546,13 @@ export function getSolrDate(data, datefieldname) {
     return dateval;
 }
 
+/**
+ * A function to find field names in a kmap SOLR doc object from a substring and position or a regular expression
+ * @param {Object} data - the SOLR data as a JS Object
+ * @param {string} substr - the substring or regular expression to search with
+ * @param {string} pos - ["starts", "ends", "regex"]
+ * @returns {T[]}
+ */
 export function findFieldNames(data, substr, pos) {
     if (pos === undefined) pos = 'includes';
     const keys = Object.keys(data);
@@ -555,6 +562,9 @@ export function findFieldNames(data, substr, pos) {
                 return k.startsWith(substr);
             case 'ends':
                 return k.endsWith(substr);
+            case 'regex':
+                const re = new RegExp(substr);
+                return k.match(re) ? true : false;
             default:
                 return k.includes(substr);
         }

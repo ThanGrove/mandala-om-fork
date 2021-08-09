@@ -5,6 +5,7 @@ import { HtmlCustom } from '../common/MandalaMarkup';
 import { Route, Switch, useParams, useRouteMatch } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import {
+    findFieldNames,
     getSolrCitation,
     getSolrDate,
     getSolrNote,
@@ -84,7 +85,6 @@ function SubjectSummary({ kmapData, path }) {
     if (kmapData?.illustration_mms_url?.length > 0) {
         sbjimg = kmapData?.illustration_mms_url[0];
     }
-
     let txtid = false;
     for (let prp in kmapData) {
         if (prp.includes('homepage_text_')) {
@@ -106,9 +106,11 @@ function SubjectSummary({ kmapData, path }) {
                         {!txtid &&
                             'summary_eng' in kmapData &&
                             kmapData['summary_eng'].length > 0 && (
-                                <HtmlCustom
-                                    markup={kmapData['summary_eng'][0]}
-                                />
+                                <>
+                                    <HtmlCustom
+                                        markup={kmapData['summary_eng'][0]}
+                                    />
+                                </>
                             )}
                         <SubjectDetails kmapData={kmapData} />
                     </div>
@@ -128,9 +130,28 @@ function SubjectDetails({ kmapData }) {
         <HtmlCustom markup={kmapData.summary_eng} />
     ) : null;
 
+    let sum_ref = null;
+    if (summary) {
+        let fieldnms = findFieldNames(
+            kmapData,
+            'summary_eng_\\d+_citation_references_ss',
+            'regex'
+        );
+        sum_ref = (
+            <div className="float-right mt-n5 mr-n2">
+                {getSolrCitation(
+                    kmapData,
+                    'Citation for Summary',
+                    fieldnms[0],
+                    true
+                )}
+            </div>
+        );
+    }
+
     return (
         <>
-            {summary}
+            {summary} {sum_ref}
             <div>
                 <label className={'font-weight-bold'}>ID:</label>{' '}
                 <span className={'kmapid'}>{kid}</span>
