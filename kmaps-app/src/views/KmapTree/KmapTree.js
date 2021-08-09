@@ -42,7 +42,6 @@ import './KmapTree.scss';
  * @constructor
  */
 export default function KmapTree(props) {
-    // console.log("Ktree init props", props);
     const uniqueTreeID = stringToHash(JSON.stringify(props));
     let settings = {
         domain: 'places', // Default domain is places
@@ -93,6 +92,10 @@ export default function KmapTree(props) {
             fl: 'uid',
         },
     };
+
+    if (settings?.startNode && settings?.domain === 'subjects') {
+        rootquery['params']['q'] = `uid:${settings.startNode}`;
+    }
 
     const {
         isLoading: isRootLoading,
@@ -183,25 +186,7 @@ export default function KmapTree(props) {
             }
         }
     }
-    /*
-    if (
-        settings.domain === 'subjects' &&
-        settings.elid.includes('subject-context-tree')
-    ) {
-        console.log('query results', {
-            root: rootData,
-            selnode: selNode,
-            settings: settings,
-        });
-    }
-    */
-    /*
-    if (true || settings.elid.startsWith('related-places-tree-')) {
-        console.log('selpath', settings.selPath);
-        console.log('selnode', selNode);
-    }
 
-     */
     if (rootData?.numFound == 1 && rootData.docs[0]?.uid?.includes('-')) {
         settings.root.kid = rootData.docs[0].uid.split('-')[1];
         if (settings.kid === 0 && settings.level === false) {
@@ -220,9 +205,14 @@ export default function KmapTree(props) {
     if (props?.className) {
         treeclass += ` ${props.className}`;
     }
-
-    // console.log('root kid', settings.root.kid);
-    // console.log('Kmap Tree Settings', settings);
+    // For related subjects context tree
+    if (
+        settings.domain === 'subjects' &&
+        settings.kid === 0 &&
+        settings.selPath.length > 0
+    ) {
+        settings.root.kid = settings.selPath[0];
+    }
 
     return (
         <div id={settings.elid} className={treeclass}>
@@ -230,7 +220,7 @@ export default function KmapTree(props) {
                 domain={settings.domain}
                 current={perspective}
             />
-            {settings.level && (
+            {settings.level && !settings.startNode && (
                 <LeafGroup
                     domain={settings.root.domain}
                     level={settings.level}
@@ -240,7 +230,7 @@ export default function KmapTree(props) {
                     newperspective={perspective}
                 />
             )}
-            {!settings.level && (
+            {(!settings.level || settings.startNode) && (
                 <TreeLeaf
                     domain={settings.root.domain}
                     kid={settings.root.kid}

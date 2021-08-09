@@ -45,7 +45,6 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
-    // console.log('in treeleaf settings', domain, kid, settings, perspective);
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -93,7 +92,6 @@ export default function TreeLeaf({
             childlvl = parseInt(kmapdata[closest_lvl_fld]) + 1; // If not, use closest level
         } // TODO: Test what if neither match?
     }
-
     // Build the query to get number of children, by querying for children but rows = 0 and use numFound
     const query = {
         index: 'terms',
@@ -180,7 +178,7 @@ export default function TreeLeaf({
             perspective={perspective}
         />
     ) : (
-        <div className={settings.childrenClass}> </div>
+        <div className={settings.childrenClass}></div>
     );
 
     if (settings?.showRelatedPlaces && settings.selectedNode === kid) {
@@ -245,6 +243,9 @@ export function LeafChildren({
         isError: isChildrenError,
         error: childrenError,
     } = useSolr(quid, query);
+    if (isChildrenLoading) {
+        return <MandalaSkeleton />;
+    }
     const children =
         !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
     const headernm = `header`;
@@ -259,7 +260,6 @@ export function LeafChildren({
             return 0;
         });
     }
-
     return (
         <div className={settings.childrenClass}>
             {children.map((child, i) => {
@@ -282,6 +282,7 @@ export function LeafChildren({
                 }
                 // Filter out uncles/aunts not in showAncestor of selnode path
                 if (
+                    !settings?.startNode &&
                     settings?.showAncestors &&
                     settings?.selPath &&
                     !settings.selPath.includes(child['id'].split('-')[1] * 1)
