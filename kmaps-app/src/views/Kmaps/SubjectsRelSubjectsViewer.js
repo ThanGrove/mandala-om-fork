@@ -7,6 +7,7 @@ import { useKmap } from '../../hooks/useKmap';
 import { queryID } from '../common/utils';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import KmapTree from '../KmapTree/KmapTree';
+import { useSolr } from '../../hooks/useSolr';
 
 export function SubjectsRelSubjectsViewer({ id }) {
     const baseType = 'subjects';
@@ -16,6 +17,24 @@ export function SubjectsRelSubjectsViewer({ id }) {
         isError: isKmapError,
         error: kmapError,
     } = useKmap(queryID(baseType, id), 'info');
+
+    const descend_ct_query = {
+        index: 'terms',
+        params: {
+            q: `ancestor_id_path:${id}`,
+            fq: 'tree:subjects',
+            fl: 'uid',
+            start: 0,
+            rows: 1,
+            wt: 'json',
+        },
+    };
+    const {
+        isLoading: isDescendCountLoading,
+        data: descendCount,
+        isError: isDescendCountError,
+        error: descendCountError,
+    } = useSolr(`subjects-${id}-descend-count`, descend_ct_query);
 
     const [tabKey, setTabKey] = useState('context'); // For showing the two tabs
 
@@ -41,9 +60,19 @@ export function SubjectsRelSubjectsViewer({ id }) {
                 }
             }
         );
-        child_count = filtered_children.length;
+        child_count =
+            kmap?.level_gen_i === 1
+                ? filtered_children.length
+                : filtered_children.length - 1;
     }
-
+    let desc_ct = 0;
+    if (!isDescendCountLoading) {
+        if (isDescendCountError) {
+            console.log('Descent count error', descendCountError);
+        } else if (descendCount?.numFound) {
+            desc_ct = descendCount.numFound * 1;
+        }
+    }
     const ispartof = [];
     const hasaspart = [];
     $.each(kmap?._childDocuments_, function (cdn, cd) {
@@ -86,7 +115,9 @@ export function SubjectsRelSubjectsViewer({ id }) {
     if (isKmapLoading) {
         return <MandalaSkeleton />;
     }
-
+    console.log('kmap', kmap);
+    const descendant_str =
+        desc_ct > 0 ? `, ${desc_ct} subordinate ${kmtype.toLowerCase()},` : '';
     return (
         <Tabs
             id="kmaps-relateds-tabs"
@@ -98,12 +129,12 @@ export function SubjectsRelSubjectsViewer({ id }) {
                 <div className={'kmap-context'}>
                     <p>
                         <strong>{kmaphead}</strong> has {ancestor_count}{' '}
-                        superordinate {kmtype.toLowerCase()} and {child_count}{' '}
-                        subordinate {kmtype.toLowerCase()}. You can browse these
-                        subordinate {kmtype.toLowerCase()} as well as its
-                        superordinate categories with the tree below. See the
-                        RELATED {kmtype.toUpperCase()} tab if you instead prefer
-                        to view only its immediately subordinate{' '}
+                        superordinate {kmtype.toLowerCase()}
+                        {descendant_str} and {child_count} direct children. You
+                        can browse these subordinate {kmtype.toLowerCase()} as
+                        well as its superordinate categories with the tree
+                        below. See the RELATED {kmtype.toUpperCase()} tab if you
+                        instead prefer to view only its immediately subordinate{' '}
                         {kmtype.toLowerCase()} grouped together in useful ways,
                         as well as {kmtype.toLowerCase()} non-hierarchically
                         related to it.
