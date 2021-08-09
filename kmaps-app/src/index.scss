@@ -21,16 +21,16 @@ body.html {
 a {
     text-decoration: none;
     color: $link-color;
-    border-bottom: 0.15rem dashed #ccc;
+    border-bottom: 0.1rem solid #ccc;
     transition: all 0.3s;
     &:hover {
         text-decoration: none;
         box-shadow: none;
-        border-bottom-color: $color-terms;
+        border-bottom-color: $link-color;
     }
     &:focus,
     &:active {
-        border-bottom-style: solid;
+        border-bottom-style: dashed;
     }
 }
 .btn:not(:disabled):not(.disabled) {
@@ -389,7 +389,6 @@ header.terms
     &.nodeHeader-placesInfo {
         & + div {
             clear: both;
-            max-width: 100%;
             padding-top: 1rem;
             padding-bottom: 1rem;
             margin-bottom: 1rem;
@@ -952,14 +951,6 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     border-right: 0.3rem solid #6b77ea;
     background-color: #f9f9f9;
 
-    &:empty {
-        border: none;
-        padding: 0;
-    }
-    > div {
-        display: inline;
-        padding-right: 1.5rem;
-    }
     > span {
         font-size: 1.5rem;
         font-weight: bold;
@@ -967,11 +958,23 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
         text-transform: uppercase;
         margin-left: 0.5rem;
     }
-    .facetItem {
-        font-size: 1.8rem;
-        margin-left: 1.75rem;
-        position: relative;
-        top: 0;
+    > div {
+        display: inline;
+        padding-right: 1.75rem;
+
+        .facetItem {
+            font-size: 1.8rem;
+            margin-left: 2.5rem;
+            position: relative;
+            top: 0;
+        }
+    }
+    &:empty {
+        border: none;
+        padding: 0;
+    }
+    > div:first-of-type .facetItem {
+        margin-left: 0.5rem;
     }
 }
 
