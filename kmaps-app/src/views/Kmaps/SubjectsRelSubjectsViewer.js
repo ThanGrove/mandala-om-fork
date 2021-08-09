@@ -41,7 +41,7 @@ export function SubjectsRelSubjectsViewer({ id }) {
                 }
             }
         );
-        child_count = filtered_children.length - 1; // seems to include self
+        child_count = filtered_children.length;
     }
 
     const ispartof = [];

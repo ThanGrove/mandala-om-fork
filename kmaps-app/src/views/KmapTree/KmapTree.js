@@ -92,8 +92,9 @@ export default function KmapTree(props) {
             fl: 'uid',
         },
     };
-    if (props?.startNode) {
-        rootquery['params']['q'] += ` AND uid:${settings.startNode}`;
+
+    if (settings?.startNode && settings?.domain === 'subjects') {
+        rootquery['params']['q'] = `uid:${settings.startNode}`;
     }
 
     const {
@@ -186,25 +187,6 @@ export default function KmapTree(props) {
         }
     }
 
-    /*
-    if (
-        settings.domain === 'subjects' &&
-        settings.elid.includes('subject-context-tree')
-    ) {
-        console.log('query results', {
-            root: rootData,
-            selnode: selNode,
-            settings: settings,
-        });
-    }
-    */
-    /*
-    if (true || settings.elid.startsWith('related-places-tree-')) {
-        console.log('selpath', settings.selPath);
-        console.log('selnode', selNode);
-    }
-
-     */
     if (rootData?.numFound == 1 && rootData.docs[0]?.uid?.includes('-')) {
         settings.root.kid = rootData.docs[0].uid.split('-')[1];
         if (settings.kid === 0 && settings.level === false) {
@@ -223,9 +205,14 @@ export default function KmapTree(props) {
     if (props?.className) {
         treeclass += ` ${props.className}`;
     }
-
-    // console.log('root kid', settings.root.kid);
-    // console.log('Kmap Tree Settings', settings);
+    // For related subjects context tree
+    if (
+        settings.domain === 'subjects' &&
+        settings.kid === 0 &&
+        settings.selPath.length > 0
+    ) {
+        settings.root.kid = settings.selPath[0];
+    }
 
     return (
         <div id={settings.elid} className={treeclass}>
