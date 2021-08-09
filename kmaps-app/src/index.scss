@@ -21,16 +21,16 @@ body.html {
 a {
     text-decoration: none;
     color: $link-color;
-    border-bottom: 0.15rem dashed #ccc;
+    border-bottom: 0.1rem solid #ccc;
     transition: all 0.3s;
     &:hover {
         text-decoration: none;
         box-shadow: none;
-        border-bottom-color: $color-terms;
+        border-bottom-color: $link-color;
     }
     &:focus,
     &:active {
-        border-bottom-style: solid;
+        border-bottom-style: dashed;
     }
 }
 .btn:not(:disabled):not(.disabled) {

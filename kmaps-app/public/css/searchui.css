@@ -430,7 +430,8 @@
     display: inline-block;
     margin-left: 0.2rem;
     position: absolute;
-    right: -1.45rem;
+    right: -2rem;
+    font-size: 1.5rem;
 }
 .sui-advTermRem .icon::before {
     color: blue;
