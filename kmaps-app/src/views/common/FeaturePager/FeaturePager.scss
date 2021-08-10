@@ -108,7 +108,7 @@
         }
         input {
             margin-left: 0.5rem;
-            padding: 0.2rem 0;
+            padding: 0.2rem 0 !important;
             text-align: center;
             width: 6rem;
             border-radius: 0.35rem;
@@ -121,5 +121,8 @@
     padding: 0 2rem 0 2.5rem;
 }
 .c-view__wrapper.gallery .c-featurePager__container {
-    padding: 0 1.5rem 0 1.5rem;
+    padding: 0 1.5rem 0 1.5rem !important;
+}
+.c-view__wrapper.gallery .react-photo-gallery--gallery {
+    margin-bottom: 3rem !important;
 }

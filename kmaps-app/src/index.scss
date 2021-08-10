@@ -301,6 +301,7 @@ header.terms
     //  flex-direction: column;
 
     font-size: 120%;
+    min-height: calc(100vh - 14rem);
 
     &.c-collection {
         h1.title {

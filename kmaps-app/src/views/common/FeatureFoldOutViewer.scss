@@ -38,6 +38,7 @@
     position: relative;
     margin-bottom: 1rem;
     border-radius: 0.75rem;
+    min-height: 48rem;
     // Icons and arrows, close-x
 
     .c-foviewer__close {
@@ -212,7 +213,7 @@
                 color: inherit;
                 display: block;
                 padding: 1rem;
-
+                line-height: 3;
                 color: #eee;
                 background-color: #000;
                 border: 1px solid #444;
