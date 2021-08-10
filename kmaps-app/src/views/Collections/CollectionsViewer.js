@@ -375,7 +375,11 @@ function CollectionSortModeSelector({ sortMode, setSort }) {
         setSort(newSortVal);
     };
 
-    const sortByVals = ['Title:title_sort_s', 'Date:node_created'];
+    const sortByVals = [
+        'Title:title_sort_s',
+        'Date:node_created',
+        'Creator:creator_sort_s',
+    ];
     const sortOrderVals = ['Asc', 'Desc'];
     return (
         <div className={'c-buttonGroup__sortMode'}>
