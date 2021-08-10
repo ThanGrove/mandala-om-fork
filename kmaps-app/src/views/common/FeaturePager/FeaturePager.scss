@@ -24,6 +24,8 @@
             margin-left: 0px;
             margin-right: 4px;
             font-style: normal;
+            font-weight: bold;
+            color: #000;
             padding-right: 0.2rem;
         }
         .start {
@@ -33,10 +35,11 @@
         .total {
             font-weight: bold;
             color: #fff;
-            font-size: 1.25rem;
+            font-size: 1.45rem;
             background-color: $color-mandala;
             padding: 0.25rem 1.25rem;
             margin-left: 0.5rem;
+            margin-right: 0.75rem;
             border-radius: 1.5rem;
         }
     }
