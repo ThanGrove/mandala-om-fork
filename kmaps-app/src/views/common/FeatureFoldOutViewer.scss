@@ -172,7 +172,7 @@
             padding-right: 1.5rem;
 
             h2 {
-                font-size: 1.25rem;
+                font-size: 1.95rem;
                 margin-left: 2rem;
                 line-height: 2.4rem;
                 span {
@@ -186,8 +186,8 @@
             .info,
             .ids,
             .summary {
-                margin: 0.5rem 0 0.5rem 2rem;
-                font-size: 1.2rem;
+                margin: 0.5rem 0 0 2rem;
+                font-size: 1.5rem;
             }
 
             .info {
@@ -255,7 +255,12 @@
             }
             .kmaprow {
                 margin-left: 2rem;
-                font-size: 1.3rem;
+                font-size: 1.6rem;
+                line-height: 1.75;
+                margin-top: 0.5rem;
+            }
+            .kmaprow:first-of-type {
+                margin-top: 1rem;
             }
             .kmaprow > .icon {
                 display: inline-block;

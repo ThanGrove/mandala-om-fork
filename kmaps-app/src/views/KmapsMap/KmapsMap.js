@@ -219,8 +219,8 @@ class KmapsMap extends React.Component {
 
     render() {
         const style = {
-            width: this.state.width + 'px',
-            height: this.state.height + 'px',
+            width: '100%',
+            height: '80vh',
             backgroundColor: '#cccccc',
         };
         const errStyle = {
