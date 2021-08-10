@@ -17,11 +17,21 @@
         padding-left: 1rem;
         padding-right: 1rem;
         font-size: 1.65rem;
+        font-style: italic;
         .start,
         .end {
             display: inline-block;
             margin-left: 0px;
             margin-right: 4px;
+            font-style: normal;
+            padding-right: 0.2rem;
+        }
+        .start {
+            padding-left: 0.5rem;
+            padding-right: 0;
+        }
+        .total {
+            font-weight: bold;
         }
     }
     .c-featurePager__navButtons {
@@ -101,7 +111,9 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        font-size: 1.65rem;
+        font-size: 1.75rem;
+        font-style: italic;
+
         .react-numeric-input {
             padding-right: 2rem;
             padding-left: 0.5rem;
