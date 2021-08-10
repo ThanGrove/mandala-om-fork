@@ -52,11 +52,11 @@
 #sui-viewerSide {
     padding-left: 2.5rem;
     max-width: 90rem;
-    max-height: 78rem;
+    /*  max-height: 78rem; */
     overflow-x: scroll;
 }
 .c-content__main__kmaps #sui-viewerSide {
-    padding: 0 0 0 1.5rem;
+    /* padding: 0 0 0 1.5rem; */
 }
 #sui-kplayer {
     width: 100%;
@@ -68,8 +68,8 @@
 
 #av-player-row {
     /* overflow-x: hidden;
-    overflow-y: visible; */
-    height: 800px;
+    overflow-y: visible;
+    height: 800px; */
 }
 
 div#av-trscrpt-wrapper {
