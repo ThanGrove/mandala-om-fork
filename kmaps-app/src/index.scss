@@ -21,18 +21,18 @@ body.html {
 a {
     text-decoration: none;
     color: $link-color;
-    border-bottom: 0.075rem solid rgba(162, 127, 28, 0.7);
-    transition: all 0.3s;
+    border-bottom: 0.075rem solid rgba(162, 127, 28, 0.65);
+    transition: all 0.2s;
     padding-bottom: 0.15rem;
 
     &:hover {
         text-decoration: none;
         box-shadow: none;
-        border-bottom-color: $link-color;
+        border-bottom-color: $color-terms;
     }
     &:focus,
     &:active {
-        border-bottom-style: dashed;
+        border-bottom-color: transparent;
     }
 }
 .btn:not(:disabled):not(.disabled) {
@@ -1134,7 +1134,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
     .title {
         padding-top: 0.5rem;
         line-height: 2.5rem;
-        font-size: 1.6rem;
+        font-size: 1.85rem;
         .header {
             color: #000;
             &:hover {
