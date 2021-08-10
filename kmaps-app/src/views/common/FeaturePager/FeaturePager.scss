@@ -36,16 +36,17 @@
             color: #888;
             background-color: transparent;
             border-radius: 1.5rem;
-            border: 0.15rem solid #f0f0f0;
+            border: 0.35rem solid #f0f0f0;
             transition: all 0.4s;
             &:hover {
                 color: $color-mandala;
-                border-color: $color-mandala;
+                border-color: #ddd;
                 background-color: #fff;
             }
             &:active {
-                border-color: #ccc;
+                border-color: $color-mandala;
                 background-color: #fff;
+                border-style: double;
             }
         }
         .icon:last-child {
@@ -67,12 +68,12 @@
             line-height: 1.15;
             width: 5.5rem;
             position: relative;
-            top: -0.1rem;
+            top: -0.2rem;
             margin-right: 0.85rem;
             text-align: center;
             border: 1px solid #4d59ca;
             border-radius: 0.35rem;
-            border-width: 0.25rem 0.1rem;
+            border-width: 0.35rem 0.1rem;
             opacity: 0.65;
             &:hover {
                 opacity: 1;
