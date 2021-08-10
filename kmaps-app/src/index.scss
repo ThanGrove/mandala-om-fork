@@ -21,7 +21,7 @@ body.html {
 a {
     text-decoration: none;
     color: $link-color;
-    border-bottom: 0.1rem solid rgba(162, 127, 28, 0.5);
+    border-bottom: 0.05rem solid rgba(162, 127, 28, 0.5);
     transition: all 0.3s;
     &:hover {
         text-decoration: none;
@@ -263,8 +263,12 @@ div.image-wrapper.center figcaption {
     flex: 1;
 }
 .l-content__main__wrap {
-    margin: 2rem auto 0;
+    margin: 0 auto;
     padding-bottom: 5rem;
+}
+
+.places + .two-columns .l-content__main__wrap {
+    margin-top: 2rem;
 }
 
 // --------------------------------------

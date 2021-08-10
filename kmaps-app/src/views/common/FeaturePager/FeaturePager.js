@@ -46,7 +46,7 @@ export function FeaturePager(props) {
                         props.assetCount
                     )}
                 </span>
-                of <span className="total">{props.assetCount}</span>)
+                ) of <span className="total">{props.assetCount}</span>
             </div>
             <div className="c-featurePager__navButtons">
                 <span
