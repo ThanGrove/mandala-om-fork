@@ -130,7 +130,7 @@ function FeatureCollectionViewModeSelector(props) {
         history.push(viewMode + qs);
     }
 
-    const deckLabel = <span className={'u-icon__address-card-o icon'}></span>; // card deck
+    const deckLabel = <span className={'u-icon__grid icon'}></span>; // card deck
     const galleryLabel = <span className={'u-icon__th icon'}></span>; // Gallery
     const listLabel = <span className={'u-icon__list2 icon'}></span>; // List
     return (
