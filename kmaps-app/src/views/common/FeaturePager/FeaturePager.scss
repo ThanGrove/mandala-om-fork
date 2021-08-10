@@ -34,13 +34,14 @@
         }
         .total {
             font-weight: bold;
-            color: #fff;
+            color: #333;
             font-size: 1.45rem;
-            background-color: $color-mandala;
-            padding: 0.25rem 1.25rem;
+            background-color: #fff;
+            padding: 0.15rem 1.25rem 0.2rem;
             margin-left: 0.5rem;
             margin-right: 0.75rem;
             border-radius: 1.5rem;
+            border: 4px double #999;
         }
     }
     .c-featurePager__navButtons {
@@ -131,9 +132,9 @@
             margin-left: 0.5rem;
             padding: 0.2rem 0 !important;
             text-align: center;
-            width: 6rem;
-            border-radius: 0.35rem;
+            border-radius: 0.85rem !important;
             line-height: 1.5;
+            border: 5px double #999 !important;
         }
     }
 }
