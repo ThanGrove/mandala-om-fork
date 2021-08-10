@@ -62,6 +62,7 @@ export function FeaturePager(props) {
                     {' '}
                 </span>
                 <span className="c-pager__counterWrapper">
+                    Page
                     <span className="c-pager__counter-1">{wingo}</span>
                     of
                     <span className="c-pager__counterMax">{maxPage}</span>
