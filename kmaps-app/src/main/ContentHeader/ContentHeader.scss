@@ -58,10 +58,11 @@
 }
 
 .c-content__header__breadcrumb .breadcrumb-item:hover {
-    //  border-bottom-color: #fff;
+    border-bottom-color: #fff;
 }
 .c-content__header__breadcrumb .breadcrumb-item:active {
-    //  border-bottom-color: #aaa;
+    border-bottom-color: transparent;
+    border-bottom-style: solid;
 }
 .c-content__header__breadcrumb .breadcrumb-item:first-of-type {
     font-weight: bold;
