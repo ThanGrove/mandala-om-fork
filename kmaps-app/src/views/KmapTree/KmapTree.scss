@@ -90,6 +90,7 @@ ul.fancytree-container {
     max-width: inherit;
     overflow: hidden;
     line-height: 1.45;
+    margin-left: 1.25rem;
     .toggle-icon {
         display: inline-block;
         margin-right: 0.9rem;
@@ -129,12 +130,11 @@ ul.fancytree-container {
         width: 0.7rem;
         height: 0.7rem;
         margin-right: 0.45rem;
-        margin-left: 0.15rem;
-        /*  background-color: #a27f1c; */
+        margin-left: 0.4rem;
         border: 2px solid #b99b45;
         display: inline-block;
         position: relative;
-        top: -0.25rem;
+        top: -0.4rem;
         transform: rotate(45deg);
     }
 }

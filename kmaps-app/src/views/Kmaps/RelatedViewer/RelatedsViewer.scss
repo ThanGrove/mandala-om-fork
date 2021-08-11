@@ -447,13 +447,13 @@
         li::before {
             content: '';
             display: inline-block;
-            width: 0.6rem;
-            height: 0.6rem;
-            border: 0.15rem solid #888;
+            width: 0.65rem;
+            height: 0.65rem;
+            border: 0.15rem solid #555;
             margin-right: 1rem;
             position: relative;
             left: 0.1rem;
-            top: 0.85rem;
+            top: 1.35rem;
             float: left;
             transform: rotate(45deg);
         }
