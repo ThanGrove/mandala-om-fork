@@ -7,13 +7,29 @@ import create from 'zustand';
  */
 
 export const useView = create((set, get) => ({
-    places: '69|roman.popular',
-    subjects: '72|roman.popular',
-    terms: '73|roman.scholar',
+    places: getStoredSetting('places'),
+    subjects: getStoredSetting('subjects'),
+    terms: getStoredSetting('terms'),
     setPlacesView: (val) => set((state) => ({ places: val })),
     setSubjectsView: (val) => set((state) => ({ subjects: val })),
     setTermsView: (val) => set((state) => ({ terms: val })),
 }));
+
+export function getStoredSetting(domain) {
+    if (localStorage.getItem('savedViewSettings') === 'true') {
+        const mysettings = JSON.parse(localStorage.getItem('userViewSettings'));
+        return mysettings[domain];
+    } else {
+        switch (domain) {
+            case 'places':
+                return '69|roman.popular';
+            case 'subjects':
+                return '72|roman.popular';
+            case 'terms':
+                return '73|roman.scholar';
+        }
+    }
+}
 
 export function getViewLanguageClass(viewcode) {
     if (viewcode.includes('.chi')) {
