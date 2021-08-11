@@ -20,9 +20,9 @@ body.html {
 }
 a {
     text-decoration: none;
-    color: $link-color;
+    color: #000;
+    cursor: pointer;
     border-bottom: 0.075rem solid rgba(162, 127, 28, 0.65);
-    transition: all 0.2s;
     padding-bottom: 0.15rem;
 
     &:hover {
@@ -1130,9 +1130,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         font-size: 1.85rem;
         .header {
             color: #000;
-            &:hover {
-                color: red;
-            }
             .subtitle {
                 display: inline-block;
                 margin-left: 0.5rem;
@@ -1291,26 +1288,10 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         span:last-child::after {
             content: '';
         }
-
-        a {
-            //  color: #333;
-            font-style: italic;
-        }
-
-        a:hover {
-            color: #df3d26;
-            // text-decoration: none;
-        }
     }
 
     .collapse .info.kmaps,
     .collapsing .info.kmaps {
-        /* margin-bottom: -1.5rem; */
-        & > * {
-            /*  margin-left: 5.5rem;
-            font-size: 1.4rem;
-            line-height: 2.5rem; */
-        }
         p.caption {
             margin-bottom: 0;
             font-style: italic;
