@@ -968,6 +968,9 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
             position: relative;
             top: 0;
         }
+        .facetItem:not(.icon) {
+            color: $color-mandala;
+        }
     }
     &:empty {
         border: none;
