@@ -2,6 +2,7 @@
 
 .sui-featureGallery-selectedImg {
     margin-bottom: -0.5rem;
+    cursor: default !important;
 
     img {
         margin-bottom: -0.3rem !important;
@@ -38,7 +39,7 @@
     position: relative;
     margin-bottom: 1rem;
     border-radius: 0.75rem;
-    min-height: 48rem;
+    min-height: 42rem;
     // Icons and arrows, close-x
 
     .c-foviewer__close {
