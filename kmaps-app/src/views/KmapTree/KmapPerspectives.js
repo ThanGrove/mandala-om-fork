@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -28,6 +28,7 @@ export const EMPTY_PERSPECTIVE_CODES = [
 ];
 
 export function PerspectiveChooser({ domain, current, setter, ...props }) {
+    const perspective = usePerspective();
     const setPerspective = usePerspective((state) => state.setPerspective);
 
     // Get Perspective data from API
@@ -39,31 +40,31 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     } = useQuery(['perspective', 'data', domain], () =>
         getPerspectiveData(domain)
     );
+
+    let defVal = current;
+
+    const changeMe = (evt) => {
+        const persp_code = evt.target.value;
+        setPerspective(domain, persp_code);
+    };
+    /**
+    useEffect(() => {
+        defVal = perspective[domain] ? perspective[domain] : current;
+    }, [perspective, perspData]);
+ **/
+
     if (isPerspDataLoading) {
         return <MandalaSkeleton />;
     }
     if (perspData.length === 1) {
         return null;
     }
-    const choices = perspData;
-    if (!domain || !choices) {
-        return null;
-    }
+
     let pclass =
         props?.classes && props.classes?.length && props.classes.length > 0
             ? props.classes
             : '';
     pclass = ['c-perspective-select', ...pclass];
-
-    const changeMe = (evt) => {
-        const persp_code = evt.target.value;
-        setPerspective(domain, persp_code);
-        /*
-        console.log(
-            `********** New Perspective: ${persp_code} *****************`
-        );
-         */
-    };
 
     return (
         <div className={pclass}>
@@ -71,8 +72,8 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
                 Persepective
                 <PerspectiveDescs domain={domain} />
             </label>
-            <select defaultValue={current} onChange={changeMe}>
-                {choices.map((persp, i) => {
+            <select defaultValue={defVal} onChange={changeMe}>
+                {perspData.map((persp, i) => {
                     if (EMPTY_PERSPECTIVE_CODES.includes(persp.code)) {
                         return null;
                     }

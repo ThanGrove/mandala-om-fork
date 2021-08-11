@@ -15,11 +15,22 @@ export function MandalaSettings() {
 
     // For Perspectives
     const perspectiveState = usePerspective();
+    const [perspectiveSettings, setPerspective] = useState({
+        places: perspectiveState.places,
+        subjects: perspectiveState.subjects,
+        terms: perspectiveState.terms,
+    });
 
     // For Modal
     const [show, setShow] = useState(false);
     const toggle = () => {
         setShow(!show);
+    };
+
+    const updatePerspectiveChoice = (domain, val) => {
+        perspectiveSettings[domain] = val;
+        setPerspective(perspectiveSettings);
+        console.log('in update perspectives', perspectiveSettings);
     };
 
     const saveChanges = () => {
@@ -36,17 +47,10 @@ export function MandalaSettings() {
         localStorage.setItem('savedViewSettings', 'true');
         localStorage.setItem('userViewSettings', JSON.stringify(viewSettings));
 
-        // Save Perspectives
-        const allPersectives = {
-            places: perspectiveState.places,
-            subjects: perspectiveState.subjects,
-            terms: perspectiveState.terms,
-        };
-
         localStorage.setItem('savedPerspectives', 'true');
         localStorage.setItem(
             'userPerspectives',
-            JSON.stringify(allPersectives)
+            JSON.stringify(perspectiveSettings)
         );
         setShow(false);
     };
@@ -94,8 +98,8 @@ export function MandalaSettings() {
                             title="Perspective Settings"
                         >
                             <PerspectiveSettings
-                                current={perspectiveState}
-                                setPerspective={perspectiveState.setPerspective}
+                                current={perspectiveSettings}
+                                setPerspective={updatePerspectiveChoice}
                             />
                         </Tab>
                     </Tabs>
