@@ -1,9 +1,7 @@
 import { BsGear } from 'react-icons/all';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Button, Form, FormControl, InputGroup, Modal } from 'react-bootstrap';
 import _ from 'lodash';
-import $ from 'jquery';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
@@ -31,17 +29,31 @@ export function ViewSettings(props) {
     };
 
     const saveChanges = () => {
-        if (viewSettings['places_view']) {
-            viewSettingsState.setPlacesView(viewSettings['places_view']);
+        if (viewSettings['places']) {
+            viewSettingsState.setPlacesView(viewSettings['places']);
         }
-        if (viewSettings['subjects_view']) {
-            viewSettingsState.setSubjectsView(viewSettings['subjects_view']);
+        if (viewSettings['subjects']) {
+            viewSettingsState.setSubjectsView(viewSettings['subjects']);
         }
-        if (viewSettings['terms_view']) {
-            viewSettingsState.setTermsView(viewSettings['terms_view']);
+        if (viewSettings['terms']) {
+            viewSettingsState.setTermsView(viewSettings['terms']);
         }
+        localStorage.setItem('savedViewSettings', 'true');
+        localStorage.setItem('userViewSettings', JSON.stringify(viewSettings));
         setShow(false);
     };
+
+    useEffect(() => {
+        const savedSettings =
+            localStorage.getItem('savedViewSettings') === 'true';
+        let mysettings = savedSettings
+            ? localStorage.getItem('userViewSettings')
+            : false;
+        if (mysettings) {
+            mysettings = JSON.parse(mysettings);
+            setViewSettings(mysettings);
+        }
+    }, []);
 
     return (
         <>
@@ -103,7 +115,7 @@ function KmapsSettings({ type, domain, handleChange }) {
     if (isViewDataLoading) {
         return <MandalaSkeleton />;
     }
-    const name = `${domain}_${type}`;
+    const name = `${domain}`;
     return (
         <div id={`${domain}-settings`} className="c-modal_subsection">
             <h2>{capitalize(domain)} Name Form</h2>
