@@ -7,6 +7,7 @@
     justify-content: space-between;
     flex-flow: row wrap;
     padding: 0 3rem;
+    color: #000;
 
     &.bottom {
         margin-top: 3rem;
@@ -16,7 +17,7 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        font-size: 1.65rem;
+        font-size: 1.55rem;
         font-style: italic;
         .start,
         .end {
@@ -45,7 +46,7 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        font-size: 1.2rem;
+        font-size: 1rem;
         position: relative;
         top: -0.2rem;
 
@@ -55,17 +56,16 @@
             color: #333;
             background-color: transparent;
             border-radius: 1.5rem;
-            border: 0.35rem solid #f0f0f0;
+            border: 0.3rem double #ccc;
             transition: all 0.4s;
 
             &:hover {
-                border-color: #ddd;
+                opacity: 1;
                 background-color: #fff;
+                border-color: #aaa;
             }
             &:active {
-                border-color: $color-mandala;
-                background-color: #fff;
-                border-style: double;
+                border-style: solid;
             }
         }
         .icon:last-child {
