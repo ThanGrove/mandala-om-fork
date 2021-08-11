@@ -37,7 +37,7 @@ export function FeaturePager(props) {
     return (
         <div className={`c-featurePager__container${position}${classname}`}>
             <div className="c-featurePager__resultSummary">
-                TOTAL #<span className="total">{props.assetCount}</span>(
+                Total (<span className="total">{props.assetCount}</span>) -
                 Viewing
                 <span className="start">{props.page * props.perPage + 1}</span>
                 to{' '}
@@ -47,7 +47,6 @@ export function FeaturePager(props) {
                         props.assetCount
                     )}
                 </span>
-                )
             </div>
             <div className="c-featurePager__navButtons">
                 <span
