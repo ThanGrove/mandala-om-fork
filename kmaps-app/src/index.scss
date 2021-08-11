@@ -983,9 +983,9 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 }
 
 .c-buttonGroup__viewMode .icon::before {
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     position: relative;
-    top: 0.2rem;
+    top: 0.35rem;
 }
 
 .c-buttonGroup__sortMode {
@@ -1220,7 +1220,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
                 li {
                     list-style-type: none;
                     font-family: 'EB Garamond', serif;
-                    font-size: 1.6rem;
+                    font-size: 1.75rem;
                 }
             } // Ends kmaps for relateds in accordion
         }
