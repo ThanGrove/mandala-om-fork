@@ -979,6 +979,7 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     text-transform: uppercase;
     line-height: 2.5;
     letter-spacing: 0.025rem;
+    display: none;
 }
 
 .c-buttonGroup__viewMode .icon::before {

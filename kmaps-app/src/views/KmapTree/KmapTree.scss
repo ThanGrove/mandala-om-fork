@@ -100,6 +100,7 @@ ul.fancytree-container {
     }
     .label a {
         color: #000;
+        margin: 0 0.5rem;
         &:hover {
             color: #df3d26;
         }
@@ -110,7 +111,6 @@ ul.fancytree-container {
         line-height: 1.35;
     }
     &.selected > .c-kmapnode > .label {
-        border-bottom: 0.3rem solid #cca843;
         line-height: 2.25;
         a {
             border-bottom: 0.3rem solid #cca843;
@@ -129,12 +129,13 @@ ul.fancytree-container {
         content: '';
         width: 0.7rem;
         height: 0.7rem;
-        margin-right: 0.45rem;
-        margin-left: 0.4rem;
+        margin-right: 0.7rem;
+        margin-left: 0.3rem;
         border: 2px solid #b99b45;
         display: inline-block;
         position: relative;
-        top: -0.4rem;
+        top: -0.25rem;
+        left: 0;
         transform: rotate(45deg);
     }
 }

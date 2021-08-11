@@ -40,7 +40,13 @@ export default function RelatedsGallery({ baseType }) {
     }, [type]);
 
     if (isRelatedLoading) {
-        return <span>Relateds Gallery Skeleton</span>;
+        return (
+            <center>
+                <span>
+                    <em>Related Resources Loading...</em>
+                </span>
+            </center>
+        );
     }
 
     if (isRelatedError) {
