@@ -45,4 +45,10 @@
             font-size: 1.25rem;
         }
     }
+
+    @media (min-width: 769px) {
+        .modal-dialog {
+            max-width: 600px;
+        }
+    }
 }
