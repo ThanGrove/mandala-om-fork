@@ -130,7 +130,6 @@ export default function ImagesViewer(props) {
             : false;
         return (
             <div className={'c-image'}>
-                <AssetTitle kmasset={kmasset} />
                 {props?.id && (
                     <RelatedAssetHeader
                         type="images"

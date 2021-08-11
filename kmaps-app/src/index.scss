@@ -280,11 +280,12 @@ div.image-wrapper.center figcaption {
 header.terms + .two-columns .c-content__main__kmaps > * {
     max-width: 90rem;
 }
-header.terms
-    + .two-columns
-    .c-content__main__kmaps
-    .c-buttonGroup__viewMode__wrap {
-    max-width: 100% !important;
+header.terms + .two-columns {
+    .c-content__main__kmaps {
+        .c-buttonGroup__viewMode__wrap {
+            max-width: 100% !important;
+        }
+    }
 }
 .custSelect__component {
     margin-bottom: 2rem;
@@ -295,12 +296,6 @@ header.terms
     border: 1px solid #ccc;
     border-radius: 1rem;
     padding: 0.5rem 1.5rem 3rem 2rem;
-    font-size: 1.375rem;
-    //  position: relative;
-    //  height: 100%;
-    //  display: flex;
-    //  flex-direction: column;
-
     font-size: 120%;
     min-height: calc(100vh - 14rem);
 
@@ -429,10 +424,10 @@ header.terms
                 }
             }
             .tab-content {
-                border: 8px double $color-places;
-                border-width: 0.8rem 0.5rem;
+                border-color: $color-places;
+                border-style: double;
+                border-width: 0.8rem 0.5rem 0.8rem 0.5rem;
                 border-radius: 1rem;
-                // min-height: 50rem;
 
                 #place-kmap-tabs-tabpane-map {
                     padding: 0;
@@ -657,8 +652,6 @@ header.terms
         background-color: #3f49b1;
         border-bottom: 0.6rem double #fff;
         height: 5rem;
-        display: flex;
-        justify-content: space-between;
 
         .treeNav-header__title {
             margin-left: 2.5rem;
@@ -710,7 +703,6 @@ header.terms
         button {
             color: #fff;
             background-color: #3f49b1;
-            border: none;
             opacity: 0.9;
             padding: 0.35rem 0.75rem 0.25rem 0.75rem;
             display: inline-block;
@@ -868,7 +860,6 @@ header.terms
             border-left-style: dashed;
             border-color: $color-mandala;
             border-width: 2rem 0 2rem 0.1rem;
-            border-radius: 0.75rem;
             border-radius: 0.25rem;
             opacity: 0.25;
             transition: all 0.35s;
@@ -948,7 +939,6 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 }
 
 .sui-facetList-horiz {
-    padding-right: 1.5rem;
     margin: 1rem 2rem 2rem;
     padding: 0.5rem 1rem 0.75rem;
     transition: all 0.25s;
@@ -1217,7 +1207,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         .kmap-container {
             clear: both;
             .kmaps {
-                max-width: 27rem;
                 max-width: 31%;
                 min-width: 27rem;
                 float: left;

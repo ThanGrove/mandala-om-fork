@@ -248,9 +248,6 @@ function AltContentHeader({ domain, kid, siteClass, isCollection }) {
                     )}
                 </div>
                 <h5 className={'c-content__header__main__id'}>{kid}</h5>
-                <h4 className={'c-content__header__main__sub'}>
-                    {/* subtitle here? */}
-                </h4>
             </div>
         </header>
     );
