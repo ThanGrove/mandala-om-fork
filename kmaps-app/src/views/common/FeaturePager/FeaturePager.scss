@@ -34,13 +34,10 @@
         }
         .total {
             font-weight: bold;
-            color: #fff;
-            font-size: 1.45rem;
-            padding: 0.15rem 1.25rem 0.2rem;
-            margin-left: 0.5rem;
+            font-size: 1.5rem;
+            padding: 0.15rem 1.25rem 0.2rem 0;
             margin-right: 0.75rem;
             border-radius: 1.5rem;
-            background: #707070;
         }
     }
     .c-featurePager__navButtons {
@@ -48,17 +45,20 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
+        font-size: 1.2rem;
+        position: relative;
+        top: -0.2rem;
 
         .icon {
             margin: 0 1.5rem 0 0;
             padding: 0.7rem 0.75rem 0.6rem 1rem;
-            color: #888;
+            color: #333;
             background-color: transparent;
             border-radius: 1.5rem;
             border: 0.35rem solid #f0f0f0;
             transition: all 0.4s;
+
             &:hover {
-                color: $color-mandala;
                 border-color: #ddd;
                 background-color: #fff;
             }
@@ -89,15 +89,14 @@
         span input {
             line-height: 1.15;
             width: 5.5rem;
-            position: relative;
-            top: -0.2rem;
             margin-right: 0.85rem;
             margin-left: 0.85rem;
             text-align: center;
-            border: 1px solid #4d59ca;
+            border: 1px solid $color-mandala;
             border-radius: 0.35rem;
             border-width: 0.35rem 0.1rem;
-            opacity: 0.65;
+            padding: 0 !important;
+            opacity: 0.5;
             &:hover {
                 opacity: 1;
             }
@@ -135,11 +134,21 @@
         }
         input {
             margin-left: 0.5rem;
-            padding: 0.1rem 0 !important;
+            padding: 0 !important;
             text-align: center;
-            border-radius: 0.85rem !important;
             line-height: 1.5;
-            border: 5px double #aaa !important;
+            /* border-radius: 0.85rem !important;
+            border: 5px double #aaa !important; */
+
+            width: 5.5rem;
+            border-radius: 0.35rem !important;
+            border-style: solid;
+            border-color: $color-mandala !important;
+            border-width: 0.35rem 0.1rem !important;
+            opacity: 0.5;
+            &:hover {
+                opacity: 1;
+            }
         }
     }
 }
