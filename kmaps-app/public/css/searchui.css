@@ -842,6 +842,7 @@ color: #a4baec;
 .sui-avMore1 {
     width: 100%;
     text-align: center;
+    margin-bottom: 2rem;
 }
 .sui-avMore2 {
     border: 1px solid #ccc;
@@ -853,7 +854,7 @@ color: #a4baec;
     display: inline-block;
     background-color: #fefefe;
     overflow-y: auto;
-    max-height: 60rem;
+    max-height: 73rem;
     border-right: 1px solid #999;
     width: calc(100% - 2px);
     font-size: 1.3rem;

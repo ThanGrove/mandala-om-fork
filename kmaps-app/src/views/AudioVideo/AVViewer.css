@@ -57,6 +57,8 @@ div#av-trscrpt-wrapper {
 #av-trscrpt-wrapper #sui-trans {
     z-index: 100;
     overflow-y: scroll;
+    border-bottom: 1.5rem double #2ea3ac;
+    border-radius: 0 0 1rem 1rem;
 }
 
 #av-player-row .sui-sourceText,
@@ -73,7 +75,7 @@ div#av-trscrpt-wrapper {
     line-height: 3rem;
     padding-top: 1.25rem;
     font-size: 1.75rem;
-    width: 50%;
+    width: 24%;
     text-align: center;
     letter-spacing: 0.175rem;
     border-top-left-radius: 1.5rem;
@@ -89,6 +91,7 @@ div#av-trscrpt-wrapper {
     color: #2ea3ac;
     font-weight: bold;
     border-bottom: none;
+    margin-bottom: -0.2rem;
     border-top: 0.5rem double #2ea3ac;
 }
 
@@ -109,11 +112,10 @@ div#av-trscrpt-wrapper {
 }
 
 #av-meta-row .tab-content .tab-pane {
-    padding: 2rem 2.4rem 3rem;
+    padding: 3rem 2.4rem 4rem;
     min-height: 50rem;
     background-color: #fff;
     border: 0.15rem solid #2ea3ac;
-    border-top: none;
     width: 100%;
     margin-right: 0.6rem;
     border-radius: 1rem;
