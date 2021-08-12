@@ -327,18 +327,18 @@
         font-size: 1.45rem;
         .kmap-related h3 {
             margin-top: 2rem;
-            font-size: 1.35rem;
-            font-weight: bold;
+            font-size: 1.65rem;
             text-transform: capitalize;
         }
     }
     &.places + .tab-content {
         .kmap-related h3,
         h3.head-related {
-            margin-top: 2rem;
             margin-top: 0;
-            font-size: 1.35rem;
-            font-weight: bold;
+            margin-bottom: 1rem;
+            font-weight: normal;
+            // font-size: 1.35rem;
+            //  font-weight: bold;
         }
     }
 }
@@ -411,7 +411,7 @@
             margin-right: 1rem;
             position: relative;
             left: 0.1rem;
-            top: 1.2rem;
+            top: 1.4rem;
             float: left;
             transform: rotate(45deg);
         }
