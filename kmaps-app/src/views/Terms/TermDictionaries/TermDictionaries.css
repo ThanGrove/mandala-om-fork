@@ -21,11 +21,11 @@
     font-family: shanticon, sans-serif;
     color: #fff;
     position: absolute;
-    font-size: 2.5rem;
+    font-size: 2.65rem;
     width: 3rem;
     height: 3rem;
     left: 1.5rem;
-    bottom: 0.7rem;
+    bottom: 1rem;
 }
 .sui-termDicts__content {
     padding: 1.5rem 2rem;
