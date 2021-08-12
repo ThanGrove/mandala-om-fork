@@ -88,9 +88,9 @@ export default function PlacesRelPlacesViewer() {
                     fluid
                     className={'c-relplaces-list kmap-related places'}
                 >
-                    <h3 className={'row head-related'}>
+                    <h4 className={'row head-related'}>
                         Hierarchy of Places Related to {kmap.header}
-                    </h3>
+                    </h4>
                     <Row>
                         <p>
                             {kmap.header} has {ancestors.length} superordinate
@@ -121,9 +121,9 @@ export default function PlacesRelPlacesViewer() {
                     fluid
                     className={'c-relplaces-list kmap-related places'}
                 >
-                    <h3 className={'row head-related'}>
+                    <h4 className={'row head-related'}>
                         Places Related to {kmap.header} by Feature Type
-                    </h3>
+                    </h4>
                     <Row>
                         <Col>
                             <p>
@@ -167,7 +167,7 @@ function PlaceRelPlaceFtColumns(props) {
                             }
                             return (
                                 <div key={`col-${chki}-cat-${cdi}`}>
-                                    <h3>{feattype.label}</h3>
+                                    <h6>{feattype.label}</h6>
                                     <ul>
                                         {feattype.children.map(
                                             (clitem, cli) => {

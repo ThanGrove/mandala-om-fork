@@ -325,22 +325,25 @@
         border: 1px solid #ccc;
         border-radius: 1rem;
         font-size: 1.45rem;
-        .kmap-related h3 {
-            margin-top: 2rem;
-            font-size: 1.65rem;
+        h4.head-related {
+            font-size: 1.5rem;
             text-transform: capitalize;
         }
-    }
-    &.places + .tab-content {
-        .kmap-related h3,
-        h3.head-related {
-            margin-top: 0;
-            margin-bottom: 1rem;
-            font-weight: normal;
-            // font-size: 1.35rem;
-            //  font-weight: bold;
+        .kmap-related h6 {
+            margin-top: 2rem;
+            margin-bottom: 0;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            font-weight: bold;
         }
     }
+}
+
+.head-related {
+    text-transform: uppercase;
+    font-size: 1.35rem;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
 }
 
 .kmap-content > p,
@@ -380,7 +383,7 @@
 }
 
 .kmap-related .md3 {
-    min-width: 25rem;
+    min-width: 27.5rem;
 }
 
 .c-relplaces-list.places {
@@ -427,12 +430,6 @@
         font-size: 1.35rem;
         font-weight: bold;
     }
-}
-
-.head-related {
-    text-transform: uppercase;
-    font-size: 1.35rem;
-    font-weight: bold;
 }
 
 .c-content__main__kmaps {
