@@ -92,9 +92,9 @@ div#av-trscrpt-wrapper {
     font-weight: bold;
     border-bottom: none;
     margin-bottom: -0.2rem;
-    border-top: 0.5rem double #2ea3ac;
+    border-top: 0.3rem solid #2ea3ac;
 }
-
+/*
 #av-meta-row .nav-tabs a.active::before {
     width: 0;
     height: 0;
@@ -110,7 +110,7 @@ div#av-trscrpt-wrapper {
     margin-left: -0.6rem;
     background: white;
 }
-
+*/
 #av-meta-row .tab-content .tab-pane {
     padding: 3rem 2.4rem 4rem;
     min-height: 50rem;

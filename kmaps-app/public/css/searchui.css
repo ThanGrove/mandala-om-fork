@@ -1014,7 +1014,7 @@ color: #a4baec;
 }
 .sui-transSeg > div:first-of-type {
     font-size: 1.75rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 1rem 0.25rem;
 }
 .sui-transBox {
     /*  margin: 0 0 0 14rem; */
