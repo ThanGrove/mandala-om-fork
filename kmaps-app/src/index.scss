@@ -899,6 +899,7 @@ header.terms + .two-columns {
     border-radius: 1rem;
     margin-bottom: 3rem;
     position: relative;
+    min-height: calc(100vh - 30rem);
 }
 // View mode for content column
 .c-buttonGroup__viewMode {

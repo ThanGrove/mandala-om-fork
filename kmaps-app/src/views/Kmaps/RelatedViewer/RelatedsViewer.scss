@@ -325,6 +325,8 @@
         border: 1px solid #ccc;
         border-radius: 1rem;
         font-size: 1.45rem;
+        min-height: calc(100vh - 30rem);
+
         h4.head-related {
             font-size: 1.5rem;
             text-transform: capitalize;
@@ -356,7 +358,7 @@
 .c-relplaces-list.container-fluid {
     .c-kmaptree {
         // height: 80vh;
-        padding: 1.25rem 1rem 2rem 1.5rem;
+        //  padding: 1.25rem 1rem 2rem 1.5rem;
     }
     .c-featurePager__container.row {
         padding: 1rem;
@@ -379,7 +381,7 @@
         }
     }
     .row > div {
-        padding: 1rem 2rem 0 2rem;
+        //  padding: 1rem 2rem 0 2rem;
     }
 }
 
