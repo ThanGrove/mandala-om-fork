@@ -9,11 +9,9 @@
     padding: 0 3rem;
     color: #000;
 
+    ~ .c-featurePager__container,
     &.bottom {
         margin-top: 3rem;
-        position: absolute;
-        bottom: 1rem;
-        width: 100%;
     }
     .c-featurePager__resultSummary {
         white-space: nowrap;
@@ -64,10 +62,11 @@
             &:hover {
                 opacity: 1;
                 background-color: #fff;
-                border-color: #aaa;
+                border-color: $color-mandala;
             }
             &:active {
                 border-style: solid;
+                opacity: 0.5;
             }
         }
         .icon:last-child {
@@ -160,6 +159,11 @@
 }
 .c-view__wrapper.gallery .c-featurePager__container {
     padding: 0 1.5rem 0 1.5rem !important;
+}
+.c-view__wrapper.gallery
+    .c-featurePager__container
+    ~ .c-featurePager__container {
+    width: 100%;
 }
 .c-view__wrapper.gallery .react-photo-gallery--gallery {
     margin-bottom: 3rem !important;
