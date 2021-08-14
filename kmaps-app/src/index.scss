@@ -513,7 +513,7 @@ header.terms + .two-columns {
         position: relative;
         border: none;
         background-color: #fff;
-        /*  margin-top: -3.4rem; */
+        height: 100%;
         .nav-tabs {
             padding: 0.5rem 0;
             margin: 0 -1rem 0 0;
@@ -605,7 +605,7 @@ header.terms + .two-columns {
     padding-right: 1rem;
     background: #fff;
     border-top: 0.6rem double #4d59ca;
-    border-left: 0.15rem solid #fff;
+    // border-left: 0.15rem solid #fff;
     pre {
         text-align: center;
     }
@@ -614,6 +614,7 @@ header.terms + .two-columns {
         &.open {
             z-index: 1000;
             background: #eee;
+            height: 100%;
         }
     }
     &.open.standalone {

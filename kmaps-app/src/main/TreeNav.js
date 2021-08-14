@@ -42,7 +42,7 @@ const TreeNav = (props) => {
     return (
         <aside
             id="l-column__search--treeNav"
-            className={`l-column__search c-TreeNav--tabs ${openclass} overflow-auto`}
+            className={`l-column__search c-TreeNav--tabs ${openclass}`}
         >
             <div>
                 <span
