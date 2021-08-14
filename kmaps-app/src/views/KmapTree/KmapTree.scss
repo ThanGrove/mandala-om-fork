@@ -25,7 +25,7 @@ ul.fancytree-container {
     margin: 0.45rem 0 0;
     padding-top: 1rem;
     padding-left: 2rem;
-    border-width: 0.5rem 0.15rem 0.575rem 0;
+    border-width: 0.5rem 1rem 0.6rem 0;
     border-top-left-radius: 0;
     border-bottom-width: 1rem;
     border-bottom-style: double;
@@ -38,6 +38,7 @@ ul.fancytree-container {
     height: calc(100vh - 38rem);
     border-bottom-width: 0.7rem;
     border-bottom-style: double;
+    border-right-width: 0.5rem;
 }
 .l-column__related .c-kmaptree:hover {
     width: 50rem;
