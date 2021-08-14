@@ -10,14 +10,12 @@
     width: calc(100% + 24px);
     height: 36px;
 }
-
 .sui-advBox {
     border-bottom: 1px solid #e0e0e0;
     margin: 0 0 0 1rem;
     padding: 0;
     min-height: 5rem;
     width: calc(100% - 10px);
-    // cursor: default !important;
 }
 .l-column__search > section .sui-advBox:first-child {
     border-top: 1px solid #e0e0e0;
@@ -29,15 +27,12 @@
 .sui-advBox.sui-advBox-associated.subjects {
     display: none;
 }
-
 .sui-advBox .app-name {
     line-height: 2.2rem;
 }
-
 .sui-advBox-asset_type {
     text-transform: capitalize;
 }
-
 .sui-advHeader {
     text-transform: capitalize;
     display: flex;
@@ -86,7 +81,6 @@
 }
 .sui-advHeader .u-icon__plus,
 .sui-advHeader .u-icon__minus {
-    font-size: 0.9rem;
     color: #fff;
     cursor: default;
     position: absolute;
@@ -95,12 +89,10 @@
     font-size: 0.95rem;
     text-shadow: 0 0 0.1rem #161a3c;
 }
-
 .sui-advHeader > .app-name {
     flex: 1;
     color: #333;
 }
-
 .sui-advBox-recent .c-HistoryViewer {
     font-size: 1.25rem;
     color: #000;
@@ -112,7 +104,6 @@
     background: transparent !important;
     margin: 0;
 }
-
 .sui-advBox-recent .c-HistoryViewer__relatedRecentItem {
     line-height: 1.25;
     white-space: nowrap;
@@ -123,11 +114,9 @@
     padding-left: 0.4rem;
     padding-bottom: 0.25rem;
 }
-
 .sui-advBox-recent .c-HistoryViewer__relatedRecentItem:hover {
     background-color: #dee7f1;
 }
-
 .sui-advBox-recent .c-HistoryViewer__removeItem {
     cursor: default;
     font-size: 1.25rem;
@@ -170,9 +159,7 @@
     border-right: 0.2rem solid #6b77ea;
     border-radius: 1rem;
     overflow: hidden;
-    //  border-top: 0.7rem double #6b77ea;
 }
-
 .sui-advTerm:empty {
     display: none;
 }
@@ -205,18 +192,19 @@
     display: none;
 }
 .sui-advEdit {
-}
-.sui-advEdit {
-    /* display: none;*/
     background-color: #fafafa;
     text-align: left;
-    border: 0.1rem solid #ddd;
-    border-top-width: 0.3rem;
-    border-bottom-width: 0.3rem;
+    border-width: 0.3rem 0.1rem;
+    border-style: solid;
     border-radius: 0.5rem 0.5rem 1.5rem 1.5rem;
     border-color: #929ae4 #ddd;
-    /* padding: 0.3rem 0.8rem; */
-    font-size: 1.45rem; /* --- value was 1.3rem --- */
+
+    border-width: 0.3rem 0.2rem;
+    border-style: solid dashed;
+    border-radius: 0.5rem 0.5rem 1.5rem 1.5rem;
+    border-color: #929ae4;
+
+    font-size: 1.45rem;
     color: #333;
     margin: 0 0.5rem 0.75rem 0.5rem;
     overflow: auto !important;
@@ -227,7 +215,6 @@
 .sui-advBox:first-child .sui-advEdit {
     font-size: 1.5rem;
     text-transform: capitalize;
-    /*border-top: 2px solid #ddd;*/
 }
 .sui-advEdit-facet-ctrls {
     cursor: default;
@@ -235,9 +222,6 @@
     display: flex;
     justify-content: flex-start;
 }
-.sui-advEdit-facet-ctrls-btns {
-}
-
 .sui-advEdit-facet-ctrls-btns .btn {
     font-size: 1.3rem;
     line-height: 1.4;
@@ -250,9 +234,8 @@
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:first-child {
     border-radius: 1.35rem 0 0 1.35rem !important;
     font-size: 1.85rem;
-    padding: 0 1.2rem 0 1.5rem;
+    padding: 0 1.2rem 0 1.25rem;
     text-align: center;
-    padding-left: 1.25rem;
 }
 .sui-advEdit-facet-ctrls-btns .btn-group > .btn:last-child {
     border-radius: 0 1.35rem 1.35rem 0 !important;
@@ -335,7 +318,6 @@
 
 .sui-advEdit-facet-ctrls-btns input:focus,
 .sui-advEdit-facet-ctrls-btns input:focus-visible {
-    outline: 0 none;
     outline: none !important;
     border: 1px solid #668eec;
     line-height: 1.8;
@@ -431,7 +413,6 @@
 
 .sui-adv-facetlist {
     padding: 0 0 1rem;
-    border-radius: 1.25rem;
     border-radius: 0 0 1.25rem 1.25rem;
 }
 .sui-adv-facetlist .facetItem,

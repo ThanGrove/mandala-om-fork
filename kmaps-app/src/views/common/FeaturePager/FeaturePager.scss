@@ -23,7 +23,7 @@
         .start,
         .end {
             display: inline-block;
-            margin-left: 0px;
+            margin-left: 0;
             margin-right: 4px;
             font-style: normal;
             font-weight: bold;
@@ -55,7 +55,7 @@
             padding: 0.7rem 0.75rem 0.6rem 1rem;
             color: #333;
             background-color: transparent;
-            border-radius: 1.5rem;
+            border-radius: 0.75rem;
             border: 0.3rem double #ccc;
             transition: all 0.4s;
 
@@ -93,7 +93,8 @@
             margin-right: 0.85rem;
             margin-left: 0.85rem;
             text-align: center;
-            border: 1px solid $color-mandala;
+            border-color: $color-mandala;
+            border-style: solid;
             border-radius: 0.35rem;
             border-width: 0.35rem 0.1rem;
             padding: 0 !important;
@@ -160,11 +161,13 @@
 .c-view__wrapper.gallery .c-featurePager__container {
     padding: 0 1.5rem 0 1.5rem !important;
 }
-.c-view__wrapper.gallery
-    .c-featurePager__container
-    ~ .c-featurePager__container {
+
+/*
+.c-view__wrapper.gallery .c-featurePager__container ~ .c-featurePager__container {
     width: 100%;
 }
+ */
+
 .c-view__wrapper.gallery .react-photo-gallery--gallery {
     margin-bottom: 3rem !important;
 }

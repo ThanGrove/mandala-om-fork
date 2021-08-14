@@ -6,6 +6,7 @@ ul.fancytree-container {
 }
 .c-kmaptree {
     margin: 0 1rem 0 0;
+    line-height: 1.5;
     overflow-y: scroll;
     border-style: double solid solid solid;
     border-color: #929ae4 #929ae4 #929ae4 #c0c0c0;
@@ -93,14 +94,14 @@ ul.fancytree-container {
 .c-kmapleaf {
     max-width: inherit;
     overflow: hidden;
-    line-height: 1.45;
+    //  line-height: 1.45;
     margin-left: 1.25rem;
     .toggle-icon {
         display: inline-block;
         margin-right: 0.9rem;
         font-size: 1.95rem;
         position: relative;
-        top: 0.1rem;
+        top: 0.25rem;
     }
     .label a {
         color: #000;
@@ -115,7 +116,7 @@ ul.fancytree-container {
         line-height: 1.35;
     }
     &.selected > .c-kmapnode > .label {
-        line-height: 2.25;
+        //  line-height: 2.25;
         a {
             border-bottom: 0.3rem solid #cca843;
         }
@@ -128,11 +129,11 @@ ul.fancytree-container {
 
 .leafend {
     padding-left: 0.3rem;
-    line-height: 1.45;
+    // line-height: 1.45;
     .toggle-icon::before {
         content: '';
-        width: 0.7rem;
-        height: 0.7rem;
+        width: 0.85rem;
+        height: 0.85rem;
         margin-right: 0.7rem;
         margin-left: 0.3rem;
         border: 2px solid #b99b45;
@@ -195,7 +196,7 @@ ul.fancytree-container {
         /* border: none;
         box-shadow: none;
         background-color: transparent; */
-
+        padding: 1.5rem 2rem 5rem;
         .leafend .toggle-icon {
             color: transparent;
             font-size: 0;

@@ -10,7 +10,6 @@
     overflow-x: hidden;
 }
 .av .c-content__header__main__sub {
-    display: block;
     font-style: italic;
     font-size: 1.3rem;
     margin: 0.5rem 0 0 2rem !important;
@@ -84,6 +83,7 @@ div#av-trscrpt-wrapper {
     color: white;
     position: relative;
     border-top: 0.5rem double white;
+    opacity: 0.75;
 }
 #av-meta-row .nav-tabs a.active {
     background-color: white;
@@ -93,7 +93,12 @@ div#av-trscrpt-wrapper {
     border-bottom: none;
     margin-bottom: -0.2rem;
     border-top: 0.3rem solid #2ea3ac;
+    opacity: 1;
 }
+#av-meta-row .nav-tabs a:hover {
+    opacity: 1;
+}
+
 /*
 #av-meta-row .nav-tabs a.active::before {
     width: 0;

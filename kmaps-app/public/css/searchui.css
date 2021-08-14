@@ -483,12 +483,12 @@ color: #a4baec;
 }
 .sui-boolItem:hover,
 .sui-advEditBool:hover {
-    border-color: $color-mandala;
+    border-color: #4d59ca;
     color: red;
 }
 .sui-boolItem {
     border: none;
-    color: $color-mandala;
+    color: #4d59ca;
     padding: 0.15rem 0.6rem 0.25rem 0.6rem;
     margin: 0 0.25rem;
     border: none;
@@ -572,7 +572,7 @@ color: #a4baec;
     padding: 0 0 2px 20px;
 }
 .sui-tree li.parent > a:before {
-    background-image: url('treebuts.png');
+    /*  background-image: url('treebuts.png'); */
     content: '';
     display: block;
     height: 15px;
