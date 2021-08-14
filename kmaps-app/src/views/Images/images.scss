@@ -72,6 +72,7 @@
     .c-osdviewer {
         position: relative;
         height: 60rem;
+        height: calc(100vh - 18rem);
         margin: 3rem auto 1rem;
         text-align: center;
         min-width: 40vw;
