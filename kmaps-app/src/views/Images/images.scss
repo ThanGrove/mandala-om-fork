@@ -75,13 +75,12 @@
         height: calc(100vh - 18rem);
         margin: 3rem auto 1rem;
         text-align: center;
-        min-width: 40vw;
+        min-width: 50vw;
     }
     .react-iiif-viewer,
     .c-osdviewer {
         .fullscreen {
             position: absolute;
-            /*  left: 47%; */
             top: -40px;
         }
         button {
