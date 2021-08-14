@@ -85,20 +85,19 @@ div#av-trscrpt-wrapper {
     border-top: 0.5rem double white;
     opacity: 0.75;
 }
-#av-meta-row .nav-tabs a.active {
-    background-color: white;
-    border: 0.15rem solid #2ea3ac;
-    color: #2ea3ac;
-    font-weight: bold;
-    border-bottom: none;
-    margin-bottom: -0.2rem;
-    border-top: 0.3rem solid #2ea3ac;
-    opacity: 1;
-}
 #av-meta-row .nav-tabs a:hover {
     opacity: 1;
 }
-
+#av-meta-row .nav-tabs a.active {
+    opacity: 1;
+    border: 0.15rem solid #2ea3ac;
+    border-top: 0.3rem solid #2ea3ac;
+    border-bottom-color: #fff;
+    color: #2ea3ac;
+    font-weight: bold;
+    margin-bottom: -0.2rem;
+    background-color: #fff;
+}
 /*
 #av-meta-row .nav-tabs a.active::before {
     width: 0;

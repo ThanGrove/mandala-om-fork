@@ -86,7 +86,7 @@ export function FeaturePager(props) {
             </div>
             {props.loadingState ? <span> loading...</span> : <span></span>}
             <div className="c-featurePager__itemCount">
-                <span>Items per page:</span>
+                <span>Items per page</span>
                 <NumericInput
                     aria-label="Set number of items per page"
                     min={25}
