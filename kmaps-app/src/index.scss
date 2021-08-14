@@ -533,6 +533,7 @@ header.terms + .two-columns {
                 font-weight: bold;
                 border-radius: 0;
                 transition: all 0.35s;
+                text-transform: uppercase;
                 &:nth-of-type(2) {
                     width: 35%;
                 }
