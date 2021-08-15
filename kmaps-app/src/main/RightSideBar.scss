@@ -358,18 +358,21 @@
     line-height: 1.6;
     white-space: nowrap;
     border-radius: 0.5rem;
-    border-left: 0.1rem solid #edf2f7;
+    border: 0.1rem solid transparent !important;
 }
 .sui-advEditLine:hover {
     background-color: #fff;
-    border-left: 0.1rem solid #6b77ea;
-    border-right: 0.2rem solid #6b77ea;
+    border-color: #6b77ea !important;
+    border-right: 0.2rem solid #6b77ea !important;
+}
+.sui-advEditLine:active {
+    border-style: dashed !important;
 }
 .sui-adv-facetlist > .sui-advEditLine:nth-last-child(2):hover {
     background-color: transparent !important;
 }
 .sui-advEditLine.chosen {
-    border-right: 0.3rem solid #6b77ea;
+    border-right: 0.3rem solid #6b77ea !important;
     border-radius: 0.5rem 0 0 0.5rem;
     font-weight: bold;
     color: $color-amber;
