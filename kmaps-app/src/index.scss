@@ -516,7 +516,7 @@ header.terms + .two-columns {
         height: 100%;
         .nav-tabs {
             padding: 0.5rem 0;
-            margin: 0 -1rem 0 0;
+            margin: 0;
             border-bottom: none;
             background: white;
             .nav-link {
@@ -633,7 +633,7 @@ header.terms + .two-columns {
     .treeNav-header {
         display: flex;
         justify-content: space-between;
-        margin: 0 -1rem 0.15rem 0;
+        margin: 0 0 0.15rem 0;
         font-size: 1.45rem;
         font-weight: bold;
         letter-spacing: 0.0525rem;
