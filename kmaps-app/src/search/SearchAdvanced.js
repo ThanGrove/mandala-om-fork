@@ -260,6 +260,17 @@ export default function SearchAdvanced(props) {
                     booleanControls={booleanControls}
                 />
                 <FacetBox
+                    id="collections"
+                    label="collections"
+                    facets={searchData.facets?.collections?.numBuckets}
+                    facetType="collections"
+                    resetFlag={reset}
+                    onFacetClick={handleFacetChange}
+                    onNarrowFilters={handleNarrowFilters}
+                    chosenFacets={getChosenFacets('collections')}
+                    booleanControls={booleanControls}
+                />
+                <FacetBox
                     id="related_subjects"
                     label="related subjects"
                     facets={searchData.facets?.related_subjects?.numBuckets}
@@ -301,18 +312,6 @@ export default function SearchAdvanced(props) {
                     onFacetClick={handleFacetChange}
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('feature_types')}
-                    booleanControls={booleanControls}
-                />
-
-                <FacetBox
-                    id="collections"
-                    label="collections"
-                    facets={searchData.facets?.collections?.numBuckets}
-                    facetType="collections"
-                    resetFlag={reset}
-                    onFacetClick={handleFacetChange}
-                    onNarrowFilters={handleNarrowFilters}
-                    chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
                 />
                 <FacetBox
