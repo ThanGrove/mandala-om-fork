@@ -222,13 +222,14 @@ export default function SearchAdvanced(props) {
                             )
                         }
                         variant="link"
+                        className={'back-to-results'}
                     >
                         <span className={'header-icon'}>
                             <IconContext.Provider value={{ className: 'icon' }}>
                                 <FaRegArrowAltCircleRight />
                             </IconContext.Provider>
                         </span>
-                        View All
+                        Back to Results
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
@@ -236,7 +237,7 @@ export default function SearchAdvanced(props) {
                         <a
                             href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                         >
-                            View All
+                            Back to Results
                         </a>
                     </span>
                 )}
