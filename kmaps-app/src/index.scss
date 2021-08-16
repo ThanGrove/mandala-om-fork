@@ -644,7 +644,8 @@ header.terms + .two-columns {
 
         .treeNav-header__title {
             margin-left: 2.5rem;
-            color: #f0f0f0;
+            color: #eee;
+            font-weight: bold;
             padding: 0;
             line-height: 2.4;
             font-size: 1.75rem;
@@ -689,11 +690,12 @@ header.terms + .two-columns {
 
         h4 {
             margin-left: 2.5rem;
-            color: #f0f0f0;
+            color: #eee;
             padding: 0;
             line-height: 2.4;
             font-size: 1.75rem;
             letter-spacing: 0.075rem;
+            font-weight: bold;
 
             .header-label-count {
                 font-size: 1.15rem;
@@ -762,9 +764,9 @@ header.terms + .two-columns {
             font-size: 1.3rem;
             font-weight: bold;
             line-height: 1.5;
-            letter-spacing: 0.125rem;
+            letter-spacing: 0.1rem;
             margin: 0 0.35rem;
-            padding: 0.25rem 1.5rem;
+            padding: 0.25rem 2rem;
             border: 1px solid #ddd;
             border-radius: 1.8rem;
             background-color: #a27f1c;
