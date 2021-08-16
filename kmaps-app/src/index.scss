@@ -723,7 +723,7 @@ header.terms + .two-columns {
                 bottom: 0.075rem;
             }
             .header-label-count {
-                font-size: 1.25rem;
+                font-size: 1.15rem;
                 letter-spacing: 0.125rem;
                 margin-left: 1rem;
                 font-weight: bold;
@@ -732,8 +732,8 @@ header.terms + .two-columns {
                 top: 0.1rem;
 
                 .badge {
-                    font-size: 1.25rem;
-                    letter-spacing: 0.075rem;
+                    font-size: 1.15rem;
+                    letter-spacing: 0.0125rem;
                     color: #000;
                     background: #fff;
                     margin: 0 0 0 1rem;
@@ -756,7 +756,7 @@ header.terms + .two-columns {
             }
         }
         button:first-of-type {
-            background-color: #5963c9;
+            background-color: #6b75d6;
             opacity: 0.9;
             position: relative;
             &:hover {
@@ -801,15 +801,14 @@ header.terms + .two-columns {
         padding: 0;
         display: flex;
         justify-content: flex-end;
-
         h5 {
             flex: 1;
+            color: #555;
             font-weight: bold;
             font-size: 1.75rem;
             text-transform: capitalize;
             margin: 0 0 0 2rem;
         }
-
         button {
             font-style: italic;
             font-size: 1.15rem;
