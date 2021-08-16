@@ -30,11 +30,11 @@ export function MandalaSettings() {
     const updatePerspectiveChoice = (domain, val) => {
         perspectiveSettings[domain] = val;
         setPerspective(perspectiveSettings);
-        console.log('in update perspectives', perspectiveSettings);
     };
 
     const saveChanges = () => {
-        // Save Views
+        const domains = ['places', 'subjects', 'terms'];
+        // Save Views Choices
         if (viewSettings['places']) {
             viewSettingsState.setPlacesView(viewSettings['places']);
         }
@@ -47,11 +47,18 @@ export function MandalaSettings() {
         localStorage.setItem('savedViewSettings', 'true');
         localStorage.setItem('userViewSettings', JSON.stringify(viewSettings));
 
+        // Save Perspectives Choices
+        domains.forEach((d) => {
+            if (perspectiveSettings[d]) {
+                perspectiveState.setPerspective(d, perspectiveSettings[d]);
+            }
+        });
         localStorage.setItem('savedPerspectives', 'true');
         localStorage.setItem(
             'userPerspectives',
             JSON.stringify(perspectiveSettings)
         );
+        // Close Modal for Mandala Settings
         setShow(false);
     };
 

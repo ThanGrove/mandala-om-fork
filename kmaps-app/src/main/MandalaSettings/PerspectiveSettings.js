@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { usePerspective } from '../../hooks/usePerspective';
 import { useQuery } from 'react-query';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
-import { InputGroup } from 'react-bootstrap';
 
 export function PerspectiveSettings({ current, setPerspective }) {
     // const perspective = usePerspective();
@@ -21,6 +20,7 @@ export function PerspectiveSettings({ current, setPerspective }) {
             {domains.map((dm, dmi) => {
                 return (
                     <PerspectiveOptions
+                        key={`${dm}-${current[dm]}-${dmi}`}
                         domain={dm}
                         current={current[dm]}
                         setter={setPerspective}

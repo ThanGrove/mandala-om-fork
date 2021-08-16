@@ -29,7 +29,8 @@ export const EMPTY_PERSPECTIVE_CODES = [
 
 export function PerspectiveChooser({ domain, current, setter, ...props }) {
     const perspective = usePerspective();
-    const setPerspective = usePerspective((state) => state.setPerspective);
+    // const setPerspective = usePerspective((state) => state.setPerspective);
+    const [defVal, setDefVal] = useState(perspective[domain]);
 
     // Get Perspective data from API
     const {
@@ -41,22 +42,22 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
         getPerspectiveData(domain)
     );
 
-    let defVal = current;
+    useEffect(() => {
+        setDefVal(perspective[domain]);
+    }, [perspective, domain]);
 
     const changeMe = (evt) => {
         const persp_code = evt.target.value;
-        setPerspective(domain, persp_code);
+        perspective.setPerspective(domain, persp_code);
     };
-    /**
-    useEffect(() => {
-        defVal = perspective[domain] ? perspective[domain] : current;
-    }, [perspective, perspData]);
- **/
 
     if (isPerspDataLoading) {
         return <MandalaSkeleton />;
     }
-    if (perspData.length === 1) {
+    if (perspData.length === 1 || isPerspDataError) {
+        if (isPerspDataError) {
+            console.log('Perspective Data Error: ', perspDataError);
+        }
         return null;
     }
 
@@ -67,7 +68,7 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     pclass = ['c-perspective-select', ...pclass];
 
     return (
-        <div className={pclass}>
+        <div className={pclass.join(' ')}>
             <label>
                 Persepective
                 <PerspectiveDescs domain={domain} />
