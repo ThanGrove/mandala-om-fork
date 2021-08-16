@@ -764,7 +764,7 @@ header.terms + .two-columns {
             font-size: 1.3rem;
             font-weight: bold;
             line-height: 1.5;
-            letter-spacing: 0.1rem;
+            letter-spacing: 0.025rem;
             margin: 0 0.35rem;
             padding: 0.25rem 2rem;
             border: 1px solid #ddd;
@@ -791,7 +791,6 @@ header.terms + .two-columns {
             margin-left: 2rem;
             width: 16rem;
             line-height: 1.7;
-            letter-spacing: 0.025rem;
 
             &:hover {
             }
