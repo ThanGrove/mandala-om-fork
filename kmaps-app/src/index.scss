@@ -797,29 +797,32 @@ header.terms + .two-columns {
         font-size: 1.55rem;
         color: #333;
         letter-spacing: 0.075rem;
-        margin: 0.75rem 1rem 0 0;
-        padding: 0 0 0 2rem;
+        margin: 0.5rem 0.5rem 0 0;
+        padding: 0;
         display: flex;
         justify-content: flex-end;
 
         h5 {
             flex: 1;
+            font-weight: bold;
             font-size: 1.75rem;
             text-transform: capitalize;
+            margin: 0 0 0 2rem;
         }
 
         button {
             font-style: italic;
-            font-size: 1.45rem;
+            font-size: 1.15rem;
             font-weight: bold;
             letter-spacing: 0.025rem;
             max-width: 8rem;
-            padding: 0.5rem 1rem 0.5rem;
+            padding: 0.5rem 0.85rem 0.6rem;
             border: 1px solid #ddd;
             margin: 0 0.35rem;
             border-radius: 0.5rem;
             background-color: #a27f1c;
             color: #fff;
+            letter-spacing: 0.1rem;
             transition: all 0.2s ease-in-out;
             position: relative;
             top: -0.1rem;
@@ -838,6 +841,7 @@ header.terms + .two-columns {
             em {
                 font-size: 1rem;
                 display: block;
+                letter-spacing: 0.075rem;
             }
         }
     }
