@@ -225,11 +225,9 @@ export default function SearchAdvanced(props) {
                         className={'back-to-results'}
                     >
                         <span className={'header-icon'}>
-                            <IconContext.Provider value={{ className: 'icon' }}>
-                                <FaRegArrowAltCircleRight />
-                            </IconContext.Provider>
+                            <span className="icon shanticon-magnify"></span>
                         </span>
-                        Back to Results
+                        Go to Results
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
@@ -243,7 +241,7 @@ export default function SearchAdvanced(props) {
                 )}
 
                 <button eventKey="resetAll" onClick={handleResetAll}>
-                    Reset Search
+                    Clear All
                 </button>
             </div>
             <section>

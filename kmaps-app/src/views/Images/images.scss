@@ -23,10 +23,11 @@
 
 .c-image__viewer {
     background-color: #222;
-    border-top: 10px solid #b49c59;
-    border-bottom: 10px solid #b49c59;
+    border-top: 1rem solid #b49c59;
+    border-bottom: 1rem solid #b49c59;
     width: 100%;
     border-radius: 1rem;
+    margin-top: 1rem;
 
     .c-image__viewer-row {
         /*  padding-top: 35px;*/

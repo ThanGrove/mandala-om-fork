@@ -762,8 +762,8 @@ header.terms + .two-columns {
         button {
             font-size: 1.25rem;
             font-weight: bold;
-            line-height: 1.5;
-            letter-spacing: 0.125rem;
+            line-height: 1.85;
+            letter-spacing: 0.0125rem;
             margin: 0 0.35rem;
             padding: 0.25rem 2rem;
             border: 1px solid #ddd;
@@ -785,30 +785,30 @@ header.terms + .two-columns {
 
         button.back-to-results {
             font-style: italic;
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             text-transform: capitalize;
-            letter-spacing: 0.025rem;
             color: #fff;
             background-color: #3f49b1;
             text-align: left;
-            padding-left: 0.75rem;
-            padding-right: 1rem;
+            padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
-            width: 16rem;
-            line-height: 1.7;
+            width: 15.5rem;
+            line-height: 2;
+            letter-spacing: 0.0375rem;
 
             &:hover {
+                border-color: #3f49b1;
             }
             &:active {
                 .header-icon svg {
                 }
             }
-            .header-icon svg {
-                font-size: 1.75rem;
+            .header-icon .icon {
+                font-size: 1.5rem;
                 color: #fff;
                 margin: 0 0.75rem 0 0.15rem;
                 position: relative;
-                bottom: 0.1rem;
+                bottom: -0.1rem;
             }
         }
     }
@@ -817,7 +817,12 @@ header.terms + .two-columns {
 .search + .two-columns .search-column-reset-filters .back-to-results {
     display: none;
 }
-
+.search + .two-columns .search-column-reset-filters button:last-child {
+    position: relative;
+    left: 1rem;
+    padding-right: 3.5rem;
+    padding-left: 3.5rem;
+}
 /*
  * RESIZE handle for RightSideBar
  */
