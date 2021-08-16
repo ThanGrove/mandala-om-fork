@@ -272,7 +272,7 @@ export default function SearchAdvanced(props) {
                 />
                 <FacetBox
                     id="related_subjects"
-                    label="related subjects"
+                    label="kmaps subjects"
                     facets={searchData.facets?.related_subjects?.numBuckets}
                     facetType="subjects"
                     resetFlag={reset}
@@ -283,7 +283,7 @@ export default function SearchAdvanced(props) {
                 />
                 <FacetBox
                     id="related_places"
-                    label="related places"
+                    label="kmaps places"
                     facets={searchData.facets?.related_places?.numBuckets}
                     facetType="places"
                     resetFlag={reset}
@@ -294,7 +294,7 @@ export default function SearchAdvanced(props) {
                 />
                 <FacetBox
                     id="related_terms"
-                    label="related terms"
+                    label="kmaps terms"
                     facets={searchData.facets?.related_terms?.numBuckets}
                     facetType="terms"
                     resetFlag={reset}
