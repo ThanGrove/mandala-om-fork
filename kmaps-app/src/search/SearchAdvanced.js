@@ -250,7 +250,7 @@ export default function SearchAdvanced(props) {
             <section>
                 <FacetBox
                     id="asset_count"
-                    label="item type"
+                    label="resource type"
                     facets={searchData.facets?.asset_count?.numBuckets}
                     facetType={'asset_type'}
                     resetFlag={reset}
