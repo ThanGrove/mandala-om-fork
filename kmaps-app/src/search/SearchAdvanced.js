@@ -212,7 +212,7 @@ export default function SearchAdvanced(props) {
                             </IconContext.Provider>
                         </span>
                         <span className={'header-label-count'}>
-                            View Results
+                            Results
                             <Badge pill variant={'secondary'}>
                                 {searchData.response?.numFound}
                             </Badge>
@@ -239,24 +239,35 @@ export default function SearchAdvanced(props) {
                 </button>
             </div>
             <div className="search-column-reset-filters">
-                <label>Reset:</label>
-                <button eventKey="resetFilters" onClick={handleResetFilters}>
-                    Filters
-                </button>
+                <h5>Search Facets</h5>
                 <button eventKey="resetAll" onClick={handleResetAll}>
-                    All
+                    <em>Reset</em> Search
+                </button>
+                <button eventKey="resetFilters" onClick={handleResetFilters}>
+                    <em>Reset</em> Filters
                 </button>
             </div>
             <section>
                 <FacetBox
                     id="asset_count"
-                    label="item type"
+                    label="resource type"
                     facets={searchData.facets?.asset_count?.numBuckets}
                     facetType={'asset_type'}
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('asset_type')}
+                    booleanControls={booleanControls}
+                />
+                <FacetBox
+                    id="collections"
+                    label="collections"
+                    facets={searchData.facets?.collections?.numBuckets}
+                    facetType="collections"
+                    resetFlag={reset}
+                    onFacetClick={handleFacetChange}
+                    onNarrowFilters={handleNarrowFilters}
+                    chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
                 />
                 <FacetBox
@@ -301,18 +312,6 @@ export default function SearchAdvanced(props) {
                     onFacetClick={handleFacetChange}
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('feature_types')}
-                    booleanControls={booleanControls}
-                />
-
-                <FacetBox
-                    id="collections"
-                    label="collections"
-                    facets={searchData.facets?.collections?.numBuckets}
-                    facetType="collections"
-                    resetFlag={reset}
-                    onFacetClick={handleFacetChange}
-                    onNarrowFilters={handleNarrowFilters}
-                    chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
                 />
                 <FacetBox

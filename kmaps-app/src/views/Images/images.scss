@@ -72,15 +72,15 @@
     .c-osdviewer {
         position: relative;
         height: 60rem;
+        height: calc(100vh - 18rem);
         margin: 3rem auto 1rem;
         text-align: center;
-        min-width: 40vw;
+        min-width: 50vw;
     }
     .react-iiif-viewer,
     .c-osdviewer {
         .fullscreen {
             position: absolute;
-            /*  left: 47%; */
             top: -40px;
         }
         button {
@@ -147,8 +147,8 @@
                 border-color: #f0f0f0;
             }
             &:active {
-                border-color: transparent;
-                border: 1px solid #fff;
+                //  border-color: transparent;
+                //  border: 1px solid #fff;
             }
         }
 

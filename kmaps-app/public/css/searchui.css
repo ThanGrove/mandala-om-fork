@@ -483,28 +483,28 @@ color: #a4baec;
 }
 .sui-boolItem:hover,
 .sui-advEditBool:hover {
-    border-color: $color-mandala;
+    border-color: #4d59ca;
     color: red;
 }
 .sui-boolItem {
     border: none;
-    color: $color-mandala;
-    padding: 0.15rem 0.6rem 0.05rem 0.6rem;
+    color: #4d59ca;
+    padding: 0.15rem 0.6rem 0.25rem 0.6rem;
     margin: 0 0.25rem;
     border: none;
 }
 .sui-advEditBool {
     position: relative;
     top: -0.15rem;
-    padding: 0.2rem 0.6rem 0.2rem 1rem;
-    margin-left: 2rem;
+    padding: 0.25rem 0.6rem 0.25rem 1rem;
+    margin-left: 0.75rem;
     margin-right: 0.25rem;
     background: #fff;
 }
 
 .sui-advEditBool .sui-boolItem:nth-of-type(2),
 .sui-advEditBool #sui-boolItem-places-0-NOT {
-    padding-right: 0.25rem;
+    padding-right: 0.55rem;
 }
 
 .sui-advEditList {
@@ -572,7 +572,7 @@ color: #a4baec;
     padding: 0 0 2px 20px;
 }
 .sui-tree li.parent > a:before {
-    background-image: url('treebuts.png');
+    /*  background-image: url('treebuts.png'); */
     content: '';
     display: block;
     height: 15px;
@@ -623,7 +623,7 @@ color: #a4baec;
 }
 .sui-sourceText {
     font-family: 'EB Garamond', serif, shanticon;
-    font-size: 1.6rem;
+    font-size: 1.85rem;
 }
 .sui-sourceTitle {
     font-family: 'EB Garamond', serif;
@@ -842,6 +842,7 @@ color: #a4baec;
 .sui-avMore1 {
     width: 100%;
     text-align: center;
+    margin-bottom: 2rem;
 }
 .sui-avMore2 {
     border: 1px solid #ccc;
@@ -853,7 +854,7 @@ color: #a4baec;
     display: inline-block;
     background-color: #fefefe;
     overflow-y: auto;
-    max-height: 60rem;
+    max-height: 73rem;
     border-right: 1px solid #999;
     width: calc(100% - 2px);
     font-size: 1.3rem;
@@ -1013,7 +1014,7 @@ color: #a4baec;
 }
 .sui-transSeg > div:first-of-type {
     font-size: 1.75rem;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 1rem 1rem 0.25rem;
 }
 .sui-transBox {
     /*  margin: 0 0 0 14rem; */

@@ -37,7 +37,8 @@ export function FeaturePager(props) {
     return (
         <div className={`c-featurePager__container${position}${classname}`}>
             <div className="c-featurePager__resultSummary">
-                Viewing (
+                Total (<span className="total">{props.assetCount}</span>) -
+                Viewing
                 <span className="start">{props.page * props.perPage + 1}</span>
                 to{' '}
                 <span className="end">
@@ -46,7 +47,6 @@ export function FeaturePager(props) {
                         props.assetCount
                     )}
                 </span>
-                ) of <span className="total">{props.assetCount}</span>
             </div>
             <div className="c-featurePager__navButtons">
                 <span
@@ -86,7 +86,7 @@ export function FeaturePager(props) {
             </div>
             {props.loadingState ? <span> loading...</span> : <span></span>}
             <div className="c-featurePager__itemCount">
-                <span>Items per page:</span>
+                <span>Items per page</span>
                 <NumericInput
                     aria-label="Set number of items per page"
                     min={25}

@@ -12,11 +12,11 @@
     border: 0.1rem solid #ccc;
     border-radius: 1rem;
     margin-bottom: 2rem;
-    margin-left: 2rem;
+    margin-left: 0;
     min-height: 10rem;
 }
 .sui-termDefinitions__content .nav.nav-tabs {
-    padding-left: 3rem;
+    padding-left: 1rem;
     border-bottom: none;
 }
 .sui-termDefinitions__content .nav.nav-tabs > a.nav-item {
@@ -84,11 +84,11 @@
 }
 
 .definition.deflvl2 .tab-content {
-    margin-left: 3rem;
+    margin-left: 2rem;
 }
 
 .definition.deflvl2 .nav-tabs {
-    padding-left: 4.5rem;
+    padding-left: 3.5rem;
 }
 
 @media (max-width: 850px) {

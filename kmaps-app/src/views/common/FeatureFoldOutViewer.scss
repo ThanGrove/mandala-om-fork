@@ -2,6 +2,7 @@
 
 .sui-featureGallery-selectedImg {
     margin-bottom: -0.5rem;
+    cursor: default !important;
 
     img {
         margin-bottom: -0.3rem !important;
@@ -14,21 +15,21 @@
     border: 12px solid #222;
     content: '';
     margin-left: 45%;
-    border-top: 0px;
+    border-top: 0;
     border-left: 12px solid transparent;
     border-right: 12px solid transparent;
 }
-.react-photo-gallery--gallery
-    #FoldOutViewer
-    ~ .sui-featureGallery-selectedImg:after {
-    display: inline-block;
-    width: 1rem;
-    border: 12px solid #222;
-    content: '';
-    margin-left: 45%;
-    border-top: 0px;
-    border-left: 12px solid transparent;
-    border-right: 12px solid transparent;
+.react-photo-gallery--gallery {
+    #FoldOutViewer ~ .sui-featureGallery-selectedImg:after {
+        display: inline-block;
+        width: 1rem;
+        border: 12px solid #222;
+        content: '';
+        margin-left: 45%;
+        border-top: 0;
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+    }
 }
 
 // The DropDown / FoldOut Area
@@ -38,7 +39,7 @@
     position: relative;
     margin-bottom: 1rem;
     border-radius: 0.75rem;
-    min-height: 48rem;
+    min-height: 42rem;
     // Icons and arrows, close-x
 
     .c-foviewer__close {
@@ -207,12 +208,9 @@
                 margin: 0 1rem;
             }
 
-            .link {
-            }
             .link a {
-                color: inherit;
                 display: block;
-                padding: 1rem;
+                padding: 0.1rem;
                 line-height: 3;
                 color: #eee;
                 background-color: #000;
@@ -226,7 +224,7 @@
                 letter-spacing: 0.275rem;
                 text-align: center;
                 margin: 3rem 3rem 0;
-                max-width: 20rem;
+                max-width: 18rem;
                 cursor: default;
 
                 span {

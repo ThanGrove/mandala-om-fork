@@ -7,7 +7,10 @@
     justify-content: space-between;
     flex-flow: row wrap;
     padding: 0 3rem;
+    color: #000;
+    letter-spacing: 0.035rem;
 
+    ~ .c-featurePager__container,
     &.bottom {
         margin-top: 3rem;
     }
@@ -16,12 +19,12 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        font-size: 1.65rem;
+        font-size: 1.55rem;
         font-style: italic;
         .start,
         .end {
             display: inline-block;
-            margin-left: 0px;
+            margin-left: 0;
             margin-right: 4px;
             font-style: normal;
             font-weight: bold;
@@ -34,13 +37,9 @@
         }
         .total {
             font-weight: bold;
-            color: #fff;
-            font-size: 1.45rem;
-            padding: 0.15rem 1.25rem 0.2rem;
-            margin-left: 0.5rem;
-            margin-right: 0.75rem;
+            font-size: 1.5rem;
+            padding: 0.15rem 0 0.2rem 0;
             border-radius: 1.5rem;
-            background: #707070;
         }
     }
     .c-featurePager__navButtons {
@@ -48,24 +47,27 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
+        font-size: 1.15rem;
+        position: relative;
+        top: -0.2rem;
 
         .icon {
             margin: 0 1.5rem 0 0;
             padding: 0.7rem 0.75rem 0.6rem 1rem;
-            color: #888;
+            color: #333;
             background-color: transparent;
-            border-radius: 1.5rem;
-            border: 0.35rem solid #f0f0f0;
+            border-radius: 0.75rem;
+            border: 0.3rem double #ccc;
             transition: all 0.4s;
+
             &:hover {
-                color: $color-mandala;
-                border-color: #ddd;
+                opacity: 1;
                 background-color: #fff;
+                border-color: $color-mandala;
             }
             &:active {
-                border-color: $color-mandala;
-                background-color: #fff;
-                border-style: double;
+                border-style: solid;
+                opacity: 0.5;
             }
         }
         .icon:last-child {
@@ -84,26 +86,26 @@
         .u-icon__arrow3-right::before,
         .shanticon-arrow3-right:before {
             position: relative;
-            left: 0.5rem;
+            left: 0.25rem;
         }
         span input {
-            line-height: 1.15;
-            width: 5.5rem;
-            position: relative;
-            top: -0.2rem;
+            //  line-height: 1.15;
+            //  width: 5.5rem;
             margin-right: 0.85rem;
             margin-left: 0.85rem;
             text-align: center;
-            border: 1px solid #4d59ca;
+            border-color: $color-mandala;
+            border-style: solid;
             border-radius: 0.35rem;
             border-width: 0.35rem 0.1rem;
-            opacity: 0.65;
+            padding: 0 !important;
+            opacity: 0.7;
             &:hover {
-                opacity: 1;
+                opacity: 0.9;
             }
         }
         .c-pager__counterWrapper {
-            margin-right: 1.25rem;
+            margin-right: 1rem;
             margin-left: 1.5rem;
             margin-bottom: 1.5rem;
             font-style: italic;
@@ -117,16 +119,16 @@
             .c-pager__counterMax {
                 padding: 0 1rem;
                 font-weight: bold;
-                font-size: 1.65rem;
+                font-size: 1.35rem;
             }
         }
     }
     .c-featurePager__itemCount {
         white-space: nowrap;
-        margin: 0 auto 1.5rem;
+        margin: -0.35rem auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        font-size: 1.5rem;
+        font-size: 1.6rem;
         font-style: italic;
 
         .react-numeric-input {
@@ -134,12 +136,19 @@
             padding-left: 0.5rem;
         }
         input {
-            margin-left: 0.5rem;
-            padding: 0.2rem 0 !important;
+            margin-left: 0.1rem;
+            padding: 0 !important;
             text-align: center;
-            border-radius: 0.85rem !important;
             line-height: 1.5;
-            border: 5px double #aaa !important;
+            width: 5.5rem;
+            border-radius: 0.35rem !important;
+            border-style: solid;
+            border-color: $color-mandala !important;
+            border-width: 0.35rem 0.1rem !important;
+            opacity: 0.7;
+            &:hover {
+                opacity: 0.9;
+            }
         }
     }
 }
@@ -150,6 +159,13 @@
 .c-view__wrapper.gallery .c-featurePager__container {
     padding: 0 1.5rem 0 1.5rem !important;
 }
+
+/*
+.c-view__wrapper.gallery .c-featurePager__container ~ .c-featurePager__container {
+    width: 100%;
+}
+ */
+
 .c-view__wrapper.gallery .react-photo-gallery--gallery {
     margin-bottom: 3rem !important;
 }

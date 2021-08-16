@@ -9,12 +9,12 @@
 }
 
 .sui-relatedSubHeader {
-    font-size: 1.25rem;
+    font-size: 1.35rem;
     text-transform: uppercase;
     display: block;
     text-indent: 3.5rem;
     font-weight: bold;
-    color: #000;
+    color: #333;
     margin-top: 0.2rem;
     letter-spacing: 0.175rem;
 }
