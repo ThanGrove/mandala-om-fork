@@ -760,11 +760,10 @@ header.terms + .two-columns {
         justify-content: space-evenly;
 
         button {
-            font-style: italic;
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: bold;
             line-height: 1.5;
-            letter-spacing: 0.025rem;
+            letter-spacing: 0.125rem;
             margin: 0 0.35rem;
             padding: 0.25rem 2rem;
             border: 1px solid #ddd;
@@ -773,6 +772,7 @@ header.terms + .two-columns {
             color: #fff;
             opacity: 0.9;
             transition: all 0.2s;
+            text-transform: uppercase;
             &:hover {
                 border-color: #a27f1c;
                 color: #fff;
@@ -784,9 +784,14 @@ header.terms + .two-columns {
         }
 
         button.back-to-results {
+            font-style: italic;
+            font-size: 1.3rem;
+            text-transform: capitalize;
+            letter-spacing: 0.025rem;
             color: #fff;
+            background-color: #3f49b1;
             text-align: left;
-            padding-left: 1rem;
+            padding-left: 0.75rem;
             padding-right: 1rem;
             margin-left: 2rem;
             width: 16rem;
