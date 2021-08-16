@@ -7,7 +7,7 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { BsGear, BsMap, ImTree } from 'react-icons/all';
 import './MainSearchToggle.scss';
-import { ViewSettings } from './ViewSettings';
+import { ViewSettings } from '../MandalaSettings/ViewSettings';
 
 const target = document.getElementById('browseSearchPortal');
 

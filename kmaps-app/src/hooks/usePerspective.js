@@ -36,15 +36,23 @@ export const usePerspective = create((set, get) => ({
  * @returns {string|*}
  */
 export function getPerspective(domain) {
-    const defaults = {
-        places: 'pol.admin.hier',
-        subjects: 'gen',
-        terms: 'tib.alpha',
-    };
+    // If there are saved perspectives use those
+    if (localStorage.getItem('savedPerspectives') === 'true') {
+        let storedPerspectives = localStorage.getItem('userPerspectives');
+        storedPerspectives = JSON.parse(storedPerspectives);
+        return storedPerspectives[domain];
+    }
+    // Otherwise, check for environment perspectives (project filters)
     const envPerspVar = `REACT_APP_${domain.toUpperCase()}_PERSPECTIVE`;
     if (envPerspVar in process.env && process.env[envPerspVar] !== '') {
         return process.env[envPerspVar];
     } else {
-        return defaults[domain];
+        // else use defaults
+        const defaultPerspectives = {
+            places: 'pol.admin.hier',
+            subjects: 'gen',
+            terms: 'tib.alpha',
+        };
+        return defaultPerspectives[domain];
     }
 }
