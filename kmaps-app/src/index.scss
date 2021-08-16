@@ -606,7 +606,7 @@ header.terms + .two-columns {
         text-align: center;
     }
     &.c-TreeNav--tabs {
-        padding-right: 0rem;
+        padding-right: 0;
         &.open {
             z-index: 1000;
             background: #eee;
@@ -755,7 +755,7 @@ header.terms + .two-columns {
         margin: 0.5rem 0.5rem 0 0;
         padding: 0;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
 
         button {
             font-style: italic;
@@ -763,7 +763,7 @@ header.terms + .two-columns {
             font-weight: bold;
             line-height: 1.5;
             letter-spacing: 0.125rem;
-            margin: 0 0.35rem 0 0;
+            margin: 0 0.35rem;
             padding: 0.25rem 1.5rem;
             border: 1px solid #ddd;
             border-radius: 1.8rem;
@@ -781,7 +781,7 @@ header.terms + .two-columns {
             }
         }
 
-        button:first-of-type {
+        button.back-to-results {
             color: #fff;
             text-align: left;
             padding-left: 1rem;
@@ -806,6 +806,10 @@ header.terms + .two-columns {
             }
         }
     }
+}
+
+.search + .two-columns .search-column-reset-filters .back-to-results {
+    display: none;
 }
 
 /*
