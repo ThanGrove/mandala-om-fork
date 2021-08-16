@@ -197,6 +197,23 @@ export default function SearchAdvanced(props) {
             className={`l-column__search ${openclass}`}
         >
             <div className="search-column-header-filters">
+                <h4>
+                    Total Results
+                    <span className={'header-label-count'}>
+                        <Badge pill variant={'secondary'}>
+                            {searchData.response?.numFound}
+                        </Badge>
+                    </span>
+                </h4>
+                <button
+                    onClick={handleCloseButton}
+                    className={'search-column-close-filters'}
+                >
+                    <span className={'icon shanticon-cancel'}></span>
+                </button>
+            </div>
+
+            <div className="search-column-reset-filters">
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
                     <Button
                         onClick={() =>
@@ -211,12 +228,7 @@ export default function SearchAdvanced(props) {
                                 <FaRegArrowAltCircleRight />
                             </IconContext.Provider>
                         </span>
-                        <span className={'header-label-count'}>
-                            Results
-                            <Badge pill variant={'secondary'}>
-                                {searchData.response?.numFound}
-                            </Badge>
-                        </span>
+                        View All
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
@@ -224,27 +236,13 @@ export default function SearchAdvanced(props) {
                         <a
                             href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                         >
-                            View Results
-                            <Badge pill variant={'secondary'}>
-                                {searchData.response?.numFound}
-                            </Badge>
+                            View All
                         </a>
                     </span>
                 )}
-                <button
-                    onClick={handleCloseButton}
-                    className={'search-column-close-filters'}
-                >
-                    <span className={'icon shanticon-cancel'}></span>
-                </button>
-            </div>
-            <div className="search-column-reset-filters">
-                <h5>Search Facets</h5>
+
                 <button eventKey="resetAll" onClick={handleResetAll}>
-                    <em>Reset</em> Search
-                </button>
-                <button eventKey="resetFilters" onClick={handleResetFilters}>
-                    <em>Reset</em> Filters
+                    Reset All
                 </button>
             </div>
             <section>
