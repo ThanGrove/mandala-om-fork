@@ -25,6 +25,16 @@
         color: #222222;
     }
 
+    .l-persp-radio {
+        input {
+            vertical-align: middle;
+        }
+        span {
+            display: inline-block;
+            margin-left: 1.5rem;
+        }
+    }
+
     .c-modal_subsection {
         margin-top: 1rem;
         padding-bottom: 0.5rem;
@@ -43,6 +53,12 @@
         button {
             font-weight: bold;
             font-size: 1.25rem;
+        }
+    }
+
+    @media (min-width: 769px) {
+        .modal-dialog {
+            max-width: 600px;
         }
     }
 }
