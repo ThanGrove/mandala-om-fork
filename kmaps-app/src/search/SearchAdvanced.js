@@ -239,12 +239,12 @@ export default function SearchAdvanced(props) {
                 </button>
             </div>
             <div className="search-column-reset-filters">
-                <label>Reset:</label>
-                <button eventKey="resetFilters" onClick={handleResetFilters}>
-                    Filters
-                </button>
+                <h5>Search Facets</h5>
                 <button eventKey="resetAll" onClick={handleResetAll}>
-                    All
+                    <em>Reset</em> Search
+                </button>
+                <button eventKey="resetFilters" onClick={handleResetFilters}>
+                    <em>Reset</em> Filters
                 </button>
             </div>
             <section>
@@ -272,7 +272,7 @@ export default function SearchAdvanced(props) {
                 />
                 <FacetBox
                     id="related_subjects"
-                    label="kmaps subjects"
+                    label="related subjects"
                     facets={searchData.facets?.related_subjects?.numBuckets}
                     facetType="subjects"
                     resetFlag={reset}
@@ -283,7 +283,7 @@ export default function SearchAdvanced(props) {
                 />
                 <FacetBox
                     id="related_places"
-                    label="kmaps places"
+                    label="related places"
                     facets={searchData.facets?.related_places?.numBuckets}
                     facetType="places"
                     resetFlag={reset}
@@ -294,7 +294,7 @@ export default function SearchAdvanced(props) {
                 />
                 <FacetBox
                     id="related_terms"
-                    label="kmaps terms"
+                    label="related terms"
                     facets={searchData.facets?.related_terms?.numBuckets}
                     facetType="terms"
                     resetFlag={reset}
