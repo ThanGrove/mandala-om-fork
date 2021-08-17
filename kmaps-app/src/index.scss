@@ -757,22 +757,24 @@ header.terms + .two-columns {
         margin: 0.5rem 0.5rem 0 0;
         padding: 0;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
 
         button {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            line-height: 1.85;
-            letter-spacing: 0.0125rem;
+            letter-spacing: 0.075rem;
             margin: 0 0.35rem;
-            padding: 0.25rem 2rem;
+            padding: 0 1.75rem;
             border: 1px solid #ddd;
             border-radius: 1.8rem;
             background-color: #a27f1c;
             color: #fff;
+            border: 4px double #fff;
             opacity: 0.9;
             transition: all 0.2s;
             text-transform: uppercase;
+            height: 3.25rem;
+
             &:hover {
                 border-color: #a27f1c;
                 color: #fff;
@@ -785,16 +787,17 @@ header.terms + .two-columns {
 
         button.back-to-results {
             font-style: italic;
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             text-transform: capitalize;
             color: #fff;
             background-color: #3f49b1;
             text-align: left;
             padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
-            width: 15.5rem;
-            line-height: 2;
             letter-spacing: 0.0375rem;
+            border: 4px double #fff;
+            height: 3.25rem;
+            line-height: 1.5rem;
 
             &:hover {
                 border-color: #3f49b1;
@@ -804,7 +807,7 @@ header.terms + .two-columns {
                 }
             }
             .header-icon .icon {
-                font-size: 1.5rem;
+                font-size: 1.35rem;
                 color: #fff;
                 margin: 0 0.75rem 0 0.15rem;
                 position: relative;
@@ -813,7 +816,9 @@ header.terms + .two-columns {
         }
     }
 }
-
+.search + .two-columns .search-column-reset-filters {
+    justify-content: space-evenly;
+}
 .search + .two-columns .search-column-reset-filters .back-to-results {
     display: none;
 }
