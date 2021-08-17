@@ -5,13 +5,14 @@ import './FeatureFoldOutViewer.scss';
 import { useLocation, Link } from 'react-router-dom';
 import { MandalaPopover } from './MandalaPopover';
 import $ from 'jquery';
+import Skeleton from 'react-loading-skeleton';
+import MandalaSkeleton from './MandalaSkeleton';
 
 export function FeatureFoldOutViewer(props) {
     let location = useLocation();
-    const [uid, setUid] = useState();
-    const imgUid = props.focus?.alt;
+    // const [uid, setUid] = useState();
+    // const imgUid = props.focus?.alt;
 
-    useEffect(() => {});
     if (!props.focus) {
         return null;
     }
