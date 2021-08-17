@@ -775,14 +775,17 @@ header.terms + .two-columns {
             text-transform: uppercase;
             height: 3.25rem;
             line-height: 1.5rem;
+            transform: scale(1);
 
             &:hover {
                 border: 4px double #fff;
                 color: #fff;
                 opacity: 1;
+                transform: scale(1.025);
             }
             &:active {
                 border: 4px double #fff;
+                transform: scale(0.98);
             }
         }
 
@@ -797,7 +800,7 @@ header.terms + .two-columns {
             margin-left: 2rem;
             letter-spacing: 0.0375rem;
             border: 4px double #fff;
-            height: 3.25rem;
+            line-height: 1.4;
             &:hover {
             }
             &:active {
