@@ -640,14 +640,14 @@ header.terms + .two-columns {
         letter-spacing: 0.0525rem;
         background-color: #3f49b1;
         border-bottom: 0.6rem double #fff;
-        height: 5rem;
+        height: 4.2rem;
 
         .treeNav-header__title {
             margin-left: 2.5rem;
             color: #eee;
             font-weight: bold;
             padding: 0;
-            line-height: 2.4;
+            line-height: 1.9;
             font-size: 1.75rem;
             letter-spacing: 0.075rem;
         }
@@ -686,13 +686,13 @@ header.terms + .two-columns {
         display: flex;
         justify-content: space-between;
         padding-right: 2rem;
-        height: 5rem;
+        height: 4.2rem;
 
         h4 {
             margin-left: 2.5rem;
             color: #eee;
             padding: 0;
-            line-height: 2.4;
+            line-height: 1.9;
             font-size: 1.75rem;
             letter-spacing: 0.075rem;
             font-weight: bold;
@@ -704,12 +704,12 @@ header.terms + .two-columns {
                 font-weight: bold;
                 text-transform: uppercase;
                 position: relative;
-                bottom: 0.2rem;
+                bottom: 0.1rem;
                 .badge {
-                    font-size: 1.15rem;
-                    letter-spacing: 0.0125rem;
-                    color: #000;
-                    background: #fff;
+                    font-size: 1.25rem;
+                    letter-spacing: 0.1rem;
+                    color: #fff;
+                    background: transparent;
                     margin: 0 0 0 1rem;
                     padding: 0.35rem 0.65rem;
                     transition: all 0.4s ease-in-out;
@@ -757,29 +757,34 @@ header.terms + .two-columns {
         margin: 0.5rem 0.5rem 0 0;
         padding: 0;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: space-between;
 
         button {
-            font-size: 1.25rem;
+            font-size: 1.2rem;
             font-weight: bold;
-            line-height: 1.5;
-            letter-spacing: 0.125rem;
+            letter-spacing: 0.075rem;
             margin: 0 0.35rem;
-            padding: 0.25rem 2rem;
+            padding: 0 1.75rem;
             border: 1px solid #ddd;
             border-radius: 1.8rem;
             background-color: #a27f1c;
             color: #fff;
+            border: 4px double #fff;
             opacity: 0.9;
             transition: all 0.2s;
             text-transform: uppercase;
+            height: 3.25rem;
+            line-height: 1.5rem;
+            transform: scale(1);
+
             &:hover {
-                border-color: #a27f1c;
+                border: 4px double #fff;
                 color: #fff;
                 opacity: 1;
             }
             &:active {
-                border-color: transparent !important;
+                border: 4px double #fff;
+                transform: scale(0.98);
             }
         }
 
@@ -787,37 +792,42 @@ header.terms + .two-columns {
             font-style: italic;
             font-size: 1.3rem;
             text-transform: capitalize;
-            letter-spacing: 0.025rem;
             color: #fff;
             background-color: #3f49b1;
             text-align: left;
-            padding-left: 0.75rem;
-            padding-right: 1rem;
+            padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
-            width: 16rem;
-            line-height: 1.7;
-
+            letter-spacing: 0.0375rem;
+            border: 4px double #fff;
+            line-height: 1.4;
             &:hover {
             }
             &:active {
-                .header-icon svg {
+                .header-icon .icon {
                 }
             }
-            .header-icon svg {
-                font-size: 1.75rem;
+            .header-icon .icon {
+                font-size: 1.3rem;
                 color: #fff;
                 margin: 0 0.75rem 0 0.15rem;
                 position: relative;
-                bottom: 0.1rem;
+                bottom: -0.1rem;
             }
         }
     }
 }
-
+.search + .two-columns .search-column-reset-filters {
+    justify-content: space-evenly;
+}
 .search + .two-columns .search-column-reset-filters .back-to-results {
     display: none;
 }
-
+.search + .two-columns .search-column-reset-filters button:last-child {
+    position: relative;
+    left: 1rem;
+    padding-right: 3.5rem;
+    padding-left: 3.5rem;
+}
 /*
  * RESIZE handle for RightSideBar
  */
@@ -828,17 +838,17 @@ header.terms + .two-columns {
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: calc(100vh - 12rem);
+            height: calc(100vh - 7.5rem);
             position: relative;
             left: -1rem;
-            top: 1.25rem;
+            top: -4.5rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
-            border-style: solid;
-            border-left-style: dashed;
-            border-color: $color-mandala;
-            border-width: 2rem 0 2rem 0.1rem;
+            border-color: #4d59ca;
+            border-top-color: #fff;
+            border-style: solid solid solid dashed;
+            border-width: 4rem 0 8rem 0.1rem;
             border-radius: 0.25rem;
             opacity: 0.25;
             transition: all 0.35s;
@@ -1390,4 +1400,35 @@ span.refdate {
 
 .c-content__main__kmaps .l-site__wrap.texts #shanti-texts-body {
     height: calc(100vh - 24rem);
+}
+
+// Places in Kmaps Mapping Zoom buttons top-left
+.ol-viewport {
+    button {
+        cursor: pointer;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #555;
+        margin: 0.75rem;
+        border-radius: 0.8rem;
+        background: #ddd;
+        border: 4px double #555;
+        display: inline-block;
+        padding: 0.3rem 1.5rem;
+        transform: scale(1);
+        transition: all 0.45s;
+        &:hover {
+            background: #f0f0f0;
+        }
+        &:active,
+        &:focus {
+            transform: scale(0.95);
+        }
+    }
+    .ol-rotate,
+    .ol-attribution,
+    .ol-zoomslider,
+    .ol-scale-line {
+        display: none;
+    }
 }
