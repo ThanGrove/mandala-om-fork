@@ -838,17 +838,17 @@ header.terms + .two-columns {
         background-color: transparent;
         cursor: col-resize !important;
         &::before {
-            height: calc(100vh - 12rem);
+            height: calc(100vh - 7.5rem);
             position: relative;
             left: -1rem;
-            top: 1.25rem;
+            top: -4.5rem;
             display: inline-block;
             content: '';
             width: 1.5rem;
-            border-style: solid;
-            border-left-style: dashed;
-            border-color: $color-mandala;
-            border-width: 2rem 0 2rem 0.1rem;
+            border-color: #4d59ca;
+            border-top-color: #fff;
+            border-style: solid solid solid dashed;
+            border-width: 4rem 0 8rem 0.1rem;
             border-radius: 0.25rem;
             opacity: 0.25;
             transition: all 0.35s;
