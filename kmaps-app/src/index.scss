@@ -1401,3 +1401,28 @@ span.refdate {
 .c-content__main__kmaps .l-site__wrap.texts #shanti-texts-body {
     height: calc(100vh - 24rem);
 }
+
+// Places in Kmaps Mapping Zoom buttons top-left
+.ol-viewport {
+    button {
+        cursor: pointer;
+        font-size: 3rem;
+        font-weight: bold;
+        color: #555;
+        margin: 0.75rem;
+        border-radius: 0.8rem;
+        background: #ddd;
+        border: 4px double #555;
+        display: inline-block;
+        padding: 0.3rem 1.5rem;
+        &:hover {
+            background: #f0f0f0;
+        }
+    }
+    .ol-rotate,
+    .ol-attribution,
+    .ol-zoomslider,
+    .ol-scale-line {
+        display: none;
+    }
+}
