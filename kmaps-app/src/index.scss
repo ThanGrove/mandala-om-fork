@@ -640,14 +640,14 @@ header.terms + .two-columns {
         letter-spacing: 0.0525rem;
         background-color: #3f49b1;
         border-bottom: 0.6rem double #fff;
-        height: 5rem;
+        height: 4.2rem;
 
         .treeNav-header__title {
             margin-left: 2.5rem;
             color: #eee;
             font-weight: bold;
             padding: 0;
-            line-height: 2.4;
+            line-height: 1.9;
             font-size: 1.75rem;
             letter-spacing: 0.075rem;
         }
@@ -686,13 +686,13 @@ header.terms + .two-columns {
         display: flex;
         justify-content: space-between;
         padding-right: 2rem;
-        height: 5rem;
+        height: 4.2rem;
 
         h4 {
             margin-left: 2.5rem;
             color: #eee;
             padding: 0;
-            line-height: 2.4;
+            line-height: 1.9;
             font-size: 1.75rem;
             letter-spacing: 0.075rem;
             font-weight: bold;
@@ -704,7 +704,7 @@ header.terms + .two-columns {
                 font-weight: bold;
                 text-transform: uppercase;
                 position: relative;
-                bottom: 0.2rem;
+                bottom: 0.1rem;
                 .badge {
                     font-size: 1.25rem;
                     letter-spacing: 0.1rem;

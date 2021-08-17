@@ -1033,6 +1033,7 @@ color: #a4baec;
     padding: 0.1rem 0 0 8px;
     background-color: #999;
     margin: 0;
+    cursor: default;
     transition: background-color 0.4s;
 }
 .sui-transPlay:hover {
