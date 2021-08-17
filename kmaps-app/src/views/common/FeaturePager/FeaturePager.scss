@@ -57,17 +57,16 @@
             color: #333;
             background-color: transparent;
             border-radius: 0.75rem;
-            border: 0.3rem double #ccc;
+            border: 0.4rem solid #ccc;
             transition: all 0.4s;
 
             &:hover {
                 opacity: 1;
                 background-color: #fff;
-                border-color: $color-mandala;
+                border-color: #929ae4;
             }
             &:active {
-                border-style: solid;
-                opacity: 0.5;
+                border-style: double;
             }
         }
         .icon:last-child {
