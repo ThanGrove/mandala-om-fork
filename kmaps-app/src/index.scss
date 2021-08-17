@@ -706,10 +706,10 @@ header.terms + .two-columns {
                 position: relative;
                 bottom: 0.2rem;
                 .badge {
-                    font-size: 1.15rem;
-                    letter-spacing: 0.0125rem;
-                    color: #000;
-                    background: #fff;
+                    font-size: 1.25rem;
+                    letter-spacing: 0.1rem;
+                    color: #fff;
+                    background: transparent;
                     margin: 0 0 0 1rem;
                     padding: 0.35rem 0.65rem;
                     transition: all 0.4s ease-in-out;
@@ -781,7 +781,6 @@ header.terms + .two-columns {
                 border: 4px double #fff;
                 color: #fff;
                 opacity: 1;
-                transform: scale(1.025);
             }
             &:active {
                 border: 4px double #fff;
@@ -808,7 +807,7 @@ header.terms + .two-columns {
                 }
             }
             .header-icon .icon {
-                font-size: 1.35rem;
+                font-size: 1.3rem;
                 color: #fff;
                 margin: 0 0.75rem 0 0.15rem;
                 position: relative;
