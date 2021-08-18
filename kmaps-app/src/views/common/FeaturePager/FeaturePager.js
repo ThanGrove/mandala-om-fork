@@ -8,6 +8,9 @@ export function FeaturePager(props) {
     const maxPage = assetCount > 0 ? Math.ceil(assetCount / perPage) : 1;
     const page = props?.page ? props.page : 0;
     const display_page = isNaN(props.page) ? '' : parseInt(props.page) + 1;
+    if (assetCount > 0 && page * perPage > assetCount) {
+        props.setPage(0);
+    }
     let wingo = (
         <NumericInput
             aria-label="Goto page"
@@ -38,7 +41,7 @@ export function FeaturePager(props) {
 
     const position = props?.position ? ' ' + props.position : '';
     const classname = props.className ? ' ' + props.className : '';
-    const start_item = page > 0 ? page * perPage + 1 : 0;
+    const start_item = page > 0 ? page * perPage + 1 : 1;
     return (
         <div className={`c-featurePager__container${position}${classname}`}>
             <div className="c-featurePager__resultSummary">
