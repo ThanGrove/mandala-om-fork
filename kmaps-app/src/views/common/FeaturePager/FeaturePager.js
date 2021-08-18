@@ -6,28 +6,29 @@ export function FeaturePager(props) {
     const assetCount = props?.assetCount ? props.assetCount : 0;
     const perPage = props?.perPage ? props.perPage : 1;
     const maxPage = assetCount > 0 ? Math.ceil(assetCount / perPage) : 1;
-    const page = props?.page ? props.page : 1;
-
+    const page = props?.page ? props.page : 0;
+    const display_page = isNaN(props.page) ? '' : parseInt(props.page) + 1;
     let wingo = (
         <NumericInput
             aria-label="Goto page"
             min={1}
             max={maxPage}
             size={3}
-            value={props.page + 1}
+            value={display_page}
             onChange={(pg) => {
+                if (pg === null) {
+                    return;
+                }
                 if (!isNaN(pg)) {
-                    pg = parseInt(pg, 10);
+                    pg = pg * 1;
                     pg = pg - 1;
                     if (pg < 0) {
                         pg = 0;
                     }
-                    if (pg >= maxPage) {
+                    if (assetCount > 0 && pg >= maxPage) {
                         pg = maxPage - 1;
                     }
                     props.setPage(pg);
-                } else {
-                    console.log('pg is NaN: [' + pg + ']');
                 }
             }}
             mobile={false}
@@ -37,12 +38,12 @@ export function FeaturePager(props) {
 
     const position = props?.position ? ' ' + props.position : '';
     const classname = props.className ? ' ' + props.className : '';
-    console.log('feature pager props: ', props);
+    const start_item = page > 0 ? page * perPage + 1 : 0;
     return (
         <div className={`c-featurePager__container${position}${classname}`}>
             <div className="c-featurePager__resultSummary">
                 Total (<span className="total">{assetCount}</span>) - Viewing
-                <span className="start">{page * perPage + 1}</span>
+                <span className="start">{start_item}</span>
                 to{' '}
                 <span className="end">
                     {Math.min(page * perPage + perPage, assetCount)}
