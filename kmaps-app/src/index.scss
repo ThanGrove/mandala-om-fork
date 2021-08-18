@@ -652,11 +652,12 @@ header.terms + .two-columns {
         .treeNav-header__title {
             margin-left: 2.5rem;
             color: #eee;
-            font-weight: bold;
+            font-weight: 400;
             padding: 0;
-            line-height: 1.9;
-            font-size: 1.75rem;
-            letter-spacing: 0.075rem;
+            line-height: 1.75;
+            font-size: 1.95rem;
+            letter-spacing: 0.125rem;
+            font-family: 'GB Garamond', serif;
         }
         .treeNav-header__closeButton {
             padding: 0;
@@ -701,8 +702,9 @@ header.terms + .two-columns {
             padding: 0;
             line-height: 1.9;
             font-size: 1.75rem;
-            letter-spacing: 0.075rem;
-            font-weight: bold;
+            letter-spacing: 0.125rem;
+            font-weight: 400;
+            font-family: 'GB Garamond', serif;
 
             .header-label-count {
                 font-size: 1.15rem;
@@ -713,7 +715,7 @@ header.terms + .two-columns {
                 position: relative;
                 bottom: 0.1rem;
                 .badge {
-                    font-size: 1.25rem;
+                    font-size: 1.35rem;
                     letter-spacing: 0.1rem;
                     color: #fff;
                     background: transparent;
@@ -724,7 +726,7 @@ header.terms + .two-columns {
                     border-right: 1px solid #fff;
                     border-radius: 1.25rem;
                     position: relative;
-                    top: 0;
+                    bottom: 0.05rem;
                 }
             }
         }
@@ -1233,7 +1235,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
                 }
                 li {
                     list-style-type: none;
-                    font-family: 'EB Garamond', serif;
+                    font-family: 'GB Garamond', serif;
                     font-size: 1.75rem;
                 }
             } // Ends kmaps for relateds in accordion
