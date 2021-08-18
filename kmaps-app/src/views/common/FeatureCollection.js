@@ -102,7 +102,7 @@ export function FeatureCollection(props) {
         );
     } else {
         viewer = (
-            <div id="mandala-coll-no-items" style={{ display: 'none' }}>
+            <div id="mandala-coll-no-items">
                 <p>There are no items in this collection.</p>
             </div>
         );

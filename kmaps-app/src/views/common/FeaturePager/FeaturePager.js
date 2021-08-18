@@ -3,11 +3,10 @@ import NumericInput from 'react-numeric-input';
 import './FeaturePager.scss';
 
 export function FeaturePager(props) {
-    if (props.page == null) {
-        return null;
-    }
-
-    const maxPage = Math.ceil(props.assetCount / props.perPage);
+    const assetCount = props?.assetCount ? props.assetCount : 0;
+    const perPage = props?.perPage ? props.perPage : 1;
+    const maxPage = assetCount > 0 ? Math.ceil(assetCount / perPage) : 1;
+    const page = props?.page ? props.page : 1;
 
     let wingo = (
         <NumericInput
@@ -17,15 +16,19 @@ export function FeaturePager(props) {
             size={3}
             value={props.page + 1}
             onChange={(pg) => {
-                pg = parseInt(pg, 10);
-                pg = pg - 1;
-                if (pg < 0) {
-                    pg = 0;
+                if (!isNaN(pg)) {
+                    pg = parseInt(pg, 10);
+                    pg = pg - 1;
+                    if (pg < 0) {
+                        pg = 0;
+                    }
+                    if (pg >= maxPage) {
+                        pg = maxPage - 1;
+                    }
+                    props.setPage(pg);
+                } else {
+                    console.log('pg is NaN: [' + pg + ']');
                 }
-                if (pg >= maxPage) {
-                    pg = maxPage - 1;
-                }
-                props.setPage(pg);
             }}
             mobile={false}
             noStyle={true}
@@ -34,18 +37,15 @@ export function FeaturePager(props) {
 
     const position = props?.position ? ' ' + props.position : '';
     const classname = props.className ? ' ' + props.className : '';
+    console.log('feature pager props: ', props);
     return (
         <div className={`c-featurePager__container${position}${classname}`}>
             <div className="c-featurePager__resultSummary">
-                Total (<span className="total">{props.assetCount}</span>) -
-                Viewing
-                <span className="start">{props.page * props.perPage + 1}</span>
+                Total (<span className="total">{assetCount}</span>) - Viewing
+                <span className="start">{page * perPage + 1}</span>
                 to{' '}
                 <span className="end">
-                    {Math.min(
-                        props.page * props.perPage + props.perPage,
-                        props.assetCount
-                    )}
+                    {Math.min(page * perPage + perPage, assetCount)}
                 </span>
             </div>
             <div className="c-featurePager__navButtons">
@@ -94,7 +94,7 @@ export function FeaturePager(props) {
                     size={3}
                     step={25}
                     // style={{width: "4em"}}
-                    value={props.perPage}
+                    value={perPage}
                     onChange={(ps) => {
                         props.setPerPage(ps);
                     }}
