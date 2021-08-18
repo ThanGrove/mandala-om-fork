@@ -244,7 +244,7 @@ export default function SearchAdvanced(props) {
                     Clear All
                 </button>
             </div>
-            <p>Advanced search filters for faster, better results.</p>
+            <p>Filters for refining search results.</p>
             <section>
                 <FacetBox
                     id="asset_count"
