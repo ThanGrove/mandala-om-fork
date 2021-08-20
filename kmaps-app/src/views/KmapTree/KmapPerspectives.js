@@ -44,9 +44,6 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
 
     useEffect(() => {
         setDefVal(perspective[domain]);
-        if (domain === 'places') {
-            console.log('setting def val', perspective[domain]);
-        }
     }, [perspective, domain]);
 
     const changeMe = (evt) => {
