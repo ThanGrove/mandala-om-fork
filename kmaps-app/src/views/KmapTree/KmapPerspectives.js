@@ -10,7 +10,7 @@ import {
     BsQuestionCircle,
     ImQuestion,
 } from 'react-icons/all';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { capitalize } from '../common/utils';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { usePerspective } from '../../hooks/usePerspective';
@@ -66,28 +66,29 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
             ? props.classes
             : '';
     pclass = ['c-perspective-select', ...pclass];
-
     return (
         <div className={pclass.join(' ')}>
             <label>
                 Persepective
                 <PerspectiveDescs domain={domain} />
             </label>
-            <select defaultValue={defVal} onChange={changeMe}>
-                {perspData.map((persp, i) => {
-                    if (EMPTY_PERSPECTIVE_CODES.includes(persp.code)) {
-                        return null;
-                    }
-                    return (
-                        <option
-                            value={persp.code}
-                            key={`${domain}-persp-choice-${i}`}
-                        >
-                            {persp.name}
-                        </option>
-                    );
-                })}
-            </select>
+            <Form>
+                <Form.Control as="select" onChange={changeMe} value={defVal}>
+                    {perspData.map((persp, i) => {
+                        if (EMPTY_PERSPECTIVE_CODES.includes(persp.code)) {
+                            return null;
+                        }
+                        return (
+                            <option
+                                value={persp.code}
+                                key={`${domain}-persp-choice-${i}`}
+                            >
+                                {persp.name}
+                            </option>
+                        );
+                    })}
+                </Form.Control>
+            </Form>
         </div>
     );
 }

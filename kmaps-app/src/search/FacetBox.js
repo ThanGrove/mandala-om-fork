@@ -179,12 +179,14 @@ export function FacetBox(props) {
             const [valLabel, valUid] = val.split('=');
 
             label = refLabel + ': ' + valLabel;
+            label = label.replace(/&amp;/g, '&');
             uid = entry.val;
             fullLabel = label;
         } else {
             // console.log("FacetBox.parseEntry: " + JSON.stringify(entry));
             [label, uid] = entry.val.split('|');
             label = label ? label : 'undefined';
+            label = label.replace(/&amp;/g, '&');
             const extra = fullEntry && uid ? <span>({uid})</span> : '';
             fullLabel = (
                 <span uid={uid}>
