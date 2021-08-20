@@ -497,11 +497,12 @@ export function getSolrCitation(data, title, field, nodate) {
                 `<a href="${mtchs[1]}" target="_blank">${mtchs[1]}</a>`
             );
         }
+        citedata = citedata.replace(/,\s+\./g, '.');
         citedata = <HtmlCustom markup={citedata} />;
     } else {
-        citedata = citedata.replace(', .', '.');
+        citedata = citedata.replace(/,\s+\./g, '.');
     }
-    const srcicon = <span className="u-icon__sources"> </span>;
+    const srcicon = <span className="u-icon__file-text-o"> </span>;
     if (typeof citedata === 'string') {
         const tufield = field.replace('_citation_references_', '_time_units_');
         if (
