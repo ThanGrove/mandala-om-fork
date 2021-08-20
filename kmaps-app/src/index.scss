@@ -527,7 +527,7 @@ header.terms + .two-columns {
                 text-align: center;
                 border: none;
                 border-right: 1px solid #aaa;
-                font-size: 1.6rem;
+                font-size: 1.5rem;
                 color: $color-mandala;
                 letter-spacing: 0.1rem;
                 position: relative;
@@ -572,7 +572,7 @@ header.terms + .two-columns {
             }
         }
         .treeNav-header ~ .nav-tabs .nav-link {
-            margin-top: 0.25rem;
+            margin-top: 0;
             padding-bottom: 0.25rem;
         }
     }
@@ -654,9 +654,9 @@ header.terms + .two-columns {
             color: #eee;
             font-weight: 400;
             padding: 0;
-            line-height: 1.8;
-            font-size: 2rem;
-            letter-spacing: 0.125rem;
+            line-height: 1.7;
+            font-size: 2.135rem;
+            letter-spacing: 0.025rem;
             font-family: 'GB Garamond', serif;
         }
         .treeNav-header__closeButton {
@@ -700,9 +700,9 @@ header.terms + .two-columns {
             margin-left: 2.5rem;
             color: #eee;
             padding: 0;
-            line-height: 1.8;
-            font-size: 2rem;
-            letter-spacing: 0.125rem;
+            line-height: 1.7;
+            font-size: 2.15rem;
+            letter-spacing: 0.035rem;
             font-weight: 400;
             font-family: 'GB Garamond', serif;
 
@@ -710,10 +710,12 @@ header.terms + .two-columns {
                 font-size: 1.15rem;
                 letter-spacing: 0.125rem;
                 margin-left: 0.25rem;
-                font-weight: bold;
+                font-weight: 700;
                 text-transform: uppercase;
                 position: relative;
                 bottom: 0.1rem;
+                border: none;
+                font-family: 'Open Sans', sans-serif;
                 .badge {
                     font-size: 1.35rem;
                     letter-spacing: 0.1rem;
@@ -1420,18 +1422,20 @@ span.refdate {
         color: #555;
         margin: 0.75rem;
         border-radius: 0.8rem;
-        background: #ddd;
+        background: #fff;
         border: 4px double #555;
         display: inline-block;
         padding: 0.3rem 1.5rem;
         transform: scale(1);
         transition: all 0.45s;
         &:hover {
-            background: #f0f0f0;
+            background: $color-places;
+            color: #fff;
+            transform: scale(0.95);
         }
         &:active,
         &:focus {
-            transform: scale(0.95);
+            transform: scale(1.025);
         }
     }
     .ol-rotate,
