@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useRouteMatch, Redirect } from 'react-router-dom';
 import { FeatureCollection } from './FeatureCollection';
 import { useKmapRelated } from '../../hooks/useKmapRelated';
@@ -12,6 +12,7 @@ export default function RelatedsGallery({ baseType }) {
     let { path } = useRouteMatch();
     const [perPage, setPerPage] = useState(100);
     const [page, setPage] = useState(0); // Start will always be page * perPage
+    const start = page * perPage;
     const {
         isLoading: isRelatedLoading,
         data: relatedData,
@@ -21,7 +22,7 @@ export default function RelatedsGallery({ baseType }) {
     } = useKmapRelated(
         queryID(baseType, id),
         type,
-        page,
+        start,
         perPage,
         definitionID
     );
@@ -29,12 +30,23 @@ export default function RelatedsGallery({ baseType }) {
         relatedData,
         queryID(baseType, id),
         type,
-        page,
+        start,
         perPage
     );
 
+    // If page has been updated by previous relateds viewer (e.g. images), set it back to 0 when new related asset (e.g. sources) is chosen.
+    useEffect(() => {
+        setPage(0);
+    }, [type]);
+
     if (isRelatedLoading) {
-        return <span>Relateds Gallery Skeleton</span>;
+        return (
+            <center>
+                <span>
+                    <em>Related Resources Loading...</em>
+                </span>
+            </center>
+        );
     }
 
     if (isRelatedError) {
@@ -65,6 +77,7 @@ export default function RelatedsGallery({ baseType }) {
     }
     // Give a nice title.
     const title = type !== 'all' ? `Related ${type}` : 'All Related Items';
+
     return (
         <FeatureCollection
             docs={docs}

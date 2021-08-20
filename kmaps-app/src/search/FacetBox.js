@@ -179,12 +179,14 @@ export function FacetBox(props) {
             const [valLabel, valUid] = val.split('=');
 
             label = refLabel + ': ' + valLabel;
+            label = label.replace(/&amp;/g, '&');
             uid = entry.val;
             fullLabel = label;
         } else {
             // console.log("FacetBox.parseEntry: " + JSON.stringify(entry));
             [label, uid] = entry.val.split('|');
             label = label ? label : 'undefined';
+            label = label.replace(/&amp;/g, '&');
             const extra = fullEntry && uid ? <span>({uid})</span> : '';
             fullLabel = (
                 <span uid={uid}>
@@ -318,6 +320,12 @@ export function FacetBox(props) {
                 id={'sui-advEdit-' + props.id}
             >
                 <div className={'sui-advEdit-facet-ctrls'}>
+                    <FacetControls
+                        onChange={(val) => setSortField(val)}
+                        name={name}
+                        value={sortField}
+                        onClick={handleSortClick}
+                    />
                     <input
                         key={facetSearch}
                         type={'text'}
@@ -326,13 +334,6 @@ export function FacetBox(props) {
                         defaultValue={facetSearch}
                         onKeyDownCapture={handleKey}
                         ref={inputEl}
-                    />
-
-                    <FacetControls
-                        onChange={(val) => setSortField(val)}
-                        name={name}
-                        value={sortField}
-                        onClick={handleSortClick}
                     />
                 </div>
 
@@ -361,7 +362,7 @@ export function FacetBox(props) {
                                     </button>
                                 )}
                             </div>
-                            <div>
+                            <div className="facetlist-updating">
                                 {isFetching && !isFetchingNextPage
                                     ? 'Background Updating...'
                                     : null}

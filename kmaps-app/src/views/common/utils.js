@@ -9,6 +9,8 @@ import {
 import React from 'react';
 import { Link } from 'react-router-dom';
 import GenericPopover from './GenericPopover';
+import MandalaCitation from '../Sources/MandalaCitation';
+import { HtmlCustom } from './MandalaMarkup';
 
 export function buildNestedDocs(docs, child_type, path_field) {
     path_field = path_field ? path_field : child_type + '_path_s';
@@ -415,8 +417,8 @@ export function getHeaderForView(kmapdata, viewdata) {
  * then returns the first item in array.
  * If field is not in record or has no date, it returns false
  *
- * @param data
- * @param field
+ * @param {Object} data - The kmaps SOLR document as a JS object
+ * @param {string} field - The name of the field whose value is to be retrieved
  * @returns {boolean|string}
  */
 export function getFieldData(data, field) {
@@ -463,26 +465,63 @@ export function getSolrNote(data, title, field) {
 /**
  * Get a citation JSX element from solr doc and field if citation exists
  *
- * @param data
- * @param title
- * @param field
+ * @param {Object} data - The kmaps items solr doc as a JS object
+ * @param {string} title - Title for top of not popupe
+ * @param {string} field - Name of the field that contains the reference info
  * @returns {JSX.Element|null}
  */
-export function getSolrCitation(data, title, field) {
+export function getSolrCitation(data, title, field, nodate) {
     if (!data || !title || !field) {
         return null;
     }
+    if (typeof nodate === undefined) {
+        nodate = false;
+    }
     let citedata = getFieldData(data, field);
-    if (citedata) {
+    if (!citedata || citedata.length === 0) {
+        // console.log('No citation data found for field: ', field, data);
+        return null;
+    }
+    const cdstripped = citedata?.replace(/[\s\.\,\;]+/g, '');
+    if (!isNaN(cdstripped)) {
+        citedata = <MandalaCitation srcid={cdstripped} />;
+    } else if (citedata.search(/<\/[^>]+>/)) {
+        // remove links as will probably be broken in citations.
+        citedata = citedata.replace(/<\/?a[^>]*>/g, '');
+        // Add links to new tab to URL strings.
+        let mre = RegExp(/(https?\:[^\s\)\]]+)[\s\)$]/);
+        const mtchs = mre.exec(citedata);
+        if (mtchs) {
+            citedata = citedata.replace(
+                mtchs[1],
+                `<a href="${mtchs[1]}" target="_blank">${mtchs[1]}</a>`
+            );
+        }
+        citedata = citedata.replace(/,\s+\./g, '.');
+        citedata = <HtmlCustom markup={citedata} />;
+    } else {
+        citedata = citedata.replace(/,\s+\./g, '.');
+    }
+    const srcicon = <span className="u-icon__file-text-o"> </span>;
+    if (typeof citedata === 'string') {
         const tufield = field.replace('_citation_references_', '_time_units_');
-        if (Object.keys(data).includes(tufield) && data[tufield].length > 0) {
+        if (
+            !nodate &&
+            Object.keys(data).includes(tufield) &&
+            data[tufield].length > 0
+        ) {
             citedata += ' (' + data[tufield].join(' ') + ' CE).';
         }
-        const srcicon = <span className="u-icon__sources"> </span>;
+
+        return (
+            <GenericPopover title={title} content={citedata} icon={srcicon} />
+        );
+    } else {
         return (
             <GenericPopover
                 title={title}
-                content={citedata.replace(', .', '.')}
+                content=""
+                children={citedata}
                 icon={srcicon}
             />
         );
@@ -490,6 +529,31 @@ export function getSolrCitation(data, title, field) {
     return null;
 }
 
+/**
+ * Return the value from the date field of a SOLR doc, assuming there is one field with _time_units_ in its name.
+ * Optionally, can provide a date field namet
+ * @param data
+ * @param field
+ * @returns {*|string}
+ */
+export function getSolrDate(data, datefieldname) {
+    let dateval = datefieldname ? data[datefieldname] : '';
+    if (!datefieldname) {
+        const fldnms = findFieldNames(data, '_time_units_');
+        if (fldnms.length > 0) {
+            dateval = data[fldnms[0]];
+        }
+    }
+    return dateval;
+}
+
+/**
+ * A function to find field names in a kmap SOLR doc object from a substring and position or a regular expression
+ * @param {Object} data - the SOLR data as a JS Object
+ * @param {string} substr - the substring or regular expression to search with
+ * @param {string} pos - ["starts", "ends", "regex"]
+ * @returns {T[]}
+ */
 export function findFieldNames(data, substr, pos) {
     if (pos === undefined) pos = 'includes';
     const keys = Object.keys(data);
@@ -499,6 +563,9 @@ export function findFieldNames(data, substr, pos) {
                 return k.startsWith(substr);
             case 'ends':
                 return k.endsWith(substr);
+            case 'regex':
+                const re = new RegExp(substr);
+                return k.match(re) ? true : false;
             default:
                 return k.includes(substr);
         }

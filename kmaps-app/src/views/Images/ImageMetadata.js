@@ -70,7 +70,7 @@ export function ImageMetadata(props) {
                 </Col>
             </Row>
             <Row className={'l-meta'}>
-                <Col className={'l-first col-sm-12 col-md-6'}>
+                <Col className={'l-first col-sm-12 col-xl-6'}>
                     <ImageRow
                         key={capkey}
                         cls={'c-image__caprow'}
@@ -117,7 +117,7 @@ export function ImageMetadata(props) {
                         );
                     })}
                 </Col>
-                <Col className={'l-second col-sm-12 col-md-6'}>
+                <Col className={'l-second col-sm-12 col-xl-6'}>
                     {IMAGE_FIELDS.map((fdstr, i) => {
                         let pts = fdstr.split('|');
                         if (pts.length < 3) {

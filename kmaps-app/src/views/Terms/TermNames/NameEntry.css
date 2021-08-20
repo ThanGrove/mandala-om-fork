@@ -2,10 +2,14 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
 }
-
+.sui-nameEntry__wrapper .term_id {
+    margin: 0.75rem 1.5rem;
+}
 .sui-nameEntry {
     list-style-type: none;
-    line-height: 1.85;
+    line-height: 1.4;
+    padding-bottom: 1rem;
+    position: relative;
 }
 
 .sui-nameEntry span {
@@ -22,15 +26,19 @@
 }
 
 .sui-nameEntry-header {
-    font-weight: bolder;
+    font-weight: bold;
     min-width: 15rem;
     display: inline-block;
+
+    min-width: auto;
+    display: block;
 }
 
 ul.sui-nameEntry.first-entry {
     background: #fff;
     padding: 1rem 1rem 1rem 2.5rem;
-    margin: 1rem 0rem 1.5rem;
+    margin-bottom: 1.5rem;
+    margin: 1rem 0 0;
     border: 1px solid #ccc;
     border-radius: 0.5rem;
 }
@@ -39,14 +47,16 @@ ul.sui-nameEntry.first-entry
     > li.sui-nameEntry:first-child
     > span.sui-nameEntry-header:first-child {
     margin-bottom: 1.5rem;
+    margin-bottom: 0;
 }
 
 ul.sui-nameEntry.first-entry ul {
-    padding-left: 0;
+    padding-left: 1rem;
+    margin-top: 1rem;
 }
 
 ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
-    font-size: 140%;
+    font-size: 2.25rem;
     font-weight: normal;
 }
 
@@ -60,6 +70,7 @@ ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
 
 .sui-nameEntry-meta {
     position: relative;
+    margin-bottom: 1.5rem;
 }
 
 .sui-nameEntry-writing-system:before {
@@ -81,3 +92,11 @@ ul.sui-nameEntry.first-entry .sui-nameEntry .sui-nameEntry-header.bo {
 .sui-nameEntry-writing-system {
     position: relative;
 }
+/*
+@media (min-width: 1450px) {
+    .sui-nameEntry-header {
+        display:inline-block;
+        width:15rem;
+    }
+}
+*/

@@ -9,12 +9,20 @@
 }
 
 .sui-relatedSubHeader {
-    font-size: 1.5rem;
-    font-style: italic;
-    font-family: 'EB Garamond', serif;
-    text-transform: capitalize;
+    font-size: 1.35rem;
+    text-transform: uppercase;
     display: block;
-    text-indent: 4.5rem;
+    text-indent: 3.5rem;
+    font-weight: bold;
+    color: #333;
+    margin-top: 0.2rem;
+    letter-spacing: 0.175rem;
+}
+.sui-relatedSubHeader::before {
+    content: '–';
+    display: inline-block;
     color: #000;
-    letter-spacing: 0.075rem;
+    position: relative;
+    bottom: 0.15rem;
+    margin-right: 0.5rem;
 }

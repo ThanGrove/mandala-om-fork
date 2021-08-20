@@ -22,8 +22,7 @@ function transform(node, index) {
     if (node.attribs && node.attribs['class'] === 'kmap-tag-group') {
         const kmpdom = node.attribs['data-kmdomain'];
         const kmpid = node.attribs['data-kmid'];
-        const mykey =
-            kmpdom + '-' + kmpid + '-' + Math.ceil(Math.random() * 10000);
+        const mykey = kmpdom + '-' + kmpid + '-' + Date.now();
         let label = 'Loading ...';
         if (
             node?.children?.length > 0 &&
@@ -117,25 +116,62 @@ function transform(node, index) {
             return;
         } else if (mandalaid) {
             return <MandalaLink mid={mandalaid} contents={linkcontents} />;
+        } else if (linkurl.includes('/add/') || linkurl.includes('/edit')) {
+            return null;
         } else if (
             !linkurl.includes('https://mandala') &&
-            (linkurl[0] === '/' || linkurl.includes('shanti.virginia.edu'))
+            (linkurl[0] === '/' || linkurl.includes('.virginia.edu'))
         ) {
-            const path = linkurl.replace(/https?\:\/\//, '').split('?')[0];
-            let pathparts = path.split('/');
-            const domain = pathparts[0].includes('.shanti.virginia')
+            // When link url is to a mandala site outside of embedded standalone
+            const path = linkurl.replace(/https?\:\/\//, '').split('?')[0]; // remove protocol and split off search string
+            let pathparts = path.split('/'); // Get path parts
+            // Get the domain
+            const domain = pathparts[0].includes('.virginia.edu')
                 ? pathparts.shift()
                 : false;
+
             const mtch =
                 domain && typeof domain == 'string'
                     ? domain.match(/(audio-video|images|sources|texts|visuals)/)
                     : false;
-            // if only one part to the path, it's most likely not a resource but a Drupal page/view so must use modal
-            // or if a mandala app name is not in domain.
+            //
             if (pathparts.length == 1 || !mtch) {
                 if (pathparts[0] === '') {
-                    return <>{linkcontents}</>;
+                    // It's a relative link from a Mandala App which doesn't include it's the app name
+                    if (
+                        linkurl.startsWith('/collection') ||
+                        linkurl.startsWith('/subcollection')
+                    ) {
+                        const pathpts = window.location.pathname.split('/');
+                        // For Collections in an App. If not app named and asset ID, deliver link contents without link
+                        if (pathpts?.length < 3) {
+                            return <>{linkcontents}</>;
+                        }
+                        // Otherwise use route /find/{asset-type}/{asset id}/collection
+                        return (
+                            <a
+                                className="collection-link"
+                                href={`/find/${pathpts[1]}/${pathpts[2]}/collection`}
+                                data-href={linkurl}
+                                key={`${pathpts[1]}-${pathpts[2]}-collection-link`}
+                            >
+                                {linkcontents}
+                            </a>
+                        );
+                    }
+                    // Otherwise return inactive link with url as data attribute
+                    return (
+                        <a
+                            className="original-link"
+                            href="#"
+                            data-href={linkurl}
+                            key={`link-${linkurl}-${Date.now()}`}
+                        >
+                            {linkcontents}
+                        </a>
+                    );
                 } else {
+                    // Or create a modal for the link content
                     return (
                         <MandalaModal
                             url={linkurl}
@@ -145,7 +181,7 @@ function transform(node, index) {
                     );
                 }
             }
-            //const app = mtch[0];
+
             const asset_path = pathparts.join('/');
             return (
                 <MandalaPathDecoder
@@ -157,7 +193,11 @@ function transform(node, index) {
             );
         } else if (blocked) {
             return (
-                <a href={linkurl} target={'_blank'}>
+                <a
+                    href={linkurl}
+                    target={'_blank'}
+                    key={`blocked-link-${linkurl}-${Date.now()}`}
+                >
                     {linkcontents}
                 </a>
             );
@@ -206,7 +246,6 @@ export function HtmlWithPopovers(props) {
         decodeEntities: true,
         transform,
     };
-
     return <>{ReactHtmlParser(htmlInput, options)}</>;
 }
 
@@ -241,7 +280,7 @@ function MandalaLink(props) {
         newurl += mid.replace(/\-/g, '/').replace('audio/video', 'audio-video');
     }
     return (
-        <a href={newurl} data-mandala-id={mid}>
+        <a key={`mlink-${mid}`} href={newurl} data-mandala-id={mid}>
             {children}
         </a>
     );

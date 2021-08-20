@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { closeStore } from '../hooks/useCloseStore';
 import { browseSearchToggle } from '../hooks/useBrowseSearchToggle';
 //import { AdvancedToggle } from './MainSearchToggle/AdvancedToggle';
-import './RightSideBar.css';
+import './RightSideBar.scss';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 const TreeNav = React.lazy(() => import('./TreeNav'));
 const SearchAdvanced = React.lazy(() => import('../search/SearchAdvanced'));
@@ -22,9 +22,9 @@ export default function RightSideBar() {
             className={`l-content__rightsidebar ${
                 closeButton ? 'openSideBar' : 'closeSideBar'
             }`}
-            maxSize={500}
+            maxSize={580}
             minSize={350}
-            defaultSize={350}
+            defaultSize={380}
         >
             <div className="advanced-search-and-tree">
                 {browseSearch === 'search' && (

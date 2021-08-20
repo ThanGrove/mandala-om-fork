@@ -66,7 +66,7 @@ export default class AudioVideo {
 
         //sui.LoadingIcon(true, 64); // Show loading icon
         // Get details from JSON
-        var str = `<div id="av-player-row" class="row avplayer"><div id='sui-viewerSide' class="av col">`; // Left side
+        var str = `<div id="av-player-row" class="row avplayer"><div id='sui-viewerSide' class="av col col-xl-6 col-sm-12">`; // Left side
         if (d.field_video && d.field_video.und)
             // If video
             entryId = d.field_video.und[0].entryid;
@@ -86,7 +86,7 @@ export default class AudioVideo {
         }
         str += `<div class='sui-vPlayer' id='sui-kplayer'>
         <img src="https://cfvod.kaltura.com/p/${partnerId}/sp/${partnerId}00/thumbnail/entry_id/${entryId}/version/100301/width/560/height/0" fill-height"></div>`;
-        str += `<div style='display:inline-block;width:300px;margin-left:16px'>
+        str += `<div>
                 <div title='Published'>&#xe60c&nbsp;&nbsp;`;
         if (d.field_year_published && d.field_year_published.en) {
             str += sui.pages.FormatDate(d.field_year_published.en[0].value);
@@ -97,7 +97,7 @@ export default class AudioVideo {
         str += `<div title='Duration'>&#xe61c&nbsp;&nbsp;${o.duration_s}</div>`;
         str += `<div title='Uploader'>&#xe673&nbsp;&nbsp;${o.node_user_full_s}</div>`;
         // End of left side list of metadata items under video
-        str += `</div><div style='display:inline-block;vertical-align:top;width:calc(100% - 320px)'>`;
+        str += `</div><div>`;
         try {
             if (o.collection_title) {
                 const collpath =
@@ -510,7 +510,7 @@ export default class AudioVideo {
         sui.LoadingIcon(true, 64); // Show loading icon
         sui.GetJSONFromKmap(o, (d) => {
             // Get details from JSON
-            var str = `<div id="av-player-row" class="row avplayer"><div id='sui-viewerSide' class="av col">`; // Left side
+            var str = `<div id="av-player-row" class="row avplayer"><div id='sui-viewerSide' class="av col col-xl-6 col-lg-12 col-md-12 col-sm-12">`; // Left side
             if (d.field_video && d.field_video.und)
                 // If video
                 entryId = d.field_video.und[0].entryid;
@@ -530,7 +530,7 @@ export default class AudioVideo {
             }
             str += `<div class='sui-vPlayer' id='sui-kplayer'>
 			<img src="https://cfvod.kaltura.com/p/${partnerId}/sp/${partnerId}00/thumbnail/entry_id/${entryId}/version/100301/width/560/height/0" fill-height"></div>`;
-            str += `<br><br><div style='display:inline-block;width:300px;margin-left:16px'>
+            str += `<div>
 			<div title='Duration'>&#xe61c&nbsp;&nbsp;${o.duration_s}</div>
 			<div title='Published'>&#xe60c&nbsp;&nbsp;Published `;
             if (d.field_year_published && d.field_year_published.en)
@@ -545,7 +545,7 @@ export default class AudioVideo {
 					&#xe633&nbsp;
 					<a title='Collection' id='sui-avCol' href='#p=${o.collection_uid_s}'>${o.collection_title}</a>`;
             } catch (e) {}
-            str += `</div><div style='display:inline-block;vertical-align:top;width:calc(100% - 320px)'>`;
+            str += `</div><div>`;
             try {
                 str +=
                     "<div title='Creators'>&#xe600&nbsp;&nbsp;" +
@@ -762,7 +762,7 @@ export default class AudioVideo {
                 o.node_user_full_s +
                 '</p>';
         } catch (e) {}
-        this.content[0] = "<div style='height:2px'/>" + str + '<br>'; // Add to tab
+        this.content[0] = '<div />' + str + '<br>'; // Add to tab
 
         str = ''; // Start fresh on tab 1
         if (
@@ -807,7 +807,7 @@ export default class AudioVideo {
             str +=
                 '<p><strong>DATA ENTRY</strong>' + o.node_user_full_s + '</p>';
         } catch (e) {}
-        this.content[1] = "<div style='height:2px'/>" + str + '<br>'; // Add to tab
+        this.content[1] = '<div />' + str + '<br>'; // Add to tab
 
         str = ''; // Start fresh on tab 2
         if (
@@ -834,7 +834,7 @@ export default class AudioVideo {
                 '</p>';
         } catch (e) {}
         str += '<p><strong>FORMAT ID SOURCE</strong>(Kaltura.com)</p>';
-        this.content[2] = "<div style='height:2px'/>" + str + '<br>'; // Add to tab
+        this.content[2] = '<div />' + str + '<br>'; // Add to tab
     } //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /* TRANSCRIPT //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -949,14 +949,14 @@ export default class AudioVideo {
             ? 'firefox'
             : 'safari';
 
-        var str = `<div id='av-trscrpt-wrapper' class='col col-xl-6 col-lg-12'>
+        var str = `<div id='av-trscrpt-wrapper' class='col col-xl-6 col-sm-12'>
             <div class='av-trscrpt-ctrls row'>
                 <div id='sui-transTab0' class='sui-transTab col' title='Options'>&#xe66f<span>&#xe609</span></div>
                 <div id='sui-transTab1' class='sui-transTab col' title='Play/Pause'>&#xe641</div>
                 <div id='sui-transTab2' class='sui-transTab col' title='Previous line'>&#xe602</div>
                 <div id='sui-transTab3' class='sui-transTab col' title='Same line'>&#xe632</div>
                 <div id='sui-transTab4' class='sui-transTab col' title='Next line'>&#xe604</div>
-                <div id='sui-transTab5' class='sui-transTab col' style='border:none' title='Search transcript'>&#xe623</div>
+                <div id='sui-transTab5' class='sui-transTab col' title='Search transcript'>&#xe623</div>
                 <div id='sui-transOps' class='sui-transOps'></div>
                 <div id='sui-transSrc' class='sui-transSrc'>
                     <div class="transSrcWrap ${browser}">
@@ -1084,14 +1084,14 @@ export default class AudioVideo {
                 lang +
                 "<span id='sui-transLang-" +
                 lang +
-                "' class='sui-transCheck' style='color:#58aab4'>&#xe60e</span></div>";
+                "' class='sui-transCheck'>&#xe60e</span></div>";
         str += `<div class='sui-transLab'>SPEAKERS</div>
-		<div class='sui-transRow'>- Tibetan<span id='sui-transS1' class='sui-transCheck' style='color:#58aab4'>&#xe60e</span></div>	
+		<div class='sui-transRow'>- Tibetan<span id='sui-transS1' class='sui-transCheck'>&#xe60e</span></div>	
 		<div class='sui-transLab'>LAYOUTS</div>
 		<div class='sui-transRow' id='sui-transMinR'>- Minimal<span id='sui-transMin' class='sui-transCheck'>&#xe60e</span></div>
 		<div class='sui-transRow' id='sui-transRevR'>- Reversed<span id='sui-transRev' class='sui-transCheck'>&#xe60e</span></div>
 		<div class='sui-transLab'>DOWNLOADS</div>
-		<div class='sui-transRow' id='sui-transStr'->- SRT file<span class='sui-transCheck' style='color:#58aab4'>&#xe616</span></div>`;
+		<div class='sui-transRow' id='sui-transStr'->- SRT file<span class='sui-transCheck'>&#xe616</span></div>`;
         //console.log("adding str to transops", $('#sui-transOps'), str);
         $('#sui-transOps').html(str.replace(/\t|\n|\r/g, ''));
         $('#sui-transStr').on('click', () => {
@@ -1245,7 +1245,7 @@ export default class AudioVideo {
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
                 str += `<div class='sui-transMinSeg' id='sui-transMinSeg-${i}'>										
-				<div style='float:${res.rev ? 'right' : 'left'};font-size:18px;'>
+				<div style='float:${res.rev ? 'right' : 'left'};'>
 				<div class='sui-transMinPlay' id='sui-transPlay-${i}' title='Play line ${this.SecondsToTimecode(
                     res.segs[i].start
                 )}'>&#xe680</div> 
@@ -1266,7 +1266,7 @@ export default class AudioVideo {
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
-				<div style='float:${res.rev ? 'right' : 'left'};width:13rem;'>
+				<div style='float:${res.rev ? 'right' : 'left'};'>
 				
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680

@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
 
+const ImagesViewer = React.lazy(() => import('../Images/ImagesViewer'));
 const AudioVideoViewer = React.lazy(() =>
     import('../AudioVideo/AudioVideoViewer')
 );
-const ImagesViewer = React.lazy(() => import('../Images/ImagesViewer'));
 const SourcesViewer = React.lazy(() => import('../Sources/SourcesViewer'));
 const TextsViewer = React.lazy(() => import('../Texts/TextsViewer'));
 const VisualsViewer = React.lazy(() => import('../Visuals/VisualsViewer'));
@@ -31,12 +31,13 @@ export function RelatedAssetHeader({ type, subtype, header }) {
     const retpath = window.location.pathname.split('/view')[0];
     return (
         <>
+            {' '}
             <div className="c-nodeHeader__backLink__wrap">
                 <Link to={retpath} className="c-nodeHeader__backLink">
                     <span className="icon u-icon__arrow-left_2">Return</span>
                 </Link>
             </div>
-            <h5 className="c-nodeHeader-itemHeader">
+            <h2 className="c-nodeHeader-itemHeader">
                 <span className={`icon u-icon__${type}`}> </span>
                 <span className="c-nodeHeader-itemHeader-subType">
                     {' '}
@@ -46,7 +47,7 @@ export function RelatedAssetHeader({ type, subtype, header }) {
                     {' '}
                     {header}{' '}
                 </span>
-            </h5>
+            </h2>
         </>
     );
 }

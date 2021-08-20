@@ -1,4 +1,4 @@
-
+@import '../../index-variables'
 
 .l-site__wrap.texts
   overflow-x: hidden
@@ -7,7 +7,14 @@
   background-color: #eee
   height: 100vh
   -webkit-tap-highlight-color: transparent
-  flex: none
+  max-width: 140rem
+  margin: 0
+
+  &.astviewer
+    /*  background-color: #fcfcfc */
+    padding-right: 0
+    padding-left: 0
+    /*  height: calc(100vh - 12rem) */
 
   .sui-content
     background-color: #eee
@@ -16,8 +23,10 @@
     top: 0
     height: inherit
 
-  #sui-results, .astviewer, .astviewer.texts #shanti-texts-container
-    height: inherit !important
+  #sui-results,
+  .astviewer,
+  .astviewer.texts #shanti-texts-container
+    height: calc(100vh - 50rem)
 
 
 
@@ -51,21 +60,21 @@
   #shanti-texts-body figure.image
     margin: 0 1rem
 
-  #shanti-texts-body figure.image figcaption
-    margin: 1.1rem 0 0
-    font-family: Verdana, Arial, sans-serif
-    font-size: 1.08rem
-    font-weight: bold
-    color: #555
-    text-align: center
-    line-height: 1.4rem
-    letter-spacing: 0
+    figcaption
+      margin: 1.1rem 0 0
+      font-family: Verdana, Arial, sans-serif
+      font-size: 1.08rem
+      font-weight: bold
+      color: #555
+      text-align: center
+      line-height: 1.4rem
+      letter-spacing: 0
 
-  #shanti-texts-body figure.image.center figcaption
+    &.center figcaption
     margin-bottom: 1rem
 
-  #shanti-texts-body figure.image img
-    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8)
+    img
+    // box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8)
 
   h2.image-header
     font-weight: bold
@@ -90,24 +99,27 @@
     right: 8px
     color: #777
 
-  .close-iframe a
+    a
     color: #777
-
-  .close-iframe a:hover
+    &:hover
     color: red
 
   .full-page-frame
     background-color: #fff
 
   /* Embeds in Texts: images, av, texts, etc */
-  figure.image, div.assetplayer, div.image-wrapper
-    margin: 0.5rem 1.5rem 0rem
+  figure.image,
+  div.assetplayer,
+  div.image-wrapper
+    margin: 0.5rem 1.5rem 0
     width: auto
 
-  figure.image img, div.assetplayer iframe
-    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.8)
+  figure.image img,
+  div.assetplayer iframe
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.8)
 
-  figure figcaption, div.assetplayer p.avcaption
+  figure figcaption,
+  div.assetplayer p.avcaption
     margin: 0.5rem 0 0
     font-family: Verdana, Arial, sans-serif
     font-size: 1.1rem
@@ -117,18 +129,20 @@
     line-height: 1.1rem
     letter-spacing: 0
 
-  figure figcaption.bo, div.assetplayer p.caption.bo
+  figure figcaption.bo,
+  div.assetplayer p.caption.bo
     font-size: 1.75rem
     font-weight: normal
 
   figure.center
-    margin: 12px 0px 12px 24%
+    margin: 12px 0 12px 24%
 
   .spinner-border-sm
     margin: -2px 6px 0 20px
     vertical-align: middle !important
 
-  .tib, .bo
+  .tib,
+  .bo
     letter-spacing: normal !important
 
   .link-external
@@ -165,12 +179,14 @@
 
   /* shanticon-agent */
 
-  .field_book_editor .shanti-texts-field-label:before, .field_book_translator .shanti-texts-field-label:before
+  .field_book_editor .shanti-texts-field-label:before,
+  .field_book_translator .shanti-texts-field-label:before
     content: '\e675'
 
   /* shanticon-user-check */
 
-  .field_dc_date_publication_year .shanti-texts-field-label:before, .field_dc_date_orginial_year .shanti-texts-field-label:before
+  .field_dc_date_publication_year .shanti-texts-field-label:before,
+  .field_dc_date_orginial_year .shanti-texts-field-label:before
     content: '\e60c'
 
   /* shanticon-events */
@@ -259,18 +275,20 @@
       padding-left: 2.4rem
       padding-right: 1rem
 
-    h1, h2, h3, h4, h5, h6
-    /*font-size: 0.88em; */
+    /* h1, h2, h3, h4, h5, h6 */
 
-    h4, h5, h6
+    h4
+      font-size: 2rem
+
+    h5, h6
       margin-top: 30px
       margin-bottom: 5px
+      font-size: 1.75rem
 
   .shanti-texts-section-title
     margin-top: 1.5rem
     padding-top: 1rem
     margin-bottom: 0
-    font-weight: normal
     font-weight: 500
     line-height: 2.75rem
     color: #000
@@ -286,14 +304,12 @@
       background: #f4f4f4
       padding: 1.5rem 1rem 1.5rem 3.5rem
       line-height: 1.5em
-      margin-bottom: 0
       margin-left: -1rem
       font-weight: bold
       letter-spacing: 0.0375rem
       color: #444
       border-top: 0.5rem solid white
       border-bottom: 0.5rem solid white
-      box-shadow: inset 0 2px 0.1rem 0 #ddd
       box-shadow: inset 0 0 0.1rem 0.1rem #ddd
       position: relative
       top: 1rem
@@ -322,25 +338,25 @@
       padding-bottom: 0.75rem
 
   #shanti-texts-sidebar .tab-content
-    padding: 2rem 1.5rem
+    padding: 1.25rem 1.5rem
     overflow-y: scroll !important
-    max-height: 54rem
     width: 100%
 
     /* for mobile height
     min-height: 38rem
     background: #fff
-    border: 1px solid #ddd
+    border: 1px solid #ccc
     border-bottom: 1px solid #aaa
     border-top: none
     position: relative
-    top: 130px
 
   #shanti-texts-body
     padding: 0 0 0 2.5rem
-    margin: 0
-    height: 84vh
+    margin: 0 0 2rem
+    min-width: 40rem
+    width: 60%
     max-width: 85rem
+    height: calc(100vh - 12rem)
     background-color: white
     box-shadow: inset 0 -0.2rem 5px #ddd
     overflow-y: scroll
@@ -352,16 +368,12 @@
     border-left: 2px solid #ccc
     border-right: 1px solid #d0d0d0
 
-    > div:first-of-type
-  /*margin-top:-5rem; */
-
   #shanti-texts-sidebar
-    /* display:none; */
-
     /* INITIAL CONDITION to prevent showing un-tabbed content */
-    padding: 2rem 0 0
-    height: 84vh !important
-    min-height: 30rem
+    padding: 0
+    min-width: 30rem
+    max-width: 100%
+    height: calc(100vh - 24rem)
     background-color: #eee
     color: #333
 
@@ -379,8 +391,8 @@
     cursor: pointer
 
     .sidecol-toggle
-      margin: 0px
-      padding: 0px
+      margin: 0
+      padding: 0
       display: inline-block
       position: relative
       top: -3px
@@ -391,7 +403,7 @@
     width: 1.15rem
 
   #shanti-texts-body::-webkit-scrollbar-track, #shanti-texts-sidebar .tab-content::-webkit-scrollbar-track
-    border-radius: 0rem
+    border-radius: 0
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.1)
 
   #shanti-texts-body::-webkit-scrollbar-thumb, #shanti-texts-sidebar .tab-content::-webkit-scrollbar-thumb
@@ -425,6 +437,13 @@
       max-width: 100%
       height: auto
 
+      float: left
+      margin: 0 2.5rem .5rem 0
+      border-radius: .5rem
+      border: 1px solid #ccc
+      padding: .75rem
+      box-shadow: inset 0 0 .5rem .1rem #ccc
+
     /* display:none; */
 
     .text-level-1 img
@@ -437,11 +456,8 @@
 
   #shanti-texts-sidebar
     .field
-      border-bottom: 1px solid #ccc
-      padding-bottom: 0.7rem
-      margin-bottom: 0.7rem
       display: block
-      border-bottom: 1px solid gray
+      border-bottom: 1px solid #ccc
       padding-bottom: 1em
       margin-bottom: 1em
 
@@ -1037,10 +1053,14 @@
 
   @media screen and (min-width: 768px)
     #shanti-texts-sidebar
+      max-width: 35rem
+
       .tab-content
-        max-height: 62rem
         position: relative
-        top: 56px
+        top: 1px
+
+    #shanti-texts-body
+      max-width: 90rem
 
       #shanti-texts-sidebar-tabs-tabpane-text_bibl .shanti-texts-field-label
         white-space: nowrap
@@ -1055,10 +1075,18 @@
 
   @media screen and (min-width: 850px)
     #shanti-texts-sidebar .tab-content
-      top: 15px
+
 
   @media screen and (min-width: 992px)
     /* testing these two rulesets is for positioning book reader height */
+    .l-site__wrap.texts
+      margin: 0
+
+    #shanti-texts-sidebar
+      max-width: 100%
+
+    #shanti-texts-body
+      max-width: 90rem
 
     .astviewer.texts
       article.main-col
@@ -1075,30 +1103,31 @@
         bottom: 0.1rem
         padding: 0
         margin-bottom: 0
+        margin: 0
 
     .has-tabs.astviewer.texts #shanti-texts-container
       position: absolute
       top: 0.5rem
 
     #shanti-texts-sidebar
-      height: 100%
       padding: 0
-      width: 32%
+      margin-bottom: 2rem
+
 
     #shanti-texts-body
       margin-right: 1.25rem
+      margin-bottom: 2rem
       padding: 3.5rem 1.5rem 0 3.25rem
 
+
     #shanti-texts-sidebar .tab-content
-      position: absolute
-      top: 38px
-      bottom: 0
-      max-height: 100%
       border: 1px solid #ddd
       border-right: 1px solid #d0d0d0
       border-bottom: 1px solid #aaa
       border-top: none
       overflow-y: auto !important
+      padding-top: 0
+      height: calc(100vh - 16.5rem)
 
       &::-webkit-scrollbar
         height: 0.7rem
@@ -1169,26 +1198,46 @@
 
   /* END (min-width: 992px) */
 
+  .nav-tabs
+    border-bottom: none
+
   .nav-tabs.nav-justified > a
     position: relative
-    /* top: -0.4rem*/
     font-size: 0.93em !important
     text-transform: uppercase
-    line-height: 1.32em
-    padding-top: 1.25rem
-    border-radius: 0.5rem 0.5rem 0 0
-    border: thin solid #CCC
-    border-bottom: none
+    line-height: 1.95em
+    padding-top: 1.3rem
+    border-radius: 0.75rem 0.75rem 0 0
+    background-color: #fff
+    border: .1rem solid #CCC
+
+    &:hover
+      border-color: #aaa
+      border-bottom-color: #fff
+    &.active
+      margin-bottom: -0.2rem
+      border-top: .3rem solid $color-texts
+      padding-top: 1.1rem
+      border-bottom-color: white
+      font-weight: bold
 
     &.active::before
       color: #555 !important
 
-  @media screen and (min-width: 1440px)
+
+
+
+
+
+  @media screen and (min-width: 1600px)
     .astviewer.texts #shanti-texts-container
-      margin-left: auto
-      margin-right: auto
-      padding-left: 0
-      padding-right: 0
+      margin: 0
+
+    #shanti-texts-sidebar
+      padding: 0
+      margin-bottom: 2rem
+      max-width: 50rem
+
 
   @media print
     div
@@ -1281,3 +1330,8 @@
       position: relative
       top: 2.5rem
       right: 1.5rem
+
+
+
+
+

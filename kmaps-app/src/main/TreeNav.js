@@ -1,9 +1,10 @@
 import React from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { useLocation, useRouteMatch } from 'react-router-dom';
+import { useRouteMatch } from 'react-router-dom';
 import { getProject, queryID } from '../views/common/utils';
 import KmapTree from '../views/KmapTree/KmapTree';
+import { closeStore } from '../hooks/useCloseStore';
 
 const TreeNav = (props) => {
     const openclass = props.tree ? 'open' : 'closed';
@@ -19,6 +20,9 @@ const TreeNav = (props) => {
         '/:baseType/:id/related-:type',
         '/:baseType/:id',
     ]);
+
+    // Get function to handle closeButton state.
+    const handleCloseButton = closeStore((state) => state.changeButtonState);
 
     let found = false;
     if (match?.params?.baseType) {
@@ -38,7 +42,7 @@ const TreeNav = (props) => {
     return (
         <aside
             id="l-column__search--treeNav"
-            className={`l-column__search c-TreeNav--tabs ${openclass} overflow-auto`}
+            className={`l-column__search c-TreeNav--tabs ${openclass}`}
         >
             <div>
                 <span
@@ -46,13 +50,21 @@ const TreeNav = (props) => {
                         'sacrifical-dummy-element-that-is-not-displayed-for-some-reason'
                     }
                 ></span>
-                <div className="treeNav-header">
-                    <div className="treeNav-header__title">Browse Kmaps</div>
-                    <div className="treeNav-header__closeButton">
+                <header className="treeNav-header">
+                    <h4 className="treeNav-header__title">Knowledge Maps</h4>
+                    <button
+                        onClick={handleCloseButton}
+                        className="treeNav-header__closeButton"
+                    >
                         <span className={'icon shanticon-cancel'}></span>
-                    </div>
-                </div>
-                <Tabs defaultActiveKey={domain} id="kmaps-tab">
+                    </button>
+                </header>
+                <Tabs
+                    defaultActiveKey={domain}
+                    id="kmaps-tab"
+                    role="navigation"
+                    className="treeNav-tabs__wrap justify-content-center"
+                >
                     <Tab eventKey="places" title="Places">
                         <KmapTree
                             elid="tab-tree-places"

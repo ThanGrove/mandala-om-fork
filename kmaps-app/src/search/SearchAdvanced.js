@@ -1,8 +1,7 @@
 import { FacetBox } from './FacetBox';
 import React, { useState } from 'react';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import { Link, useHistory, useRouteMatch } from 'react-router-dom';
+import Button from 'react-bootstrap/Button';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
@@ -198,31 +197,14 @@ export default function SearchAdvanced(props) {
             className={`l-column__search ${openclass}`}
         >
             <div className="search-column-header-filters">
-                {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <Link to={`/search/deck`}>
-                        <span className={'header-icon'}>
-                            <IconContext.Provider value={{ className: 'icon' }}>
-                                <FaRegArrowAltCircleRight />
-                            </IconContext.Provider>
-                        </span>
-                        <span className={'header-label-count'}>
-                            Total Results
-                            <Badge pill variant={'secondary'}>
-                                {searchData.response?.numFound}
-                            </Badge>
-                        </span>
-                    </Link>
-                )}
-                {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <a
-                        href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search`}
-                    >
-                        {'<< '} Total Results{' '}
+                <h4>
+                    Total Results
+                    <span className={'header-label-count'}>
                         <Badge pill variant={'secondary'}>
                             {searchData.response?.numFound}
                         </Badge>
-                    </a>
-                )}
+                    </span>
+                </h4>
                 <button
                     onClick={handleCloseButton}
                     className={'search-column-close-filters'}
@@ -230,25 +212,60 @@ export default function SearchAdvanced(props) {
                     <span className={'icon shanticon-cancel'}></span>
                 </button>
             </div>
+
             <div className="search-column-reset-filters">
-                <label>Reset:</label>
-                <button eventKey="resetFilters" onClick={handleResetFilters}>
-                    Filters
-                </button>
+                {process.env.REACT_APP_STANDALONE !== 'standalone' && (
+                    <Button
+                        onClick={() =>
+                            history.push(
+                                `/search/deck${window.location.search}`
+                            )
+                        }
+                        variant="link"
+                        className={'back-to-results'}
+                    >
+                        <span className={'header-icon'}>
+                            <span className="icon shanticon-magnify"></span>
+                        </span>
+                        Go to Results
+                    </Button>
+                )}
+                {process.env.REACT_APP_STANDALONE === 'standalone' && (
+                    <span className={'header-label-count'}>
+                        <a
+                            href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
+                        >
+                            Back to Results
+                        </a>
+                    </span>
+                )}
+
                 <button eventKey="resetAll" onClick={handleResetAll}>
-                    All
+                    Clear All
                 </button>
             </div>
+            <p>Filters for refining search results.</p>
             <section>
                 <FacetBox
                     id="asset_count"
-                    label="item type"
+                    label="resource type"
                     facets={searchData.facets?.asset_count?.numBuckets}
                     facetType={'asset_type'}
                     resetFlag={reset}
                     onFacetClick={handleFacetChange}
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('asset_type')}
+                    booleanControls={booleanControls}
+                />
+                <FacetBox
+                    id="collections"
+                    label="collections"
+                    facets={searchData.facets?.collections?.numBuckets}
+                    facetType="collections"
+                    resetFlag={reset}
+                    onFacetClick={handleFacetChange}
+                    onNarrowFilters={handleNarrowFilters}
+                    chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
                 />
                 <FacetBox
@@ -293,18 +310,6 @@ export default function SearchAdvanced(props) {
                     onFacetClick={handleFacetChange}
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('feature_types')}
-                    booleanControls={booleanControls}
-                />
-
-                <FacetBox
-                    id="collections"
-                    label="collections"
-                    facets={searchData.facets?.collections?.numBuckets}
-                    facetType="collections"
-                    resetFlag={reset}
-                    onFacetClick={handleFacetChange}
-                    onNarrowFilters={handleNarrowFilters}
-                    chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
                 />
                 <FacetBox

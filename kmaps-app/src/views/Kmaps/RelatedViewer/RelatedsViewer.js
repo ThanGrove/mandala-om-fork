@@ -28,7 +28,7 @@ export function RelatedsViewer() {
 
     const loc = match?.params.type || 'home';
     let locMatch = {};
-    locMatch[loc] = 'selected';
+    locMatch[loc] = 'active';
 
     let baseArgs = {
         baseType: match?.params.baseType,
@@ -94,11 +94,12 @@ export function RelatedsViewer() {
                     <div className="u-related__list__header">
                         Related Resources
                     </div>
-                    <div className="c-relatedViewer">
+                    <nav className="c-relatedViewer nav nav-tabs flex-column">
                         <Link
                             id="sui-rl-Home"
+                            role={'tab'}
                             to={'/' + baseArgs.baseType + '/' + baseArgs.id}
-                            className={`c-related__link--home c-related__item ${locMatch['home']}`}
+                            className={`c-related__link--home c-related__item nav-item nav-link ${locMatch['home']}`}
                         >
                             <span className={'icon u-icon__overview'}></span>{' '}
                             <span>Home</span>
@@ -107,54 +108,64 @@ export function RelatedsViewer() {
                         <RelatedCount
                             type={'all'}
                             {...baseArgs}
-                            className={locMatch['mandala']}
+                            role={'tab'}
+                            className={locMatch['all']}
+                        />
+                        <RelatedCount
+                            type={'subjects'}
+                            {...baseArgs}
+                            role={'tab'}
+                            className={locMatch['subjects']}
                         />
                         <RelatedCount
                             type={'places'}
                             {...baseArgs}
+                            role={'tab'}
                             className={locMatch['places']}
+                        />
+                        <RelatedCount
+                            type={'terms'}
+                            {...baseArgs}
+                            role={'tab'}
+                            className={locMatch['terms']}
+                        />
+                        <RelatedCount
+                            type={'collections'}
+                            {...baseArgs}
+                            role={'tab'}
+                            className={locMatch['collections']}
                         />
                         <RelatedCount
                             type={'audio-video'}
                             {...baseArgs}
+                            role={'tab'}
                             className={locMatch['audio-video']}
                         />
                         <RelatedCount
                             type={'images'}
                             {...baseArgs}
-                            className={locMatch.images}
+                            role={'tab'}
+                            className={locMatch['images']}
                         />
                         <RelatedCount
                             type={'sources'}
                             {...baseArgs}
-                            className={locMatch.sources}
+                            role={'tab'}
+                            className={locMatch['sources']}
                         />
                         <RelatedCount
                             type={'texts'}
                             {...baseArgs}
-                            className={locMatch.texts}
+                            role={'tab'}
+                            className={locMatch['texts']}
                         />
                         <RelatedCount
                             type={'visuals'}
                             {...baseArgs}
-                            className={locMatch.visuals}
+                            role={'tab'}
+                            className={locMatch['visuals']}
                         />
-                        <RelatedCount
-                            type={'subjects'}
-                            {...baseArgs}
-                            className={locMatch.subjects}
-                        />
-                        <RelatedCount
-                            type={'terms'}
-                            {...baseArgs}
-                            className={locMatch.terms}
-                        />
-                        <RelatedCount
-                            type={'collections'}
-                            {...baseArgs}
-                            className={locMatch.collections}
-                        />
-                    </div>
+                    </nav>
                 </section>
 
                 {statePages.length > 0 && (
@@ -165,7 +176,7 @@ export function RelatedsViewer() {
                         <HistoryViewer />
                     </section>
                 )}
-                <section className="l-terms__tree__wrap">
+                <section className="l-related__tree__wrap">
                     <div className="u-related__list__header">
                         Browse{' '}
                         <span className={'text-capitalize'}>
@@ -197,23 +208,29 @@ function RelatedCount(props) {
     if (props.type === 'images') {
         display = 'gallery';
     }
+
+    // Link path.
+    let path =
+        '/' +
+        props.baseType +
+        '/' +
+        props.id +
+        '/related-' +
+        props.type +
+        '/' +
+        (props.baseType === 'terms' ? 'any/' : '') +
+        display;
+
+    let activeClass = props.className || '';
+
     // return null if the count doesn't exist or is === 0
     return count ? (
         <Link
             id={'sui-rl-' + props.type}
             href="#"
-            className={'c-related__item c-related__link--' + props.type}
-            to={
-                '/' +
-                props.baseType +
-                '/' +
-                props.id +
-                '/related-' +
-                props.type +
-                '/' +
-                (props.baseType === 'terms' ? 'any/' : '') +
-                display
-            }
+            className={`nav-item nav-link c-related__item c-related__link--${props.type} ${activeClass}`}
+            role={'tab'}
+            to={path}
         >
             <span className={'u-icon__' + props.type + ' ' + iconClass}></span>
             <span className={'c-related__item__label'}> {props.type}</span>

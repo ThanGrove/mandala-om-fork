@@ -19,6 +19,7 @@ import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { TreeTest } from '../views/KmapTree/TreeTest';
+import { AssetCollectionLocator } from './AssetCollectionLocator';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -178,6 +179,10 @@ export default function ContentMain(props) {
                                         id={props.id}
                                         sui={props.sui}
                                     />
+                                </Route>
+
+                                <Route path={`/find/:assetType/:id/collection`}>
+                                    <AssetCollectionLocator />
                                 </Route>
 
                                 {/* CATCHALL => 404 */}

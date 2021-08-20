@@ -11,11 +11,19 @@
 }
 .custSelect__header .custSelect__header-title {
     font-weight: bold;
+    font-size: 1.25rem;
+    text-transform: uppercase;
+    letter-spacing: 0.125rem;
 }
 .custSelect__wrapper {
     position: relative;
     user-select: none;
     width: 100%;
+    cursor: default;
+    margin-top: 0.5rem;
+}
+.custSelect__wrapper * {
+    cursor: default;
 }
 .custSelect__main {
     position: relative;
@@ -31,43 +39,58 @@
     visibility: visible;
     pointer-events: all;
 }
+.custSelect__main .custSelect__option:hover {
+    /* background-color:#91693c;
+    color:#fff; */
+}
 .custSelect__trigger {
     position: relative;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 6px 45px 6px 20px;
-    font-size: 1.6rem;
-    color: #3b3b3b;
+    padding: 1.4rem 7rem 1.5rem 2.5rem;
+    color: #222;
     cursor: pointer;
     border-width: 1px 0 1px 0;
     border-style: solid;
     border-color: #ccc;
+    font-size: 1.15rem;
+
+    font-family: 'EB Garamond', serif;
+    font-size: 2rem;
+    font-style: italic;
+    letter-spacing: 0.075rem;
+    border-left: 0.8rem double #91693c;
+}
+.custSelect__trigger .custSelect__selected_item {
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-size: 1.35rem;
 }
 .custSelect__trigger .custSelect__arrow {
     position: relative;
-    height: 15px;
-    width: 15px;
-    left: 2rem;
+    height: 1.5rem;
+    width: 1.5rem;
+    left: 3.5rem;
 }
 .custSelect__trigger .custSelect__arrow::before,
 .custSelect__trigger .custSelect__arrow::after {
     content: '';
     position: absolute;
     bottom: 0px;
-    width: 0.15rem;
+    width: 0.3rem;
     height: 100%;
-    transition: all 0.5s;
+    transition: all 0.1s;
 }
 .custSelect__trigger .custSelect__arrow::before {
     left: -5px;
     transform: rotate(-45deg);
-    background-color: #394a6d;
+    background-color: #91693c;
 }
 .custSelect__trigger .custSelect__arrow::after {
     left: 5px;
     transform: rotate(45deg);
-    background-color: #394a6d;
+    background-color: #91693c;
 }
 .custSelect__main.cs_open .custSelect__arrow::before {
     left: -5px;
@@ -83,17 +106,17 @@
     top: 100%;
     left: 0;
     right: 0;
-    border: 1px solid #ccc;
-    border-bottom: 5px double #ccc;
+    border: 1px solid #4d59ca;
+    border-bottom: 5px solid #4d59ca;
     border-top: 0;
+    border-radius: 0 0 1rem 1rem;
     background: #fff;
     transition: opacity 0.5s;
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
     z-index: 2;
-    max-height: 400px;
-    overflow-y: scroll;
+    box-shadow: 1rem 1rem 2.5rem 0.1rem #a2a2a28a;
 }
 .custSelect__options > * + * {
     border-top: 1px solid #d8d8d8;
@@ -101,7 +124,7 @@
 .custSelect__option {
     position: relative;
     display: block;
-    padding: 0.6rem 2rem;
+    padding: 1.5rem 7rem 3rem 3rem;
     font-size: 14px;
     cursor: pointer;
     transition: all 0.5s;
@@ -111,8 +134,18 @@
     background-color: #f9f9f9;
     color: #000;
 }
+.custSelect__option:not(.cs-selected) {
+}
 .custSelect__option.cs_selected {
     color: #ffffff;
     background-color: #91693c;
     border: none;
+}
+.custSelect__options .custSelect__option:first-child {
+    background: #eee;
+    color: #222;
+    text-align: right;
+    text-align: center;
+    padding-right: 1.5rem;
+    font-weight: bold;
 }

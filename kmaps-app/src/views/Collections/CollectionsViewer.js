@@ -8,6 +8,7 @@ import useCollection from '../../hooks/useCollection';
 import $ from 'jquery';
 import { NotFoundPage } from '../common/utilcomponents';
 import { useHistory } from '../../hooks/useHistory';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
  * Component to return a collection page showing a gallery or list of items in the collection
@@ -30,19 +31,17 @@ export function CollectionsViewer(props) {
         isError: isCollError,
         error: collError,
     } = useCollection(asset_type, asset_id);
+
     const collsolr = colldata?.numFound === 1 ? colldata.docs[0] : false;
+    const DEFAULT_SORTMODE = 'title_sort_s asc';
 
     // Set up state variables for pager
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
-    const [pageSize, setPageSize] = useState(100);
-    const [numFound, setNumFound] = useState(0);
+    const [pageSize, setPageSize] = useState(25);
 
-    // On Load One time Use Effect to clear previous page and set type
-    /*useEffect(() => {
-        status.clear();
-        status.setType('collections');
-    }, []);*/
+    // Set up sort mode state
+    const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
 
     // Make Solr Query to find assets in Collection
     const query = {
@@ -50,12 +49,19 @@ export function CollectionsViewer(props) {
         params: {
             fq: ['asset_type:' + asset_type, '-asset_subtype:page'],
             q: 'collection_nid_path_is:' + asset_id,
-            sort: 'title_sort_s asc',
+            sort: sortMode,
             start: startRow,
             rows: pageSize,
         },
     };
-    const qkey = 'collection-' + asset_type + '-' + asset_id;
+    const qkey = [
+        'collection',
+        asset_type,
+        asset_id,
+        sortMode,
+        startRow,
+        pageSize,
+    ];
     const {
         isLoading: isItemsLoading,
         data: items,
@@ -63,84 +69,43 @@ export function CollectionsViewer(props) {
         error: itemsError,
     } = useSolr(qkey, query);
 
-    if (!isCollLoading && !isCollError) {
-        addPage(
-            'collections-' + asset_type,
-            collsolr.title,
-            window.location.pathname
-        );
-    }
+    const isLoading = isCollLoading || isItemsLoading;
 
-    const loadingState = isCollLoading || isItemsLoading;
-
-    const solrq = items?.docs ? items.docs : [];
+    const collitems = items?.docs ? items.docs : [];
     //if (items?.numFound && !isNaN(items?.numFound)) { setNumFound(items.numFound); }
-    //console.log("collections solr doc", solrq);
+    //console.log("collections solr doc", collitems);
 
-    // Create the Pager
-    const pager = {
-        numFound: numFound,
-        getMaxPage: () => {
-            return Math.floor(pager.numFound / pager.getPageSize());
-        },
-        getPage: () => {
-            return pageNum;
-        },
-        setPage: (pg) => {
-            pg = parseInt(pg);
-            if (!isNaN(pg) && pg > -1 && pg <= pager.getMaxPage()) {
-                setPageNum(pg);
-                pager.pgnum = pg;
-            }
-        },
-        setPageSize: (size) => {
-            size = parseInt(size);
-            if (!isNaN(size) && size > 0 && size < 101) {
-                setPageSize(size);
-                pager.pgsize = size;
-            }
-        },
-        getPageSize: () => {
-            return pageSize;
-        },
-        nextPage: () => {
-            pager.setPage(pager.getPage() + 1);
-        },
-        prevPage: () => {
-            pager.setPage(pager.getPage() - 1);
-        },
-        lastPage: () => {
-            pager.setPage(pager.getMaxPage());
-        },
-        firstPage: () => {
-            pager.setPage(0);
-        },
-    };
+    useEffect(() => {
+        if (!isCollLoading && !isCollError) {
+            addPage(
+                'collections-' + asset_type,
+                collsolr.title,
+                window.location.pathname
+            );
+        }
+    }, [colldata]);
 
     // Use Effect for when page num or size change
     useEffect(() => {
         setStartRow(pageNum * pageSize);
-    }, [pageNum, pageSize]);
+    }, [pageNum]);
 
-    // Use effect when a number of items in collection is found. Sets numFound
     useEffect(() => {
-        setNumFound(items?.numFound);
-    }, [items?.numFound]);
+        const newPage = Math.ceil(startRow / pageSize);
+        setPageNum(newPage);
+    }, [pageSize]);
 
-    // console.log(solrq);
-    // Get Coll Nids in Collection Path for Breadcrumbs
-    const collnids =
-        solrq?.docs && solrq.docs?.length > 0
-            ? solrq.docs[0].collection_nid_path_is
-            : [];
+    // Reset pagination on change in sort order
+    useEffect(() => {
+        setPageNum(0);
+    }, [sortMode]);
+
     let coll_paths = [];
 
     // Set page Info (header and breadcrumbs) based on collsolr returned
     useEffect(() => {
         if (props.ismain) {
             if (collsolr) {
-                // console.log('Coll solr!', collsolr);
-                //status.setHeaderTitle(collsolr.title);
                 coll_paths = [
                     {
                         uid: '/' + asset_type,
@@ -171,55 +136,7 @@ export function CollectionsViewer(props) {
         }
     }, [collsolr]);
 
-    // Get and display Owner from collsolr
-    const owner = collsolr?.node_user_full_s
-        ? collsolr.node_user_full_s
-        : collsolr.node_user;
-
-    // Get and Display Parent collection
-    let parentcoll = collsolr?.collection_nid;
-    if (parentcoll) {
-        parentcoll = (
-            <li className={'text-nowrap'}>
-                <Link to={`/${asset_type}/collection/${parentcoll}`}>
-                    {collsolr.collection_title}
-                </Link>
-            </li>
-        );
-    }
-
-    // Get and Display Subcollections
-    const subcollids = collsolr?.subcollection_id_is;
-    const subcolltitles = collsolr?.subcollection_name_ss;
-    let subcolldata = subcollids?.map(function (item, n) {
-        let sctitle = subcolltitles[n];
-        return `${sctitle}###${item}`;
-    });
-    if (subcolldata?.length > 0) {
-        subcolldata.sort();
-    }
-
-    const sctitleLen = 34;
-    const subcolls = subcolldata?.map((item) => {
-        const [sctitle, scid] = item.split('###');
-        let sctitleval = sctitle;
-
-        if (sctitleval.length > sctitleLen) {
-            sctitleval =
-                sctitleval.substr(0, sctitleval.lastIndexOf(' ', sctitleLen)) +
-                ' ...';
-        }
-        const alttitle = sctitle;
-        const scurl = `/${asset_type}/collection/${scid}`;
-        const key = `${scid}-${sctitle}`;
-        return (
-            <li key={key} className={'text-nowrap'}>
-                <Link to={scurl} title={alttitle}>
-                    {sctitleval}
-                </Link>
-            </li>
-        );
-    });
+    const numFound = items?.numFound;
 
     // Get and display (if exists) thumbnail image
     let thumburl = $.trim(collsolr?.url_thumb);
@@ -258,55 +175,26 @@ export function CollectionsViewer(props) {
         return <NotFoundPage type={asset_type + ' collection'} id={asset_id} />;
     }
 
-    //console.log('solrq', solrq);
+    // console.log('collitems', collitems);
+    // console.log(collsolr);
 
-    // Return the Container with the Collection page
+    const colltitle =
+        collsolr?.title?.length > 0
+            ? `${collsolr.title[0].replace(/collections?/gi, '')} ${
+                  collsolr.asset_subtype
+              } Collection`
+            : false;
+
+    const sorter = (
+        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+    );
+
+    const hasMoreItems = numFound <= (pageNum + 1) * pageSize ? false : true;
+
     return (
         <>
-            <aside className={'l-column__related c-collection__metadata'}>
-                {parentcoll && (
-                    <section className={'l-related__list__wrap'}>
-                        <div className={'u-related__list__header'}>
-                            Parent Collection
-                        </div>
-                        <ul className={'list-unstyled'}>{parentcoll}</ul>
-                    </section>
-                )}
+            <CollectionInfo collsolr={collsolr} asset_type={asset_type} />
 
-                {subcolls && (
-                    <section className={'l-related__list__wrap'}>
-                        <h3 className={'u-related__list__header'}>
-                            Subcollections ({subcolls.length})
-                        </h3>
-                        <ul className={'list-unstyled'}>{subcolls}</ul>
-                    </section>
-                )}
-
-                <section className={'l-related__list__wrap'}>
-                    <h3 className={'u-related__list__header'}>Owner</h3>
-                    <ul className={'list-unstyled'}>
-                        <li>{owner}</li>
-                    </ul>
-                </section>
-
-                <section className={'l-related__list__wrap'}>
-                    <h3 className={'u-related__list__header'}>Members</h3>
-                    <ul className={'list-unstyled'}>
-                        {collsolr?.members_name_ss?.map(function (member, n) {
-                            const mykey = `member-item-${member}-${n}`.replace(
-                                /\s+/g,
-                                '_'
-                            );
-                            // const uid = collsolr.members_uid_ss[n]; // if needed add  data-uid={uid} to li
-                            return (
-                                <li key={mykey} className={'text-nowrap'}>
-                                    {member}
-                                </li>
-                            );
-                        })}
-                    </ul>
-                </section>
-            </aside>
             <section
                 className={
                     'c-collection__container l-content__main__wrap ' +
@@ -314,6 +202,11 @@ export function CollectionsViewer(props) {
                 }
             >
                 <div className={'c-content__main__kmaps c-collection'}>
+                    {colltitle && (
+                        <h1 className="title collection text-capitalize">
+                            {colltitle}
+                        </h1>
+                    )}
                     {(collsolr?.url_thumb?.length > 0 ||
                         $.trim(collsolr?.summary).length > 0) && (
                         <p className={'colldesc clearfix'}>
@@ -325,16 +218,175 @@ export function CollectionsViewer(props) {
                         {atypeLabel} Items in This Collection
                     </h3>
                     <FeatureCollection
-                        docs={solrq}
-                        numFound={numFound}
-                        pager={pager}
+                        docs={collitems}
+                        assetCount={numFound}
+                        page={pageNum}
+                        setPage={setPageNum}
+                        perPage={pageSize}
+                        setPerPage={setPageSize}
                         viewMode={view_mode}
                         inline={false}
-                        loadingState={loadingState}
+                        hasMore={hasMoreItems}
                         className={'c-collection__items'}
+                        sorter={sorter}
                     />
                 </div>
             </section>
         </>
+    );
+}
+
+function CollectionSortModeSelector({ sortMode, setSort }) {
+    const SORTBYID = 'coll-sortby';
+    const SORTORDERID = 'coll-sortorder';
+    let { sortBy, sortOrder } = sortMode.split(' ');
+    const sortChange = (sel) => {
+        let newSortVal = sortMode;
+        const selid = sel.target.id;
+        if (selid === SORTBYID) {
+            const sortpts = sortMode.split(' ');
+            newSortVal = sel.target.value + ' ' + sortpts[1];
+        } else if (selid === SORTORDERID) {
+            const sortpts = sortMode.split(' ');
+            newSortVal = sortpts[0] + ' ' + sel.target.value;
+        }
+        setSort(newSortVal);
+    };
+
+    const sortByVals = [
+        'Title:title_sort_s',
+        'Date:node_created',
+        'Creator:creator_sort_s',
+    ];
+    const sortOrderVals = ['Asc', 'Desc'];
+    return (
+        <div className={'c-buttonGroup__sortMode'}>
+            <span className="c-buttonGroup__sortMode-header">Sort By:</span>
+            <select
+                id={SORTBYID}
+                className="c-featureCollection-sortBy-select"
+                onChange={sortChange}
+                defaultValue={sortBy}
+            >
+                {sortByVals.map((v, i) => {
+                    let [alabel, avalue] = v.split(':');
+                    return (
+                        <option key={`sortby-val-${i}`} value={avalue}>
+                            {alabel}
+                        </option>
+                    );
+                })}
+            </select>
+            <select
+                id={SORTORDERID}
+                className="c-featureCollection-sort-order"
+                onChange={sortChange}
+                defaultValue={sortOrder}
+            >
+                {sortOrderVals.map((v, i) => {
+                    const optval = v.toLowerCase();
+                    return (
+                        <option key={`sortby-val-${i}`} value={optval}>
+                            {v}
+                        </option>
+                    );
+                })}
+            </select>
+        </div>
+    );
+}
+
+function CollectionInfo({ collsolr, asset_type }) {
+    // Get and display Owner from collsolr
+    const owner = collsolr?.node_user_full_s
+        ? collsolr.node_user_full_s
+        : collsolr.node_user;
+
+    // Get and Display Parent collection
+    let parentcoll = collsolr?.collection_nid;
+    if (parentcoll) {
+        parentcoll = (
+            <li>
+                <Link to={`/${asset_type}/collection/${parentcoll}`}>
+                    {collsolr.collection_title}
+                </Link>
+            </li>
+        );
+    }
+
+    // Get and Display Subcollections
+    const subcollids = collsolr?.subcollection_id_is;
+    const subcolltitles = collsolr?.subcollection_name_ss;
+    let subcolldata = subcollids?.map(function (item, n) {
+        let sctitle = subcolltitles[n];
+        return `${sctitle}###${item}`;
+    });
+    if (subcolldata?.length > 0) {
+        subcolldata.sort();
+    }
+
+    const sctitleLen = 34;
+    const subcolls = subcolldata?.map((item) => {
+        const [sctitle, scid] = item.split('###');
+        let sctitleval = sctitle;
+
+        if (sctitleval.length > sctitleLen) {
+            sctitleval =
+                sctitleval.substr(0, sctitleval.lastIndexOf(' ', sctitleLen)) +
+                ' ...';
+        }
+        const alttitle = sctitle;
+        const scurl = `/${asset_type}/collection/${scid}`;
+        const key = `${scid}-${sctitle}`;
+        return (
+            <li key={key}>
+                <Link to={scurl} title={alttitle}>
+                    {sctitleval}
+                </Link>
+            </li>
+        );
+    });
+
+    return (
+        <aside className={'l-column__related c-collection__metadata'}>
+            {parentcoll && (
+                <section className={'l-related__list__wrap'}>
+                    <div className={'u-related__list__header'}>
+                        Parent Collection
+                    </div>
+                    <ul className={'list-unstyled'}>{parentcoll}</ul>
+                </section>
+            )}
+
+            {subcolls && (
+                <section className={'l-related__list__wrap'}>
+                    <h3 className={'u-related__list__header'}>
+                        Subcollections ({subcolls.length})
+                    </h3>
+                    <ul className={'list-unstyled'}>{subcolls}</ul>
+                </section>
+            )}
+
+            <section className={'l-related__list__wrap'}>
+                <h3 className={'u-related__list__header'}>Owner</h3>
+                <ul className={'list-unstyled'}>
+                    <li>{owner}</li>
+                </ul>
+            </section>
+
+            <section className={'l-related__list__wrap'}>
+                <h3 className={'u-related__list__header'}>Members</h3>
+                <ul className={'list-unstyled'}>
+                    {collsolr?.members_name_ss?.map(function (member, n) {
+                        const mykey = `member-item-${member}-${n}`.replace(
+                            /\s+/g,
+                            '_'
+                        );
+                        // const uid = collsolr.members_uid_ss[n]; // if needed add  data-uid={uid} to li
+                        return <li key={mykey}>{member}</li>;
+                    })}
+                </ul>
+            </section>
+        </aside>
     );
 }

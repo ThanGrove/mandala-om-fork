@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -10,7 +10,7 @@ import {
     BsQuestionCircle,
     ImQuestion,
 } from 'react-icons/all';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Form, Modal } from 'react-bootstrap';
 import { capitalize } from '../common/utils';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { usePerspective } from '../../hooks/usePerspective';
@@ -28,7 +28,9 @@ export const EMPTY_PERSPECTIVE_CODES = [
 ];
 
 export function PerspectiveChooser({ domain, current, setter, ...props }) {
-    const setPerspective = usePerspective((state) => state.setPerspective);
+    const perspective = usePerspective();
+    // const setPerspective = usePerspective((state) => state.setPerspective);
+    const [defVal, setDefVal] = useState(perspective[domain]);
 
     // Get Perspective data from API
     const {
@@ -39,53 +41,54 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     } = useQuery(['perspective', 'data', domain], () =>
         getPerspectiveData(domain)
     );
+
+    useEffect(() => {
+        setDefVal(perspective[domain]);
+    }, [perspective, domain]);
+
+    const changeMe = (evt) => {
+        const persp_code = evt.target.value;
+        perspective.setPerspective(domain, persp_code);
+    };
+
     if (isPerspDataLoading) {
         return <MandalaSkeleton />;
     }
-    if (perspData.length === 1) {
+    if (perspData.length === 1 || isPerspDataError) {
+        if (isPerspDataError) {
+            console.log('Perspective Data Error: ', perspDataError);
+        }
         return null;
     }
-    const choices = perspData;
-    if (!domain || !choices) {
-        return null;
-    }
+
     let pclass =
         props?.classes && props.classes?.length && props.classes.length > 0
             ? props.classes
             : '';
     pclass = ['c-perspective-select', ...pclass];
-
-    const changeMe = (evt) => {
-        const persp_code = evt.target.value;
-        setPerspective(domain, persp_code);
-        /*
-        console.log(
-            `********** New Perspective: ${persp_code} *****************`
-        );
-         */
-    };
-
     return (
-        <div className={pclass}>
+        <div className={pclass.join(' ')}>
             <label>
                 Persepective
                 <PerspectiveDescs domain={domain} />
             </label>
-            <select defaultValue={current} onChange={changeMe}>
-                {choices.map((persp, i) => {
-                    if (EMPTY_PERSPECTIVE_CODES.includes(persp.code)) {
-                        return null;
-                    }
-                    return (
-                        <option
-                            value={persp.code}
-                            key={`${domain}-persp-choice-${i}`}
-                        >
-                            {persp.name}
-                        </option>
-                    );
-                })}
-            </select>
+            <Form>
+                <Form.Control as="select" onChange={changeMe} value={defVal}>
+                    {perspData.map((persp, i) => {
+                        if (EMPTY_PERSPECTIVE_CODES.includes(persp.code)) {
+                            return null;
+                        }
+                        return (
+                            <option
+                                value={persp.code}
+                                key={`${domain}-persp-choice-${i}`}
+                            >
+                                {persp.name}
+                            </option>
+                        );
+                    })}
+                </Form.Control>
+            </Form>
         </div>
     );
 }

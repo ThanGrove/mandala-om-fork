@@ -12,6 +12,7 @@ import { KmapLink } from '../KmapLink';
 import { SmartTitle } from '../SmartTitle';
 import { SmartPath } from '../SmartPath';
 import { SmartRelateds } from '../SmartRelateds';
+import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
@@ -34,6 +35,8 @@ export function FeatureCard(props) {
     const inline = props.inline || false;
 
     const [modalShow, setModalShow] = React.useState(false);
+
+    const setBrowse = browseSearchToggle((state) => state.setBrowse);
 
     const doc = props.doc;
 
@@ -158,7 +161,7 @@ export function FeatureCard(props) {
 
     const asset_view = inline
         ? createAssetViewURL(avuid, doc.asset_type, location)
-        : `/${viewer}/${avid}`;
+        : `/${viewer}/${avid}${window.location.search}`;
 
     const subtitle =
         doc.asset_type === 'texts' ? (
@@ -181,6 +184,7 @@ export function FeatureCard(props) {
             <Link
                 to={asset_view}
                 className={'c-card__link--asset c-card__wrap--image'}
+                onClick={setBrowse}
             >
                 <Card.Img
                     className={'c-card__grid__image--top'}
@@ -195,7 +199,11 @@ export function FeatureCard(props) {
 
             <Card.Body>
                 <Card.Title>
-                    <Link to={asset_view} className={'c-card__link--asset'}>
+                    <Link
+                        to={asset_view}
+                        className={'c-card__link--asset'}
+                        onClick={setBrowse}
+                    >
                         <SmartTitle doc={doc} />
                         {subtitle}
                     </Link>
@@ -304,6 +312,11 @@ function DetailModal(props) {
 }
 
 function createAssetViewURL(avuid, asset_type, location) {
+    if (asset_type === 'collections') {
+        return `/${avuid
+            .replace(/\-/g, '/')
+            .replace('audio/video', 'audio-video')}`;
+    }
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');
@@ -314,5 +327,10 @@ function createAssetViewURL(avuid, asset_type, location) {
     let path = location.pathname
         .replace(/\/?any\/?.*/, '') // remove the /any from terms
         .replace(/\/?(deck|gallery|list)\/?.*/, '');
-    return `${path}/view/${aid}`; // ${avuid}?asset_type=${asset_type}
+    path = `${path}/view/${aid}${window.location.search}`; // ${avuid}?asset_type=${asset_type}
+    path = path.replace('related-all', `related-${asset_type}`);
+    if (['places', 'subjects', 'terms'].includes(asset_type)) {
+        path = `/${asset_type}/${aid}`;
+    }
+    return path;
 }

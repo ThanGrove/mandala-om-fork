@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import ReactDOM from 'react-dom';
 import { closeStore } from '../../hooks/useCloseStore';
 import { browseSearchToggle } from '../../hooks/useBrowseSearchToggle';
 import { ADVANCED_LABEL, BASIC_LABEL } from '../../App';
@@ -6,7 +7,9 @@ import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
 import { BsGear, BsMap, ImTree } from 'react-icons/all';
 import './MainSearchToggle.scss';
-import { ViewSettings } from './ViewSettings';
+import { ViewSettings } from '../MandalaSettings/ViewSettings';
+
+const target = document.getElementById('browseSearchPortal');
 
 export function AdvancedToggle() {
     //const [mode, setMode] = useState(viewMode || 'off'); // "search" | "tree" | "off"
@@ -17,7 +20,7 @@ export function AdvancedToggle() {
     const setSearch = browseSearchToggle((state) => state.setSearch);
     const setBrowse = browseSearchToggle((state) => state.setBrowse);
 
-    return (
+    const toggleBtnGroup = (
         <ToggleButtonGroup
             name="Georgie"
             value={browseSearch}
@@ -74,4 +77,10 @@ export function AdvancedToggle() {
             </ToggleButton>
         </ToggleButtonGroup>
     );
+
+    if (target) {
+        return ReactDOM.createPortal(toggleBtnGroup, target);
+    } else {
+        return toggleBtnGroup;
+    }
 }

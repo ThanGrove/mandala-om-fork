@@ -25,15 +25,16 @@ export function KmapsRelatedsViewer(props) {
         : 0;
     let child_count = 0;
     if (kmap?._childDocuments_?.length > 0) {
-        const filtered_children = $.map(kmap._childDocuments_, function (
-            child
-        ) {
-            if (child.block_child_type === 'related_subjects') {
-                return child;
-            } else {
-                return null;
+        const filtered_children = $.map(
+            kmap._childDocuments_,
+            function (child) {
+                if (child.block_child_type === 'related_subjects') {
+                    return child;
+                } else {
+                    return null;
+                }
             }
-        });
+        );
         child_count = filtered_children.length - 1; // seems to include self
     }
 
@@ -79,9 +80,9 @@ export function KmapsRelatedsViewer(props) {
         >
             <Tab eventKey="context" title={`${kmtype} Context`}>
                 <div className={'kmap-context'}>
-                    <h2>
+                    <h3 className={'row head-related'}>
                         {kmtype} related to {kmaphead}
-                    </h2>
+                    </h3>
                     <p>
                         {kmaphead} has {ancestor_count} superordinate{' '}
                         {kmtype.toLowerCase()} and {child_count} subordinate{' '}
@@ -117,10 +118,10 @@ export function KmapsRelatedsViewer(props) {
             </Tab>
             <Tab eventKey="related" title={`Related ${kmtype}`}>
                 <div className={'kmap-related'}>
-                    <h2>
+                    <h3 className={'row head-related'}>
                         {kmtype.toUpperCase()} RELATED TO{' '}
                         {kmaphead.toUpperCase()}
-                    </h2>
+                    </h3>
                     Natural has {hasaspart.length + ispartof.length} other
                     subjects directly related to it, which is presented here.
                     See the {kmtype.toUpperCase()} CONTEXT tab if you instead
@@ -128,7 +129,9 @@ export function KmapsRelatedsViewer(props) {
                     categories for {kmaphead}.
                     {ispartof.length > 0 && (
                         <>
-                            <h3>{kmaphead} Is a Part Of These Types</h3>
+                            <h3 className={'row'}>
+                                {kmaphead} Is a Part Of These Types
+                            </h3>
                             <ul>
                                 {$.map(ispartof, function (pt, pn) {
                                     return (
@@ -140,7 +143,9 @@ export function KmapsRelatedsViewer(props) {
                     )}
                     {hasaspart.length > 0 && (
                         <>
-                            <h3>{kmaphead} Has These Types</h3>
+                            <h3 className={'row'}>
+                                {kmaphead} Has These Types
+                            </h3>
                             <ul>
                                 {$.map(hasaspart, function (pt, pn) {
                                     return <li key={`km-part-${pn}`}>{pt}</li>;
@@ -262,7 +267,7 @@ export function SubjectsRelPlacesViewer(props) {
             const pts = uid.split('-');
             if (pts.length === 2) {
                 return (
-                    <li key={mykey} className="text-nowrap">
+                    <li key={mykey}>
                         <MandalaPopover
                             domain={pts[0]}
                             kid={pts[1]}
@@ -277,7 +282,7 @@ export function SubjectsRelPlacesViewer(props) {
             const uid = 'places-' + kid;
             const iheader = uid in nmlist ? nmlist[uid] : 'Loading...';
             return (
-                <li key={mykey} className="text-nowrap">
+                <li key={mykey}>
                     <MandalaPopover
                         domain={item.tree}
                         kid={kid}
@@ -290,8 +295,8 @@ export function SubjectsRelPlacesViewer(props) {
     const chunks = chunkIt(placeitems, colSize);
 
     return (
-        <Container fluid className={'c-relplaces-list subjects'}>
-            <h2 className={'row'}>Related Places </h2>
+        <Container className={'c-relplaces-list kmap-related subjects'}>
+            <h3 className={'row head-related'}>Related Places </h3>
             {numFound > pageSize && (
                 <FeaturePager
                     pager={pager}
@@ -365,10 +370,13 @@ export function PlacesRelPlacesViewer(props) {
     return (
         <Tabs defaultActiveKey="context" id="place-kmap-tabs">
             <Tab eventKey="context" title="Place Context">
-                <Container fluid className={'c-relplaces-list places'}>
-                    <h2 className={'row head-related'}>
+                <Container
+                    fluid
+                    className={'c-relplaces-list kmap-related places'}
+                >
+                    <h3 className={'row head-related'}>
                         Hierarchy of Places Related to {kmap.header}
-                    </h2>
+                    </h3>
                     <Row>
                         <p>
                             {kmap.header} has {ancestors.length} superordinate{' '}
@@ -398,10 +406,13 @@ export function PlacesRelPlacesViewer(props) {
                 </Container>
             </Tab>
             <Tab eventKey="related" title="Related Places">
-                <Container fluid className={'c-relplaces-list places'}>
-                    <h2 className={'row head-related'}>
+                <Container
+                    fluid
+                    className={'c-relplaces-list kmap-related places'}
+                >
+                    <h3 className={'row head-related'}>
                         Places Related to {kmap.header} by Feature Type
-                    </h2>
+                    </h3>
                     <Row>
                         <Col>
                             <p>
@@ -436,9 +447,7 @@ function PlaceRelPlaceFtColumns(props) {
                     }
                     return (
                         <div key={`col-${chki}-cat-${cdi}`}>
-                            <h3 className={'text-capitalize'}>
-                                {feattype.label}
-                            </h3>
+                            <h3 className={'row'}>{feattype.label}</h3>
                             <ul>
                                 {feattype.children.map((clitem, cli) => {
                                     if (clitem?.related_uid_s?.includes('-')) {
@@ -510,7 +519,7 @@ export function PlacesRelSubjectsViewer(props) {
             <div>
                 {kmap?.feature_type_ids.length > 0 && (
                     <>
-                        <h3 className={'head-related'}>Feature Types</h3>
+                        <h3 className={'row head-related'}>Feature Types</h3>
                         <ul>
                             {kmap.feature_type_ids.map((kid, cind) => {
                                 return (
@@ -530,7 +539,7 @@ export function PlacesRelSubjectsViewer(props) {
                 )}
                 {relsubjs?.length > 0 && (
                     <>
-                        <h3 className={'head-related'}>Related Subjects</h3>
+                        <h3 className={'row head-related'}>Related Subjects</h3>
                         <ul>
                             {relsubjs.map((relsb, cind) => {
                                 return (

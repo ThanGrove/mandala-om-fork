@@ -4,7 +4,8 @@ import { SearchBar } from '../../search/SearchBar';
 import { AdvancedToggle } from '../MainSearchToggle/AdvancedToggle';
 // import Headroom from '../../../node_modules/headroom.js'; // see https://wicky.nillia.ms/headroom.js/
 import './SiteHeader.scss';
-import { ViewSettings } from '../MainSearchToggle/ViewSettings';
+import { ViewSettings } from '../MandalaSettings/ViewSettings';
+import { MandalaSettings } from '../MandalaSettings/MandalaSettings';
 
 export function SiteHeader(props) {
     //   useLayoutEffect(() => {
@@ -26,7 +27,7 @@ export function SiteHeader(props) {
                     : 'c-site__header-standalone'
             }
         >
-            <ViewSettings />
+            <MandalaSettings />
 
             <button
                 className="navbar-toggler"
@@ -44,7 +45,7 @@ export function SiteHeader(props) {
                 <h1 className="sr-only">Bhutan Library</h1>
                 <img
                     src={process.env.PUBLIC_URL + '/img/bhutanleft.gif'}
-                    alt={'Site Logo Image'}
+                    alt={'Site Logo'}
                     className={'o-image-logo'}
                 />
             </Link>

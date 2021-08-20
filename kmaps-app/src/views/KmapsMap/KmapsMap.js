@@ -67,10 +67,7 @@ class KmapsMap extends React.Component {
             window.innerWidth < window.pastInnerWidth
         ) {
             // Reset element width and height when shrinking
-            this.state.element.setAttribute(
-                'style',
-                'width: inherit; height: 600px; background-color: rgb(204, 204, 204);'
-            );
+            this.state.element.setAttribute('style', '');
             window.pastInnerWidth = window.innerWidth;
         } else {
             window.pastInnerWidth = window.innerWidth;
@@ -222,8 +219,8 @@ class KmapsMap extends React.Component {
 
     render() {
         const style = {
-            width: this.state.width + 'px',
-            height: this.state.height + 'px',
+            width: '100%',
+            height: '80vh',
             backgroundColor: '#cccccc',
         };
         const errStyle = {

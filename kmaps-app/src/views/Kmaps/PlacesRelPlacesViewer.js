@@ -78,12 +78,19 @@ export default function PlacesRelPlacesViewer() {
     }
 
     return (
-        <Tabs defaultActiveKey="context" id="place-kmap-tabs" className={'row'}>
+        <Tabs
+            defaultActiveKey="context"
+            id="place-kmap-tabs"
+            className={'kmaps-related-viewer places'}
+        >
             <Tab eventKey="context" title="Place Context">
-                <Container fluid className={'c-relplaces-list places'}>
-                    <h2 className={'row head-related'}>
+                <Container
+                    fluid
+                    className={'c-relplaces-list kmap-related places'}
+                >
+                    <h4 className={'row head-related'}>
                         Hierarchy of Places Related to {kmap.header}
-                    </h2>
+                    </h4>
                     <Row>
                         <p>
                             {kmap.header} has {ancestors.length} superordinate
@@ -110,10 +117,13 @@ export default function PlacesRelPlacesViewer() {
                 </Container>
             </Tab>
             <Tab eventKey="related" title="Related Places">
-                <Container fluid className={'c-relplaces-list places'}>
-                    <h2 className={'row head-related'}>
+                <Container
+                    fluid
+                    className={'c-relplaces-list kmap-related places'}
+                >
+                    <h4 className={'row head-related'}>
                         Places Related to {kmap.header} by Feature Type
-                    </h2>
+                    </h4>
                     <Row>
                         <Col>
                             <p>
@@ -157,9 +167,7 @@ function PlaceRelPlaceFtColumns(props) {
                             }
                             return (
                                 <div key={`col-${chki}-cat-${cdi}`}>
-                                    <h3 className={'text-capitalize'}>
-                                        {feattype.label}
-                                    </h3>
+                                    <h6>{feattype.label}</h6>
                                     <ul>
                                         {feattype.children.map(
                                             (clitem, cli) => {

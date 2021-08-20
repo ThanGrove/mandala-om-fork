@@ -5,6 +5,7 @@
     /* position: relative;
     display: inline-block;
     white-space: nowrap; */
+    font-style: italic;
 }
 .kmap-tag-group .deflinks {
     vertical-align: super;
@@ -57,16 +58,16 @@
     margin: 0 1rem 0 0.2rem;
     /*font-size: 1.75rem;*/
     .u-icon__kmaps-popover::before {
-        font-size: 1.75rem;
+        font-size: 2.25rem;
         margin-left: 0.15rem;
     }
     svg {
-        margin-top: -0.5rem;
+        margin-top: -0.85rem;
     }
     .u-icon__sources {
         position: relative;
-        top: -0.2rem;
-        font-size: 1.4rem;
+        top: -0.25rem;
+        font-size: 1.7rem;
     }
 }
 .popover-link .icon::before {

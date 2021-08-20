@@ -30,7 +30,6 @@
     color: #fff;
     font-size: 24px;
     margin: -6px -42px 0 0;
-    cursor: pointer;
 }
 .sui-editBut:hover {
     color: #ccc;
@@ -162,7 +161,6 @@
     border: 1px solid #999;
     height: 23px;
     line-height: 18px;
-    cursor: pointer;
 }
 .sui-typeIcon {
     display: inline-block;
@@ -180,7 +178,6 @@
     border-radius: 0 8px 8px 0;
     width: 20px;
     height: 20px;
-    cursor: pointer;
     padding-top: 3px;
     text-align: center;
     font-size: 18px;
@@ -200,7 +197,6 @@
     border-radius: 0 0 8px 8px;
     display: inline-block;
     width: 138px;
-    cursor: pointer;
     border: 1px solid #999;
     padding: 12px;
     border: 1px solid #999;
@@ -211,7 +207,7 @@
 .sui-legacy {
     position: absolute;
     left: 0;
-    top: 52;
+    top: 0;
     min-height: calc(100% - 77px);
     width: calc(100% - 24px);
     background-color: #ddd;
@@ -219,7 +215,6 @@
     padding: 12px;
 }
 .sui-resDisplay {
-    cursor: pointer;
     display: inline-block;
     margin: 0 12px;
 }
@@ -263,14 +258,12 @@
     display: inline-block;
     color: #888;
     margin-left: -30px;
-    cursor: pointer;
 }
 .sui-itemIcon {
     display: inline-block;
     color: #fff;
     margin-left: -30px;
     font-size: 13px;
-    cursor: pointer;
     border-radius: 4px;
     text-align: center;
     width: 24px;
@@ -280,7 +273,6 @@
 }
 .sui-itemPic {
     width: 100px;
-    cursor: pointer;
     outline: 4px solid #d7d7d7;
     outline-offset: 4px;
     border-radius: 4px;
@@ -303,7 +295,6 @@
 .sui-itemTitle {
     display: inline-block;
     margin-left: 8px;
-    cursor: pointer;
 }
 .sui-itemTitle:hover {
     color: #a4baec;
@@ -322,7 +313,6 @@
     font-style: italic;
     font-size: 11px;
     margin: 4px 0 4px 34px;
-    cursor: pointer;
 }
 .sui-itemAncestor:hover {
     color: #a4baec;
@@ -346,7 +336,6 @@
     height: 100px;
     width: 150px;
     margin-bottom: 2px;
-    cursor: pointer;
     overflow: hidden;
     border: 2px solid #ddd;
     text-align: center;
@@ -360,7 +349,6 @@
 }
 .sui-gridInfo {
     position: absolute;
-    cursor: pointer;
     color: #fff;
     margin-left: 128px;
     margin-top: -24px;
@@ -429,7 +417,6 @@
     color: #668eec;
 }
 .sui-advHeader {
-    cursor: pointer;
 }
 
 .sui-advTerm {
@@ -439,18 +426,18 @@
 }
 .sui-advTerm .facetItem::before {
 }
+
 .sui-advTermRem {
     display: inline-block;
-    cursor: pointer;
     margin-left: 0.2rem;
     position: absolute;
-    right: -1.45rem;
+    right: -2.1rem;
+    bottom: 0.25rem;
+    font-size: 1.65rem;
+    color: #91693c;
 }
-.sui-advTermRem .icon::before {
-    color: blue;
-}
-.sui-advTermRem .icon:hover::before {
-    color: #333;
+.sui-advTermRem:hover::before {
+    color: red;
 }
 
 .sui-advValueRem:hover {
@@ -460,24 +447,14 @@
 .l-content__main .sui-facetList-horiz div {
     position: relative;
 }
+
 .l-content__main .sui-facetList-horiz div .sui-advTermRem {
-    font-size: 1.2rem;
+    font-size: 1.65rem;
     position: absolute;
-    right: 0;
-    top: 0.2rem;
+    right: -0.55rem;
+    top: -0.3rem;
 }
-.sui-advEdit {
-    display: none;
-    background-color: #fafafa;
-    text-align: left;
-    border: 1px solid #e0e0e0;
-    border-bottom-width: 0.2rem;
-    border-radius: 0 0 2rem 2rem;
-    padding: 0.8rem 0.8rem 0.3rem 0.5rem;
-    font-size: 1.25rem;
-    color: #000;
-    margin: 1.5rem 0.5rem 0;
-}
+
 /*
 .sui-advEditBut {
 display: inline-block;
@@ -497,33 +474,37 @@ color: #a4baec;
 .sui-boolItem,
 .sui-advEditBool {
     display: inline-block;
-    cursor: pointer;
-    font-size: 0.9rem;
+    cursor: default;
+    font-weight: bold;
+    font-size: 1.1rem;
     color: #4d59ca;
     border: 0.15rem solid #668eec;
-    border-radius: 0.75rem;
+    border-radius: 1rem;
 }
 .sui-boolItem:hover,
 .sui-advEditBool:hover {
     border-color: #4d59ca;
     color: red;
 }
-.sui-advEditBool {
-    position: relative;
-    top: -0.15rem;
-    padding-left: 0.4rem;
-    padding-right: 0.15rem;
-    margin-left: 1.25rem;
-    background: #fff;
-}
 .sui-boolItem {
     border: none;
     color: #4d59ca;
-    padding: 0.1rem 0 0.05rem 0.3rem;
+    padding: 0.15rem 0.6rem 0.25rem 0.6rem;
+    margin: 0 0.25rem;
+    border: none;
 }
+.sui-advEditBool {
+    position: relative;
+    top: -0.15rem;
+    padding: 0.25rem 0.6rem 0.25rem 1rem;
+    margin-left: 1.25rem;
+    margin-right: 0.25rem;
+    background: #fff;
+}
+
 .sui-advEditBool .sui-boolItem:nth-of-type(2),
 .sui-advEditBool #sui-boolItem-places-0-NOT {
-    padding-right: 0.25rem;
+    padding-right: 0.55rem;
 }
 
 .sui-advEditList {
@@ -531,7 +512,6 @@ color: #a4baec;
     max-height: 360px;
 }
 .sui-advEditLine {
-    cursor: pointer;
     color: #000;
     padding: 0.2rem 1rem;
     border-bottom: none !important;
@@ -561,7 +541,6 @@ color: #a4baec;
     margin-top: 4px;
     padding: 0 12px;
     border: 1px solid #999;
-    cursor: pointer;
     text-align: center;
     float: right;
     color: #fff;
@@ -581,7 +560,6 @@ color: #a4baec;
 }
 .sui-tree li a {
     line-height: 19px;
-    cursor: pointer;
 }
 .sui-tree > ul > li > a {
     color: #3b4c56;
@@ -594,7 +572,7 @@ color: #a4baec;
     padding: 0 0 2px 20px;
 }
 .sui-tree li.parent > a:before {
-    background-image: url('treebuts.png');
+    /*  background-image: url('treebuts.png'); */
     content: '';
     display: block;
     height: 15px;
@@ -645,7 +623,7 @@ color: #a4baec;
 }
 .sui-sourceText {
     font-family: 'EB Garamond', serif, shanticon;
-    font-size: 1.6rem;
+    font-size: 1.85rem;
 }
 .sui-sourceTitle {
     font-family: 'EB Garamond', serif;
@@ -701,7 +679,7 @@ color: #a4baec;
 .sui-termSpeak {
     border-radius: 16px;
     background-color: #f8f8f8;
-    border: 1px-solid #999;
+    border: 1px solid #999;
     padding: 4px;
     color: #000;
 }
@@ -730,7 +708,6 @@ color: #a4baec;
     padding: 5px;
     vertical-align: -1px;
     margin-right: 12px;
-    cursor: pointer;
     border-radius: 32px;
     width: 18px;
     height: 18px;
@@ -739,7 +716,6 @@ color: #a4baec;
 .sui-termAssetBut {
     display: inline-block;
     text-transform: uppercase;
-    cursor: pointer;
     padding: 6px 18px 6px 12px;
     color: #fff;
     margin: 8px 16px 24px 0;
@@ -788,7 +764,7 @@ color: #a4baec;
 .sui-imageMid {
     max-width: 900px;
     margin: 8px auto 8px auto;
-    padding-left: 0 50px 0 50px;
+    padding: 0 50px;
     width: 100%;
 }
 .sui-images {
@@ -842,7 +818,6 @@ color: #a4baec;
     font-weight: 500;
     font-size: 12px;
     color: #888;
-    cursor: pointer;
     border: 1px solid #999;
     border-bottom: none;
 }
@@ -867,9 +842,9 @@ color: #a4baec;
 .sui-avMore1 {
     width: 100%;
     text-align: center;
+    margin-bottom: 2rem;
 }
 .sui-avMore2 {
-    cursor: pointer;
     border: 1px solid #ccc;
     border-left: none;
     border-right: none;
@@ -879,31 +854,33 @@ color: #a4baec;
     display: inline-block;
     background-color: #fefefe;
     overflow-y: auto;
-    max-height: calc(100vh - 208px);
+    max-height: 73rem;
     border-right: 1px solid #999;
     width: calc(100% - 2px);
     font-size: 1.3rem;
 }
 .sui-transTab {
     display: inline-block;
-    background-color: #555;
+    background-color: #404040;
     height: 6rem;
     width: calc(16.6667% - 1px);
     text-align: center;
     font-weight: 500;
     font-size: 2.1rem;
     color: #ccc;
-    cursor: pointer;
+    cursor: default;
     padding-top: 1.8rem;
     border-right: 1px solid #ccc;
+    transition: background-color 0.4s;
 }
 .sui-transTab:hover {
-    background-color: #444;
+    background-color: #111;
 }
 .av-trscrpt-ctrls .sui-transTab:first-child {
     font-size: 2.65rem;
     padding-top: 1.25rem;
     padding-left: 4.5%;
+    border-top-left-radius: 0.75rem;
 }
 .av-trscrpt-ctrls .sui-transTab:first-child span {
     font-size: 1.5rem;
@@ -912,55 +889,85 @@ color: #a4baec;
     font-size: 1.9rem;
     padding-top: 1.9rem;
 }
+.sui-transTab#sui-transTab5 {
+    border-top-right-radius: 0.75rem;
+}
 .sui-transOps {
     position: absolute;
     background-color: #f7f7f7;
     border: 1px solid #999;
     border-radius: 0 0 6px 6px;
     display: none;
-    width: 180px;
-    font-size: 13px;
+    width: 210px;
+    padding-bottom: 1rem;
+    font-size: 15px;
     z-index: 1000;
     top: 6rem;
 }
+
 .sui-transSrc {
     background-color: #999;
     display: none;
-    height: 7rem;
+    height: 8rem;
     width: calc(100% - 1px);
     text-align: right;
 }
 .sui-transRow {
-    padding: 0.5rem 1.2rem 0.5rem 1rem;
-    cursor: pointer;
+    padding: 0.5rem 1.5rem;
+    cursor: default;
 }
 .sui-transRow:hover {
-    background-color: #f5f5f5;
+    background-color: #888;
+    color: #fff;
 }
+.sui-transRow:first-of-type {
+    color: #000;
+    line-height: 2.2;
+}
+.sui-transRow:first-of-type:hover {
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.sui-transCheck {
+    color: #ccc;
+    float: right;
+    font-weight: bold;
+    font-size: 1.5rem;
+    cursor: default;
+}
+.sui-transRow:hover .sui-transCheck {
+    color: #fff !important;
+}
+.sui-transRow:hover .sui-transCheck.trans-opts-close {
+    color: #888 !important;
+}
+.sui-transRow:hover .sui-transCheck:hover {
+    color: red !important;
+}
+
+.sui-transRow:first-of-type .sui-transCheck {
+    position: absolute;
+    top: -0.4rem;
+    right: 1.15rem;
+    float: none;
+    font-size: 2rem;
+}
+
 .sui-transOps .sui-transRow:first-child {
-    font-style: italic;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.125rem;
 }
 .sui-transLab {
-    padding: 0.5rem 1.2rem;
+    padding: 0.75rem 1.2rem;
     background-color: #e8e8e8;
     color: #333;
     font-weight: 600;
-    font-style: italic;
-}
-.sui-transCheck {
-    float: right;
-    color: #ccc;
-    font-size: 1.25rem;
-}
-.trans-opts-close {
     font-size: 1.5rem;
-    color: #aaa;
-    font-style: normal;
+    cursor: default;
 }
-.trans-opts-close:hover {
-    color: red;
-}
+
 .sui-transMinSeg {
     background-color: #fff;
     padding: 0 0 0 8px;
@@ -979,14 +986,12 @@ color: #a4baec;
     float: right;
     color: #ccc;
     font-size: 20px;
-    cursor: pointer;
     /*  border-radius: 16px;
     width: 25px;
     padding: 2px 0 0 4px;*/
     margin: 6px 44px 0 0;
 
     font-size: 22px;
-    cursor: pointer;
     margin: 6px 15px 0 0;
 }
 .sui-transMinPlay:hover {
@@ -1004,6 +1009,13 @@ color: #a4baec;
 .sui-trans .sui-transSeg {
     border-radius: 1rem 0 0 1rem;
 }
+.sui-trans .sui-transSeg:first-child {
+    border-top-left-radius: 0;
+}
+.sui-transSeg > div:first-of-type {
+    font-size: 1.75rem;
+    padding: 0.5rem 1rem 1rem 0.25rem;
+}
 .sui-transBox {
     /*  margin: 0 0 0 14rem; */
     background-color: #fff;
@@ -1015,16 +1027,17 @@ color: #a4baec;
 .sui-transPlay {
     color: #fff;
     font-size: 1.75rem;
-    cursor: pointer;
     border-radius: 6px;
     width: 9rem;
     height: 2.6rem;
     padding: 0.1rem 0 0 8px;
     background-color: #999;
     margin: 0;
+    cursor: default;
+    transition: background-color 0.4s;
 }
 .sui-transPlay:hover {
-    background-color: #888;
+    background-color: #555;
 }
 .sui-transPlay-duration {
     margin-left: 1.35rem;
@@ -1039,7 +1052,6 @@ color: #a4baec;
     text-transform: capitalize;
     background-color: #cc4c39;
     font-weight: 600;
-    cursor: pointer;
     margin: 0 8px 12px 0;
 }
 .sui-spCat:hover {
@@ -1065,7 +1077,6 @@ color: #a4baec;
     color: #fff;
     line-height: 14px;
     font-weight: 900;
-    cursor: pointer;
     border-radius: 12px;
     text-align: center;
     font-size: 16px;
@@ -1097,7 +1108,6 @@ color: #a4baec;
     padding: 0 8px;
     width: 120px;
     font-weight: 600;
-    cursor: pointer;
     border-radius: 16px;
     border: 1px solid #aaa;
     margin: 4px 0 4px -32px;
@@ -1128,7 +1138,6 @@ color: #a4baec;
     font-weight: 500;
     font-size: 12px;
     color: #fff;
-    cursor: pointer;
     border-left: 1px solid #eee;
     border-right: 1px solid #eee;
     height: 24px;
@@ -1176,7 +1185,6 @@ color: #a4baec;
     background-color: #5d68cc;
     padding: 4px;
     width: 30px;
-    cursor: pointer;
 }
 .sui-caroButL:hover {
     opacity: 0.8;
@@ -1193,7 +1201,6 @@ color: #a4baec;
     background-color: #5d68cc;
     padding: 4px;
     width: 30px;
-    cursor: pointer;
 }
 .sui-caroButR:hover {
     opacity: 0.8;
@@ -1271,7 +1278,7 @@ color: #a4baec;
     z-index: 1001;
     border: 1px solid #999;
     background-color: #fff;
-    box-shadow: 0 5px 10px rgb(0, 0, 0, 0.2);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
 }
 .sui-pageLab {
     font-weight: 400;
@@ -1288,7 +1295,6 @@ color: #a4baec;
     display: inline-block;
     height: 50px;
     margin-bottom: 4px;
-    cursor: pointer;
     border-radius: 3px;
     border: 2px solid #000;
 }

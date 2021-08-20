@@ -1,7 +1,16 @@
 .c-FacetBox--expander.open {
-    display: block;
+    max-height: 35rem;
+}
+.c-FacetBox--expander.closed {
+    max-height: 0;
+    border-color: transparent;
+    border-width: 0;
+    margin: 0;
+    transition: all 0.4s;
 }
 
-.c-FacetBox--expander.closed {
-    display: none;
+/*
+.c-FacetBox--expander.open:hover {
+    max-height: 35rem;
 }
+*/

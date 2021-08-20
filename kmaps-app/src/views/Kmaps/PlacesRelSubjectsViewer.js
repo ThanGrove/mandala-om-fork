@@ -25,7 +25,7 @@ export default function PlacesRelSubjectsViewer() {
         return <MandalaSkeleton />;
     }
     return (
-        <div>
+        <div class={'places--related-subjects'}>
             <PlacesFeatureTypes parent={kmap} />
             <PlacesRelSubjects children={kmap?._childDocuments_} />
         </div>
@@ -122,7 +122,7 @@ export function PlacesRelSubjects({ children }) {
                     }
                     const cname =
                         relsb?.related_subjects_display_string_s.length < 80
-                            ? 'text-nowrap'
+                            ? ''
                             : '';
                     return (
                         <li

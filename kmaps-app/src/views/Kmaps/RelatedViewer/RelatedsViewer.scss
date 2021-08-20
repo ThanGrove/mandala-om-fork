@@ -1,206 +1,14 @@
 @import '../../../index-variables';
+@import '../../../css/fonts/shanticon/style.css';
 
 .l-column__related {
-    /* min-width: 20rem;
-    max-width: 34rem;
-    width: 25rem; */
-    height: 100vh;
-    margin: 0 0 0 -25rem;
+    height: 100%;
+    margin: 0 0 2rem -24rem;
     padding: 0;
     transition: margin, 0.3s;
     flex: none;
     resize: horizontal;
 }
-.l-related__list__wrap .icon {
-    margin-right: 0.75rem;
-    position: relative;
-    top: 0.125rem;
-    /* color: #555; */
-    font-size: 1.6rem;
-}
-.l-related__list__wrap .u-icon__logo-shanti {
-    font-size: 1.75rem;
-}
-.l-related__list__wrap .u-icon__overview {
-    margin-left: 0.1rem;
-}
-
-.l-column__list__wrap .l-terms__tree__wrap .fancytree-title {
-    color: #000 !important;
-}
-
-.l-column__list__wrap .l-terms__tree__wrap .popover-link {
-    margin-left: 0.15rem;
-    top: 0.5rem;
-}
-
-@media (min-width: 992px) {
-    .l-column__related {
-        margin-left: -1rem;
-    }
-}
-
-/**
-  * css brought from searchui.css
-  */
-/*
-.l-related__list__wrap {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 168px;
-    background-color: #ddd;
-    border-left: 12px solid transparent;
-    padding: 18px 0 0 12px;
-    color: #000;
-}
-.sui-relatedImg {
-    width: 150px;
-    margin: 12px 0 12px 0;
-    outline: 1px solid #999;
-    outline-offset: 4px;
-}
-.c-relatedViewer {
-    font-size: 1.4rem;
-    color: #222;
-    padding: 0;
-}
-.c-related__item {
-    cursor: pointer;
-    padding: 6px 3px 3px 6px;
-    border-radius: 4px;
-    color: #000;
-    font-weight: normal;
-}
-.sui-relatedRecent {
-    font-size: 12px;
-    color: #222;
-    padding: 0;
-    max-height: 84px;
-    user-select: none;
-    overflow-x: hidden;
-    cursor: pointer;
-    margin-right: 12px;
-}
-.sui-relatedRecentItem:hover {
-    background-color: #a4baec;
-}
-*/
-/**
-  * END ---------------------
-  * This code needs to be integrated with css below
-  * css brought from searchui.css
-  */
-
-.c-relatedViewer {
-    padding: 0;
-    margin-right: 1rem;
-    margin-left: 1rem;
-    margin-bottom: 2rem;
-}
-.c-relatedViewer > * {
-    padding: 0 1rem 0 2rem;
-}
-.c-related__item {
-    display: block;
-    line-height: 1.5;
-    padding: 0 0 0.4rem 0.75rem;
-    color: #555;
-    font-weight: bold;
-    border: 1px solid transparent;
-}
-.c-related__item.selected > span:not(.icon) {
-    padding: 0 0.3rem 0.1rem;
-    border-bottom: 0.3rem solid #cca843;
-}
-.c-relatedViewer #sui-rln-places {
-    font-size: 1.15rem;
-}
-.c-relatedViewer #sui-rln-places::before {
-    content: '(';
-    position: relative;
-    left: -0.15rem;
-    font-size: 120%;
-    color: #999;
-    font-weight: normal;
-}
-.c-relatedViewer #sui-rln-places::after {
-    content: ')';
-    position: relative;
-    right: -0.15rem;
-    font-size: 120%;
-    color: #999;
-    font-weight: normal;
-}
-.c-related__link--home {
-    padding-top: 0.4rem;
-    line-height: 1.25;
-    margin-bottom: 0.25rem;
-}
-.c-related__item:not(.selected):hover {
-    background: #fff;
-    color: #333;
-}
-.c-related__item:not(.selected):active {
-    color: #333;
-}
-.c-related__list--icon {
-    border-color: transparent;
-    height: 6px;
-}
-.c-related__item__label {
-    text-transform: capitalize;
-    margin-right: 0.8rem;
-}
-
-.u-related__list__header {
-    padding: 1rem 0 0.25rem 0.5rem;
-    margin: 0 1rem;
-    font-size: 1.45rem;
-    font-weight: bold;
-    color: #111;
-    letter-spacing: 0.075rem;
-    text-transform: uppercase;
-}
-.l-related__list__wrap > .u-related__list__header {
-    padding-top: 0;
-}
-
-.l-terms__tree__wrap .view-wrap {
-    padding: 0 1.2rem !important;
-}
-.l-terms__tree__wrap .fancytree-container {
-    border: 1px solid #ddd !important;
-    box-shadow: inset 0 0 8px #ddd;
-    padding: 0.5rem;
-    font-size: 1.2rem;
-    height: auto;
-    max-height: 50rem;
-    background-color: #fff !important;
-}
-.l-terms__tree__wrap .fancytree-container li {
-}
-.l-terms__tree__wrap .fancytree-node {
-    margin-top: 0;
-    padding-top: 0;
-    outline: none;
-}
-.l-terms__tree__wrap .fancytree-exp-nl .fancytree-title::before,
-.l-terms__tree__wrap .fancytree-exp-n .fancytree-title::before {
-    /*content: '–' !important;*/
-    margin-right: 0.75rem !important;
-    font-weight: bold !important;
-    background-color: transparent;
-}
-.l-terms__tree__wrap .fancytree-exp-nl:hover .fancytree-title::before,
-.l-terms__tree__wrap .fancytree-exp-n:hover .fancytree-title::before {
-    background: transparent !important;
-}
-.l-terms__tree__wrap .fancytree-expander {
-    margin-right: 0.9rem;
-    color: $color-terms !important;
-}
-
 .l-column__related .fancytree-exp-nl .fancytree-title::before,
 .l-column__related .fancytree-exp-n .fancytree-title::before {
     background-color: #333;
@@ -213,56 +21,182 @@
 .l-column__related .fancytree-exp-n:hover .fancytree-title::before {
     background-color: #000 !important;
 }
-
 .l-column__related .fancytree-active:hover .fancytree-title::before {
     background-color: #fff !important;
 }
-/*
-.sui-relatedRecent {q
-    font-size: 12px;
-    color: #222;
-    padding: 0;
-    max-height: 84px;
-    user-select: none;
-    overflow-x: hidden;
-    cursor: pointer;
-    margin-right: 12px;
-}
-
-.sui-relatedRecentItem:hover {
-    background-color: #a4baec;
-}
-
-.sui-recent {
-    margin-top: 2em;
+.l-column__related .fancytree-node:not(.fancytree-active):hover,
+.l-column__related .fancytree-node:not(.fancytree-active):active {
+    background-color: #ffffff !important;
 }
 
 .sui-relatedHeader {
-    text-transform: uppercase;
-}
-.sui-relatedSubHeader {
-    text-transform: capitalize;
-}
-.sui-relatedSubHeader::before {
-    content: ' / ';
-    margin-left: 0.5em;
-    margin-right: 0.5em;
-}
-.sui-relatedImg {
-    width: 150px;
-    margin: 12px 0 12px 0;
-    outline: 1px solid #999;
-    outline-offset: 4px;
-}
-*/
-
-.sui-relatedHeader {
-    text-transform: uppercase;
     margin: 0.75rem 0 0;
+    display: inline;
+    position: relative;
+    top: -1.75rem;
+    font-weight: bold;
+    letter-spacing: 0.1rem;
 }
 
 .l-history__list__wrap .u-related__list__header {
     margin-bottom: 0.75rem;
+}
+
+.l-related__list__wrap {
+    .icon {
+        margin-right: 0.75rem;
+        position: relative;
+        top: 0.125rem;
+        font-size: 1.6rem;
+        &::before {
+            color: #555 !important;
+        }
+    }
+    .u-icon__logo-shanti {
+        font-size: 1.7rem;
+    }
+    .u-icon__overview {
+        margin-left: 0.1rem;
+        font-size: 1.4rem;
+        line-height: 2;
+    }
+    .l-related__tree__wrap .fancytree-title {
+        color: #000 !important;
+    }
+    .l-related__tree__wrap .popover-link {
+        margin-left: 0.15rem;
+        top: 0.5rem;
+    }
+}
+
+@media (min-width: 1250px) {
+    .l-column__related {
+        margin-left: -1rem;
+    }
+}
+
+.c-related__item {
+    display: block;
+    line-height: 2;
+    color: #222;
+    font-weight: bold;
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.125rem;
+    padding: 0.15rem 0 0.5rem 1.25rem;
+    margin: 0 0 0.2rem 0.25rem !important;
+    background-color: #fff;
+    border: 0.1rem solid #555;
+    &.selected > span:not(.icon) {
+    }
+    &.c-related__link--home {
+        padding-top: 0.65rem;
+
+        span:not(.icon) {
+            position: relative;
+            left: 0.2rem;
+        }
+        &:hover {
+            padding-top: 0.65rem;
+        }
+    }
+    &:hover {
+        background-color: white !important;
+        border-color: $color-mandala;
+        color: #000 !important;
+    }
+    &.active,
+    &:active {
+        border-color: red !important;
+    }
+    &:hover,
+    &:hover .icon::before {
+        color: #555;
+    }
+    &:not(.selected):hover {
+        border-color: $color-mandala;
+        color: #000;
+    }
+    &:not(.selected):active {
+    }
+}
+
+.c-relatedViewer {
+    margin: 0 1rem 1.5rem 0.8rem;
+
+    #sui-rln-places {
+        font-size: 1.2rem;
+        margin-left: 0.8rem;
+    }
+    #sui-rln-places::before {
+        content: '(';
+        position: relative;
+        left: -0.15rem;
+        font-size: 120%;
+        color: #999;
+        font-weight: normal;
+    }
+    #sui-rln-places::after {
+        content: ')';
+        position: relative;
+        right: -0.15rem;
+        font-size: 120%;
+        color: #999;
+        font-weight: normal;
+    }
+}
+
+.c-related__list--icon {
+    border-color: transparent;
+    height: 6px;
+}
+.u-related__list__header {
+    padding: 0 0 0.25rem 0.5rem;
+    margin: 0 1rem;
+    font-size: 1.45rem;
+    font-weight: bold;
+    color: #111;
+    letter-spacing: 0.075rem;
+    text-transform: uppercase;
+}
+
+.l-related__tree__wrap {
+    > .u-related__list__header {
+        padding-top: 0;
+    }
+    .view-wrap {
+        padding: 0 1.2rem !important;
+    }
+    .fancytree-container {
+        border: 1px solid #ddd !important;
+        box-shadow: inset 0 0 8px #ddd;
+        padding: 0.5rem;
+        font-size: 1.2rem;
+        height: auto;
+        max-height: 50rem;
+        background-color: #fff !important;
+    }
+    .fancytree-container li {
+    }
+    .fancytree-node {
+        margin-top: 0;
+        padding-top: 0;
+        outline: none;
+    }
+    .fancytree-exp-nl .fancytree-title::before,
+    .fancytree-exp-n .fancytree-title::before {
+        margin-right: 0.75rem !important;
+        font-weight: bold !important;
+        background-color: transparent;
+    }
+    .fancytree-exp-nl:hover .fancytree-title::before,
+    .fancytree-exp-n:hover .fancytree-title::before {
+        background: transparent !important;
+    }
+    .fancytree-expander {
+        margin-right: 0.9rem;
+        color: $color-terms !important;
+    }
 }
 
 /* Related Icons Styles */
@@ -345,16 +279,204 @@
     }
 }
 
-.l-column__related .fancytree-node:not(.fancytree-active):hover,
-.l-column__related .fancytree-node:not(.fancytree-active):active {
-    background-color: #ffffff !important;
+// --- moved here from subjectsinfo.scss
+
+.kmaps-related-viewer {
+    a.nav-item {
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 0.125rem;
+        font-weight: bold;
+        font-size: 1.2rem;
+        padding: 1.5rem 2.75rem 1rem;
+        border-color: #ccc;
+        border-radius: 0.75rem 0.75rem 0 0;
+        background-color: #fff;
+
+        &:hover,
+        &:active,
+        &:focus {
+            border-color: #aaa;
+            border-bottom-color: #ccc;
+        }
+
+        &.active {
+            color: #000;
+            position: relative;
+            border-top: 0.3rem solid $color-subjects;
+            &:hover {
+                border-bottom: 0.1rem solid #fff;
+            }
+        }
+    }
+    &.places {
+        a.nav-item {
+            &.active {
+                color: #000;
+                border-bottom: thin solid #fff;
+                border-top: 0.3rem solid $color-places;
+                padding-top: 1.3rem;
+            }
+        }
+    }
+    & + .tab-content {
+        padding: 2rem 2rem 8rem 2.5rem;
+        background: #fff;
+        border: 1px solid #ccc;
+        border-radius: 1rem;
+        font-size: 1.45rem;
+        min-height: calc(100vh - 30rem);
+
+        h4.head-related {
+            font-size: 1.5rem;
+            text-transform: capitalize;
+            margin-bottom: 1.25rem;
+        }
+        .kmap-related h6 {
+            margin-top: 2rem;
+            margin-bottom: 0;
+            font-size: 1.25rem;
+            text-transform: uppercase;
+            font-weight: bold;
+        }
+    }
 }
 
-.l-relatedTreeLeft {
-    min-width: 22rem;
-    max-width: 22rem;
+.head-related {
+    text-transform: uppercase;
+    font-size: 1.35rem;
+    font-weight: bold;
+    letter-spacing: 0.05rem;
 }
-.l-relatedTreeLeft:hover {
-    max-width: 40rem;
-    transition: max-width 0.5s ease-in-out;
+
+.kmap-content > p,
+.kmap-context > p,
+.kmap-related > p {
+    max-width: 90rem;
 }
+
+.c-relplaces-list.container-fluid {
+    .c-kmaptree {
+        // height: 80vh;
+        //  padding: 1.25rem 1rem 2rem 1.5rem;
+    }
+    .c-featurePager__container.row {
+        padding: 1rem;
+        margin-left: -1.75rem;
+        background-color: #777;
+        color: white;
+        /* max-width: 1100px; */
+        .c-featurePager__navButtons .icon {
+            color: #bcbcbc;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+    .c-featurePager__container.row {
+        > div {
+            width: 30%;
+            text-align: left;
+        }
+    }
+    .row > div {
+        //  padding: 1rem 2rem 0 2rem;
+    }
+}
+
+.kmap-related .md3 {
+    min-width: 27.5rem;
+}
+
+.c-relplaces-list.places {
+    h2.row {
+        margin: 1rem 0 1rem -1.5rem;
+        font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif;
+        font-weight: 600;
+        font-size: 1.45rem;
+    }
+}
+.kmap-related,
+.nodeHeader-summary,
+.astviewer:not(.texts) {
+    ul {
+        margin-right: 1rem;
+        margin-left: 0.75rem;
+        list-style-type: none;
+        padding-inline-start: 0;
+        line-height: 2;
+        li {
+            /* line-height: 0.75; */
+        }
+        li::before {
+            content: '';
+            display: inline-block;
+            width: 0.65rem;
+            height: 0.65rem;
+            border: 0.2rem solid #888;
+            margin-right: 1rem;
+            position: relative;
+            left: 0.5rem;
+            top: -0.15rem;
+            transform: rotate(45deg);
+        }
+    }
+    .nodeHeader-summary .head-related {
+        width: 100%;
+        margin: 1.5rem 1rem 0.25rem 0;
+        padding: 0.6rem 1rem 0.4rem 0;
+        text-transform: uppercase;
+        font-size: 1.35rem;
+        font-weight: bold;
+    }
+}
+
+.nodeHeader-summary ul {
+    line-height: 1.25;
+}
+
+.c-content__main__kmaps {
+    .head-related ~ ul {
+        margin-right: 1rem;
+        margin-left: 0.75rem;
+        list-style-type: none;
+        padding-inline-start: 0;
+        line-height: 1.5;
+        li {
+            /* line-height: 0.75; */
+        }
+        li::before {
+            content: '';
+            display: inline-block;
+            width: 0.65rem;
+            height: 0.65rem;
+            border: 0.15rem solid #555;
+            margin-right: 1rem;
+            position: relative;
+            left: 0.1rem;
+            top: 1.35rem;
+            float: left;
+            transform: rotate(45deg);
+        }
+    }
+    .places--related-subjects {
+        border: 1px solid #ccc;
+        border-radius: 1rem;
+        padding: 2rem 1.5rem 5rem 2rem;
+        min-height: 65vh;
+        background-color: #fff;
+    }
+}
+
+/*
+.places .head-related {
+    border-left-color: $color-places;
+}
+.subjects .head-related {
+    border-left-color: $color-subjects;
+}
+.terms .head-related {
+    border-left-color: $color-terms;
+}
+*/

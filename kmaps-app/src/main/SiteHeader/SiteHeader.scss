@@ -1,11 +1,12 @@
 @import '../../index-variables';
+@import '../../css/fonts/shanticon/style.css';
 
 // Site Banner
 .c-site__header {
-    height: 4.5rem;
     padding: 0;
     background: #fff;
     display: flex;
+    height: 4.5rem;
     .siteSettings-Toggle--button {
         background-color: transparent;
         border: none;
@@ -27,6 +28,7 @@
     }
     .navbar-brand {
         display: inline-block;
+        border-bottom: none;
         h1 {
             /* font-size: 1.5rem;
             display: inline;
@@ -43,70 +45,152 @@
         flex: 1 1;
         background-color: #fff !important;
         padding: 0;
-        /* padding: 0;
-        font-size: 1.5rem;*/
     }
+
+    // -------------------
+    // --- Search Box ----
+    // -------------------
     .c-site__search {
-        display: flex;
+        margin-top: 0.75rem;
+        margin-right: -1rem;
+        padding-left: 0.5rem;
         .sui-search1 {
-            .icon {
-                position: relative;
-                left: 2.75rem;
-                bottom: 0;
-                font-size: 1.5rem;
-                color: #555;
-            }
-            .sui-search2 {
-                // --- search input
-                font-style: italic;
+            position: relative;
+            input.sui-search2 {
                 font-size: 1.65rem;
-                padding: 0.5rem 3rem 0.3rem 3.25rem;
+                padding: 0.4rem 4rem 0.25rem 1rem;
                 background: transparent;
-                border-color: $color-mandala #ccc;
-                border-width: 0.3rem 0.1rem 0.1rem;
-                margin: 0.6rem 1.25rem 0 0;
-                min-width: 28rem;
-                max-width: 25%;
-                box-shadow: inset 0 0.25rem 0.75rem #aaa;
-                &:hover,
-                &:active,
-                &:focus {
-                    border-color: #4d59ca #ccc;
-                    border-width: 0.3rem 0.1rem 0.1rem;
+                border: none;
+                border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, w/ opacity
+                margin: 0;
+                width: 27rem;
+                transition: width 0.5s, border 0.35s;
+                color: #000;
+                box-shadow: none;
+                background: transparent;
+
+                &:placeholder-shown {
+                    cursor: text;
+                }
+                &:focus,
+                &:active {
+                    padding-right: 8.5rem;
+                    width: 36rem;
+                    outline: none;
+                    background: #fff;
+                    border-bottom-width: 0.25rem;
+                    border-bottom-color: $color-mandala;
+                    cursor: text;
+
+                    &::-webkit-input-placeholder {
+                        color: transparent;
+                    }
+                    &::-moz-placeholder {
+                        color: transparent;
+                        cursor: text;
+                    }
+                    &:-ms-input-placeholder {
+                        color: transparent;
+                    }
+                    &:-moz-placeholder {
+                        color: transparent;
+                    }
+                }
+                &::-webkit-input-placeholder {
+                    /* Chrome/Opera/Safari */
+                    color: $color-mandala;
+                    font-style: italic;
+                    font-size: 2.25rem;
+                    font-family: 'GB Garamond', serif;
+                    letter-spacing: 0.0125rem;
+                }
+                &::-moz-placeholder {
+                    /* Firefox 19+ */
+                    color: $color-mandala;
+                    opacity: 1;
+                    font-style: italic;
+                }
+                &:-ms-input-placeholder {
+                    /* IE 10+ */
+                    color: $color-mandala;
+                    font-style: italic;
+                }
+                &:-moz-placeholder {
+                    /* Firefox 18- */
+                    color: $color-mandala;
+                    opacity: 1;
+                    font-style: italic;
                 }
             }
-            .l-search__input__buttons {
-                // --- search buttons wrapper
+            .sui-search3 {
                 position: relative;
-                top: 0.6rem;
-                .sui-search3 {
-                    // --- search clear button
-                    font-size: 2.25rem;
-                    color: #ccc;
-                    cursor: pointer;
-                    position: absolute;
-                    right: 2.5rem;
-                    &:hover {
-                        color: red;
+                right: 6.5rem;
+                top: 0.35rem;
+                display: inline-block;
+                height: 2.5rem;
+                width: 2.5rem;
+                transition: color 0.75s;
+            }
+            .sui-search4 {
+                // --- search enter - Go get it!
+                position: absolute;
+                top: 0.025rem;
+                right: 3.15rem;
+                display: inline-block;
+                font-size: 1.95rem;
+                span {
+                    &::before {
+                        color: $color-mandala;
+                        opacity: 0.6;
+                        transition: opacity 400ms;
+                    }
+                    &:hover::before {
+                        opacity: 1;
+                        color: #000;
                     }
                 }
             }
         }
     }
-    .navbar-collapse {
-        justify-content: center;
+}
+
+input.sui-search2:focus + .sui-search3,
+input.sui-search2:active + .sui-search3 {
+    &::before {
+        content: 'X';
+        display: inline-block;
+        color: #aaa;
+        font-size: 1.75rem;
+        position: absolute;
+        top: 0;
+        right: 1.6rem;
+    }
+    &:hover::before {
+        color: $color-subjects;
+    }
+    &::after {
+        content: '';
+        display: inline-block;
+        width: 0.15rem;
+        height: 1.75rem;
+        background-color: #c0c0c0;
+        position: absolute;
+        top: 0.5rem;
+        right: 0;
     }
 }
+
+input.sui-search2:focus + .sui-search3 + .sui-search4 span::before,
+input.sui-search2:active + .sui-search3 + .sui-search4 span::before {
+    opacity: 1;
+}
+input.sui-search2:focus + .sui-search3 + .sui-search4 span:hover::before,
+input.sui-search2:active + .sui-search3 + .sui-search4 span:hover::before {
+    color: #000;
+}
+.navbar-nav,
+.navbar-toggler,
 .c-site__header-standalone {
-    height: 4.5rem;
-    padding: 0;
-    display: none;
-}
-.navbar-toggler {
-    // for mobile menu display, this still needs work with mobile menu setup
-    display: none;
-}
-.navbar-nav {
     display: none;
 }
 

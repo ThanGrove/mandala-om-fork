@@ -35,7 +35,6 @@ export default function FilterTree({ settings, ...props }) {
     const [perspective, setPerspective] = useState(persp); // Needed to pass to perspective chooser
 
     const customSetPerspective = function (psp) {
-        console.log('setting perspective: ', psp);
         setPerspective(psp);
     };
 

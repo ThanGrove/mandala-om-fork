@@ -10,6 +10,8 @@ import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import { AssetTitle } from '../common/utilcomponents';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
  * Compontent that creates the Image Viewer page, including:
@@ -102,6 +104,10 @@ export default function ImagesViewer(props) {
         }
     }, [kmasset]);
 
+    if (isNodeLoading || isAssetLoading) {
+        return <MandalaSkeleton minWidth="500px" />;
+    }
+
     const arrowClick = function (e) {
         const $this = $(e.target);
         const curr =
@@ -127,7 +133,6 @@ export default function ImagesViewer(props) {
         const rotation = nodejson?.field_image_rotation?.und[0]
             ? nodejson.field_image_rotation.und[0].value
             : false;
-
         return (
             <div className={'c-image'}>
                 {props?.id && (
@@ -187,7 +192,5 @@ export default function ImagesViewer(props) {
                 </Container>
             </div>
         );
-    } else {
-        return <>Loading...</>;
     }
 }

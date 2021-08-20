@@ -19,7 +19,7 @@ const CustomSelect = (props) => {
     // Find the object that matches the selectedOption.
     const selectedOption = _.find(options, ['id', selectedID]) ?? {
         id: 'any',
-        text: `-- Any --`,
+        text: `Select Related Definition`,
     };
 
     const changeSelected = (event) => {
@@ -64,7 +64,7 @@ const CustomSelect = (props) => {
                             data-value="any"
                             onClick={changeSelected}
                         >
-                            -- Any --
+                            -- Select None --
                         </span>
                         {options.map((option) => (
                             <span

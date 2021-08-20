@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
+import { AssetTitle } from '../common/utilcomponents';
 
 /**
  * AudioVideoViewer is called from ContentMain.js and is wrapped in a MdlAssetContext that supplies it with a SOLR

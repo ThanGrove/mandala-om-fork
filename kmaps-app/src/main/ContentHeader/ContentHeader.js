@@ -7,6 +7,8 @@ import { capitalAsset, parseParams, queryID } from '../../views/common/utils';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 import { KmapsBreadcrumbs } from './KmapsBreadcrumbs';
 import { AssetBreadcrumbs } from './AssetBreadcrumbs';
+import useCollection from '../../hooks/useCollection';
+import { CollectionBreadcrumbs } from './CollectionBreadcrumbs';
 
 export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
@@ -18,15 +20,22 @@ export function ContentHeader({ siteClass, title, location }) {
     if (!itemId || typeof itemId === 'undefined') {
         itemId = '';
     }
+    const isAsset = [
+        'audio-video',
+        'av',
+        'images',
+        'sources',
+        'texts',
+        'visuals',
+    ].includes(queryType.toLowerCase());
+    const solrqtype = isAsset ? 'asset' : 'info';
     const {
         isLoading: isItemLoading,
         data: itemData,
         isError: isItemError,
         error: itemError,
-    } = useKmap(queryID(queryType, itemId), 'info');
+    } = useKmap(queryID(queryType, itemId), solrqtype);
     // some comment
-    let convertedPath = '';
-    let mytitle = itemData?.header ? itemData.header : '';
     if (isItemLoading) {
         return (
             <MandalaSkeleton
@@ -38,6 +47,21 @@ export function ContentHeader({ siteClass, title, location }) {
         );
     }
 
+    let convertedPath = '';
+    let mytitle = itemData?.header
+        ? itemData.header
+        : itemData?.title
+        ? itemData.title[0]
+        : 'No Title';
+
+    if (
+        window.location.pathname === '/collections' ||
+        window.location.hash === '#/collections'
+    ) {
+        mytitle = 'All Collections';
+    }
+
+    // console.log('item data', queryID(queryType, itemId), itemData);
     // Handle an Error
     if (isItemError) {
         console.log(queryID(queryType, itemId), itemError);
@@ -52,12 +76,14 @@ export function ContentHeader({ siteClass, title, location }) {
     // What to return if the SOLR query returned a hit
     if (itemData) {
         // If nothing found
-        if (itemData?.response?.numFound === 0) {
+        if (itemData?.response?.numFound === 0 && itemId) {
+            // console.log('no item data item id: ' + itemId);
             return (
                 <AltContentHeader
                     domain={itemType}
                     kid={itemId}
                     siteClass={siteClass}
+                    isCollection={isCollection}
                 />
             );
         }
@@ -79,11 +105,6 @@ export function ContentHeader({ siteClass, title, location }) {
                     id="c-content__header__main__wrap"
                     className="c-content__header__main__wrap legacy"
                 >
-                    <h1 className={'c-content__header__main__title'}>
-                        <span className={`icon u-icon__${itemType}`}></span>
-                        {mytitle}
-                    </h1>
-
                     <div className={'c-content__header__breadcrumb breadcrumb'}>
                         {itemType !== 'search' && (
                             <ContentHeaderBreadcrumbs
@@ -93,10 +114,6 @@ export function ContentHeader({ siteClass, title, location }) {
                             />
                         )}
                     </div>
-                    <h5 className={'c-content__header__main__id'}>{itemId}</h5>
-                    <h4 className={'c-content__header__main__sub'}>
-                        {itemData?.subTitle}
-                    </h4>
                 </div>
             </header>
         );
@@ -160,7 +177,7 @@ function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
  * @returns {JSX.Element}
  * @constructor
  */
-function AltContentHeader({ domain, kid, siteClass }) {
+function AltContentHeader({ domain, kid, siteClass, isCollection }) {
     const loc = useLocation();
     const params = loc?.search ? parseParams(loc.search) : false;
     const {
@@ -169,6 +186,26 @@ function AltContentHeader({ domain, kid, siteClass }) {
         isError: isItemError,
         error: itemError,
     } = useKmap(queryID(domain, kid), 'info');
+
+    const {
+        isLoading: isCollLoading,
+        data: collData,
+        isError: isCollError,
+        error: collError,
+    } = useCollection(domain, kid);
+
+    useEffect(() => {
+        const contentTitle = document.getElementById('sui-termTitle');
+        const cttext = contentTitle?.innerText.toLowerCase();
+        if (contentTitle && !cttext.includes('not found')) {
+            contentTitle.innerText = alttitle;
+        }
+    });
+
+    if (isItemLoading || isCollLoading) {
+        return <MandalaSkeleton />;
+    }
+
     let alttitle = itemData?.header ? itemData.header : false;
     let bcrumbs = itemData ? (
         <ContentHeaderBreadcrumbs
@@ -179,6 +216,8 @@ function AltContentHeader({ domain, kid, siteClass }) {
     ) : (
         ''
     );
+    let newCollData =
+        isCollection && collData?.numFound > 0 ? collData.docs[0] : collData;
     if (!alttitle && domain?.length > 1) {
         alttitle = domain[0].toUpperCase() + domain.substr(1);
         bcrumbs = '';
@@ -186,16 +225,6 @@ function AltContentHeader({ domain, kid, siteClass }) {
             const decoded = decodeURI(params.searchText);
             alttitle += ` for “${decoded}”`;
         }
-    }
-    useEffect(() => {
-        const contentTitle = document.getElementById('sui-termTitle');
-        const cttext = contentTitle?.innerText.toLowerCase();
-        if (contentTitle && !cttext.includes('not found')) {
-            contentTitle.innerText = alttitle;
-        }
-    });
-    if (isItemLoading) {
-        return <MandalaSkeleton />;
     }
 
     const cheader = (
@@ -213,12 +242,12 @@ function AltContentHeader({ domain, kid, siteClass }) {
                 </h1>
 
                 <div className={'c-content__header__breadcrumb breadcrumb'}>
-                    {bcrumbs}
+                    {bcrumbs && !isCollection && bcrumbs}
+                    {isCollection && (
+                        <CollectionBreadcrumbs collData={newCollData} />
+                    )}
                 </div>
                 <h5 className={'c-content__header__main__id'}>{kid}</h5>
-                <h4 className={'c-content__header__main__sub'}>
-                    {/* subtitle here? */}
-                </h4>
             </div>
         </header>
     );

@@ -1,7 +1,8 @@
 @import '../../_index-variables.scss';
 
 #place-kmap-tabs-tabpane-map {
-    min-height: 75vh;
+    //  min-height: calc(100vh - 12rem);
+    height: 80vh;
 }
 
 .c-place-names {
@@ -14,11 +15,10 @@
         }
     }
     h1 {
-        margin: 1rem 0 0.5rem;
-        color: #6faaf1;
+        margin: 1.75rem 0 0.5rem;
         font-weight: bold;
-        font-size: 1.6rem;
-        text-transform: capitalize;
+        font-size: 1.35rem;
+        text-transform: uppercase;
     }
 
     div[class^='lv-']:before {
@@ -66,33 +66,4 @@
         left: 0.25rem;
         font-size: 120%;
     }
-}
-
-.c-relplaces-list.places {
-    h2.row {
-        margin: 1rem 0 1rem -1.5rem;
-        font-family: 'Open Sans', 'Segoe UI', Tahoma, sans-serif;
-        font-weight: 600;
-        font-size: 1.45rem;
-    }
-}
-
-.head-related {
-    width: 100%;
-    margin: 1.5rem 1rem 0.25rem;
-    padding: 0.6rem 1rem 0.4rem;
-    /* color: white; */
-    font-weight: bold;
-    font-size: 1.45rem;
-    border: 0.2rem solid #ddd;
-    border-width: 0.15rem 0 0 0.5rem;
-}
-.places .head-related {
-    border-left-color: $color-places;
-}
-.subjects .head-related {
-    border-left-color: $color-subjects;
-}
-.terms .head-related {
-    border-left-color: $color-terms;
 }

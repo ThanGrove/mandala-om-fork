@@ -26,8 +26,11 @@ function unPackRelatedData(res, kmapid, type, start, rows) {
         all: { count: 0, docs: res.response.docs },
     };
     buckets.forEach((x) => {
-        asset_counts[x.val] = { count: x.count, docs: [] };
-        asset_counts['all'].count += x.count;
+        // Picture duplicated image in solr buckets
+        if (x.val !== 'picture') {
+            asset_counts[x.val] = { count: x.count, docs: [] };
+            asset_counts['all'].count += x.count;
+        }
     });
 
     //console.log("unpacking assets: ", res.data.response.docs);
@@ -39,8 +42,9 @@ function unPackRelatedData(res, kmapid, type, start, rows) {
     });
 
     //Add a hasMore boolean which checks if there is more data to fetch
-    const hasMore =
-        asset_counts[type]?.count <= start * rows + rows ? false : true;
+    const page = Math.ceil(start / rows) + 1; // Start is row/item number divide by rows/items per page to get page
+    const current_last_row = page * rows; // Muliply page by rows/items per page to get current_last_row;
+    const hasMore = asset_counts[type]?.count > current_last_row ? true : false;
 
     return {
         uid: kmapid,
