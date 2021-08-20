@@ -77,36 +77,26 @@ export function FeatureCollection(props) {
     let inclGallery = viewMode === 'gallery' ? true : false;
     let viewModeDiv = null;
 
-    if (props?.docs && props.docs.length > 0) {
-        const atype = props.docs[0]?.asset_type;
-        if (atype && 'audio-video|images'.includes(atype)) {
-            inclGallery = true;
-        }
-
-        viewModeDiv = (
-            <div className={'c-buttonGroup__viewMode'}>
-                {/* View Mode:{' '} */}
-                <span className="c-buttonGroup__viewMode-header">
-                    Switch View:
-                </span>
-                <FeatureCollectionViewModeSelector
-                    viewMode={viewMode}
-                    inclGallery={inclGallery}
-                />
-                {props.loadingState && (
-                    <Spinner animation="border" role="status">
-                        <span className="sr-only">Loading...</span>
-                    </Spinner>
-                )}
-            </div>
-        );
-    } else {
-        viewer = (
-            <div id="mandala-coll-no-items" style={{ display: 'none' }}>
-                <p>There are no items in this collection.</p>
-            </div>
-        );
+    const atype = props.docs[0]?.asset_type;
+    if (atype && 'audio-video|images'.includes(atype)) {
+        inclGallery = true;
     }
+
+    viewModeDiv = (
+        <div className={'c-buttonGroup__viewMode'}>
+            {/* View Mode:{' '} */}
+            <span className="c-buttonGroup__viewMode-header">Switch View:</span>
+            <FeatureCollectionViewModeSelector
+                viewMode={viewMode}
+                inclGallery={inclGallery}
+            />
+            {props.loadingState && (
+                <Spinner animation="border" role="status">
+                    <span className="sr-only">Loading...</span>
+                </Spinner>
+            )}
+        </div>
+    );
     return (
         <div className={'c-buttonGroup__viewMode__wrap'}>
             {props?.sorter}
