@@ -227,7 +227,7 @@ export default function SearchAdvanced(props) {
                         <span className={'header-icon'}>
                             <span className="icon shanticon-magnify"></span>
                         </span>
-                        Go to Results
+                        View Results
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
@@ -235,7 +235,7 @@ export default function SearchAdvanced(props) {
                         <a
                             href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                         >
-                            Back to Results
+                            View Results
                         </a>
                     </span>
                 )}

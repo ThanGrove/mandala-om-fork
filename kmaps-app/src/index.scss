@@ -802,15 +802,13 @@ header.terms + .two-columns {
         }
 
         button.back-to-results {
-            font-style: italic;
-            font-size: 1.3rem;
-            text-transform: capitalize;
+            font-size: 1.2rem;
+            text-transform: uppercase;
             color: #fff;
             background-color: #3f49b1;
             text-align: left;
             padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
-            letter-spacing: 0.0375rem;
             border: 4px double #fff;
             line-height: 1.4;
             &:hover {
