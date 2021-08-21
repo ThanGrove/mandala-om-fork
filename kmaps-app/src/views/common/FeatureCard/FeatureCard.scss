@@ -357,3 +357,9 @@
 .c-card__grid--collections img ~ .c-card__grid__glyph--asset span {
     display: none;
 }
+.c-card__grid--collections
+    img[src*='gradient']
+    ~ .c-card__grid__glyph--asset
+    span {
+    display: block;
+}
