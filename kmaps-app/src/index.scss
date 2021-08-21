@@ -618,7 +618,7 @@ header.terms + .two-columns {
         padding-right: 0;
         &.open {
             z-index: 1000;
-            background: #eee;
+            //  background: #eee;
             height: 100%;
         }
     }
@@ -1428,15 +1428,16 @@ span.refdate {
         margin: 0.75rem;
         border-radius: 0.8rem;
         background: #fff;
-        border: 4px double #555;
+        border: 6px double #555;
         display: inline-block;
         padding: 0.3rem 1.5rem;
         transform: scale(1);
-        transition: all 0.45s;
+        transition: all 0.55s;
         &:hover {
             background: $color-places;
             color: #fff;
-            transform: scale(0.95);
+            transform: scale(0.9);
+            border-color: #fff;
         }
         &:active,
         &:focus {

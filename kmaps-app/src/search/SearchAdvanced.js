@@ -235,6 +235,9 @@ export default function SearchAdvanced(props) {
                         <a
                             href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                         >
+                            <span className={'header-icon'}>
+                                <span className="icon shanticon-magnify"></span>
+                            </span>
                             View Results
                         </a>
                     </span>
