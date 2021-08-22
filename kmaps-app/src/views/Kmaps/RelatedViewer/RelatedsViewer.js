@@ -176,7 +176,7 @@ export function RelatedsViewer() {
                         <HistoryViewer />
                     </section>
                 )}
-                <section className="l-related__tree__wrap">
+                {/* <section className="l-related__tree__wrap">
                     <div className="u-related__list__header">
                         Browse{' '}
                         <span className={'text-capitalize'}>
@@ -185,7 +185,7 @@ export function RelatedsViewer() {
                     </div>
 
                     <SideTree {...baseArgs} />
-                </section>
+                </section> */}
             </div>
         </aside>
     );
@@ -239,6 +239,7 @@ function RelatedCount(props) {
     ) : null;
 }
 
+// eslint-disable-next-line no-unused-vars
 function SideTree(props) {
     // Determine which tree (browse_tree) to display in the relateds sidebar
     const domain = props.baseType;
