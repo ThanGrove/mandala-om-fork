@@ -52,13 +52,12 @@
     // -------------------
     .c-site__search {
         margin-top: 0.75rem;
-        margin-right: -1rem;
         padding-left: 0.5rem;
         .sui-search1 {
             position: relative;
             input.sui-search2 {
                 font-size: 1.65rem;
-                padding: 0.4rem 4rem 0.25rem 1rem;
+                padding: 0.4rem 1rem 0.25rem 1rem;
                 background: transparent;
                 border: none;
                 border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, w/ opacity
@@ -74,8 +73,8 @@
                 }
                 &:focus,
                 &:active {
-                    padding-right: 8.5rem;
-                    width: 36rem;
+                    padding-right: 4.75rem;
+                    width: 34rem;
                     outline: none;
                     background: #fff;
                     border-bottom-width: 0.25rem;
@@ -124,7 +123,7 @@
             }
             .sui-search3 {
                 position: relative;
-                right: 6.5rem;
+                right: 3rem;
                 top: 0.35rem;
                 display: inline-block;
                 height: 2.5rem;
@@ -133,11 +132,11 @@
             }
             .sui-search4 {
                 // --- search enter - Go get it!
-                position: absolute;
-                top: 0.025rem;
-                right: 3.15rem;
-                display: inline-block;
-                font-size: 1.95rem;
+                // position: absolute;
+                // top: 0.025rem;
+                // right: 3.15rem;
+                display: none;
+                // font-size: 1.95rem;
                 span {
                     &::before {
                         color: $color-mandala;
@@ -167,16 +166,6 @@ input.sui-search2:active + .sui-search3 {
     }
     &:hover::before {
         color: $color-subjects;
-    }
-    &::after {
-        content: '';
-        display: inline-block;
-        width: 0.15rem;
-        height: 1.75rem;
-        background-color: #c0c0c0;
-        position: absolute;
-        top: 0.5rem;
-        right: 0;
     }
 }
 

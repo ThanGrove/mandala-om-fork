@@ -231,7 +231,7 @@ export default function SearchAdvanced(props) {
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <span className={'header-label-count'}>
+                    <span className={'header-label-count back-to-results'}>
                         <a
                             href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                         >
