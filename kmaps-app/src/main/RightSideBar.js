@@ -31,18 +31,21 @@ export default function RightSideBar() {
     const browseSearch = ['terms', 'places', 'subjects'].includes(baseType)
         ? 'browse'
         : 'search';
-    if (browseSearch !== browseSearchState) {
-        switch (browseSearch) {
-            case 'browse':
-                setBrowse();
-                break;
-            case 'search':
-                setSearch();
-                break;
-            default:
-                break;
+
+    React.useEffect(() => {
+        if (browseSearch !== browseSearchState) {
+            switch (browseSearch) {
+                case 'browse':
+                    setBrowse();
+                    break;
+                case 'search':
+                    setSearch();
+                    break;
+                default:
+                    break;
+            }
         }
-    }
+    }, []);
 
     const advancedSearchPortal = (
         <Section
@@ -54,12 +57,12 @@ export default function RightSideBar() {
             defaultSize={380}
         >
             <div className="advanced-search-and-tree">
-                {browseSearch === 'search' && (
+                {browseSearchState === 'search' && (
                     <Suspense fallback={<MandalaSkeleton />}>
                         <SearchAdvanced advanced={true} />
                     </Suspense>
                 )}
-                {browseSearch === 'browse' && (
+                {browseSearchState === 'browse' && (
                     <Suspense fallback={<MandalaSkeleton />}>
                         <TreeNav tree={true} />
                     </Suspense>
