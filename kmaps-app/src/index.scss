@@ -111,7 +111,7 @@ div.image-wrapper.center figcaption {
     width: 4rem;
     margin: 0 0.35rem;
     transform: scale(0.8);
-    transition: border-radius 0.3s;
+    transition: all 0.3s;
     &:hover {
         border-radius: 1rem;
     }
@@ -875,7 +875,7 @@ header.terms + .two-columns {
         border-left-width: 0.1rem;
         border-left-style: solid;
         background-color: #fff;
-        background-size: 0.375rem 0.375rem;
+        background-size: 0.475rem 0.475rem;
         background-image: repeating-linear-gradient(
             0deg,
             #444cf7,
@@ -1106,6 +1106,8 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         border: 3px double #fff;
         border-radius: 0.5rem;
         margin-right: 0.25rem;
+        border: 0.4rem double #fff;
+
         &.shanticon-audio-video {
             background-color: $color-audio-video;
             color: #fff;
@@ -1432,7 +1434,7 @@ span.refdate {
         display: inline-block;
         padding: 0.3rem 1.5rem;
         transform: scale(1);
-        transition: all 0.55s;
+        transition: all 0.25s;
         &:hover {
             background: $color-places;
             color: #fff;
