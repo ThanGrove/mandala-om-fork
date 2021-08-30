@@ -227,15 +227,18 @@ export default function SearchAdvanced(props) {
                         <span className={'header-icon'}>
                             <span className="icon shanticon-magnify"></span>
                         </span>
-                        Go to Results
+                        View Results
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <span className={'header-label-count'}>
+                    <span className={'header-label-count back-to-results'}>
                         <a
                             href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
                         >
-                            Back to Results
+                            <span className={'header-icon'}>
+                                <span className="icon shanticon-magnify"></span>
+                            </span>
+                            View Results
                         </a>
                     </span>
                 )}

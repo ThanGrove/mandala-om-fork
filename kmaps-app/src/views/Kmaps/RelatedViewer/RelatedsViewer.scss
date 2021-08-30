@@ -3,7 +3,7 @@
 
 .l-column__related {
     height: 100%;
-    margin: 0 0 2rem -24rem;
+    margin: 0 0 2rem -23rem;
     padding: 0;
     transition: margin, 0.3s;
     flex: none;
@@ -78,9 +78,10 @@
 .c-related__item {
     display: block;
     line-height: 2;
+    width: 21rem;
     color: #222;
     font-weight: bold;
-    font-size: 1.35rem;
+    font-size: 1.25rem;
     text-transform: uppercase;
     letter-spacing: 0.125rem;
     padding: 0.15rem 0 0.5rem 1.25rem;

@@ -18,7 +18,7 @@ body {
 body.html {
     font-family: $font-family-sans, sans-serif;
 }
-a {
+.l-site__wrap a {
     text-decoration: none;
     color: #000;
     cursor: pointer;
@@ -111,7 +111,7 @@ div.image-wrapper.center figcaption {
     width: 4rem;
     margin: 0 0.35rem;
     transform: scale(0.8);
-    transition: border-radius 0.3s;
+    transition: all 0.3s;
     &:hover {
         border-radius: 1rem;
     }
@@ -618,7 +618,7 @@ header.terms + .two-columns {
         padding-right: 0;
         &.open {
             z-index: 1000;
-            background: #eee;
+            //  background: #eee;
             height: 100%;
         }
     }
@@ -801,16 +801,14 @@ header.terms + .two-columns {
             }
         }
 
-        button.back-to-results {
-            font-style: italic;
-            font-size: 1.3rem;
-            text-transform: capitalize;
+        .back-to-results {
+            font-size: 1.2rem;
+            text-transform: uppercase;
             color: #fff;
             background-color: #3f49b1;
             text-align: left;
             padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
-            letter-spacing: 0.0375rem;
             border: 4px double #fff;
             line-height: 1.4;
             &:hover {
@@ -877,7 +875,7 @@ header.terms + .two-columns {
         border-left-width: 0.1rem;
         border-left-style: solid;
         background-color: #fff;
-        background-size: 0.375rem 0.375rem;
+        background-size: 0.475rem 0.475rem;
         background-image: repeating-linear-gradient(
             0deg,
             #444cf7,
@@ -1108,6 +1106,8 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         border: 3px double #fff;
         border-radius: 0.5rem;
         margin-right: 0.25rem;
+        border: 0.4rem double #fff;
+
         &.shanticon-audio-video {
             background-color: $color-audio-video;
             color: #fff;
@@ -1430,15 +1430,16 @@ span.refdate {
         margin: 0.75rem;
         border-radius: 0.8rem;
         background: #fff;
-        border: 4px double #555;
+        border: 6px double #555;
         display: inline-block;
         padding: 0.3rem 1.5rem;
         transform: scale(1);
-        transition: all 0.45s;
+        transition: all 0.25s;
         &:hover {
             background: $color-places;
             color: #fff;
-            transform: scale(0.95);
+            transform: scale(0.9);
+            border-color: #fff;
         }
         &:active,
         &:focus {

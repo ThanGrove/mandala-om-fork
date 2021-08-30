@@ -51,7 +51,7 @@ const TreeNav = (props) => {
                     }
                 ></span>
                 <header className="treeNav-header">
-                    <h4 className="treeNav-header__title">Knowledge Maps</h4>
+                    <h4 className="treeNav-header__title">Browse</h4>
                     <button
                         onClick={handleCloseButton}
                         className="treeNav-header__closeButton"
