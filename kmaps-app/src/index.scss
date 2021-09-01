@@ -23,9 +23,8 @@ body.html {
     text-decoration: none;
     color: #000;
     cursor: pointer;
-    border-bottom: 0.075rem solid rgba(162, 127, 28, 0.65);
-    padding-bottom: 0.15rem;
-
+    border-bottom: 0.075rem solid #fbba03;
+    padding-bottom: 0.2rem;
     &:hover {
         text-decoration: none;
         box-shadow: none;
@@ -260,11 +259,9 @@ div.image-wrapper.center figcaption {
     margin: 1rem 1.25rem 0 1rem;
     min-height: calc(100vh - 12rem);
 }
-.c-site__header,
-.l-column__main,
+.l-site__wrap > *,
 .l-content__main,
-.l-column__related,
-.l-content__main__wrap,
+.l-content__main > *,
 .c-content__header__main {
     flex: 1;
 }
@@ -273,10 +270,13 @@ div.image-wrapper.center figcaption {
     padding-bottom: 5rem;
 }
 
+header.search + .two-columns .l-content__main,
 header.collections + .two-columns .l-content__main {
-    display: block;
+    //  display: block;
 }
-
+header.collections + .two-columns .l-content__main > div {
+    //  flex:1;
+}
 // --------------------------------------
 // * KMAPS SECTION
 // --------------------------------------
