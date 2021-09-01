@@ -4,8 +4,10 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
 import { FeatureCollection } from '../common/FeatureCollection';
 import { getProject } from '../common/utils';
 import { SAProjectName } from '../common/utilcomponents';
+import { useParams } from 'react-router';
 
 export function CollectionsHome(props) {
+    const { view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(25);
@@ -64,7 +66,7 @@ export function CollectionsHome(props) {
             <FeatureCollection
                 docs={collsData.docs}
                 assetCount={numFound}
-                viewMode={'deck'}
+                viewMode={view_mode}
                 page={pageNum}
                 setPage={setPageNum}
                 perPage={pageSize}

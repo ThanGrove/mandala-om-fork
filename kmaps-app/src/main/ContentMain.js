@@ -64,9 +64,14 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* COLLECTIONS */}
-                                <Route path={`/collections`}>
+                                <Route path={`/collections/:view_mode`}>
                                     <CollectionsHome />
                                 </Route>
+
+                                <Redirect
+                                    from="/collections"
+                                    to="/collections/deck"
+                                />
 
                                 <Route
                                     path={`/:asset_type/collection/:id/:view_mode`}

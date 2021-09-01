@@ -248,18 +248,17 @@ export function LeafChildren({
     }
     const children =
         !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
-    const headernm = `header`;
-    if (settings.domain !== 'terms') {
-        children.sort((a, b) => {
-            if (a[headernm] > b[headernm]) {
-                return 1;
-            }
-            if (a[headernm] < b[headernm]) {
-                return -1;
-            }
-            return 0;
-        });
-    }
+
+    const sortfield = settings.domain === 'terms' ? 'position_i' : 'header';
+    children.sort((a, b) => {
+        if (a[sortfield] > b[sortfield]) {
+            return 1;
+        }
+        if (a[sortfield] < b[sortfield]) {
+            return -1;
+        }
+        return 0;
+    });
     return (
         <div className={settings.childrenClass}>
             {children.map((child, i) => {
