@@ -17,6 +17,7 @@ body {
 }
 body.html {
     font-family: $font-family-sans, sans-serif;
+    letter-spacing: 0.0125rem;
 }
 .l-site__wrap a {
     text-decoration: none;
@@ -259,9 +260,11 @@ div.image-wrapper.center figcaption {
     margin: 1rem 1.25rem 0 1rem;
     min-height: calc(100vh - 12rem);
 }
-.l-site__wrap > *,
+.c-site__header,
+.l-column__main,
 .l-content__main,
-.l-content__main > *,
+.l-column__related,
+.l-content__main__wrap,
 .c-content__header__main {
     flex: 1;
 }
@@ -270,16 +273,12 @@ div.image-wrapper.center figcaption {
     padding-bottom: 5rem;
 }
 
-.places + .two-columns .l-content__main__wrap {
-    // margin-top: 2rem;
-}
-
 // --------------------------------------
 // * KMAPS SECTION
 // --------------------------------------
 
 header.terms + .two-columns .c-content__main__kmaps > * {
-    max-width: 90rem;
+    max-width: 90rem; // asterisk selector is a temporary fix until div wrapper for Terms content is put into place
 }
 header.terms + .two-columns {
     .c-content__main__kmaps {
@@ -297,7 +296,7 @@ header.terms + .two-columns {
     border: 1px solid #ccc;
     border-radius: 1rem;
     padding: 0.5rem 1.5rem 3rem 2rem;
-    font-size: 120%;
+    // font-size: 120%;
     min-height: calc(100vh - 14rem);
 
     &.c-collection {
@@ -658,7 +657,7 @@ header.terms + .two-columns {
             padding: 0;
             line-height: 1.7;
             font-size: 2.135rem;
-            letter-spacing: 0.025rem;
+            letter-spacing: 0.075rem;
             font-family: 'GB Garamond', serif;
         }
         .treeNav-header__closeButton {
@@ -704,7 +703,7 @@ header.terms + .two-columns {
             padding: 0;
             line-height: 1.7;
             font-size: 2.15rem;
-            letter-spacing: 0.035rem;
+            letter-spacing: 0.075rem;
             font-weight: 400;
             font-family: 'GB Garamond', serif;
 
@@ -810,7 +809,8 @@ header.terms + .two-columns {
             padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
             border: 4px double #fff;
-            line-height: 1.4;
+            cursor: pointer !important;
+            line-height: 1.8rem;
             &:hover {
             }
             &:active {
@@ -853,6 +853,7 @@ header.terms + .two-columns {
     div {
         background-color: transparent;
         cursor: col-resize !important;
+        z-index: 100 !important;
         &::before {
             height: calc(100vh - 6.75rem);
             position: relative;
@@ -1432,8 +1433,7 @@ span.refdate {
         background: #fff;
         border: 6px double #555;
         display: inline-block;
-        padding: 0.3rem 1.5rem;
-        transform: scale(1);
+        padding: 0 1rem;
         transition: all 0.25s;
         &:hover {
             background: $color-places;
@@ -1443,7 +1443,7 @@ span.refdate {
         }
         &:active,
         &:focus {
-            transform: scale(1.025);
+            transform: scale(1);
         }
     }
     .ol-rotate,
