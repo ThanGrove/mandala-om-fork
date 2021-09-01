@@ -577,6 +577,7 @@ header.terms + .two-columns {
         .treeNav-header ~ .nav-tabs .nav-link {
             margin-top: 0;
             padding-bottom: 0.25rem;
+            border-bottom: none !important;
         }
     }
 }
