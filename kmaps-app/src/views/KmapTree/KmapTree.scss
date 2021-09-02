@@ -56,10 +56,13 @@ ul.fancytree-container {
     select {
         display: inline-block;
         width: fit-content;
-        /*max-width: unset;*/
+        max-width: unset;
         border-radius: 1.5rem;
         padding: 0.2rem 0.9rem;
         border-color: #aaa;
+        font-size: 1.1rem;
+        font-weight: 600;
+        letter-spacing: 0.035rem;
     }
 }
 
