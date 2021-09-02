@@ -163,7 +163,9 @@ export default function ContentMain(props) {
                                     <VisualsHome />
                                 </Route>
 
-                                <Route path={`/texts/:id`}>
+                                <Route
+                                    path={[`/texts/:id/:pageid`, `/texts/:id`]}
+                                >
                                     <TextsViewer ismain={true} />
                                 </Route>
                                 <Route path={`/texts`}>
