@@ -69,8 +69,6 @@ export function CollectionsViewer(props) {
         error: itemsError,
     } = useSolr(qkey, query);
 
-    const isLoading = isCollLoading || isItemsLoading;
-
     const collitems = items?.docs ? items.docs : [];
     //if (items?.numFound && !isNaN(items?.numFound)) { setNumFound(items.numFound); }
     //console.log("collections solr doc", collitems);
