@@ -58,11 +58,6 @@ export default function ContentMain(props) {
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
 
-                                {/* Tree testing: Remove when done */}
-                                <Route path={`/treetest`}>
-                                    <TreeTest />
-                                </Route>
-
                                 {/* COLLECTIONS */}
                                 <Route path={`/collections/:view_mode`}>
                                     <CollectionsHome />
