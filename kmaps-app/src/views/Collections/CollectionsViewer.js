@@ -134,6 +134,10 @@ export function CollectionsViewer(props) {
         }
     }, [collsolr]);
 
+    if (isCollLoading) {
+        return <MandalaSkeleton />;
+    }
+
     const numFound = items?.numFound;
 
     // Get and display (if exists) thumbnail image
@@ -227,6 +231,7 @@ export function CollectionsViewer(props) {
                         hasMore={hasMoreItems}
                         className={'c-collection__items'}
                         sorter={sorter}
+                        isLoading={isItemsLoading}
                     />
                 </div>
             </section>
@@ -253,7 +258,7 @@ function CollectionSortModeSelector({ sortMode, setSort }) {
 
     const sortByVals = [
         'Title:title_sort_s',
-        'Date:node_created',
+        'Date:date_start',
         'Creator:creator_sort_s',
     ];
     const sortOrderVals = ['Asc', 'Desc'];

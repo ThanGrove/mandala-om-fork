@@ -82,10 +82,16 @@ export function FeatureDeck(props) {
 
     const docs = props.docs;
 
-    let LIST = [];
-    if (docs) {
+    let deckcontent = null;
+    if (props?.isLoading) {
+        deckcontent = (
+            <div className="text-center">
+                <span className="font-weight-bold fs-2">Loading...</span>
+            </div>
+        );
+    } else if (docs?.length > 0) {
         // console.log("FeatureDeck: looking at ", docs);
-        LIST = docs?.map((doc, i) => {
+        const cards = docs?.map((doc, i) => {
             let ret = [];
             const featureCard = (
                 <FeatureCard doc={doc} key={i} inline={shouldInline(doc)} />
@@ -96,29 +102,19 @@ export function FeatureDeck(props) {
             ret.push(featureCard);
             return ret;
         });
-
-        if (docs.length) {
-            //    let REMAINDER = rowFiller(LIST.length, BP_SIZES);
-            //    LIST.push(...REMAINDER);
-        } else {
-            LIST = (
-                <div className={'u-search__results__wrap'}>
-                    {props.loadingState ? (
-                        <Spinner animation="border" role="status">
-                            <span className="sr-only">Loading...</span>
-                        </Spinner>
-                    ) : (
-                        <NoResults />
-                    )}
-                </div>
-            );
-        }
+        deckcontent = <CardDeck className={'c-card__grid'}>{cards}</CardDeck>;
+    } else {
+        deckcontent = (
+            <div className={'u-search__results__wrap'}>
+                <NoResults />
+            </div>
+        );
     }
 
     const output = (
         <div className={'c-view'}>
             <FeaturePager {...props} />
-            <CardDeck className={'c-card__grid'}>{LIST}</CardDeck>
+            {deckcontent}
             <FeaturePager {...props} />
         </div>
     );
