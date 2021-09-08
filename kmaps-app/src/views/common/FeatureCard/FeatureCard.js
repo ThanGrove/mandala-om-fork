@@ -96,8 +96,9 @@ export function FeatureCard(props) {
         );
     });
 
-    let date = doc.node_created ? doc.node_created : doc.timestamp;
-    date = date?.split('T')[0];
+    let date = doc?.date_start
+        ? new Date(doc.date_start).toLocaleDateString()
+        : false;
 
     let creator =
         doc.creator?.length > 0 ? doc.creator.join(', ') : doc.node_user;
@@ -219,13 +220,11 @@ export function FeatureCard(props) {
                             </div>
                         )}
                     </ListGroup.Item>
-                    {doc.date_start && (
+                    {date && (
                         <ListGroup.Item className={'c-card__listItem--created'}>
-                            <div className="info shanti-field-created">
+                            <div className="shanti-field-created">
                                 <span className="icon shanti-field-content">
-                                    {new Date(
-                                        doc.date_start
-                                    ).toLocaleDateString()}
+                                    {date}
                                 </span>
                             </div>
                         </ListGroup.Item>
@@ -257,17 +256,6 @@ export function FeatureCard(props) {
                             </div>
                         </ListGroup.Item>
                     )}
-                    {/*
-                    <ListGroup.Item className={'c-card__listItem--created'}>
-                        {date && (
-                            <div className="shanti-field-created">
-                                <span className="icon shanti-field-content">
-                                    {date}
-                                </span>
-                            </div>
-                        )}
-                    </ListGroup.Item>
-                    */}
                 </ListGroup>
 
                 <div className={'c-button__json'}>
