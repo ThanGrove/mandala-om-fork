@@ -31,11 +31,14 @@ import './KmapTree.scss';
  *      showAncestors: whether to show the ancestors of the root node (default: false)
  *      showRelatedPlaces: whether to show the related places of the root node (default: false)
  *      elid: the element ID for the tree div (default: kmap-tree-{random hash})
- *      selectedNode: the kmap numeric ID (without domain) of the selected node (default: 0)
+ *      selectedNode: the kmap numeric ID (without domain) of the selected node. The tree will open to this node (default: 0)
  *      noRootLinks: if true, will not link or show mandala popover for the root nodes (used in Terms)
  *
  *      There are also various class settings for tree, leaf, span, icon, header, and children
  *      The settings object is passed to all children.
+ *
+ *      Tree opens to selected Node by querying that node and adding its path to the settings as `settings.selPath`
+ *      Any node whose ID is found in the sel path will be opened.
  *
  * @param props
  * @returns {JSX.Element}
@@ -145,7 +148,7 @@ export default function KmapTree(props) {
         ) {
             openToSel(settings);
         }
-    }, [selNode, relSelNode]);
+    }, [settings.selPath, selNode, relSelNode]);
 
     // useEffect to Set level or root based on Perspective
     useEffect(() => {

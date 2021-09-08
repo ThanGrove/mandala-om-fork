@@ -2,9 +2,8 @@ import Card from 'react-bootstrap/Card';
 import { useLocation, Link } from 'react-router-dom';
 import _ from 'lodash';
 // import Accordion from "react-bootstrap/Accordion";
-// import Button from "react-bootstrap/Button";
 import * as PropTypes from 'prop-types';
-import React from 'react';
+import React, { useState } from 'react';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -16,6 +15,7 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
+import { Collapse } from 'react-bootstrap';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -96,8 +96,9 @@ export function FeatureCard(props) {
         );
     });
 
-    let date = doc.node_created ? doc.node_created : doc.timestamp;
-    date = date?.split('T')[0];
+    let date = doc?.date_start
+        ? new Date(doc.date_start).toLocaleDateString()
+        : false;
 
     let creator =
         doc.creator?.length > 0 ? doc.creator.join(', ') : doc.node_user;
@@ -219,15 +220,26 @@ export function FeatureCard(props) {
                             </div>
                         )}
                     </ListGroup.Item>
-                    <ListGroup.Item className={'c-card__listItem--duration'}>
-                        {doc.duration_s && (
+                    {date && (
+                        <ListGroup.Item className={'c-card__listItem--created'}>
+                            <div className="shanti-field-created">
+                                <span className="icon shanti-field-content">
+                                    {date}
+                                </span>
+                            </div>
+                        </ListGroup.Item>
+                    )}
+                    {doc.duration_s && (
+                        <ListGroup.Item
+                            className={'c-card__listItem--duration'}
+                        >
                             <div className="info shanti-field-duration">
                                 <span className="icon shanti-field-content">
                                     {doc.duration_s}
                                 </span>
                             </div>
-                        )}
-                    </ListGroup.Item>
+                        </ListGroup.Item>
+                    )}
                     <ListGroup.Item className={'c-card__listItem--related'}>
                         <div className="info shanti-field-related">
                             <span className="shanti-field-content">
@@ -244,17 +256,6 @@ export function FeatureCard(props) {
                             </div>
                         </ListGroup.Item>
                     )}
-                    {/*
-                    <ListGroup.Item className={'c-card__listItem--created'}>
-                        {date && (
-                            <div className="shanti-field-created">
-                                <span className="icon shanti-field-content">
-                                    {date}
-                                </span>
-                            </div>
-                        )}
-                    </ListGroup.Item>
-                    */}
                 </ListGroup>
 
                 <div className={'c-button__json'}>
@@ -289,6 +290,13 @@ export function FeatureCard(props) {
 FeatureCard.propTypes = { doc: PropTypes.any };
 
 function DetailModal(props) {
+    const [isOpen, setIsOpen] = useState(false);
+    const toggle = () => {
+        setIsOpen(!isOpen);
+        console.log('clicked', isOpen);
+    };
+
+    const data = props?.data;
     return (
         <Modal
             {...props}
@@ -298,11 +306,64 @@ function DetailModal(props) {
         >
             <Modal.Header closeButton>
                 <Modal.Title id="contained-modal-title-vcenter">
-                    JSON DATA
+                    Metadata for Mandala{' '}
+                    <span className="text-capitalize">{data?.asset_type}</span>{' '}
+                    Item
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <pre>{JSON.stringify(props.data, undefined, 3)}</pre>
+                <ul>
+                    <li>
+                        <strong>UID: </strong> {data?.uid}
+                    </li>
+                    <li>
+                        <strong>Title: </strong> {data?.title[0]}
+                    </li>
+                    <li>
+                        <strong>Uploader: </strong> {data?.node_user_full_s} (
+                        {data?.node_user})
+                    </li>
+                    <li>
+                        <strong>Date Created: </strong>{' '}
+                        {new Date(data?.node_created).toLocaleDateString()}
+                    </li>
+                    <li>
+                        <strong>Last Modified: </strong>{' '}
+                        {new Date(data?.node_changed).toLocaleDateString()}
+                    </li>
+                    <li>
+                        <strong>Language: </strong> {data?.node_lang}
+                    </li>
+                    <li>
+                        <strong>Type: </strong> {data?.asset_type}{' '}
+                        {data?.asset_subtype && <>({data?.asset_subtype})</>}
+                    </li>
+                    <li>
+                        <strong>Projects: </strong> {data?.projects_ss}
+                    </li>
+                    <li>
+                        <strong>Sort Title: </strong> {data?.title_sort_s}
+                    </li>
+                    <li>
+                        <strong>Sort Creator: </strong> {data?.creator_sort_s}
+                    </li>
+                    <li>
+                        <strong>Mandala Url: </strong>{' '}
+                        <a href={data?.url_html} target="_blank">
+                            {data?.url_html}
+                        </a>
+                    </li>
+                </ul>
+                <Button
+                    color="info"
+                    onClick={toggle}
+                    style={{ marginBottom: '1rem' }}
+                >
+                    Show Full JSON Record
+                </Button>
+                <div style={{ display: isOpen ? 'block' : 'none' }}>
+                    <pre>{JSON.stringify(props.data, undefined, 3)}</pre>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button onClick={props.onHide}>Close</Button>
