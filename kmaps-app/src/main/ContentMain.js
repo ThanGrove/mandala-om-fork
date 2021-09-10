@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Section, Bar } from 'react-simple-resizer';
 import { ContentHeader } from './ContentHeader/ContentHeader';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
@@ -20,6 +20,7 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
+import $ from 'jquery';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -43,6 +44,15 @@ export default function ContentMain(props) {
     const title = props.title || 'Untitled';
     const siteClass = props.site || 'default';
     const myLocation = useLocation();
+    useEffect(() => {
+        if (myLocation.pathname === '/') {
+            $('body').removeClass('mandala');
+            //console.log('removing class', myLocation);
+        } else {
+            $('body').addClass('mandala');
+            //console.log('adding class', myLocation);
+        }
+    }, [myLocation]);
     const left = (
         <main className="l-column__main">
             <article id="l-column__main__wrap" className="l-column__main__wrap">
@@ -185,6 +195,13 @@ export default function ContentMain(props) {
 
                                 <Route path={`/find/:assetType/:id/collection`}>
                                     <AssetCollectionLocator />
+                                </Route>
+
+                                <Route path="/">
+                                    <p>
+                                        This is a native Word Press page.
+                                        Mandala content not being shown.
+                                    </p>
                                 </Route>
 
                                 {/* CATCHALL => 404 */}
