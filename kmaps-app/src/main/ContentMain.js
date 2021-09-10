@@ -21,6 +21,7 @@ import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
+import Home from './HomePage/Home';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -197,11 +198,8 @@ export default function ContentMain(props) {
                                     <AssetCollectionLocator />
                                 </Route>
 
-                                <Route path="/">
-                                    <p>
-                                        This is a native Word Press page.
-                                        Mandala content not being shown.
-                                    </p>
+                                <Route path={['/', '/home']}>
+                                    <Home />
                                 </Route>
 
                                 {/* CATCHALL => 404 */}
