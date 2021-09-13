@@ -97,9 +97,9 @@ export default function SearchAdvanced(props) {
             );
 
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.href = `${
-                    process.env.REACT_APP_STANDALONE_PATH
-                }/#/search/deck?${stringify(encodedQuery)}`;
+                window.location.hash = `#/search/deck?${stringify(
+                    encodedQuery
+                )}`;
             } else {
                 history.push({
                     pathname: `/search/deck`,
