@@ -70,7 +70,7 @@ export function FeatureCollection(props) {
             viewer = <FeatureList {...props} />;
             break;
         default:
-            viewer = <FeatureGallery {...props} />;
+            viewer = <FeatureDeck {...props} />;
             break;
     }
 
