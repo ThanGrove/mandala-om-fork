@@ -45,6 +45,8 @@ export default function ContentMain(props) {
     const title = props.title || 'Untitled';
     const siteClass = props.site || 'default';
     const myLocation = useLocation();
+    const advsrch_target = document.getElementById('advancedSearchPortal');
+    const column_class = advsrch_target ? 'one-column' : 'two-columns';
     useEffect(() => {
         if (myLocation.pathname === '/') {
             $('body').removeClass('mandala');
@@ -62,7 +64,7 @@ export default function ContentMain(props) {
                     title={title}
                     location={myLocation}
                 />
-                <Container className="two-columns">
+                <Container className={column_class}>
                     <Section id="l-content__main" className="l-content__main">
                         {/** TODO:gk3k -> Create loading component with skeletons. */}
                         <React.Suspense fallback={<MandalaSkeleton />}>
@@ -209,7 +211,7 @@ export default function ContentMain(props) {
                             </Switch>
                         </React.Suspense>
                     </Section>
-                    <Bar className="resize-right-column" />
+                    {!advsrch_target && <Bar className="resize-right-column" />}
                     <React.Suspense fallback={<MandalaSkeleton count={10} />}>
                         <RightSideBar />
                     </React.Suspense>
