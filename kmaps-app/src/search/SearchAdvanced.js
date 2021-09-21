@@ -243,9 +243,7 @@ export default function SearchAdvanced(props) {
                     </span>
                 )}
 
-                <button eventKey="resetAll" onClick={handleResetAll}>
-                    Clear All
-                </button>
+                <button onClick={handleResetAll}>Clear All</button>
             </div>
             <p>Filters for refining search results.</p>
             <section>

@@ -1,9 +1,9 @@
 name: Deploy Build artifacts to WordPress Directory on Dev
 on:
   push:
-    branches: [develop]
+    branches: [develop-holdon]
   pull_request:
-    branches: [develop]
+    branches: [develop-holdon]
 
 defaults:
   run:
