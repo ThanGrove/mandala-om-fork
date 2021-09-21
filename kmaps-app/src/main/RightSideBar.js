@@ -46,7 +46,7 @@ export default function RightSideBar() {
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [match.url]);
+    }, [match?.url]);
 
     const advancedSearchPortal = (
         <Section
