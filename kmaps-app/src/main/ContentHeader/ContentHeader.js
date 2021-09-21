@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ErrorBoundary } from 'react-error-boundary';
 import './ContentHeader.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { capitalAsset, parseParams, queryID } from '../../views/common/utils';
+import { parseParams, queryID } from '../../views/common/utils';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 import { KmapsBreadcrumbs } from './KmapsBreadcrumbs';
 import { AssetBreadcrumbs } from './AssetBreadcrumbs';
@@ -14,12 +13,36 @@ export function ContentHeader({ siteClass, title, location }) {
     const pgpath = location.pathname.substr(1);
     const [first, mid, last] = pgpath?.split('/');
     const itemType = first;
-    const queryType = itemType; // had  "+ '*'" was breaking query
     const isCollection = mid === 'collection';
     let itemId = isCollection ? last : mid;
+    // Need to return null if no ID before making kmap query, so separated off ContentHeaderBuilder
     if (!itemId || typeof itemId === 'undefined') {
-        itemId = '';
+        return (
+            <header
+                id="c-content__header__main"
+                class="c-site__header legacy mandala all"
+            >
+                <div
+                    id="c-content__header__main__wrap"
+                    className="c-content__header__main__wrap"
+                >
+                    <h1 className="c-content__header__main__title"></h1>
+                </div>
+            </header>
+        );
     }
+    return (
+        <ContentHeaderBuilder
+            itemType={itemType}
+            itemId={itemId}
+            siteClass={siteClass}
+            title={title}
+            isCollection={isCollection}
+        />
+    );
+}
+
+function ContentHeaderBuilder({ itemType, itemId, siteClass, isCollection }) {
     const isAsset = [
         'audio-video',
         'av',
@@ -27,14 +50,16 @@ export function ContentHeader({ siteClass, title, location }) {
         'sources',
         'texts',
         'visuals',
-    ].includes(queryType.toLowerCase());
+    ].includes(itemType.toLowerCase());
     const solrqtype = isAsset ? 'asset' : 'info';
+    const qid = queryID(itemType, itemId);
     const {
         isLoading: isItemLoading,
         data: itemData,
         isError: isItemError,
         error: itemError,
-    } = useKmap(queryID(queryType, itemId), solrqtype);
+    } = useKmap(qid, solrqtype);
+
     // some comment
     if (isItemLoading) {
         return (
@@ -64,13 +89,8 @@ export function ContentHeader({ siteClass, title, location }) {
     // console.log('item data', queryID(queryType, itemId), itemData);
     // Handle an Error
     if (isItemError) {
-        console.log(queryID(queryType, itemId), itemError);
-        return (
-            <div>
-                There was a problem in the Content Header for{' '}
-                {queryID(queryType, itemId)}!
-            </div>
-        );
+        console.log(qid, itemError);
+        return <div>There was a problem in the Content Header for {qid}!</div>;
     }
 
     // What to return if the SOLR query returned a hit
