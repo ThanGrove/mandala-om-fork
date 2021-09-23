@@ -232,7 +232,7 @@ export default function SearchAdvanced(props) {
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <span className={'header-label-count back-to-results'}>
-                        <a href={`search${window.location.search}`}>
+                        <a href={`#/search${window.location.search}`}>
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>

@@ -185,7 +185,7 @@ function MandalaPopoverBody(props) {
         );
     const mandala_base =
         process.env.REACT_APP_STANDALONE === 'standalone'
-            ? process.env.REACT_APP_STANDALONE_PATH + '/#'
+            ? '#'
             : process.env.PUBLIC_URL;
     const kmap_item_page = mandala_base + '/' + domain + '/' + kid;
 
