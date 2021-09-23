@@ -15,7 +15,6 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
-import { Collapse } from 'react-bootstrap';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -162,7 +161,7 @@ export function FeatureCard(props) {
 
     const asset_view = inline
         ? createAssetViewURL(avuid, doc.asset_type, location)
-        : `/${viewer}/${avid}${window.location.search}`;
+        : `/${viewer}/${avid}${location.search}`;
 
     const subtitle =
         doc.asset_type === 'texts' ? (
@@ -380,22 +379,22 @@ function createAssetViewURL(avuid, asset_type, location) {
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
-            .replace('audio/video', 'audio-video')}${window.location.search}`;
+            .replace('audio/video', 'audio-video')}${location.search}`;
     }
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
-        return `${path.join('/')}/view/${aid}${window.location.search}`;
+        return `${path.join('/')}/view/${aid}${location.search}`;
     }
     let path = location.pathname
         .replace(/\/?any\/?.*/, '') // remove the /any from terms
         .replace(/\/?(deck|gallery|list)\/?.*/, '');
-    path = `${path}/view/${aid}${window.location.search}`; // ${avuid}?asset_type=${asset_type}
+    path = `${path}/view/${aid}${location.search}`; // ${avuid}?asset_type=${asset_type}
     path = path.replace('related-all', `related-${asset_type}`);
     if (['places', 'subjects', 'terms'].includes(asset_type)) {
-        path = `/${asset_type}/${aid}${window.location.search}`;
+        path = `/${asset_type}/${aid}${location.search}`;
     }
     return path;
 }

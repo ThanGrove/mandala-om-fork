@@ -1,7 +1,7 @@
 import { FacetBox } from './FacetBox';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
@@ -23,6 +23,7 @@ const SEARCH_PATH = '/search/:view';
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
+    const location = useLocation();
     let [reset, setReset] = useState(0);
 
     // Get function to handle closeButton state.
@@ -217,9 +218,7 @@ export default function SearchAdvanced(props) {
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
                     <Button
                         onClick={() =>
-                            history.push(
-                                `/search/deck${window.location.search}`
-                            )
+                            history.push(`/search/deck${location.search}`)
                         }
                         variant="link"
                         className={'back-to-results'}
@@ -232,7 +231,7 @@ export default function SearchAdvanced(props) {
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <span className={'header-label-count back-to-results'}>
-                        <a href={`#/search${window.location.search}`}>
+                        <a href={`#/search${location.search}`}>
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>
