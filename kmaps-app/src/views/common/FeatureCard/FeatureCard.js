@@ -293,7 +293,7 @@ function DetailModal(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isOpen);
-        console.log('clicked', isOpen);
+        //console.log('clicked', isOpen);
     };
 
     const data = props?.data;
@@ -349,7 +349,11 @@ function DetailModal(props) {
                     </li>
                     <li>
                         <strong>Mandala Url: </strong>{' '}
-                        <a href={data?.url_html} target="_blank">
+                        <a
+                            href={data?.url_html}
+                            target="_blank"
+                            rel="noreferrer"
+                        >
                             {data?.url_html}
                         </a>
                     </li>
