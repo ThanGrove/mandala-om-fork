@@ -188,7 +188,7 @@ export default function SearchAdvanced(props) {
     }
 
     if (searchView?.params?.view === ':view') {
-        return <Redirect to={'/search/deck'} />;
+        return <Redirect to={`/search/deck${location.search}`} />;
     }
 
     // TODO: review whether the FacetBoxes should be a configured list rather than hand-managed components as they are now.
@@ -231,7 +231,7 @@ export default function SearchAdvanced(props) {
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <span className={'header-label-count back-to-results'}>
-                        <a href={`#/search${location.search}`}>
+                        <a href={`#/search/deck${location.search}`}>
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>
