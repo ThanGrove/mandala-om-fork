@@ -20,13 +20,14 @@ export function SearchViewer() {
 
     const [perPage, setPerPage] = useState(100); // These are the rows returned
     const [page, setPage] = useState(0); // Start will always be page * perPage
+    const start_row = page * perPage;
     const {
         isLoading: isSearchLoading,
         data: searchData,
         isError: isSearchError,
         error: searchError,
         isPreviousData,
-    } = useSearch(search, page, perPage, 'none', 0, 0, true, filters);
+    } = useSearch(search, start_row, perPage, 'none', 0, 0, true, filters);
 
     if (isSearchLoading) {
         return (
