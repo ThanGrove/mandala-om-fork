@@ -236,7 +236,9 @@ function TextBody(props) {
  */
 function TextTabs(props) {
     const info_icon = <span className={'shanticon shanticon-info'}></span>;
-    const collapse_icon = <span>x</span>;
+    const collapse_icon = (
+        <span className={'shanticon shanticon-close2'}></span>
+    );
     /*
     const info_icon = <span className={'shanticon shanticon-info'}></span>;
     const collapse_icon = (
