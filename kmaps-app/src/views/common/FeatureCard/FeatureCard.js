@@ -375,7 +375,8 @@ function DetailModal(props) {
     );
 }
 
-function createAssetViewURL(avuid, asset_type, location) {
+export function createAssetViewURL(avuid, asset_type, location) {
+    // console.log(avuid, asset_type, location);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')

@@ -6,6 +6,7 @@ import { HtmlCustom } from './MandalaMarkup';
 import { Link, useLocation } from 'react-router-dom';
 import { Container, Col, Row, Card, Accordion } from 'react-bootstrap';
 import $ from 'jquery';
+import { createAssetViewURL } from './FeatureCard/FeatureCard';
 
 export function FeatureList(props) {
     const myloc = useLocation();
@@ -70,14 +71,19 @@ export function FeatureList(props) {
 }
 
 function FeatureAssetListItem(props) {
+    let location = useLocation();
     const asset_type = props.asset_type;
     const doc = props.doc;
     const inline = props?.inline || false;
 
+    /* old:
     const doc_url = inline
         ? `${props.path}/view/${doc.id}`
         : `/${doc.asset_type}/${doc.id}`;
 
+     */
+
+    const doc_url = createAssetViewURL(doc?.uid, asset_type, location);
     const collection = doc?.collection_nid ? (
         <Link to={`/${asset_type}/collection/${doc.collection_nid}`}>
             {doc.collection_title}
