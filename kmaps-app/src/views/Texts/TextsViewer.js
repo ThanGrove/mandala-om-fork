@@ -3,15 +3,7 @@ import useStatus from '../../hooks/useStatus';
 import useAsset from '../../hooks/useAsset';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
-import {
-    Container,
-    Col,
-    Row,
-    Spinner,
-    Collapse,
-    Tabs,
-    Tab,
-} from 'react-bootstrap';
+import { Container, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { HtmlWithPopovers, getRandomKey } from '../common/MandalaMarkup';
 import { addBoClass, createAssetCrumbs } from '../common/utils';
 import './TextsViewer.sass';
@@ -158,8 +150,8 @@ export default function TextsViewer(props) {
                         header={kmasset.title}
                     />
                 )}
-                <Container className={'l-site__wrap astviewer texts'} fluid>
-                    <Row id={'shanti-texts-container'}>
+                <div className={'l-site__wrap astviewer texts'} fluid>
+                    <div id={'shanti-texts-container'} className="d-flex">
                         <TextBody
                             id={nodejson.nid}
                             alias={nodejson.alias}
@@ -177,8 +169,8 @@ export default function TextsViewer(props) {
                             title={title}
                             altChange={setAltViewerUrl}
                         />
-                    </Row>
-                </Container>
+                    </div>
+                </div>
                 <TextsAltViewer
                     title={title}
                     url={alt_viewer_url}
@@ -217,7 +209,11 @@ function TextBody(props) {
     }, [pageid]);
 
     return (
-        <Col id={'shanti-texts-body'} onScroll={props.listener}>
+        <div
+            id={'shanti-texts-body'}
+            className="p-4 flex-grow-1"
+            onScroll={props.listener}
+        >
             <div className={'link-external mandala-edit-link'}>
                 <a
                     href={txt_link}
@@ -228,7 +224,7 @@ function TextBody(props) {
                 </a>
             </div>
             <HtmlWithPopovers markup={props.markup} />
-        </Col>
+        </div>
     );
 }
 
@@ -239,21 +235,24 @@ function TextBody(props) {
  * @constructor
  */
 function TextTabs(props) {
-    /*const parser = new Parser();
-    const toc_code = parser.parse(props.toc);*/
+    const info_icon = <span className={'shanticon shanticon-info'}></span>;
+    const collapse_icon = <span>x</span>;
+    /*
     const info_icon = <span className={'shanticon shanticon-info'}></span>;
     const collapse_icon = (
         <span className={'shanticon shanticon-circle-right'}></span>
-    );
+    );*/
     const [open, setOpen] = useState(true);
     const [icon, setIcon] = useState(collapse_icon);
     const toggle_col = () => {
+        console.log('toggling!');
         setOpen(!open);
     };
-    const update_icon = () => {
-        let new_icon = open ? collapse_icon : info_icon;
-        setIcon(new_icon);
-    };
+
+    useEffect(() => {
+        const curr_icon = open ? collapse_icon : info_icon;
+        setIcon(curr_icon);
+    }, [open]);
 
     // Deal with Alternate Views Links
     const altviewhtml = $(props.links);
@@ -285,21 +284,17 @@ function TextTabs(props) {
     // Commonly used props
     const title = props.title;
     const textid = props.textid;
-
+    const sidebar_class = open ? 'open' : 'closed';
     return (
-        <>
-            <div id={'sidecolumn-ctrl'}>
-                <a
-                    onClick={toggle_col}
-                    aria-controls="txtsidecol"
-                    aria-expanded="open"
-                    className={'sidecol-toggle'}
-                >
+        <Row id={'shanti-texts-sidebar'} className={sidebar_class + ' p-2'}>
+            <Col className="meta-toggle-col">
+                <a className="meta-toggle" onClick={toggle_col}>
                     {icon}
                 </a>
-            </div>
-            <Collapse in={open} onExited={update_icon} onEnter={update_icon}>
-                <Col id={'shanti-texts-sidebar'}>
+            </Col>
+
+            {open && (
+                <Col>
                     <Tabs
                         id={'shanti-texts-sidebar-tabs'}
                         className={'nav-justified'}
@@ -351,8 +346,8 @@ function TextTabs(props) {
                         </Tab>
                     </Tabs>
                 </Col>
-            </Collapse>
-        </>
+            )}
+        </Row>
     );
 }
 

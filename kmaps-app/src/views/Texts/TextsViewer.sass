@@ -350,12 +350,49 @@
     border-top: none
     position: relative
 
+  .meta-toggle-col
+    max-width: 0
+    padding: 0.75rem 0 0 0
+    z-index: 100
+
+  .meta-toggle
+    margin: 1rem 0 0 0.25rem
+    width: 1.5rem
+    background-color: #8c49a0
+    color: white
+    padding: 0 2px 1px 3px
+    border-top-left-radius: 6px
+    border-bottom-left-radius: 6px
+    vertical-align: text-bottom
+
+  .closed
+    .meta-toggle-col
+      margin-left: -0.5rem
+
+    .meta-toggle
+      background-color: transparent
+      border: none
+      border-radius: 0
+      color: #333
+
+
+  #shanti-texts-sidebar.open
+    nav.nav-justified.nav.nav-tabs
+
+  #shanti-texts-sidebar.closed
+    min-width: unset
+    max-width: 2rem
+
+    .tab-content
+      display: none
+
   #shanti-texts-body
     padding: 0 0 0 2.5rem
     margin: 0 0 2rem
     min-width: 40rem
-    width: 60%
-    max-width: 85rem
+    // width: 60%
+    // max-width: 85rem
+    max-width: 98.75% !important
     height: calc(100vh - 12rem)
     background-color: white
     box-shadow: inset 0 -0.2rem 5px #ddd
@@ -371,11 +408,12 @@
   #shanti-texts-sidebar
     /* INITIAL CONDITION to prevent showing un-tabbed content */
     padding: 0
-    min-width: 30rem
+    min-width: 40rem
     max-width: 100%
     height: calc(100vh - 24rem)
     background-color: #eee
     color: #333
+    margin-top: -0.5rem
 
   #sidecolumn-ctrl
     display: none /** doesn't work **/
