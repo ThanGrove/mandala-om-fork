@@ -72,13 +72,13 @@ export default function ContentMain(props) {
                                 <Redirect from="/mandala-om/*" to="/*" />
 
                                 {/* COLLECTIONS */}
-                                <Route path={`/collections/:view_mode`}>
+                                <Route path={`/collections/all/:view_mode`}>
                                     <CollectionsHome />
                                 </Route>
 
                                 <Redirect
                                     from="/collections"
-                                    to="/collections/deck"
+                                    to="/collections/all/deck"
                                 />
 
                                 <Route
@@ -92,6 +92,9 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* AUDIO-VIDEO */}
+                                <Route path={`/audio-video/all/:view_mode`}>
+                                    <ImagesHome />
+                                </Route>
                                 <Route path={`/audio-video/:id`}>
                                     <AudioVideoViewer
                                         sui={props.sui}
@@ -99,10 +102,13 @@ export default function ContentMain(props) {
                                     />
                                 </Route>
                                 <Route path={`/audio-video`}>
-                                    <AudioVideoHome />
+                                    <Redirect to={`/audio-video/all/deck`} />
                                 </Route>
 
                                 {/* IMAGES */}
+                                <Route path={`/images/all/:view_mode`}>
+                                    <ImagesHome />
+                                </Route>
                                 <Route path={`/images/:id`}>
                                     <ImagesViewer
                                         ismain={true}
@@ -110,7 +116,7 @@ export default function ContentMain(props) {
                                     />
                                 </Route>
                                 <Route path={`/images`}>
-                                    <ImagesHome />
+                                    <Redirect to={`/images/all/gallery`} />
                                 </Route>
 
                                 {/* PLACES */}

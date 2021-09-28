@@ -2,15 +2,25 @@ import React, { useEffect, useState } from 'react';
 import useStatus from '../../hooks/useStatus';
 import { useSolr } from '../../hooks/useSolr';
 import { FeatureCollection } from './FeatureCollection';
+import MandalaSkeleton from './MandalaSkeleton';
+import { useHistory, useLocation, useParams } from 'react-router';
+import { CollectionSortModeSelector } from '../Collections/CollectionsViewer';
 
 export function AssetHomeCollection(props) {
-    const status = useStatus();
-    const asset_type = props.asset_type;
+    const { view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+    const asset_type = props?.asset_type;
 
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(100);
-    const [numFound, setNumFound] = useState(0);
+
+    // Set up sort mode state
+    const DEFAULT_SORTMODE = 'title_sort_s asc';
+    const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
+
+    const sorter = (
+        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+    );
 
     const query = {
         index: 'assets',
@@ -21,80 +31,65 @@ export function AssetHomeCollection(props) {
             rows: pageSize,
         },
     };
+    const querykey = ['asset', asset_type, 'all', pageSize, pageNum];
+    const {
+        isLoading: isAssetsLoading,
+        data: assets,
+        isError: isAssetsError,
+        error: assetsError,
+    } = useSolr(querykey, query, false, true);
 
-    const solrq = useSolr(`asset-${asset_type}-all`, query, false, true);
-    const newNumFound = solrq?.numFound;
+    const numFound = assets?.numFound ? assets?.numFound : 0;
 
-    let view_mode = 'deck';
-    if (asset_type === 'images') {
-        view_mode = 'gallery';
-    } else if (asset_type === 'sources' || asset_type === 'texts') {
-        view_mode = 'list';
-    }
+    const hasMore =
+        assets?.numFound && (pageNum + 1) * pageSize < assets.numFound;
 
-    const pager = {
-        numFound: numFound,
-        getMaxPage: () => {
-            return Math.floor(pager.numFound / pager.getPageSize());
-        },
-        getPage: () => {
-            return pageNum;
-        },
-        setPage: (pg) => {
-            pg = parseInt(pg);
-            if (!isNaN(pg) && pg > -1 && pg <= pager.getMaxPage()) {
-                setPageNum(pg);
-                pager.pgnum = pg;
-            }
-        },
-        setPageSize: (size) => {
-            size = parseInt(size);
-            if (!isNaN(size) && size > 0 && size < 101) {
-                setPageSize(size);
-                pager.pgsize = size;
-            }
-        },
-        getPageSize: () => {
-            return pageSize;
-        },
-        nextPage: () => {
-            pager.setPage(pager.getPage() + 1);
-        },
-        prevPage: () => {
-            pager.setPage(pager.getPage() - 1);
-        },
-        lastPage: () => {
-            pager.setPage(pager.getMaxPage());
-        },
-        firstPage: () => {
-            pager.setPage(0);
-        },
-    };
-
-    useEffect(() => {
-        status.clear();
-        status.setType(asset_type);
-        const aheader =
-            asset_type[0].toUpperCase() +
-            asset_type.substr(1).replace('-v', '-V');
-        status.setHeaderTitle(aheader + ' Home');
-    }, [asset_type]);
-
+    // Use Effect for when page num or size change
     useEffect(() => {
         setStartRow(pageNum * pageSize);
-    }, [pageNum, pageSize]);
+        console.log(
+            'New page num and start row: ',
+            pageNum,
+            startRow,
+            pageNum * pageSize,
+            pageSize
+        );
+    }, [pageNum]);
 
     useEffect(() => {
-        setNumFound(newNumFound);
-    }, [newNumFound]);
+        const newPage = Math.ceil(startRow / pageSize);
+        setPageNum(newPage);
+    }, [pageSize]);
+    useEffect(() => {
+        console.log('start row is now: ', startRow);
+    }, [startRow]);
+    // Reset pagination on change in sort order
+    useEffect(() => {
+        setPageNum(0);
+        console.log('new sort mode', sortMode);
+    }, [sortMode]);
+
+    if (isAssetsLoading) {
+        return <MandalaSkeleton />;
+    } else if (isAssetsError) {
+        console.error(assetsError);
+        return <p>An error occurred in searching for these assets!</p>;
+    }
 
     return (
         <FeatureCollection
-            docs={solrq?.docs}
-            numFound={solrq?.numFound}
-            pager={pager}
+            docs={assets.docs}
+            assetCount={numFound}
+            page={pageNum}
+            setPage={setPageNum}
+            perPage={pageSize}
+            setPerPage={setPageSize}
             viewMode={view_mode}
             inline={false}
+            hasMore={hasMore}
+            className={'c-collection__items'}
+            sorter={sorter}
+            isLoading={isAssetsLoading}
         />
     );
 }

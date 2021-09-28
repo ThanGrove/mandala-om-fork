@@ -10,12 +10,15 @@ export function AudioVideoHome(props) {
     return (
         <div className={'assethome audio-video'}>
             <div className={'desc'}>
+                <h1>Audio-Video Resources</h1>
                 <p>
                     This page shows all the audio-video resources in this
                     project.
                 </p>
             </div>
-            <AssetHomeCollection asset_type={'audio-video'} />
+            <div className={'c-asset-collection'}>
+                <AssetHomeCollection asset_type={'audio-video'} />
+            </div>
         </div>
     );
 }

@@ -33,7 +33,6 @@ export function CollectionsViewer(props) {
     } = useCollection(asset_type, asset_id);
 
     const collsolr = colldata?.numFound === 1 ? colldata.docs[0] : false;
-    const DEFAULT_SORTMODE = 'title_sort_s asc';
 
     // Set up state variables for pager
     const [startRow, setStartRow] = useState(0);
@@ -41,6 +40,7 @@ export function CollectionsViewer(props) {
     const [pageSize, setPageSize] = useState(25);
 
     // Set up sort mode state
+    const DEFAULT_SORTMODE = 'title_sort_s asc';
     const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
 
     // Make Solr Query to find assets in Collection
@@ -239,7 +239,7 @@ export function CollectionsViewer(props) {
     );
 }
 
-function CollectionSortModeSelector({ sortMode, setSort }) {
+export function CollectionSortModeSelector({ sortMode, setSort }) {
     const SORTBYID = 'coll-sortby';
     const SORTORDERID = 'coll-sortorder';
     let { sortBy, sortOrder } = sortMode.split(' ');

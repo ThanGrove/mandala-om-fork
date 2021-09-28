@@ -20,7 +20,7 @@ export function ContentHeader({ siteClass, title, location }) {
         return (
             <header
                 id="c-content__header__main"
-                class="c-site__header legacy mandala all"
+                className="c-site__header legacy mandala all"
             >
                 <div
                     id="c-content__header__main__wrap"
