@@ -97,7 +97,14 @@ function ContentHeaderBuilder({ itemType, itemId, siteClass, isCollection }) {
     if (itemData) {
         // If nothing found
         if (itemData?.response?.numFound === 0 && itemId) {
-            // console.log('no item data item id: ' + itemId);
+            if (itemId === 'all') {
+                return (
+                    <SimpleContentHeader
+                        label={itemType}
+                        crumbs={['All items']}
+                    />
+                );
+            }
             return (
                 <AltContentHeader
                     domain={itemType}
@@ -119,7 +126,7 @@ function ContentHeaderBuilder({ itemType, itemId, siteClass, isCollection }) {
         const cheader = (
             <header
                 id="c-content__header__main"
-                className={`c-content__header__main legacy ${siteClass} ${itemType}`}
+                className={`c-content__header__main legacy mandala ${itemType}`}
             >
                 <div
                     id="c-content__header__main__wrap"
@@ -279,5 +286,32 @@ function ErrorFallback({ error, resetErrorBoundary }) {
         <span role="alert">
             <span>Something went wrong in ContentHeader.js</span>
         </span>
+    );
+}
+
+function SimpleContentHeader({ label, crumbs }) {
+    return (
+        <header
+            id="c-content__header__main"
+            className={`c-content__header__main legacy mandala ${label}`}
+        >
+            <div
+                id="c-content__header__main__wrap"
+                className="c-content__header__main__wrap legacy"
+            >
+                <div className="c-content__header__breadcrumb breadcrumb">
+                    <a className="breadcrumb-item" href="#">
+                        {label}
+                    </a>
+                    {crumbs.map((item, n) => {
+                        return (
+                            <a className="breadcrumb-item" href="#">
+                                {item}
+                            </a>
+                        );
+                    })}
+                </div>
+            </div>
+        </header>
     );
 }

@@ -93,7 +93,10 @@ export default function ContentMain(props) {
 
                                 {/* AUDIO-VIDEO */}
                                 <Route path={`/audio-video/all/:view_mode`}>
-                                    <ImagesHome />
+                                    <AudioVideoHome />
+                                </Route>
+                                <Route path={`/audio-video/all`}>
+                                    <Redirect to={`/audio-video/all/deck`} />
                                 </Route>
                                 <Route path={`/audio-video/:id`}>
                                     <AudioVideoViewer
@@ -108,6 +111,9 @@ export default function ContentMain(props) {
                                 {/* IMAGES */}
                                 <Route path={`/images/all/:view_mode`}>
                                     <ImagesHome />
+                                </Route>
+                                <Route path={`/images/all`}>
+                                    <Redirect to={`/images/all/gallery`} />
                                 </Route>
                                 <Route path={`/images/:id`}>
                                     <ImagesViewer
@@ -162,30 +168,50 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* SOURCES */}
+                                <Route path={`/sources/all/:view_mode`}>
+                                    <SourcesHome />
+                                </Route>
+                                <Route path={`/sources/all`}>
+                                    <Redirect to="/sources/all/list" />
+                                </Route>
                                 <Route path={`/sources/:id`}>
                                     <SourcesViewer />
                                 </Route>
                                 <Route path={`/sources`}>
-                                    <SourcesHome />
+                                    <Redirect to="/sources/all/list" />
                                 </Route>
 
-                                {/* VISUALS */}
-                                <Route path={`/visuals/:id`}>
-                                    <VisualsViewer />
+                                {/* TEXTS */}
+                                <Route path={`/texts/all/:view_mode`}>
+                                    <TextsHome />
                                 </Route>
-                                <Route path={`/visuals`}>
-                                    <VisualsHome />
+                                <Route path={`/texts/all`}>
+                                    <Redirect to="/texts/all/list" />
                                 </Route>
-
                                 <Route
                                     path={[`/texts/:id/:pageid`, `/texts/:id`]}
                                 >
                                     <TextsViewer ismain={true} />
                                 </Route>
                                 <Route path={`/texts`}>
-                                    <TextsHome />
+                                    <Redirect to="/texts/all/list" />
                                 </Route>
 
+                                {/* VISUALS */}
+                                <Route path={`/visuals/all/:view_mode`}>
+                                    <VisualsHome />
+                                </Route>
+                                <Route path={`/visuals/all`}>
+                                    <Redirect to="/visuals/all/deck" />
+                                </Route>
+                                <Route path={`/visuals/:id`}>
+                                    <VisualsViewer />
+                                </Route>
+                                <Route path={`/visuals`}>
+                                    <Redirect to="/visuals/all/deck" />
+                                </Route>
+
+                                {/* SEARCH */}
                                 <Route path={`/search/:viewMode`}>
                                     <SearchViewer />
                                 </Route>

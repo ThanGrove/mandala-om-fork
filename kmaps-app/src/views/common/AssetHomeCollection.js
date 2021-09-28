@@ -53,13 +53,10 @@ export function AssetHomeCollection(props) {
         const newPage = Math.ceil(startRow / pageSize);
         setPageNum(newPage);
     }, [pageSize]);
-    useEffect(() => {
-        console.log('start row is now: ', startRow);
-    }, [startRow]);
+
     // Reset pagination on change in sort order
     useEffect(() => {
         setPageNum(0);
-        console.log('new sort mode', sortMode);
     }, [sortMode]);
 
     if (isAssetsError) {

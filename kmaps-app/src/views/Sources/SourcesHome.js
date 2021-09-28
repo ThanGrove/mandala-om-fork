@@ -3,16 +3,15 @@ import useStatus from '../../hooks/useStatus';
 import { AssetHomeCollection } from '../common/AssetHomeCollection';
 
 export function SourcesHome(props) {
-    const status = useStatus();
-    status.setType('sources');
-    status.setHeaderTitle('Loading...');
-
     return (
         <div className={'assethome sources'}>
             <div className={'desc'}>
+                <h1>Sources</h1>
                 <p>This page shows all sources in this project.</p>
             </div>
-            <AssetHomeCollection asset_type={'sources'} />
+            <div className={'c-asset-collection'}>
+                <AssetHomeCollection asset_type={'sources'} />
+            </div>
         </div>
     );
 }
