@@ -26,12 +26,12 @@ export function AssetHomeCollection(props) {
         index: 'assets',
         params: {
             q: `asset_type: ${asset_type} AND -asset_subtype:page`,
-            sort: 'title_sort_s asc',
+            sort: sortMode,
             start: startRow,
             rows: pageSize,
         },
     };
-    const querykey = ['asset', asset_type, 'all', pageSize, pageNum];
+    const querykey = ['asset', asset_type, 'all', sortMode, pageSize, pageNum];
     const {
         isLoading: isAssetsLoading,
         data: assets,
@@ -47,13 +47,6 @@ export function AssetHomeCollection(props) {
     // Use Effect for when page num or size change
     useEffect(() => {
         setStartRow(pageNum * pageSize);
-        console.log(
-            'New page num and start row: ',
-            pageNum,
-            startRow,
-            pageNum * pageSize,
-            pageSize
-        );
     }, [pageNum]);
 
     useEffect(() => {
@@ -69,28 +62,29 @@ export function AssetHomeCollection(props) {
         console.log('new sort mode', sortMode);
     }, [sortMode]);
 
-    if (isAssetsLoading) {
-        return <MandalaSkeleton />;
-    } else if (isAssetsError) {
+    if (isAssetsError) {
         console.error(assetsError);
         return <p>An error occurred in searching for these assets!</p>;
     }
 
+    const my_docs = assets?.docs ? assets.docs : [];
     return (
-        <FeatureCollection
-            docs={assets.docs}
-            assetCount={numFound}
-            page={pageNum}
-            setPage={setPageNum}
-            perPage={pageSize}
-            setPerPage={setPageSize}
-            viewMode={view_mode}
-            inline={false}
-            hasMore={hasMore}
-            className={'c-collection__items'}
-            sorter={sorter}
-            isLoading={isAssetsLoading}
-        />
+        <div>
+            <FeatureCollection
+                docs={my_docs}
+                assetCount={numFound}
+                page={pageNum}
+                setPage={setPageNum}
+                perPage={pageSize}
+                setPerPage={setPageSize}
+                viewMode={view_mode}
+                inline={false}
+                hasMore={hasMore}
+                className={'c-collection__items'}
+                sorter={sorter}
+                isLoading={isAssetsLoading}
+            />
+        </div>
     );
 }
 
