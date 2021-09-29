@@ -218,7 +218,7 @@ function constructTextQuery(searchString) {
         // search: tweak for scoping later
         q:
             searchstring !== '*'
-                ? `(title:${xact}^100 title:${slashy}^100 title:${starts}^80 names_txt:${xact}^90 names_txt:${starts}^70)`
+                ? `text:${xact} OR (title:${xact}^100 title:${slashy}^100 title:${starts}^80 names_txt:${xact}^90 names_txt:${starts}^70)`
                 : `*:*`,
         xact,
         starts,
