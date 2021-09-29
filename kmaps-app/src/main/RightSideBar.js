@@ -1,4 +1,5 @@
 import React, { useState, Suspense } from 'react';
+import { useRouteMatch } from 'react-router-dom';
 import { Section } from 'react-simple-resizer';
 import ReactDOM from 'react-dom';
 import { closeStore } from '../hooks/useCloseStore';
@@ -15,7 +16,37 @@ export default function RightSideBar() {
     // Get Close Button state.
     const closeButton = closeStore((state) => state.buttonState);
 
-    const browseSearch = browseSearchToggle((state) => state.browseSearch);
+    const browseSearchState = browseSearchToggle((state) => state.browseSearch);
+    const setSearch = browseSearchToggle((state) => state.setSearch);
+    const setBrowse = browseSearchToggle((state) => state.setBrowse);
+
+    // Get the baseType for the route.
+    const match = useRouteMatch([
+        '/:baseType/:id/related-:type/:definitionID/view/:relID',
+        '/:baseType/:id/related-:type/:definitionID/:viewMode',
+        '/:baseType/:id/related-:type',
+        '/:baseType/:id',
+    ]);
+    const baseType = match?.params.baseType || 'none';
+    const browseSearch = ['terms', 'places', 'subjects'].includes(baseType)
+        ? 'browse'
+        : 'search';
+
+    React.useEffect(() => {
+        if (browseSearch !== browseSearchState) {
+            switch (browseSearch) {
+                case 'browse':
+                    setBrowse();
+                    break;
+                case 'search':
+                    setSearch();
+                    break;
+                default:
+                    break;
+            }
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [match?.url]);
 
     const advancedSearchPortal = (
         <Section
@@ -27,10 +58,12 @@ export default function RightSideBar() {
             defaultSize={380}
         >
             <div className="advanced-search-and-tree">
-                {browseSearch === 'search' && (
-                    <SearchAdvanced advanced={true} />
+                {browseSearchState === 'search' && (
+                    <Suspense fallback={<MandalaSkeleton />}>
+                        <SearchAdvanced advanced={true} />
+                    </Suspense>
                 )}
-                {browseSearch === 'browse' && (
+                {browseSearchState === 'browse' && (
                     <Suspense fallback={<MandalaSkeleton />}>
                         <TreeNav tree={true} />
                     </Suspense>

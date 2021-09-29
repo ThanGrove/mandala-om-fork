@@ -7,6 +7,7 @@
     background: #fff;
     display: flex;
     height: 4.5rem;
+
     .siteSettings-Toggle--button {
         background-color: transparent;
         border: none;
@@ -14,6 +15,7 @@
         border-right: 1px solid #ccc;
         border-radius: 0;
         justify-content: space-around;
+
         &:hover,
         &:active,
         &:focus {
@@ -21,14 +23,17 @@
             border-color: #ccc;
             box-shadow: none;
         }
+
         svg {
             color: #555;
             font-size: 2rem;
         }
     }
+
     .navbar-brand {
         display: inline-block;
         border-bottom: none;
+
         h1 {
             /* font-size: 1.5rem;
             display: inline;
@@ -36,119 +41,120 @@
             padding: 0;
             line-height: 1.5; */
         }
+
         img {
             /*position: relative;
             top: -0.2rem;*/
         }
     }
+
     & > nav {
         flex: 1 1;
         background-color: #fff !important;
         padding: 0;
     }
 
-    // -------------------
     // --- Search Box ----
-    // -------------------
     .c-site__search {
         margin-top: 0.75rem;
-        margin-right: -1rem;
         padding-left: 0.5rem;
-        .sui-search1 {
-            position: relative;
-            input.sui-search2 {
-                font-size: 1.65rem;
-                padding: 0.4rem 4rem 0.25rem 1rem;
-                background: transparent;
-                border: none;
-                border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, w/ opacity
-                margin: 0;
-                width: 27rem;
-                transition: width 0.5s, border 0.35s;
+    }
+}
+
+.sui-search1 {
+    position: relative;
+
+    input.sui-search2 {
+        font-size: 1.65rem;
+        padding: 0.4rem 1rem 0.25rem 1rem;
+        background: transparent;
+        border: none;
+        border-bottom: 0.1rem solid rgba(77, 89, 201, 0.8); // --- color mandala, w/ opacity
+        margin: 0;
+        width: 27rem;
+        transition: width 0.5s, border 0.35s;
+        color: #000;
+        box-shadow: none;
+        background: transparent;
+
+        &:placeholder-shown {
+            cursor: text;
+        }
+        &:focus,
+        &:active {
+            padding-right: 4.75rem;
+            width: 34rem;
+            outline: none;
+            background: #fff;
+            border-bottom-width: 0.25rem;
+            border-bottom-color: $color-mandala;
+            cursor: text;
+
+            &::-webkit-input-placeholder {
+                color: transparent;
+            }
+            &::-moz-placeholder {
+                color: transparent;
+                cursor: text;
+            }
+            &:-ms-input-placeholder {
+                color: transparent;
+            }
+            &:-moz-placeholder {
+                color: transparent;
+            }
+        }
+        &::-webkit-input-placeholder {
+            /* Chrome/Opera/Safari */
+            color: $color-mandala;
+            font-style: italic;
+            font-size: 2.25rem;
+            font-family: 'GB Garamond', serif;
+            letter-spacing: 0.0125rem;
+        }
+        &::-moz-placeholder {
+            /* Firefox 19+ */
+            color: $color-mandala;
+            opacity: 1;
+            font-style: italic;
+        }
+        &:-ms-input-placeholder {
+            /* IE 10+ */
+            color: $color-mandala;
+            font-style: italic;
+        }
+        &:-moz-placeholder {
+            /* Firefox 18- */
+            color: $color-mandala;
+            opacity: 1;
+            font-style: italic;
+        }
+    }
+    .sui-search3 {
+        position: relative;
+        right: 3rem;
+        top: 0.35rem;
+        display: inline-block;
+        height: 2.5rem;
+        width: 2.5rem;
+        transition: color 0.75s;
+    }
+    .sui-search4 {
+        // --- search enter - Go get it!
+        // position: absolute;
+        // top: 0.025rem;
+        // right: 3.15rem;
+        display: none;
+        // font-size: 1.95rem;
+        span {
+            &::before {
+                color: $color-mandala;
+                opacity: 0.6;
+                transition: opacity 400ms;
+            }
+            &:hover::before {
+                opacity: 1;
                 color: #000;
-                box-shadow: none;
-                background: transparent;
-
-                &:placeholder-shown {
-                    cursor: text;
-                }
-                &:focus,
-                &:active {
-                    padding-right: 8.5rem;
-                    width: 36rem;
-                    outline: none;
-                    background: #fff;
-                    border-bottom-width: 0.25rem;
-                    border-bottom-color: $color-mandala;
-                    cursor: text;
-
-                    &::-webkit-input-placeholder {
-                        color: transparent;
-                    }
-                    &::-moz-placeholder {
-                        color: transparent;
-                        cursor: text;
-                    }
-                    &:-ms-input-placeholder {
-                        color: transparent;
-                    }
-                    &:-moz-placeholder {
-                        color: transparent;
-                    }
-                }
-                &::-webkit-input-placeholder {
-                    /* Chrome/Opera/Safari */
-                    color: $color-mandala;
-                    font-style: italic;
-                    font-size: 2.25rem;
-                    font-family: 'GB Garamond', serif;
-                    letter-spacing: 0.0125rem;
-                }
-                &::-moz-placeholder {
-                    /* Firefox 19+ */
-                    color: $color-mandala;
-                    opacity: 1;
-                    font-style: italic;
-                }
-                &:-ms-input-placeholder {
-                    /* IE 10+ */
-                    color: $color-mandala;
-                    font-style: italic;
-                }
-                &:-moz-placeholder {
-                    /* Firefox 18- */
-                    color: $color-mandala;
-                    opacity: 1;
-                    font-style: italic;
-                }
-            }
-            .sui-search3 {
-                position: relative;
-                right: 6.5rem;
-                top: 0.35rem;
-                display: inline-block;
-                height: 2.5rem;
-                width: 2.5rem;
-                transition: color 0.75s;
-            }
-            .sui-search4 {
-                // --- search enter - Go get it!
-                position: absolute;
-                top: 0.025rem;
-                right: 3.15rem;
-                display: inline-block;
-                font-size: 1.95rem;
-                span {
-                    &::before {
-                        color: $color-mandala;
-                        opacity: 0.6;
-                        transition: opacity 400ms;
-                    }
-                    &:hover::before {
-                        opacity: 1;
-                        color: #000;
-                    }
-                }
             }
         }
     }
@@ -167,16 +173,6 @@ input.sui-search2:active + .sui-search3 {
     }
     &:hover::before {
         color: $color-subjects;
-    }
-    &::after {
-        content: '';
-        display: inline-block;
-        width: 0.15rem;
-        height: 1.75rem;
-        background-color: #c0c0c0;
-        position: absolute;
-        top: 0.5rem;
-        right: 0;
     }
 }
 

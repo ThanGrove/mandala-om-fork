@@ -69,11 +69,7 @@ export function FeatureCollection(props) {
         case 'list':
             viewer = <FeatureList {...props} />;
             break;
-        default:
-            viewer = <FeatureGallery {...props} />;
-            break;
     }
-
     let inclGallery = viewMode === 'gallery' ? true : false;
     let viewModeDiv = null;
 
@@ -109,14 +105,11 @@ export function FeatureCollection(props) {
 
 function FeatureCollectionViewModeSelector(props) {
     const history = useHistory();
+    // const pathname = useLocation().pathname;
     const qs = useLocation().search;
     const { viewMode, inclGallery } = props;
-    const deck = { active: `viewMode === "deck"` };
-    const gallery = { active: `viewMode === "gallery"` };
-    const list = { active: `viewMode === "list"` };
 
     function navigate(viewMode) {
-        // console.log("navigating ", viewMode, qs);
         history.push(viewMode + qs);
     }
 

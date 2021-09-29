@@ -17,14 +17,14 @@ body {
 }
 body.html {
     font-family: $font-family-sans, sans-serif;
+    letter-spacing: 0.0125rem;
 }
-a {
+.l-site__wrap a {
     text-decoration: none;
     color: #000;
     cursor: pointer;
-    border-bottom: 0.075rem solid rgba(162, 127, 28, 0.65);
-    padding-bottom: 0.15rem;
-
+    border-bottom: 0.075rem solid #fbba03;
+    padding-bottom: 0.2rem;
     &:hover {
         text-decoration: none;
         box-shadow: none;
@@ -111,7 +111,7 @@ div.image-wrapper.center figcaption {
     width: 4rem;
     margin: 0 0.35rem;
     transform: scale(0.8);
-    transition: border-radius 0.3s;
+    transition: all 0.3s;
     &:hover {
         border-radius: 1rem;
     }
@@ -270,16 +270,19 @@ div.image-wrapper.center figcaption {
     padding-bottom: 5rem;
 }
 
-.places + .two-columns .l-content__main__wrap {
-    // margin-top: 2rem;
+header.search + .two-columns .l-content__main,
+header.collections + .two-columns .l-content__main {
+    //  display: block;
 }
-
+header.collections + .two-columns .l-content__main > div {
+    //  flex:1;
+}
 // --------------------------------------
 // * KMAPS SECTION
 // --------------------------------------
 
 header.terms + .two-columns .c-content__main__kmaps > * {
-    max-width: 90rem;
+    max-width: 90rem; // asterisk selector is a temporary fix until div wrapper for Terms content is put into place
 }
 header.terms + .two-columns {
     .c-content__main__kmaps {
@@ -297,7 +300,7 @@ header.terms + .two-columns {
     border: 1px solid #ccc;
     border-radius: 1rem;
     padding: 0.5rem 1.5rem 3rem 2rem;
-    font-size: 120%;
+    // font-size: 120%;
     min-height: calc(100vh - 14rem);
 
     &.c-collection {
@@ -574,6 +577,7 @@ header.terms + .two-columns {
         .treeNav-header ~ .nav-tabs .nav-link {
             margin-top: 0;
             padding-bottom: 0.25rem;
+            border-bottom: none !important;
         }
     }
 }
@@ -618,7 +622,7 @@ header.terms + .two-columns {
         padding-right: 0;
         &.open {
             z-index: 1000;
-            background: #eee;
+            //  background: #eee;
             height: 100%;
         }
     }
@@ -658,7 +662,7 @@ header.terms + .two-columns {
             padding: 0;
             line-height: 1.7;
             font-size: 2.135rem;
-            letter-spacing: 0.025rem;
+            letter-spacing: 0.075rem;
             font-family: 'GB Garamond', serif;
         }
         .treeNav-header__closeButton {
@@ -704,7 +708,7 @@ header.terms + .two-columns {
             padding: 0;
             line-height: 1.7;
             font-size: 2.15rem;
-            letter-spacing: 0.035rem;
+            letter-spacing: 0.075rem;
             font-weight: 400;
             font-family: 'GB Garamond', serif;
 
@@ -801,18 +805,17 @@ header.terms + .two-columns {
             }
         }
 
-        button.back-to-results {
-            font-style: italic;
-            font-size: 1.3rem;
-            text-transform: capitalize;
+        .back-to-results {
+            font-size: 1.2rem;
+            text-transform: uppercase;
             color: #fff;
             background-color: #3f49b1;
             text-align: left;
             padding: 0 1.75rem 0 1rem;
             margin-left: 2rem;
-            letter-spacing: 0.0375rem;
             border: 4px double #fff;
-            line-height: 1.4;
+            cursor: pointer !important;
+            line-height: 1.8rem;
             &:hover {
             }
             &:active {
@@ -855,6 +858,7 @@ header.terms + .two-columns {
     div {
         background-color: transparent;
         cursor: col-resize !important;
+        z-index: 100 !important;
         &::before {
             height: calc(100vh - 6.75rem);
             position: relative;
@@ -865,9 +869,9 @@ header.terms + .two-columns {
             width: 1.5rem;
             border-color: #4d59ca;
             border-top-color: #fff;
-            border-style: solid solid solid dashed;
+            border-style: solid;
             border-width: 4rem 0 8rem 0.1rem;
-            border-radius: 0.25rem;
+            border-radius: 0.2rem;
             opacity: 0.25;
             transition: all 0.35s;
         }
@@ -877,7 +881,7 @@ header.terms + .two-columns {
         border-left-width: 0.1rem;
         border-left-style: solid;
         background-color: #fff;
-        background-size: 0.375rem 0.375rem;
+        background-size: 0.475rem 0.475rem;
         background-image: repeating-linear-gradient(
             0deg,
             #444cf7,
@@ -951,13 +955,12 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     padding: 0.5rem 1rem 0.75rem;
     transition: all 0.25s;
     border-radius: 0.75rem;
-    border: 0.2rem dashed rgba(77, 89, 201, 0.5);
+    border: 0.1rem solid rgba(77, 89, 201, 0.5);
     border-left: 0.3rem solid #6b77ea;
     border-right: 0.3rem solid #6b77ea;
     background-color: #f9f9f9;
     color: $color-terms;
     font-weight: bold;
-
     > span {
         font-size: 1.5rem;
         font-weight: bold;
@@ -1108,6 +1111,8 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         border: 3px double #fff;
         border-radius: 0.5rem;
         margin-right: 0.25rem;
+        border: 0.4rem double #fff;
+
         &.shanticon-audio-video {
             background-color: $color-audio-video;
             color: #fff;
@@ -1430,19 +1435,19 @@ span.refdate {
         margin: 0.75rem;
         border-radius: 0.8rem;
         background: #fff;
-        border: 4px double #555;
+        border: 6px double #555;
         display: inline-block;
-        padding: 0.3rem 1.5rem;
-        transform: scale(1);
-        transition: all 0.45s;
+        padding: 0 1rem;
+        transition: all 0.25s;
         &:hover {
             background: $color-places;
             color: #fff;
-            transform: scale(0.95);
+            transform: scale(0.9);
+            border-color: #fff;
         }
         &:active,
         &:focus {
-            transform: scale(1.025);
+            transform: scale(1);
         }
     }
     .ol-rotate,

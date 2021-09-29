@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Container, Section, Bar } from 'react-simple-resizer';
 import { ContentHeader } from './ContentHeader/ContentHeader';
 import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
@@ -20,6 +20,8 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
+import $ from 'jquery';
+import Home from './HomePage/Home';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -43,6 +45,17 @@ export default function ContentMain(props) {
     const title = props.title || 'Untitled';
     const siteClass = props.site || 'default';
     const myLocation = useLocation();
+    const advsrch_target = document.getElementById('advancedSearchPortal');
+    const column_class = advsrch_target ? 'one-column' : 'two-columns';
+    useEffect(() => {
+        if (myLocation.pathname === '/') {
+            $('body').removeClass('mandala');
+            //console.log('removing class', myLocation);
+        } else {
+            $('body').addClass('mandala');
+            //console.log('adding class', myLocation);
+        }
+    }, [myLocation]);
     const left = (
         <main className="l-column__main">
             <article id="l-column__main__wrap" className="l-column__main__wrap">
@@ -51,22 +64,22 @@ export default function ContentMain(props) {
                     title={title}
                     location={myLocation}
                 />
-                <Container className="two-columns">
+                <Container className={column_class}>
                     <Section id="l-content__main" className="l-content__main">
                         {/** TODO:gk3k -> Create loading component with skeletons. */}
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
 
-                                {/* Tree testing: Remove when done */}
-                                <Route path={`/treetest`}>
-                                    <TreeTest />
-                                </Route>
-
                                 {/* COLLECTIONS */}
-                                <Route path={`/collections`}>
+                                <Route path={`/collections/all/:view_mode`}>
                                     <CollectionsHome />
                                 </Route>
+
+                                <Redirect
+                                    from="/collections"
+                                    to="/collections/all/deck"
+                                />
 
                                 <Route
                                     path={`/:asset_type/collection/:id/:view_mode`}
@@ -79,6 +92,12 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* AUDIO-VIDEO */}
+                                <Route path={`/audio-video/all/:view_mode`}>
+                                    <AudioVideoHome />
+                                </Route>
+                                <Route path={`/audio-video/all`}>
+                                    <Redirect to={`/audio-video/all/deck`} />
+                                </Route>
                                 <Route path={`/audio-video/:id`}>
                                     <AudioVideoViewer
                                         sui={props.sui}
@@ -86,10 +105,16 @@ export default function ContentMain(props) {
                                     />
                                 </Route>
                                 <Route path={`/audio-video`}>
-                                    <AudioVideoHome />
+                                    <Redirect to={`/audio-video/all/deck`} />
                                 </Route>
 
                                 {/* IMAGES */}
+                                <Route path={`/images/all/:view_mode`}>
+                                    <ImagesHome />
+                                </Route>
+                                <Route path={`/images/all`}>
+                                    <Redirect to={`/images/all/gallery`} />
+                                </Route>
                                 <Route path={`/images/:id`}>
                                     <ImagesViewer
                                         ismain={true}
@@ -97,7 +122,7 @@ export default function ContentMain(props) {
                                     />
                                 </Route>
                                 <Route path={`/images`}>
-                                    <ImagesHome />
+                                    <Redirect to={`/images/all/gallery`} />
                                 </Route>
 
                                 {/* PLACES */}
@@ -143,28 +168,50 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* SOURCES */}
+                                <Route path={`/sources/all/:view_mode`}>
+                                    <SourcesHome />
+                                </Route>
+                                <Route path={`/sources/all`}>
+                                    <Redirect to="/sources/all/list" />
+                                </Route>
                                 <Route path={`/sources/:id`}>
                                     <SourcesViewer />
                                 </Route>
                                 <Route path={`/sources`}>
-                                    <SourcesHome />
+                                    <Redirect to="/sources/all/list" />
+                                </Route>
+
+                                {/* TEXTS */}
+                                <Route path={`/texts/all/:view_mode`}>
+                                    <TextsHome />
+                                </Route>
+                                <Route path={`/texts/all`}>
+                                    <Redirect to="/texts/all/list" />
+                                </Route>
+                                <Route
+                                    path={[`/texts/:id/:pageid`, `/texts/:id`]}
+                                >
+                                    <TextsViewer ismain={true} />
+                                </Route>
+                                <Route path={`/texts`}>
+                                    <Redirect to="/texts/all/list" />
                                 </Route>
 
                                 {/* VISUALS */}
+                                <Route path={`/visuals/all/:view_mode`}>
+                                    <VisualsHome />
+                                </Route>
+                                <Route path={`/visuals/all`}>
+                                    <Redirect to="/visuals/all/deck" />
+                                </Route>
                                 <Route path={`/visuals/:id`}>
                                     <VisualsViewer />
                                 </Route>
                                 <Route path={`/visuals`}>
-                                    <VisualsHome />
+                                    <Redirect to="/visuals/all/deck" />
                                 </Route>
 
-                                <Route path={`/texts/:id`}>
-                                    <TextsViewer ismain={true} />
-                                </Route>
-                                <Route path={`/texts`}>
-                                    <TextsHome />
-                                </Route>
-
+                                {/* SEARCH */}
                                 <Route path={`/search/:viewMode`}>
                                     <SearchViewer />
                                 </Route>
@@ -185,6 +232,10 @@ export default function ContentMain(props) {
                                     <AssetCollectionLocator />
                                 </Route>
 
+                                <Route path={['/', '/home']}>
+                                    <Home />
+                                </Route>
+
                                 {/* CATCHALL => 404 */}
                                 <Route path="*">
                                     <NotFoundPage />
@@ -192,7 +243,7 @@ export default function ContentMain(props) {
                             </Switch>
                         </React.Suspense>
                     </Section>
-                    <Bar className="resize-right-column" />
+                    {!advsrch_target && <Bar className="resize-right-column" />}
                     <React.Suspense fallback={<MandalaSkeleton count={10} />}>
                         <RightSideBar />
                     </React.Suspense>

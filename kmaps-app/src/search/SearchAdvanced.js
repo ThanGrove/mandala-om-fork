@@ -1,7 +1,7 @@
 import { FacetBox } from './FacetBox';
 import React, { useState } from 'react';
 import Button from 'react-bootstrap/Button';
-import { useHistory, useRouteMatch } from 'react-router-dom';
+import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
@@ -23,6 +23,7 @@ const SEARCH_PATH = '/search/:view';
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
+    const location = useLocation();
     let [reset, setReset] = useState(0);
 
     // Get function to handle closeButton state.
@@ -97,9 +98,9 @@ export default function SearchAdvanced(props) {
             );
 
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.href = `${
-                    process.env.REACT_APP_STANDALONE_PATH
-                }/#/search/deck?${stringify(encodedQuery)}`;
+                window.location.hash = `#/search/deck?${stringify(
+                    encodedQuery
+                )}`;
             } else {
                 history.push({
                     pathname: `/search/deck`,
@@ -187,7 +188,7 @@ export default function SearchAdvanced(props) {
     }
 
     if (searchView?.params?.view === ':view') {
-        return <Redirect to={'/search/deck'} />;
+        return <Redirect to={`/search/deck${location.search}`} />;
     }
 
     // TODO: review whether the FacetBoxes should be a configured list rather than hand-managed components as they are now.
@@ -217,9 +218,7 @@ export default function SearchAdvanced(props) {
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
                     <Button
                         onClick={() =>
-                            history.push(
-                                `/search/deck${window.location.search}`
-                            )
+                            history.push(`/search/deck${location.search}`)
                         }
                         variant="link"
                         className={'back-to-results'}
@@ -227,22 +226,21 @@ export default function SearchAdvanced(props) {
                         <span className={'header-icon'}>
                             <span className="icon shanticon-magnify"></span>
                         </span>
-                        Go to Results
+                        View Results
                     </Button>
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <span className={'header-label-count'}>
-                        <a
-                            href={`${process.env.REACT_APP_STANDALONE_PATH}/#/search${window.location.search}`}
-                        >
-                            Back to Results
+                    <span className={'header-label-count back-to-results'}>
+                        <a href={`#/search/deck${location.search}`}>
+                            <span className={'header-icon'}>
+                                <span className="icon shanticon-magnify"></span>
+                            </span>
+                            View Results
                         </a>
                     </span>
                 )}
 
-                <button eventKey="resetAll" onClick={handleResetAll}>
-                    Clear All
-                </button>
+                <button onClick={handleResetAll}>Clear All</button>
             </div>
             <p>Filters for refining search results.</p>
             <section>

@@ -33,7 +33,6 @@ export function CollectionsViewer(props) {
     } = useCollection(asset_type, asset_id);
 
     const collsolr = colldata?.numFound === 1 ? colldata.docs[0] : false;
-    const DEFAULT_SORTMODE = 'title_sort_s asc';
 
     // Set up state variables for pager
     const [startRow, setStartRow] = useState(0);
@@ -41,6 +40,7 @@ export function CollectionsViewer(props) {
     const [pageSize, setPageSize] = useState(25);
 
     // Set up sort mode state
+    const DEFAULT_SORTMODE = 'title_sort_s asc';
     const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
 
     // Make Solr Query to find assets in Collection
@@ -68,8 +68,6 @@ export function CollectionsViewer(props) {
         isError: isItemsError,
         error: itemsError,
     } = useSolr(qkey, query);
-
-    const isLoading = isCollLoading || isItemsLoading;
 
     const collitems = items?.docs ? items.docs : [];
     //if (items?.numFound && !isNaN(items?.numFound)) { setNumFound(items.numFound); }
@@ -135,6 +133,10 @@ export function CollectionsViewer(props) {
             }
         }
     }, [collsolr]);
+
+    if (isCollLoading) {
+        return <MandalaSkeleton />;
+    }
 
     const numFound = items?.numFound;
 
@@ -229,6 +231,7 @@ export function CollectionsViewer(props) {
                         hasMore={hasMoreItems}
                         className={'c-collection__items'}
                         sorter={sorter}
+                        isLoading={isItemsLoading}
                     />
                 </div>
             </section>
@@ -236,7 +239,7 @@ export function CollectionsViewer(props) {
     );
 }
 
-function CollectionSortModeSelector({ sortMode, setSort }) {
+export function CollectionSortModeSelector({ sortMode, setSort }) {
     const SORTBYID = 'coll-sortby';
     const SORTORDERID = 'coll-sortorder';
     let { sortBy, sortOrder } = sortMode.split(' ');
@@ -255,7 +258,7 @@ function CollectionSortModeSelector({ sortMode, setSort }) {
 
     const sortByVals = [
         'Title:title_sort_s',
-        'Date:node_created',
+        'Date:date_start',
         'Creator:creator_sort_s',
     ];
     const sortOrderVals = ['Asc', 'Desc'];

@@ -113,6 +113,7 @@ function transform(node, index) {
         const blocked = isBlockedUrl(linkurl);
 
         if (linkurl[0] === '#') {
+            // TODO: check if it is STANDALONE and if so then move hash to data attribute for scrolling in standalone
             return;
         } else if (mandalaid) {
             return <MandalaLink mid={mandalaid} contents={linkcontents} />;

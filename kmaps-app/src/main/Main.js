@@ -64,16 +64,19 @@ export function Main(props) {
                     {/** TODO:gk3k -> Need to set a proper loading component with Skeletons */}
                     <Suspense fallback={<MandalaSkeleton overlay={true} />}>
                         <Switch>
+                            {/*
                             <Route path={'/home'}>
                                 <Home />
                             </Route>
+
                             {process.env.REACT_APP_STANDALONE !==
                                 'standalone' && (
                                 <Route exact path={'/'}>
                                     <Redirect to={'/home'} />
                                 </Route>
                             )}
-                            <Route path={'/'}>
+                            */}
+                            <Route path={'*'}>
                                 <ContentMain
                                     site={'mandala'}
                                     mode={'development'}
@@ -81,10 +84,13 @@ export function Main(props) {
                                     sui={props.sui}
                                 />
                             </Route>
+                            {/*
                             <Route path={'*'}>
                                 <NotFoundPage />
                                 <Home />
                             </Route>
+
+                            */}
                         </Switch>
                     </Suspense>
                     {/* Commented this out to get Asset Views to work (ndg) */}

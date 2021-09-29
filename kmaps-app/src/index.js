@@ -6,7 +6,7 @@ import App from './App';
 // import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
 
-const target = document.getElementById('root');
+const target = document.getElementById('mandala-root');
 
 if (target) {
     ReactDOM.render(<App />, target);

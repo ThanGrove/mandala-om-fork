@@ -3,15 +3,7 @@ import useStatus from '../../hooks/useStatus';
 import useAsset from '../../hooks/useAsset';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
-import {
-    Container,
-    Col,
-    Row,
-    Spinner,
-    Collapse,
-    Tabs,
-    Tab,
-} from 'react-bootstrap';
+import { Container, Row, Tabs, Tab, Col } from 'react-bootstrap';
 import { HtmlWithPopovers, getRandomKey } from '../common/MandalaMarkup';
 import { addBoClass, createAssetCrumbs } from '../common/utils';
 import './TextsViewer.sass';
@@ -20,6 +12,17 @@ import { useParams, Redirect, Link } from 'react-router-dom';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { useSolr } from '../../hooks/useSolr';
+
+function scrollToSection(sectid) {
+    let newScrollTop = 0;
+    const pgel = document.getElementById(`shanti-texts-${sectid}`);
+    if (pgel) {
+        const topPos = pgel.offsetTop;
+        newScrollTop = topPos;
+    }
+    document.getElementById('shanti-texts-body').scrollTop = newScrollTop;
+}
 
 /**
  * Text Viewer Component: The parent component for viewing a text. Gets sent the asset information as a prop
@@ -46,12 +49,11 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
  */
 export default function TextsViewer(props) {
     const baseType = `texts`;
-    const { id } = useParams();
+    const { id, pageid } = useParams();
     const txtId = props.id ? props.id : id;
     const queryID = `${baseType}*-${txtId}`;
-
     const addPage = useHistory((state) => state.addPage);
-
+    // Solr Call for Asset and API call for Node Data
     const {
         isLoading: isAssetLoading,
         data: kmasset,
@@ -80,94 +82,12 @@ export default function TextsViewer(props) {
 
     const [alt_viewer_url, setAltViewerUrl] = useState(''); // alt_viewer has url for alt view to show if showing or empty string is hidden
 
+    // When asset is loaded, add it to the history
     useEffect(() => {
         if (!isAssetLoading && !isAssetError) {
             addPage(baseType, kmasset.title, window.location.pathname);
         }
     }, [kmasset]);
-
-    // Setting text_sections variable with array of sections in text for TOC highlighting on scrolling and
-    // also highlights first TOC link
-    useEffect(() => {
-        // Set the text section state var if empty. Only need to do once on load
-        if (
-            text_sections.length === 0 &&
-            $('#shanti-texts-body .shanti-texts-section').length > 0
-        ) {
-            // Get all sections in text
-            const sections_tmp = $(
-                '#shanti-texts-body .shanti-texts-section'
-            ).toArray();
-
-            // Map Section array to an array of standardized objects with el, id, title, and getTop() function
-            const sections_new = $.map(sections_tmp, function (s, n) {
-                const sel = $(s);
-                let nexttop = 1000000;
-                if (n < sections_tmp.length + 1) {
-                    const nxtoffset = $(sections_tmp[n + 1]).offset();
-                    if (nxtoffset && nxtoffset.top) {
-                        nexttop = nxtoffset.top - 145;
-                    }
-                }
-                return {
-                    el: sel,
-                    id: sel.attr('id'),
-                    title: $.trim(sel.children().eq(0).text()),
-                    getTop: function () {
-                        return this.el.offset().top;
-                    },
-                };
-            });
-            // Set Sections state to array of section objects
-            setSections(sections_new);
-
-            // Highlight first link in TOC
-            const myhash = window.location.hash;
-            const mytochash = myhash.replace(
-                'shanti-texts-',
-                'shanti-texts-toc-'
-            );
-            let firstlink = $('.shanti-texts-toc > ul > li.first > a');
-            if (
-                myhash &&
-                $('.shanti-texts-toc > ul  a' + mytochash).length === 1
-            ) {
-                firstlink = $('.shanti-texts-toc > ul  a' + mytochash);
-                $(myhash).get(0).scrollIntoView();
-            }
-            firstlink.addClass('toc-selected');
-        }
-    }, []); // End of sections effect
-
-    /**
-     * Handle scroll of the main text window to determine which sections are in viewport (i.e. showing)
-     * Update state var section_showing (an array of section IDs showing) to pass to TOC for highlighting
-     * This is passed to TextBody as prop called "listener" (Is that an unwise choice of variable name?)
-     *
-     * @param e : not used event object (remove?)
-     */
-    const handleScroll = (e) => {
-        const mytop = 90;
-        const mybottom = mytop + $('#shanti-texts-body').height();
-        let vissect = [];
-        $('.toc-selected').removeClass('toc-selected');
-        $.each(text_sections, function (m) {
-            const s = text_sections[m];
-            const nxts =
-                m < text_sections.length - 1 ? text_sections[m + 1] : false;
-            const stop = s.getTop();
-            const nxttop = nxts ? nxts.getTop() : 10000000;
-            if (
-                (stop > mytop && stop < mybottom) ||
-                (stop < mytop && nxttop > mytop)
-            ) {
-                vissect.push(s.id);
-                const lnkid = '#' + s.id.replace('texts-', 'texts-toc-');
-                $(lnkid).addClass('toc-selected');
-            }
-        });
-        setSectionShowing(vissect);
-    };
 
     // For links directly to a text page, redirect to book url with hash for page section
     if (kmasset?.asset_type === 'texts' && kmasset?.asset_subtype === 'page') {
@@ -189,35 +109,29 @@ export default function TextsViewer(props) {
         );
     }
 
-    if (isAssetError || isNodeError) {
-        if (isAssetError) {
-            return (
-                <Container className={'astviewer texts'} fluid>
-                    <Row id={'shanti-texts-container'}>
-                        <div className={'not-found-msg d-none'}>
-                            <h1>Text Not Found!</h1>
-                            <p className={'error'}>
-                                Error: {assetError.message}
-                            </p>
-                        </div>
-                    </Row>
-                </Container>
-            );
-        }
-        if (isNodeError) {
-            return (
-                <Container className={'astviewer texts'} fluid>
-                    <Row id={'shanti-texts-container'}>
-                        <div className={'not-found-msg d-none'}>
-                            <h1>Text Not Found!</h1>
-                            <p className={'error'}>
-                                Error: {nodeError.message}
-                            </p>
-                        </div>
-                    </Row>
-                </Container>
-            );
-        }
+    if (isAssetError) {
+        return (
+            <Container className={'astviewer texts'} fluid>
+                <Row id={'shanti-texts-container'}>
+                    <div className={'not-found-msg d-none'}>
+                        <h1>Text Not Found!</h1>
+                        <p className={'error'}>Error: {assetError.message}</p>
+                    </div>
+                </Row>
+            </Container>
+        );
+    }
+    if (isNodeError) {
+        return (
+            <Container className={'astviewer texts'} fluid>
+                <Row id={'shanti-texts-container'}>
+                    <div className={'not-found-msg d-none'}>
+                        <h1>Text Not Found!</h1>
+                        <p className={'error'}>Error: {nodeError.message}</p>
+                    </div>
+                </Row>
+            </Container>
+        );
     }
 
     // Set output to return. If there's an asset, then output with text BS Container with one BS Row
@@ -236,25 +150,27 @@ export default function TextsViewer(props) {
                         header={kmasset.title}
                     />
                 )}
-                <Container className={'l-site__wrap astviewer texts'} fluid>
-                    <Row id={'shanti-texts-container'}>
+                <div className={'l-site__wrap astviewer texts'} fluid>
+                    <div id={'shanti-texts-container'} className="d-flex">
                         <TextBody
                             id={nodejson.nid}
                             alias={nodejson.alias}
                             markup={nodejson.full_markup}
-                            listener={handleScroll}
+                            pageid={pageid}
                         />
                         <TextTabs
+                            textid={nodejson.nid}
+                            pageid={pageid}
+                            mlid={kmasset.mlid_i}
                             toc={nodejson.toc_links}
                             meta={nodejson.bibl_summary}
                             links={nodejson.views_links}
                             html={kmasset.url_html}
                             title={title}
-                            sections={section_showing}
                             altChange={setAltViewerUrl}
                         />
-                    </Row>
-                </Container>
+                    </div>
+                </div>
                 <TextsAltViewer
                     title={title}
                     url={alt_viewer_url}
@@ -275,6 +191,7 @@ export default function TextsViewer(props) {
  */
 function TextBody(props) {
     const txt_link = props.alias;
+    const pageid = props.pageid;
 
     // Adjust CSS for Texts only
     useEffect(() => {
@@ -287,8 +204,16 @@ function TextBody(props) {
         addBoClass('#l-content__main');
     }, []);
 
+    useEffect(() => {
+        scrollToSection(pageid);
+    }, [pageid]);
+
     return (
-        <Col id={'shanti-texts-body'} onScroll={props.listener}>
+        <div
+            id={'shanti-texts-body'}
+            className="p-4 flex-grow-1"
+            onScroll={props.listener}
+        >
             <div className={'link-external mandala-edit-link'}>
                 <a
                     href={txt_link}
@@ -299,7 +224,7 @@ function TextBody(props) {
                 </a>
             </div>
             <HtmlWithPopovers markup={props.markup} />
-        </Col>
+        </div>
     );
 }
 
@@ -310,25 +235,31 @@ function TextBody(props) {
  * @constructor
  */
 function TextTabs(props) {
-    /*const parser = new Parser();
-    const toc_code = parser.parse(props.toc);*/
+    const info_icon = <span className={'shanticon shanticon-info'}></span>;
+    const collapse_icon = (
+        <span className={'shanticon shanticon-close2'}></span>
+    );
+    /*
     const info_icon = <span className={'shanticon shanticon-info'}></span>;
     const collapse_icon = (
         <span className={'shanticon shanticon-circle-right'}></span>
-    );
+    );*/
     const [open, setOpen] = useState(true);
     const [icon, setIcon] = useState(collapse_icon);
     const toggle_col = () => {
+        console.log('toggling!');
         setOpen(!open);
     };
-    const update_icon = () => {
-        let new_icon = open ? collapse_icon : info_icon;
-        setIcon(new_icon);
-    };
 
-    const tabshtml = $(props.links);
-    const htmllinks = tabshtml.find('a');
-    const linkscomp = htmllinks.map((n, item) => {
+    useEffect(() => {
+        const curr_icon = open ? collapse_icon : info_icon;
+        setIcon(curr_icon);
+    }, [open]);
+
+    // Deal with Alternate Views Links
+    const altviewhtml = $(props.links);
+    const altviewlinks = altviewhtml.find('a');
+    const altviewcomponent = altviewlinks.map((n, item) => {
         let href = $(item).attr('href');
         if (!href.includes('http')) {
             href = process.env.REACT_APP_DRUPAL_TEXTS + href;
@@ -351,22 +282,21 @@ function TextTabs(props) {
             </tr>
         );
     });
-    const title = props.title;
 
+    // Commonly used props
+    const title = props.title;
+    const textid = props.textid;
+    const sidebar_class = open ? 'open' : 'closed';
     return (
-        <>
-            <div id={'sidecolumn-ctrl'}>
-                <a
-                    onClick={toggle_col}
-                    aria-controls="txtsidecol"
-                    aria-expanded="open"
-                    className={'sidecol-toggle'}
-                >
+        <Row id={'shanti-texts-sidebar'} className={sidebar_class + ' p-2'}>
+            <Col className="meta-toggle-col">
+                <a className="meta-toggle" onClick={toggle_col}>
                     {icon}
                 </a>
-            </div>
-            <Collapse in={open} onExited={update_icon} onEnter={update_icon}>
-                <Col id={'shanti-texts-sidebar'}>
+            </Col>
+
+            {open && (
+                <Col>
                     <Tabs
                         id={'shanti-texts-sidebar-tabs'}
                         className={'nav-justified'}
@@ -377,11 +307,11 @@ function TextTabs(props) {
                             className={'shanti-texts-toc'}
                         >
                             <div className={'shanti-texts-record-title'}>
-                                <a href={'#shanti-top'}>{props.title}</a>
+                                <Link to={`/texts/${textid}`}>{title}</Link>
                             </div>
-                            <HtmlWithPopovers
-                                markup={props.toc}
-                                app={'texts'}
+                            <TextTocLinks
+                                plid={props?.mlid}
+                                pageid={props?.pageid}
                             />
                         </Tab>
                         <Tab eventKey={'text_bibl'} title={'Description'}>
@@ -398,7 +328,7 @@ function TextTabs(props) {
                             <div>
                                 <table className="shanti-texts-record-table table">
                                     <tbody>
-                                        {linkscomp}
+                                        {altviewcomponent}
                                         <tr className="shanti-texts-field nothing">
                                             <td
                                                 colSpan="2"
@@ -418,8 +348,65 @@ function TextTabs(props) {
                         </Tab>
                     </Tabs>
                 </Col>
-            </Collapse>
-        </>
+            )}
+        </Row>
+    );
+}
+
+/**
+ * Component to build text TOC from MLIDs and PLIDs of the Book module
+ * MLID = Menu link ID and PLID = Parent (menu link) ID
+ */
+
+function TextTocLinks({ plid, pageid }) {
+    const querySpecs = {
+        index: 'assets',
+        params: {
+            q: `plid_i:${plid}`,
+            fq: 'asset_type:texts',
+            sort: 'mlweight_i asc',
+            start: 0,
+            rows: 100,
+        },
+    };
+    const {
+        isLoading: isTocLoading,
+        data: tocItems,
+        isError: isTocError,
+        error: tocError,
+    } = useSolr(`text-toc-items-${plid}`, querySpecs, false, false);
+
+    if (isTocLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (isTocError) {
+        console.error(`Toc loading error: (${plid})`, tocError);
+        return null;
+    }
+    if (!tocItems?.numFound || tocItems?.numFound === 0) {
+        return null;
+    }
+    return (
+        <ul>
+            {tocItems.docs.map((item, ii) => {
+                const bid = item?.book_nid_i;
+                const myid = item?.id;
+                const mytitle =
+                    item?.title && item.title?.length > 0
+                        ? item.title[0]
+                        : 'Untitled';
+                const cname = ii === 0 ? ['first'] : [];
+                if (myid === pageid) {
+                    cname.push('active');
+                }
+                return (
+                    <li className={cname.join(' ')}>
+                        <Link to={`/texts/${bid}/${myid}`}>{mytitle}</Link>
+                        <TextTocLinks plid={item.mlid_i} pageid={pageid} />
+                    </li>
+                );
+            })}
+        </ul>
     );
 }
 

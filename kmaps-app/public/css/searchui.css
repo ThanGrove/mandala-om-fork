@@ -497,9 +497,12 @@ color: #a4baec;
     position: relative;
     top: -0.15rem;
     padding: 0.25rem 0.6rem 0.25rem 1rem;
-    margin-left: 1.25rem;
+    margin-left: 1.5rem;
     margin-right: 0.25rem;
     background: #fff;
+}
+.sui-advTerm > div:first-of-type .sui-advEditBool {
+    /* margin-left:.75rem;*/
 }
 
 .sui-advEditBool .sui-boolItem:nth-of-type(2),
