@@ -270,11 +270,11 @@ function TextTabs(props) {
             <tr className="shanti-texts-field nothing" key={mykey}>
                 <td colSpan="2" className="shanti-texts-field-content">
                     <a
-                        href="#"
                         data-href={href}
                         onClick={() => {
                             props.altChange(href);
                         }}
+                        className="link__nohref"
                     >
                         {mytxt}
                     </a>
@@ -430,11 +430,11 @@ function TextsAltViewer(props) {
         <div id={'text-alt-viewer'} className={clname}>
             <div className={'close-iframe'}>
                 <a
-                    href="#"
                     title={'Back to ' + text_title}
                     onClick={() => {
                         props.altChange('');
                     }}
+                    className="link__nohref"
                 >
                     <span className={'icon shanticon-cancel'}></span>
                 </a>
