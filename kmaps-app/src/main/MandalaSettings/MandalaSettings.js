@@ -69,7 +69,7 @@ export function MandalaSettings() {
                 value={'open'}
                 type={'button'}
                 id={'advanced-site-settings'}
-                className={'siteSettings-Toggle--button settings'}
+                className={'siteSettings-Toggle--button adv-settings-btn'}
                 onClick={_.debounce(toggle)}
             >
                 <BsGear></BsGear>

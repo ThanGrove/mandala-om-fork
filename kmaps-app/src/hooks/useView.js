@@ -16,18 +16,21 @@ export const useView = create((set, get) => ({
 }));
 
 export function getStoredSetting(domain) {
+    const envViewVar = `REACT_APP_${domain.toUpperCase()}_VIEW`;
+    if (envViewVar in process.env && process.env[envViewVar] !== '') {
+        return process.env[envViewVar];
+    }
     if (localStorage.getItem('savedViewSettings') === 'true') {
         const mysettings = JSON.parse(localStorage.getItem('userViewSettings'));
         return mysettings[domain];
-    } else {
-        switch (domain) {
-            case 'places':
-                return '69|roman.popular';
-            case 'subjects':
-                return '72|roman.popular';
-            case 'terms':
-                return '73|roman.scholar';
-        }
+    }
+    switch (domain) {
+        case 'places':
+            return '69|roman.popular';
+        case 'subjects':
+            return '72|roman.popular';
+        case 'terms':
+            return '73|roman.scholar';
     }
 }
 
