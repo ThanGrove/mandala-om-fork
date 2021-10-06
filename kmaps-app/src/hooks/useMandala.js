@@ -53,7 +53,6 @@ const useMandala = (solrobj) => {
         json_url = json_url.replace('http', 'https');
     }*/
     json_url = json_url?.replace(/https?:/, '');
-    console.log('Json url: ', json_url);
     const asset_type = solrdoc?.asset_type;
 
     // Special app adjustments
