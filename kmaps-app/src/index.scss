@@ -393,6 +393,7 @@ header.terms + .two-columns {
 .c-nodeHeader-itemSummary {
     max-width: 90rem;
     &.nodeHeader-placesInfo {
+        display: flex;
         & + div {
             clear: both;
             padding-top: 1rem;
@@ -448,8 +449,6 @@ header.terms + .two-columns {
         }
     }
     .featured {
-        float: left;
-        margin: 0;
         & > img {
             background-color: #fff;
             border-radius: 0.3rem !important;

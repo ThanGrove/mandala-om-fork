@@ -247,7 +247,6 @@ function TextTabs(props) {
     const [open, setOpen] = useState(true);
     const [icon, setIcon] = useState(collapse_icon);
     const toggle_col = () => {
-        console.log('toggling!');
         setOpen(!open);
     };
 
@@ -260,6 +259,7 @@ function TextTabs(props) {
     const altviewhtml = $(props.links);
     const altviewlinks = altviewhtml.find('a');
     const altviewcomponent = altviewlinks.map((n, item) => {
+        //console.log('altview component', item);
         let href = $(item).attr('href');
         if (!href.includes('http')) {
             href = process.env.REACT_APP_DRUPAL_TEXTS + href;
