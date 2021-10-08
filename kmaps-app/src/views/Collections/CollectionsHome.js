@@ -5,14 +5,24 @@ import { FeatureCollection } from '../common/FeatureCollection';
 import { getProject } from '../common/utils';
 import { SAProjectName } from '../common/utilcomponents';
 import { useParams } from 'react-router';
+import { Dropdown } from 'react-bootstrap';
 
 export function CollectionsHome(props) {
     const { view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(25);
+    const [collFilter, setCollFilter] = useState(0);
 
-    const querySpecs = {
+    const filters = [
+        'all types',
+        'audio-video',
+        'images',
+        'sources',
+        'texts',
+        'visuals',
+    ];
+    let querySpecs = {
         index: 'assets',
         params: {
             q: `asset_type:collections`,
@@ -21,13 +31,16 @@ export function CollectionsHome(props) {
             rows: pageSize,
         },
     };
+    if (collFilter && collFilter > 0) {
+        querySpecs['params']['fq'] = `asset_subtype:${filters[collFilter]}`;
+    }
     const {
         isLoading: isCollsLoading,
         data: collsData,
         isError: isCollsError,
         error: collsError,
     } = useSolr(
-        `all-collections-${pageSize}-${startRow}`,
+        ['all-collections', collFilter, pageSize, startRow],
         querySpecs,
         false,
         true
@@ -38,7 +51,7 @@ export function CollectionsHome(props) {
         collsData?.numFound && (pageNum + 1) * pageSize < collsData.numFound;
     useEffect(() => {
         setStartRow(pageNum * pageSize);
-    }, [pageNum, pageSize]);
+    }, [pageNum, pageSize, collFilter]);
 
     let mscope = 'complete Mandala';
     const current_project = getProject();
@@ -56,12 +69,35 @@ export function CollectionsHome(props) {
         collsData.numFound = 0;
     }
 
+    const myfunct = (ev) => {
+        const val = ev.target.options[ev.target.options.selectedIndex].value;
+        setCollFilter(val);
+    };
     return (
         <div>
             <h1>All Collections</h1>
             <p>
                 This page now shows all the asset collections and subcollections
-                for the {mscope} project:
+                for the {mscope} project.
+            </p>
+            <p>
+                <label className="font-weight-bold pr-3">
+                    Show collections of:{' '}
+                </label>
+                <select onChange={myfunct}>
+                    {filters.map((f, fi) => {
+                        const selval = fi == collFilter ? true : false;
+                        return (
+                            <option
+                                key={`collview-${fi}`}
+                                value={fi}
+                                selected={selval}
+                            >
+                                {f}
+                            </option>
+                        );
+                    })}
+                </select>
             </p>
             <FeatureCollection
                 docs={collsData.docs}
