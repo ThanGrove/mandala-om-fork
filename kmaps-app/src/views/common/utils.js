@@ -571,3 +571,35 @@ export function findFieldNames(data, substr, pos) {
         }
     });
 }
+
+/**
+ * Takes a JSON version of a Drupal entity with a field_language KMap Field and returns the HTML class for the span
+ * @param drpljson
+ */
+export function getLangClass(drpfld) {
+    let langclass;
+    const langfield = drpfld?.field_language;
+    const langhead =
+        langfield?.und?.length > 0
+            ? langfield.und[0]?.header.toLowerCase()
+            : false;
+    switch (langhead) {
+        case 'chinese':
+            langclass = 'zh';
+            break;
+        case 'tibetan':
+            langclass = 'bo';
+            break;
+        case 'myanmar':
+        case 'burmese':
+            langclass = 'my';
+            break;
+        case 'english':
+            langclass = 'en';
+            break;
+        default:
+            langclass = '';
+            break;
+    }
+    return langclass;
+}

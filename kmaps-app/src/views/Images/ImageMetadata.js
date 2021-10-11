@@ -2,6 +2,7 @@ import { Col, Row } from 'react-bootstrap';
 import { CollectionField, KmapsFields } from '../common/utilcomponents';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import React, { useState } from 'react';
+import { getLangClass } from '../common/utils';
 
 const IMAGE_FIELDS = [
     'field_image_digital|Only Digital|info',
@@ -37,7 +38,6 @@ export function ImageMetadata(props) {
     const nodejson = props.nodejson;
     const sizestr = props.sizestr ? props.sizestr : '';
     const title = nodejson?.title;
-
     const [photographer, setPhotographer] = useState('');
 
     if (nodejson) {
@@ -77,7 +77,9 @@ export function ImageMetadata(props) {
                         icon={'images'}
                         label={'Caption'}
                         value={title}
-                    />
+                    >
+                        <ImageAltTitles nodejson={nodejson} />
+                    </ImageRow>
 
                     <hr />
 
@@ -248,6 +250,7 @@ function ImageRow(props) {
             <Col className={'u-value' + valclass} key={mykey + '-c2'}>
                 {value}
                 {mydate}
+                {props.children}
             </Col>
         </Row>
     );
@@ -262,6 +265,36 @@ function processDate(dstr, dtype) {
         mydate = new Date(dstr * 1000);
     }
     return mydate.toLocaleString().split(',')[0];
+}
+
+export function ImageAltTitles({ nodejson }) {
+    const alt_titles = nodejson?.field_image_descriptions.und
+        .map((desc, di) => {
+            if (
+                desc?.field_summary?.und?.length > 0 &&
+                desc.field_summary.und[0].value === 'Alternate Title'
+            ) {
+                return desc;
+            }
+            return null;
+        })
+        .filter((desc) => desc);
+
+    return (
+        <>
+            {alt_titles.map((altt, ati) => {
+                const langclass = getLangClass(altt);
+                return (
+                    <span
+                        key={`alttitle_${ati}`}
+                        className={`c-image__alttitle ${langclass}`}
+                    >
+                        {altt.title}
+                    </span>
+                );
+            })}
+        </>
+    );
 }
 
 function ImageCreators(props) {
