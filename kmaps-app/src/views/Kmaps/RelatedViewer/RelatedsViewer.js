@@ -195,9 +195,6 @@ function RelatedCount(props) {
     const count = props.relateds?.assets
         ? props.relateds.assets[props.type]?.count
         : 0;
-    if (props?.type === 'terms') {
-        console.log('related count terms', props);
-    }
     // assign shanticon class according to type.  "all" type should get the "shanticon-logo-shanti" icon.
     const iconClass =
         'icon u-icon__' + (props.type === 'all' ? 'logo-shanti' : props.type);
