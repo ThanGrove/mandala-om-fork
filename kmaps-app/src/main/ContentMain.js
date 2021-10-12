@@ -22,6 +22,7 @@ import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
 import Home from './HomePage/Home';
+import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -54,6 +55,10 @@ export default function ContentMain(props) {
         } else {
             $('body').addClass('mandala');
             //console.log('adding class', myLocation);
+        }
+        // Save Search String in a cookie to retrieve for returning to results
+        if (myLocation?.search) {
+            localStorage.setItem(SEARCH_COOKIE_NAME, myLocation.search);
         }
     }, [myLocation]);
     const left = (
