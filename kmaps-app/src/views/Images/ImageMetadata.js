@@ -268,8 +268,11 @@ function processDate(dstr, dtype) {
 }
 
 export function ImageAltTitles({ nodejson }) {
-    const alt_titles = nodejson?.field_image_descriptions.und
-        .map((desc, di) => {
+    if (!nodejson?.field_image_descriptions?.und) {
+        return null;
+    }
+    const alt_titles = nodejson?.field_image_descriptions?.und
+        ?.map((desc, di) => {
             if (
                 desc?.field_summary?.und?.length > 0 &&
                 desc.field_summary.und[0].value === 'Alternate Title'
