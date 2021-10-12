@@ -4,6 +4,7 @@ on:
     branches: [develop-holdon]
   pull_request:
     branches: [develop-holdon]
+  workflow_dispatch:
 
 defaults:
   run:

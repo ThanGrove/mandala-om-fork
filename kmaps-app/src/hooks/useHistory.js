@@ -5,7 +5,7 @@ export const useHistory = create((set, get) => ({
     addPage: (pageicon, pgtitle, pgpath) => {
         const maxpages = 20;
         if (!pgtitle || typeof pgtitle == 'undefined' || !pgpath) {
-            document.title = 'Mandala Collections';
+            // document.title = 'Mandala Collections';
             return;
         }
         document.title = pgtitle + ' (Mandala Collections)';
