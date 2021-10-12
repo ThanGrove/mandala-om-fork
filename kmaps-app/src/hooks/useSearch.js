@@ -233,7 +233,8 @@ function constructFilters(filters) {
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
         const fqs = [
-            'asset_type:(audio-video images texts visuals sources subjects places terms)',
+            'asset_type:(audio-video images texts visuals sources subjects places terms)', // filter out old unused asset types
+            '-related_uid_ss:(subjects-9311 OR subjects-9314)', // filter out grouping terms (letters, 9311, and phrases, 9314) for terms trees
         ];
         // Added by Than for project filtering
         const projid = getProject();
