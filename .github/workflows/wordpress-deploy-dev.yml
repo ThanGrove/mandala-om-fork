@@ -27,5 +27,7 @@ jobs:
         with:
           node-version: 14.x
           cache: "npm"
-      - run: npm ci
-      - run: npm run ${{ matrix.site }} --if-present
+      - run: |
+          cd kmaps-app
+          npm ci
+          npm run ${{ matrix.site }} --if-present
