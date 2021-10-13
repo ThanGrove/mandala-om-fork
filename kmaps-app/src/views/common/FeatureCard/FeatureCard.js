@@ -95,9 +95,16 @@ export function FeatureCard(props) {
         );
     });
 
-    let date = doc?.date_start
-        ? new Date(doc.date_start).toLocaleDateString()
-        : false;
+    let date = false;
+    if (doc?.date_start) {
+        let dtobj = new Date(doc.date_start);
+        const yr = dtobj?.getUTCFullYear();
+        // Was using 9999 as "no date" year but switching to 0000
+        if (yr === 0 || yr === 9999) {
+            dtobj = new Date(doc.node_created);
+        }
+        date = dtobj.toLocaleDateString();
+    }
 
     let creator =
         doc.creator?.length > 0
@@ -218,7 +225,7 @@ export function FeatureCard(props) {
                     <ListGroup.Item className={'c-card__listItem--creator'}>
                         {creator && (
                             <div className="info shanti-field-creator">
-                                <span className="icon shanti-field-content">
+                                <span className="u-icon__agents icon shanti-field-content">
                                     {creator}
                                 </span>
                             </div>
@@ -227,7 +234,7 @@ export function FeatureCard(props) {
                     {date && (
                         <ListGroup.Item className={'c-card__listItem--created'}>
                             <div className="shanti-field-created">
-                                <span className="icon shanti-field-content">
+                                <span className="u-icon__calendar icon shanti-field-content">
                                     {date}
                                 </span>
                             </div>
