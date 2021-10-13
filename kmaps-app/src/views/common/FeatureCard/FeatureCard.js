@@ -221,7 +221,7 @@ export function FeatureCard(props) {
                     </Link>
                     <div className="shanti-field-uid">
                         <div className="info shanti-field-content">
-                            – Kmap-ID: <span>{myuid}</span>
+                            – Mandala-ID: <span>{myuid}</span>
                         </div>
                     </div>
                 </Card.Title>
