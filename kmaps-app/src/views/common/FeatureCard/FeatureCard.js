@@ -100,8 +100,13 @@ export function FeatureCard(props) {
         : false;
 
     let creator =
-        doc.creator?.length > 0 ? doc.creator.join(', ') : doc.node_user;
-    if (doc.creator?.length > 3) {
+        doc.creator?.length > 0
+            ? doc.creator.join(', ')
+            : doc?.node_user_full_s
+            ? doc.node_user_full_s
+            : doc?.node_user;
+
+    if (Array.isArray(doc.creator) && doc.creator?.length > 3) {
         creator = doc.creator.slice(0, 3).join(', ') + '…';
     }
 
@@ -211,7 +216,7 @@ export function FeatureCard(props) {
 
                 <ListGroup>
                     <ListGroup.Item className={'c-card__listItem--creator'}>
-                        {doc.creator && (
+                        {creator && (
                             <div className="info shanti-field-creator">
                                 <span className="icon shanti-field-content">
                                     {creator}
