@@ -219,11 +219,6 @@ export function FeatureCard(props) {
                         <SmartTitle doc={doc} />
                         {subtitle}
                     </Link>
-                    <div className="shanti-field-uid">
-                        <div className="info shanti-field-content">
-                            – Mandala-ID: <span>{myuid}</span>
-                        </div>
-                    </div>
                 </Card.Title>
 
                 <ListGroup>
@@ -250,12 +245,19 @@ export function FeatureCard(props) {
                             className={'c-card__listItem--duration'}
                         >
                             <div className="info shanti-field-duration">
-                                <span className="icon shanti-field-content">
+                                <span className="icon shanticon-hourglass shanti-field-content">
                                     {doc.duration_s}
                                 </span>
                             </div>
                         </ListGroup.Item>
                     )}
+
+                    <ListGroup.Item className="shanti-field-uid">
+                        <div className="icon shanticon-info info shanti-field-content">
+                            <span>ID-{myuid}</span>
+                        </div>
+                    </ListGroup.Item>
+
                     <ListGroup.Item className={'c-card__listItem--related'}>
                         <div className="info shanti-field-related">
                             <span className="shanti-field-content">
