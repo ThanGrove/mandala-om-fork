@@ -219,6 +219,11 @@ export function FeatureCard(props) {
                         <SmartTitle doc={doc} />
                         {subtitle}
                     </Link>
+                    <div className="shanti-field-uid">
+                        <div className="info shanti-field-content">
+                            – Kmap-ID: <span>{myuid}</span>
+                        </div>
+                    </div>
                 </Card.Title>
 
                 <ListGroup>
@@ -270,12 +275,6 @@ export function FeatureCard(props) {
                 </ListGroup>
 
                 <div className={'c-button__json'}>
-                    <div className="shanti-field-uid float-left">
-                        <span className="info shanti-field-content">
-                            {myuid}
-                        </span>
-                    </div>
-
                     <span
                         className={'sui-showinfo u-icon__info float-right'}
                         onClick={() => setModalShow(true)}
