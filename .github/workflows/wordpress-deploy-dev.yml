@@ -39,4 +39,4 @@ jobs:
           mkdir ~/.ssh
           echo "$remote_key" > ~/.ssh/id_rsa_wp_mandala
           chmod 400 ~/.ssh/id_rsa_wp_mandala
-          rsync -avzr --delete -e "ssh -p $remote_port -i ~/.ssh/id_rsa_wp_mandala -o StrictHostKeyChecking=no" ${{matrix.localdir}} $remote_user@$remote_host:${{matrix.remotedir}}
+          rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_rsa_wp_mandala -o StrictHostKeyChecking=no" ${{matrix.localdir}} ${remote_user}@${remote_host}:${{matrix.remotedir}}
