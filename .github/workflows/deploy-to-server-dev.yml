@@ -3,7 +3,7 @@ name: "Deploy to Server Dev"
 on:
   push:
     branches:
-      - developholdon
+      - develop
   workflow_dispatch:
 
 jobs:
