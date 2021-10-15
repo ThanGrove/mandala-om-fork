@@ -8,10 +8,10 @@ import Col from 'react-bootstrap/Col';
 import $ from 'jquery';
 
 export default function Home(props) {
-    document.title = 'Mandala Collections';
     if (process?.env?.REACT_APP_STANDALONE === 'standalone') {
         return null;
     }
+    document.title = 'Mandala Collections';
     return (
         <section className="l-content__main__wrap ">
             <Container>

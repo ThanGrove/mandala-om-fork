@@ -393,6 +393,7 @@ header.terms + .two-columns {
 .c-nodeHeader-itemSummary {
     max-width: 90rem;
     &.nodeHeader-placesInfo {
+        display: flex;
         & + div {
             clear: both;
             padding-top: 1rem;
@@ -448,8 +449,6 @@ header.terms + .two-columns {
         }
     }
     .featured {
-        float: left;
-        margin: 0;
         & > img {
             background-color: #fff;
             border-radius: 0.3rem !important;
@@ -955,13 +954,12 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     padding: 0.5rem 1rem 0.75rem;
     transition: all 0.25s;
     border-radius: 0.75rem;
-    border: 0.2rem dashed rgba(77, 89, 201, 0.5);
+    border: 0.1rem solid rgba(77, 89, 201, 0.5);
     border-left: 0.3rem solid #6b77ea;
     border-right: 0.3rem solid #6b77ea;
     background-color: #f9f9f9;
     color: $color-terms;
     font-weight: bold;
-
     > span {
         font-size: 1.5rem;
         font-weight: bold;

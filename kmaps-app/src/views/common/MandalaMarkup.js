@@ -116,6 +116,7 @@ function transform(node, index) {
             // TODO: check if it is STANDALONE and if so then move hash to data attribute for scrolling in standalone
             return;
         } else if (mandalaid) {
+            // What is the context here? TODO: merge with last else that deals with internal kmaps?
             return <MandalaLink mid={mandalaid} contents={linkcontents} />;
         } else if (linkurl.includes('/add/') || linkurl.includes('/edit')) {
             return null;
@@ -202,7 +203,7 @@ function transform(node, index) {
                     {linkcontents}
                 </a>
             );
-        } else if (linkurl.search(/(subjects|places|terms)\/\d+/) == -1) {
+        } else if (!linkurl.search(/(subjects|places|terms)\/\d+/)) {
             // Don't process links in popovers
             return (
                 <MandalaModal
@@ -211,6 +212,24 @@ function transform(node, index) {
                     text={linkcontents}
                 />
             );
+        } else {
+            // Process Internal Kmaps Links
+            let mtch = linkurl.match(/(subjects|places|terms)\/(\d+)/);
+            if (mtch) {
+                const urlpref =
+                    process.env.REACT_APP_STANDALONE === 'standalone'
+                        ? '#/'
+                        : '/';
+                return (
+                    <a
+                        href={urlpref + mtch[0]}
+                        key={`mandala-kmap-link-${mtch[0]}`}
+                        data-original-url={linkurl}
+                    >
+                        {linkcontents}
+                    </a>
+                );
+            }
         }
     }
 }

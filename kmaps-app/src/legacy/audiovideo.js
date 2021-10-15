@@ -100,12 +100,14 @@ export default class AudioVideo {
         str += `</div><div>`;
         try {
             if (o.collection_title) {
-                const collpath =
+                let collpath =
                     sui.pages.GetPublicUrlPath('audio-video') +
                     'audio-video/collection/' +
                     o.collection_nid;
-                str += `&#xe633&nbsp;
-                <a title='Collection' id='sui-avCol' href='${collpath}'>${o.collection_title}</a>`;
+                if (process.env.REACT_APP_STANDALONE === 'standalone') {
+                    collpath = '#' + collpath;
+                }
+                str += `&#xe633 <a title='Collection' id='sui-avCol' href='${collpath}'>${o.collection_title}</a>`;
             }
         } catch (e) {}
         try {

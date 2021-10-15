@@ -10,6 +10,7 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
 import { queryID, stringToHash } from '../common/utils';
 import $ from 'jquery';
 import './KmapTree.scss';
+import { useView } from '../../hooks/useView';
 
 /**
  * Kmap Tree: React Version of Kmaps Fancy Tree. Tree initializing function. Can pass any of the props listed in settings, but two basic modes;
@@ -137,6 +138,11 @@ export default function KmapTree(props) {
         error: relSelNodeErrror,
     } = useSolr(`${kmapId}-relsel`, selNodeQuery);
 
+    // Debugging
+    const viewobj = useView();
+    if (settings.domain === 'terms') {
+        // console.log('use view: ', viewobj);
+    }
     // Use Effect: To open selected node in tree, if not already open (for parallel trees)
     useEffect(() => {
         if (

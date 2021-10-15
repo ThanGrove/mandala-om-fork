@@ -63,8 +63,12 @@ const TermDefinitions = (props) => {
     return (
         <div className="sui-termDefinitions_wrapper">
             <div className="sui-termDefinitions__content">
-                {_.orderBy(props.mainDefs, (val) => val.order, 'asc').map(
-                    (def, order) => {
+                {_.orderBy(props.mainDefs, (val) => val.order, 'asc')
+                    .filter(
+                        // filter out empty definitions (higgins for now)
+                        (def) => def?.related_definitions_content_s?.length > 0
+                    )
+                    .map((def, order) => {
                         const defid = 'def-' + def.id.split('-').pop(); // simplified def.id
                         const deflevel = def.related_definitions_level_i;
                         if (deflevel === 1) {
@@ -237,8 +241,7 @@ const TermDefinitions = (props) => {
                                 </Tabs>
                             </div>
                         );
-                    }
-                )}
+                    })}
             </div>
         </div>
     );

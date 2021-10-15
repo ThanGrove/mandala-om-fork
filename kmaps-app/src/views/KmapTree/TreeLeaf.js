@@ -59,7 +59,9 @@ export default function TreeLeaf({
         (state) => state[settings.domain]
     );
     const viewSetting = useView((state) => state[settings.domain]);
-    // console.log('Trea leaf', viewSetting);
+    if (domain === 'terms' && kid == 45101) {
+        // console.log('Trea leaf settings', viewSetting);
+    }
     const {
         isLoading: isKmapLoading,
         data: kmapdata,

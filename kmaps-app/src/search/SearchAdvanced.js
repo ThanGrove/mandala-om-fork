@@ -20,6 +20,7 @@ import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { Redirect } from 'react-router';
 
 const SEARCH_PATH = '/search/:view';
+export const SEARCH_COOKIE_NAME = 'mandala_search';
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
@@ -167,6 +168,16 @@ export default function SearchAdvanced(props) {
         return filters.filter((filter) => filter.field === type);
     }
 
+    function backToSearchResults() {
+        // In ContentMain whenever there is a route change the search string is save in localStorage
+        // This is retrieved to return to search results if it is lost in the process of clicking around.
+        let sqry = location?.search;
+        if (!sqry) {
+            sqry = localStorage.getItem(SEARCH_COOKIE_NAME);
+        }
+        history.push(`/search/deck${sqry}`);
+    }
+
     function handleResetFilters() {
         setQuery(
             {
@@ -185,6 +196,7 @@ export default function SearchAdvanced(props) {
             },
             'push'
         );
+        localStorage.removeItem(SEARCH_COOKIE_NAME); // Remove the search string saved in the cookie
     }
 
     if (searchView?.params?.view === ':view') {
@@ -217,9 +229,7 @@ export default function SearchAdvanced(props) {
             <div className="search-column-reset-filters">
                 {process.env.REACT_APP_STANDALONE !== 'standalone' && (
                     <Button
-                        onClick={() =>
-                            history.push(`/search/deck${location.search}`)
-                        }
+                        onClick={backToSearchResults}
                         variant="link"
                         className={'back-to-results'}
                     >

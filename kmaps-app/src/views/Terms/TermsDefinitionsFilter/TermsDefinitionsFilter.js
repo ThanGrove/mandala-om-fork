@@ -29,7 +29,6 @@ const TermsDefinitionsFilter = (props) => {
             ),
         }))
         .value();
-
     return <CustomSelect definitions={relatedDefs} defID={definitionID} />;
 };
 

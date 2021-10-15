@@ -48,9 +48,11 @@ const useMandala = (solrobj) => {
         solrdoc = solrobj.docs[0];
     }
     let json_url = solrdoc?.url_json;
+    /*
     if (json_url?.includes('mandala') && !json_url?.startsWith('https')) {
         json_url = json_url.replace('http', 'https');
-    }
+    }*/
+    json_url = json_url?.replace(/https?:/, '');
     const asset_type = solrdoc?.asset_type;
 
     // Special app adjustments

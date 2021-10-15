@@ -22,6 +22,7 @@ import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
 import Home from './HomePage/Home';
+import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -55,6 +56,10 @@ export default function ContentMain(props) {
             $('body').addClass('mandala');
             //console.log('adding class', myLocation);
         }
+        // Save Search String in a cookie to retrieve for returning to results
+        if (myLocation?.search) {
+            localStorage.setItem(SEARCH_COOKIE_NAME, myLocation.search);
+        }
     }, [myLocation]);
     const left = (
         <main className="l-column__main">
@@ -72,13 +77,13 @@ export default function ContentMain(props) {
                                 <Redirect from="/mandala-om/*" to="/*" />
 
                                 {/* COLLECTIONS */}
-                                <Route path={`/collections/:view_mode`}>
+                                <Route path={`/collections/all/:view_mode`}>
                                     <CollectionsHome />
                                 </Route>
 
                                 <Redirect
                                     from="/collections"
-                                    to="/collections/deck"
+                                    to="/collections/all/deck"
                                 />
 
                                 <Route
@@ -92,6 +97,12 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* AUDIO-VIDEO */}
+                                <Route path={`/audio-video/all/:view_mode`}>
+                                    <AudioVideoHome />
+                                </Route>
+                                <Route path={`/audio-video/all`}>
+                                    <Redirect to={`/audio-video/all/deck`} />
+                                </Route>
                                 <Route path={`/audio-video/:id`}>
                                     <AudioVideoViewer
                                         sui={props.sui}
@@ -99,10 +110,16 @@ export default function ContentMain(props) {
                                     />
                                 </Route>
                                 <Route path={`/audio-video`}>
-                                    <AudioVideoHome />
+                                    <Redirect to={`/audio-video/all/deck`} />
                                 </Route>
 
                                 {/* IMAGES */}
+                                <Route path={`/images/all/:view_mode`}>
+                                    <ImagesHome />
+                                </Route>
+                                <Route path={`/images/all`}>
+                                    <Redirect to={`/images/all/gallery`} />
+                                </Route>
                                 <Route path={`/images/:id`}>
                                     <ImagesViewer
                                         ismain={true}
@@ -110,7 +127,7 @@ export default function ContentMain(props) {
                                     />
                                 </Route>
                                 <Route path={`/images`}>
-                                    <ImagesHome />
+                                    <Redirect to={`/images/all/gallery`} />
                                 </Route>
 
                                 {/* PLACES */}
@@ -156,30 +173,50 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* SOURCES */}
+                                <Route path={`/sources/all/:view_mode`}>
+                                    <SourcesHome />
+                                </Route>
+                                <Route path={`/sources/all`}>
+                                    <Redirect to="/sources/all/list" />
+                                </Route>
                                 <Route path={`/sources/:id`}>
                                     <SourcesViewer />
                                 </Route>
                                 <Route path={`/sources`}>
-                                    <SourcesHome />
+                                    <Redirect to="/sources/all/list" />
                                 </Route>
 
-                                {/* VISUALS */}
-                                <Route path={`/visuals/:id`}>
-                                    <VisualsViewer />
+                                {/* TEXTS */}
+                                <Route path={`/texts/all/:view_mode`}>
+                                    <TextsHome />
                                 </Route>
-                                <Route path={`/visuals`}>
-                                    <VisualsHome />
+                                <Route path={`/texts/all`}>
+                                    <Redirect to="/texts/all/list" />
                                 </Route>
-
                                 <Route
                                     path={[`/texts/:id/:pageid`, `/texts/:id`]}
                                 >
                                     <TextsViewer ismain={true} />
                                 </Route>
                                 <Route path={`/texts`}>
-                                    <TextsHome />
+                                    <Redirect to="/texts/all/list" />
                                 </Route>
 
+                                {/* VISUALS */}
+                                <Route path={`/visuals/all/:view_mode`}>
+                                    <VisualsHome />
+                                </Route>
+                                <Route path={`/visuals/all`}>
+                                    <Redirect to="/visuals/all/deck" />
+                                </Route>
+                                <Route path={`/visuals/:id`}>
+                                    <VisualsViewer />
+                                </Route>
+                                <Route path={`/visuals`}>
+                                    <Redirect to="/visuals/all/deck" />
+                                </Route>
+
+                                {/* SEARCH */}
                                 <Route path={`/search/:viewMode`}>
                                     <SearchViewer />
                                 </Route>

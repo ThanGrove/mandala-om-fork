@@ -3,16 +3,15 @@ import { AssetHomeCollection } from '../common/AssetHomeCollection';
 import useStatus from '../../hooks/useStatus';
 
 export function ImagesHome(props) {
-    const status = useStatus();
-    status.setType('images');
-    status.setHeaderTitle('Loading...');
-
     return (
         <div className={'assethome images'}>
             <div className={'desc'}>
+                <h1>Images</h1>
                 <p>This page shows all images in this project.</p>
             </div>
-            <AssetHomeCollection asset_type={'images'} />
+            <div className={'c-asset-collection'}>
+                <AssetHomeCollection asset_type={'images'} />
+            </div>
         </div>
     );
 }

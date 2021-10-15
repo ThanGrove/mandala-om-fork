@@ -218,7 +218,7 @@ function constructTextQuery(searchString) {
         // search: tweak for scoping later
         q:
             searchstring !== '*'
-                ? `(title:${xact}^100 title:${slashy}^100 title:${starts}^80 names_txt:${xact}^90 names_txt:${starts}^70)`
+                ? `text:${xact} OR (title:${xact}^100 title:${slashy}^100 title:${starts}^80 names_txt:${xact}^90 names_txt:${starts}^70)`
                 : `*:*`,
         xact,
         starts,
@@ -232,8 +232,11 @@ function constructTextQuery(searchString) {
 function constructFilters(filters) {
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
+        // filter out grouping terms (letters, 9311, and phrases, 9314, 9667 - English letters) for terms trees,
+        const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667'];
         const fqs = [
-            'asset_type:(audio-video images texts visuals sources subjects places terms)',
+            'asset_type:(audio-video images texts visuals sources subjects places terms)', // filter out old unused asset types
+            '-related_uid_ss:(' + xrelated.join(' OR ') + ')',
         ];
         // Added by Than for project filtering
         const projid = getProject();
