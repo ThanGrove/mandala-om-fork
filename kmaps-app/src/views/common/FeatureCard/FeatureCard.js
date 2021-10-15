@@ -106,7 +106,7 @@ export function FeatureCard(props) {
     }
 
     if (creator) {
-        creator = creator.replace(/\&amp\;/g, '&');
+        creator = creator.replace(/&amp;/g, '&');
     }
 
     let footer_coll_link = doc?.collection_uid_path_ss;
