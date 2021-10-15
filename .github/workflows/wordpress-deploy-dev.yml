@@ -1,4 +1,4 @@
-name: Deploy Build artifacts to WordPress Directory on Dev
+name: Deploy UF_DEV
 on:
   push:
     branches: [develop]
@@ -32,7 +32,7 @@ jobs:
         with:
           node-version: 14.x
           cache: "npm"
-        run: |
+      - run: |
           npm ci
           CI=false npm run ${matrix.site} --if-present
           mkdir ~/.ssh
