@@ -230,6 +230,7 @@ function constructTextQuery(searchString) {
 }
 
 function constructFilters(filters) {
+    console.log('Filters', filters);
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
         // filter out grouping terms (letters, 9311, and phrases, 9314, 9667 - English letters) for terms trees,
@@ -237,8 +238,9 @@ function constructFilters(filters) {
         // '-related_uid_ss:(' + xrelated.join(' OR ') + ')',
         const fqs = [
             'asset_type:(audio-video images texts visuals sources subjects places terms)', // filter out old unused asset types
-            'related_uid_ss:subjects-9315', // filter for "expressions"
+            // 'related_uid_ss:subjects-9315', // filter for "expressions"
         ];
+        // add for terms only: 'related_uid_ss:subjects-9315', // filter for "expressions"
         // Added by Than for project filtering
         const projid = getProject();
         if (projid) {
