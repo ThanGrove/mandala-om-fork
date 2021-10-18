@@ -4,11 +4,10 @@
 // JSON Dev Utility -
 .card-body .c-button__json {
     position: absolute;
-    bottom: 0rem;
+    right: 1.35rem;
+    bottom: 0;
     background-color: white;
     padding-bottom: 0.2rem;
-    right: 1.35rem;
-    width: 90%;
 }
 
 // Grid Card
@@ -111,7 +110,7 @@
         padding-right: 0.5rem;
     }
     .icon {
-        line-height: 1.75rem;
+        line-height: 1.8rem;
     }
 }
 
@@ -330,18 +329,15 @@
 
 .shanti-field-caption {
     line-height: 1.3;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.5rem;
     color: #000;
 }
 
-.shanti-field-uid span {
-    display: inline-block;
-    margin-top: 0.2em;
-    font-style: italic;
+.shanti-field-uid > div {
 }
 
 .c-smartRelateds__limited > div {
-    line-height: 1.38em;
+    line-height: 1.38;
 }
 
 .shanti-field-itemcount span::before,

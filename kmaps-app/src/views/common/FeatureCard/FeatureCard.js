@@ -118,7 +118,7 @@ export function FeatureCard(props) {
     }
 
     if (creator) {
-        creator = creator.replace(/\&amp\;/g, '&');
+        creator = creator.replace(/&amp;/g, '&');
     }
 
     let footer_coll_link = doc?.collection_uid_path_ss;
@@ -245,12 +245,19 @@ export function FeatureCard(props) {
                             className={'c-card__listItem--duration'}
                         >
                             <div className="info shanti-field-duration">
-                                <span className="icon shanti-field-content">
+                                <span className="icon shanticon-hourglass shanti-field-content">
                                     {doc.duration_s}
                                 </span>
                             </div>
                         </ListGroup.Item>
                     )}
+
+                    <ListGroup.Item className="shanti-field-uid">
+                        <div className="icon u-icon__info info shanti-field-content">
+                            <span>ID-{myuid}</span>
+                        </div>
+                    </ListGroup.Item>
+
                     <ListGroup.Item className={'c-card__listItem--related'}>
                         <div className="info shanti-field-related">
                             <span className="shanti-field-content">
@@ -270,12 +277,6 @@ export function FeatureCard(props) {
                 </ListGroup>
 
                 <div className={'c-button__json'}>
-                    <div className="shanti-field-uid float-left">
-                        <span className="info shanti-field-content">
-                            {myuid}
-                        </span>
-                    </div>
-
                     <span
                         className={'sui-showinfo u-icon__info float-right'}
                         onClick={() => setModalShow(true)}

@@ -1,10 +1,9 @@
-name: Deploy Build artifacts to WordPress Directory on Dev
+name: Deploy UF_DEV
 on:
   push:
-    branches: [develop-holdon]
+    branches: [develop]
   pull_request:
-    branches: [develop-holdon]
-  workflow_dispatch:
+    branches: [develop]
 
 defaults:
   run:
@@ -18,14 +17,27 @@ jobs:
         include:
           - site-name: "uf"
             site: "ufbuild"
-            remotedir: "/home/uvaworkc/dev.flourishingu.org/wp-content/plugins/mandala/app"
-
+            localdir: "build/"
+            remotedir: "~/dev.flourishingu.org/wp-content/plugins/mandala/app/build/"
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: "develop"
       - name: Use Node.js 14.x for ${{ matrix.site }}
         uses: actions/setup-node@v2
         with:
           node-version: 14.x
           cache: "npm"
-      - run: npm ci
-      - run: npm run ${{ matrix.site }} --if-present
+      - name: Create build and copy to server
+        env:
+          remote_host: ${{ secrets.UF_DEV_HOST_NAME }}
+          remote_port: ${{ secrets.UF_DEV_PORT }}
+          remote_user: ${{ secrets.UF_DEV_USER }}
+          remote_key: ${{ secrets.UF_DEV_PRIVATE_KEY }}
+        run: |
+          npm ci
+          CI=false npm run ${{matrix.site}} --if-present
+          mkdir ~/.ssh
+          echo "$remote_key" > ~/.ssh/id_rsa_wp_mandala
+          chmod 400 ~/.ssh/id_rsa_wp_mandala
+          rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_rsa_wp_mandala -o StrictHostKeyChecking=no" ${{matrix.localdir}} ${remote_user}@${remote_host}:${{matrix.remotedir}}
