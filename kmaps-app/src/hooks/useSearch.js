@@ -233,10 +233,11 @@ function constructFilters(filters) {
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
         // filter out grouping terms (letters, 9311, and phrases, 9314, 9667 - English letters) for terms trees,
-        const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667'];
+        // const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667']; Old way was filtering out "bad" subjects
+        // '-related_uid_ss:(' + xrelated.join(' OR ') + ')',
         const fqs = [
             'asset_type:(audio-video images texts visuals sources subjects places terms)', // filter out old unused asset types
-            '-related_uid_ss:(' + xrelated.join(' OR ') + ')',
+            'related_uid_ss:subjects-9315', // filter for "expressions"
         ];
         // Added by Than for project filtering
         const projid = getProject();
