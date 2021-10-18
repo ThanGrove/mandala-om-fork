@@ -253,7 +253,7 @@ export function FeatureCard(props) {
                     )}
 
                     <ListGroup.Item className="shanti-field-uid">
-                        <div className="icon shanticon-info info shanti-field-content">
+                        <div className="icon u-icon__info info shanti-field-content">
                             <span>ID-{myuid}</span>
                         </div>
                     </ListGroup.Item>
