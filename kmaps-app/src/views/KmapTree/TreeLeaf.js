@@ -201,9 +201,12 @@ export default function TreeLeaf({
         </Link>
     );
 
-    // Show popup only for terms that are expressions (9315) or any other kmap type unless nolink is false
+    // Show popup only for terms that are expressions (9315), words (9668), or phrases (9669) or any other kmap type unless nolink is false
+    // words (9668) and phrases (9669) were added to make English trees work
     let showpop =
         (kmapdata?.associated_subject_ids?.includes(9315) ||
+            kmapdata?.associated_subject_ids?.includes(9668) ||
+            kmapdata?.associated_subject_ids?.includes(9669) ||
             domain !== 'terms') &&
         !props?.nolink;
 
