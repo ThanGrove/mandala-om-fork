@@ -94,6 +94,7 @@ export default function TreeLeaf({
             childlvl = parseInt(kmapdata[closest_lvl_fld]) + 1; // If not, use closest level
         } // TODO: Test what if neither match?
     }
+
     // Build the query to get number of children, by querying for children but rows = 0 and use numFound
     const query = {
         index: 'terms',
@@ -200,6 +201,12 @@ export default function TreeLeaf({
         </Link>
     );
 
+    // Show popup only for terms that are expressions (9315) or any other kmap type unless nolink is false
+    let showpop =
+        (kmapdata?.associated_subject_ids?.includes(9315) ||
+            domain !== 'terms') &&
+        !props?.nolink;
+
     // return the div structure for a regular tree leaf
     return (
         <div className={divclass} ref={leafRef}>
@@ -212,7 +219,7 @@ export default function TreeLeaf({
                     {icon}
                 </span>
                 <span className={settings.headerClass}>{leafhead}</span>
-                {!props?.nolink && <MandalaPopover domain={domain} kid={kid} />}
+                {showpop && <MandalaPopover domain={domain} kid={kid} />}
             </span>
             {child_content}
         </div>
