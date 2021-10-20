@@ -77,6 +77,17 @@ export default function ContentMain(props) {
                                 <Redirect from="/mandala-om/*" to="/*" />
 
                                 {/* COLLECTIONS */}
+                                <Route
+                                    path={`/:asset_type/collections/all/:view_mode`}
+                                >
+                                    <CollectionsHome />
+                                </Route>
+
+                                <Redirect
+                                    from={`/:asset_type/collections/all`}
+                                    to={`/:asset_type/collections/all/deck`}
+                                />
+
                                 <Route path={`/collections/all/:view_mode`}>
                                     <CollectionsHome />
                                 </Route>

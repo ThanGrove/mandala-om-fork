@@ -6,13 +6,14 @@ import { getProject } from '../common/utils';
 import { SAProjectName } from '../common/utilcomponents';
 import { useParams } from 'react-router';
 import { Dropdown } from 'react-bootstrap';
+import { Redirect, useHistory } from 'react-router-dom';
 
 export function CollectionsHome(props) {
-    const { view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+    const { asset_type, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+    const history = useHistory();
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(25);
-    const [collFilter, setCollFilter] = useState(0);
 
     const filters = [
         'all types',
@@ -22,6 +23,9 @@ export function CollectionsHome(props) {
         'texts',
         'visuals',
     ];
+
+    let collFilter = filters?.indexOf(asset_type) || 0;
+
     let querySpecs = {
         index: 'assets',
         params: {
@@ -34,6 +38,7 @@ export function CollectionsHome(props) {
     if (collFilter && collFilter > 0) {
         querySpecs['params']['fq'] = `asset_subtype:${filters[collFilter]}`;
     }
+    console.log('qs', querySpecs);
     const {
         isLoading: isCollsLoading,
         data: collsData,
@@ -71,8 +76,13 @@ export function CollectionsHome(props) {
 
     const myfunct = (ev) => {
         const val = ev.target.options[ev.target.options.selectedIndex].value;
-        setCollFilter(val);
+        let newpath = `/collections/all/${view_mode}`;
+        if (val > 0) {
+            newpath = `/${filters[val]}` + newpath;
+        }
+        history.push(newpath);
     };
+
     return (
         <div>
             <h1>All Collections</h1>
