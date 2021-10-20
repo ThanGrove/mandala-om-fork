@@ -339,7 +339,7 @@ function constructFilters(filters) {
                 fq_list.push(...fqs);
                 break;
             case 'collections':
-                fqs = constructFQs(facetData, 'collection_uid_s');
+                fqs = constructFQs(facetData, 'collection_uid_path_ss');
                 fq_list.push(...fqs);
                 break;
             case 'perspective':
