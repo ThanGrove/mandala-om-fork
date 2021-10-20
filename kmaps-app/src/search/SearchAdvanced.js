@@ -175,7 +175,6 @@ export default function SearchAdvanced(props) {
         if (!sqry) {
             sqry = localStorage.getItem(SEARCH_COOKIE_NAME);
         }
-        console.log('in back to search results: ' + sqry);
         history.push(`/search/deck${sqry}`);
     }
 
