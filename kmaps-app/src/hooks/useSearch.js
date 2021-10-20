@@ -237,7 +237,8 @@ function constructFilters(filters) {
         // const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667'];
         // Current fqs filters for only accepted asset type or terms that are expressions (subjects-9315)
         const fqs = [
-            'asset_type:(audio-video images texts visuals sources subjects places) OR (asset_type:terms AND related_uid_ss:(subjects-9315 subjects-9668 subjects-9669))',
+            'asset_type:(audio-video images texts visuals sources subjects places) OR ' +
+                '(asset_type:terms AND related_uid_ss:(subjects-9315 subjects-9668 subjects-9669))',
         ];
 
         // Added by Than for project filtering

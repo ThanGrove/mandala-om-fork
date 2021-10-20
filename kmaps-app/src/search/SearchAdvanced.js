@@ -175,6 +175,7 @@ export default function SearchAdvanced(props) {
         if (!sqry) {
             sqry = localStorage.getItem(SEARCH_COOKIE_NAME);
         }
+        console.log('in back to search results: ' + sqry);
         history.push(`/search/deck${sqry}`);
     }
 
@@ -241,7 +242,7 @@ export default function SearchAdvanced(props) {
                 )}
                 {process.env.REACT_APP_STANDALONE === 'standalone' && (
                     <span className={'header-label-count back-to-results'}>
-                        <a href={`#/search/deck${location.search}`}>
+                        <a onClick={backToSearchResults}>
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>
