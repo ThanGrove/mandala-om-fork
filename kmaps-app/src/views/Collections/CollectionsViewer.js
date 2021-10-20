@@ -132,7 +132,7 @@ export function CollectionsViewer(props) {
                 //status.setPath(coll_paths);
             }
         }
-    }, [collsolr]);
+    }, [collsolr]); // End UseEffect()
 
     if (isCollLoading) {
         return <MandalaSkeleton />;
