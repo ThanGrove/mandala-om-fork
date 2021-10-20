@@ -18,7 +18,7 @@ export function SearchViewer() {
     });
     const { searchText: search, filters } = query;
 
-    const [perPage, setPerPage] = useState(100); // These are the rows returned
+    const [perPage, setPerPage] = useState(50); // These are the rows returned
     const [page, setPage] = useState(0); // Start will always be page * perPage
     const start_row = page * perPage;
     const {

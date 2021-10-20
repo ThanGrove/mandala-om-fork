@@ -38,7 +38,7 @@ export function CollectionsHome(props) {
     if (collFilter && collFilter > 0) {
         querySpecs['params']['fq'] = `asset_subtype:${filters[collFilter]}`;
     }
-    console.log('qs', querySpecs);
+
     const {
         isLoading: isCollsLoading,
         data: collsData,
