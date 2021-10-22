@@ -4,10 +4,13 @@ import Tab from 'react-bootstrap/Tab';
 import { useRouteMatch } from 'react-router-dom';
 import { getProject, queryID } from '../views/common/utils';
 import KmapTree from '../views/KmapTree/KmapTree';
-import { closeStore } from '../hooks/useCloseStore';
+import { closeStore, openTabStore } from '../hooks/useCloseStore';
 
 const TreeNav = (props) => {
-    const openclass = props.tree ? 'open' : 'closed';
+    const openTab = openTabStore((state) => state.openTab);
+    let openclass = openTab === 2 ? 'open' : 'closed';
+
+    // let openclass = props.tree ? 'open' : 'closed';
     let domain = 'places';
     const domainfids = {
         places: 'false',
@@ -22,7 +25,13 @@ const TreeNav = (props) => {
     ]);
 
     // Get function to handle closeButton state.
-    const handleCloseButton = closeStore((state) => state.changeButtonState);
+    //const handleCloseButton = closeStore((state) => state.changeButtonState);
+
+    const changeTab = openTabStore((state) => state.changeButtonState);
+
+    const handleCloseButton = () => {
+        changeTab(0);
+    };
 
     let found = false;
     if (match?.params?.baseType) {

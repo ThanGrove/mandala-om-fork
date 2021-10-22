@@ -5,7 +5,7 @@ import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
-import { closeStore } from '../hooks/useCloseStore';
+import { closeStore, openTabStore } from '../hooks/useCloseStore';
 import {
     useQueryParams,
     StringParam,
@@ -28,7 +28,13 @@ export default function SearchAdvanced(props) {
     let [reset, setReset] = useState(0);
 
     // Get function to handle closeButton state.
-    const handleCloseButton = closeStore((state) => state.changeButtonState);
+    //const handleCloseButton = closeStore((state) => state.changeButtonState);
+
+    const changeTab = openTabStore((state) => state.changeButtonState);
+
+    const handleCloseButton = () => {
+        changeTab(0);
+    };
 
     // eslint-disable-next-line no-unused-vars
     const [query, setQuery] = useQueryParams({
@@ -50,7 +56,10 @@ export default function SearchAdvanced(props) {
         error: searchError,
     } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
 
-    let openclass = props.advanced ? 'open' : 'closed';
+    //let openclass = props.advanced ? 'open' : 'closed';
+    const openTab = openTabStore((state) => state.openTab);
+    let openclass = openTab === 1 ? 'open' : 'closed';
+
     //const historyStack = useStoreState((state) => state.history.historyStack);
     const historyStack = {};
 
