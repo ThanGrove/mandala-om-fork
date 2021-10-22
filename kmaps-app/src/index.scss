@@ -1,5 +1,6 @@
 @import 'index-variables';
-@import '~bootstrap/scss/bootstrap';
+// @import '~bootstrap/scss/bootstrap';
+@import '../node_modules/bootstrap/scss/bootstrap';
 @import 'css/fonts/shanticon/style.css';
 @import 'views/css/Popover';
 
@@ -343,6 +344,46 @@ header.terms + .two-columns {
             top: 0.3rem;
             left: 0.1rem;
             font-size: 2.5rem;
+        }
+
+        .c-node_header__breadcrumbs {
+            margin-bottom: 0.5rem;
+            .breadcrumb-item {
+                border-bottom: none;
+                &:hover {
+                    border-bottom: thin solid #ddd;
+                }
+            }
+            .breadcrumb-item:before {
+                display: none;
+                float: none;
+            }
+            .breadcrumb-item:first-of-type {
+                font-weight: bold;
+                text-decoration: none;
+                text-transform: uppercase;
+                letter-spacing: 0.095rem;
+                margin-right: 0;
+                margin-left: 1rem;
+                &:after {
+                    content: ': ';
+                }
+            }
+            .breadcrumb-item:after {
+                content: ' /';
+            }
+            .breadcrumb-item:last-of-type {
+                &:after {
+                    content: '';
+                }
+                &:hover {
+                    border-bottom: none;
+                }
+            }
+
+            .c-content__header__perspective {
+                display: none;
+            }
         }
     }
     .c-nodeHeader__backLink__wrap {

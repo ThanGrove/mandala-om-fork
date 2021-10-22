@@ -8,6 +8,7 @@ import '../css/NodeHeader.css';
 import MandalaSkeleton from './MandalaSkeleton';
 import { useView } from '../../hooks/useView';
 import { HtmlCustom } from './MandalaMarkup';
+import { ContentHeaderBreadcrumbs } from '../../main/ContentHeader/ContentHeader';
 
 function NodeHeader() {
     //const match = useRouteMatch();
@@ -157,6 +158,16 @@ function NodeHeader() {
                     </Link>
                 </div>
             )}
+            {process.env.REACT_APP_STANDALONE === 'standalone' &&
+                kmInfo?.tree !== 'terms' && (
+                    <div className="c-node_header__breadcrumbs">
+                        <ContentHeaderBreadcrumbs
+                            itemData={kmInfo}
+                            itemTitle="BCrumbs"
+                            itemType="subjects"
+                        />
+                    </div>
+                )}
             <span className={`icon u-icon__${kmAssetData?.asset_type}`}></span>
             <span className="sui-termTitle sui-nodeTitle" id="sui-termTitle">
                 {label} <HtmlCustom markup={viewLabel} />

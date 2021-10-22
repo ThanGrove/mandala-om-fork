@@ -168,7 +168,7 @@ function ContentHeaderBuilder({ itemType, itemId, siteClass, isCollection }) {
  * @returns {null|*}
  * @constructor
  */
-function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
+export function ContentHeaderBreadcrumbs({ itemData, itemTitle, itemType }) {
     let breadcrumbs = [];
     switch (itemType) {
         case 'places':
