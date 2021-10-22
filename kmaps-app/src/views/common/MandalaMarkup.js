@@ -4,6 +4,7 @@ import { MandalaPopover } from './MandalaPopover';
 import { MandalaModal } from './MandalaModal';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
+import { Link } from 'react-router-dom';
 
 /**
  * The transform function sent to ReactHtmlParse for converting raw HTML into React Components
@@ -92,6 +93,17 @@ function transform(node, index) {
         node.attribs['href']
     ) {
         let linkurl = node.attribs['href'];
+        if (
+            linkurl.includes('/node/') &&
+            node.parent.attribs.class.includes('shanti-texts-field-content') &&
+            node.parent.parent.attribs.class.includes('og_collection')
+        ) {
+            linkurl = linkurl.replace('/node/', '/texts/collection/');
+            const reactkids = node.children.map((ch, ci) => {
+                return convertNodeToElement(ch, ci, transform);
+            });
+            return <Link to={linkurl}>{reactkids}</Link>;
+        }
         let mandalaid =
             typeof node.attribs['data-mandala-id'] === 'undefined'
                 ? false
