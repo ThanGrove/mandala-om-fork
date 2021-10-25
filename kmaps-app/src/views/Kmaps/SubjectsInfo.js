@@ -85,13 +85,17 @@ function SubjectSummary({ kmapData, path }) {
     if (kmapData?.illustration_mms_url?.length > 0) {
         sbjimg = kmapData?.illustration_mms_url[0];
     }
-    let txtid = false;
+
+    /*
+    qlet txtid = false;
     for (let prp in kmapData) {
         if (prp.includes('homepage_text_')) {
             txtid = kmapData[prp];
             break;
         }
     }
+    console.log('txtid: ', txtid);
+     */
 
     return (
         <>
@@ -103,6 +107,7 @@ function SubjectSummary({ kmapData, path }) {
                         </div>
                     )}
                     <div className={'nodeHeader-summary'}>
+                        {/*
                         {!txtid &&
                             'summary_eng' in kmapData &&
                             kmapData['summary_eng'].length > 0 && (
@@ -112,6 +117,7 @@ function SubjectSummary({ kmapData, path }) {
                                     />
                                 </>
                             )}
+                            */}
                         <SubjectDetails kmapData={kmapData} />
                     </div>
                 </div>
