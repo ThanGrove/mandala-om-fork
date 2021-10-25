@@ -23,6 +23,7 @@ import {
     PlacesRelSubjects,
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
+import { RelatedTextFinder } from '../common/utilcomponents';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -108,7 +109,9 @@ export default function PlacesInfo(props) {
                                         id={queryID(baseType, id)}
                                     />
                                 </Tab>
-
+                                <Tab eventKey="essay" title="Essay">
+                                    <RelatedTextFinder kmapdata={kmapData} />
+                                </Tab>
                                 <Tab eventKey="ids" title="Ids">
                                     <PlacesIds
                                         kmap={kmapData}
