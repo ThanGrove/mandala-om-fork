@@ -75,6 +75,14 @@ export default function PlacesInfo(props) {
         return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
     }
 
+    let txtid = false;
+    for (let prp in kmapData) {
+        if (prp.includes('homepage_text_')) {
+            txtid = kmapData[prp];
+            break;
+        }
+    }
+    const defaultKey = txtid ? 'about' : 'map';
     return (
         <>
             <React.Suspense fallback={<MandalaSkeleton />}>
@@ -83,10 +91,18 @@ export default function PlacesInfo(props) {
                         <PlacesSummary kmapData={kmapData} />
                         <div ref={mapRef}>
                             <Tabs
-                                defaultActiveKey="map"
+                                defaultActiveKey={defaultKey}
                                 id="place-kmap-tabs"
                                 mountOnEnter={true}
                             >
+                                {txtid && (
+                                    <Tab eventKey="about" title="About">
+                                        <RelatedTextFinder
+                                            kmapdata={kmapData}
+                                        />
+                                    </Tab>
+                                )}
+
                                 <Tab eventKey="map" title="Map">
                                     {mapSize.width && (
                                         <KmapsMap
@@ -108,9 +124,6 @@ export default function PlacesInfo(props) {
                                         kmap={kmapData}
                                         id={queryID(baseType, id)}
                                     />
-                                </Tab>
-                                <Tab eventKey="essay" title="Essay">
-                                    <RelatedTextFinder kmapdata={kmapData} />
                                 </Tab>
                                 <Tab eventKey="ids" title="Ids">
                                     <PlacesIds
