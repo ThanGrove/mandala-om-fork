@@ -4,6 +4,8 @@ import CardDeck from 'react-bootstrap/CardDeck';
 import { FeaturePager } from './FeaturePager/FeaturePager';
 import Spinner from 'react-bootstrap/Spinner';
 import { Button } from 'react-bootstrap';
+import { StringParam, useQueryParams, withDefault } from 'use-query-params';
+import { ArrayOfObjectsParam } from '../../hooks/utils';
 
 // The length of the Rows at each Break Point
 // const BP_SIZES = {
@@ -148,16 +150,21 @@ function rowFiller(length, bp_sizes) {
 */
 
 function NoResults(props) {
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
     const goback = () => {
         window.history.back();
     };
+    const ss = window.location.search;
     return (
         <div className={'u-search__noresults__wrap'}>
             <div className={'u-search__noresults'}>
                 <h2 className={'u-search__noresults__header'}>No Results</h2>
                 <p>
-                    Your query yielded no results.{' '}
-                    <button onClick={goback}>Go back</button>
+                    Your query &mdash; “{query.searchText}” &mdash; yielded no
+                    results. <button onClick={goback}>Go back</button>
                 </p>
             </div>
         </div>
