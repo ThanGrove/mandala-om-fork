@@ -3,6 +3,7 @@ import { FeatureCard } from './FeatureCard/FeatureCard';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { FeaturePager } from './FeaturePager/FeaturePager';
 import Spinner from 'react-bootstrap/Spinner';
+import { Button } from 'react-bootstrap';
 
 // The length of the Rows at each Break Point
 // const BP_SIZES = {
@@ -81,7 +82,7 @@ export function FeatureDeck(props) {
     };
 
     const docs = props.docs;
-
+    const isResults = docs?.length > 0;
     let deckcontent = null;
     if (props?.isLoading) {
         deckcontent = (
@@ -89,7 +90,7 @@ export function FeatureDeck(props) {
                 <span className="font-weight-bold fs-2">Loading...</span>
             </div>
         );
-    } else if (docs?.length > 0) {
+    } else if (isResults) {
         // console.log("FeatureDeck: looking at ", docs);
         const cards = docs?.map((doc, i) => {
             let ret = [];
@@ -104,18 +105,14 @@ export function FeatureDeck(props) {
         });
         deckcontent = <CardDeck className={'c-card__grid'}>{cards}</CardDeck>;
     } else {
-        deckcontent = (
-            <div className={'u-search__results__wrap'}>
-                <NoResults />
-            </div>
-        );
+        deckcontent = <NoResults />;
     }
 
     const output = (
         <div className={'c-view'}>
-            <FeaturePager {...props} />
+            {isResults && <FeaturePager {...props} />}
             {deckcontent}
-            <FeaturePager {...props} />
+            {isResults && <FeaturePager {...props} />}
         </div>
     );
     return <div className={'c-view__wrapper deck'}>{output}</div>;
@@ -151,9 +148,18 @@ function rowFiller(length, bp_sizes) {
 */
 
 function NoResults(props) {
+    const goback = () => {
+        window.history.back();
+    };
     return (
-        <h2 className={'u-search__noresults__header'}>
-            No results. Your query yielded no results.
-        </h2>
+        <div className={'u-search__noresults__wrap'}>
+            <div className={'u-search__noresults'}>
+                <h2 className={'u-search__noresults__header'}>No Results</h2>
+                <p>
+                    Your query yielded no results.{' '}
+                    <button onClick={goback}>Go back</button>
+                </p>
+            </div>
+        </div>
     );
 }
