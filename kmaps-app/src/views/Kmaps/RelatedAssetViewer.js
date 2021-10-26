@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useParams } from 'react-router-dom';
+import { useHistory } from '../../hooks/useHistory';
 
 const ImagesViewer = React.lazy(() => import('../Images/ImagesViewer'));
 const AudioVideoViewer = React.lazy(() =>
@@ -28,7 +29,10 @@ export default function RelatedAssetViewer({ parentData }) {
 }
 
 export function RelatedAssetHeader({ type, subtype, header }) {
-    const retpath = window.location.pathname.split('/view')[0];
+    const retpath =
+        process.env.REACT_APP_STANDALONE === 'standalone'
+            ? window.location.hash.split('/view')[0].replace('#', '')
+            : window.location.pathname.split('/view')[0];
     return (
         <>
             {' '}
