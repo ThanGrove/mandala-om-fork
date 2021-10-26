@@ -164,7 +164,10 @@ function NoResults(props) {
                 <h2 className={'u-search__noresults__header'}>No Results</h2>
                 <p>
                     Your query &mdash; “{query.searchText}” &mdash; yielded no
-                    results. <button onClick={goback}>Go back</button>
+                    results.
+                </p>
+                <p>
+                    <button onClick={goback}>Go back</button>
                 </p>
             </div>
         </div>
