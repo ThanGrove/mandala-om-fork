@@ -236,30 +236,34 @@ export default function SearchAdvanced(props) {
             </div>
 
             <div className="search-column-reset-filters">
-                {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <Button
-                        onClick={backToSearchResults}
-                        variant="link"
-                        className={'back-to-results'}
-                    >
-                        <span className={'header-icon'}>
-                            <span className="icon shanticon-magnify"></span>
-                        </span>
-                        View Results
-                    </Button>
-                )}
-                {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <span className={'header-label-count back-to-results'}>
-                        <a onClick={backToSearchResults}>
+                {process.env.REACT_APP_STANDALONE !== 'standalone' &&
+                    !searchView && (
+                        <Button
+                            onClick={backToSearchResults}
+                            variant="link"
+                            className={'back-to-results'}
+                        >
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>
                             View Results
-                        </a>
-                    </span>
-                )}
+                        </Button>
+                    )}
+                {process.env.REACT_APP_STANDALONE === 'standalone' &&
+                    !searchView && (
+                        <span className={'header-label-count back-to-results'}>
+                            <a onClick={backToSearchResults}>
+                                <span className={'header-icon'}>
+                                    <span className="icon shanticon-magnify"></span>
+                                </span>
+                                View Results
+                            </a>
+                        </span>
+                    )}
 
-                <button onClick={handleResetAll}>Clear All</button>
+                {(search || filters.length !== 0) && (
+                    <button onClick={handleResetAll}>Clear All</button>
+                )}
             </div>
             <p>Filters for refining search results.</p>
             <section>

@@ -875,9 +875,6 @@ header.terms + .two-columns {
 .search + .two-columns .search-column-reset-filters {
     justify-content: space-evenly;
 }
-.search + .two-columns .search-column-reset-filters .back-to-results {
-    display: none;
-}
 .search + .two-columns .search-column-reset-filters button:last-child {
     position: relative;
     left: 1rem;

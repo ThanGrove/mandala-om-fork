@@ -1,0 +1,45 @@
+name: Deploy THL_DEV
+on:
+  push:
+    branches: [develop-onhold]
+  pull_request:
+    branches: [develop-onhold]
+  workflow_dispatch:
+    branches: [develop]
+
+defaults:
+  run:
+    working-directory: ./kmaps-app
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - site-name: "thl"
+            site: "tibetbuild"
+            localdir: "build/"
+            remotedir: "~/dev.thdl.org/wp-content/plugins/mandala/app/build/"
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: "develop"
+      - name: Use Node.js 14.x for ${{ matrix.site }}
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14.x
+          cache: "npm"
+      - name: Create build and copy to server
+        env:
+          remote_host: ${{ secrets.THL_DEV_HOST_NAME }}
+          remote_port: ${{ secrets.THL_DEV_PORT }}
+          remote_user: ${{ secrets.THL_DEV_USER }}
+          remote_key: ${{ secrets.THL_DEV_PRIVATE_KEY }}
+        run: |
+          npm ci
+          CI=false npm run ${{matrix.site}} --if-present
+          mkdir ~/.ssh
+          echo "$remote_key" > ~/.ssh/id_rsa_wp_mandala
+          chmod 400 ~/.ssh/id_rsa_wp_mandala
+          rsync -avzr --delete -e "ssh -p ${remote_port} -i ~/.ssh/id_rsa_wp_mandala -o StrictHostKeyChecking=no" ${{matrix.localdir}} ${remote_user}@${remote_host}:${{matrix.remotedir}}
