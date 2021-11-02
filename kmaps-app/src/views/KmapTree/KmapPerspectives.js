@@ -69,7 +69,7 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     return (
         <div className={pclass.join(' ')}>
             <label>
-                Persepective
+                Perspective
                 <PerspectiveDescs domain={domain} />
             </label>
             <Form>
