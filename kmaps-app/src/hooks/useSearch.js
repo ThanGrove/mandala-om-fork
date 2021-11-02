@@ -296,6 +296,9 @@ function constructFilters(filters) {
         if (and_list.length) fq_list.push(...and_list);
         if (not_list.length) fq_list.push(...not_list);
 
+        fq_list.push(
+            '-related_uid_ss:(subjects-9311 subjects-9314 subjects-9667)'
+        );
         // console.log('constructFQs returning: ', fq_list);
         return fq_list;
     }
