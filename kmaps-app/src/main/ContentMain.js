@@ -23,6 +23,7 @@ import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
 import Home from './HomePage/Home';
 import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
+import { TextViewerRedirect } from '../views/Texts/TextsViewer';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -202,6 +203,10 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* TEXTS */}
+
+                                <Route path={`/texts/all/view/:id`}>
+                                    <TextViewerRedirect />
+                                </Route>
                                 <Route path={`/texts/all/:view_mode`}>
                                     <TextsHome />
                                 </Route>

@@ -444,3 +444,8 @@ function TextsAltViewer(props) {
         </div>
     );
 }
+
+export function TextViewerRedirect(props) {
+    const { id } = useParams();
+    return <Redirect to={`/texts/${id}`} />;
+}
