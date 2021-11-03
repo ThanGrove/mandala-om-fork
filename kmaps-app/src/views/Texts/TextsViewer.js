@@ -287,6 +287,7 @@ function TextTabs(props) {
     const title = props.title;
     const textid = props.textid;
     const sidebar_class = open ? 'open' : 'closed';
+
     return (
         <Row id={'shanti-texts-sidebar'} className={sidebar_class + ' p-2'}>
             <Col className="meta-toggle-col">

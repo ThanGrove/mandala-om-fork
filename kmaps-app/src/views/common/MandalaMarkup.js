@@ -156,16 +156,24 @@ function transform(node, index) {
                         linkurl.startsWith('/collection') ||
                         linkurl.startsWith('/subcollection')
                     ) {
-                        const pathpts = window.location.pathname.split('/');
+                        const pathpts =
+                            process.env.REACT_APP_STANDALONE !== 'standalone'
+                                ? window.location.pathname?.split('/')
+                                : window.location.hash?.split('/');
+
                         // For Collections in an App. If not app named and asset ID, deliver link contents without link
                         if (pathpts?.length < 3) {
                             return <>{linkcontents}</>;
                         }
+                        const newhref =
+                            process.env.REACT_APP_STANDALONE !== 'standalone'
+                                ? `/find/${pathpts[1]}/${pathpts[2]}/collection`
+                                : `#/find/${pathpts[1]}/${pathpts[2]}/collection`;
                         // Otherwise use route /find/{asset-type}/{asset id}/collection
                         return (
                             <a
                                 className="collection-link"
-                                href={`/find/${pathpts[1]}/${pathpts[2]}/collection`}
+                                href={newhref}
                                 data-href={linkurl}
                                 key={`${pathpts[1]}-${pathpts[2]}-collection-link`}
                             >
