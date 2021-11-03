@@ -23,6 +23,20 @@ export function AdvancedToggle() {
     const default_value =
         openTab === 1 ? 'search' : openTab === 2 ? 'browse' : '';
 
+    // Set open button to the browse tree for kmaps
+    React.useEffect(() => {
+        const pthpts =
+            process.env.REACT_APP_STANDALONE === 'standalone'
+                ? window.location.hash.split('/')
+                : window.location.pathname.split('/');
+        if (
+            pthpts?.length > 1 &&
+            ['places', 'subjects', 'terms'].includes(pthpts[1])
+        ) {
+            setOpenTab(2);
+        }
+    }, []);
+
     React.useEffect(() => {
         // When sidebar is closed by toggle button, cursor is over button and so it gets focus. Wait and remove that focus.
         if (openTab === 0) {
