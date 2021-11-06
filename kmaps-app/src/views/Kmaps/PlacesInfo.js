@@ -23,6 +23,7 @@ import {
     PlacesRelSubjects,
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
+import { RelatedTextFinder } from '../common/utilcomponents';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -74,6 +75,14 @@ export default function PlacesInfo(props) {
         return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
     }
 
+    let txtid = false;
+    for (let prp in kmapData) {
+        if (prp.includes('homepage_text_')) {
+            txtid = kmapData[prp];
+            break;
+        }
+    }
+    const defaultKey = txtid ? 'about' : 'map';
     return (
         <>
             <React.Suspense fallback={<MandalaSkeleton />}>
@@ -82,10 +91,18 @@ export default function PlacesInfo(props) {
                         <PlacesSummary kmapData={kmapData} />
                         <div ref={mapRef}>
                             <Tabs
-                                defaultActiveKey="map"
+                                defaultActiveKey={defaultKey}
                                 id="place-kmap-tabs"
                                 mountOnEnter={true}
                             >
+                                {txtid && (
+                                    <Tab eventKey="about" title="About">
+                                        <RelatedTextFinder
+                                            kmapdata={kmapData}
+                                        />
+                                    </Tab>
+                                )}
+
                                 <Tab eventKey="map" title="Map">
                                     {mapSize.width && (
                                         <KmapsMap
@@ -108,7 +125,6 @@ export default function PlacesInfo(props) {
                                         id={queryID(baseType, id)}
                                     />
                                 </Tab>
-
                                 <Tab eventKey="ids" title="Ids">
                                     <PlacesIds
                                         kmap={kmapData}

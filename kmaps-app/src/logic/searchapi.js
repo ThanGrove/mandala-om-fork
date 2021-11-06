@@ -635,8 +635,7 @@ function constructFilters(filters) {
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
         return {
-            fq:
-                'asset_type:(audio-video images texts visuals sources subjects places terms)',
+            fq: 'asset_type:(audio-video images texts visuals sources collections subjects places terms)',
         };
     }
     function arrayToHash(array, keyField) {

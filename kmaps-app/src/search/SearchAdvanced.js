@@ -5,7 +5,7 @@ import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { useSearch } from '../hooks/useSearch';
-import { closeStore } from '../hooks/useCloseStore';
+import { closeStore, openTabStore } from '../hooks/useCloseStore';
 import {
     useQueryParams,
     StringParam,
@@ -28,7 +28,13 @@ export default function SearchAdvanced(props) {
     let [reset, setReset] = useState(0);
 
     // Get function to handle closeButton state.
-    const handleCloseButton = closeStore((state) => state.changeButtonState);
+    //const handleCloseButton = closeStore((state) => state.changeButtonState);
+
+    const changeTab = openTabStore((state) => state.changeButtonState);
+
+    const handleCloseButton = () => {
+        changeTab(0);
+    };
 
     // eslint-disable-next-line no-unused-vars
     const [query, setQuery] = useQueryParams({
@@ -50,7 +56,10 @@ export default function SearchAdvanced(props) {
         error: searchError,
     } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
 
-    let openclass = props.advanced ? 'open' : 'closed';
+    //let openclass = props.advanced ? 'open' : 'closed';
+    const openTab = openTabStore((state) => state.openTab);
+    let openclass = openTab === 1 ? 'open' : 'closed';
+
     //const historyStack = useStoreState((state) => state.history.historyStack);
     const historyStack = {};
 
@@ -227,30 +236,34 @@ export default function SearchAdvanced(props) {
             </div>
 
             <div className="search-column-reset-filters">
-                {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <Button
-                        onClick={backToSearchResults}
-                        variant="link"
-                        className={'back-to-results'}
-                    >
-                        <span className={'header-icon'}>
-                            <span className="icon shanticon-magnify"></span>
-                        </span>
-                        View Results
-                    </Button>
-                )}
-                {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <span className={'header-label-count back-to-results'}>
-                        <a href={`#/search/deck${location.search}`}>
+                {process.env.REACT_APP_STANDALONE !== 'standalone' &&
+                    !searchView && (
+                        <Button
+                            onClick={backToSearchResults}
+                            variant="link"
+                            className={'back-to-results'}
+                        >
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>
                             View Results
-                        </a>
-                    </span>
-                )}
+                        </Button>
+                    )}
+                {process.env.REACT_APP_STANDALONE === 'standalone' &&
+                    !searchView && (
+                        <span className={'header-label-count back-to-results'}>
+                            <a onClick={backToSearchResults}>
+                                <span className={'header-icon'}>
+                                    <span className="icon shanticon-magnify"></span>
+                                </span>
+                                View Results
+                            </a>
+                        </span>
+                    )}
 
-                <button onClick={handleResetAll}>Clear All</button>
+                {(search || filters.length !== 0) && (
+                    <button onClick={handleResetAll}>Clear All</button>
+                )}
             </div>
             <p>Filters for refining search results.</p>
             <section>

@@ -23,6 +23,7 @@ import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
 import Home from './HomePage/Home';
 import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
+import { TextViewerRedirect } from '../views/Texts/TextsViewer';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -77,6 +78,17 @@ export default function ContentMain(props) {
                                 <Redirect from="/mandala-om/*" to="/*" />
 
                                 {/* COLLECTIONS */}
+                                <Route
+                                    path={`/:asset_type/collections/all/:view_mode`}
+                                >
+                                    <CollectionsHome />
+                                </Route>
+
+                                <Redirect
+                                    from={`/:asset_type/collections/all`}
+                                    to={`/:asset_type/collections/all/deck`}
+                                />
+
                                 <Route path={`/collections/all/:view_mode`}>
                                     <CollectionsHome />
                                 </Route>
@@ -85,7 +97,11 @@ export default function ContentMain(props) {
                                     from="/collections"
                                     to="/collections/all/deck"
                                 />
-
+                                <Route
+                                    path={`/:asset_type/collection/:cid/view/:nid`}
+                                >
+                                    <CollectionsRedirect />
+                                </Route>
                                 <Route
                                     path={`/:asset_type/collection/:id/:view_mode`}
                                 >
@@ -187,6 +203,10 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* TEXTS */}
+
+                                <Route path={`/texts/all/view/:id`}>
+                                    <TextViewerRedirect />
+                                </Route>
                                 <Route path={`/texts/all/:view_mode`}>
                                     <TextsHome />
                                 </Route>

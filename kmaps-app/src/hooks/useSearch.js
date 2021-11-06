@@ -230,14 +230,17 @@ function constructTextQuery(searchString) {
 }
 
 function constructFilters(filters) {
+    //console.log('Filters', filters);
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
-        // filter out grouping terms (letters, 9311, and phrases, 9314, 9667 - English letters) for terms trees,
-        const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667'];
+        // Old fqs filters out grouping terms (letters, 9311, and phrases, 9314, 9667 - English letters) for terms trees,
+        // const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667'];
+        // Current fqs filters for only accepted asset type or terms that are expressions (subjects-9315)
         const fqs = [
-            'asset_type:(audio-video images texts visuals sources subjects places terms)', // filter out old unused asset types
-            '-related_uid_ss:(' + xrelated.join(' OR ') + ')',
+            'asset_type:(audio-video images texts visuals sources subjects places collections) OR ' +
+                '(asset_type:terms AND related_uid_ss:(subjects-9315 subjects-9668 subjects-9669))',
         ];
+
         // Added by Than for project filtering
         const projid = getProject();
         if (projid) {
@@ -293,6 +296,9 @@ function constructFilters(filters) {
         if (and_list.length) fq_list.push(...and_list);
         if (not_list.length) fq_list.push(...not_list);
 
+        fq_list.push(
+            '-related_uid_ss:(subjects-9311 subjects-9314 subjects-9667)'
+        );
         // console.log('constructFQs returning: ', fq_list);
         return fq_list;
     }
@@ -336,7 +342,7 @@ function constructFilters(filters) {
                 fq_list.push(...fqs);
                 break;
             case 'collections':
-                fqs = constructFQs(facetData, 'collection_uid_s');
+                fqs = constructFQs(facetData, 'collection_uid_path_ss');
                 fq_list.push(...fqs);
                 break;
             case 'perspective':

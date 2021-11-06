@@ -4,6 +4,7 @@ import { MandalaPopover } from './MandalaPopover';
 import { MandalaModal } from './MandalaModal';
 import { useSolr } from '../../hooks/useSolr';
 import $ from 'jquery';
+import { Link } from 'react-router-dom';
 
 /**
  * The transform function sent to ReactHtmlParse for converting raw HTML into React Components
@@ -92,6 +93,17 @@ function transform(node, index) {
         node.attribs['href']
     ) {
         let linkurl = node.attribs['href'];
+        if (
+            linkurl.includes('/node/') &&
+            node.parent.attribs.class.includes('shanti-texts-field-content') &&
+            node.parent.parent.attribs.class.includes('og_collection')
+        ) {
+            linkurl = linkurl.replace('/node/', '/texts/collection/');
+            const reactkids = node.children.map((ch, ci) => {
+                return convertNodeToElement(ch, ci, transform);
+            });
+            return <Link to={linkurl}>{reactkids}</Link>;
+        }
         let mandalaid =
             typeof node.attribs['data-mandala-id'] === 'undefined'
                 ? false
@@ -144,16 +156,24 @@ function transform(node, index) {
                         linkurl.startsWith('/collection') ||
                         linkurl.startsWith('/subcollection')
                     ) {
-                        const pathpts = window.location.pathname.split('/');
+                        const pathpts =
+                            process.env.REACT_APP_STANDALONE !== 'standalone'
+                                ? window.location.pathname?.split('/')
+                                : window.location.hash?.split('/');
+
                         // For Collections in an App. If not app named and asset ID, deliver link contents without link
                         if (pathpts?.length < 3) {
                             return <>{linkcontents}</>;
                         }
+                        const newhref =
+                            process.env.REACT_APP_STANDALONE !== 'standalone'
+                                ? `/find/${pathpts[1]}/${pathpts[2]}/collection`
+                                : `#/find/${pathpts[1]}/${pathpts[2]}/collection`;
                         // Otherwise use route /find/{asset-type}/{asset id}/collection
                         return (
                             <a
                                 className="collection-link"
-                                href={`/find/${pathpts[1]}/${pathpts[2]}/collection`}
+                                href={newhref}
                                 data-href={linkurl}
                                 key={`${pathpts[1]}-${pathpts[2]}-collection-link`}
                             >

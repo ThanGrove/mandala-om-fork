@@ -57,7 +57,10 @@ export function FeatureCard(props) {
             <span className={'icon u-icon__' + doc.asset_type}></span>
         ) : null;
 
-    const viewer = doc.asset_type;
+    const viewer =
+        doc.asset_type === 'collections'
+            ? doc.asset_subtype + '/collection'
+            : doc.asset_type;
 
     const related_places = _.uniq(doc.kmapid_places_idfacet).map((x, i) => {
         const [name, id] = x.split('|');
@@ -389,7 +392,6 @@ function DetailModal(props) {
 }
 
 export function createAssetViewURL(avuid, asset_type, location) {
-    // console.log(avuid, asset_type, location);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
