@@ -76,7 +76,40 @@
         font-style: italic;
         font-size: 170% !important;
     }
+    .c-kmaps-related-text {
+        padding: 0 1.5rem 1.5rem;
+    }
     .c-kmaps-related-text .nav-tabs {
         margin-top: 2rem;
     }
+}
+
+/* This is for the popover in places but could be generalized if the popover in utilcomponents.js is used elsewehere */
+#mandala-info-tip,
+#mandala-info-tip * {
+    background-color: #ffffffff;
+    color: #333;
+    font-size: 1.35rem;
+}
+
+#mandala-info-tip {
+    border: 8px ridge #e0dfdf;
+    ul li {
+        list-style-type: none;
+    }
+    .shanti-texts-field.field_kmap_places {
+        display: none;
+    }
+}
+
+.mandala-info-link {
+    float: right;
+    span {
+        color: #333;
+        font-size: 1.35rem;
+    }
+}
+
+.shanti-texts-section-kmaps {
+    display: none;
 }

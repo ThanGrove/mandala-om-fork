@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from './MandalaPopover';
-import { Col, Container, Row, Button, Tabs } from 'react-bootstrap';
+import {
+    Col,
+    Container,
+    Row,
+    Button,
+    Tabs,
+    Tooltip,
+    OverlayTrigger,
+    Overlay,
+} from 'react-bootstrap';
 import { findFieldNames, queryID } from './utils';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
@@ -226,41 +235,95 @@ export function RelatedText({ kid }) {
 
     if (isAssetLoading || isJsonLoading) return <MandalaSkeleton />;
     if (!textjson?.full_markup) return null;
+
+    if (textjson?.bibl_summary) {
+        //console.log(textjson.bibl_summary);
+    }
     const isToc = textjson?.toc_links && textjson.toc_links.length > 0;
     const defkey = isToc ? 'toc' : 'info';
     return (
         <>
-            <Container className="c-kmaps-related-text">
-                <Row>
-                    <Col lg={7}>
-                        <HtmlWithPopovers markup={textjson?.full_markup} />
-                    </Col>
-                    <Col lg={5}>
-                        <Tabs defaultActiveKey={defkey} id="text-meta-tabs">
-                            {isToc && (
-                                <Tab eventKey="toc" title="Table of Contents">
-                                    <div className={'toc'}>
-                                        <HtmlWithPopovers
-                                            markup={textjson?.toc_links}
-                                        />
-                                    </div>
-                                </Tab>
-                            )}
-                            <Tab eventKey="info" title="Info">
-                                {textjson?.bibl_summary && (
-                                    <div className={'info'}>
-                                        <HtmlWithPopovers
-                                            markup={textjson?.bibl_summary}
-                                        />
-                                    </div>
-                                )}
+            <div className="c-kmaps-related-text">
+                <MandalaInfoPopover
+                    markup={textjson?.bibl_summary}
+                    clnm="kmaps-related-text-info"
+                />
+                <HtmlWithPopovers markup={textjson?.full_markup} />
+                {/*  This code showed tabs for essay TOC and essay info. Taking out for now...
+                    <Tabs defaultActiveKey={defkey} id="text-meta-tabs">
+                        {isToc && (
+                            <Tab eventKey="toc" title="Table of Contents">
+                                <div className={'toc'}>
+                                    <HtmlWithPopovers
+                                        markup={textjson?.toc_links}
+                                    />
+                                </div>
                             </Tab>
-                        </Tabs>
-                    </Col>
-                </Row>
-            </Container>
+                        )}
+                        <Tab eventKey="info" title="Info">
+                            {textjson?.bibl_summary && (
+                                <div className={'info'}>
+                                    <HtmlWithPopovers
+                                        markup={textjson?.bibl_summary}
+                                    />
+                                </div>
+                            )}
+                        </Tab>
+                    </Tabs>
+                    */}
+            </div>
         </>
     );
+}
+
+export function MandalaInfoPopover({ markup, clnm }) {
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
+    return (
+        <>
+            <Button
+                variant="outline-light"
+                ref={target}
+                className="mandala-info-link"
+                onClick={() => setShow(!show)}
+            >
+                <span className="u-icon__info"></span>
+            </Button>
+            <Overlay target={target.current} show={show} placement="auto">
+                <div id="mandala-info-tip" className={clnm}>
+                    <Button
+                        variant="outline-light"
+                        className="mandala-close-info"
+                        onClick={() => setShow(false)}
+                    >
+                        <span className="u-icon__close2"></span>
+                    </Button>
+                    <HtmlWithPopovers markup={markup} />
+                </div>
+            </Overlay>
+        </>
+    );
+
+    /*
+    const renderTooltip = (props) => (
+        <Tooltip id="mandala-info-tip" {...props}>
+            <HtmlWithPopovers markup={markup} />
+        </Tooltip>
+    );
+
+    return (
+        <OverlayTrigger
+            placement="right"
+            delay={{ show: 250, hide: 400 }}
+            overlay={renderTooltip}
+        >
+            <Button variant="outline-light" className="mandala-info-link">
+                <span className="u-icon__info"></span>
+            </Button>
+        </OverlayTrigger>
+    );
+
+     */
 }
 
 export function AssetTitle({ kmasset }) {
