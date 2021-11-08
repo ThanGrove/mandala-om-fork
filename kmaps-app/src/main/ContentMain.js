@@ -24,6 +24,7 @@ import $ from 'jquery';
 import Home from './HomePage/Home';
 import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
 import { TextViewerRedirect } from '../views/Texts/TextsViewer';
+import ResourcesHome from '../views/ResourcesHome';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -76,6 +77,10 @@ export default function ContentMain(props) {
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
+                                {/* All RESOURCES */}
+                                <Route path={`/resources`}>
+                                    <ResourcesHome />
+                                </Route>
 
                                 {/* COLLECTIONS */}
                                 <Route
