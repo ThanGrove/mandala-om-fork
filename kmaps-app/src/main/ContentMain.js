@@ -147,6 +147,12 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* PLACES */}
+                                <Route path={`/places/all/:view_mode`}>
+                                    <PlacesHome />
+                                </Route>
+                                <Route path={`/places/all`}>
+                                    <Redirect to={`/places/all/list`} />
+                                </Route>
                                 <Route path={`/places/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -157,10 +163,16 @@ export default function ContentMain(props) {
                                     </section>
                                 </Route>
                                 <Route path={`/places`}>
-                                    <PlacesHome />
+                                    <Redirect to={`/places/all/list`} />
                                 </Route>
 
                                 {/* SUBJECTS */}
+                                <Route path={`/subjects/all/:view_mode`}>
+                                    <SubjectsHome />
+                                </Route>
+                                <Route path={`/subjects/all`}>
+                                    <Redirect to={`/subjects/all/list`} />
+                                </Route>
                                 <Route path={`/subjects/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -171,10 +183,16 @@ export default function ContentMain(props) {
                                     </section>
                                 </Route>
                                 <Route path={`/subjects`}>
-                                    <SubjectsHome />
+                                    <Redirect to={`/subjects/all/list`} />
                                 </Route>
 
                                 {/* TERMS */}
+                                <Route path={`/terms/all/:view_mode`}>
+                                    <TermsHome />
+                                </Route>
+                                <Route path={`/terms/all`}>
+                                    <Redirect to={`/terms/all/list`} />
+                                </Route>
                                 <Route path={`/terms/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -185,7 +203,7 @@ export default function ContentMain(props) {
                                     </section>
                                 </Route>
                                 <Route path={`/terms`}>
-                                    <TermsHome />
+                                    <Redirect to={`/terms/all/list`} />
                                 </Route>
 
                                 {/* SOURCES */}
