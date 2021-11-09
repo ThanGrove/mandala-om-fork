@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './TermDictionaries.css';
 
-const TermDictionaries = ({ definitions }) => {
+const TermDictionaries = ({ definitions, defnum, setDefnum }) => {
+    useEffect(() => {
+        setDefnum(defnum + Object.keys(definitions).length);
+    }, []);
+
     return (
         <div className="sui-termDicts__wrapper">
             <div className="sui-termDicts__title">Other Dictionaries</div>

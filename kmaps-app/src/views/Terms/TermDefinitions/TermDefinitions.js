@@ -42,7 +42,8 @@ const aggregateDetails = _.memoize((def) => {
 
 const TermDefinitions = (props) => {
     //Get Resources keyed by definition-id
-
+    const defnum = props?.defnum;
+    const setDefnum = props?.setDefnum;
     const relatedDocs = props.kmRelated.assets?.all?.docs || [];
     const uid = props.kmRelated.uid;
     const re = new RegExp(`${uid}_definitions-\\d+`);
@@ -88,7 +89,7 @@ const TermDefinitions = (props) => {
                             defid == window.location.hash.substr(1)
                                 ? `selected deflvl${deflevel}`
                                 : `deflvl${deflevel}`;
-
+                        setDefnum(defnum + 1);
                         return (
                             <div
                                 key={defid}

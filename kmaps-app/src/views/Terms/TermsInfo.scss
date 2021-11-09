@@ -1,0 +1,58 @@
+@import '../../index-variables';
+
+.c-content__main__kmaps nav.nav-tabs a {
+    color: #495057;
+    border-bottom: thin solid #33333350;
+
+    &.active {
+        color: #000;
+    }
+}
+.c-audioPlayer__button {
+    background-color: $color-terms;
+}
+
+.term-passage-group {
+    .sui-termDicts__title {
+        margin-top: 2.5rem;
+    }
+
+    .term-passages-wrapper {
+        margin-top: 1.5rem;
+        padding: 1rem 2rem;
+        border: thin solid #ccc;
+    }
+}
+
+.term-passage {
+    margin: 1rem 0;
+    border-bottom: thin solid #ccc;
+
+    &:last-of-type {
+        border-bottom: none;
+    }
+
+    a {
+        border: none;
+
+        &:hover {
+            color: $color-terms;
+        }
+
+        &:focus {
+            border: none;
+        }
+    }
+
+    button.btn-outline-info {
+        color: $color-terms !important;
+        border: none !important;
+        background-color: white !important;
+        outline-style: none !important;
+        cursor: pointer !important;
+    }
+
+    .passage_note {
+        margin-bottom: 1rem;
+    }
+}
