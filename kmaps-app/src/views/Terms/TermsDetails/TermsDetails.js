@@ -78,8 +78,7 @@ const TermsDetails = ({
                     <Tab eventKey="passages" title={`Passages (${passnum})`}>
                         <div className="sui-termDicts__wrapper">
                             <TermPassages
-                                uid={kmapData?.uid}
-                                passages={passages}
+                                kmapData={kmapData}
                                 passnum={passnum}
                                 setPassnum={setPassnum}
                             />
