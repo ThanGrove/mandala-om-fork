@@ -261,7 +261,7 @@ function TermTranslations({ translations }) {
 }
 
 function TermTranslation({ data }) {
-    const lngcode = convertLangCode(data.langcode);
+    const lngcode = data?.langcode; // convertLangCode(data.langcode);
     const srcicon = <span className="u-icon__sources"> </span>; //u-icon__file-text-o
     return (
         <>
