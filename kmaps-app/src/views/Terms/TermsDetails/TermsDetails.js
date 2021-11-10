@@ -9,6 +9,40 @@ import TermDictionaries from '../TermDictionaries';
 import { Tab, Tabs } from 'react-bootstrap';
 import { HtmlCustom } from '../../common/MandalaMarkup';
 import { getTermPassages, TermPassages } from '../TermsPassages/TermsPassages';
+import { convertLangCode, getPropsContaining } from '../../common/utils';
+import GenericPopover from '../../common/GenericPopover';
+
+function getTranslationEquivalents(kmapData) {
+    const transprops = getPropsContaining(kmapData, 'translation_equivalent');
+    let transkeys = [];
+    for (let tpk in transprops) {
+        let tp = transprops[tpk];
+        let mtch = tp.match(/translation_equivalent_(\d+)_/);
+        if (mtch && !transkeys.includes(mtch[1])) {
+            transkeys.push(mtch[1]);
+        }
+    }
+    transkeys.sort();
+    return transkeys.map((tk) => {
+        const cntkey = `translation_equivalent_${tk}_content_s`;
+        const langkey = `translation_equivalent_${tk}_language_s`;
+        const langcodekey = `translation_equivalent_${tk}_language_code_s`;
+        const citekey = `translation_equivalent_${tk}_citation_references_ss`;
+        return {
+            content: cntkey in kmapData ? kmapData[cntkey] : false,
+            lang: langkey in kmapData ? kmapData[langkey] : false,
+            langcode: langcodekey in kmapData ? kmapData[langcodekey] : false,
+            citations:
+                citekey in kmapData
+                    ? kmapData[citekey]
+                          ?.map((cite) => {
+                              return `<p class="bibref">${cite}</p>`;
+                          })
+                          .join(' ')
+                    : false,
+        };
+    });
+}
 
 const TermsDetails = ({
     kmAsset,
@@ -31,6 +65,9 @@ const TermsDetails = ({
     if ('main_defs' in definitions) {
         defnum += definitions['main_defs']?.length - 1;
     }
+
+    const transequivs = getTranslationEquivalents(kmapData);
+    const showtrans = transequivs?.length > 0;
 
     useEffect(() => {
         let atval = 'details';
@@ -91,6 +128,16 @@ const TermsDetails = ({
                         <TermTermRelations kmapData={kmapData} />
                     </div>
                 </Tab>
+                {showtrans && (
+                    <Tab
+                        eventKey="translations"
+                        title={`Translations (${transequivs?.length})`}
+                    >
+                        <div className="sui-termsDetails__wrapper">
+                            <TermTranslations translations={transequivs} />
+                        </div>
+                    </Tab>
+                )}
             </Tabs>
         </>
     );
@@ -192,6 +239,41 @@ function TermTermRelations({ kmapData }) {
                     );
                 })}
             </div>
+        </>
+    );
+}
+
+function TermTranslations({ translations }) {
+    return (
+        <div className="translations">
+            <p>There are {translations?.length} translation equivalents: </p>
+            <ul>
+                {translations.map((tr, tri) => {
+                    return (
+                        <li key={`transequiv-${tri}`}>
+                            <TermTranslation data={tr} />
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
+}
+
+function TermTranslation({ data }) {
+    const lngcode = convertLangCode(data.langcode);
+    const srcicon = <span className="u-icon__sources"> </span>; //u-icon__file-text-o
+    return (
+        <>
+            <span className="langname text-uppercase">{data?.lang}</span>:{' '}
+            <span className={lngcode}>{data?.content}</span>{' '}
+            {data?.citations?.length > 0 && (
+                <GenericPopover
+                    title="Citations"
+                    content={data?.citations}
+                    icon={srcicon}
+                />
+            )}
         </>
     );
 }

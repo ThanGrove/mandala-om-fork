@@ -11,6 +11,8 @@ import { Link } from 'react-router-dom';
 import GenericPopover from './GenericPopover';
 import MandalaCitation from '../Sources/MandalaCitation';
 import { HtmlCustom } from './MandalaMarkup';
+import ISO6391 from 'iso-639-1';
+import { iso6393 } from 'iso-639-3';
 
 export function buildNestedDocs(docs, child_type, path_field) {
     path_field = path_field ? path_field : child_type + '_path_s';
@@ -20,20 +22,13 @@ export function buildNestedDocs(docs, child_type, path_field) {
         return x.block_child_type === child_type;
     });
 
-    // console.log("buildNestedDocs: ", docs)
-
     _.forEach(docs, (doc, i) => {
-        // console.log("buildNestedDocs: i=" +i);
-        // console.log("buildNestedDocs: pathField = " + path_field);
         const path = doc[path_field].split('/');
-        // console.log("buildNestedDocs path = " + path);
         doc.order = i;
-        // console.log("buildNestedDocs path.length == " + path.length);
         if (path.length === 1) {
             // this is a "root doc", push it on the base list
             base[path[0]] = doc;
         } else {
-            // this is a "nested doc"
             // this is a "nested doc"
 
             // check for each "ancestor"
@@ -44,7 +39,6 @@ export function buildNestedDocs(docs, child_type, path_field) {
             // console.log("buildNestedDocs: nested path = ", path);
             var curr = base;
             for (let i = 0; i < path.length; i++) {
-                // console.log("buildNestedDocs segment: " + path.slice(0, i + 1).join("/"));
                 if (!curr[path[i]]) {
                     curr[path[i]] = {};
                 }
@@ -58,7 +52,6 @@ export function buildNestedDocs(docs, child_type, path_field) {
             }
         }
     });
-    // console.log("buildNestedDocs:", base);
     return base;
 }
 
@@ -602,4 +595,88 @@ export function getLangClass(drpfld) {
             break;
     }
     return langclass;
+}
+
+export function getPropsContaining(obj, propmtch, pos = 'includes') {
+    const propnames = [];
+    for (let propname in obj) {
+        if (pos === 'starts' && propname.startsWith(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'includes' && propname.includes(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'ends' && propname.endsWith(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'regex' && propname.match(propmtch)) {
+            propnames.push(propname);
+        }
+    }
+    return propnames;
+}
+
+/**
+ * Convert lang codes between iso-639-1 (2 letter) and iso-639-3 (3 letter) versions.
+ * E.g. bo => tib
+ * @param lc
+ * @returns {string|boolean|boolean}
+ */
+export function convertLangCode(lc) {
+    const langname = getLangNameFromCode(lc);
+    if (!langname) {
+        return false;
+    }
+    if (lc?.length === 3) {
+        return ISO6391.getCode(langname);
+    } else if (lc?.length === 2) {
+        const langdata = iso6393.filter((lng) => {
+            return lng.name === langname;
+        });
+        return langdata?.length > 0 ? langdata[0].iso6393 : false;
+    }
+}
+
+/**
+ * Get a languages name from the code
+ * @param lc : the language code 2 or 3 letters long
+ * @param native  : boolean on whether to return the native languages name for itself
+ * @returns {string|boolean}
+ */
+export function getLangNameFromCode(lc, native = false) {
+    if (lc?.length === 3) {
+        const langdata = iso6393.filter((lng) => {
+            return lng.iso6393 === lc;
+        });
+        if (native) {
+            const shortcd = convertLangCode(lc);
+            return ISO6391.getNativeName(lc);
+        } else {
+            return langdata?.length > 0 ? langdata[0].name : false;
+        }
+    } else if (lc?.length === 2) {
+        if (native) {
+            return ISO6391.getNativeName(lc);
+        } else {
+            return ISO6391.getName(lc);
+        }
+    }
+}
+
+/**
+ * Get the lang code of a certain length from the name
+ *
+ * @param langnm : the name of the language to get the code for
+ * @param cdlen  : the length of the code to return either 2 or 3, defaults to 2.
+ * @returns {string|boolean}
+ */
+export function getLangCodeFromName(langnm, cdlen = 2) {
+    if (cdlen === 3) {
+        const langdata = iso6393.filter((lng) => {
+            return lng.name === langnm;
+        });
+        return langdata?.length > 0 ? langdata[0].iso6393 : false;
+    } else if (cdlen === 2) {
+        return ISO6391.getCode(langnm);
+    }
 }

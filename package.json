@@ -34,6 +34,8 @@
   },
   "dependencies": {
     "axios": "^0.21.1",
+    "iso-639-1": "^2.1.10",
+    "iso-639-3": "^3.0.1",
     "react": "^16.14.0",
     "react-html-parser": "^2.0.2",
     "react-router": "^5.2.0",
