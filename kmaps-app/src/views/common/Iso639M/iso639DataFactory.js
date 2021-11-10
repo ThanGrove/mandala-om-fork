@@ -1,9 +1,9 @@
 import React from 'react';
 
-/** Comment these out to post to server */
+/** Comment these out to post to server
 import ISO6391 from 'iso-639-1';
 import { iso6393 } from 'iso-639-3';
-
+ */
 // This is the react component that creates the JSON data in a <pre></pre> tag:
 
 export function Iso639DataFactory(props) {
