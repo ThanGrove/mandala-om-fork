@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ReactHtmlParser from 'react-html-parser';
@@ -42,8 +42,7 @@ const aggregateDetails = _.memoize((def) => {
 
 const TermDefinitions = (props) => {
     //Get Resources keyed by definition-id
-    const defnum = props?.defnum;
-    const setDefnum = props?.setDefnum;
+    const mainDefs = props.mainDefs;
     const relatedDocs = props.kmRelated.assets?.all?.docs || [];
     const uid = props.kmRelated.uid;
     const re = new RegExp(`${uid}_definitions-\\d+`);
@@ -61,10 +60,11 @@ const TermDefinitions = (props) => {
     }
     let subdef = 0;
     let defnumber = 1;
+
     return (
         <div className="sui-termDefinitions_wrapper">
             <div className="sui-termDefinitions__content">
-                {_.orderBy(props.mainDefs, (val) => val.order, 'asc')
+                {_.orderBy(mainDefs, (val) => val.order, 'asc')
                     .filter(
                         // filter out empty definitions (higgins for now)
                         (def) => def?.related_definitions_content_s?.length > 0
@@ -89,7 +89,7 @@ const TermDefinitions = (props) => {
                             defid == window.location.hash.substr(1)
                                 ? `selected deflvl${deflevel}`
                                 : `deflvl${deflevel}`;
-                        setDefnum(defnum + 1);
+
                         return (
                             <div
                                 key={defid}

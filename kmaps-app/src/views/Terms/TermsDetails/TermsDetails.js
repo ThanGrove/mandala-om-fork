@@ -8,7 +8,7 @@ import _ from 'lodash';
 import TermDictionaries from '../TermDictionaries';
 import { Tab, Tabs } from 'react-bootstrap';
 import { HtmlCustom } from '../../common/MandalaMarkup';
-import { TermPassages } from '../TermsPassages/TermsPassages';
+import { getTermPassages, TermPassages } from '../TermsPassages/TermsPassages';
 
 const TermsDetails = ({
     kmAsset,
@@ -18,15 +18,19 @@ const TermsDetails = ({
     kmapsRelated,
 }) => {
     const [passnum, setPassnum] = useState(0);
-    const [defnum, setDefnum] = useState(0);
     const [activeTab, setActiveTab] = useState('details');
 
     /* Find child documents for definitions with passages */
-    let passages = [];
-    const showpass = true; // passages.length > 0;
+    let passages = getTermPassages(kmapData);
+    const showpass = passages?.length > 0;
     const showetym = kmapData?.etymologies_ss;
     const showdefs =
         !_.isEmpty(definitions['main_defs']) || !_.isEmpty(otherDefinitions);
+
+    let defnum = Object.keys(definitions).length;
+    if ('main_defs' in definitions) {
+        defnum += definitions['main_defs']?.length - 1;
+    }
 
     useEffect(() => {
         let atval = 'details';
@@ -41,6 +45,7 @@ const TermsDetails = ({
         }
         setActiveTab(atval);
     }, []);
+
     return (
         <>
             <TermAudioPlayer kmap={kmapData} />
@@ -55,15 +60,9 @@ const TermsDetails = ({
                         <TermDefinitions
                             mainDefs={definitions['main_defs']}
                             kmRelated={kmapsRelated}
-                            defnum={defnum}
-                            setDefnum={setDefnum}
                         />
                         {!_.isEmpty(otherDefinitions) && (
-                            <TermDictionaries
-                                definitions={otherDefinitions}
-                                defnum={defnum}
-                                setDefnum={setDefnum}
-                            />
+                            <TermDictionaries definitions={otherDefinitions} />
                         )}
                     </Tab>
                 )}

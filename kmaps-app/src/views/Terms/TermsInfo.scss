@@ -1,11 +1,13 @@
 @import '../../index-variables';
 
-.c-content__main__kmaps nav.nav-tabs a {
-    color: #495057;
+.c-content__main__kmaps nav.nav-tabs {
     border-bottom: thin solid #33333350;
+    a {
+        color: #495057;
 
-    &.active {
-        color: #000;
+        &.active {
+            color: #000;
+        }
     }
 }
 .c-audioPlayer__button {
