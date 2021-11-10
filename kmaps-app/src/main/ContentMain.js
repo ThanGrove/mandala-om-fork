@@ -25,6 +25,8 @@ import Home from './HomePage/Home';
 import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
 import { TextViewerRedirect } from '../views/Texts/TextsViewer';
 import ResourcesHome from '../views/ResourcesHome';
+import { IsoLookupMandala } from '../views/common/Iso639M/IsoLookupMandala';
+import { Iso639DataFactory } from '../views/common/Iso639M/iso639DataFactory';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -77,6 +79,7 @@ export default function ContentMain(props) {
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
+
                                 {/* All RESOURCES */}
                                 <Route path={`/resources`}>
                                     <ResourcesHome />
@@ -278,6 +281,14 @@ export default function ContentMain(props) {
 
                                 <Route path={`/find/:assetType/:id/collection`}>
                                     <AssetCollectionLocator />
+                                </Route>
+
+                                {/* Admin Paths */}
+                                <Route path={`/admin/isodata`}>
+                                    <Iso639DataFactory />
+                                </Route>
+                                <Route path={`/admin/isoloookup`}>
+                                    <IsoLookupMandala />
                                 </Route>
 
                                 <Route path={['/', '/home']}>
