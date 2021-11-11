@@ -24,10 +24,28 @@ export function IsoLookupMandala(props) {
                     <strong>Type: </strong> {lang?.type}
                 </li>
                 <li>
-                    <strong>ISO-639-1: </strong> {lang.iso1}
+                    <strong>
+                        <a
+                            href="https://www.loc.gov/standards/iso639-2/php/code_list.php"
+                            target="_blank"
+                        >
+                            ISO-639-1
+                        </a>
+                        :{' '}
+                    </strong>{' '}
+                    {lang.iso1}
                 </li>
                 <li>
-                    <strong>ISO-639-3: </strong> {lang.iso3}
+                    <strong>
+                        <a
+                            href="https://iso639-3.sil.org/code_tables/639/data"
+                            target="_blank"
+                        >
+                            ISO-639-3
+                        </a>
+                        :{' '}
+                    </strong>{' '}
+                    {lang.iso3}
                 </li>
                 <li>
                     <strong title="Abbreviation for bibliographic contexts">

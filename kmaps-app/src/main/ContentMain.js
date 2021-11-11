@@ -287,7 +287,7 @@ export default function ContentMain(props) {
                                 <Route path={`/admin/isodata`}>
                                     <Iso639DataFactory />
                                 </Route>
-                                <Route path={`/admin/isoloookup`}>
+                                <Route path={`/admin/isolookup`}>
                                     <IsoLookupMandala />
                                 </Route>
 
