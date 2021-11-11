@@ -1,6 +1,6 @@
 import React from 'react';
-import iso639 from './iso639data';
-import iso2data from './ISO-639-2-data';
+// import iso639 from './iso639data';
+// import iso2data from './ISO-639-2-data';
 /** Comment these out to post to server
 import ISO6391 from 'iso-639-1';
 import { iso6393 } from 'iso-639-3';
