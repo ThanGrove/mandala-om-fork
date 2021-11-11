@@ -1,5 +1,6 @@
 import React from 'react';
-
+import iso639 from './iso639data';
+import iso2data from './ISO-639-2-data';
 /** Comment these out to post to server
 import ISO6391 from 'iso-639-1';
 import { iso6393 } from 'iso-639-3';
@@ -8,6 +9,7 @@ import { iso6393 } from 'iso-639-3';
 
 export function Iso639DataFactory(props) {
     return <div>ISO 639 NPM Packages Not Available.</div>; // Comment out to use locally
+
     /*
     /!* Comment out below to post to server *!/
     const all2Codes = ISO6391.getAllCodes();
@@ -114,3 +116,22 @@ export function getLangCodeFromName(langnm, cdlen = 2) {
     }
 }
 */
+
+/*
+Other code to add 639-2 data for missing 3-letter codes:
+
+const newdata = {};
+    for (let k in iso639) {
+        let lang = iso639[k];
+        if (!lang.iso3 && k in iso2data && iso2data[k].iso3) {
+            lang.iso3 = iso2data[k].iso3;
+        }
+        newdata[k] = lang;
+    }
+
+    return (
+        <div>
+            <pre>{JSON.stringify(newdata, null, 4)}</pre>
+        </div>
+    );
+ */
