@@ -613,3 +613,19 @@ export function getPropsContaining(obj, propmtch, pos = 'contains') {
     }
     return propnames;
 }
+
+export function getUniquePropIds(data, regex) {
+    let ids = Object.keys(data)
+        .map((pn) => {
+            const mtch = pn.match(regex);
+            if (mtch) {
+                return mtch[1];
+            }
+            return;
+        })
+        .filter((it) => {
+            return it; // filter out empty/null instances
+        });
+    ids = new Set(ids); // get unique
+    return Array.from(ids);
+}

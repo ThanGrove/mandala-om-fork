@@ -1,6 +1,8 @@
 @import '../../index-variables';
 
 .c-content__main__kmaps nav.nav-tabs {
+    margin-top: 1.5rem;
+    padding-left: 1.25rem;
     border-bottom: thin solid #33333350;
     a {
         color: #495057;
@@ -56,5 +58,44 @@
 
     .passage_note {
         margin-bottom: 1rem;
+    }
+}
+
+.otherdef-passages,
+.otherdef-notes {
+    padding: 1.25rem 2rem 2rem 2.5rem;
+    background: white;
+    border: 0.1rem solid #ccc;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+    margin-left: 0;
+    min-height: 10rem;
+}
+
+/** to match the style of other tabs */
+.term-otherdefs {
+    .nav.nav-tabs {
+        margin-bottom: 0rem !important;
+        padding-left: 1rem;
+        border-bottom: none;
+        & > a.nav-item {
+            padding: 1.2rem 2rem 0.75rem;
+            margin-bottom: -0.1rem;
+            letter-spacing: 0.1rem;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 0.75rem 0.75rem 0 0;
+            text-transform: uppercase;
+            border: 0.1rem solid #ccc;
+            background-color: #fff;
+
+            &.active {
+                background-color: #fff;
+                border-color: #ccc;
+                border-top: 0.3rem solid #a2733f;
+                color: #222;
+                border-bottom-color: #fff;
+            }
+        }
     }
 }

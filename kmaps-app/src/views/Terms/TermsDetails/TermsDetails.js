@@ -8,9 +8,10 @@ import _ from 'lodash';
 import TermDictionaries from '../TermDictionaries';
 import { Tab, Tabs } from 'react-bootstrap';
 import { HtmlCustom } from '../../common/MandalaMarkup';
-import { getTermPassages, TermPassages } from '../TermsPassages/TermsPassages';
+import { getOtherDefs, OtherDefs } from '../OtherDefs/OtherDefs';
 import { convertLangCode, getPropsContaining } from '../../common/utils';
 import GenericPopover from '../../common/GenericPopover';
+import { OtherDefNotes } from '../OtherDefs/OtherDefNotes';
 
 function getTranslationEquivalents(kmapData) {
     const transprops = getPropsContaining(kmapData, 'translation_equivalent');
@@ -54,13 +55,15 @@ const TermsDetails = ({
     const [passnum, setPassnum] = useState(0);
     const [activeTab, setActiveTab] = useState('details');
 
+    /** Passages **/
     /* Find child documents for definitions with passages */
-    let passages = getTermPassages(kmapData);
-    const showpass = passages?.length > 0;
+    let otherDefs = getOtherDefs(kmapData); // Custom dictionaries not Passages
+    const showother = otherDefs?.length > 0;
     const showetym = kmapData?.etymologies_ss;
     const showdefs =
         !_.isEmpty(definitions['main_defs']) || !_.isEmpty(otherDefinitions);
 
+    /** Definitions **/
     let defnum = Object.keys(definitions).length;
     if ('main_defs' in definitions) {
         defnum += definitions['main_defs']?.length - 1;
@@ -74,9 +77,6 @@ const TermsDetails = ({
         if (showetym) {
             atval = 'etymology';
         }
-        if (showpass) {
-            atval = 'passages';
-        }
         if (showdefs) {
             atval = 'defs';
         }
@@ -89,7 +89,7 @@ const TermsDetails = ({
             <Tabs
                 activeKey={activeTab}
                 onSelect={(k) => setActiveTab(k)}
-                id="uncontrolled-tab-example"
+                id="term-info-tabs"
                 className="mb-3"
             >
                 {showdefs && (
@@ -98,6 +98,16 @@ const TermsDetails = ({
                             mainDefs={definitions['main_defs']}
                             kmRelated={kmapsRelated}
                         />
+                        {showother && (
+                            <div className="sui-termDicts__wrapper">
+                                <OtherDefs
+                                    kmapData={kmapData}
+                                    passnum={passnum}
+                                    setPassnum={setPassnum}
+                                />
+                            </div>
+                        )}
+
                         {!_.isEmpty(otherDefinitions) && (
                             <TermDictionaries definitions={otherDefinitions} />
                         )}
@@ -110,24 +120,6 @@ const TermsDetails = ({
                     </Tab>
                 )}
 
-                {showpass && (
-                    <Tab eventKey="passages" title={`Passages (${passnum})`}>
-                        <div className="sui-termDicts__wrapper">
-                            <TermPassages
-                                kmapData={kmapData}
-                                passnum={passnum}
-                                setPassnum={setPassnum}
-                            />
-                        </div>
-                    </Tab>
-                )}
-
-                <Tab eventKey="details" title="Details">
-                    <div className="sui-termsDetails__wrapper">
-                        <TermSubjectFacets kmAsset={kmAsset} />
-                        <TermTermRelations kmapData={kmapData} />
-                    </div>
-                </Tab>
                 {showtrans && (
                     <Tab
                         eventKey="translations"
@@ -138,6 +130,13 @@ const TermsDetails = ({
                         </div>
                     </Tab>
                 )}
+
+                <Tab eventKey="details" title="Classification">
+                    <div className="sui-termsDetails__wrapper">
+                        <TermSubjectFacets kmAsset={kmAsset} />
+                        <TermTermRelations kmapData={kmapData} />
+                    </div>
+                </Tab>
             </Tabs>
         </>
     );
