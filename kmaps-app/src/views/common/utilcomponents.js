@@ -15,9 +15,10 @@ import { findFieldNames, queryID } from './utils';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import MandalaSkeleton from './MandalaSkeleton';
-import { HtmlWithPopovers } from './MandalaMarkup';
+import { HtmlCustom, HtmlWithPopovers } from './MandalaMarkup';
 import Tab from 'react-bootstrap/Tab';
 import { useSolr } from '../../hooks/useSolr';
+import GenericPopover from './GenericPopover';
 
 export function CollectionField(props) {
     const solrdoc = props?.solrdoc;
@@ -370,4 +371,20 @@ export function SAProjectName({ pid }) {
         return projData.docs[0].title[0];
     }
     return '';
+}
+
+export function MandalaSourceNote({
+    markup,
+    title = 'Sources',
+    children = [],
+}) {
+    const srcicon = <span className="u-icon__sources"> </span>;
+    return (
+        <GenericPopover
+            title={title}
+            content={markup}
+            children={children}
+            icon={srcicon}
+        />
+    );
 }

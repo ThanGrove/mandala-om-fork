@@ -12,6 +12,7 @@ import { getOtherDefs, OtherDefs } from '../OtherDefs/OtherDefs';
 import { convertLangCode, getPropsContaining } from '../../common/utils';
 import GenericPopover from '../../common/GenericPopover';
 import { OtherDefNotes } from '../OtherDefs/OtherDefNotes';
+import { MandalaSourceNote } from '../../common/utilcomponents';
 
 function getTranslationEquivalents(kmapData) {
     const transprops = getPropsContaining(kmapData, 'translation_equivalent');
@@ -221,6 +222,18 @@ function TermTermRelations({ kmapData }) {
                                 {rt?.terms.map((rt2, rt2i) => {
                                     let [rdomain, rid] =
                                         rt2?.related_uid_s?.split('-');
+                                    const reltermsources =
+                                        rt2?.related_terms_relation_citation_references_ss?.map(
+                                            (rts, rtsi) => {
+                                                return (
+                                                    <div className="mt-3">
+                                                        <HtmlCustom
+                                                            markup={rts}
+                                                        />
+                                                    </div>
+                                                );
+                                            }
+                                        );
                                     return (
                                         <li
                                             key={`${kmapData.uid}-rel-term-${rt2i}`}
@@ -230,6 +243,12 @@ function TermTermRelations({ kmapData }) {
                                                 domain={rdomain}
                                                 kid={rid}
                                             />
+                                            {reltermsources?.length > 0 && (
+                                                <MandalaSourceNote
+                                                    markup=""
+                                                    children={reltermsources}
+                                                />
+                                            )}
                                         </li>
                                     );
                                 })}
