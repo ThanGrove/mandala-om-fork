@@ -150,7 +150,7 @@ function rowFiller(length, bp_sizes) {
 }
 */
 
-function NoResults(props) {
+export function NoResults(props) {
     const [query, setQuery] = useQueryParams({
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),

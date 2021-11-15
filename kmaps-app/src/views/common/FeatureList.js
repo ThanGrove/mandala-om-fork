@@ -7,6 +7,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Container, Col, Row, Card, Accordion } from 'react-bootstrap';
 import $ from 'jquery';
 import { createAssetViewURL } from './FeatureCard/FeatureCard';
+import { NoResults } from './FeatureDeck';
 
 export function FeatureList(props) {
     const myloc = useLocation();
@@ -58,6 +59,14 @@ export function FeatureList(props) {
             );
         }
     });
+
+    if (props?.docs?.length === 0) {
+        return (
+            <div className={'c-view'}>
+                <NoResults />
+            </div>
+        );
+    }
 
     const output = (
         <div className={'c-view'}>
