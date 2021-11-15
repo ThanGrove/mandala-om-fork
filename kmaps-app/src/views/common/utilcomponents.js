@@ -290,7 +290,7 @@ export function MandalaInfoPopover({ markup, clnm }) {
             >
                 <span className="u-icon__info"></span>
             </Button>
-            <Overlay target={target.current} show={show} placement="auto">
+            <Overlay target={target.current} show={show} placement="left">
                 <div id="mandala-info-tip" className={clnm}>
                     <Button
                         variant="outline-light"
