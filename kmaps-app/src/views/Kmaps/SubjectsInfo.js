@@ -17,7 +17,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import { RelatedTextFinder } from '../common/utilcomponents';
+import { RelatedTextFinder } from '../Texts/RelatedText';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);

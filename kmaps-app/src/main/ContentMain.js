@@ -27,6 +27,7 @@ import { TextViewerRedirect } from '../views/Texts/TextsViewer';
 import ResourcesHome from '../views/ResourcesHome';
 import { IsoLookupMandala } from '../views/common/Iso639M/IsoLookupMandala';
 import { Iso639DataFactory } from '../views/common/Iso639M/iso639DataFactory';
+import ScrollToTop from './ScrollToTop';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -65,6 +66,7 @@ export default function ContentMain(props) {
             localStorage.setItem(SEARCH_COOKIE_NAME, myLocation.search);
         }
     }, [myLocation]);
+
     const left = (
         <main className="l-column__main">
             <article id="l-column__main__wrap" className="l-column__main__wrap">
@@ -75,7 +77,7 @@ export default function ContentMain(props) {
                 />
                 <Container className={column_class}>
                     <Section id="l-content__main" className="l-content__main">
-                        {/** TODO:gk3k -> Create loading component with skeletons. */}
+                        <ScrollToTop />
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />

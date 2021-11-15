@@ -23,7 +23,7 @@ import {
     PlacesRelSubjects,
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
-import { RelatedTextFinder } from '../common/utilcomponents';
+import { RelatedTextFinder } from '../Texts/RelatedText';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')

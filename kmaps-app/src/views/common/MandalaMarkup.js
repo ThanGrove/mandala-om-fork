@@ -151,7 +151,7 @@ function transform(node, index) {
             //
             if (pathparts.length == 1 || !mtch) {
                 if (pathparts[0] === '') {
-                    // It's a relative link from a Mandala App which doesn't include it's the app name
+                    // It's a relative link from a Mandala App which doesn't include its app name
                     if (
                         linkurl.startsWith('/collection') ||
                         linkurl.startsWith('/subcollection')
@@ -165,6 +165,7 @@ function transform(node, index) {
                         if (pathpts?.length < 3) {
                             return <>{linkcontents}</>;
                         }
+                        // TODO: check if this is working if urls starts with / then [1] would be "collection" not the asset type ???l
                         const newhref =
                             process.env.REACT_APP_STANDALONE !== 'standalone'
                                 ? `/find/${pathpts[1]}/${pathpts[2]}/collection`
@@ -181,11 +182,11 @@ function transform(node, index) {
                             </a>
                         );
                     }
+
                     // Otherwise return inactive link with url as data attribute
                     return (
                         <a
                             className="original-link"
-                            href="#"
                             data-href={linkurl}
                             key={`link-${linkurl}-${Date.now()}`}
                         >
