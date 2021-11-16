@@ -120,7 +120,7 @@ const TermsDetails = ({
                     </Tab>
                 )}
                 {showother && (
-                    <Tab eventKey="other" title={`Other (${otherDefNum})`}>
+                    <Tab eventKey="other" title={`More (${otherDefNum})`}>
                         <div className="sui-termDicts__wrapper">
                             <OtherDefs
                                 kmapData={kmapData}
