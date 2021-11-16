@@ -22,14 +22,20 @@ const TermEtymology = (props) => {
         {}
     );
 
+    /*<span className="sui-etymology__heading">
+                            {etymologies[key].heading}:{' '}
+                        </span>
+
+     */
+
     return (
         <div className="sui-etymology__wrapper">
             <div className="sui-etymology__content">
                 {Object.keys(etymologies).map((key) => (
                     <div key={key} className="sui-etymology__content-items">
-                        <span className="sui-etymology__heading">
-                            {etymologies[key].heading}:{' '}
-                        </span>
+                        <div className="sui-termDicts__title">
+                            {etymologies[key].heading}
+                        </div>
                         <span className="sui-etymology__text">
                             {ReactHtmlParser(
                                 etymologies[key].content
