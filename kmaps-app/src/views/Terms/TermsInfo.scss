@@ -167,6 +167,16 @@
     font-size: 1.75rem;
 }
 
+.term-details .sui-termDicts__title.classification:before {
+    content: '\e635';
+}
+.term-details .sui-termDicts__title.relations {
+    margin-top: 1rem;
+    &:before {
+        content: '\e638';
+    }
+}
+
 .term-defcnt p {
     margin-left: 0.5rem;
 }

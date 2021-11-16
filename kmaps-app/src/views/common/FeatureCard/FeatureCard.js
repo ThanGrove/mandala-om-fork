@@ -194,6 +194,8 @@ export function FeatureCard(props) {
         mycaption = <HtmlCustom markup={mycaption} />;
     }
 
+    let thumb_url = doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg';
+    thumb_url = thumb_url.replace('!200,200', '!900,900');
     return (
         <Card key={doc.uid} className={'c-card__grid--' + doc.asset_type}>
             <Link
@@ -204,7 +206,7 @@ export function FeatureCard(props) {
                 <Card.Img
                     className={'c-card__grid__image--top'}
                     variant="top"
-                    src={doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg'}
+                    src={thumb_url}
                 />
                 <div className={'c-card__grid__glyph--type color-invert'}>
                     {typeGlyph}
