@@ -43,7 +43,7 @@ export function OtherPassages({ kmapData }) {
     /* Find child documents for definitions with passages */
     let defs = getOtherPassages(kmapData);
     return (
-        <div className="term-otherdefs">
+        <>
             {defs.map((p, pi) => {
                 return (
                     <OtherPassageGroup
@@ -52,6 +52,6 @@ export function OtherPassages({ kmapData }) {
                     />
                 );
             })}
-        </div>
+        </>
     );
 }

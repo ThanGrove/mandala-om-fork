@@ -28,6 +28,9 @@ export function TermPassage({ data, pid }) {
                     className="passage_note"
                     key={`term-passage-${pid}-${notenum}`}
                 >
+                    {notes?.length > 1 && (
+                        <h4 className="passage_note_num">Note {nti + 1}</h4>
+                    )}
                     <HtmlCustom
                         markup={
                             data[
@@ -75,8 +78,12 @@ export function TermPassage({ data, pid }) {
                         }
                     />
 
-                    <h3>Notes</h3>
-                    {notes}
+                    {notes?.length > 0 && (
+                        <>
+                            <h3>Notes</h3>
+                            {notes}
+                        </>
+                    )}
                 </div>
             </Collapse>
         </div>

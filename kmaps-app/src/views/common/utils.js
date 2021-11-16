@@ -626,6 +626,6 @@ export function getUniquePropIds(data, regex) {
         .filter((it) => {
             return it; // filter out empty/null instances
         });
-    ids = new Set(ids); // get unique
+    ids = new Set(ids);
     return Array.from(ids);
 }

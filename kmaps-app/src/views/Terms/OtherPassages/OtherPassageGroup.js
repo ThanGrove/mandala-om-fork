@@ -18,7 +18,6 @@ import { getUniquePropIds } from '../../common/utils';
  */
 export function OtherPassageGroup({ data }) {
     const [activeTab, setActiveTab] = useState(''); // Active Tab in Other Def group
-
     // Get all passage IDs from filtering data (solr doc) properties
     const passageIds = getUniquePropIds(
         data,
@@ -39,7 +38,23 @@ export function OtherPassageGroup({ data }) {
         </div>
     ) : null;
 
-    // Definition from Other Source if it exists
+    return (
+        <div className="otherdef-group">
+            {header}
+            <div className="otherdef-passages">
+                {passageIds.map((pid, pind) => {
+                    return (
+                        <TermPassage
+                            data={data}
+                            pid={pid}
+                            key={`term-otherdef-passage-${pid}-${pind}`}
+                        />
+                    );
+                })}
+            </div>
+        </div>
+    );
+    // Definition from Other Source if it exists DEPRECATED!
     const def =
         data?.related_definitions_content_s?.length > 0 ? (
             <div className="otherdef-cnt">

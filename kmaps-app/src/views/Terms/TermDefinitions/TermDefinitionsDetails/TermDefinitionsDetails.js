@@ -13,6 +13,15 @@ const TermDefinitionsDetails = ({ details, defid }) => {
     ) : (
         <span className="u-icon__plus"> </span>
     );
+
+    // Do not show details if only language because that is already shown
+    const detailkeys = Object.keys(details);
+    if (
+        detailkeys?.length === 1 &&
+        details[detailkeys[0]]?.header_title === 'Language'
+    ) {
+        return null;
+    }
     return (
         <div className="term-def-details">
             <p className="details-ref">

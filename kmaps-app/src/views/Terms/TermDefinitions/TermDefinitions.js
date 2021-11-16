@@ -97,6 +97,7 @@ const TermDefinitions = (props) => {
                                 className={`definition ${defclass}`}
                             >
                                 <div className="term-defhead">
+                                    <span className="icon shanticon-list-alt"></span>
                                     Definition {numberlabel}
                                 </div>
                                 <div className="term-defcnt">
@@ -105,14 +106,16 @@ const TermDefinitions = (props) => {
                                     )}
                                 </div>
                                 <div className="term-def-info">
-                                    {parseInt(
-                                        resourceCounts[def.id]?.all || 0
-                                    ) > 0 && (
-                                        <TermDefinitionsResources
-                                            defID={def.id}
-                                            resCounts={resourceCounts}
-                                        />
-                                    )}
+                                    <div className="sui-termDefResource__wrapper">
+                                        {parseInt(
+                                            resourceCounts[def.id]?.all || 0
+                                        ) > 0 && (
+                                            <TermDefinitionsResources
+                                                defID={def.id}
+                                                resCounts={resourceCounts}
+                                            />
+                                        )}
+                                    </div>
                                     {def.related_definitions_author_s &&
                                         def.related_definitions_language_s && (
                                             <div className="sui-termDefinitions__extra">

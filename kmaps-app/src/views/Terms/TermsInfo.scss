@@ -36,6 +36,12 @@
         border-bottom: none;
     }
 
+    h3 {
+        font-weight: bold;
+        color: $color-terms;
+        text-decoration: underline;
+    }
+
     a {
         border: none;
 
@@ -58,6 +64,17 @@
 
     .passage_note {
         margin-bottom: 1rem;
+
+        .passage_note_num {
+            display: block;
+            font-weight: bold;
+            color: #777;
+        }
+    }
+
+    .biblio-authors,
+    .biblio-title-chicago {
+        font-weight: bold;
     }
 }
 
@@ -65,16 +82,13 @@
 .otherdef-notes {
     padding: 1.25rem 2rem 2rem 2.5rem;
     background: white;
-    border: 0.1rem solid #ccc;
-    border-radius: 1rem;
     margin-bottom: 2rem;
     margin-left: 0;
     min-height: 10rem;
 }
 
 /** to match the style of other tabs */
-.c-content__main__kmaps,
-.term-otherdefs {
+.term-details {
     .nav.nav-tabs {
         margin-bottom: 0rem !important;
         padding-left: 1rem;
@@ -99,11 +113,18 @@
             }
         }
     }
+
+    .tab-content {
+        padding: 1.5rem;
+        border: thin solid #ccc;
+        border-radius: 1rem;
+    }
 }
 
 /** New Term defs **/
-.sui-termDefinitions__content .term-defhead {
-    margin: 1rem 0;
+.term-details .term-defhead,
+.term-details .sui-termDicts__title {
+    margin-bottom: 1rem;
     padding: 0.5rem 1rem;
     height: 4rem;
     line-height: 1.75rem;
@@ -113,6 +134,37 @@
     background-color: #91693c;
     border-top: 0.6rem double #fff;
     border-bottom: 0.6rem double #fff;
+
+    .icon {
+        font-weight: normal;
+        margin-right: 1rem;
+        vertical-align: bottom;
+    }
+}
+
+.term-details .sui-termDicts__title {
+    text-transform: unset;
+    letter-spacing: unset;
+    border-left: none;
+    padding-left: 4.5rem;
+    border-radius: 0;
+
+    &:before {
+        width: unset;
+        height: unset;
+        left: 1rem;
+        bottom: unset;
+        font-size: 2rem;
+    }
+}
+
+.term-details .other-def-note .sui-termDicts__title:before {
+    content: '\e688';
+}
+
+.term-details .otherdef-group .sui-termDicts__title:before {
+    content: '\e636';
+    font-size: 1.75rem;
 }
 
 .term-defcnt p {
