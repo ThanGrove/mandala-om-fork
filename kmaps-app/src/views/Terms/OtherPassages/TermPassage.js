@@ -48,7 +48,7 @@ export function TermPassage({ data, pid }) {
     });
     return (
         <div className="term-passage">
-            <p>
+            <p className="passage-ref">
                 <Button
                     onClick={() => setOpen(!open)}
                     aria-controls={toggle_divid}

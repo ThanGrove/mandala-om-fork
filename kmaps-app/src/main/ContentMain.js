@@ -28,6 +28,7 @@ import ResourcesHome from '../views/ResourcesHome';
 import { IsoLookupMandala } from '../views/common/Iso639M/IsoLookupMandala';
 import { Iso639DataFactory } from '../views/common/Iso639M/iso639DataFactory';
 import ScrollToTop from './ScrollToTop';
+import { ShanticonRefPage } from '../views/common/utilcomponents';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -291,6 +292,9 @@ export default function ContentMain(props) {
                                 </Route>
                                 <Route path={`/admin/isolookup`}>
                                     <IsoLookupMandala />
+                                </Route>
+                                <Route path={`/admin/shanticonref`}>
+                                    <ShanticonRefPage />
                                 </Route>
 
                                 <Route path={['/', '/home']}>

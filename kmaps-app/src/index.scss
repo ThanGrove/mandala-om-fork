@@ -1525,3 +1525,40 @@ span.refdate {
         display: none;
     }
 }
+
+.sicon-ref-page {
+    .sicon-ref-list {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: stretch;
+        max-width: 80vw;
+
+        .sicon-item {
+            width: 20%;
+            min-width: 30px;
+            max-width: 90px;
+            padding: 0.5rem;
+            border: thin solid green;
+            text-align: center;
+            span.icon {
+                font-size: 3rem;
+            }
+            p.label {
+                margin: 0;
+                padding: 0;
+                font-weight: bold;
+            }
+        }
+    }
+}
+
+.sicon-tooltip .tooltip-inner {
+    padding: 1rem;
+    font-size: 1.5rem;
+    max-width: 100px;
+    margin-left: -5px;
+    height: 120px;
+    padding-top: 3rem;
+    background-color: #555;
+}

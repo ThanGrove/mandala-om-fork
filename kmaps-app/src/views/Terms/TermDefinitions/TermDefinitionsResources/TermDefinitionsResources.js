@@ -23,9 +23,6 @@ const TermDefinitionsResources = ({ defID, resCounts }) => {
 
     return (
         <div className="sui-termDefResource__wrapper">
-            <div className="sui-termDefResource__header">
-                Resources tagged with this definition:
-            </div>
             <div className="sui-termDefResource__content">
                 {Object.keys(resources)
                     .filter((key) => key !== 'all')

@@ -1,5 +1,5 @@
 import React from 'react';
-import { OtherDefGroup } from './OtherDefGroup';
+import { OtherPassageGroup } from './OtherPassageGroup';
 
 /**
  * getOtherDefs : returns the child documents of the kmaps Term that have passage fields in them.
@@ -8,15 +8,23 @@ import { OtherDefGroup } from './OtherDefGroup';
  *
  * @param kmapData
  */
-export function getOtherDefs(kmapData) {
-    let defs = [];
+export function getOtherPassages(kmapData) {
+    let passages = [];
     const reldefs = kmapData?._childDocuments_?.filter((cd) => {
         return (
             cd?.block_child_type === 'related_definitions' &&
-            cd?.related_definitions_content_s?.length > 0
+            cd?.related_definitions_content_s === ''
         );
     });
-    return defs;
+    for (var n = 0; n < reldefs?.length; n++) {
+        let rd = reldefs[n];
+        if (
+            Object.keys(rd).join('|').includes('related_definitions_passage_')
+        ) {
+            passages.push(rd);
+        }
+    }
+    return passages;
 }
 
 /**
@@ -31,14 +39,14 @@ export function getOtherDefs(kmapData) {
  * @returns {JSX.Element}
  * @constructor
  */
-export function OtherDefs({ kmapData }) {
+export function OtherPassages({ kmapData }) {
     /* Find child documents for definitions with passages */
-    let defs = getOtherDefs(kmapData);
+    let defs = getOtherPassages(kmapData);
     return (
         <div className="term-otherdefs">
             {defs.map((p, pi) => {
                 return (
-                    <OtherDefGroup
+                    <OtherPassageGroup
                         key={`term-otherdef-group-${kmapData?.uid}`}
                         data={p}
                     />

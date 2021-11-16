@@ -13,6 +13,10 @@ import { convertLangCode, getPropsContaining } from '../../common/utils';
 import GenericPopover from '../../common/GenericPopover';
 import { OtherDefNotes } from '../OtherDefs/OtherDefNotes';
 import { MandalaSourceNote } from '../../common/utilcomponents';
+import {
+    getOtherPassages,
+    OtherPassages,
+} from '../OtherPassages/OtherPassages';
 
 function getTranslationEquivalents(kmapData) {
     const transprops = getPropsContaining(kmapData, 'translation_equivalent');
@@ -58,18 +62,14 @@ const TermsDetails = ({
 
     /** Passages **/
     /* Find child documents for definitions with passages */
-    let otherDefs = getOtherDefs(kmapData); // Custom dictionaries not Passages
-    const showother = otherDefs?.length > 0;
+    const defnum = Object.keys(definitions['main_defs']).length;
+    const showdefs = defnum > 0;
+    const otherDefs = getOtherDefs(kmapData);
+    const otherDefNum =
+        otherDefs?.length + Object.keys(otherDefinitions)?.length; // Custom dictionaries not Passages
+    const showother = otherDefNum > 0;
+    const showpass = getOtherPassages(kmapData)?.length > 0;
     const showetym = kmapData?.etymologies_ss;
-    const showdefs =
-        !_.isEmpty(definitions['main_defs']) || !_.isEmpty(otherDefinitions);
-
-    /** Definitions **/
-    let defnum = Object.keys(definitions).length;
-    if ('main_defs' in definitions) {
-        defnum += definitions['main_defs']?.length - 1;
-    }
-
     const transequivs = getTranslationEquivalents(kmapData);
     const showtrans = transequivs?.length > 0;
 
@@ -99,19 +99,28 @@ const TermsDetails = ({
                             mainDefs={definitions['main_defs']}
                             kmRelated={kmapsRelated}
                         />
-                        {showother && (
-                            <div className="sui-termDicts__wrapper">
-                                <OtherDefs
-                                    kmapData={kmapData}
-                                    passnum={passnum}
-                                    setPassnum={setPassnum}
+                    </Tab>
+                )}
+                {showother && (
+                    <Tab eventKey="other" title={`Other (${otherDefNum})`}>
+                        <div className="sui-termDicts__wrapper">
+                            <OtherDefs
+                                kmapData={kmapData}
+                                passnum={passnum}
+                                setPassnum={setPassnum}
+                            />
+                            {!_.isEmpty(otherDefinitions) && (
+                                <TermDictionaries
+                                    definitions={otherDefinitions}
                                 />
-                            </div>
-                        )}
+                            )}
+                        </div>
+                    </Tab>
+                )}
 
-                        {!_.isEmpty(otherDefinitions) && (
-                            <TermDictionaries definitions={otherDefinitions} />
-                        )}
+                {showpass && (
+                    <Tab eventKey="passages" title="Passages">
+                        <OtherPassages kmapData={kmapData} />
                     </Tab>
                 )}
 

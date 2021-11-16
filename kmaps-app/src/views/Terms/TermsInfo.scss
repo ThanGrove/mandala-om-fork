@@ -73,6 +73,7 @@
 }
 
 /** to match the style of other tabs */
+.c-content__main__kmaps,
 .term-otherdefs {
     .nav.nav-tabs {
         margin-bottom: 0rem !important;
@@ -97,5 +98,43 @@
                 border-bottom-color: #fff;
             }
         }
+    }
+}
+
+/** New Term defs **/
+.sui-termDefinitions__content .term-defhead {
+    margin: 1rem 0;
+    padding: 0.5rem 1rem;
+    height: 4rem;
+    line-height: 1.75rem;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: white;
+    background-color: #91693c;
+    border-top: 0.6rem double #fff;
+    border-bottom: 0.6rem double #fff;
+}
+
+.term-defcnt p {
+    margin-left: 0.5rem;
+}
+
+.term-def-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 3rem;
+
+    .sui-termDefResource__wrapper {
+        margin-top: -0.5rem;
+    }
+}
+
+.term-def-details .details-ref {
+    margin-top: -2.5rem;
+    button {
+        border: none;
+        outline: none;
+        color: #91693c !important;
     }
 }

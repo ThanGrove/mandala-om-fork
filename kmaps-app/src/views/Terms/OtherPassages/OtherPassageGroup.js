@@ -2,11 +2,11 @@ import { HtmlCustom } from '../../common/MandalaMarkup';
 import React, { useEffect, useState } from 'react';
 import { TermPassage } from '../OtherPassages/TermPassage';
 import { Tab, Tabs } from 'react-bootstrap';
-import { OtherDefNotes } from './OtherDefNotes';
+import { OtherDefNotes } from '../OtherDefs/OtherDefNotes';
 import { getUniquePropIds } from '../../common/utils';
 
 /**
- * OtherDefGroup: The div that groups aspects of a definition external to Mandala terms.
+ * Other Passage Group: The div that groups aspects of a definition external to Mandala terms.
  * Other Defs can have a defintion, passages, and/or notes.
  * If multiple of these exist, use tabs.
  *
@@ -16,7 +16,7 @@ import { getUniquePropIds } from '../../common/utils';
  * @returns {JSX.Element}
  * @constructor
  */
-export function OtherDefGroup({ data }) {
+export function OtherPassageGroup({ data }) {
     const [activeTab, setActiveTab] = useState(''); // Active Tab in Other Def group
 
     // Get all passage IDs from filtering data (solr doc) properties

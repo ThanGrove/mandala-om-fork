@@ -84,10 +84,21 @@ const TermsInfo = (props) => {
     //Get all related Definitions
     const definitions = _(kmapData?._childDocuments_)
         .pickBy((val) => {
-            return val.block_child_type === 'related_definitions';
+            return (
+                val.block_child_type === 'related_definitions' &&
+                val?.related_definitions_content_s?.length > 0
+            );
         })
         .groupBy((val) => {
-            return _.get(val, 'related_definitions_source_s', 'main_defs');
+            let category = _.get(val, 'related_definitions_source_s');
+            if (!category || category === '') {
+                category = _.get(
+                    val,
+                    'related_definitions_in_house_source_s',
+                    'main_defs'
+                );
+            }
+            return category;
         })
         .value();
     const otherDefinitions = _.omit(definitions, ['main_defs']);
