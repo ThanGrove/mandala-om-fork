@@ -5,6 +5,7 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
 import { HtmlWithPopovers } from '../common/MandalaMarkup';
 import React from 'react';
 import { MandalaInfoPopover } from '../common/utilcomponents';
+import { Link } from 'react-router-dom';
 
 export function RelatedTextFinder({ kmapdata }) {
     let txtidfield = findFieldNames(kmapdata, 'homepage_text_', 'starts');
@@ -32,18 +33,49 @@ export function RelatedText({ kid }) {
     if (isAssetLoading || isJsonLoading) return <MandalaSkeleton />;
     if (!textjson?.full_markup) return null;
 
-    if (textjson?.bibl_summary) {
-        //console.log(textjson.bibl_summary);
-    }
+    // console.log('text json api', textjson);
+
+    // Authors
+    let authors = textjson?.field_book_author?.und
+        ?.map((au, ai) => {
+            return au?.safe_value ? au.safe_value : au?.value ? au.value : null;
+        })
+        .filter((au) => {
+            return au;
+        });
+    const lastauth = authors?.pop();
+    authors =
+        authors?.length > 0
+            ? authors?.join(', ') + ` and ${lastauth}`
+            : lastauth;
+
+    // Pubdate
+    let pubdate =
+        textjson?.field_dc_date_publication_year?.und?.length > 0
+            ? textjson.field_dc_date_publication_year.und[0]?.value
+            : textjson?.field_dc_date_original_year?.und?.length > 0
+            ? textjson.field_dc_date_original_year.und[0]?.value
+            : null;
+    pubdate = pubdate && pubdate?.length > 0 ? pubdate.split('-')[0] : null;
+
+    // Collection
+    const cdata = textjson?.field_og_collection;
+    const coll = cdata ? (
+        <Link to={`/texts/collection/${cdata?.nid}`}>{cdata?.title}</Link>
+    ) : (
+        false
+    );
+
     const isToc = textjson?.toc_links && textjson.toc_links.length > 0;
-    const defkey = isToc ? 'toc' : 'info';
     return (
         <>
             <div className="c-kmaps-related-text">
-                <MandalaInfoPopover
-                    markup={textjson?.bibl_summary}
-                    clnm="kmaps-related-text-info"
-                />
+                <h1>{textjson?.title}</h1>
+                <h2 className="byline">
+                    By {authors}
+                    {pubdate && <> ({pubdate})</>}
+                    {coll && <> from {coll}</>}
+                </h2>
                 <HtmlWithPopovers markup={textjson?.full_markup} />
             </div>
         </>
