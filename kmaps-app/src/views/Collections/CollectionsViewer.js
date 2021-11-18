@@ -306,16 +306,12 @@ function CollectionInfo({ collsolr, asset_type }) {
         : collsolr.node_user;
 
     // Get and Display Parent collection
-    let parentcoll = collsolr?.collection_nid;
-    if (parentcoll) {
-        parentcoll = (
-            <li>
-                <Link to={`/${asset_type}/collection/${parentcoll}`}>
-                    {collsolr.collection_title}
-                </Link>
-            </li>
-        );
-    }
+    const parentcollid = collsolr?.collection_nid;
+    const parentcoll = parentcollid ? (
+        <Link to={`/${asset_type}/collection/${parentcollid}`}>
+            {collsolr.collection_title}
+        </Link>
+    ) : null;
 
     // Get and Display Subcollections
     const subcollids = collsolr?.subcollection_id_is;
@@ -353,11 +349,13 @@ function CollectionInfo({ collsolr, asset_type }) {
     return (
         <aside className={'l-column__related c-collection__metadata'}>
             {parentcoll && (
-                <section className={'l-related__list__wrap'}>
-                    <div className={'u-related__list__header'}>
-                        Parent Collection
-                    </div>
-                    <ul className={'list-unstyled'}>{parentcoll}</ul>
+                <section className={'l-related__list__wrap c-coll-toc'}>
+                    <h3 className={'u-related__list__header'}>{parentcoll}</h3>
+                    <CollectionToc
+                        pid={parentcollid}
+                        currid={collsolr?.id}
+                        type={asset_type}
+                    />
                 </section>
             )}
 
@@ -391,5 +389,53 @@ function CollectionInfo({ collsolr, asset_type }) {
                 </ul>
             </section>
         </aside>
+    );
+}
+
+export function CollectionToc({ pid, currid, type }) {
+    const qkey = ['coll-sublist', type, pid];
+    const query = {
+        q: `collection_nid:${pid}`,
+        fq: ['asset_type:collections', `asset_subtype:${type}`],
+    };
+
+    const {
+        isLoading: isItemsLoading,
+        data: subcolls,
+        isError: isItemsError,
+        error: itemsError,
+    } = useSolr(qkey, { index: 'assets', params: query });
+
+    if (isItemsLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (isItemsError) {
+        return <p>Error!</p>;
+    }
+    const docs = subcolls?.docs;
+    docs.sort(function cmp(a, b) {
+        if (a.title[0] === b.title[0]) return 0;
+        if (a.title[0] > b.title[0]) return 1;
+        return -1;
+    });
+    return (
+        <ul>
+            {subcolls?.docs?.map((sc, sci) => {
+                const cid = sc?.id;
+                const ctitle = sc?.title[0];
+                if (cid === currid) {
+                    return (
+                        <li className="active">
+                            <span>{ctitle}</span>
+                        </li>
+                    );
+                }
+                return (
+                    <li>
+                        <Link to={`/${type}/collection/${cid}`}>{ctitle}</Link>
+                    </li>
+                );
+            })}
+        </ul>
     );
 }
