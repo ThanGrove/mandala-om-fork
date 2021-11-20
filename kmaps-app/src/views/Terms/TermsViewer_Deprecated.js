@@ -60,7 +60,6 @@ export default function TermsViewer_Deprecated(props) {
         status.setId(props.kmasset.uid);
     }, [props.kmasset.uid]);
 
-    console.log('GerardKetuma', props);
     //Get all related Definitions
     const definitions = _(props.kmap?._childDocuments_)
         .pickBy((val) => {
