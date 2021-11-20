@@ -3,10 +3,6 @@ import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import { useKmapRelated } from '../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../hooks/utils';
-import TermAudioPlayer from './TermAudioPlayer';
-import TermEtymology from './TermEtymology';
-import TermDefinitions from './TermDefinitions';
-import TermDictionaries from './TermDictionaries';
 import TermNames from './TermNames';
 import _, { divide } from 'lodash';
 import TermsDetails from './TermsDetails';
@@ -14,10 +10,12 @@ import { queryID } from '../../views/common/utils';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-// import { HistoryContext } from '../History/HistoryContext';
+import './TermsInfo.scss';
+
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
 );
+
 const TermsDefinitionsFilter = React.lazy(() =>
     import('./TermsDefinitionsFilter')
 );
@@ -86,10 +84,21 @@ const TermsInfo = (props) => {
     //Get all related Definitions
     const definitions = _(kmapData?._childDocuments_)
         .pickBy((val) => {
-            return val.block_child_type === 'related_definitions';
+            return (
+                val.block_child_type === 'related_definitions' &&
+                val?.related_definitions_content_s?.length > 0
+            );
         })
         .groupBy((val) => {
-            return _.get(val, 'related_definitions_source_s', 'main_defs');
+            let category = _.get(val, 'related_definitions_source_s');
+            if (!category || category === '') {
+                category = _.get(
+                    val,
+                    'related_definitions_in_house_source_s',
+                    'main_defs'
+                );
+            }
+            return category;
         })
         .value();
     const otherDefinitions = _.omit(definitions, ['main_defs']);
@@ -102,18 +111,13 @@ const TermsInfo = (props) => {
                 <Route exact path={path}>
                     <>
                         <TermNames kmap={kmapData} />
-                        <TermsDetails kmAsset={assetData} kmap={kmapData} />
-                        <TermAudioPlayer kmap={kmapData} />
-                        {kmapData.etymologies_ss && (
-                            <TermEtymology kmap={kmapData} />
-                        )}
-                        <TermDefinitions
-                            mainDefs={definitions['main_defs']}
-                            kmRelated={kmapsRelated}
+                        <TermsDetails
+                            kmAsset={assetData}
+                            kmapData={kmapData}
+                            definitions={definitions}
+                            otherDefinitions={otherDefinitions}
+                            kmapsRelated={kmapsRelated}
                         />
-                        {!_.isEmpty(otherDefinitions) && (
-                            <TermDictionaries definitions={otherDefinitions} />
-                        )}
                     </>
                 </Route>
                 <Route path={`${path}/related-:relatedType/view/:assetId`}>

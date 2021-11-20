@@ -1,0 +1,922 @@
+{
+    "aa": {
+        "iso1": "aa",
+        "iso3": "\ufeffaar",
+        "name": "Afar"
+    },
+    "ab": {
+        "iso1": "ab",
+        "iso3": "abk",
+        "name": "Abkhazian"
+    },
+    "af": {
+        "iso1": "af",
+        "iso3": "afr",
+        "name": "Afrikaans"
+    },
+    "ak": {
+        "iso1": "ak",
+        "iso3": "aka",
+        "name": "Akan"
+    },
+    "sq": {
+        "iso1": "sq",
+        "iso3": "alb",
+        "name": "Albanian"
+    },
+    "am": {
+        "iso1": "am",
+        "iso3": "amh",
+        "name": "Amharic"
+    },
+    "ar": {
+        "iso1": "ar",
+        "iso3": "ara",
+        "name": "Arabic"
+    },
+    "an": {
+        "iso1": "an",
+        "iso3": "arg",
+        "name": "Aragonese"
+    },
+    "hy": {
+        "iso1": "hy",
+        "iso3": "arm",
+        "name": "Armenian"
+    },
+    "as": {
+        "iso1": "as",
+        "iso3": "asm",
+        "name": "Assamese"
+    },
+    "av": {
+        "iso1": "av",
+        "iso3": "ava",
+        "name": "Avaric"
+    },
+    "ae": {
+        "iso1": "ae",
+        "iso3": "ave",
+        "name": "Avestan"
+    },
+    "ay": {
+        "iso1": "ay",
+        "iso3": "aym",
+        "name": "Aymara"
+    },
+    "az": {
+        "iso1": "az",
+        "iso3": "aze",
+        "name": "Azerbaijani"
+    },
+    "ba": {
+        "iso1": "ba",
+        "iso3": "bak",
+        "name": "Bashkir"
+    },
+    "bm": {
+        "iso1": "bm",
+        "iso3": "bam",
+        "name": "Bambara"
+    },
+    "eu": {
+        "iso1": "eu",
+        "iso3": "baq",
+        "name": "Basque"
+    },
+    "be": {
+        "iso1": "be",
+        "iso3": "bel",
+        "name": "Belarusian"
+    },
+    "bn": {
+        "iso1": "bn",
+        "iso3": "ben",
+        "name": "Bengali"
+    },
+    "bh": {
+        "iso1": "bh",
+        "iso3": "bih",
+        "name": "Bihari languages"
+    },
+    "bi": {
+        "iso1": "bi",
+        "iso3": "bis",
+        "name": "Bislama"
+    },
+    "bs": {
+        "iso1": "bs",
+        "iso3": "bos",
+        "name": "Bosnian"
+    },
+    "br": {
+        "iso1": "br",
+        "iso3": "bre",
+        "name": "Breton"
+    },
+    "bg": {
+        "iso1": "bg",
+        "iso3": "bul",
+        "name": "Bulgarian"
+    },
+    "my": {
+        "iso1": "my",
+        "iso3": "bur",
+        "name": "Burmese"
+    },
+    "ca": {
+        "iso1": "ca",
+        "iso3": "cat",
+        "name": "Catalan; Valencian"
+    },
+    "ch": {
+        "iso1": "ch",
+        "iso3": "cha",
+        "name": "Chamorro"
+    },
+    "ce": {
+        "iso1": "ce",
+        "iso3": "che",
+        "name": "Chechen"
+    },
+    "zh": {
+        "iso1": "zh",
+        "iso3": "chi",
+        "name": "Chinese"
+    },
+    "cu": {
+        "iso1": "cu",
+        "iso3": "chu",
+        "name": "Church Slavic; Old Slavonic; Church Slavonic; Old Bulgarian; Old Church Slavonic"
+    },
+    "cv": {
+        "iso1": "cv",
+        "iso3": "chv",
+        "name": "Chuvash"
+    },
+    "kw": {
+        "iso1": "kw",
+        "iso3": "cor",
+        "name": "Cornish"
+    },
+    "co": {
+        "iso1": "co",
+        "iso3": "cos",
+        "name": "Corsican"
+    },
+    "cr": {
+        "iso1": "cr",
+        "iso3": "cre",
+        "name": "Cree"
+    },
+    "cs": {
+        "iso1": "cs",
+        "iso3": "cze",
+        "name": "Czech"
+    },
+    "da": {
+        "iso1": "da",
+        "iso3": "dan",
+        "name": "Danish"
+    },
+    "dv": {
+        "iso1": "dv",
+        "iso3": "div",
+        "name": "Divehi; Dhivehi; Maldivian"
+    },
+    "nl": {
+        "iso1": "nl",
+        "iso3": "dut",
+        "name": "Dutch; Flemish"
+    },
+    "dz": {
+        "iso1": "dz",
+        "iso3": "dzo",
+        "name": "Dzongkha"
+    },
+    "en": {
+        "iso1": "en",
+        "iso3": "eng",
+        "name": "English"
+    },
+    "eo": {
+        "iso1": "eo",
+        "iso3": "epo",
+        "name": "Esperanto"
+    },
+    "et": {
+        "iso1": "et",
+        "iso3": "est",
+        "name": "Estonian"
+    },
+    "ee": {
+        "iso1": "ee",
+        "iso3": "ewe",
+        "name": "Ewe"
+    },
+    "fo": {
+        "iso1": "fo",
+        "iso3": "fao",
+        "name": "Faroese"
+    },
+    "fj": {
+        "iso1": "fj",
+        "iso3": "fij",
+        "name": "Fijian"
+    },
+    "fi": {
+        "iso1": "fi",
+        "iso3": "fin",
+        "name": "Finnish"
+    },
+    "fr": {
+        "iso1": "fr",
+        "iso3": "fre",
+        "name": "French"
+    },
+    "fy": {
+        "iso1": "fy",
+        "iso3": "fry",
+        "name": "Western Frisian"
+    },
+    "ff": {
+        "iso1": "ff",
+        "iso3": "ful",
+        "name": "Fulah"
+    },
+    "ka": {
+        "iso1": "ka",
+        "iso3": "geo",
+        "name": "Georgian"
+    },
+    "de": {
+        "iso1": "de",
+        "iso3": "ger",
+        "name": "German"
+    },
+    "gd": {
+        "iso1": "gd",
+        "iso3": "gla",
+        "name": "Gaelic; Scottish Gaelic"
+    },
+    "ga": {
+        "iso1": "ga",
+        "iso3": "gle",
+        "name": "Irish"
+    },
+    "gl": {
+        "iso1": "gl",
+        "iso3": "glg",
+        "name": "Galician"
+    },
+    "gv": {
+        "iso1": "gv",
+        "iso3": "glv",
+        "name": "Manx"
+    },
+    "el": {
+        "iso1": "el",
+        "iso3": "gre",
+        "name": "Greek, Modern (1453-)"
+    },
+    "gn": {
+        "iso1": "gn",
+        "iso3": "grn",
+        "name": "Guarani"
+    },
+    "gu": {
+        "iso1": "gu",
+        "iso3": "guj",
+        "name": "Gujarati"
+    },
+    "ht": {
+        "iso1": "ht",
+        "iso3": "hat",
+        "name": "Haitian; Haitian Creole"
+    },
+    "ha": {
+        "iso1": "ha",
+        "iso3": "hau",
+        "name": "Hausa"
+    },
+    "he": {
+        "iso1": "he",
+        "iso3": "heb",
+        "name": "Hebrew"
+    },
+    "hz": {
+        "iso1": "hz",
+        "iso3": "her",
+        "name": "Herero"
+    },
+    "hi": {
+        "iso1": "hi",
+        "iso3": "hin",
+        "name": "Hindi"
+    },
+    "ho": {
+        "iso1": "ho",
+        "iso3": "hmo",
+        "name": "Hiri Motu"
+    },
+    "hr": {
+        "iso1": "hr",
+        "iso3": "hrv",
+        "name": "Croatian"
+    },
+    "hu": {
+        "iso1": "hu",
+        "iso3": "hun",
+        "name": "Hungarian"
+    },
+    "ig": {
+        "iso1": "ig",
+        "iso3": "ibo",
+        "name": "Igbo"
+    },
+    "is": {
+        "iso1": "is",
+        "iso3": "ice",
+        "name": "Icelandic"
+    },
+    "io": {
+        "iso1": "io",
+        "iso3": "ido",
+        "name": "Ido"
+    },
+    "ii": {
+        "iso1": "ii",
+        "iso3": "iii",
+        "name": "Sichuan Yi; Nuosu"
+    },
+    "iu": {
+        "iso1": "iu",
+        "iso3": "iku",
+        "name": "Inuktitut"
+    },
+    "ie": {
+        "iso1": "ie",
+        "iso3": "ile",
+        "name": "Interlingue; Occidental"
+    },
+    "ia": {
+        "iso1": "ia",
+        "iso3": "ina",
+        "name": "Interlingua (International Auxiliary Language Association)"
+    },
+    "id": {
+        "iso1": "id",
+        "iso3": "ind",
+        "name": "Indonesian"
+    },
+    "ik": {
+        "iso1": "ik",
+        "iso3": "ipk",
+        "name": "Inupiaq"
+    },
+    "it": {
+        "iso1": "it",
+        "iso3": "ita",
+        "name": "Italian"
+    },
+    "jv": {
+        "iso1": "jv",
+        "iso3": "jav",
+        "name": "Javanese"
+    },
+    "ja": {
+        "iso1": "ja",
+        "iso3": "jpn",
+        "name": "Japanese"
+    },
+    "kl": {
+        "iso1": "kl",
+        "iso3": "kal",
+        "name": "Kalaallisut; Greenlandic"
+    },
+    "kn": {
+        "iso1": "kn",
+        "iso3": "kan",
+        "name": "Kannada"
+    },
+    "ks": {
+        "iso1": "ks",
+        "iso3": "kas",
+        "name": "Kashmiri"
+    },
+    "kr": {
+        "iso1": "kr",
+        "iso3": "kau",
+        "name": "Kanuri"
+    },
+    "kk": {
+        "iso1": "kk",
+        "iso3": "kaz",
+        "name": "Kazakh"
+    },
+    "km": {
+        "iso1": "km",
+        "iso3": "khm",
+        "name": "Central Khmer"
+    },
+    "ki": {
+        "iso1": "ki",
+        "iso3": "kik",
+        "name": "Kikuyu; Gikuyu"
+    },
+    "rw": {
+        "iso1": "rw",
+        "iso3": "kin",
+        "name": "Kinyarwanda"
+    },
+    "ky": {
+        "iso1": "ky",
+        "iso3": "kir",
+        "name": "Kirghiz; Kyrgyz"
+    },
+    "kv": {
+        "iso1": "kv",
+        "iso3": "kom",
+        "name": "Komi"
+    },
+    "kg": {
+        "iso1": "kg",
+        "iso3": "kon",
+        "name": "Kongo"
+    },
+    "ko": {
+        "iso1": "ko",
+        "iso3": "kor",
+        "name": "Korean"
+    },
+    "kj": {
+        "iso1": "kj",
+        "iso3": "kua",
+        "name": "Kuanyama; Kwanyama"
+    },
+    "ku": {
+        "iso1": "ku",
+        "iso3": "kur",
+        "name": "Kurdish"
+    },
+    "lo": {
+        "iso1": "lo",
+        "iso3": "lao",
+        "name": "Lao"
+    },
+    "la": {
+        "iso1": "la",
+        "iso3": "lat",
+        "name": "Latin"
+    },
+    "lv": {
+        "iso1": "lv",
+        "iso3": "lav",
+        "name": "Latvian"
+    },
+    "li": {
+        "iso1": "li",
+        "iso3": "lim",
+        "name": "Limburgan; Limburger; Limburgish"
+    },
+    "ln": {
+        "iso1": "ln",
+        "iso3": "lin",
+        "name": "Lingala"
+    },
+    "lt": {
+        "iso1": "lt",
+        "iso3": "lit",
+        "name": "Lithuanian"
+    },
+    "lb": {
+        "iso1": "lb",
+        "iso3": "ltz",
+        "name": "Luxembourgish; Letzeburgesch"
+    },
+    "lu": {
+        "iso1": "lu",
+        "iso3": "lub",
+        "name": "Luba-Katanga"
+    },
+    "lg": {
+        "iso1": "lg",
+        "iso3": "lug",
+        "name": "Ganda"
+    },
+    "mk": {
+        "iso1": "mk",
+        "iso3": "mac",
+        "name": "Macedonian"
+    },
+    "mh": {
+        "iso1": "mh",
+        "iso3": "mah",
+        "name": "Marshallese"
+    },
+    "ml": {
+        "iso1": "ml",
+        "iso3": "mal",
+        "name": "Malayalam"
+    },
+    "mi": {
+        "iso1": "mi",
+        "iso3": "mao",
+        "name": "Maori"
+    },
+    "mr": {
+        "iso1": "mr",
+        "iso3": "mar",
+        "name": "Marathi"
+    },
+    "ms": {
+        "iso1": "ms",
+        "iso3": "may",
+        "name": "Malay"
+    },
+    "mg": {
+        "iso1": "mg",
+        "iso3": "mlg",
+        "name": "Malagasy"
+    },
+    "mt": {
+        "iso1": "mt",
+        "iso3": "mlt",
+        "name": "Maltese"
+    },
+    "mn": {
+        "iso1": "mn",
+        "iso3": "mon",
+        "name": "Mongolian"
+    },
+    "na": {
+        "iso1": "na",
+        "iso3": "nau",
+        "name": "Nauru"
+    },
+    "nv": {
+        "iso1": "nv",
+        "iso3": "nav",
+        "name": "Navajo; Navaho"
+    },
+    "nr": {
+        "iso1": "nr",
+        "iso3": "nbl",
+        "name": "Ndebele, South; South Ndebele"
+    },
+    "nd": {
+        "iso1": "nd",
+        "iso3": "nde",
+        "name": "Ndebele, North; North Ndebele"
+    },
+    "ng": {
+        "iso1": "ng",
+        "iso3": "ndo",
+        "name": "Ndonga"
+    },
+    "ne": {
+        "iso1": "ne",
+        "iso3": "nep",
+        "name": "Nepali"
+    },
+    "nn": {
+        "iso1": "nn",
+        "iso3": "nno",
+        "name": "Norwegian Nynorsk; Nynorsk, Norwegian"
+    },
+    "nb": {
+        "iso1": "nb",
+        "iso3": "nob",
+        "name": "Bokm\u00e5l, Norwegian; Norwegian Bokm\u00e5l"
+    },
+    "no": {
+        "iso1": "no",
+        "iso3": "nor",
+        "name": "Norwegian"
+    },
+    "ny": {
+        "iso1": "ny",
+        "iso3": "nya",
+        "name": "Chichewa; Chewa; Nyanja"
+    },
+    "oc": {
+        "iso1": "oc",
+        "iso3": "oci",
+        "name": "Occitan (post 1500)"
+    },
+    "oj": {
+        "iso1": "oj",
+        "iso3": "oji",
+        "name": "Ojibwa"
+    },
+    "or": {
+        "iso1": "or",
+        "iso3": "ori",
+        "name": "Oriya"
+    },
+    "om": {
+        "iso1": "om",
+        "iso3": "orm",
+        "name": "Oromo"
+    },
+    "os": {
+        "iso1": "os",
+        "iso3": "oss",
+        "name": "Ossetian; Ossetic"
+    },
+    "pa": {
+        "iso1": "pa",
+        "iso3": "pan",
+        "name": "Panjabi; Punjabi"
+    },
+    "fa": {
+        "iso1": "fa",
+        "iso3": "per",
+        "name": "Persian"
+    },
+    "pi": {
+        "iso1": "pi",
+        "iso3": "pli",
+        "name": "Pali"
+    },
+    "pl": {
+        "iso1": "pl",
+        "iso3": "pol",
+        "name": "Polish"
+    },
+    "pt": {
+        "iso1": "pt",
+        "iso3": "por",
+        "name": "Portuguese"
+    },
+    "ps": {
+        "iso1": "ps",
+        "iso3": "pus",
+        "name": "Pushto; Pashto"
+    },
+    "qu": {
+        "iso1": "qu",
+        "iso3": "que",
+        "name": "Quechua"
+    },
+    "rm": {
+        "iso1": "rm",
+        "iso3": "roh",
+        "name": "Romansh"
+    },
+    "ro": {
+        "iso1": "ro",
+        "iso3": "rum",
+        "name": "Romanian; Moldavian; Moldovan"
+    },
+    "rn": {
+        "iso1": "rn",
+        "iso3": "run",
+        "name": "Rundi"
+    },
+    "ru": {
+        "iso1": "ru",
+        "iso3": "rus",
+        "name": "Russian"
+    },
+    "sg": {
+        "iso1": "sg",
+        "iso3": "sag",
+        "name": "Sango"
+    },
+    "sa": {
+        "iso1": "sa",
+        "iso3": "san",
+        "name": "Sanskrit"
+    },
+    "si": {
+        "iso1": "si",
+        "iso3": "sin",
+        "name": "Sinhala; Sinhalese"
+    },
+    "sk": {
+        "iso1": "sk",
+        "iso3": "slo",
+        "name": "Slovak"
+    },
+    "sl": {
+        "iso1": "sl",
+        "iso3": "slv",
+        "name": "Slovenian"
+    },
+    "se": {
+        "iso1": "se",
+        "iso3": "sme",
+        "name": "Northern Sami"
+    },
+    "sm": {
+        "iso1": "sm",
+        "iso3": "smo",
+        "name": "Samoan"
+    },
+    "sn": {
+        "iso1": "sn",
+        "iso3": "sna",
+        "name": "Shona"
+    },
+    "sd": {
+        "iso1": "sd",
+        "iso3": "snd",
+        "name": "Sindhi"
+    },
+    "so": {
+        "iso1": "so",
+        "iso3": "som",
+        "name": "Somali"
+    },
+    "st": {
+        "iso1": "st",
+        "iso3": "sot",
+        "name": "Sotho, Southern"
+    },
+    "es": {
+        "iso1": "es",
+        "iso3": "spa",
+        "name": "Spanish; Castilian"
+    },
+    "sc": {
+        "iso1": "sc",
+        "iso3": "srd",
+        "name": "Sardinian"
+    },
+    "sr": {
+        "iso1": "sr",
+        "iso3": "srp",
+        "name": "Serbian"
+    },
+    "ss": {
+        "iso1": "ss",
+        "iso3": "ssw",
+        "name": "Swati"
+    },
+    "su": {
+        "iso1": "su",
+        "iso3": "sun",
+        "name": "Sundanese"
+    },
+    "sw": {
+        "iso1": "sw",
+        "iso3": "swa",
+        "name": "Swahili"
+    },
+    "sv": {
+        "iso1": "sv",
+        "iso3": "swe",
+        "name": "Swedish"
+    },
+    "ty": {
+        "iso1": "ty",
+        "iso3": "tah",
+        "name": "Tahitian"
+    },
+    "ta": {
+        "iso1": "ta",
+        "iso3": "tam",
+        "name": "Tamil"
+    },
+    "tt": {
+        "iso1": "tt",
+        "iso3": "tat",
+        "name": "Tatar"
+    },
+    "te": {
+        "iso1": "te",
+        "iso3": "tel",
+        "name": "Telugu"
+    },
+    "tg": {
+        "iso1": "tg",
+        "iso3": "tgk",
+        "name": "Tajik"
+    },
+    "tl": {
+        "iso1": "tl",
+        "iso3": "tgl",
+        "name": "Tagalog"
+    },
+    "th": {
+        "iso1": "th",
+        "iso3": "tha",
+        "name": "Thai"
+    },
+    "bo": {
+        "iso1": "bo",
+        "iso3": "tib",
+        "name": "Tibetan"
+    },
+    "ti": {
+        "iso1": "ti",
+        "iso3": "tir",
+        "name": "Tigrinya"
+    },
+    "to": {
+        "iso1": "to",
+        "iso3": "ton",
+        "name": "Tonga (Tonga Islands)"
+    },
+    "tn": {
+        "iso1": "tn",
+        "iso3": "tsn",
+        "name": "Tswana"
+    },
+    "ts": {
+        "iso1": "ts",
+        "iso3": "tso",
+        "name": "Tsonga"
+    },
+    "tk": {
+        "iso1": "tk",
+        "iso3": "tuk",
+        "name": "Turkmen"
+    },
+    "tr": {
+        "iso1": "tr",
+        "iso3": "tur",
+        "name": "Turkish"
+    },
+    "tw": {
+        "iso1": "tw",
+        "iso3": "twi",
+        "name": "Twi"
+    },
+    "ug": {
+        "iso1": "ug",
+        "iso3": "uig",
+        "name": "Uighur; Uyghur"
+    },
+    "uk": {
+        "iso1": "uk",
+        "iso3": "ukr",
+        "name": "Ukrainian"
+    },
+    "ur": {
+        "iso1": "ur",
+        "iso3": "urd",
+        "name": "Urdu"
+    },
+    "uz": {
+        "iso1": "uz",
+        "iso3": "uzb",
+        "name": "Uzbek"
+    },
+    "ve": {
+        "iso1": "ve",
+        "iso3": "ven",
+        "name": "Venda"
+    },
+    "vi": {
+        "iso1": "vi",
+        "iso3": "vie",
+        "name": "Vietnamese"
+    },
+    "vo": {
+        "iso1": "vo",
+        "iso3": "vol",
+        "name": "Volap\u00fck"
+    },
+    "cy": {
+        "iso1": "cy",
+        "iso3": "wel",
+        "name": "Welsh"
+    },
+    "wa": {
+        "iso1": "wa",
+        "iso3": "wln",
+        "name": "Walloon"
+    },
+    "wo": {
+        "iso1": "wo",
+        "iso3": "wol",
+        "name": "Wolof"
+    },
+    "xh": {
+        "iso1": "xh",
+        "iso3": "xho",
+        "name": "Xhosa"
+    },
+    "yi": {
+        "iso1": "yi",
+        "iso3": "yid",
+        "name": "Yiddish"
+    },
+    "yo": {
+        "iso1": "yo",
+        "iso3": "yor",
+        "name": "Yoruba"
+    },
+    "za": {
+        "iso1": "za",
+        "iso3": "zha",
+        "name": "Zhuang; Chuang"
+    },
+    "zu": {
+        "iso1": "zu",
+        "iso3": "zul",
+        "name": "Zulu"
+    }
+}

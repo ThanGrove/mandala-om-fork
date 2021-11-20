@@ -24,6 +24,11 @@ import $ from 'jquery';
 import Home from './HomePage/Home';
 import { SEARCH_COOKIE_NAME } from '../search/SearchAdvanced';
 import { TextViewerRedirect } from '../views/Texts/TextsViewer';
+import ResourcesHome from '../views/ResourcesHome';
+import { IsoLookupMandala } from '../views/common/Iso639M/IsoLookupMandala';
+import { Iso639DataFactory } from '../views/common/Iso639M/iso639DataFactory';
+import ScrollToTop from './ScrollToTop';
+import { ShanticonRefPage } from '../views/common/utilcomponents';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -62,6 +67,7 @@ export default function ContentMain(props) {
             localStorage.setItem(SEARCH_COOKIE_NAME, myLocation.search);
         }
     }, [myLocation]);
+
     const left = (
         <main className="l-column__main">
             <article id="l-column__main__wrap" className="l-column__main__wrap">
@@ -72,10 +78,15 @@ export default function ContentMain(props) {
                 />
                 <Container className={column_class}>
                     <Section id="l-content__main" className="l-content__main">
-                        {/** TODO:gk3k -> Create loading component with skeletons. */}
+                        <ScrollToTop />
                         <React.Suspense fallback={<MandalaSkeleton />}>
                             <Switch>
                                 <Redirect from="/mandala-om/*" to="/*" />
+
+                                {/* All RESOURCES */}
+                                <Route path={`/resources`}>
+                                    <ResourcesHome />
+                                </Route>
 
                                 {/* COLLECTIONS */}
                                 <Route
@@ -147,6 +158,12 @@ export default function ContentMain(props) {
                                 </Route>
 
                                 {/* PLACES */}
+                                <Route path={`/places/all/:view_mode`}>
+                                    <PlacesHome />
+                                </Route>
+                                <Route path={`/places/all`}>
+                                    <Redirect to={`/places/all/list`} />
+                                </Route>
                                 <Route path={`/places/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -157,10 +174,16 @@ export default function ContentMain(props) {
                                     </section>
                                 </Route>
                                 <Route path={`/places`}>
-                                    <PlacesHome />
+                                    <Redirect to={`/places/all/list`} />
                                 </Route>
 
                                 {/* SUBJECTS */}
+                                <Route path={`/subjects/all/:view_mode`}>
+                                    <SubjectsHome />
+                                </Route>
+                                <Route path={`/subjects/all`}>
+                                    <Redirect to={`/subjects/all/list`} />
+                                </Route>
                                 <Route path={`/subjects/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -171,10 +194,16 @@ export default function ContentMain(props) {
                                     </section>
                                 </Route>
                                 <Route path={`/subjects`}>
-                                    <SubjectsHome />
+                                    <Redirect to={`/subjects/all/list`} />
                                 </Route>
 
                                 {/* TERMS */}
+                                <Route path={`/terms/all/:view_mode`}>
+                                    <TermsHome />
+                                </Route>
+                                <Route path={`/terms/all`}>
+                                    <Redirect to={`/terms/all/list`} />
+                                </Route>
                                 <Route path={`/terms/:id`}>
                                     <RelatedsViewer />
                                     <section className="l-content__main__wrap">
@@ -185,7 +214,7 @@ export default function ContentMain(props) {
                                     </section>
                                 </Route>
                                 <Route path={`/terms`}>
-                                    <TermsHome />
+                                    <Redirect to={`/terms/all/list`} />
                                 </Route>
 
                                 {/* SOURCES */}
@@ -255,6 +284,17 @@ export default function ContentMain(props) {
 
                                 <Route path={`/find/:assetType/:id/collection`}>
                                     <AssetCollectionLocator />
+                                </Route>
+
+                                {/* Admin Paths */}
+                                <Route path={`/admin/isodata`}>
+                                    <Iso639DataFactory />
+                                </Route>
+                                <Route path={`/admin/isolookup`}>
+                                    <IsoLookupMandala />
+                                </Route>
+                                <Route path={`/admin/shanticonref`}>
+                                    <ShanticonRefPage />
                                 </Route>
 
                                 <Route path={['/', '/home']}>

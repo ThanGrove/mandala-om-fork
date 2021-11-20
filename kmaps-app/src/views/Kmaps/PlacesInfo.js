@@ -23,7 +23,7 @@ import {
     PlacesRelSubjects,
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
-import { RelatedTextFinder } from '../common/utilcomponents';
+import { RelatedTextFinder } from '../Texts/RelatedText';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -57,6 +57,18 @@ export default function PlacesInfo(props) {
         if (kmapData?.header) {
             addPage('places', kmapData.header, window.location.pathname);
         }
+        // Had kmap popovers to same place on that places page
+        /* Doesn't work right, maybe need to select its parent...
+        setTimeout(function () {
+            const kmtgs = document.getElementsByClassName('kmap-tag-group');
+            for (var n = 0; n < kmtgs.length; n++) {
+                if (kmtgs[n].dataset.kmid === id) {
+                    kmtgs[n].classList.add('kmap-hide');
+                }
+            }
+        }, 1000);
+
+         */
     }, [kmapData]);
 
     const [mapRef, mapSize] = useDimensions();

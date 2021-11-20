@@ -6,6 +6,7 @@ import Spinner from 'react-bootstrap/Spinner';
 import { Button } from 'react-bootstrap';
 import { StringParam, useQueryParams, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
+import { useLocation } from 'react-router-dom';
 
 // The length of the Rows at each Break Point
 // const BP_SIZES = {
@@ -149,23 +150,59 @@ function rowFiller(length, bp_sizes) {
 }
 */
 
-function NoResults(props) {
+export function NoResults(props) {
     const [query, setQuery] = useQueryParams({
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
+    const loc = useLocation();
+    let pgtype = loc?.pathname?.includes('search') ? 'search' : 'general';
+    if (loc?.pathname?.includes('collection')) {
+        pgtype = 'collection';
+    }
     const goback = () => {
         window.history.back();
     };
     const ss = window.location.search;
+    const qrysum =
+        query.searchText?.length > 0 ? ` — “${query.searchText}” — ` : '';
     return (
         <div className={'u-search__noresults__wrap'}>
             <div className={'u-search__noresults'}>
-                <h2 className={'u-search__noresults__header'}>No Results</h2>
-                <p>
-                    Your query &mdash; “{query.searchText}” &mdash; yielded no
-                    results.
-                </p>
+                {pgtype === 'search' && (
+                    <>
+                        <h2 className={'u-search__noresults__header'}>
+                            No Results
+                        </h2>
+                        <p>
+                            Your query {qrysum}
+                            yielded no results.
+                        </p>
+                    </>
+                )}
+                {pgtype === 'collection' && (
+                    <>
+                        <h2 className={'u-search__noresults__header'}>
+                            Under Construction
+                        </h2>
+                        <p>
+                            We're currently building this collection. Watch this
+                            space!
+                        </p>
+                    </>
+                )}
+                {pgtype === 'general' && (
+                    <>
+                        <h2 className={'u-search__noresults__header'}>
+                            Nothing to Show!
+                        </h2>
+                        <p>
+                            There is nothing here at the moment. Please check
+                            back soon!
+                        </p>
+                    </>
+                )}
+
                 <p>
                     <button onClick={goback}>Go back</button>
                 </p>

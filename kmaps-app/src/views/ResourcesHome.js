@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
+import useStatus from '../hooks/useStatus';
 import { useParams } from 'react-router';
-import { useSolr } from '../../hooks/useSolr';
-import MandalaSkeleton from '../common/MandalaSkeleton';
-import { FeatureCollection } from '../common/FeatureCollection';
+import { useSolr } from '../hooks/useSolr';
+import MandalaSkeleton from './common/MandalaSkeleton';
+import { FeatureCollection } from './common/FeatureCollection';
 
-export function TermsHome(props) {
+export function ResourcesHome(props) {
     const { view_mode } = useParams();
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
@@ -13,7 +14,7 @@ export function TermsHome(props) {
     const q = {
         index: 'assets',
         params: {
-            q: 'asset_type:terms',
+            q: 'asset_type:*',
             rows: pageSize,
             start: startRow,
             sort: 'title_latin_sort ASC',
@@ -21,21 +22,21 @@ export function TermsHome(props) {
     };
 
     const {
-        isLoading: isTermsLoading,
-        data: termsData,
-        isError: isTermsError,
-        error: termsError,
-    } = useSolr('terms-all', q);
+        isLoading: isResourcesLoading,
+        data: resourcesData,
+        isError: isResroucesError,
+        error: resourcesError,
+    } = useSolr('resources-all', q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
     }, [pageNum, pageSize]);
 
-    if (isTermsLoading) {
+    if (isResourcesLoading) {
         return <MandalaSkeleton />;
     }
 
-    const numFound = termsData?.numFound;
+    const numFound = resourcesData?.numFound;
     const hasMore = numFound && (pageNum + 1) * pageSize < numFound;
 
     const pager = {
@@ -78,12 +79,12 @@ export function TermsHome(props) {
     };
 
     return (
-        <div className="subjects-home">
-            <h1>Terms</h1>
-            <p>This page now shows all terms in this project.</p>
+        <div className="places-home">
+            <h1>All Resources</h1>
+            <p>This page now shows all resources in this project.</p>
 
             <FeatureCollection
-                docs={termsData?.docs}
+                docs={resourcesData?.docs}
                 assetCount={numFound}
                 viewMode={view_mode}
                 page={pageNum}
@@ -97,4 +98,4 @@ export function TermsHome(props) {
     );
 }
 
-export default TermsHome;
+export default ResourcesHome;

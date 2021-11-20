@@ -20,20 +20,13 @@ export function buildNestedDocs(docs, child_type, path_field) {
         return x.block_child_type === child_type;
     });
 
-    // console.log("buildNestedDocs: ", docs)
-
     _.forEach(docs, (doc, i) => {
-        // console.log("buildNestedDocs: i=" +i);
-        // console.log("buildNestedDocs: pathField = " + path_field);
         const path = doc[path_field].split('/');
-        // console.log("buildNestedDocs path = " + path);
         doc.order = i;
-        // console.log("buildNestedDocs path.length == " + path.length);
         if (path.length === 1) {
             // this is a "root doc", push it on the base list
             base[path[0]] = doc;
         } else {
-            // this is a "nested doc"
             // this is a "nested doc"
 
             // check for each "ancestor"
@@ -44,7 +37,6 @@ export function buildNestedDocs(docs, child_type, path_field) {
             // console.log("buildNestedDocs: nested path = ", path);
             var curr = base;
             for (let i = 0; i < path.length; i++) {
-                // console.log("buildNestedDocs segment: " + path.slice(0, i + 1).join("/"));
                 if (!curr[path[i]]) {
                     curr[path[i]] = {};
                 }
@@ -58,7 +50,6 @@ export function buildNestedDocs(docs, child_type, path_field) {
             }
         }
     });
-    // console.log("buildNestedDocs:", base);
     return base;
 }
 
@@ -602,4 +593,39 @@ export function getLangClass(drpfld) {
             break;
     }
     return langclass;
+}
+
+export function getPropsContaining(obj, propmtch, pos = 'contains') {
+    const propnames = [];
+    for (let propname in obj) {
+        if (pos === 'starts' && propname.startsWith(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'contains' && propname.includes(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'ends' && propname.endsWith(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'regex' && propname.match(propmtch)) {
+            propnames.push(propname);
+        }
+    }
+    return propnames;
+}
+
+export function getUniquePropIds(data, regex) {
+    let ids = Object.keys(data)
+        .map((pn) => {
+            const mtch = pn.match(regex);
+            if (mtch) {
+                return mtch[1];
+            }
+            return;
+        })
+        .filter((it) => {
+            return it; // filter out empty/null instances
+        });
+    ids = new Set(ids);
+    return Array.from(ids);
 }

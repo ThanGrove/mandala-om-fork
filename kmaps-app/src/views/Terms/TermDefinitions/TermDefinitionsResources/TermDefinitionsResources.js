@@ -22,30 +22,25 @@ const TermDefinitionsResources = ({ defID, resCounts }) => {
     };
 
     return (
-        <div className="sui-termDefResource__wrapper">
-            <div className="sui-termDefResource__header">
-                Resources tagged with this definition:
-            </div>
-            <div className="sui-termDefResource__content">
-                {Object.keys(resources)
-                    .filter((key) => key !== 'all')
-                    .map((key) => (
-                        <Button
-                            key={key}
-                            variant="outline-dark"
-                            size="lg"
-                            onClick={(e) => handleClick(e, key)}
-                        >
-                            <span className={`u-icon__${key} icon`}></span>
-                            <span className="btn-text">
-                                {key.toUpperCase()}
-                            </span>{' '}
-                            <span className="badge badge-light">
-                                {resources[key]}
-                            </span>
-                        </Button>
-                    ))}
-            </div>
+        <div className="sui-termDefResource__content">
+            {Object.keys(resources)
+                .filter((key) => key !== 'all')
+                .map((key) => (
+                    <Button
+                        key={key}
+                        variant="outline-dark"
+                        size="lg"
+                        onClick={(e) => handleClick(e, key)}
+                    >
+                        <span className={`u-icon__${key} icon`}></span>
+                        <span className="btn-text">
+                            {key.toUpperCase()}
+                        </span>{' '}
+                        <span className="badge badge-light">
+                            {resources[key]}
+                        </span>
+                    </Button>
+                ))}
         </div>
     );
 };

@@ -102,6 +102,33 @@
 .l-column__related.c-collection__metadata {
     width: 26rem;
 
+    .l-related__list__wrap.c-coll-toc {
+        ul {
+            margin-left: 0;
+            padding-left: 2rem;
+        }
+        li {
+            list-style-type: none;
+            margin-left: 0;
+        }
+        a {
+            border: none;
+            &:hover {
+                font-weight: bold;
+                border-bottom: 2px solid #bbb;
+                color: #df3d26;
+            }
+        }
+
+        .active {
+            font-size: 1.5rem;
+            font-weight: bold;
+            span {
+                border-bottom: 2px solid #bbb;
+            }
+        }
+    }
+
     .l-related__list__wrap .list-unstyled {
         margin-left: 1.5rem;
     }

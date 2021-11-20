@@ -10,6 +10,7 @@ import {
     FeatureFoldOutViewer,
     FeatureFoldOutPortal,
 } from './FeatureFoldOutViewer';
+import { NoResults } from './FeatureDeck';
 
 const VIEWER_ID = 'FoldOutViewer';
 const SELECTED_IMG_CLASS = 'sui-featureGallery-selectedImg';
@@ -260,6 +261,14 @@ export function FeatureGallery(props) {
             </FeatureFoldOutPortal>
         </>
     );
+
+    if (docs?.length === 0) {
+        return (
+            <div className={'c-view'}>
+                <NoResults />
+            </div>
+        );
+    }
 
     // This basic markup.
     // TODO: Eventually we might not use a pager here and load the data progressively.
