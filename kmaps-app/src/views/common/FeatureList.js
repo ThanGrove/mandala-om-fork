@@ -15,11 +15,8 @@ export function FeatureList(props) {
 
     // For subsites in WordPress, there will be a hash. We need to parse the hash and
     // put a parent search param in the urls.
-    if (myloc.hash) {
-        let hash = '';
-        let hashmap = [];
-        [hash, searchParam] = myloc.hash.split('?', 2);
-        hashmap = hash.split('/').slice(-2);
+    if (myloc.pathname.includes('collection')) {
+        const hashmap = myloc.pathname.split('/').slice(-2);
 
         // Add parent param which contains the hashmap to the search params
         if (searchParam) {

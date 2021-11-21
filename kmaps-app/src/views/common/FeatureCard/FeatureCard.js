@@ -33,11 +33,8 @@ export function FeatureCard(props) {
 
     // For subsites in WordPress, there will be a hash. We need to parse the hash and
     // put a parent search param in the urls.
-    if (location.hash) {
-        let hash = '';
-        let hashmap = [];
-        [hash, searchParam] = location.hash.split('?', 2);
-        hashmap = hash.split('/').slice(-2);
+    if (location.pathname.includes('collection')) {
+        const hashmap = location.pathname.split('/').slice(-2);
 
         // Add parent param which contains the hashmap to the search params
         if (searchParam) {
