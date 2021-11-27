@@ -34,7 +34,6 @@ export default function GenAssetContext(props) {
     const [mdlasset, setMdlAsset] = useState(null);
     const [notfound, setNotFound] = useState(false);
     const params = useParams();
-    console.log('GerardKetuma|Params2', params);
     let nid = params.relId || params.id || params.nid; // When ID param is just a number
     if (nid.indexOf('-') > 1) {
         // When ID param is something like "texts-1234".
@@ -44,7 +43,6 @@ export default function GenAssetContext(props) {
     const status = useStatus();
     //status.setType(asset_type);
     const solrdata = useAsset(asset_type, nid);
-    console.log('GerardKetuma|SolrData', solrdata);
     const nodejson = useMandala(solrdata);
 
     // console.log(`Use asset solrdata for ${asset_type}-${nid}`, solrdata);
