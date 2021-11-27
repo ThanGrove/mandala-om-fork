@@ -1154,15 +1154,15 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         margin-left: 4rem !important;
     }
     .u-icon__plus {
-        color: $color-mandala;
+        color: $color-amber;
         opacity: 0.4;
         display: inline-block;
         margin-right: 0;
-        margin-left: -5rem;
+        margin-left: -4.8rem;
         padding: 0 1.5rem;
         font-size: 1.85rem;
         position: relative;
-        top: 0.15rem;
+        top: 0.35rem;
         &:hover {
             opacity: 0.8;
         }
@@ -1255,6 +1255,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         .shanticon-audio-video::before {
             position: relative;
             left: 0.1rem;
+            padding: 0;
         }
         .icon {
             margin-right: 0.3rem;
