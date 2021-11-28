@@ -149,6 +149,29 @@
                 opacity: 1;
             }
         }
+        .react-numeric-input b {
+            position: absolute;
+            right: -1.2rem !important;
+            width: 2.85rem !important;
+            background-color: #fff !important;
+            border-color: #4d59ca !important;
+            i {
+                font-size: 2rem !important;
+            }
+        }
+        .react-numeric-input b:first-of-type {
+            top: -0.25rem !important;
+            border-radius: 0.5rem 0.5rem 0 0 !important;
+            border-width: 0.25rem 0.1rem 0.1rem !important;
+        }
+        .react-numeric-input b:last-child {
+            bottom: -0.25rem !important;
+            border-radius: 0 0 0.5rem 0.5rem !important;
+            border-width: 0 0.1rem 0.25rem !important;
+        }
+        .react-numeric-input b:hover i {
+            font-size: 2.35rem !important;
+        }
     }
 }
 
