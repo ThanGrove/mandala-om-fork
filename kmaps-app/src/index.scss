@@ -1260,6 +1260,9 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         .icon {
             margin-right: 0.3rem;
         }
+        .icon::before {
+            padding-right: 0 !important;
+        }
         .icon.u-icon__collections::before {
             font-size: 1.35rem;
             position: relative;

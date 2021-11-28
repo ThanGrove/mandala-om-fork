@@ -19,7 +19,7 @@
         margin: 0 auto 1.5rem;
         padding-left: 1rem;
         padding-right: 1rem;
-        font-size: 1.75rem;
+        font-size: 1.55rem;
         font-style: italic;
         .start,
         .end {
@@ -98,6 +98,7 @@
             padding: 0 !important;
             opacity: 0.9;
             color: #000;
+            line-height: 1.6 !important;
             &:hover {
                 opacity: 1;
             }
@@ -137,7 +138,7 @@
             margin-left: 0.1rem;
             padding: 0 !important;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.6 !important;
             width: 5.5rem;
             border-radius: 0.35rem !important;
             border-style: solid;
