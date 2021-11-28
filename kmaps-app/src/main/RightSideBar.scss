@@ -60,7 +60,7 @@
     color: #555;
 }
 .sui-advHeader .badge {
-    padding: 0.65rem 3.25rem 0.65rem 1.25rem;
+    padding: 0.65rem 3.75rem 0.65rem 1.25rem;
     border-radius: 0.5em 0.75rem 0.1rem 0.75rem;
     color: #fff;
     cursor: default;
@@ -69,11 +69,13 @@
     letter-spacing: 0.05rem;
     text-shadow: 0 0 0.1rem #161a3c;
     border: 1px solid #ddd;
+    border-right: 0.65rem double #fff;
     opacity: 0.85;
 }
 .sui-advHeader:hover .badge,
 .sui-advHeader .badge:hover {
     border-color: #4d59ca;
+    border-right-color: #fff;
     opacity: 1;
 }
 .sui-advHeader .badge.badge-secondary {
@@ -84,7 +86,7 @@
     color: #fff;
     cursor: default;
     position: absolute;
-    right: 1rem;
+    right: 1.5rem;
     top: 0.75rem;
     font-size: 1.25rem;
     text-shadow: 0 0 0.1rem #161a3c;
