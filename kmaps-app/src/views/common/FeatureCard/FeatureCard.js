@@ -29,8 +29,21 @@ const typeGlyphMap = {
 
 export function FeatureCard(props) {
     let location = useLocation();
-    // console.log('FeatureCard: doc = ', props.doc.uid);
-    // console.log('FeatureCard: inline = ', props.inline);
+    let searchParam = location.search;
+
+    // For subsites in WordPress, there will be a hash. We need to parse the hash and
+    // put a parent search param in the urls.
+    if (location.pathname.includes('collection')) {
+        const hashmap = location.pathname.split('/').slice(-2);
+
+        // Add parent param which contains the hashmap to the search params
+        if (searchParam) {
+            searchParam = `?${searchParam}&parent=${hashmap.join('/')}`;
+        } else {
+            searchParam = `?parent=${hashmap.join('/')}`;
+        }
+    }
+
     const inline = props.inline || false;
 
     const [modalShow, setModalShow] = React.useState(false);
@@ -128,7 +141,9 @@ export function FeatureCard(props) {
     if (footer_coll_link && footer_coll_link.length > 0) {
         footer_coll_link = footer_coll_link[footer_coll_link.length - 1];
         footer_coll_link =
-            '/' + footer_coll_link.replace('-collection-', '/collection/');
+            '/' +
+            footer_coll_link.replace('-collection-', '/collection/') +
+            searchParam;
     }
     const footer_text = doc.collection_title ? (
         <Link to={footer_coll_link}>
@@ -175,8 +190,8 @@ export function FeatureCard(props) {
     }
 
     const asset_view = inline
-        ? createAssetViewURL(avuid, doc.asset_type, location)
-        : `/${viewer}/${avid}${location.search}`;
+        ? createAssetViewURL(avuid, doc.asset_type, location, searchParam)
+        : `/${viewer}/${avid}${searchParam}`;
 
     const subtitle =
         doc.asset_type === 'texts' ? (
@@ -393,26 +408,26 @@ function DetailModal(props) {
     );
 }
 
-export function createAssetViewURL(avuid, asset_type, location) {
+export function createAssetViewURL(avuid, asset_type, location, searchParam) {
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
-            .replace('audio/video', 'audio-video')}${location.search}`;
+            .replace('audio/video', 'audio-video')}${searchParam}`;
     }
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
-        return `${path.join('/')}/view/${aid}${location.search}`;
+        return `${path.join('/')}/view/${aid}${searchParam}`;
     }
     let path = location.pathname
         .replace(/\/?any\/?.*/, '') // remove the /any from terms
         .replace(/\/?(deck|gallery|list)\/?.*/, '');
-    path = `${path}/view/${aid}${location.search}`; // ${avuid}?asset_type=${asset_type}
+    path = `${path}/view/${aid}${searchParam}`; // ${avuid}?asset_type=${asset_type}
     path = path.replace('related-all', `related-${asset_type}`);
     if (['places', 'subjects', 'terms'].includes(asset_type)) {
-        path = `/${asset_type}/${aid}${location.search}`;
+        path = `/${asset_type}/${aid}${searchParam}`;
     }
     return path;
 }

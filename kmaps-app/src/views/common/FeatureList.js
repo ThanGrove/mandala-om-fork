@@ -11,6 +11,21 @@ import { NoResults } from './FeatureDeck';
 
 export function FeatureList(props) {
     const myloc = useLocation();
+    let searchParam = myloc.search;
+
+    // For subsites in WordPress, there will be a hash. We need to parse the hash and
+    // put a parent search param in the urls.
+    if (myloc.pathname.includes('collection')) {
+        const hashmap = myloc.pathname.split('/').slice(-2);
+
+        // Add parent param which contains the hashmap to the search params
+        if (searchParam) {
+            searchParam = `?${searchParam}&parent=${hashmap.join('/')}`;
+        } else {
+            searchParam = `?parent=${hashmap.join('/')}`;
+        }
+    }
+
     const inline = props?.inline ? props.inline : false;
     const path = myloc.pathname
         .replace(/\/?any\/?.*/, '')
@@ -23,8 +38,8 @@ export function FeatureList(props) {
         if (asset_type === 'sources' && !myloc.pathname.includes('/search')) {
             const mu = doc.citation_s.replace(/<\/?a[^>]*>/g, '');
             const doc_url = inline
-                ? `${path}/view/${doc.id}`
-                : `/${doc.asset_type}/${doc.id}`;
+                ? `${path}/view/${doc.id}${searchParam}`
+                : `/${doc.asset_type}/${doc.id}${searchParam}`;
 
             return (
                 <Card className={`p-0 m-1 ${asset_type}`} key={mykey}>
@@ -44,6 +59,7 @@ export function FeatureList(props) {
                     key={mykey}
                     inline={inline}
                     path={path}
+                    searchParam={searchParam}
                 />
             );
         } else {
@@ -55,6 +71,7 @@ export function FeatureList(props) {
                     key={mykey}
                     inline={inline}
                     path={path}
+                    searchParam={searchParam}
                 />
             );
         }
@@ -92,9 +109,16 @@ function FeatureAssetListItem(props) {
 
      */
 
-    const doc_url = createAssetViewURL(doc?.uid, asset_type, location);
+    const doc_url = createAssetViewURL(
+        doc?.uid,
+        asset_type,
+        location,
+        props.searchParam
+    );
     const collection = doc?.collection_nid ? (
-        <Link to={`/${asset_type}/collection/${doc.collection_nid}`}>
+        <Link
+            to={`/${asset_type}/collection/${doc.collection_nid}${props.searchParam}`}
+        >
             {doc.collection_title}
         </Link>
     ) : (
@@ -261,7 +285,7 @@ function FeatureListAssetRelateds(props) {
 function FeatureKmapListItem(props) {
     const doc = props.doc;
     const domain = props.asset_type;
-    const kmap_url = `/${domain}/${doc.id}`;
+    const kmap_url = `/${domain}/${doc.id}${props.searchParam}`;
     const feature_types = (
         <span className={'feature-types'}>
             {_.map(doc.feature_types_ss, (ft, ftind) => {
@@ -272,7 +296,7 @@ function FeatureKmapListItem(props) {
     let ancestors = _.map(doc['ancestor_ids_is'], (idval, idn) => {
         return (
             <span key={`${doc.id}-anc-${idval}-${idn}`}>
-                <Link to={`/${domain}/${idval}`}>
+                <Link to={`/${domain}/${idval}${props.searchParam}`}>
                     {doc['ancestors_txt'][idn]}
                 </Link>
             </span>
