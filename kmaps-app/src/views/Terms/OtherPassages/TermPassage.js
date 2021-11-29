@@ -40,7 +40,6 @@ export function TermPassage({ data, pid, source }) {
                     />
 
                     <div className="passage-note-author">
-                        By{' '}
                         {data[
                             `related_definitions_passage_${pid}_note_${notenum}_authors_ss`
                         ].join(',')}
