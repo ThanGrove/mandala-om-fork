@@ -75,13 +75,18 @@ const TermsDetails = ({
         otherDefs?.length + Object.keys(otherDefinitions)?.length; // Custom dictionaries not Passages
     const showother = otherDefNum > 0;
     let otherpassnum = 0;
+    let othercitenum = 0;
     getOtherPassages(kmapData).forEach((op, opi) => {
         let uids = getUniquePropIds(op, /related_definitions_passage_(\d+)_/);
         if (uids?.length > 0) {
             otherpassnum += uids?.length;
         }
+        uids = getUniquePropIds(op, /related_definitions_citation_(\d+)_/);
+        if (uids?.length > 0) {
+            othercitenum += uids?.length;
+        }
     });
-    const showpass = otherpassnum > 0;
+    const showpass = otherpassnum + othercitenum > 0;
     const showetym = kmapData?.etymologies_ss;
     const transequivs = getTranslationEquivalents(kmapData);
     const showtrans = transequivs?.length > 0;
@@ -139,7 +144,7 @@ const TermsDetails = ({
                 {showpass && (
                     <Tab
                         eventKey="passages"
-                        title={`Passages (${otherpassnum})`}
+                        title={`Passages (${otherpassnum + othercitenum})`}
                     >
                         <OtherPassages kmapData={kmapData} />
                     </Tab>

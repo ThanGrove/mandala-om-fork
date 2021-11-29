@@ -18,8 +18,10 @@ export function getOtherPassages(kmapData) {
     });
     for (var n = 0; n < reldefs?.length; n++) {
         let rd = reldefs[n];
+        let rdkeys = Object.keys(rd).join('|');
         if (
-            Object.keys(rd).join('|').includes('related_definitions_passage_')
+            rdkeys.includes('related_definitions_passage_') ||
+            rdkeys.includes('related_definitions_citation_')
         ) {
             passages.push(rd);
         }
