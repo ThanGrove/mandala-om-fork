@@ -189,8 +189,8 @@
     }
 }
 
-.term-defcnt p {
-    margin-left: 0.5rem;
+.term-defcnt {
+    display: flex;
 }
 
 .term-def-info {
@@ -204,11 +204,6 @@
     }
 }
 
-.term-def-details .details-ref {
-    margin-top: -2.5rem;
-    button {
-        border: none;
-        outline: none;
-        color: #91693c !important;
-    }
+.term-def-details {
+    margin-top: 1rem;
 }

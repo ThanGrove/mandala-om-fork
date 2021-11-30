@@ -56,7 +56,10 @@
     background-color: inherit;
     opacity: 0.5;
 }
-
+.sui-termDefinitions__content .definition.deflvl2 + .definition.deflvl1 {
+    border-top: thin solid #ccc;
+    padding-top: 1.5rem;
+}
 .sui-termDefinitions__content .definition.selected .tab-content {
     background-color: #ffedba;
 }
