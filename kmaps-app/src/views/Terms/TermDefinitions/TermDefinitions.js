@@ -96,10 +96,9 @@ const TermDefinitions = (props) => {
                                 id={defid}
                                 className={`definition ${defclass}`}
                             >
-                                <div className="term-defhead">
-                                    <span className="icon shanticon-list-alt"></span>
+                                <h4 className="term-defnum">
                                     Definition {numberlabel}
-                                </div>
+                                </h4>
                                 <div className="term-defcnt">
                                     {ReactHtmlParser(
                                         def.related_definitions_content_s

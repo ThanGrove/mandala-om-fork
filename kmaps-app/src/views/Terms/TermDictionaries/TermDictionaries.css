@@ -30,9 +30,9 @@
 .sui-termDicts__content {
     padding: 1.5rem 2rem;
     background-color: #fff;
-    border: 0.1rem solid #ccc;
     margin-top: 0.75rem;
-    border-radius: 0 0 1rem 1rem;
+    /*border: 0.1rem solid #ccc;
+    border-radius: 0 0 1rem 1rem;*/
 }
 .sui-termDicts__dict-name {
     font-weight: 400;

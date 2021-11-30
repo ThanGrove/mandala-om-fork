@@ -1,11 +1,10 @@
 import { Link } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import { Jumbotron, Toast } from 'react-bootstrap';
+import { Button, Jumbotron, Toast } from 'react-bootstrap';
 import JSXExpressionContainerMock from 'eslint-plugin-jsx-a11y/__mocks__/JSXExpressionContainerMock';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import $ from 'jquery';
 
 export default function Home(props) {
     if (process?.env?.REACT_APP_STANDALONE === 'standalone') {
@@ -52,15 +51,35 @@ export default function Home(props) {
                             </ul>
 
                             <h4>Terms</h4>
-                            <ul>
+                            <ul id="terms-list">
                                 <li>
-                                    <Link to={'/terms/247732'}>
-                                        Yam (terms-247732)
+                                    <Link to={'/terms/260'}>
+                                        ka dag (terms-260)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/2626'}>
+                                        kun gzhi (terms-2626)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/4227'}>
+                                        klu sgrub (terms-4227)
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to={'/terms/12434'}>
                                         skyes pa ‘brus phyung ba (terms-12434)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/12587'}>
+                                        skyes bu gsum (terms-12587)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/21124'}>
+                                        khregs chod (terms-21124)
                                     </Link>
                                 </li>
                                 <li>
@@ -71,6 +90,11 @@ export default function Home(props) {
                                 <li>
                                     <Link to={'/terms/85193'}>
                                         thod rgal/: (terms-85193)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/247732'}>
+                                        Yam (terms-247732)
                                     </Link>
                                 </li>
                             </ul>

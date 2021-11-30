@@ -3,6 +3,7 @@ import React from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import _ from 'lodash';
 import './NameEntry.css';
+import { TermSubjectFacets } from '../TermsSubjectFacets';
 
 export default function TermNames(props) {
     // console.log("calling buildNestedDocs");
@@ -12,7 +13,6 @@ export default function TermNames(props) {
         props.kmap?._childDocuments_,
         'related_names'
     );
-
     return (
         <div className="sui-nameEntry__wrapper">
             <span className="term_id float-right p-2">
@@ -21,6 +21,8 @@ export default function TermNames(props) {
             <ul className="sui-nameEntry first-entry">
                 <NameEntry names={namesTree} />
             </ul>
+
+            <TermSubjectFacets kmAsset={props?.kmAsset} />
         </div>
     );
 }

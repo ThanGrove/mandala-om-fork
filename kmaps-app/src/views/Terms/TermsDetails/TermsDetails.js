@@ -21,6 +21,8 @@ import {
     getOtherPassages,
     OtherPassages,
 } from '../OtherPassages/OtherPassages';
+import { TermTermRelations } from './TermTermRelations';
+import { TermTranslations } from './TermTranslations';
 
 function getTranslationEquivalents(kmapData) {
     const transprops = getPropsContaining(kmapData, 'translation_equivalent');
@@ -92,6 +94,22 @@ const TermsDetails = ({
     const showtrans = transequivs?.length > 0;
     const otherNotes = getOtherDefNotes(kmapData);
     const showOtherNotes = Object.keys(otherNotes)?.length > 0;
+    // To count related terms must remove duplicates. See terms-2626 for an example
+    const reltermlist = [];
+    const relatedTerms = kmapData._childDocuments_.filter((cd, cdi) => {
+        const rtkey =
+            cd?.related_terms_relation_code_s + '|' + cd?.related_uid_s;
+        if (
+            cd?.block_child_type === 'related_terms' &&
+            cd?.related_terms_relation_code_s !== 'heads' &&
+            !reltermlist.includes(rtkey)
+        ) {
+            reltermlist.push(rtkey);
+            return true;
+        }
+        return false;
+    });
+    const relatedTermCount = relatedTerms?.length;
 
     useEffect(() => {
         let atval = 'details';
@@ -125,7 +143,10 @@ const TermsDetails = ({
                     </Tab>
                 )}
                 {showother && (
-                    <Tab eventKey="other" title={`More (${otherDefNum})`}>
+                    <Tab
+                        eventKey="other"
+                        title={`Dictionaries (${otherDefNum})`}
+                    >
                         <div className="sui-termDicts__wrapper">
                             <OtherDefs
                                 kmapData={kmapData}
@@ -176,178 +197,19 @@ const TermsDetails = ({
                     </Tab>
                 )}
 
-                <Tab eventKey="details" title="Classification">
-                    <div className="sui-termsDetails__wrapper">
-                        <TermSubjectFacets kmAsset={kmAsset} />
-                        <TermTermRelations kmapData={kmapData} />
-                    </div>
-                </Tab>
+                {relatedTermCount > 0 && (
+                    <Tab
+                        eventKey="details"
+                        title={`Relationships (${relatedTermCount})`}
+                    >
+                        <div className="sui-termsDetails__wrapper">
+                            <TermTermRelations kmapData={kmapData} />
+                        </div>
+                    </Tab>
+                )}
             </Tabs>
         </div>
     );
 };
 
 export default TermsDetails;
-
-function TermSubjectFacets({ kmAsset }) {
-    if (
-        !kmAsset?.associated_subject_map_idfacet?.length ||
-        kmAsset?.associated_subject_map_idfacet?.length == 0
-    ) {
-        return null;
-    }
-    return (
-        <>
-            <div className="sui-termDicts__title classification">
-                Classification
-            </div>
-            <ul className="sui-termsDetails__list">
-                {kmAsset?.associated_subject_map_idfacet?.map((asset) => {
-                    const assetSplit = asset.split('|');
-                    const assocSubject = assetSplit[1].split('=');
-                    const subID = assocSubject[1].split('-');
-                    return (
-                        <li className="sui-termsDetails__list-item" key={asset}>
-                            {assetSplit[0].split('=')[0].toUpperCase()}
-                            :&nbsp; {` `}
-                            <MandalaPopover domain={subID[0]} kid={subID[1]}>
-                                <span className="sui-termsDetails__li-subjects">
-                                    {assocSubject[0]}
-                                </span>
-                            </MandalaPopover>
-                        </li>
-                    );
-                })}
-            </ul>
-        </>
-    );
-}
-
-function TermTermRelations({ kmapData }) {
-    // Get This term's name
-    const termName = kmapData?.header;
-
-    // Get All related terms
-    const relatedTermData = kmapData._childDocuments_.filter((cd, cdi) => {
-        return cd?.block_child_type === 'related_terms';
-    });
-
-    // Get the categories to group by (use Set to retrieve unique labels)
-    let categories = new Set(
-        relatedTermData.map((rt, rti) => {
-            return rt?.related_terms_relation_code_s;
-        })
-    );
-    categories = Array.from(categories);
-
-    // Categorize relations
-    let totalRelatedTerms = 0;
-    const relatedTerms = categories.map((cat) => {
-        const catterms = relatedTermData.filter((rt, rti) => {
-            return (
-                rt?.related_terms_relation_code_s === cat &&
-                !rt?.id.includes('__')
-            );
-        });
-        if (catterms?.length === 0) return;
-        totalRelatedTerms += catterms.length;
-        return {
-            code: cat,
-            label: catterms[0].related_terms_relation_label_s,
-            terms: catterms,
-        };
-    });
-
-    return (
-        <>
-            <div className="sui-termDicts__title relations">Relationships</div>
-            <p className="mt-3">
-                {termName} has {totalRelatedTerms} terms directly related to it,
-                which are presented here.
-            </p>
-            <div className="mt-3">
-                {relatedTerms?.map((rt, rti) => {
-                    return (
-                        <div key={`${kmapData.uid}-relterms-${rti}`}>
-                            <p>
-                                <strong>
-                                    {termName} {rt?.label}
-                                </strong>
-                            </p>
-                            <ul>
-                                {rt?.terms.map((rt2, rt2i) => {
-                                    let [rdomain, rid] =
-                                        rt2?.related_uid_s?.split('-');
-                                    const reltermsources =
-                                        rt2?.related_terms_relation_citation_references_ss?.map(
-                                            (rts, rtsi) => {
-                                                return (
-                                                    <div className="mt-3">
-                                                        <HtmlCustom
-                                                            markup={rts}
-                                                        />
-                                                    </div>
-                                                );
-                                            }
-                                        );
-                                    return (
-                                        <li
-                                            key={`${kmapData.uid}-rel-term-${rt2i}`}
-                                        >
-                                            {rt2?.related_terms_header_s}
-                                            <MandalaPopover
-                                                domain={rdomain}
-                                                kid={rid}
-                                            />
-                                            {reltermsources?.length > 0 && (
-                                                <MandalaSourceNote
-                                                    markup=""
-                                                    children={reltermsources}
-                                                />
-                                            )}
-                                        </li>
-                                    );
-                                })}
-                            </ul>
-                        </div>
-                    );
-                })}
-            </div>
-        </>
-    );
-}
-
-function TermTranslations({ translations }) {
-    return (
-        <div className="translations">
-            <p>There are {translations?.length} translation equivalents: </p>
-            <ul>
-                {translations.map((tr, tri) => {
-                    return (
-                        <li key={`transequiv-${tri}`}>
-                            <TermTranslation data={tr} />
-                        </li>
-                    );
-                })}
-            </ul>
-        </div>
-    );
-}
-
-function TermTranslation({ data }) {
-    const lngcode = data?.langcode; // convertLangCode(data.langcode);
-    const srcicon = <span className="u-icon__sources"> </span>; //u-icon__file-text-o
-    return (
-        <>
-            <span className="langname text-uppercase">{data?.lang}</span>:{' '}
-            <span className={lngcode}>{data?.content}</span>{' '}
-            {data?.citations?.length > 0 && (
-                <GenericPopover
-                    title="Citations"
-                    content={data?.citations}
-                    icon={srcicon}
-                />
-            )}
-        </>
-    );
-}
