@@ -105,7 +105,7 @@
     .l-related__list__wrap.c-coll-toc {
         ul {
             margin-left: 0;
-            padding-left: 2rem;
+            padding-left: 1.5rem;
         }
         li {
             list-style-type: none;
@@ -114,7 +114,6 @@
         a {
             border: none;
             &:hover {
-                font-weight: bold;
                 border-bottom: 2px solid #bbb;
                 color: #df3d26;
             }
