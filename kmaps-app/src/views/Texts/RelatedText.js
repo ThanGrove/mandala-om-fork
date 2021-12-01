@@ -72,9 +72,14 @@ export function RelatedText({ kid }) {
             <div className="c-kmaps-related-text">
                 <h1 className="title">{textjson?.title}</h1>
                 <h2 className="byline">
-                    By {authors}
+                    {authors && <>By {authors}</>}
                     {pubdate && <> ({pubdate})</>}
-                    {coll && <> from {coll}</>}
+                    {coll && (
+                        <>
+                            {' '}
+                            {authors ? ' from' : 'From'} {coll}
+                        </>
+                    )}
                 </h2>
                 <HtmlWithPopovers markup={textjson?.full_markup} />
             </div>

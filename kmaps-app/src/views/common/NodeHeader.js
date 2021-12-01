@@ -159,7 +159,7 @@ function NodeHeader() {
                 </div>
             )}
             {process.env.REACT_APP_STANDALONE === 'standalone' &&
-                !['places', 'subjects', 'terms'].includes(kmInfo?.tree) && (
+                kmInfo?.tree !== 'terms' && (
                     <div className="c-node_header__breadcrumbs">
                         <ContentHeaderBreadcrumbs
                             itemData={kmInfo}
