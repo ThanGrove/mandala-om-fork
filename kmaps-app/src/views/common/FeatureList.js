@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FeaturePager } from './FeaturePager/FeaturePager';
 import { RelatedsIcons } from '../Kmaps/RelatedViewer/RelatedsIcons';
 import _ from 'lodash';
 import { HtmlCustom } from './MandalaMarkup';
 import { Link, useLocation } from 'react-router-dom';
-import { Container, Col, Row, Card, Accordion } from 'react-bootstrap';
+import { Container, Col, Row, Card, Accordion, Button } from 'react-bootstrap';
 import $ from 'jquery';
 import { createAssetViewURL } from './FeatureCard/FeatureCard';
 import { NoResults } from './FeatureDeck';
+import { useSolr } from '../../hooks/useSolr';
+import Collapse from 'react-bootstrap/Collapse';
 
 export function FeatureList(props) {
     const myloc = useLocation();
@@ -284,8 +286,44 @@ function FeatureListAssetRelateds(props) {
 
 function FeatureKmapListItem(props) {
     const doc = props.doc;
+    const id = props.kid;
     const domain = props.asset_type;
+    const kmid = `${domain}-${id}`;
     const kmap_url = `/${domain}/${doc.id}${props.searchParam}`;
+
+    const [isOpen, setOpen] = useState(false);
+
+    // Check for related Icons
+    const query = {
+        index: 'assets',
+        params: {
+            q: `kmapid:${kmid}`,
+            rows: 0,
+            'json.facet': '{related_count:{type:terms,field:asset_type}}',
+        },
+    };
+    const { facets } = useSolr(kmid, query);
+    let buckets = { length: 0 };
+    if (facets && facets.related_count?.buckets) {
+        buckets.length = facets.related_count.buckets.length;
+        for (let bn = 0; bn < facets.related_count.buckets.length; bn++) {
+            const bkt = facets.related_count.buckets[bn];
+            buckets[bkt.val] = bkt.count;
+        }
+    }
+    let altnames = doc?.names_txt;
+    let areDetails;
+    useEffect(() => {
+        // UseEffect for areDetails so it doesn't recalculate!!!
+        altnames = doc?.names_txt;
+        altnames.splice(altnames.indexOf(doc.title), 1);
+        areDetails =
+            doc?.caption ||
+            !Array.isArray(altnames) ||
+            altnames?.length > 0 ||
+            buckets?.length > 0;
+    }, [doc]);
+
     const feature_types = (
         <span className={'feature-types'}>
             {_.map(doc.feature_types_ss, (ft, ftind) => {
@@ -302,6 +340,9 @@ function FeatureKmapListItem(props) {
             </span>
         );
     });
+    if (domain === 'terms') {
+        ancestors = null;
+    }
     if (
         domain === 'places' &&
         Array.isArray(ancestors) &&
@@ -310,45 +351,39 @@ function FeatureKmapListItem(props) {
         ancestors.shift();
     }
 
-    let altnames = doc.names_txt;
-    if (altnames) {
-        altnames.splice(altnames.indexOf(doc.title), 1);
-        if (altnames.length > 0) {
-            altnames =
-                '<div class="altnames">' + altnames.join(', ') + '</div>';
-            altnames = (
-                <HtmlCustom markup={altnames.replace(/xmllang/g, 'xmlLang')} />
-            );
-        }
-    }
-
     const caption =
         doc.caption?.length > 0 ? (
             <div className={'caption'}>{doc.caption}</div>
         ) : null;
 
+    const cardkey = `${doc.asset_type}-${doc.id}-card`; //${Date.now()}
+    areDetails =
+        doc?.caption ||
+        !Array.isArray(altnames) ||
+        altnames?.length > 0 ||
+        buckets?.length > 0;
     return (
-        <Card
-            className={`p-0 ${domain}`}
-            key={`${doc.asset_type}-${doc.id}-${Date.now()}`}
-        >
+        <Card className={`p-0 ${domain}`} key={cardkey}>
             <Accordion>
                 <Card.Body className={'p-1 row'}>
                     <Col className={'title'} md={8} sm={7}>
-                        <Accordion.Toggle
-                            as={'span'}
-                            eventKey="0"
-                            onClick={(x) => {
-                                const targ = $(x.target);
-                                if (targ.hasClass('open')) {
-                                    targ.removeClass('open');
-                                } else {
-                                    targ.addClass('open');
+                        {areDetails && (
+                            <span
+                                onClick={() => {
+                                    setOpen(!isOpen);
+                                }}
+                                aria-controls={`${cardkey}-toggle`}
+                                arria-expand={isOpen}
+                                variant="link"
+                                className={
+                                    isOpen
+                                        ? 'u-icon__plus open'
+                                        : 'u-icon__plus'
                                 }
-                            }}
-                        >
-                            <span className={'u-icon__plus'}></span>
-                        </Accordion.Toggle>
+                            >
+                                {' '}
+                            </span>
+                        )}
                         <span className={`shanticon-${domain} type icon`} />{' '}
                         <Link to={kmap_url} className={'header'}>
                             {doc.title}
@@ -362,15 +397,33 @@ function FeatureKmapListItem(props) {
                     <Col className={'meta'} md={4} sm={5}>
                         <span className={'uid'}>{doc.uid}</span>
                     </Col>
-                    <Accordion.Collapse eventKey="0">
-                        <Col className={'info kmaps'}>
+                    <Collapse in={isOpen}>
+                        <Col id={`${cardkey}-toggle`} className={'info kmaps'}>
                             {doc.caption && (
                                 <p className={'caption'}>{doc.caption}</p>
                             )}
-                            {altnames}
+                            {altnames && (
+                                <div className="altnames">
+                                    {altnames.map((altn, ani) => {
+                                        return (
+                                            <span
+                                                key={`${doc.uid}-altname-${ani}`}
+                                                className="altname"
+                                            >
+                                                <HtmlCustom
+                                                    markup={altn.replace(
+                                                        /xmllang/g,
+                                                        'xmlLang'
+                                                    )}
+                                                />
+                                            </span>
+                                        );
+                                    })}
+                                </div>
+                            )}
                             <RelatedsIcons domain={domain} kid={doc.id} />
                         </Col>
-                    </Accordion.Collapse>
+                    </Collapse>
                 </Card.Body>
             </Accordion>
         </Card>
