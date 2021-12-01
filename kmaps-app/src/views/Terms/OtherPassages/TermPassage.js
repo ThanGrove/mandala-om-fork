@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import Collapse from 'react-bootstrap/Collapse';
 
-export function TermPassage({ data, pid }) {
+export function TermPassage({ data, pid, source }) {
     const [open, setOpen] = useState(false);
     const toggle_icon = open ? (
         <span className="u-icon__minus"></span>
@@ -40,7 +40,6 @@ export function TermPassage({ data, pid }) {
                     />
 
                     <div className="passage-note-author">
-                        By{' '}
                         {data[
                             `related_definitions_passage_${pid}_note_${notenum}_authors_ss`
                         ].join(',')}
@@ -77,6 +76,8 @@ export function TermPassage({ data, pid }) {
                             data[`related_definitions_passage_${pid}_content_s`]
                         }
                     />
+
+                    {source}
 
                     {notes?.length > 0 && (
                         <>

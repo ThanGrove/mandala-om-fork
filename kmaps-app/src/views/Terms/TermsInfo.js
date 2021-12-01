@@ -110,7 +110,7 @@ const TermsInfo = (props) => {
             <Switch>
                 <Route exact path={path}>
                     <>
-                        <TermNames kmap={kmapData} />
+                        <TermNames kmap={kmapData} kmAsset={assetData} />
                         <TermsDetails
                             kmAsset={assetData}
                             kmapData={kmapData}
