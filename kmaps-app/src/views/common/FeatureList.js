@@ -290,7 +290,7 @@ function FeatureKmapListItem(props) {
     const domain = props.asset_type;
     const kmid = `${domain}-${id}`;
     const kmap_url = `/${domain}/${doc.id}${props.searchParam}`;
-
+    const [areDetails, setAreDetails] = useState(false);
     const [isOpen, setOpen] = useState(false);
 
     // Check for related Icons
@@ -312,16 +312,17 @@ function FeatureKmapListItem(props) {
         }
     }
     let altnames = doc?.names_txt;
-    let areDetails;
+
     useEffect(() => {
         // UseEffect for areDetails so it doesn't recalculate!!!
         altnames = doc?.names_txt;
         altnames.splice(altnames.indexOf(doc.title), 1);
-        areDetails =
+        const calcAreDetails =
             doc?.caption ||
             !Array.isArray(altnames) ||
             altnames?.length > 0 ||
             buckets?.length > 0;
+        setAreDetails(calcAreDetails);
     }, [doc]);
 
     const feature_types = (
@@ -357,11 +358,6 @@ function FeatureKmapListItem(props) {
         ) : null;
 
     const cardkey = `${doc.asset_type}-${doc.id}-card`; //${Date.now()}
-    areDetails =
-        doc?.caption ||
-        !Array.isArray(altnames) ||
-        altnames?.length > 0 ||
-        buckets?.length > 0;
     return (
         <Card className={`p-0 ${domain}`} key={cardkey}>
             <Accordion>
@@ -372,9 +368,6 @@ function FeatureKmapListItem(props) {
                                 onClick={() => {
                                     setOpen(!isOpen);
                                 }}
-                                aria-controls={`${cardkey}-toggle`}
-                                arria-expand={isOpen}
-                                variant="link"
                                 className={
                                     isOpen
                                         ? 'u-icon__plus open'
@@ -389,7 +382,6 @@ function FeatureKmapListItem(props) {
                             {doc.title}
                         </Link>
                         {feature_types}
-                        {caption}
                         {ancestors && ancestors.length > 0 && (
                             <div className={'ancestors'}>{ancestors}</div>
                         )}

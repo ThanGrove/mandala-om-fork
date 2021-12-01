@@ -25,7 +25,7 @@ export function TermsHome(props) {
         data: termsData,
         isError: isTermsError,
         error: termsError,
-    } = useSolr('terms-all', q);
+    } = useSolr(['all-terms', 'latin-sort', pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
@@ -37,45 +37,6 @@ export function TermsHome(props) {
 
     const numFound = termsData?.numFound;
     const hasMore = numFound && (pageNum + 1) * pageSize < numFound;
-
-    const pager = {
-        numFound: numFound,
-        getMaxPage: () => {
-            return Math.floor(pager.numFound / pager.getPageSize());
-        },
-        getPage: () => {
-            return pageNum;
-        },
-        setPage: (pg) => {
-            pg = parseInt(pg);
-            if (!isNaN(pg) && pg > -1 && pg <= pager.getMaxPage()) {
-                setPageNum(pg);
-                pager.pgnum = pg;
-            }
-        },
-        setPageSize: (size) => {
-            size = parseInt(size);
-            if (!isNaN(size) && size > 0 && size < 101) {
-                setPageSize(size);
-                pager.pgsize = size;
-            }
-        },
-        getPageSize: () => {
-            return pageSize;
-        },
-        nextPage: () => {
-            pager.setPage(pager.getPage() + 1);
-        },
-        prevPage: () => {
-            pager.setPage(pager.getPage() - 1);
-        },
-        lastPage: () => {
-            pager.setPage(pager.getMaxPage());
-        },
-        firstPage: () => {
-            pager.setPage(0);
-        },
-    };
 
     return (
         <div className="subjects-home">

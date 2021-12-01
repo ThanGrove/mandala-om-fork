@@ -26,7 +26,7 @@ export function PlacesHome(props) {
         data: placesData,
         isError: isPlacesError,
         error: placesError,
-    } = useSolr('places-all', q);
+    } = useSolr(['all-places', 'latin-sort', pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);

@@ -27,7 +27,7 @@ export function SubjectsHome(props) {
         data: subjdata,
         isError: isSubjError,
         error: subjError,
-    } = useSolr('subjects-all', q);
+    } = useSolr(['all-subjects', 'latin-sort', pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
