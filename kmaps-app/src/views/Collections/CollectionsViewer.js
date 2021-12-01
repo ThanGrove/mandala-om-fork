@@ -179,14 +179,13 @@ export function CollectionsViewer(props) {
 
     // console.log('collitems', collitems);
     // console.log(collsolr);
-
-    const colltitle =
+    const collabel = collsolr?.collection_nid ? 'Subcollection' : 'Collection';
+    let colltitle =
         collsolr?.title?.length > 0
             ? `${collsolr.title[0].replace(/collections?/gi, '')} ${
                   collsolr.asset_subtype
-              } Collection`
+              } ${collabel}`
             : false;
-
     const sorter = (
         <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
     );
@@ -217,7 +216,7 @@ export function CollectionsViewer(props) {
                         </p>
                     )}
                     <h3 className={'clearfix'}>
-                        {atypeLabel} Items in This Collection
+                        {atypeLabel} Items in This {collabel}
                     </h3>
                     <FeatureCollection
                         docs={collitems}

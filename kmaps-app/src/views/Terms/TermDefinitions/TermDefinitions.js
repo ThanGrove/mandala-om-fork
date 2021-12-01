@@ -14,7 +14,7 @@ import Collapse from 'react-bootstrap/Collapse';
 
 //Function to aggregate TermDetails data
 const aggregateDetails = _.memoize((def) => {
-    return _.reduce(
+    let details = _.reduce(
         def,
         (accum, value, key) => {
             const matches = key.match(
@@ -40,6 +40,14 @@ const aggregateDetails = _.memoize((def) => {
         },
         {}
     );
+    // Remove Language detail because it is displayed through SOLR field: def.related_definitions_language_s
+    // Could be used in future to link to Kmap subject for that language
+    Object.keys(details).forEach((ky, kyi) => {
+        if (details[ky]['header_title'] === 'Language') {
+            delete details[ky];
+        }
+    });
+    return details;
 });
 
 const TermDefinitions = (props) => {
@@ -149,7 +157,7 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
             </>
         );
     });
-
+    //console.log('Aggregate Details', aggregateDetails(def));
     return (
         <>
             <div key={defid} id={defid} className={`definition ${defclass}`}>
@@ -181,6 +189,7 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
                             />
                         )}
                     </div>
+                    {/* Both author and language */}
                     {def.related_definitions_author_s &&
                         def.related_definitions_language_s && (
                             <div className="sui-termDefinitions__extra">
@@ -191,6 +200,30 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
                                     {def.related_definitions_author_s}
                                 </span>{' '}
                                 |{' '}
+                                <span className="sui-termDefinitions__extra-lang">
+                                    Language:
+                                </span>{' '}
+                                <span className="sui-termDefinitions__extra-lang-text">
+                                    {def.related_definitions_language_s}
+                                </span>
+                            </div>
+                        )}
+                    {/* Just author  */}
+                    {def.related_definitions_author_s &&
+                        !def.related_definitions_language_s && (
+                            <div className="sui-termDefinitions__extra">
+                                <span className="sui-termDefinitions__extra-author">
+                                    Author:
+                                </span>{' '}
+                                <span className="sui-termDefinitions__extra-author-text">
+                                    {def.related_definitions_author_s}
+                                </span>{' '}
+                            </div>
+                        )}
+                    {/* Just language */}
+                    {!def.related_definitions_author_s &&
+                        def.related_definitions_language_s && (
+                            <div className="sui-termDefinitions__extra">
                                 <span className="sui-termDefinitions__extra-lang">
                                     Language:
                                 </span>{' '}
