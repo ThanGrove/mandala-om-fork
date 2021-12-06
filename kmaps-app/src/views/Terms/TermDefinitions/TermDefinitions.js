@@ -141,10 +141,7 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
     const subdefs = def?.children?.map((child, ci) => {
         const subdefnum = ci + 1;
         const defnum = `${defnumber}.${subdefnum}`;
-        const hr =
-            ci < def?.children?.length - 1 ? (
-                <hr width="30%" className="subdefhr" />
-            ) : null;
+
         return (
             <>
                 <TermDefinition
@@ -153,17 +150,20 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
                     deflevel={2}
                     resourceCounts={resourceCounts}
                 />
-                {hr}
             </>
         );
     });
     //console.log('Aggregate Details', aggregateDetails(def));
+
     return (
         <>
             <div key={defid} id={defid} className={`definition ${defclass}`}>
+                {/*
                 <h4 className="term-defnum">Definition {defnumber}</h4>
+                */}
                 <div className="term-defcnt">
                     <div>
+                        <span className="l-defnum">{defnumber}.</span>
                         {ReactHtmlParser(def.related_definitions_content_s)}
                     </div>
                     {!_.isEmpty(aggregateDetails(def)) && (
