@@ -364,6 +364,17 @@ export function getKeyHash(indexin) {
     return hash;
 }
 
+export function isAssetType(mytype) {
+    const assetTypes = [
+        'audio-video',
+        'av',
+        'images',
+        'sources',
+        'texts',
+        'visuals',
+    ];
+    return assetTypes.includes(mytype);
+}
 /**
  * Capitalize function since one is not provided by JS.
  */

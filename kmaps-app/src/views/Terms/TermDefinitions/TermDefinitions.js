@@ -158,9 +158,6 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
     return (
         <>
             <div key={defid} id={defid} className={`definition ${defclass}`}>
-                {/*
-                <h4 className="term-defnum">Definition {defnumber}</h4>
-                */}
                 <div className="term-defcnt">
                     <div>
                         <span className="l-defnum">{defnumber}.</span>

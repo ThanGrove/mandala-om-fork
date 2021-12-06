@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './ContentHeader.scss';
 import { useKmap } from '../../hooks/useKmap';
-import { parseParams, queryID } from '../../views/common/utils';
+import { isAssetType, parseParams, queryID } from '../../views/common/utils';
 import MandalaSkeleton from '../../views/common/MandalaSkeleton';
 import { KmapsBreadcrumbs } from './KmapsBreadcrumbs';
 import { AssetBreadcrumbs } from './AssetBreadcrumbs';
@@ -10,11 +10,17 @@ import useCollection from '../../hooks/useCollection';
 import { CollectionBreadcrumbs } from './CollectionBreadcrumbs';
 
 export function ContentHeader({ siteClass, title, location }) {
+    console.log('location', location, process.env.REACT_APP_STANDALONE);
     const pgpath = location.pathname.substr(1);
     const [first, mid, last] = pgpath?.split('/');
     const itemType = first;
     const isCollection = mid === 'collection';
     let itemId = isCollection ? last : mid;
+    if (process.env.REACT_APP_STANDALONE) {
+        if (isAssetType(itemType) && mid === 'all') {
+            return null;
+        }
+    }
     // Need to return null if no ID before making kmap query, so separated off ContentHeaderBuilder
     if (!itemId || typeof itemId === 'undefined') {
         return (

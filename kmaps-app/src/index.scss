@@ -1420,6 +1420,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
 
 // Asset Home Pages
 .assethome {
+    padding-top: 0.5rem;
     & > .desc {
         font-size: 1.5rem;
 
@@ -1439,6 +1440,9 @@ header.terms + .two-columns .c-view__wrapper.gallery {
             margin-left: 3rem !important;
             text-indent: -3rem;
         }
+    }
+    .c-buttonGroup__viewMode {
+        top: -4rem !important;
     }
 }
 
