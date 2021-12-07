@@ -12,7 +12,7 @@
     text-align: center;
     margin: 0;
     opacity: 1;
-    transform: all (1.175);
+    /*transform: all (1.175);*/
     transition: scale 0.25s;
     background: #4d59ca;
     padding: inherit;

@@ -1140,9 +1140,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
 }
 
 // List View Only
-.sources .list .c-view {
-    margin: 0 2rem 0 0;
-}
 
 .list .c-view {
     margin: 0 1rem 0 0.5rem;
@@ -1162,7 +1159,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         padding: 0 1.5rem;
         font-size: 1.3rem;
         position: relative;
-        top: 0.35rem;
+        /*top: 0.35rem;*/
         &:hover {
             opacity: 0.8;
         }
@@ -1172,50 +1169,66 @@ header.terms + .two-columns .c-view__wrapper.gallery {
             opacity: 1;
         }
     }
+    .audio-video .u-icon__plus:before {
+        color: $color-audio-video;
+    }
+    .images .u-icon__plus:before {
+        color: $color-images;
+    }
+    .places .u-icon__plus:before {
+        color: $color-places;
+    }
+    .sources .u-icon__plus:before {
+        color: $color-sources;
+    }
+    .subjects .u-icon__plus:before {
+        color: $color-subjects;
+    }
+    .terms .u-icon__plus:before {
+        color: $color-terms;
+    }
+    .texts .u-icon__plus:before {
+        color: $color-sources;
+    }
+    .visuals .u-icon__plus:before {
+        color: $color-visuals;
+    }
     .u-icon__plus.open:before {
         transform: rotate(45deg);
         opacity: 1;
     }
 
     .card .type.icon {
-        font-size: 0.9rem;
+        font-size: 1.5rem;
         padding: 0.54rem;
-        border: 3px double #fff;
         border-radius: 0.5rem;
         margin-right: 0.25rem;
-        border: 0.4rem double #fff;
+        background-color: #fff;
+        /*border: 0.1rem solid #fff;*/
 
         &.shanticon-audio-video {
-            background-color: $color-audio-video;
-            color: #fff;
+            color: $color-audio-video;
         }
         &.shanticon-images {
-            background-color: $color-images;
-            color: #fff;
+            color: $color-images;
         }
         &.shanticon-sources {
-            background-color: $color-sources;
-            color: #fff;
+            color: $color-sources;
         }
         &.shanticon-texts {
-            background-color: $color-texts;
-            color: #fff;
+            color: $color-texts;
         }
         &.shanticon-visuals {
-            background-color: $color-visuals;
-            color: #fff;
+            color: $color-visuals;
         }
         &.shanticon-places {
-            background-color: $color-places;
-            color: #fff;
+            color: $color-places;
         }
         &.shanticon-subjects {
-            background-color: $color-subjects;
-            color: #fff;
+            color: $color-subjects;
         }
         &.shanticon-terms {
-            background-color: $color-terms;
-            color: #fff;
+            color: $color-terms;
         }
     }
 
@@ -1255,7 +1268,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         /*  min-width: 40vw;*/
         background-color: #fff;
         overflow: visible;
-        padding: 0.25rem 0.5rem 0.5rem !important;
+        padding: 0.25rem 2rem 0.5rem !important;
         .shanticon-audio-video::before {
             position: relative;
             left: 0.1rem;
@@ -1285,7 +1298,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         }
         .info {
             padding-top: 0.75rem;
-            margin-left: 2rem;
+            /*margin-left: 2rem;*/
             font-size: 1.5rem;
         }
         .creator {
@@ -1298,6 +1311,25 @@ header.terms + .two-columns .c-view__wrapper.gallery {
                 left: -0.25rem;
             }
         }
+        .source-authors {
+            margin: 0.5rem 0 0 4rem;
+            font-family: 'EB Garamond', serif;
+            font-size: 1.75rem;
+            color: #111;
+            letter-spacing: 0.0275rem;
+            font-style: italic;
+            .shanticon-agents {
+                color: $color-sources;
+                font-size: 1.5rem;
+            }
+        }
+        /*
+        .citation {
+            background-color: #ededed;
+            margin-top: 0.5rem;
+            padding: 0.5rem 2rem;
+            width: fit-content;
+        }*/
         p {
             max-width: 93%;
         }
@@ -1427,18 +1459,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         & > * {
             margin-left: 2rem;
             margin-right: 2rem;
-        }
-    }
-
-    &.sources {
-        .c-view {
-            margin: 0 2rem;
-            font-size: 1.45rem;
-        }
-        .card {
-            border: none;
-            margin-left: 3rem !important;
-            text-indent: -3rem;
         }
     }
     .c-buttonGroup__viewMode {

@@ -10,7 +10,7 @@ import useCollection from '../../hooks/useCollection';
 import { CollectionBreadcrumbs } from './CollectionBreadcrumbs';
 
 export function ContentHeader({ siteClass, title, location }) {
-    console.log('location', location, process.env.REACT_APP_STANDALONE);
+    // console.log('location', location, process.env.REACT_APP_STANDALONE);
     const pgpath = location.pathname.substr(1);
     const [first, mid, last] = pgpath?.split('/');
     const itemType = first;
@@ -311,7 +311,11 @@ function SimpleContentHeader({ label, crumbs }) {
                     </a>
                     {crumbs.map((item, n) => {
                         return (
-                            <a className="breadcrumb-item" href="#">
+                            <a
+                                key={`sch-bc-${n}`}
+                                className="breadcrumb-item"
+                                href="#"
+                            >
                                 {item}
                             </a>
                         );
