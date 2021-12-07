@@ -15,6 +15,7 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
+import { isAssetType } from '../utils';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -409,11 +410,13 @@ function DetailModal(props) {
 }
 
 export function createAssetViewURL(avuid, asset_type, location, searchParam) {
+    console.log('avuid', avuid, 'asset-type: ' + asset_type);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
             .replace('audio/video', 'audio-video')}${searchParam}`;
     }
+    const atype = avuid.split('-')[0];
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');
@@ -428,6 +431,9 @@ export function createAssetViewURL(avuid, asset_type, location, searchParam) {
     path = path.replace('related-all', `related-${asset_type}`);
     if (['places', 'subjects', 'terms'].includes(asset_type)) {
         path = `/${asset_type}/${aid}${searchParam}`;
+    }
+    if (isAssetType(atype)) {
+        path = `/${asset_type}/${aid}`;
     }
     return path;
 }

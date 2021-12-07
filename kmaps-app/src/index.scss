@@ -1298,7 +1298,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         }
         .info {
             padding-top: 0.75rem;
-            /*margin-left: 2rem;*/
+            margin-left: 4rem;
             font-size: 1.5rem;
         }
         .creator {
@@ -1353,7 +1353,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
                 }
                 ul {
                     margin-left: 0;
-                    padding-inline-start: 1.5rem;
+                    /*padding-inline-start: 1.5rem;*/
                 }
                 li {
                     list-style-type: none;
@@ -1373,9 +1373,6 @@ header.terms + .two-columns .c-view__wrapper.gallery {
     }
 
     // Sources in List View
-    .sources.card .info {
-        padding-left: 8rem;
-    }
     .sources.card .info .img {
         display: none;
     }

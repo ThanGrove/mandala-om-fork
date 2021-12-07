@@ -5,6 +5,7 @@ import { HtmlCustom } from './MandalaMarkup';
 import { Accordion, Card, Col, Collapse } from 'react-bootstrap';
 import $ from 'jquery';
 import _ from 'lodash';
+import { MandalaPopover } from './MandalaPopover';
 
 export function FeatureAssetListItem(props) {
     let location = useLocation();
@@ -43,7 +44,7 @@ export function FeatureAssetListItem(props) {
         ) : null;
 
     let under_title = doc.caption != doc.title ? caption : null;
-    if (doc?.asset_type === 'sources') {
+    if (doc?.asset_type === 'sources' || doc?.asset_type === 'texts') {
         if (doc?.creator && doc.creator !== '') {
             const creator = Array.isArray(doc?.creator)
                 ? doc.creator.join(', ')
@@ -59,10 +60,12 @@ export function FeatureAssetListItem(props) {
         }
     }
     let summary = doc?.summary;
-    if (summary.indexOf('<p>') > -1) {
-        summary = <HtmlCustom markup={summary} />;
-    } else if (summary.length > 0) {
-        summary = <p>{summary}</p>;
+    if (summary) {
+        if (summary?.indexOf('<p>') > -1) {
+            summary = <HtmlCustom markup={summary} />;
+        } else if (summary.length > 0) {
+            summary = <p>{summary}</p>;
+        }
     }
     const citation =
         doc?.citation_s && doc?.citation_s?.length > 10 ? (
@@ -130,11 +133,13 @@ export function FeatureAssetListItem(props) {
                 </Col>
                 <Collapse in={isOpen}>
                     <Col className={'info'}>
-                        <Link to={doc_url}>
-                            <span className={'img'}>
-                                <img src={doc.url_thumb} />
-                            </span>
-                        </Link>
+                        {doc?.url_thumb && doc.url_thumb !== '' && (
+                            <Link to={doc_url}>
+                                <span className={'img'}>
+                                    <img src={doc.url_thumb} />
+                                </span>
+                            </Link>
+                        )}
                         <span
                             className={`shanticon-${doc.asset_type} icon`}
                             title={doc.asset_type}
@@ -148,7 +153,8 @@ export function FeatureAssetListItem(props) {
                                 </>
                             )}
                         </span>
-                        {!(doc?.asset_type === 'sources') &&
+                        {doc?.asset_type !== 'sources' &&
+                            doc?.asset_type !== 'texts' &&
                             doc?.creator &&
                             doc.creator.length > 0 && (
                                 <span className={'creator text-capitalize'}>
@@ -191,24 +197,31 @@ function FeatureListAssetRelateds(props) {
     const fldnm = 'kmapid_' + domain + '_idfacet';
     if (doc[fldnm]) {
         return (
-            <Col className={`kmaps ${domain}`}>
-                <h5>
-                    <span className={`u-icon__${domain} icon`}></span>
-                    Related {domain}
-                </h5>
-                <ul>
+            <div className={`kmaps ${domain}`}>
+                <ul className="list-inline">
+                    <li
+                        key={`kmaps-${domain}-items-icon`}
+                        className="list-inline-item"
+                    >
+                        <span className={`u-icon__${domain} icon`}></span>
+                    </li>
                     {_.map(doc[fldnm], (kmf) => {
                         const kmpts = kmf.split('|');
                         if (kmpts.length > 1) {
+                            const idpts = kmpts[1].split('-');
                             return (
-                                <li key={kmf}>
-                                    {kmpts[0]} ({kmpts[1]})
+                                <li key={kmf} className="list-inline-item">
+                                    <MandalaPopover
+                                        domain={idpts[0]}
+                                        kid={idpts[1]}
+                                        children={kmpts[0]}
+                                    />
                                 </li>
                             );
                         }
                     })}
                 </ul>
-            </Col>
+            </div>
         );
     } else {
         return null;
