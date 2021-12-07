@@ -364,6 +364,13 @@ export function getKeyHash(indexin) {
     return hash;
 }
 
+/**
+ * Returns true if type given is an asset type and not a kmap type
+ * Otherwise returns false
+ *
+ * @param mytype
+ * @returns {boolean}
+ */
 export function isAssetType(mytype) {
     const assetTypes = [
         'audio-video',
