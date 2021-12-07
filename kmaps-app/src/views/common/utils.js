@@ -606,6 +606,14 @@ export function getLangClass(drpfld) {
     return langclass;
 }
 
+/**
+ * Find properties of an object that startwith, contain, endwith or match a regex
+ *
+ * @param obj
+ * @param propmtch
+ * @param pos
+ * @returns {*[]}
+ */
 export function getPropsContaining(obj, propmtch, pos = 'contains') {
     const propnames = [];
     for (let propname in obj) {
@@ -625,6 +633,13 @@ export function getPropsContaining(obj, propmtch, pos = 'contains') {
     return propnames;
 }
 
+/**
+ * Find object properties based on given RegEx pattern and makes sure they are unique
+ *
+ * @param data
+ * @param regex
+ * @returns {unknown[]}
+ */
 export function getUniquePropIds(data, regex) {
     let ids = Object.keys(data)
         .map((pn) => {
