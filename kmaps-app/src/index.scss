@@ -1455,12 +1455,12 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         font-size: 1.5rem;
 
         & > * {
-            margin-left: 2rem;
-            margin-right: 2rem;
+            margin: 0 2rem 1rem 1rem;
         }
     }
     .c-buttonGroup__viewMode {
-        top: -4rem !important;
+        top: -4.5rem !important;
+        right: 1rem;
     }
 }
 
