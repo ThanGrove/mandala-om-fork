@@ -6,6 +6,7 @@ import { Accordion, Card, Col, Collapse } from 'react-bootstrap';
 import $ from 'jquery';
 import _ from 'lodash';
 import { MandalaPopover } from './MandalaPopover';
+import { fixEntities } from './utils';
 
 export function FeatureAssetListItem(props) {
     let location = useLocation();
@@ -49,7 +50,7 @@ export function FeatureAssetListItem(props) {
             const creator = Array.isArray(doc?.creator)
                 ? doc.creator.join(', ')
                 : doc.creator;
-            under_title = creator;
+            under_title = fixEntities(creator);
         } else {
             under_title = 'Anonymous';
         }

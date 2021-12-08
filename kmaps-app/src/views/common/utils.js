@@ -151,6 +151,22 @@ export function fitDimensions(maxHeight, maxWidth, imgHeight, imgWidth) {
     return { height: targetHeight, width: targetWidth };
 }
 
+/**
+ * Function to replace entity codes with the character in text
+ * Currently  has only &#039 => '
+ * @param txt
+ * @returns {*}
+ */
+export function fixEntities(txt) {
+    const ents = ["&#039;|'"];
+    ents.forEach((ent, en) => {
+        const [fnd, rep] = ent.split('|');
+        const re = new RegExp(fnd, 'g');
+        txt = txt.replace(re, rep);
+    });
+    return txt;
+}
+
 export function selectIcon(type) {
     const mykey = `${type}-${Math.ceil(Math.random() * 10000)}`;
     const ICON_MAP = {
