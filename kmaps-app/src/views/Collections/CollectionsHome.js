@@ -87,10 +87,6 @@ export function CollectionsHome(props) {
         <div>
             <h1>All Collections</h1>
             <p>
-                This page now shows all the asset collections and subcollections
-                for the {mscope} project.
-            </p>
-            <p>
                 <label className="font-weight-bold pr-3">
                     Show collections of:{' '}
                 </label>

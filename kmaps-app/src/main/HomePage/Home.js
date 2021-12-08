@@ -175,7 +175,6 @@ export default function Home(props) {
                                 </Link>
                             </h4>
                             <ul>
-                                ]
                                 <li>
                                     <Link to={'/audio-video/collection/3'}>
                                         Audio-Video Collection: THL
