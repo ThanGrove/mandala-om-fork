@@ -49,15 +49,16 @@ export function FeatureAssetListItem(props) {
             const creator = Array.isArray(doc?.creator)
                 ? doc.creator.join(', ')
                 : doc.creator;
-            under_title = (
-                <div className="source-authors">
-                    <span className="icon shanticon-agents"> </span>
-                    {creator}
-                </div>
-            );
+            under_title = creator;
         } else {
-            under_title = null;
+            under_title = 'Anonymous';
         }
+        under_title = (
+            <div className="source-authors">
+                <span className="icon shanticon-agents"> </span>
+                {under_title}
+            </div>
+        );
     }
     let summary = doc?.summary;
     if (summary) {

@@ -326,10 +326,11 @@ function DetailModal(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isOpen);
-        //console.log('clicked', isOpen);
     };
 
     const data = props?.data;
+    let title = data?.title;
+    title = Array.isArray(title) && title?.length > 0 ? title[0] : title;
     return (
         <Modal
             {...props}
@@ -350,7 +351,7 @@ function DetailModal(props) {
                         <strong>UID: </strong> {data?.uid}
                     </li>
                     <li>
-                        <strong>Title: </strong> {data?.title[0]}
+                        <strong>Title: </strong> {title}
                     </li>
                     <li>
                         <strong>Uploader: </strong> {data?.node_user_full_s} (
@@ -410,7 +411,7 @@ function DetailModal(props) {
 }
 
 export function createAssetViewURL(avuid, asset_type, location, searchParam) {
-    console.log('avuid', avuid, 'asset-type: ' + asset_type);
+    // console.log('avuid', avuid, 'asset-type: ' + asset_type);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
