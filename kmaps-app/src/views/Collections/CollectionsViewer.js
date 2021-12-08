@@ -269,7 +269,7 @@ export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
         `${makerLabel}:creator_sort_s`,
     ];
     const sortOrderVals = ['Asc', 'Desc'];
-    console.log('Sort order in selector', sortOrder);
+    //console.log('Sort order in selector', sortOrder);
     return (
         <div className={'c-buttonGroup__sortMode'}>
             <span className="c-buttonGroup__sortMode-header">Sort By:</span>

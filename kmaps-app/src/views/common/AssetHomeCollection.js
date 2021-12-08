@@ -60,7 +60,7 @@ export function AssetHomeCollection(props) {
 
     // Reset pagination on change in sort order
     useEffect(() => {
-        console.log('Sort  mode changed: ', sortMode);
+        //console.log('Sort  mode changed: ', sortMode);
         setPageNum(0);
     }, [sortMode]);
 
