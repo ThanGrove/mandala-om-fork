@@ -39,10 +39,8 @@ export function TermsHome(props) {
     const hasMore = numFound && (pageNum + 1) * pageSize < numFound;
 
     return (
-        <div className="subjects-home">
+        <div className="terms-home">
             <h1>Terms</h1>
-            <p>This page now shows all terms in this project.</p>
-
             <FeatureCollection
                 docs={termsData?.docs}
                 assetCount={numFound}

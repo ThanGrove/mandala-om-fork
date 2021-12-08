@@ -1002,7 +1002,7 @@ header.terms + .two-columns {
         transform: scale(1.04);
     }
 }
-header.terms + .two-columns .c-buttonGroup__viewMode,
+/*header.terms + .two-columns .c-buttonGroup__viewMode,*/
 header.search + .two-columns .c-buttonGroup__viewMode {
     position: relative;
     top: 0;
@@ -1012,12 +1012,13 @@ header.search + .two-columns .c-buttonGroup__viewMode {
     text-align: right;
     margin-bottom: 1rem;
 }
+/*
 header.terms + .two-columns .c-buttonGroup__viewMode {
     position: relative;
     top: 0;
     padding-right: 1rem;
 }
-
+*/
 .sui-facetList-horiz {
     margin: 1rem 2rem 2rem;
     padding: 0.5rem 1rem 0.75rem;

@@ -16,8 +16,9 @@ export function ContentHeader({ siteClass, title, location }) {
     const itemType = first;
     const isCollection = mid === 'collection';
     let itemId = isCollection ? last : mid;
+    // No breadcrumbs for all of type pages in standalones
     if (process.env.REACT_APP_STANDALONE) {
-        if (isAssetType(itemType) && mid === 'all') {
+        if (mid === 'all') {
             return null;
         }
     }

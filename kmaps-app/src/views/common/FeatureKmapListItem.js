@@ -39,7 +39,9 @@ export function FeatureKmapListItem(props) {
     useEffect(() => {
         // UseEffect for areDetails so it doesn't recalculate!!!
         altnames = doc?.names_txt;
-        altnames.splice(altnames.indexOf(doc.title), 1);
+        if (Array.isArray(altnames) && altnames?.length > 0) {
+            altnames.splice(altnames.indexOf(doc.title), 1);
+        }
         const calcAreDetails =
             doc?.caption ||
             !Array.isArray(altnames) ||
