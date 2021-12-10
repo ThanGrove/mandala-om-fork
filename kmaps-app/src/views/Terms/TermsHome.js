@@ -10,13 +10,18 @@ export function TermsHome(props) {
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(50);
 
+    const tmsort_envvar = process.env?.REACT_APP_TERMS_SORT;
+    const sortfield =
+        tmsort_envvar && !(tmsort_envvar === '')
+            ? tmsort_envvar
+            : 'title_latin_sort';
     const q = {
         index: 'assets',
         params: {
             q: 'asset_type:terms',
             rows: pageSize,
             start: startRow,
-            sort: 'title_latin_sort ASC',
+            sort: `${sortfield} ASC`,
         },
     };
 
@@ -25,7 +30,7 @@ export function TermsHome(props) {
         data: termsData,
         isError: isTermsError,
         error: termsError,
-    } = useSolr(['all-terms', 'latin-sort', pageSize, startRow, pageNum], q);
+    } = useSolr(['all-terms', sortfield, pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
