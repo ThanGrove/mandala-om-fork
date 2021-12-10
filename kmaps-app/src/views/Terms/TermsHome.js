@@ -10,6 +10,7 @@ export function TermsHome(props) {
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(50);
 
+    // See line in .env.tibet. Set to: REACT_APP_TERMS_SORT=position_i or whatever the field is
     const tmsort_envvar = process.env?.REACT_APP_TERMS_SORT;
     const sortfield =
         tmsort_envvar && !(tmsort_envvar === '')
