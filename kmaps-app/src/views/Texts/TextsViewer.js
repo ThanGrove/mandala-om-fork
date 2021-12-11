@@ -101,7 +101,7 @@ export default function TextsViewer(props) {
 
     if (isAssetLoading || isNodeLoading) {
         return (
-            <Container className={'astviewer texts'} fluid>
+            <Container className={'astviewer texts'} fluid="true">
                 <Row id={'shanti-texts-container'}>
                     <MandalaSkeleton />
                 </Row>
@@ -111,7 +111,7 @@ export default function TextsViewer(props) {
 
     if (isAssetError) {
         return (
-            <Container className={'astviewer texts'} fluid>
+            <Container className={'astviewer texts'} fluid="true">
                 <Row id={'shanti-texts-container'}>
                     <div className={'not-found-msg d-none'}>
                         <h1>Text Not Found!</h1>
@@ -123,7 +123,7 @@ export default function TextsViewer(props) {
     }
     if (isNodeError) {
         return (
-            <Container className={'astviewer texts'} fluid>
+            <Container className={'astviewer texts'} fluid="true">
                 <Row id={'shanti-texts-container'}>
                     <div className={'not-found-msg d-none'}>
                         <h1>Text Not Found!</h1>
@@ -150,7 +150,7 @@ export default function TextsViewer(props) {
                         header={kmasset.title}
                     />
                 )}
-                <div className={'l-site__wrap astviewer texts'} fluid>
+                <div className={'l-site__wrap astviewer texts'} fluid="true">
                     <div id={'shanti-texts-container'} className="d-flex">
                         <TextBody
                             id={nodejson.nid}

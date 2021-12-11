@@ -187,7 +187,11 @@ export function CollectionsViewer(props) {
               } ${collabel}`
             : false;
     const sorter = (
-        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+        <CollectionSortModeSelector
+            setSort={setSortMode}
+            sortMode={sortMode}
+            assetType={asset_type}
+        />
     );
 
     const hasMoreItems = numFound <= (pageNum + 1) * pageSize ? false : true;
@@ -238,10 +242,10 @@ export function CollectionsViewer(props) {
     );
 }
 
-export function CollectionSortModeSelector({ sortMode, setSort }) {
+export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
     const SORTBYID = 'coll-sortby';
     const SORTORDERID = 'coll-sortorder';
-    let { sortBy, sortOrder } = sortMode.split(' ');
+    let [sortBy, sortOrder] = sortMode.split(' ');
     const sortChange = (sel) => {
         let newSortVal = sortMode;
         const selid = sel.target.id;
@@ -255,12 +259,17 @@ export function CollectionSortModeSelector({ sortMode, setSort }) {
         setSort(newSortVal);
     };
 
+    // Using "author" only for sources and texts
+    const makerLabel = ['sources', 'texts'].includes(assetType)
+        ? 'Author'
+        : 'Creator';
     const sortByVals = [
         'Title:title_sort_s',
         'Date:date_start',
-        'Creator:creator_sort_s',
+        `${makerLabel}:creator_sort_s`,
     ];
     const sortOrderVals = ['Asc', 'Desc'];
+    //console.log('Sort order in selector', sortOrder);
     return (
         <div className={'c-buttonGroup__sortMode'}>
             <span className="c-buttonGroup__sortMode-header">Sort By:</span>

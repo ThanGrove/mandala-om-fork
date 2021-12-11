@@ -7,7 +7,6 @@ export function TextsHome(props) {
         <div className={'assethome texts'}>
             <div className={'desc'}>
                 <h1>Texts</h1>
-                <p>This page shows all texts in this project.</p>
             </div>
             <div className={'c-asset-collection'}>
                 <AssetHomeCollection asset_type={'texts'} />

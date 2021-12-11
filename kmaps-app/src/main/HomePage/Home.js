@@ -50,7 +50,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Terms</h4>
+                            <h4>
+                                <Link to={'/terms/all/list'}>Terms</Link>
+                            </h4>
                             <ul id="terms-list">
                                 <li>
                                     <Link to={'/terms/260'}>
@@ -98,7 +100,9 @@ export default function Home(props) {
                                     </Link>
                                 </li>
                             </ul>
-                            <h4>Places</h4>
+                            <h4>
+                                <Link to={'/places/all/list'}>Places</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/places/134685'}>
@@ -126,7 +130,9 @@ export default function Home(props) {
                                     </Link>
                                 </li>
                             </ul>
-                            <h4>Subjects</h4>
+                            <h4>
+                                <Link to={'/subjects/all/list'}>Subjects</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/subjects/3719'}>
@@ -163,13 +169,12 @@ export default function Home(props) {
                     </Col>
                     <Col>
                         <Jumbotron>
-                            <h4>Collections</h4>
+                            <h4>
+                                <Link to={'/collections/all/list'}>
+                                    Collections
+                                </Link>
+                            </h4>
                             <ul>
-                                <li>
-                                    <Link to={'/collections'}>
-                                        All Collections
-                                    </Link>
-                                </li>
                                 <li>
                                     <Link to={'/audio-video/collection/3'}>
                                         Audio-Video Collection: THL
@@ -199,7 +204,11 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Audio-Video</h4>
+                            <h4>
+                                <Link to={'/audio-video/all/list'}>
+                                    Audio-Video
+                                </Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/audio-video/825'}>
@@ -220,7 +229,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Images</h4>
+                            <h4>
+                                <Link to={'/images/all/list'}>Images</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/images/1421596'}>
@@ -244,7 +255,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Sources</h4>
+                            <h4>
+                                <Link to={'/sources/all/list'}>Sources</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/sources/36896'}>
@@ -265,7 +278,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Texts</h4>
+                            <h4>
+                                <Link to={'/texts/all/list'}>Texts</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/texts/16230'}>
@@ -286,7 +301,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Visuals</h4>
+                            <h4>
+                                <Link to={'/visuals/all/list'}>Visuals</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/visuals/4451'}>

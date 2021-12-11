@@ -7,7 +7,6 @@ export function ImagesHome(props) {
         <div className={'assethome images'}>
             <div className={'desc'}>
                 <h1>Images</h1>
-                <p>This page shows all images in this project.</p>
             </div>
             <div className={'c-asset-collection'}>
                 <AssetHomeCollection asset_type={'images'} />

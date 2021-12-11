@@ -4,6 +4,7 @@ import { useParams } from 'react-router';
 import { useSolr } from '../hooks/useSolr';
 import MandalaSkeleton from './common/MandalaSkeleton';
 import { FeatureCollection } from './common/FeatureCollection';
+import './Kmaps/kmaps_shared.scss';
 
 export function PlacesHome(props) {
     const { view_mode } = useParams();
@@ -26,7 +27,7 @@ export function PlacesHome(props) {
         data: placesData,
         isError: isPlacesError,
         error: placesError,
-    } = useSolr('places-all', q);
+    } = useSolr(['all-places', 'latin-sort', pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
@@ -81,8 +82,6 @@ export function PlacesHome(props) {
     return (
         <div className="places-home">
             <h1>Places</h1>
-            <p>This page now shows all places in this project.</p>
-
             <FeatureCollection
                 docs={placesData?.docs}
                 assetCount={numFound}

@@ -5,6 +5,7 @@ import { FeaturePager } from './common/FeaturePager/FeaturePager';
 import { FeatureCollection } from './common/FeatureCollection';
 import MandalaSkeleton from './common/MandalaSkeleton';
 import { useParams } from 'react-router';
+import './Kmaps/kmaps_shared.scss';
 
 export function SubjectsHome(props) {
     const { view_mode } = useParams();
@@ -27,7 +28,7 @@ export function SubjectsHome(props) {
         data: subjdata,
         isError: isSubjError,
         error: subjError,
-    } = useSolr('subjects-all', q);
+    } = useSolr(['all-subjects', 'latin-sort', pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
@@ -82,8 +83,6 @@ export function SubjectsHome(props) {
     return (
         <div className="subjects-home">
             <h1>Subjects</h1>
-            <p>This page now shows all subjects in this project.</p>
-
             <FeatureCollection
                 docs={subjdata?.docs}
                 assetCount={numFound}

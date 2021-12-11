@@ -19,7 +19,11 @@ export function AssetHomeCollection(props) {
     const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
 
     const sorter = (
-        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+        <CollectionSortModeSelector
+            setSort={setSortMode}
+            sortMode={sortMode}
+            assetType={asset_type}
+        />
     );
 
     const query = {
@@ -56,12 +60,16 @@ export function AssetHomeCollection(props) {
 
     // Reset pagination on change in sort order
     useEffect(() => {
+        //console.log('Sort  mode changed: ', sortMode);
         setPageNum(0);
     }, [sortMode]);
 
     if (isAssetsError) {
         console.error(assetsError);
         return <p>An error occurred in searching for these assets!</p>;
+    }
+    if (isAssetsLoading) {
+        return <MandalaSkeleton />;
     }
 
     const my_docs = assets?.docs ? assets.docs : [];

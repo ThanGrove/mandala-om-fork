@@ -7,10 +7,6 @@ export function AudioVideoHome(props) {
         <div className={'assethome audio-video'}>
             <div className={'desc'}>
                 <h1>Audio-Video</h1>
-                <p>
-                    This page shows all the audio-video resources in this
-                    project.
-                </p>
             </div>
             <div className={'c-asset-collection'}>
                 <AssetHomeCollection asset_type={'audio-video'} />

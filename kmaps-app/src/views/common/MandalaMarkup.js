@@ -304,6 +304,9 @@ export function HtmlCustom(props) {
     if (options && !options.decodeEntities) {
         options.decodeEntities = true;
     }
+    if (props?.nolinks) {
+        htmlInput = htmlInput.replace(/<\/?a[^>]*>/g, '');
+    }
     if (htmlInput.includes('xml:lang')) {
         const srchst = /xml:lang="[^"]+"/g;
         htmlInput = htmlInput.replace(srchst, '');

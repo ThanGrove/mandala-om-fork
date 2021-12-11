@@ -56,10 +56,7 @@
     background-color: inherit;
     opacity: 0.5;
 }
-.sui-termDefinitions__content .definition.deflvl2 + .definition.deflvl1 {
-    border-top: thin solid #ccc;
-    padding-top: 1.5rem;
-}
+
 .sui-termDefinitions__content .definition.selected .tab-content {
     background-color: #ffedba;
 }
@@ -78,6 +75,18 @@
 }
 .sui-termDefinitions__content .nav.nav-tabs > a.nav-item svg {
     display: none;
+}
+
+.sui-termDefinitions__content .definition {
+    border-bottom: thin solid #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.sui-termDefinitions__content .definition:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
 }
 
 .sui-termDefinitions__content .definition.deflvl2 {

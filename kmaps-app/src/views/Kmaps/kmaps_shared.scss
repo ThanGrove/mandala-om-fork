@@ -1,4 +1,18 @@
-/* Styles shared with both subjectsinfo.scss and placesinfo.scss */
+/* Styles shared with both subjectsinfo.scss and placesinfo.scss  and the home pages*/
+
+/* Home page Styles */
+.places-home,
+.subjects-home,
+.terms-home {
+    padding-top: 0.5rem;
+    & > h1 {
+        margin: 0 0 1rem 0.75rem;
+    }
+    .btn-group.btn-group-toggle {
+        margin-top: 1.75rem;
+    }
+}
+
 /* New Related Texts styles */
 .c-kmaps-related-text {
     h1 {

@@ -10,13 +10,19 @@ export function TermsHome(props) {
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(50);
 
+    // See line in .env.tibet. Set to: REACT_APP_TERMS_SORT=position_i or whatever the field is
+    const tmsort_envvar = process.env?.REACT_APP_TERMS_SORT;
+    const sortfield =
+        tmsort_envvar && !(tmsort_envvar === '')
+            ? tmsort_envvar
+            : 'title_latin_sort';
     const q = {
         index: 'assets',
         params: {
             q: 'asset_type:terms',
             rows: pageSize,
             start: startRow,
-            sort: 'title_latin_sort ASC',
+            sort: `${sortfield} ASC`,
         },
     };
 
@@ -25,7 +31,7 @@ export function TermsHome(props) {
         data: termsData,
         isError: isTermsError,
         error: termsError,
-    } = useSolr('terms-all', q);
+    } = useSolr(['all-terms', sortfield, pageSize, startRow, pageNum], q);
 
     useEffect(() => {
         setStartRow(pageNum * pageSize);
@@ -38,50 +44,9 @@ export function TermsHome(props) {
     const numFound = termsData?.numFound;
     const hasMore = numFound && (pageNum + 1) * pageSize < numFound;
 
-    const pager = {
-        numFound: numFound,
-        getMaxPage: () => {
-            return Math.floor(pager.numFound / pager.getPageSize());
-        },
-        getPage: () => {
-            return pageNum;
-        },
-        setPage: (pg) => {
-            pg = parseInt(pg);
-            if (!isNaN(pg) && pg > -1 && pg <= pager.getMaxPage()) {
-                setPageNum(pg);
-                pager.pgnum = pg;
-            }
-        },
-        setPageSize: (size) => {
-            size = parseInt(size);
-            if (!isNaN(size) && size > 0 && size < 101) {
-                setPageSize(size);
-                pager.pgsize = size;
-            }
-        },
-        getPageSize: () => {
-            return pageSize;
-        },
-        nextPage: () => {
-            pager.setPage(pager.getPage() + 1);
-        },
-        prevPage: () => {
-            pager.setPage(pager.getPage() - 1);
-        },
-        lastPage: () => {
-            pager.setPage(pager.getMaxPage());
-        },
-        firstPage: () => {
-            pager.setPage(0);
-        },
-    };
-
     return (
-        <div className="subjects-home">
+        <div className="terms-home">
             <h1>Terms</h1>
-            <p>This page now shows all terms in this project.</p>
-
             <FeatureCollection
                 docs={termsData?.docs}
                 assetCount={numFound}

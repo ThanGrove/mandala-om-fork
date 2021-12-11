@@ -15,6 +15,7 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
+import { isAssetType } from '../utils';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -325,10 +326,11 @@ function DetailModal(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isOpen);
-        //console.log('clicked', isOpen);
     };
 
     const data = props?.data;
+    let title = data?.title;
+    title = Array.isArray(title) && title?.length > 0 ? title[0] : title;
     return (
         <Modal
             {...props}
@@ -349,7 +351,7 @@ function DetailModal(props) {
                         <strong>UID: </strong> {data?.uid}
                     </li>
                     <li>
-                        <strong>Title: </strong> {data?.title[0]}
+                        <strong>Title: </strong> {title}
                     </li>
                     <li>
                         <strong>Uploader: </strong> {data?.node_user_full_s} (
@@ -409,11 +411,13 @@ function DetailModal(props) {
 }
 
 export function createAssetViewURL(avuid, asset_type, location, searchParam) {
+    // console.log('avuid', avuid, 'asset-type: ' + asset_type);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
             .replace('audio/video', 'audio-video')}${searchParam}`;
     }
+    const atype = avuid.split('-')[0];
     const aid = avuid.split('-').pop();
     if (location.pathname.includes('_definitions-')) {
         let path = location.pathname.split('/');
@@ -428,6 +432,9 @@ export function createAssetViewURL(avuid, asset_type, location, searchParam) {
     path = path.replace('related-all', `related-${asset_type}`);
     if (['places', 'subjects', 'terms'].includes(asset_type)) {
         path = `/${asset_type}/${aid}${searchParam}`;
+    }
+    if (isAssetType(atype)) {
+        path = `/${asset_type}/${aid}`;
     }
     return path;
 }
