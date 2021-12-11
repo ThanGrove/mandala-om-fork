@@ -61,7 +61,7 @@
 }
 .sui-advHeader .badge {
     padding: 0.65rem 3.75rem 0.65rem 1.25rem;
-    border-radius: 0.8em 0.75rem 0.75rem 0;
+    border-radius: 1rem 1rem 0 1rem;
     color: #fff;
     cursor: default;
     line-height: 1.45;
@@ -157,10 +157,10 @@
     color: $color-amber;
     background: #f7f7f7;
     border: 0.1rem solid #6b77ea;
-    border-left: 0.2rem solid #6b77ea;
-    border-right: 0.2rem solid #6b77ea;
+    border-left: 0.1rem solid #6b77ea;
+    border-right: 0.4rem solid #6b77ea;
     border-top: 0.3rem solid #6b77ea;
-    border-radius: 1rem;
+    border-radius: 1rem 0 0 1rem;
     overflow: hidden;
 }
 .sui-advTerm:empty {
@@ -198,11 +198,11 @@
     color: #333;
     background-color: #fafafa;
     text-align: left;
-    border-width: 0.3rem 0.1rem;
+    border-width: 0.3rem 0.4rem 0.3rem 0.1rem;
     border-style: solid;
     border-color: #6b77ea;
     /* border-radius: 0.5rem 0.5rem 1.5rem 1.5rem; */
-    border-radius: 1rem;
+    border-radius: 1rem 0 1rem 1rem;
     overflow: auto !important;
     box-shadow: inset -1rem -2rem 1.5rem #c9ccd82b;
     transition: max-height 0.65s, border 0.25s, margin 0.25s;
@@ -325,7 +325,7 @@
 .sui-advPlus {
     position: relative;
     top: -0.3rem;
-    margin-right: 1.5rem;
+    margin-right: 0.6rem;
 }
 
 .sui-advEditBut {
