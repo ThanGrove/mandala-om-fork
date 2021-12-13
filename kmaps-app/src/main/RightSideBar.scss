@@ -28,7 +28,7 @@
     display: none;
 }
 .sui-advBox .app-name {
-    line-height: 2.2rem;
+    line-height: 2.5rem;
 }
 .sui-advBox-asset_type {
     text-transform: capitalize;
@@ -50,7 +50,7 @@
 
 .sui-advHeader > .icon {
     margin: 0 1.25rem 0 0.75rem;
-    font-size: 2.1rem;
+    font-size: 2.3rem;
     position: relative;
     top: -0.5rem;
     left: 0;
@@ -60,8 +60,8 @@
     color: #555;
 }
 .sui-advHeader .badge {
-    padding: 0.65rem 3.75rem 0.65rem 1.25rem;
-    border-radius: 1rem 0.2rem 0.2rem 1rem;
+    padding: 0.65rem 3.75rem 0.65rem 1.7rem;
+    border-radius: 1rem 1.25rem 0.2rem 0.2rem;
     color: #fff;
     cursor: default;
     line-height: 1.45;
@@ -208,7 +208,7 @@
     transition: max-height 0.65s, border 0.25s, margin 0.25s;
     max-height: 0;
     font-size: 1.45rem;
-    margin: 0 0.85rem 0.75rem 0.5rem;
+    margin: 0 0.5rem 0.75rem 0.5rem;
 }
 .sui-advBox:first-child .sui-advEdit {
     font-size: 1.5rem;
