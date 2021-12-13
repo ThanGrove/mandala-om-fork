@@ -24,10 +24,15 @@ export function OtherPassageGroup({ data }) {
         data,
         /related_definitions_passage_(\d+)_content_s/
     );
+    const translationCitations = getUniquePropIds(
+        data,
+        /related_definitions_passage_translation_(\d+)_citation_references_ss/
+    );
     const citationIds = getUniquePropIds(
         data,
         /related_definitions_citation_(\d+)_reference_s/
     );
+
     // Tablist determines number of tabs and top one is set to active in useEffect
     let tablist =
         passageIds?.length + citationIds?.length > 0
@@ -64,6 +69,17 @@ export function OtherPassageGroup({ data }) {
                             data={data}
                             cid={cid}
                             source={relsource}
+                            key={`term-otherdef-citation-${cid}-${cind}`}
+                        />
+                    );
+                })}
+                {translationCitations.map((cid, cind) => {
+                    return (
+                        <TermCitation
+                            data={data}
+                            cid={cid}
+                            source={relsource}
+                            trans={true}
                             key={`term-otherdef-citation-${cid}-${cind}`}
                         />
                     );

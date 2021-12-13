@@ -83,6 +83,13 @@ const TermsDetails = ({
         if (uids?.length > 0) {
             otherpassnum += uids?.length;
         }
+        uids = getUniquePropIds(
+            op,
+            /related_definitions_passage_translation_(\d+)_citation_references_ss/
+        );
+        if (uids?.length > 0) {
+            othercitenum += uids?.length;
+        }
         uids = getUniquePropIds(op, /related_definitions_citation_(\d+)_/);
         if (uids?.length > 0) {
             othercitenum += uids?.length;

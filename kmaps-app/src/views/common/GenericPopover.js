@@ -19,7 +19,6 @@ const GenericPopover = ({ title, ...props }) => {
         <HtmlCustom markup={content} />
     );
     const icon = props?.icon ? props.icon : <ImStack />;
-
     return (
         <>
             <span onMouseEnter={showPop} onMouseLeave={() => setShow(false)}>
