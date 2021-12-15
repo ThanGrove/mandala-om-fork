@@ -87,7 +87,10 @@ export function TermTermRelations({ kmapData }) {
                                         rt2?.related_terms_relation_citation_references_ss?.map(
                                             (rts, rtsi) => {
                                                 return (
-                                                    <div className="mt-3">
+                                                    <div
+                                                        className="mt-3"
+                                                        key={`rts-${rtsi}`}
+                                                    >
                                                         <HtmlCustom
                                                             markup={rts}
                                                         />
@@ -95,14 +98,14 @@ export function TermTermRelations({ kmapData }) {
                                                 );
                                             }
                                         );
+                                    const rjskey = `${kmapData.uid}-rel-term-${rt2i}`;
                                     return (
-                                        <li
-                                            key={`${kmapData.uid}-rel-term-${rt2i}`}
-                                        >
+                                        <li key={rjskey}>
                                             {rt2?.related_terms_header_s}
                                             <MandalaPopover
                                                 domain={rdomain}
                                                 kid={rid}
+                                                key={rjskey + '-mpop'}
                                             />
                                             {reltermsources?.length > 0 && (
                                                 <MandalaSourceNote

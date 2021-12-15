@@ -32,6 +32,22 @@
 }
 
 /* Styles from mandala texts for embedded texts */
+.c-content__main__kmaps {
+    .c-kmaps-related-text {
+        .shanti-texts-section-title.text-level-1 {
+            display: none;
+        }
+
+        & > h1 {
+            font-size: 2.65rem;
+        }
+        h2.byline {
+            display: block;
+            font-size: 1.75rem;
+            font-style: italic;
+        }
+    }
+}
 
 .shanti-texts-section-title {
     margin: 1rem 0;
