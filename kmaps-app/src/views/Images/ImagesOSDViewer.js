@@ -28,6 +28,9 @@ export function ImagesOSDViewer(props) {
                 maxZoomPixelRatio: 1.8,
                 maxZoomLevel: 10,
                 minZoomLevel: 0.5,
+                gestureSettingsMouse: {
+                    scrollToZoom: false,
+                },
             });
             setOSDViewer(viewer);
         }
