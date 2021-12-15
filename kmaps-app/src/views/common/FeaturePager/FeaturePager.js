@@ -22,17 +22,22 @@ export function FeaturePager(props) {
                 if (pg === null) {
                     return;
                 }
-                if (!isNaN(pg)) {
-                    pg = pg * 1;
-                    pg = pg - 1;
-                    if (pg < 0) {
-                        pg = 0;
-                    }
-                    if (assetCount > 0 && pg >= maxPage) {
-                        pg = maxPage - 1;
-                    }
-                    props.setPage(pg);
+                if (window?.featurePageNum) {
+                    clearTimeout(window.featurePageNum);
                 }
+                window.featurePageNum = setTimeout(function () {
+                    if (!isNaN(pg)) {
+                        pg = pg * 1;
+                        pg = pg - 1;
+                        if (pg < 0) {
+                            pg = 0;
+                        }
+                        if (assetCount > 0 && pg >= maxPage) {
+                            pg = maxPage - 1;
+                        }
+                        props.setPage(pg);
+                    }
+                }, 500);
             }}
             mobile={false}
             noStyle={true}
