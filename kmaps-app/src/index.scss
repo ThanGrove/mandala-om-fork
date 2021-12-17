@@ -257,7 +257,7 @@ div.image-wrapper.center figcaption {
 }
 .l-content__main {
     display: flex;
-    margin: 1rem 1.25rem 0 1rem;
+    padding: 1rem 1.25rem 0 1rem;
     min-height: calc(100vh - 12rem);
 }
 .l-site__wrap > *,
@@ -967,6 +967,7 @@ header.terms + .two-columns {
     margin-bottom: 3rem;
     position: relative;
     min-height: calc(100vh - 30rem);
+    background: #fff;
 }
 // View mode for content column
 .c-buttonGroup__viewMode {
