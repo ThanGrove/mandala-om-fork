@@ -49,15 +49,15 @@
 }
 
 .sui-advHeader > .icon {
-    margin: 0 1.25rem 0 0.75rem;
-    font-size: 2.3rem;
+    margin: 0 2rem 0 0.75rem;
+    font-size: 2.75rem;
     position: relative;
-    top: -0.5rem;
-    left: 0;
-    color: #444;
+    top: -1rem;
+    left: 0.2rem;
+    color: #4d59ca !important;
 }
 .sui-advHeader > .icon > .icon::before {
-    color: #555;
+    color: #4d59ca !important;
 }
 .sui-advHeader .badge {
     padding: 0.65rem 3.75rem 0.65rem 1.7rem;
@@ -93,7 +93,8 @@
 }
 .sui-advHeader > .app-name {
     flex: 1;
-    color: #333;
+    color: #222;
+    font-weight: bold;
 }
 .sui-advBox-recent .c-HistoryViewer {
     font-size: 1.25rem;
