@@ -155,8 +155,8 @@
     margin: 0 0.5rem 0.2rem 0.6rem;
     text-transform: capitalize;
     cursor: default;
-    color: $color-amber;
-    background: #f7f7f7;
+    color: #795f15;
+    background: transparent;
     border: 0.1rem solid #6b77ea;
     border-left: 0.1rem solid #6b77ea;
     border-right: 0.4rem solid #6b77ea;
@@ -175,6 +175,7 @@
     white-space: nowrap;
     position: relative;
     padding-bottom: 0.2rem;
+    padding-left: 1.5rem;
 }
 .sui-advTerm > div:last-child {
     margin-bottom: 0;
