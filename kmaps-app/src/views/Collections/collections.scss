@@ -30,8 +30,7 @@
 
         .card.sources {
             border: none;
-            margin-left: 3rem !important;
-            text-indent: -3rem;
+            margin-left: 1rem !important;
         }
 
         .card.texts {
@@ -100,7 +99,7 @@
 }
 
 .l-column__related.c-collection__metadata {
-    width: 26rem;
+    /* width: 26rem; */
 
     .l-related__list__wrap.c-coll-toc {
         ul {
@@ -109,7 +108,7 @@
         }
         li {
             list-style-type: none;
-            margin-left: 0;
+            margin-left: 0.75rem;
         }
         a {
             border: none;
@@ -121,7 +120,6 @@
 
         .active {
             font-size: 1.5rem;
-            font-weight: bold;
             span {
                 border-bottom: 2px solid #bbb;
             }
