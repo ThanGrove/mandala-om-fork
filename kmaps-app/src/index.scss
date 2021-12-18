@@ -13,7 +13,7 @@ html {
 body {
     font-family: $font-family-sans, sans-serif;
     text-rendering: optimizeLegibility;
-    background-color: #eee;
+    background-color: #f9f9f9;
     font-size: 1.35rem;
 }
 body.html {
@@ -648,6 +648,7 @@ header.terms + .two-columns {
     padding-right: 1rem;
     background: #fff;
     border-top: 0.6rem double #4d59ca;
+    min-height: 100vh;
 
     p {
         margin: 0.75rem auto -0.45rem;
@@ -967,7 +968,7 @@ header.terms + .two-columns {
     border-radius: 1rem;
     margin-bottom: 3rem;
     position: relative;
-    min-height: calc(100vh - 30rem);
+    min-height: calc(100vh - 50rem);
     background: #fff;
 }
 // View mode for content column
