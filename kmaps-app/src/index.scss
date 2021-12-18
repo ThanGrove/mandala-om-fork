@@ -1187,6 +1187,11 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         border-radius: 0.5rem;
         margin-right: 0.25rem;
         background-color: #fff;
+        padding-left: 1.8rem;
+
+        ~ .u-icon__plus {
+            padding-left: 0;
+        }
 
         &.shanticon-audio-video {
             color: $color-audio-video;
