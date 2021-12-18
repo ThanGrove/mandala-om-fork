@@ -363,7 +363,6 @@
 .sui-advEditLine:hover {
     background-color: #fff;
     border-color: #6b77ea !important;
-    border-right: 0.2rem solid #6b77ea !important;
 }
 .sui-advEditLine:active {
     border-style: dashed !important;
@@ -373,7 +372,7 @@
 }
 .sui-advEditLine.chosen {
     /* border-right: 0.3rem solid #6b77ea !important; */
-    border-radius: 0.5rem 0 0 0.5rem;
+    border-radius: 0.5rem;
     font-weight: bold;
     color: $color-amber;
 }
