@@ -495,7 +495,7 @@ color: #a4baec;
 .sui-advEditBool {
     position: relative;
     top: -0.15rem;
-    padding: 0.25rem 0.6rem 0.25rem 1rem;
+    padding: 0.25rem 0.3rem 0.25rem 1rem;
     margin-left: 1.5rem;
     margin-right: 0.25rem;
     background: #fff;
@@ -506,7 +506,8 @@ color: #a4baec;
 
 .sui-advEditBool .sui-boolItem:nth-of-type(2),
 .sui-advEditBool #sui-boolItem-places-0-NOT {
-    padding-right: 0.55rem;
+    padding-right: 0.35rem;
+    padding-left: 0.3rem;
 }
 
 .sui-advEditList {

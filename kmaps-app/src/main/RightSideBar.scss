@@ -380,7 +380,9 @@
 .sui-advEditLine.chosen:hover {
     color: #555;
 }
-
+.sui-advEditLine:empty {
+    display: none;
+}
 /*
 .sui-advEditLine.chosen::after {
     content: '';
