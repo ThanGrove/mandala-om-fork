@@ -1020,10 +1020,11 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     > div {
         display: inline;
         padding-right: 1.75rem;
+        padding-left: 2.5rem;
         text-transform: capitalize;
         .facetItem {
             font-size: 1.8rem;
-            margin-left: 2.5rem;
+            margin-left: 0.25rem;
             position: relative;
             top: 0;
         }
