@@ -257,7 +257,7 @@ div.image-wrapper.center figcaption {
 }
 .l-content__main {
     display: flex;
-    padding: 1rem 1.25rem 0 1rem;
+    padding: 0 1.25rem 0 1rem;
     min-height: calc(100vh - 12rem);
 }
 .l-site__wrap > *,
@@ -330,7 +330,7 @@ header.terms + .two-columns {
         a {
             font-size: 1.25rem;
             text-transform: uppercase;
-            font-weight: bold;
+            font-weight: 600;
             padding: 1rem 2rem 0.25rem;
         }
     }
@@ -358,7 +358,7 @@ header.terms + .two-columns {
                 float: none;
             }
             .breadcrumb-item:first-of-type {
-                font-weight: bold;
+                font-weight: 600;
                 text-decoration: none;
                 text-transform: uppercase;
                 letter-spacing: 0.095rem;
@@ -391,7 +391,7 @@ header.terms + .two-columns {
 
         .c-nodeHeader__backLink {
             font-size: 1em;
-            font-weight: bold;
+            font-weight: 600;
             letter-spacing: 0.0275rem;
             color: #4d59ca;
             display: flex;
@@ -451,7 +451,7 @@ header.terms + .two-columns {
                     border: 0.1rem solid #ccc;
                     border-radius: 1rem 1rem 0 0;
                     letter-spacing: 0.125rem;
-                    font-weight: bold;
+                    font-weight: 600;
                     font-size: 1.3rem;
                     padding: 1rem 2.5rem 0.4rem;
                     transition: all 0.3s;
@@ -516,7 +516,7 @@ header.terms + .two-columns {
         label {
             display: inline-block;
             text-transform: uppercase;
-            font-weight: bold;
+            font-weight: 600;
 
             &::after {
                 content: ':';
@@ -569,12 +569,12 @@ header.terms + .two-columns {
                 text-align: center;
                 border: none;
                 border-right: 1px solid #aaa;
-                font-size: 1.65rem;
+                font-size: 1.6rem;
                 color: $color-mandala;
                 letter-spacing: 0.1rem;
                 position: relative;
                 cursor: default;
-                font-weight: bold;
+                font-weight: 600;
                 border-radius: 0;
                 transition: all 0.35s;
                 text-transform: uppercase;
@@ -689,7 +689,7 @@ header.terms + .two-columns {
         justify-content: space-between;
         margin: 0 0 0.15rem 0;
         font-size: 1.45rem;
-        font-weight: bold;
+        font-weight: 600;
         letter-spacing: 0.0525rem;
         background-color: #3f49b1;
         border-bottom: 0.6rem double #fff;
@@ -875,7 +875,7 @@ header.terms + .two-columns {
         }
         button {
             font-size: 1.2rem;
-            font-weight: bold;
+            font-weight: 600;
             letter-spacing: 0.075rem;
             margin: 0 0.35rem;
             padding: 0 1.75rem;
@@ -1009,10 +1009,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     border-right: 0.3rem solid #6b77ea;
     background-color: #f9f9f9;
     color: $color-terms;
-    font-weight: bold;
+    font-weight: 600;
     > span {
         font-size: 1.5rem;
-        font-weight: bold;
+        font-weight: 600;
         letter-spacing: 0.0575rem;
         text-transform: uppercase;
         margin-left: 0.5rem;
@@ -1046,7 +1046,7 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     font-size: 1.25rem;
     margin-right: 0.8rem;
     white-space: nowrap;
-    font-weight: bold;
+    font-weight: 600;
     text-transform: uppercase;
     line-height: 2.5;
     letter-spacing: 0.025rem;
@@ -1083,7 +1083,7 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
     font-size: 1.25rem;
     margin-right: 0.8rem;
     white-space: nowrap;
-    font-weight: bold;
+    font-weight: 600;
     text-transform: uppercase;
     line-height: 2.5;
     letter-spacing: 0.025rem;
@@ -1225,7 +1225,7 @@ header.terms + .two-columns .c-view__wrapper.gallery {
         font-size: 1.6rem;
         .header {
             color: #333;
-            font-weight: bold;
+            font-weight: 600;
             .subtitle {
                 display: inline-block;
                 margin-left: 0.5rem;
@@ -1528,7 +1528,7 @@ span.refdate {
     button {
         cursor: pointer;
         font-size: 3rem;
-        font-weight: bold;
+        font-weight: 600;
         color: #555;
         margin: 0.75rem;
         border-radius: 0.8rem;
@@ -1577,7 +1577,7 @@ span.refdate {
             p.label {
                 margin: 0;
                 padding: 0;
-                font-weight: bold;
+                font-weight: 600;
             }
         }
     }
