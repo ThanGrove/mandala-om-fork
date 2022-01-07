@@ -523,6 +523,7 @@ export function getSolrCitation(data, title, field, nodate) {
             );
         }
         citedata = citedata.replace(/,\s+\./g, '.');
+        citedata = citedata.replace(/\s+00:00:00\s+UTC/g, ''); // Remove meaningless time value
         citedata = <HtmlCustom markup={citedata} />;
     } else {
         citedata = citedata.replace(/,\s+\./g, '.');
@@ -538,6 +539,7 @@ export function getSolrCitation(data, title, field, nodate) {
             citedata += ' (' + data[tufield].join(' ') + ' CE).';
         }
 
+        citedata = citedata.replace(/\s+00:00:00\s+UTC/g, ''); // Remove meaningless time value
         return (
             <GenericPopover title={title} content={citedata} icon={srcicon} />
         );
