@@ -27,7 +27,8 @@ export function FeatureAssetListItem(props) {
         doc?.uid,
         asset_type,
         location,
-        props.searchParam
+        props.searchParam,
+        inline
     );
     const collection = doc?.collection_nid ? (
         <Link

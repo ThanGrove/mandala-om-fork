@@ -191,7 +191,13 @@ export function FeatureCard(props) {
     }
 
     const asset_view = inline
-        ? createAssetViewURL(avuid, doc.asset_type, location, searchParam)
+        ? createAssetViewURL(
+              avuid,
+              doc.asset_type,
+              location,
+              searchParam,
+              inline
+          )
         : `/${viewer}/${avid}${searchParam}`;
 
     const subtitle =
@@ -410,8 +416,13 @@ function DetailModal(props) {
     );
 }
 
-export function createAssetViewURL(avuid, asset_type, location, searchParam) {
-    // console.log('avuid', avuid, 'asset-type: ' + asset_type);
+export function createAssetViewURL(
+    avuid,
+    asset_type,
+    location,
+    searchParam,
+    inline
+) {
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
@@ -435,6 +446,14 @@ export function createAssetViewURL(avuid, asset_type, location, searchParam) {
     }
     if (isAssetType(atype)) {
         path = `/${asset_type}/${aid}`;
+    }
+    // If looking at related assets within a Kmap context use the inline (embedded) viewer
+    if (location.pathname.includes('/related-' + asset_type) && inline) {
+        let ppts = location.pathname.split('/related');
+        let uid = avuid.split('-');
+        uid = uid.length > 1 ? uid[1] : uid[0];
+        // Use embedded viewer url
+        path = `${ppts[0]}/related-${asset_type}/view/${uid}`;
     }
     return path;
 }
