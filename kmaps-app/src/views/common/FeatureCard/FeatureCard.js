@@ -123,17 +123,22 @@ export function FeatureCard(props) {
         date = dtobj.toLocaleDateString();
     }
 
-    let creator =
-        doc.creator?.length > 0
-            ? doc.creator.join(', ')
-            : doc?.node_user_full_s
-            ? doc.node_user_full_s
-            : doc?.node_user;
-
-    if (Array.isArray(doc.creator) && doc.creator?.length > 3) {
-        creator = doc.creator.slice(0, 3).join(', ') + '…';
+    // Set Creator variable for display in card
+    let creator = doc.creator;
+    if (Array.isArray(creator)) {
+        if (creator.length > 4) {
+            creator = creator.slice(0, 4).join(', ') + '…';
+        } else if (creator.length > 0) {
+            creator = creator.join(', ');
+        } else if (doc?.node_user_full_s) {
+            creator = doc.node_user_full_s;
+        } else {
+            creator = doc?.node_user;
+        }
     }
-
+    if (typeof creator === 'object') {
+        creator = creator.toString();
+    }
     if (creator) {
         creator = creator.replace(/&amp;/g, '&');
     }
