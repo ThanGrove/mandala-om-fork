@@ -982,6 +982,10 @@ header.terms + .two-columns {
         transform: scale(1.04);
     }
 }
+body.mandala .c-buttonGroup__viewMode {
+    top: -1rem;
+}
+
 /*header.terms + .two-columns .c-buttonGroup__viewMode,*/
 header.search + .two-columns .c-buttonGroup__viewMode {
     position: relative;
