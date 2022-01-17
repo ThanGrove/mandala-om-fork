@@ -6,6 +6,8 @@ import { Accordion, Card, Col } from 'react-bootstrap';
 import Collapse from 'react-bootstrap/Collapse';
 import { HtmlCustom } from './MandalaMarkup';
 import { RelatedsIcons } from '../Kmaps/RelatedViewer/RelatedsIcons';
+import { useView } from '../../hooks/useView';
+import { getHeaderForView } from './utils';
 
 export function FeatureKmapListItem(props) {
     const doc = props.doc;
@@ -15,6 +17,7 @@ export function FeatureKmapListItem(props) {
     const kmap_url = `/${domain}/${doc.id}${props.searchParam}`;
     const [areDetails, setAreDetails] = useState(false);
     const [isOpen, setOpen] = useState(false);
+    const viewSetting = useView((state) => state[domain]);
 
     // Check for related Icons
     const query = {
@@ -83,6 +86,7 @@ export function FeatureKmapListItem(props) {
         ) : null;
 
     const cardkey = `${doc.asset_type}-${doc.id}-card`; //${Date.now()}
+    const header = getHeaderForView(doc, viewSetting); // was using {doc.title}
     return (
         <Card className={`p-0 ${domain}`} key={cardkey}>
             <Card.Body className={'p-1 row'}>
@@ -104,7 +108,7 @@ export function FeatureKmapListItem(props) {
                         title={domain}
                     />{' '}
                     <Link to={kmap_url} className={'header'}>
-                        {doc.title}
+                        <HtmlCustom markup={header} />
                     </Link>
                     {feature_types}
                     {ancestors && ancestors.length > 0 && (
