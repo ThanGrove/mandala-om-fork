@@ -21,8 +21,6 @@ const useCollection = (asset_type, nid) => {
     };
     const query_key = QUERY_BASE + '-' + asset_type + '-' + nid;
 
-    //console.log('useCollection: querySpecs = ', querySpecs);
-
     return useSolr(query_key, querySpecs);
 };
 

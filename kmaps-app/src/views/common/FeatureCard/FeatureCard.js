@@ -29,9 +29,12 @@ const typeGlyphMap = {
 };
 
 export function FeatureCard(props) {
+    //console.log('props in feature card', props);
+    const doc = props.doc; // Solr doc for the asset
+    const inline = props.inline || false;
+
     let location = useLocation();
     let searchParam = location.search;
-
     // For subsites in WordPress, there will be a hash. We need to parse the hash and
     // put a parent search param in the urls.
     if (location.pathname.includes('collection')) {
@@ -45,36 +48,37 @@ export function FeatureCard(props) {
         }
     }
 
-    const inline = props.inline || false;
-
+    const setBrowse = browseSearchToggle((state) => state.setBrowse);
     const [modalShow, setModalShow] = React.useState(false);
 
-    const setBrowse = browseSearchToggle((state) => state.setBrowse);
+    // Determine asset type and subtype
+    let asset_type = doc.asset_type;
+    let asset_subtype = doc.asset_subtype;
+    console.log('doc', doc);
+    // if asset_type is "mandala", it is an asset lnk so use subtype and subsubtype
+    if (asset_type === 'mandala') {
+        asset_type = asset_subtype;
+        asset_subtype = doc?.asset_subsubtype;
+    }
 
-    const doc = props.doc;
-
-    const subTypeGlyph = typeGlyphMap[doc.asset_type + '/' + doc.asset_subtype];
+    let subTypeGlyph = typeGlyphMap[asset_type + '/' + asset_subtype];
     const typeGlyph = doc.uid ? (
         subTypeGlyph ? (
             subTypeGlyph
         ) : (
-            <span
-                className={'icon color-invert u-icon__' + doc.asset_type}
-            ></span>
+            <span className={'icon color-invert u-icon__' + asset_type}></span>
         )
     ) : null;
 
     const assetGlyph =
-        doc.uid &&
-        doc.asset_type !== 'images' &&
-        doc.asset_type !== 'audio-video' ? (
-            <span className={'icon u-icon__' + doc.asset_type}></span>
+        doc.uid && asset_type !== 'images' && asset_type !== 'audio-video' ? (
+            <span className={'icon u-icon__' + asset_type}></span>
         ) : null;
 
     const viewer =
-        doc.asset_type === 'collections'
-            ? doc.asset_subtype + '/collection'
-            : doc.asset_type;
+        asset_type === 'collections'
+            ? asset_subtype + '/collection'
+            : asset_type;
 
     const related_places = _.uniq(doc.kmapid_places_idfacet).map((x, i) => {
         const [name, id] = x.split('|');
@@ -160,12 +164,11 @@ export function FeatureCard(props) {
         </Link>
     ) : (
         <span>
-            {doc.ancestors_txt && doc.asset_type !== 'terms' && (
+            {doc.ancestors_txt && asset_type !== 'terms' && (
                 <div className="info shanti-field-path">
                     <span
                         className={
-                            'shanti-field-content icon u-icon__' +
-                            doc.asset_type
+                            'shanti-field-content icon u-icon__' + asset_type
                         }
                     >
                         <SmartPath doc={doc} />
@@ -177,12 +180,12 @@ export function FeatureCard(props) {
 
     let relateds = null;
 
-    if (doc.asset_type === 'places') {
+    if (asset_type === 'places') {
         // relateds = related_subjects;
         relateds = feature_types;
-    } else if (doc.asset_type === 'subjects') {
+    } else if (asset_type === 'subjects') {
         relateds = related_places;
-    } else if (doc.asset_type === 'terms') {
+    } else if (asset_type === 'terms') {
         relateds = related_subjects;
     }
 
@@ -190,31 +193,25 @@ export function FeatureCard(props) {
     let avuid = doc.uid;
     let avid = doc.id;
     // Pages need to link to their parent text
-    if (doc.asset_type === 'texts' && doc.asset_subtype === 'page') {
+    if (asset_type === 'texts' && asset_subtype === 'page') {
         avuid = doc.service + '_' + doc.book_nid_i;
         avid = doc.book_nid_i + '#shanti-texts-' + doc.id;
     }
 
     const asset_view = inline
-        ? createAssetViewURL(
-              avuid,
-              doc.asset_type,
-              location,
-              searchParam,
-              inline
-          )
+        ? createAssetViewURL(avuid, asset_type, location, searchParam, inline)
         : `/${viewer}/${avid}${searchParam}`;
 
     const subtitle =
-        doc.asset_type === 'texts' ? (
+        asset_type === 'texts' ? (
             <span className={'subtitle'}>{doc.title}</span>
         ) : (
             ''
         );
 
-    const myuid = `${doc.asset_type
-        .charAt(0)
-        .toUpperCase()}${doc.asset_type.substr(1)}-${doc.id}`;
+    const myuid = `${asset_type.charAt(0).toUpperCase()}${asset_type.substr(
+        1
+    )}-${doc.id}`;
     let mycaption = doc?.caption?.length > 0 ? doc.caption : null;
     const mupatt = /<\/(p|a|header|h1|h2|span|ul|ol)>/; // Search for various closing tags
     if (mupatt.exec(mycaption)) {
@@ -224,7 +221,7 @@ export function FeatureCard(props) {
     let thumb_url = doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg';
     thumb_url = thumb_url.replace('!200,200', '!900,900');
     return (
-        <Card key={doc.uid} className={'c-card__grid--' + doc.asset_type}>
+        <Card key={doc.uid} className={'c-card__grid--' + asset_type}>
             <Link
                 to={asset_view}
                 className={'c-card__link--asset c-card__wrap--image'}
@@ -323,7 +320,7 @@ export function FeatureCard(props) {
             </Card.Body>
 
             <Card.Footer
-                className={'c-card__footer c-card__footer--' + doc.asset_type}
+                className={'c-card__footer c-card__footer--' + asset_type}
             >
                 {footer_text}
             </Card.Footer>

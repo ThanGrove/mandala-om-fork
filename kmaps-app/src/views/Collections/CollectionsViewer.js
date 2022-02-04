@@ -19,7 +19,8 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
  * @constructor
  */
 export function CollectionsViewer(props) {
-    const { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+    let { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+
     //const history = useContext(HistoryContext);
     const addPage = useHistory((state) => state.addPage);
     const atypeLabel = <span className={'text-capitalize'}>{asset_type}</span>;
@@ -230,7 +231,7 @@ export function CollectionsViewer(props) {
                         perPage={pageSize}
                         setPerPage={setPageSize}
                         viewMode={view_mode}
-                        inline={false}
+                        inline={asset_type === 'mandala'} // TODO: will this work for asset links?
                         hasMore={hasMoreItems}
                         className={'c-collection__items'}
                         sorter={sorter}
