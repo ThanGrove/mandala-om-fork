@@ -33,14 +33,21 @@ export function RelatedAssetHeader({ type, subtype, header }) {
         process.env.REACT_APP_STANDALONE === 'standalone'
             ? window.location.hash.split('/view')[0].replace('#', '')
             : window.location.pathname.split('/view')[0];
+    const asset_link_coll = window.location.pathname?.includes(
+        'mandala/collection/'
+    );
     return (
         <>
             {' '}
-            <div className="c-nodeHeader__backLink__wrap">
-                <Link to={retpath} className="c-nodeHeader__backLink">
-                    <span className="icon u-icon__arrow-left_2">Return</span>
-                </Link>
-            </div>
+            {!asset_link_coll && (
+                <div className="c-nodeHeader__backLink__wrap">
+                    <Link to={retpath} className="c-nodeHeader__backLink">
+                        <span className="icon u-icon__arrow-left_2">
+                            Return
+                        </span>
+                    </Link>
+                </div>
+            )}
             <h2 className="c-nodeHeader-itemHeader">
                 <span className={`icon u-icon__${type}`}> </span>
                 <span className="c-nodeHeader-itemHeader-subType">

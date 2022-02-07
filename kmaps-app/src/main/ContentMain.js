@@ -10,6 +10,7 @@ import { VisualsHome } from '../views/Visuals/VisualsHome';
 import { RelatedsViewer } from '../views/Kmaps/RelatedViewer/RelatedsViewer';
 import LegacyViewer from '../views/LegacyViewer';
 import { SearchViewer } from '../views/SearchViewer';
+import { AssetLinkCollection } from '../views/Collections/AssetLinkCollection';
 import { CollectionsViewer } from '../views/Collections/CollectionsViewer';
 import { CollectionsHome } from '../views/Collections/CollectionsHome';
 import PlacesHome from '../views/PlacesHome';
@@ -113,6 +114,17 @@ export default function ContentMain(props) {
                                 >
                                     <CollectionsRedirect />
                                 </Route>
+
+                                <Route
+                                    path={[
+                                        `/mandala/collection/:id/:asset_type/:aid`,
+                                        `/mandala/collection/:id/:view_mode`,
+                                        `/mandala/collection/:id`,
+                                    ]}
+                                >
+                                    <AssetLinkCollection ismain={true} />
+                                </Route>
+
                                 <Route
                                     path={`/:asset_type/collection/:id/:view_mode`}
                                 >

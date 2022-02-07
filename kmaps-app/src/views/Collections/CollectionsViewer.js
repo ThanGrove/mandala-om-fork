@@ -20,7 +20,9 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
  */
 export function CollectionsViewer(props) {
     let { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
-
+    if (typeof asset_type === 'undefined' && props?.isMulti) {
+        asset_type = 'mandala';
+    }
     //const history = useContext(HistoryContext);
     const addPage = useHistory((state) => state.addPage);
     const atypeLabel = <span className={'text-capitalize'}>{asset_type}</span>;
@@ -308,7 +310,7 @@ export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
     );
 }
 
-function CollectionInfo({ collsolr, asset_type }) {
+export function CollectionInfo({ collsolr, asset_type }) {
     // Get and display Owner from collsolr
     const owner = collsolr?.node_user_full_s
         ? collsolr.node_user_full_s
@@ -355,8 +357,22 @@ function CollectionInfo({ collsolr, asset_type }) {
         );
     });
 
+    const asset_link_coll_info =
+        asset_type === 'mandala' ? (
+            <section className={'l-related__list__wrap'}>
+                <h3 className={'u-related__list__header'}>Collection</h3>
+                <ul className={'list-unstyled'}>
+                    <li>
+                        <Link to={`/mandala/collection/${collsolr?.id}/deck`}>
+                            {collsolr?.title[0]}
+                        </Link>
+                    </li>
+                </ul>
+            </section>
+        ) : null;
     return (
         <aside className={'l-column__related c-collection__metadata'}>
+            {asset_link_coll_info}
             {parentcoll && (
                 <section className={'l-related__list__wrap c-coll-toc'}>
                     <h3 className={'u-related__list__header'}>{parentcoll}</h3>

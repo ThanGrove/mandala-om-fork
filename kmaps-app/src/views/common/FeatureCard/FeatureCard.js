@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import _ from 'lodash';
 // import Accordion from "react-bootstrap/Accordion";
 import * as PropTypes from 'prop-types';
@@ -15,7 +15,7 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
-import { isAssetType } from '../utils';
+import { capitalize, isAssetType } from '../utils';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -33,6 +33,7 @@ export function FeatureCard(props) {
     const doc = props.doc; // Solr doc for the asset
     const inline = props.inline || false;
 
+    //console.log('params', params);
     let location = useLocation();
     let searchParam = location.search;
     // For subsites in WordPress, there will be a hash. We need to parse the hash and
@@ -54,9 +55,11 @@ export function FeatureCard(props) {
     // Determine asset type and subtype
     let asset_type = doc.asset_type;
     let asset_subtype = doc.asset_subtype;
-    console.log('doc', doc);
-    // if asset_type is "mandala", it is an asset lnk so use subtype and subsubtype
-    if (asset_type === 'mandala') {
+    // Is the asset and asset link that points to another asset.
+    const is_link = asset_type === 'mandala';
+
+    // if it is an asset lnk, use subtype and subsubtype
+    if (is_link) {
         asset_type = asset_subtype;
         asset_subtype = doc?.asset_subsubtype;
     }
@@ -198,17 +201,26 @@ export function FeatureCard(props) {
         avid = doc.book_nid_i + '#shanti-texts-' + doc.id;
     }
 
-    const asset_view = inline
+    let asset_view = inline
         ? createAssetViewURL(avuid, asset_type, location, searchParam, inline)
         : `/${viewer}/${avid}${searchParam}`;
 
+    // If it is an asset link, show it within its manddala collection
+    if (is_link) {
+        const asset_path = doc.asset_uid_s
+            .replace(/\-/g, '/')
+            .replace('audio/video', 'audio-video');
+        asset_view = `/mandala/collection/${doc.collection_nid}/${asset_path}`;
+    }
+    /* Duplicates title in Texts. Not sure why this is here? ndg 2/7/22
     const subtitle =
         asset_type === 'texts' ? (
             <span className={'subtitle'}>{doc.title}</span>
         ) : (
             ''
         );
-
+    */
+    const subtitle = null;
     const myuid = `${asset_type.charAt(0).toUpperCase()}${asset_type.substr(
         1
     )}-${doc.id}`;
@@ -220,6 +232,25 @@ export function FeatureCard(props) {
 
     let thumb_url = doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg';
     thumb_url = thumb_url.replace('!200,200', '!900,900');
+
+    // Asset link type
+    let asset_link_type = null;
+    if (is_link) {
+        const atype = doc.asset_subtype;
+        let atype_display = capitalize(atype).replace(/s$/, ''); // Take of s plural in some asset types
+        asset_link_type = (
+            <ListGroup.Item className={'c-card__listItem--linktype'}>
+                <div className="info shanti-field-linktype">
+                    <span
+                        className={`u-icon__${atype} icon shanti-field-content`}
+                    >
+                        {atype_display}
+                    </span>
+                </div>
+            </ListGroup.Item>
+        );
+    }
+
     return (
         <Card key={doc.uid} className={'c-card__grid--' + asset_type}>
             <Link
@@ -251,6 +282,7 @@ export function FeatureCard(props) {
                 </Card.Title>
 
                 <ListGroup>
+                    {asset_link_type}
                     <ListGroup.Item className={'c-card__listItem--creator'}>
                         {creator && (
                             <div className="info shanti-field-creator">
