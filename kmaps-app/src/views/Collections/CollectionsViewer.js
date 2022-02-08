@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useSolr } from '../../hooks/useSolr';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './collections.scss';
 import { FeatureCollection } from '../common/FeatureCollection';
 import useCollection from '../../hooks/useCollection';
@@ -311,6 +311,11 @@ export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
 }
 
 export function CollectionInfo({ collsolr, asset_type }) {
+    const loc = useLocation();
+    const viewing_asset_link = loc.pathname.match(
+        /(\/mandala\/collection\/\d+\/)(audio-video|images|sources|texts|visuals)\/(\d+)/
+    );
+
     // Get and display Owner from collsolr
     const owner = collsolr?.node_user_full_s
         ? collsolr.node_user_full_s
@@ -318,11 +323,19 @@ export function CollectionInfo({ collsolr, asset_type }) {
 
     // Get and Display Parent collection
     const parentcollid = collsolr?.collection_nid;
-    const parentcoll = parentcollid ? (
+    let parentcoll = parentcollid ? (
         <Link to={`/${asset_type}/collection/${parentcollid}`}>
             {collsolr.collection_title}
         </Link>
     ) : null;
+
+    if (viewing_asset_link) {
+        parentcoll = (
+            <Link to={`/mandala/collection/${parentcollid}`}>
+                {collsolr.collection_title}
+            </Link>
+        );
+    }
 
     // Get and Display Subcollections
     const subcollids = collsolr?.subcollection_id_is;
@@ -356,23 +369,8 @@ export function CollectionInfo({ collsolr, asset_type }) {
             </li>
         );
     });
-
-    const asset_link_coll_info =
-        asset_type === 'mandala' ? (
-            <section className={'l-related__list__wrap'}>
-                <h3 className={'u-related__list__header'}>Collection</h3>
-                <ul className={'list-unstyled'}>
-                    <li>
-                        <Link to={`/mandala/collection/${collsolr?.id}/deck`}>
-                            {collsolr?.title[0]}
-                        </Link>
-                    </li>
-                </ul>
-            </section>
-        ) : null;
     return (
         <aside className={'l-column__related c-collection__metadata'}>
-            {asset_link_coll_info}
             {parentcoll && (
                 <section className={'l-related__list__wrap c-coll-toc'}>
                     <h3 className={'u-related__list__header'}>{parentcoll}</h3>
@@ -450,13 +448,13 @@ export function CollectionToc({ pid, currid, type }) {
                 const ctitle = sc?.title[0];
                 if (cid === currid) {
                     return (
-                        <li className="active">
+                        <li className="active" key={`coll-toc-title-${sci}`}>
                             <span>{ctitle}</span>
                         </li>
                     );
                 }
                 return (
-                    <li>
+                    <li key={`coll-toc-link-${sci}`}>
                         <Link to={`/${type}/collection/${cid}`}>{ctitle}</Link>
                     </li>
                 );

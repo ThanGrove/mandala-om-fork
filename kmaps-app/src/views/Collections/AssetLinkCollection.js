@@ -31,8 +31,8 @@ export function AssetLinkCollection(props) {
     const addPage = useHistory((state) => state.addPage);
     let { id: alcoll_id, view_mode, asset_type: atype, aid } = useParams();
 
-    const showAssetViewer = typeof view_mode === 'undefined';
-
+    const showAssetViewer = typeof view_mode === 'undefined' && atype && aid;
+    console.log('show asset viewer', showAssetViewer, view_mode);
     // Get Collection data. See hooks/useCollection
     const {
         isLoading: isCollLoading,

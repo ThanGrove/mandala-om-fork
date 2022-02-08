@@ -119,12 +119,15 @@ export default function ContentMain(props) {
                                     path={[
                                         `/mandala/collection/:id/:asset_type/:aid`,
                                         `/mandala/collection/:id/:view_mode`,
-                                        `/mandala/collection/:id`,
                                     ]}
                                 >
                                     <AssetLinkCollection ismain={true} />
                                 </Route>
 
+                                <Redirect
+                                    from={`/mandala/collection/:id`}
+                                    to={`/mandala/collection/:id/deck`}
+                                />
                                 <Route
                                     path={`/:asset_type/collection/:id/:view_mode`}
                                 >
