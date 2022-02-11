@@ -32,7 +32,7 @@ export function AssetLinkCollection(props) {
     let { id: alcoll_id, view_mode, asset_type: atype, aid } = useParams();
 
     const showAssetViewer = typeof view_mode === 'undefined' && atype && aid;
-    console.log('show asset viewer', showAssetViewer, view_mode);
+
     // Get Collection data. See hooks/useCollection
     const {
         isLoading: isCollLoading,
@@ -174,6 +174,13 @@ function AssetLinkGallery({ collsolr, asset_id, ...props }) {
         }
     }, [collsolr]); // End UseEffect()
 
+    if (isItemsLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (isItemsError) {
+        console.log('Error loading collections', itemsError);
+        return <p>There was a problem loading this collection.</p>;
+    }
     const numFound = items?.numFound;
 
     // Get and display (if exists) thumbnail image
