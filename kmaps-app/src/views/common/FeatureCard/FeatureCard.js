@@ -77,7 +77,7 @@ export function FeatureCard(props) {
         doc.uid && asset_type !== 'images' && asset_type !== 'audio-video' ? (
             <span className={'icon u-icon__' + asset_type}></span>
         ) : null;
-
+    // console.log('asset type', asset_type);
     const viewer =
         asset_type === 'collections'
             ? asset_subtype + '/collection'
