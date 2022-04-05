@@ -28,9 +28,10 @@ export function CollectionBreadcrumbs({ collData }) {
     if (assetType) {
         allcollurl = `/${assetType}/collections/all`;
     }
+
     let breadcrumbs = [
         <Link key={'bc-asset-title-1'} to="#" className="breadcrumb-item">
-            {assetType}
+            {assetType?.length > 0 ? assetType : 'Mandala'}
         </Link>,
         <Link
             key={'bc-asset-collections-2'}

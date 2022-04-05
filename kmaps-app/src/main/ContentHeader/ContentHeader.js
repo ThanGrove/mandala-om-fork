@@ -250,6 +250,7 @@ function AltContentHeader({ domain, kid, siteClass, isCollection }) {
     ) : (
         ''
     );
+    // console.log("new coll data", collData);
     let newCollData =
         isCollection && collData?.numFound > 0 ? collData.docs[0] : collData;
     if (!alttitle && domain?.length > 1) {
