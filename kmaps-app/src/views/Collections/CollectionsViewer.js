@@ -50,7 +50,10 @@ export function CollectionsViewer(props) {
     const query = {
         index: 'assets',
         params: {
-            fq: ['asset_type:' + asset_type, '-asset_subtype:page'],
+            fq: [
+                'asset_type:(' + asset_type + ' mandala)',
+                '-asset_subtype:page',
+            ],
             q: 'collection_nid_path_is:' + asset_id,
             sort: sortMode,
             start: startRow,
