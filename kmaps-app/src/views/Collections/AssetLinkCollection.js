@@ -30,7 +30,6 @@ import VisualsViewer from '../Visuals/VisualsViewer';
 export function AssetLinkCollection(props) {
     const addPage = useHistory((state) => state.addPage);
     let { id: alcoll_id, view_mode, asset_type: atype, aid } = useParams();
-
     const showAssetViewer = typeof view_mode === 'undefined' && atype && aid;
 
     // Get Collection data. See hooks/useCollection
@@ -63,7 +62,11 @@ export function AssetLinkCollection(props) {
     const collcontent = showAssetViewer ? (
         <AssetLinkViewer asset_type={atype} asset_id={aid} />
     ) : (
-        <AssetLinkGallery collsolr={collsolr} asset_id={alcoll_id} />
+        <AssetLinkGallery
+            collsolr={collsolr}
+            asset_id={alcoll_id}
+            view_mode={view_mode}
+        />
     );
     return (
         <>
@@ -82,7 +85,7 @@ export function AssetLinkCollection(props) {
  * @returns {JSX.Element}
  * @constructor
  */
-function AssetLinkGallery({ collsolr, asset_id, ...props }) {
+function AssetLinkGallery({ collsolr, asset_id, view_mode, ...props }) {
     const asset_type = 'mandala';
     // Set up state variables for pager
     const [startRow, setStartRow] = useState(0);
@@ -270,7 +273,7 @@ function AssetLinkGallery({ collsolr, asset_id, ...props }) {
                         setPage={setPageNum}
                         perPage={pageSize}
                         setPerPage={setPageSize}
-                        viewMode={'deck'}
+                        viewMode={view_mode}
                         inline={asset_type === 'mandala'} // TODO: will this work for asset links?
                         hasMore={hasMoreItems}
                         className={'c-collection__items'}
