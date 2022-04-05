@@ -176,6 +176,11 @@ export default function Home(props) {
                             </h4>
                             <ul>
                                 <li>
+                                    <Link to={'/mandala/collection/236/deck'}>
+                                        Mandala Mixed Collection
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link to={'/audio-video/collection/3'}>
                                         Audio-Video Collection: THL
                                     </Link>
