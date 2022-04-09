@@ -423,6 +423,18 @@
     padding: 0 0 1rem;
     border-radius: 0 0 1.25rem 1.25rem;
 }
+
+.sui-adv-facetlist-padding {
+    cursor: default;
+    padding: 0 1rem 0.25rem;
+    margin: 0 0.8rem 0.1rem;
+    position: relative;
+    line-height: 1.6;
+    white-space: nowrap;
+    border-radius: 0.5rem;
+    border: 0.1rem solid transparent !important;
+}
+
 .sui-adv-facetlist .facetItem,
 .sui-advBox-asset_type .sui-advEditLine .icon,
 .sui-advBox:first-child .sui-advEditLine .icon {
