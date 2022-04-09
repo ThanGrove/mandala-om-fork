@@ -8,6 +8,12 @@ export const useHistory = create((set, get) => ({
             // document.title = 'Mandala Collections';
             return;
         }
+
+        // Check if pgtitle is an array and if so take the first element.
+        if (Array.isArray(pgtitle)) {
+            pgtitle = pgtitle[0];
+        }
+
         document.title = pgtitle + ' (Mandala Collections)';
         const related = pgpath.match(/\d+\/related/);
         if (related) {
@@ -15,9 +21,9 @@ export const useHistory = create((set, get) => ({
         }
         const newpage = `${pageicon}::${pgtitle}::${pgpath}`;
         const pgs = get().pages;
-        if (newpage in pgs) {
-            pgs.delete(newpage);
-        }
+        // if (newpage in pgs) {
+        //     pgs.delete(newpage);
+        // }
         let pglist = Array.from(pgs);
         pglist.unshift(newpage);
         if (pglist.length > maxpages) {

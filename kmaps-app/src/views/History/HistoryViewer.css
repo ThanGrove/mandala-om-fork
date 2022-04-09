@@ -12,12 +12,17 @@
 }
 
 .c-HistoryViewer__relatedRecentItem {
-    line-height: 1.5;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     width: 95%;
     cursor: pointer;
+    padding: 0 1rem 0.25rem;
+    margin: 0 0.8rem 0.1rem;
+    position: relative;
+    line-height: 1.6;
+    border-radius: 0.5rem;
+    border: 0.1rem solid transparent !important;
 }
 .c-HistoryViewer__relatedRecentItem:hover {
     background: white;

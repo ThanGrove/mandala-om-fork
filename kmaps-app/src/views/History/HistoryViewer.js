@@ -20,12 +20,12 @@ export function HistoryViewer(props) {
             {pages &&
                 pages.map((pgdata, pdi) => {
                     let [pgicon, pgtitle, pgpath] = pgdata.split('::');
-                    if (
-                        window.location.pathname === pgpath ||
-                        pgpath.trim('/') === 'home'
-                    ) {
-                        return;
-                    }
+                    // if (
+                    //     window.location.pathname === pgpath ||
+                    //     pgpath.trim('/') === 'home'
+                    // ) {
+                    //     return;
+                    // }
                     let asset_type = '';
                     const isCollection = pgicon.includes('collections-');
                     if (isCollection) {
@@ -65,9 +65,8 @@ export function HistoryViewer(props) {
                                 aria-label="Remove from list"
                                 data-path={pgpath}
                                 onClick={(event) => {
-                                    const pageId = event.target.getAttribute(
-                                        'data-path'
-                                    );
+                                    const pageId =
+                                        event.target.getAttribute('data-path');
                                     const newPages = removePage(pageId);
                                     setPages(newPages);
                                     event.stopPropagation();

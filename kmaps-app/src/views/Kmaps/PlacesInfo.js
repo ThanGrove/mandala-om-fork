@@ -69,7 +69,7 @@ export default function PlacesInfo(props) {
         }, 1000);
 
          */
-    }, [kmapData]);
+    }, [kmapData, addPage]);
 
     const [mapRef, mapSize] = useDimensions();
 

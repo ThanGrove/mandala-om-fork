@@ -1,18 +1,13 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/cjs/Nav';
-import NavItem from 'react-bootstrap/NavItem';
-import NavLink from 'react-bootstrap/NavLink';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import Spinner from 'react-bootstrap/Spinner';
-import { FacetChoice } from './FacetChoice';
 import HistoryViewer from '../views/History/HistoryViewer';
 import { BsArrowCounterclockwise } from 'react-icons/bs';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Type } from '../model/HistoryModel';
+import { useHistory } from '../hooks/useHistory';
 
 function countSearchItems(historyStack) {
     return historyStack.filter((x) => {
@@ -26,6 +21,7 @@ export function HistoryBox(props) {
     const [sortField, setSortField] = useState('count');
     const sortDirectionEl = useRef(null);
     const [sortDirection, setSortDirection] = useState('desc');
+    const pages = useHistory((state) => state.pages);
 
     const [open, setOpen] = useState(false);
     let chosen_icon = props.icon;
@@ -149,7 +145,7 @@ export function HistoryBox(props) {
         return uid;
     }
 
-    const historyLength = 1; // TODO: Dummy data. Need to fix.
+    let historyLength = pages.size;
 
     const historyList = <HistoryViewer mode={'search'} />;
 
