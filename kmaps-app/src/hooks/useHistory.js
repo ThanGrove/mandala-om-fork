@@ -38,6 +38,10 @@ export const useHistory = create(
                 if (pglist.length > maxpages) {
                     pglist = pglist.slice(0, maxpages);
                 }
+
+                //Remove duplicates
+                pglist = [...new Set(pglist)];
+
                 set((state) => ({ pages: [...pglist] }));
             },
             removePage: (itempath) => {
