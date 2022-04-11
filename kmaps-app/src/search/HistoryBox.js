@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/cjs/Nav';
@@ -24,6 +24,7 @@ export function HistoryBox(props) {
     const pages = useHistory((state) => state.pages);
     const resetPages = useHistory((state) => state.resetPages);
 
+    const [viewedPages, setViewedPages] = useState(pages);
     const [open, setOpen] = useState(false);
     let chosen_icon = props.icon;
     const facetType = props.facetType;
@@ -41,6 +42,10 @@ export function HistoryBox(props) {
 
     // console.log("HistoryBox: props = ", props);
 
+    useEffect(() => {
+        setViewedPages(pages);
+    }, [pages, setViewedPages]);
+
     function arrayToHash(array, keyField) {
         return array.reduce((collector, item) => {
             collector[item[keyField]] = item;
@@ -50,30 +55,20 @@ export function HistoryBox(props) {
 
     const chosenHash = arrayToHash(chosenFacets, 'id');
 
-    function handleNarrowFilters() {
-        if (props.onNarrowFilters) {
-            props.onNarrowFilters({
-                filter: props.facetType,
-                search: inputEl.current.value,
-                sort: sortField + ' ' + sortDirection,
-                limit: inputEl.current?.value?.length ? -1 : null,
-            });
-        }
-    }
-
     const handleKey = (x) => {
         // submit on return
-        if (x.keyCode === 13) {
-            handleNarrowFilters();
-        }
+        // if (x.keyCode === 13) {
+        //     handleNarrowFilters();
+        // }
     };
 
-    const handleChange =
-        // To be used for completions if desired
-        _.debounce(() => {
-            console.log('handleChange: ', inputEl.current.value);
-            handleNarrowFilters();
-        }, 500);
+    const handleChange = (event) => {
+        const filteredPages = pages.filter(
+            (item) =>
+                item.includes(event.target.value) || event.target.value === ''
+        );
+        setViewedPages(filteredPages);
+    };
 
     // console.log("chosen hash = ", chosenHash);
     const isChosen = (id) => (chosenHash[id] ? true : false);
@@ -146,9 +141,9 @@ export function HistoryBox(props) {
         return uid;
     }
 
-    let historyLength = pages.length;
+    let historyLength = viewedPages.length;
 
-    const historyList = <HistoryViewer mode={'search'} />;
+    const historyList = <HistoryViewer mode={'search'} pages={viewedPages} />;
 
     const name = 'sort_' + props.id;
 

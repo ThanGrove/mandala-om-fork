@@ -9,7 +9,7 @@ import { useHistory } from '../../hooks/useHistory';
 export function HistoryViewer(props) {
     //const history = useContext(HistoryContext);
 
-    let statePages = useHistory((state) => state.pages);
+    let statePages = props.pages;
     const removePage = useHistory((state) => state.removePage);
     if (!statePages || statePages.length === 0) {
         return null;
