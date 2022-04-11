@@ -146,7 +146,7 @@ export function HistoryBox(props) {
         return uid;
     }
 
-    let historyLength = pages.size;
+    let historyLength = pages.length;
 
     const historyList = <HistoryViewer mode={'search'} />;
 

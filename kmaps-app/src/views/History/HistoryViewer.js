@@ -10,7 +10,6 @@ export function HistoryViewer(props) {
     //const history = useContext(HistoryContext);
 
     let statePages = useHistory((state) => state.pages);
-    statePages = Array.from(statePages);
     const removePage = useHistory((state) => state.removePage);
     if (!statePages || statePages.length === 0) {
         return null;
