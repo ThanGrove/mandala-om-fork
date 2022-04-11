@@ -42,7 +42,7 @@ export const useHistory = create(
                 //Remove duplicates
                 pglist = [...new Set(pglist)];
 
-                set((state) => ({ pages: [...pglist] }));
+                set((state) => ({ pages: pglist }));
             },
             removePage: (itempath) => {
                 let pglist = get().pages;
