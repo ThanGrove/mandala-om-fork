@@ -45,7 +45,6 @@ export const useHistory = create((set, get) => ({
 
         const newPages = new Set(pglist);
         set((state) => ({ pages: newPages }));
-        return pglist;
     },
     resetPages: () => set({ pages: new Set() }),
 }));
