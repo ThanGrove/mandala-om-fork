@@ -4,7 +4,12 @@ export const useHistory = create((set, get) => ({
     pages: new Set(),
     addPage: (pageicon, pgtitle, pgpath) => {
         const maxpages = 20;
-        if (!pgtitle || typeof pgtitle == 'undefined' || !pgpath) {
+        if (
+            !pgtitle ||
+            typeof pgtitle == 'undefined' ||
+            !pgpath ||
+            pgpath.trim('/') === 'home'
+        ) {
             // document.title = 'Mandala Collections';
             return;
         }
@@ -21,9 +26,9 @@ export const useHistory = create((set, get) => ({
         }
         const newpage = `${pageicon}::${pgtitle}::${pgpath}`;
         const pgs = get().pages;
-        // if (newpage in pgs) {
-        //     pgs.delete(newpage);
-        // }
+        if (newpage in pgs) {
+            pgs.delete(newpage);
+        }
         let pglist = Array.from(pgs);
         pglist.unshift(newpage);
         if (pglist.length > maxpages) {
@@ -42,4 +47,5 @@ export const useHistory = create((set, get) => ({
         set((state) => ({ pages: newPages }));
         return pglist;
     },
+    resetPages: () => set({ pages: new Set() }),
 }));

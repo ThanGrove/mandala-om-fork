@@ -22,6 +22,7 @@ export function HistoryBox(props) {
     const sortDirectionEl = useRef(null);
     const [sortDirection, setSortDirection] = useState('desc');
     const pages = useHistory((state) => state.pages);
+    const resetPages = useHistory((state) => state.resetPages);
 
     const [open, setOpen] = useState(false);
     let chosen_icon = props.icon;
@@ -150,9 +151,7 @@ export function HistoryBox(props) {
     const historyList = <HistoryViewer mode={'search'} />;
 
     const name = 'sort_' + props.id;
-    const handleResetHistory = () => {
-        console.log('HistoryBox:  RESET HISTORY');
-    };
+
     const historyBox = (
         <div className={'sui-advBox sui-advBox-' + props.id}>
             <div
@@ -197,10 +196,7 @@ export function HistoryBox(props) {
                         />
                     </Nav.Item>
                     <Navbar.Collapse className="justify-content-end">
-                        <Nav.Link
-                            eventKey="resetHistory"
-                            onClick={handleResetHistory}
-                        >
+                        <Nav.Link eventKey="resetHistory" onClick={resetPages}>
                             clear
                         </Nav.Link>
                     </Navbar.Collapse>
