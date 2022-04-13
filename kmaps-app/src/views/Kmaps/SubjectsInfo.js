@@ -24,25 +24,31 @@ export default function SubjectInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
+    const qid = queryID(baseType, id);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
+    } = useKmap(qid, 'info');
 
     if (isKmapLoading) {
         return <MandalaSkeleton overlay={true} />;
+    } else if (isKmapError) {
+        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
+    } else if (kmapData.response.numFound === 0) {
+        return (
+            <p>
+                We’re sorry. We cannot find a subject with the ID of “{qid}” in
+                our index.
+            </p>
+        );
     }
 
-    if (!isKmapError) {
-        // Hack to wait for HistoryViewer to load before adding this page
-        setTimeout(function () {
-            addPage('subjects', kmapData.header, window.location.pathname);
-        }, 500);
-    } else {
-        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-    }
+    // Hack to wait for HistoryViewer to load before adding this page
+    setTimeout(function () {
+        addPage('subjects', kmapData.header, window.location.pathname);
+    }, 500);
 
     $('main.l-column__main').addClass('subjects');
 

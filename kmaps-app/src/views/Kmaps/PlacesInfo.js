@@ -39,19 +39,20 @@ export default function PlacesInfo(props) {
     let { id } = useParams();
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
+    const qid = queryID(baseType, id);
 
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
+    } = useKmap(qid, 'info');
     const {
         isLoading: isAssetLoading,
         data: kmasset,
         isError: isAssetError,
         error: assetError,
-    } = useKmap(queryID(baseType, id), 'asset');
+    } = useKmap(qid, 'asset');
 
     useEffect(() => {
         if (kmapData?.header) {
@@ -85,6 +86,13 @@ export default function PlacesInfo(props) {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     } else if (isAssetError) {
         return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
+    } else if (kmapData.response.numFound === 0) {
+        return (
+            <p>
+                We’re sorry. We cannot find a place with the ID of “{qid}” in
+                our index.
+            </p>
+        );
     }
 
     let txtid = false;
@@ -97,7 +105,7 @@ export default function PlacesInfo(props) {
     const defaultKey = txtid ? 'about' : 'map';
 
     // Create Name Object list to determine if there are etymologies
-    const namelist = kmapData._childDocuments_.filter((cd, i) => {
+    const namelist = kmapData._childDocuments_?.filter((cd, i) => {
         return cd?.block_child_type === 'related_names';
     });
 

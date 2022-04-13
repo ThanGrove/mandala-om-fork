@@ -28,34 +28,29 @@ const TermsInfo = (props) => {
     let { id } = useParams();
     const baseType = 'terms';
     const addPage = useHistory((state) => state.addPage);
+    const qid = queryID(baseType, id);
     //const history = useContext(HistoryContext);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
+    } = useKmap(qid, 'info');
     const {
         isLoading: isAssetLoading,
         data: assetData,
         isError: isAssetError,
         error: assetError,
-    } = useKmap(queryID(baseType, id), 'asset');
+    } = useKmap(qid, 'asset');
     const {
         isLoading: isRelatedLoading,
         data: relatedData,
         isError: isRelatedError,
         error: relatedError,
-    } = useKmapRelated(queryID(baseType, id), 'all', 0, 100);
+    } = useKmapRelated(qid, 'all', 0, 100);
 
     //Unpack related data using memoized function
-    const kmapsRelated = useUnPackedMemoized(
-        relatedData,
-        queryID(baseType, id),
-        'all',
-        0,
-        100
-    );
+    const kmapsRelated = useUnPackedMemoized(relatedData, qid, 'all', 0, 100);
 
     React.useEffect(() => {
         if (!isKmapLoading && !isKmapError) {
@@ -79,6 +74,15 @@ const TermsInfo = (props) => {
         if (isRelatedError) {
             return <span>Error: {relatedError.message}</span>;
         }
+    }
+
+    if (kmapData.response.numFound === 0) {
+        return (
+            <p>
+                We’re sorry. We cannot find a term with the ID of “{qid}” in our
+                index.
+            </p>
+        );
     }
 
     //Get all related Definitions
