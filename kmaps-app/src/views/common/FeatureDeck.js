@@ -7,6 +7,7 @@ import { Button } from 'react-bootstrap';
 import { StringParam, useQueryParams, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
 import { useLocation } from 'react-router-dom';
+import useAsset from '../../hooks/useAsset';
 
 // The length of the Rows at each Break Point
 // const BP_SIZES = {
@@ -97,9 +98,19 @@ export function FeatureDeck(props) {
         // console.log("FeatureDeck: looking at ", docs);
         const cards = docs?.map((doc, i) => {
             let ret = [];
-            const featureCard = (
+            let featureCard = (
                 <FeatureCard doc={doc} key={i} inline={shouldInline(doc)} />
             );
+            // If it's an asset link get the asset's info
+            if (doc.asset_type === 'mandala') {
+                featureCard = (
+                    <AssetLinkFeatureCard
+                        auid={doc.asset_uid_s}
+                        key={`alfc-${i}`}
+                        inlineFunc={shouldInline}
+                    />
+                );
+            }
 
             // Insert breakpoints for various window sizes
             //        insertBreakPoints(i, BP_SIZES, ret);
@@ -209,4 +220,36 @@ export function NoResults(props) {
             </div>
         </div>
     );
+}
+
+/**
+ * Retrieve Asset data from asset link and make card with it
+ *
+ * @param auid
+ * @param thekey
+ * @param inlineFunc
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
+function AssetLinkFeatureCard({ auid, inlineFunc }) {
+    const [asset_type, nid] =
+        auid && auid?.includes('-') ? auid?.split('-') : [false, false];
+
+    const {
+        isLoading: isAssetLoading,
+        data: assetData,
+        isError: isAssetError,
+        error: assetError,
+    } = useAsset(asset_type, nid);
+
+    if (
+        !asset_type ||
+        isAssetError ||
+        isAssetLoading ||
+        assetData?.numFound === 0
+    ) {
+        return null;
+    }
+    const mydoc = assetData.docs[0];
+    return <FeatureCard doc={mydoc} inline={inlineFunc(assetData)} />;
 }
