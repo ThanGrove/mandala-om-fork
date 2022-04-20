@@ -16,10 +16,14 @@ export function TermsHome(props) {
         tmsort_envvar && !(tmsort_envvar === '')
             ? tmsort_envvar
             : 'title_latin_sort';
+    const qval =
+        sortfield === 'cascading_position_i'
+            ? 'asset_type:terms AND cascading_position_i:*'
+            : 'asset_type:terms';
     const q = {
         index: 'assets',
         params: {
-            q: 'asset_type:terms',
+            q: qval,
             rows: pageSize,
             start: startRow,
             sort: `${sortfield} ASC`,
