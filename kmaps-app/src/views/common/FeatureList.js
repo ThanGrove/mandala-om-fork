@@ -38,7 +38,6 @@ export function FeatureList(props) {
         const asset_type = doc?.tree ? doc.tree : doc?.asset_type;
         const mid = doc.id;
         const mykey = `${asset_type}-${mid}}`;
-
         // FeatureKmapCard for kmaps
         if (['places', 'subjects', 'terms', 'kmaps'].indexOf(asset_type) > -1) {
             return (

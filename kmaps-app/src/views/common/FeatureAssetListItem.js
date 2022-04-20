@@ -7,10 +7,11 @@ import $ from 'jquery';
 import _ from 'lodash';
 import { MandalaPopover } from './MandalaPopover';
 import { fixEntities } from './utils';
+import useAsset from '../../hooks/useAsset';
 
 export function FeatureAssetListItem(props) {
     let location = useLocation();
-    const asset_type = props.asset_type;
+    let asset_type = props.asset_type;
     const doc = props.doc;
     const inline = props?.inline || false;
     const [areDetails, setAreDetails] = useState(false);
@@ -22,14 +23,19 @@ export function FeatureAssetListItem(props) {
       : `/${doc.asset_type}/${doc.id}`;
 
    */
-
-    const doc_url = createAssetViewURL(
+    let uid = doc?.uid;
+    let doc_url = createAssetViewURL(
         doc?.uid,
         asset_type,
         location,
         props.searchParam,
         inline
     );
+    if (asset_type === 'mandala' && doc?.asset_uid_s) {
+        uid = doc.asset_uid_s;
+        doc_url = '/' + uid.replace('-', '/');
+        asset_type = doc?.asset_subtype;
+    }
     const collection = doc?.collection_nid ? (
         <Link
             to={`/${asset_type}/collection/${doc.collection_nid}${props.searchParam}`}
@@ -46,12 +52,14 @@ export function FeatureAssetListItem(props) {
         ) : null;
 
     let under_title = doc.caption != doc.title ? caption : null;
-    if (doc?.asset_type === 'sources' || doc?.asset_type === 'texts') {
+    if (asset_type === 'sources' || asset_type === 'texts') {
         if (doc?.creator && doc.creator !== '') {
             const creator = Array.isArray(doc?.creator)
                 ? doc.creator.join(', ')
                 : doc.creator;
             under_title = fixEntities(creator);
+        } else if (doc?.asset_type === 'mandala') {
+            under_title = <FeatureAssetLinkedCreator auid={doc?.asset_uid_s} />;
         } else {
             under_title = 'Anonymous';
         }
@@ -84,7 +92,7 @@ export function FeatureAssetListItem(props) {
     return (
         <Card
             className={`p-0 m-1 ${asset_type}`}
-            key={`${doc.asset_type}-${doc.id}`}
+            key={`${asset_type}-${doc.id}`}
         >
             <Card.Body className={'p-1 row'}>
                 <Col className={'title'} md={8} sm={7}>
@@ -101,8 +109,8 @@ export function FeatureAssetListItem(props) {
                         </span>
                     )}
                     <span
-                        className={`shanticon-${doc.asset_type} type icon`}
-                        title={doc.asset_type}
+                        className={`shanticon-${asset_type} type icon`}
+                        title={asset_type}
                     ></span>{' '}
                     <Link className={'header'} to={doc_url}>
                         {doc.asset_type !== 'texts' && doc.title}
@@ -126,7 +134,7 @@ export function FeatureAssetListItem(props) {
                     {under_title}
                 </Col>
                 <Col className={'meta'} md={4} sm={5}>
-                    <span className={'uid'}>{doc.uid}</span>
+                    <span className={'uid'}>{uid}</span>
                     {collection && (
                         <span className={'coll'}>
                             <span className={'u-icon__collections icon'}></span>
@@ -229,4 +237,26 @@ function FeatureListAssetRelateds(props) {
     } else {
         return null;
     }
+}
+
+function FeatureAssetLinkedCreator({ auid }) {
+    const [asset_type, nid] = auid.split('-');
+
+    const {
+        isLoading: isAssetLoading,
+        data: assetData,
+        isError: isAssetError,
+        error: assetError,
+    } = useAsset(asset_type, nid);
+
+    if (isAssetError || isAssetLoading) {
+        return null;
+    }
+    console.log('assetdata', assetData);
+    let creator = Array.isArray(assetData?.creator)
+        ? assetData.creator.join(', ')
+        : assetData.creator;
+    creator = fixEntities(creator);
+
+    return <>{creator}</>;
 }
