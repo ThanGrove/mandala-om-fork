@@ -67,12 +67,28 @@ async function getSearchData(
             getJsonFacet(facetType, facetOffset, facetLimit, facetBuckets)
         ),
     };
-
     const queryParams = constructTextQuery(searchText);
     const filterParams = constructFilters(filters);
-
     params = { ...params, ...queryParams, ...filterParams };
 
+    // Than added 2022/04/22 to get Tibetan Terms results to sort properly.
+    // Tests if search is filtering by Terms (only can sort terms this way)
+    if (filters[0].id === 'asset_type:terms') {
+        // If Terms Sort constant is set, use that to sort terms (for Tibetan this is 'cascading_position_i')
+        if (
+            process.env?.REACT_APP_TERMS_SORT &&
+            process.env?.REACT_APP_TERMS_SORT.length > 0
+        ) {
+            params.sort = `${process.env?.REACT_APP_TERMS_SORT} ASC`;
+            // If the sort param is cascading_position_i filter out bad records that don't have that value
+            if (
+                process.env?.REACT_APP_TERMS_SORT === 'cascading_position_i' &&
+                Array.isArray(params?.fq)
+            ) {
+                params.fq.push('cascading_position_i:*');
+            }
+        }
+    }
     const request = {
         adapter: jsonpAdapter,
         callbackParamName: 'json.wrf',
