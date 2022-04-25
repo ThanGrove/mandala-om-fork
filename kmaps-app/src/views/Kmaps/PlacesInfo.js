@@ -86,7 +86,7 @@ export default function PlacesInfo(props) {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     } else if (isAssetError) {
         return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
-    } else if (kmapData.response.numFound === 0) {
+    } else if (kmapData?.response?.numFound === 0) {
         return (
             <p>
                 We’re sorry. We cannot find a place with the ID of “{qid}” in

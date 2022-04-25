@@ -73,11 +73,7 @@ async function getSearchData(
 
     // Than added 2022/04/22 to get Tibetan Terms results to sort properly.
     // Tests if search is filtering by Terms (only can sort terms this way)
-    if (
-        filters?.length > 0 &&
-        filters[0]?.id &&
-        filters[0].id === 'asset_type:terms'
-    ) {
+    if (filters?.length > 0 && filters[0]?.id === 'asset_type:terms') {
         // If Terms Sort constant is set, use that to sort terms (for Tibetan this is 'cascading_position_i')
         if (
             process.env?.REACT_APP_TERMS_SORT &&

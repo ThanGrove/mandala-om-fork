@@ -76,7 +76,7 @@ const TermsInfo = (props) => {
         }
     }
 
-    if (kmapData.response.numFound === 0) {
+    if (kmapData?.response?.numFound === 0) {
         return (
             <p>
                 We’re sorry. We cannot find a term with the ID of “{qid}” in our

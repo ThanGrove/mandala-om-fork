@@ -36,7 +36,7 @@ export default function SubjectInfo(props) {
         return <MandalaSkeleton overlay={true} />;
     } else if (isKmapError) {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-    } else if (kmapData.response.numFound === 0) {
+    } else if (kmapData?.response?.numFound === 0) {
         return (
             <p>
                 We’re sorry. We cannot find a subject with the ID of “{qid}” in
