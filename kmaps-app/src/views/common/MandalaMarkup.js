@@ -19,7 +19,8 @@ import { Link } from 'react-router-dom';
  * @param index
  */
 function transform(node, index) {
-    // Process Popover Links in Mandala Markup
+    // Process Popover Links in Mandala Markup (class="kmap-tag-group")
+    // console.log("Node name: ", node.name);
     if (node.attribs && node.attribs['class'] === 'kmap-tag-group') {
         const kmpdom = node.attribs['data-kmdomain'];
         const kmpid = node.attribs['data-kmid'];
@@ -44,7 +45,7 @@ function transform(node, index) {
             />
         );
     }
-    // Process popover icon imgs to convert to mandala popovers (e.g., in AV record)
+    // <img class="popover-icon"> : Process popover icon imgs to convert to mandala popovers (e.g., in AV record)
     else if (
         node.name === 'img' &&
         node.attribs &&
@@ -63,6 +64,7 @@ function transform(node, index) {
             }
             return (
                 <MandalaPopover
+                    key={`mp-img-${index}-${Date.now()}`}
                     domain={mtchs[1]}
                     kid={mtchs[2]}
                     children={[node.prev.data]}
@@ -73,7 +75,7 @@ function transform(node, index) {
         }
     }
 
-    // Find text preceding popover icon and remove it, since MandalaPopover provides its own text by default
+    // text : Find text preceding popover icon and remove it, since MandalaPopover provides its own text by default
     else if (
         node.type === 'text' &&
         node.next &&
@@ -84,8 +86,12 @@ function transform(node, index) {
         // In Bill's code text preceded by two spaces - I removed the two spaces (&nbsp;&nbsp;) - mf8yk july 16, 2021
         return ReactHtmlParser('');
     }
-
-    // Process External Links in Mandala Markup to turn into Modals or Internal links TODO: Process internal Mandala links
+    // <p> give unique ids
+    else if (node.name && node.name === 'p') {
+        const newindex = 'p-' + index + '-' + Date.now();
+        return convertNodeToElement(node, newindex, transform);
+    }
+    // <a href="..."> : Process External Links in Mandala Markup to turn into Modals or Internal links TODO: Process internal Mandala links
     else if (
         node.name &&
         node.name === 'a' &&

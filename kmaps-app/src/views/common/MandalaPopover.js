@@ -119,6 +119,7 @@ const MandalaPopover = ({ domain, kid, placement, kmapid, children }) => {
                                 <Link
                                     to={`/${domain}/${kid}#def-${defn}`}
                                     title={`Definition ${defn}`}
+                                    key={`${domain}-${kid}-def-${defn}`}
                                 >
                                     {defn}
                                 </Link>
