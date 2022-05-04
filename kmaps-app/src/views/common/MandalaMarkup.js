@@ -110,6 +110,7 @@ function transform(node, index) {
             });
             return <Link to={linkurl}>{reactkids}</Link>;
         }
+
         let mandalaid =
             typeof node.attribs['data-mandala-id'] === 'undefined'
                 ? false
@@ -129,8 +130,14 @@ function transform(node, index) {
                     : 'No title';
         }
         const blocked = isBlockedUrl(linkurl);
-
-        if (linkurl[0] === '#') {
+        if (process.env.REACT_APP_STANDALONE === 'standalone') {
+            if (linkurl.includes('#_ftn')) {
+                // For Footnote anchor links in Texts in standalones
+                delete node.attribs['href'];
+                node.attribs['data-anchor-ref'] = linkurl;
+                return convertNodeToElement(node, index, transform);
+            }
+        } else if (linkurl[0] === '#') {
             // TODO: check if it is STANDALONE and if so then move hash to data attribute for scrolling in standalone
             return;
         } else if (mandalaid) {
