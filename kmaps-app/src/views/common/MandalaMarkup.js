@@ -131,8 +131,9 @@ function transform(node, index) {
         }
         const blocked = isBlockedUrl(linkurl);
         if (process.env.REACT_APP_STANDALONE === 'standalone') {
-            if (linkurl.includes('#_ftn')) {
-                // For Footnote anchor links in Texts in standalones
+            if (linkurl.match(/^#_?f?t?n(ref)?\d/)) {
+                // For Footnote anchor links in Texts in standalones. Regex matches all known possibilities....
+                // Possible anchors: #fn3, #n1, #_ftn2, or #_ftnref4
                 delete node.attribs['href'];
                 node.attribs['data-anchor-ref'] = linkurl;
                 return convertNodeToElement(node, index, transform);
