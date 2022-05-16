@@ -158,12 +158,14 @@ export function fitDimensions(maxHeight, maxWidth, imgHeight, imgWidth) {
  * @returns {*}
  */
 export function fixEntities(txt) {
-    const ents = ["&#039;|'"];
-    ents.forEach((ent, en) => {
-        const [fnd, rep] = ent.split('|');
-        const re = new RegExp(fnd, 'g');
-        txt = txt.replace(re, rep);
-    });
+    if (typeof txt === 'string' || txt instanceof String) {
+        const ents = ["&#039;|'"];
+        ents.forEach((ent, en) => {
+            const [fnd, rep] = ent.split('|');
+            const re = new RegExp(fnd, 'g');
+            txt = txt.replace(re, rep);
+        });
+    }
     return txt;
 }
 

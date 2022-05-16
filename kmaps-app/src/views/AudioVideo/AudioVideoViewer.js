@@ -65,11 +65,17 @@ export default function AudioVideoViewer(props) {
     // UseEffect: run once if main av page: no dependencies, runs before asset solr doc loads
     useEffect(() => {
         if (ismain) {
-            //status.setType('audio-video');
             $('body').on('click', 'a.sui-avMore2', function () {
-                $('#sui-avlang').toggle();
-                this.text =
-                    this.text == 'SHOW MORE' ? 'SHOW LESS' : 'SHOW MORE';
+                const me = $(this);
+                if (me.hasClass('expanded')) {
+                    $('#sui-avlang').hide();
+                    me.text('SHOW MORE');
+                    me.removeClass('expanded');
+                } else {
+                    $('#sui-avlang').show();
+                    me.text('SHOW LESS');
+                    me.addClass('expanded');
+                }
             });
             $('#l-site__wrap').addClass('av');
         }

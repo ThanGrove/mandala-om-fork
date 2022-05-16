@@ -73,7 +73,7 @@ function cleanAssetData(data) {
     const img_path =
         process.env.REACT_APP_STANDALONE === 'standalone'
             ? '/wp-content/uploads/gradient.jpg'
-            : '/img/gradient.jpg';
+            : process.env.PUBLIC_URL + '/img/gradient.jpg';
 
     //console.log("cleanAssetData ", asset_type);
 

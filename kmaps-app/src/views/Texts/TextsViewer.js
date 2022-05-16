@@ -401,7 +401,7 @@ function TextTocLinks({ plid, pageid }) {
                     cname.push('active');
                 }
                 return (
-                    <li className={cname.join(' ')}>
+                    <li className={cname.join(' ')} key={`toclink-${ii}`}>
                         <Link to={`/texts/${bid}/${myid}`}>{mytitle}</Link>
                         <TextTocLinks plid={item.mlid_i} pageid={pageid} />
                     </li>

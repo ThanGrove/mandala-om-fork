@@ -20,7 +20,7 @@ jobs:
           - site-name: "thl"
             site: "tibetbuild"
             localdir: "build/"
-            remotedir: "~/dev.thdl.org/wp-content/plugins/mandala/app/build/"
+            remotedir: "~/new.thdl.org/wp-content/plugins/mandala/app/build/"
     steps:
       - uses: actions/checkout@v2
         with:
