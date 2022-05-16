@@ -2,21 +2,16 @@ import React, { useRef, useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/cjs/Nav';
-import HistoryViewer from '../views/History/HistoryViewer';
+import SearchViewer from '../views/History/SearchViewer';
 import { BsArrowCounterclockwise } from 'react-icons/bs';
 import { MdOutlineScreenSearchDesktop } from 'react-icons/md';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Type } from '../model/HistoryModel';
 import { useHistory } from '../hooks/useHistory';
+import { useRecentSearch } from '../hooks/useRecentSearch';
 
-function countSearchItems(historyStack) {
-    return historyStack.filter((x) => {
-        return x.search?.length > 0;
-    }).length;
-}
-
-export function HistoryBox(props) {
+export function RecentSearch(props) {
     const inputEl = useRef(null);
     const sortFieldEl = useRef(null);
     const [sortField, setSortField] = useState('count');
@@ -24,8 +19,10 @@ export function HistoryBox(props) {
     const [sortDirection, setSortDirection] = useState('desc');
     const pages = useHistory((state) => state.pages);
     const resetPages = useHistory((state) => state.resetPages);
+    const searches = useRecentSearch((state) => state.searches);
+    const resetSearchPages = useRecentSearch((state) => state.resetSearchPages);
 
-    const [viewedPages, setViewedPages] = useState(pages);
+    const [viewedSearches, setViewedSearches] = useState(searches);
     const [open, setOpen] = useState(false);
     let chosen_icon = props.icon;
     const facetType = props.facetType;
@@ -44,8 +41,8 @@ export function HistoryBox(props) {
     // console.log("HistoryBox: props = ", props);
 
     useEffect(() => {
-        setViewedPages(pages);
-    }, [pages, setViewedPages]);
+        setViewedSearches(searches);
+    }, [searches, setViewedSearches]);
 
     function arrayToHash(array, keyField) {
         return array.reduce((collector, item) => {
@@ -64,11 +61,12 @@ export function HistoryBox(props) {
     };
 
     const handleChange = (event) => {
-        const filteredPages = pages.filter(
-            (item) =>
-                item.includes(event.target.value) || event.target.value === ''
+        const filteredSearches = searches.filter(
+            (search) =>
+                search.searchText.includes(event.target.value) ||
+                event.target.value === ''
         );
-        setViewedPages(filteredPages);
+        setViewedSearches(filteredSearches);
     };
 
     // console.log("chosen hash = ", chosenHash);
@@ -100,55 +98,15 @@ export function HistoryBox(props) {
     const minus = <span className={'u-icon__minus icon'} />;
     const label = props.label || 'UNKNOWN LABEL';
 
-    // console.debug("HistoryBox: props = ", props);
+    let historyLength = viewedSearches.length;
 
-    function parseEntry(entry, fullEntry) {
-        let label = '';
-        let uid = '';
-        let fullLabel = '';
-
-        if (entry.val.match(/[^=]+\=[^\|]+\|[^=]+.*/)) {
-            // console.log("parseEntry SPECIAL CASE!")
-            const [ref, val] = entry.val.split('|');
-            const [refLabel, refUid] = ref.split('=');
-            const [valLabel, valUid] = val.split('=');
-
-            label = refLabel + ': ' + valLabel;
-            uid = entry.val;
-            fullLabel = label;
-        } else {
-            // console.log("HistoryBox.parseEntry: " + JSON.stringify(entry));
-            [label, uid] = entry.val.split('|');
-            label = label ? label : 'undefined';
-            const extra = fullEntry && uid ? <span>({uid})</span> : '';
-            fullLabel = (
-                <span uid={uid}>
-                    {label} {extra}
-                </span>
-            );
-        }
-        return { label: label, fullLabel: fullLabel, value: uid ? uid : label };
-    }
-
-    function chooseIconClass(entry) {
-        let icoclass = entry.val;
-        icoclass = icoclass === 'texts:pages' ? 'file-text-o' : icoclass;
-        return 'u-icon__' + icoclass + ' icon';
-    }
-
-    function parseId(id) {
-        const split = id.split('|');
-        const uid = split[1] ? split[1] : id;
-        return uid;
-    }
-
-    let historyLength = viewedPages.length;
-
-    const historyList = <HistoryViewer mode={'search'} pages={viewedPages} />;
+    const historyList = (
+        <SearchViewer mode={'search'} searches={viewedSearches} />
+    );
 
     const name = 'sort_' + props.id;
 
-    const historyBox = (
+    const recentSearch = (
         <div className={'sui-advBox sui-advBox-' + props.id}>
             <div
                 className={'sui-advHeader'}
@@ -196,7 +154,10 @@ export function HistoryBox(props) {
                         />
                     </Nav.Item>
                     <Navbar.Collapse className="justify-content-end">
-                        <Nav.Link eventKey="resetHistory" onClick={resetPages}>
+                        <Nav.Link
+                            eventKey="resetHistory"
+                            onClick={resetSearchPages}
+                        >
                             clear
                         </Nav.Link>
                     </Navbar.Collapse>
@@ -208,10 +169,10 @@ export function HistoryBox(props) {
             </div>
         </div>
     );
-    return historyBox;
+    return recentSearch;
 }
 
-HistoryBox.propTypes = {
+RecentSearch.propTypes = {
     label: PropTypes.string,
     chosenIcon: PropTypes.string,
     facetType: PropTypes.string,
