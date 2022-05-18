@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
+import { RecentSearch } from './RecentSearch';
 import { useSearch } from '../hooks/useSearch';
 import { closeStore, openTabStore } from '../hooks/useCloseStore';
 import {
@@ -396,6 +397,11 @@ export default function SearchAdvanced(props) {
                     historyStack={historyStack}
                     id="recent"
                     label="Recently Viewed"
+                    facetType="recent-searches"
+                />
+                <RecentSearch
+                    id="search"
+                    label="Recent Searches"
                     facetType="recent-searches"
                 />
             </section>

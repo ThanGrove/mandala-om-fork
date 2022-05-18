@@ -53,13 +53,19 @@ export function FeatureAssetListItem(props) {
 
     let under_title = doc.caption != doc.title ? caption : null;
     if (asset_type === 'sources' || asset_type === 'texts') {
-        if (doc?.creator && doc.creator !== '') {
+        if (doc?.asset_type === 'mandala') {
+            if (doc?.creators_orig_ss?.length > 0) {
+                under_title = doc.creators_orig_ss.join(', ');
+            } else {
+                under_title = (
+                    <FeatureAssetLinkedCreator auid={doc?.asset_uid_s} />
+                );
+            }
+        } else if (doc?.creator && doc.creator !== '') {
             const creator = Array.isArray(doc?.creator)
                 ? doc.creator.join(', ')
                 : doc.creator;
             under_title = fixEntities(creator);
-        } else if (doc?.asset_type === 'mandala') {
-            under_title = <FeatureAssetLinkedCreator auid={doc?.asset_uid_s} />;
         } else {
             under_title = 'Anonymous';
         }

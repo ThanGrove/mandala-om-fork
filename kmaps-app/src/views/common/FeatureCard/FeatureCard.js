@@ -230,7 +230,9 @@ export function FeatureCard(props) {
         mycaption = <HtmlCustom markup={mycaption} />;
     }
 
-    let thumb_url = doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg';
+    let thumb_url = doc.url_thumb
+        ? doc.url_thumb
+        : process.env.PUBLIC_URL + '/img/gradient.jpg';
     thumb_url = thumb_url.replace('!200,200', '!900,900');
 
     // Asset link type
