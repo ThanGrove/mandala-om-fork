@@ -481,6 +481,9 @@ export function createAssetViewURL(
         // console.log(path, atype);
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
+        if (['subjects', 'places', 'terms'].includes(atype)) {
+            return `${path.join('/')}/list`;
+        }
         return `${path.join('/')}/view/${aid}${searchParam}`;
     }
     let path = location.pathname
