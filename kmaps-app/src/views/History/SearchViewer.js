@@ -66,7 +66,9 @@ export function SearchViewer(props) {
                                     )}`}
                                     title={searchText}
                                 >
-                                    {searchText.trim() ? searchText : '<Empty>'}
+                                    {searchText?.trim()
+                                        ? searchText
+                                        : '<Empty>'}
                                 </Link>
                             </span>
                             <span
