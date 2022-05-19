@@ -192,16 +192,28 @@ function AudioVideoRelated(props) {
         '?wt=json';
     // Effect uses Axios to call the API url above to get the More Like This list
     useEffect(() => {
+        let unmounted = false;
+        let source = axios.CancelToken.source();
         axios({
             url: url,
             adapter: jsonpAdapter,
+            cancelToken: source.token,
+            timeout: 30,
         })
             .then(function (response) {
-                setMlt(response.data);
+                if (!unmounted) {
+                    setMlt(response.data);
+                }
             })
             .catch(function (error) {
-                setMlt([]);
+                if (!unmounted) {
+                    setMlt([]);
+                }
             });
+        return function () {
+            unmounted = true;
+            source.cancel('Cancelling in cleanup');
+        };
     }, [id]);
     return (
         <div id={'meta-mlt'}>

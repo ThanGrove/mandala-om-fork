@@ -1337,7 +1337,7 @@ export default class AudioVideo {
             $('#sui-kplayer')[0].sendNotification('doSeek', start); // Seek to start
         if (end) this.playEnd = end; // Set ending point
         this.transTimer = setInterval((e) => {
-            if (typeof $('#sui-kplayer')[0].evaluate !== 'function') {
+            if (typeof $('#sui-kplayer')[0]?.evaluate !== 'function') {
                 return;
             }
             // Set interval and handler

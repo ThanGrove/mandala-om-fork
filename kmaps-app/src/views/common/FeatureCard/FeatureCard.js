@@ -465,14 +465,20 @@ export function createAssetViewURL(
             .replace(/\-/g, '/')
             .replace('audio/video', 'audio-video')}${searchParam}`;
     }
-    const atype = avuid.split('-')[0];
+    // console.log(avuid);
+    let atype = avuid.split('-')[0];
+    if (atype == 'audio') {
+        atype = 'audio-video';
+    }
     const aid = avuid.split('-').pop();
     // console.log("aid: " + aid);
     if (
         location.pathname.includes('_definitions-') ||
         location.pathname.includes('related-')
     ) {
-        let path = location.pathname.split('/');
+        let path = location.pathname.replace('related-all', 'related-' + atype);
+        path = path.split('/');
+        // console.log(path, atype);
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
         return `${path.join('/')}/view/${aid}${searchParam}`;
