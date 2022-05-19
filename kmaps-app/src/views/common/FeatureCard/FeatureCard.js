@@ -459,6 +459,7 @@ export function createAssetViewURL(
     searchParam,
     inline
 ) {
+    // console.log(avuid, asset_type, location, searchParam);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
@@ -466,7 +467,11 @@ export function createAssetViewURL(
     }
     const atype = avuid.split('-')[0];
     const aid = avuid.split('-').pop();
-    if (location.pathname.includes('_definitions-')) {
+    // console.log("aid: " + aid);
+    if (
+        location.pathname.includes('_definitions-') ||
+        location.pathname.includes('related-')
+    ) {
         let path = location.pathname.split('/');
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
