@@ -1351,7 +1351,7 @@ export default class AudioVideo {
                 this.playEnd = 0; // Clear end
                 return; // Quit
             }
-            for (i = 0; i < res.segs.length; ++i) {
+            for (i = 0; i < res?.segs?.length; ++i) {
                 // For each seg
                 if (now >= res.segs[i].start && now < res.segs[i].end) {
                     // In this one
