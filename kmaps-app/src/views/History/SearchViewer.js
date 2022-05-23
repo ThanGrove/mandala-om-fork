@@ -4,11 +4,9 @@ import './HistoryViewer.css';
 
 import { Link } from 'react-router-dom';
 import { encodeQueryParams, StringParam, withDefault } from 'use-query-params';
-import { ImStack } from 'react-icons/im';
-import { BsCheckCircle, BsMap } from 'react-icons/bs';
-import { capitalAsset } from '../common/utils';
 import { useRecentSearch } from '../../hooks/useRecentSearch';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
+import RecentSearchItem from './RecentSearchItem';
 import { stringify } from 'query-string';
 export function SearchViewer(props) {
     //const history = useContext(HistoryContext);
@@ -19,26 +17,6 @@ export function SearchViewer(props) {
     if (!searches || searches.length === 0) {
         return null;
     }
-
-    const ICON_MAP = {
-        'audio-video': <span className={'icon u-icon__audio-video'} />,
-        texts: <span className={'icon u-icon__texts'} />,
-        'texts:pages': <span className={'icon u-icon__texts'} />,
-        images: <span className={'icon u-icon__images'} />,
-        sources: <span className={'icon u-icon__sources'} />,
-        visuals: <span className={'icon u-icon__visuals'} />,
-        places: <span className={'icon u-icon__places'} />,
-        subjects: <span className={'icon u-icon__subjects'} />,
-        terms: <span className={'icon u-icon__terms'} />,
-        collections: <ImStack />,
-        asset_type: <BsCheckCircle />,
-        users: <span className={'icon u-icon__community'} />,
-        creator: <span className={'icon u-icon__agents'} />,
-        languages: <span className={'icon u-icon__comments-o'} />,
-        feature_types: <BsMap />,
-        associated_subjects: <span className={'icon u-icon__essays'} />,
-        perspective: <span className={'icon u-icon__file-picture'} />,
-    };
 
     return (
         <div className="c-HistoryViewer">
@@ -66,9 +44,10 @@ export function SearchViewer(props) {
                                     )}`}
                                     title={searchText}
                                 >
-                                    {searchText?.trim()
-                                        ? searchText
-                                        : '<Empty>'}
+                                    <RecentSearchItem
+                                        searchText={searchText}
+                                        filters={filters}
+                                    />
                                 </Link>
                             </span>
                             <span
