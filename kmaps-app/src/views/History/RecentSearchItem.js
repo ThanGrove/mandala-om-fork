@@ -25,7 +25,7 @@ const ICON_MAP = {
 const RecentSearchItem = ({ searchText, filters }) => {
     return (
         <span>
-            {searchText.trim() ? searchText : '<Empty>'} {` `}
+            {searchText?.trim() ? searchText : '<Empty>'} {` `}
             {filters.map((filter) => (
                 <span key={filter.id}>
                     {` + `}
