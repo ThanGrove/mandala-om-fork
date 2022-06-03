@@ -534,11 +534,12 @@ export default class KmapsSolrUtil {
 
     createAdvancedFacetQuery(state) {
         state = $.extend(true, {}, this.defaultState, state);
-        // was https://ss251856-us-east-1-aws.measuredsearch.com/solr/kmterms_dev/select (switched to Prod). Not sure if in use.
+
         state.solrUrl =
-            'https://mandala-solr-replica.internal.lib.virginia.edu/solr/kmterms/select';
+            'https://mandala-solr-replica-dev.internal.lib.virginia.edu/solr/kmterms/select';
 
         // create request object
+
         var searchstring = state.query.text || '';
         var page = state.page || 0;
         var pageSize = state.pageSize || 100;

@@ -120,14 +120,10 @@ export default class SearchUI {
 
         this.solrId = useProdIndex ? '_prod' : '_dev'; // Set solrId
         this.solrBase =
-            'https://' +
-            (useProdIndex ? 'ss395824' : 'ss251856') +
-            '-us-east-1-aws.measuredsearch.com/solr/'; // Solr base
-        this.ss.solrUrl =
-            this.solrBase +
-            'kmassets' +
-            (useProdIndex ? '' : '_dev') +
-            '/select'; // Full url
+            'https://mandala-solr-replica' +
+            (useProdIndex ? '' : '-dev') +
+            '.internal.lib.virginia.edu/solr/'; // Solr base
+        this.ss.solrUrl = this.solrBase + 'kmassets' + '/select'; // Full url
         this.ss.mode = 'input'; // Current mode - can be input, simple, or advanced
         this.ss.view = 'Card'; // Dispay mode - can be List, Grid, or Card
         this.ss.sort = 'Alpha'; // Sort mode - can be Alpha, Date, or Author
@@ -2140,9 +2136,10 @@ export default class SearchUI {
                         ]
                     )
                         // If valid
-                        f = res.facet_counts.facet_fields[
-                            'ancestor_id_tib.alpha_path'
-                        ].join(); // Get list of facets
+                        f =
+                            res.facet_counts.facet_fields[
+                                'ancestor_id_tib.alpha_path'
+                            ].join(); // Get list of facets
                 } else {
                     if (
                         res.facet_counts &&
@@ -2150,7 +2147,8 @@ export default class SearchUI {
                         res.facet_counts.facet_fields.ancestor_id_path
                     )
                         // If valid
-                        f = res.facet_counts.facet_fields.ancestor_id_path.join(); // Get list of facets
+                        f =
+                            res.facet_counts.facet_fields.ancestor_id_path.join(); // Get list of facets
                 }
                 for (i = 0; i < res.response.docs.length; ++i) {
                     // For each child

@@ -896,7 +896,6 @@ export default class AudioVideo {
             speaker: '',
         }; // Final data
         var url =
-            // WAS 'https://ss251856-us-east-1-aws.measuredsearch.com/solr/av_test/select?indent=on&q=is_trid:'
             // TODO:  Refactor to derive this url from configuration.
             'https://mandala-solr-replica-dev.internal.lib.virginia.edu/solr/mandala-av/select?indent=on&q=is_trid:' +
             kmap.trid_i +
