@@ -25,7 +25,7 @@ const ICON_MAP = {
 };
 
 const RecentSearchItem = ({ searchText, filters }) => {
-    const key = slugify(searchText);
+    const key = slugify(searchText || 'empty');
     // Create tooltip content
     let content = '';
     if (filters.length > 0) {
@@ -33,6 +33,7 @@ const RecentSearchItem = ({ searchText, filters }) => {
             return prev + ` ${curr.operator} ` + curr.label;
         }, '');
     }
+    content = content || 'No filters applied';
 
     return (
         <OverlayTrigger
