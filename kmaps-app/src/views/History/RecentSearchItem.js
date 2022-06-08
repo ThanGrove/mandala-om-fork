@@ -1,6 +1,8 @@
 import React from 'react';
 import { ImStack } from 'react-icons/im';
 import { BsCheckCircle, BsMap } from 'react-icons/bs';
+import { OverlayTrigger, Tooltip } from 'react-bootstrap';
+import slugify from 'slugify';
 
 const ICON_MAP = {
     'audio-video': <span className={'icon u-icon__audio-video'} />,
@@ -23,16 +25,37 @@ const ICON_MAP = {
 };
 
 const RecentSearchItem = ({ searchText, filters }) => {
+    const key = slugify(searchText);
+    // Create tooltip content
+    let content = '';
+    if (filters.length > 0) {
+        content = filters.reduce((prev, curr) => {
+            return prev + ` ${curr.operator} ` + curr.label;
+        }, '');
+    }
+
     return (
-        <span>
-            {searchText?.trim() ? searchText : '<Empty>'} {` `}
-            {filters.map((filter) => (
-                <span key={filter.id}>
-                    {` + `}
-                    {ICON_MAP[filter.field]}
-                </span>
-            ))}
-        </span>
+        <OverlayTrigger
+            key={key}
+            placement="bottom"
+            overlay={
+                <Tooltip id={`tooltip-${key}`}>
+                    <h6>
+                        {searchText} {` `} {content}
+                    </h6>
+                </Tooltip>
+            }
+        >
+            <span>
+                {searchText?.trim() ? searchText : '<Empty>'} {` `}
+                {filters.map((filter) => (
+                    <span key={filter.id}>
+                        {` + `}
+                        {ICON_MAP[filter.field]}
+                    </span>
+                ))}
+            </span>
+        </OverlayTrigger>
     );
 };
 
