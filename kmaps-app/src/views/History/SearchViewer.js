@@ -42,7 +42,6 @@ export function SearchViewer(props) {
                                     to={`/search/deck?${stringify(
                                         encodedQuery
                                     )}`}
-                                    title={searchText}
                                 >
                                     <RecentSearchItem
                                         searchText={searchText}
