@@ -194,11 +194,11 @@ export function NoResults(props) {
                 {pgtype === 'collection' && (
                     <>
                         <h2 className={'u-search__noresults__header'}>
-                            Under Construction
+                            Not Items Found!
                         </h2>
                         <p>
-                            We're currently building this collection. Watch this
-                            space!
+                            We are currently building this collection. Watch
+                            this space!
                         </p>
                     </>
                 )}
