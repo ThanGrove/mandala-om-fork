@@ -56,17 +56,17 @@ export default function ContentMain(props) {
     const advsrch_target = document.getElementById('advancedSearchPortal');
     const column_class = advsrch_target ? 'one-column' : 'two-columns';
     useEffect(() => {
-        if (process.env.REACT_APP_STANDALONE !== 'standalone') {
+        /*if (process.env.REACT_APP_STANDALONE !== 'standalone') {
             // For Standalones, the mandala body class is added by the WP Mandala plugin
             // Unclear if this is used otherwise. So leaving code in (ndg, 2022-05-03)
             if (myLocation.pathname === '/') {
                 $('body').removeClass('mandala');
-                //console.log('removing class', myLocation);
+                console.log('removing class', myLocation);
             } else {
                 $('body').addClass('mandala');
-                //console.log('adding class', myLocation);
+                console.log('adding class', myLocation);
             }
-        }
+        }*/
         // Save Search String in a cookie to retrieve for returning to results
         if (myLocation?.search) {
             localStorage.setItem(SEARCH_COOKIE_NAME, myLocation.search);

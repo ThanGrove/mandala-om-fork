@@ -982,8 +982,20 @@ header.terms + .two-columns {
         transform: scale(1.04);
     }
 }
+
 body.mandala .c-buttonGroup__viewMode {
     top: -1rem;
+}
+
+.c-buttonGroup__viewMode__wrap .c-buttonGroup__filter {
+    position: absolute;
+    top: 1.5rem;
+    left: 35%;
+
+    input {
+        border-radius: 8px;
+        border-color: #ccc;
+    }
 }
 
 /*header.terms + .two-columns .c-buttonGroup__viewMode,*/

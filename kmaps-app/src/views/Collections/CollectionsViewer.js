@@ -45,7 +45,7 @@ export function CollectionsViewer(props) {
     // Set up sort mode state
     const DEFAULT_SORTMODE = 'title_sort_s asc';
     const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
-
+    const [collFilter, setFilter] = useState('*:*');
     // Make Solr Query to find assets in Collection
     const query = {
         index: 'assets',
@@ -53,8 +53,9 @@ export function CollectionsViewer(props) {
             fq: [
                 'asset_type:(' + asset_type + ' mandala)',
                 '-asset_subtype:page',
+                'collection_nid_path_is:' + asset_id,
             ],
-            q: 'collection_nid_path_is:' + asset_id,
+            q: collFilter,
             sort: sortMode,
             start: startRow,
             rows: pageSize,
@@ -65,6 +66,7 @@ export function CollectionsViewer(props) {
         asset_type,
         asset_id,
         sortMode,
+        collFilter,
         startRow,
         pageSize,
     ];
@@ -102,7 +104,8 @@ export function CollectionsViewer(props) {
     // Reset pagination on change in sort order
     useEffect(() => {
         setPageNum(0);
-    }, [sortMode]);
+        console.log('Coll filter is: ' + collFilter);
+    }, [sortMode, collFilter]);
 
     let coll_paths = [];
 
@@ -192,12 +195,31 @@ export function CollectionsViewer(props) {
                   collsolr.asset_subtype
               } ${collabel}`
             : false;
+    let wait_to = false;
+    const waitFilter = (e) => {
+        const filter_val = `title:*${$(e.target).val()}*`;
+        if (wait_to) {
+            clearTimeout(wait_to);
+        }
+        wait_to = setTimeout(() => setFilter(filter_val), 500);
+    };
     const sorter = (
-        <CollectionSortModeSelector
-            setSort={setSortMode}
-            sortMode={sortMode}
-            assetType={asset_type}
-        />
+        <>
+            <CollectionSortModeSelector
+                setSort={setSortMode}
+                sortMode={sortMode}
+                assetType={asset_type}
+            />
+            <form className="c-buttonGroup__filter">
+                <label>
+                    <input
+                        type="text"
+                        onChange={waitFilter}
+                        placeholder="Filter by Title"
+                    />
+                </label>
+            </form>
+        </>
     );
 
     const hasMoreItems = numFound <= (pageNum + 1) * pageSize ? false : true;
