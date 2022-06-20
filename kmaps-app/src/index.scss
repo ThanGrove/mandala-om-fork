@@ -998,6 +998,13 @@ body.mandala .c-buttonGroup__viewMode {
     }
 }
 
+.assethome .c-buttonGroup__viewMode__wrap .c-buttonGroup__filter {
+    position: absolute;
+    right: 200px;
+    top: -40px;
+    text-align: right;
+}
+
 /*header.terms + .two-columns .c-buttonGroup__viewMode,*/
 header.search + .two-columns .c-buttonGroup__viewMode {
     position: relative;
@@ -1082,9 +1089,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
 }
 
 .c-buttonGroup__sortMode {
-    margin-top: -0.5rem;
-    margin-bottom: 0;
-    padding-left: 1rem;
+    position: absolute;
+    top: -40px;
+    right: 400px;
+    z-index: 100;
     * {
         display: inline-block;
     }

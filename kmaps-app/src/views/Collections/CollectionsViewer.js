@@ -210,15 +210,7 @@ export function CollectionsViewer(props) {
                 sortMode={sortMode}
                 assetType={asset_type}
             />
-            <form className="c-buttonGroup__filter">
-                <label>
-                    <input
-                        type="text"
-                        onChange={waitFilter}
-                        placeholder="Filter by Title"
-                    />
-                </label>
-            </form>
+            <CollectionFilterField onchange={waitFilter} />
         </>
     );
 
@@ -331,6 +323,20 @@ export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
                     );
                 })}
             </select>
+        </div>
+    );
+}
+
+export function CollectionFilterField({ onchange }) {
+    return (
+        <div className="c-buttonGroup__filter">
+            <label>
+                <input
+                    type="text"
+                    onChange={onchange}
+                    placeholder="Filter by Title"
+                />
+            </label>
         </div>
     );
 }
