@@ -98,6 +98,7 @@ function transform(node, index) {
         node.attribs &&
         node.attribs['href']
     ) {
+        // Link to Text Collections
         let linkurl = node.attribs['href'];
         if (
             linkurl.includes('/node/') &&
@@ -109,19 +110,23 @@ function transform(node, index) {
                 return convertNodeToElement(ch, ci, transform);
             });
             return <Link to={linkurl}>{reactkids}</Link>;
-        }
+        } // End of text collection links
 
+        // Get Mandala Asset ID if Data Attribute
         let mandalaid =
             typeof node.attribs['data-mandala-id'] === 'undefined'
                 ? false
                 : node.attribs['data-mandala-id'];
 
+        // Get Link's contents
         let linkcontents = [];
         for (let n in node.children) {
             linkcontents.push(
                 convertNodeToElement(node.children[n], index, transform)
             );
         }
+
+        // Link's Title
         let mytitle = node.attribs['title'] ? node.attribs['title'] : false;
         if (mytitle === false) {
             mytitle =
@@ -129,22 +134,38 @@ function transform(node, index) {
                     ? linkcontents[0].split(':')[0]
                     : 'No title';
         }
+
+        // Check link is in whitelist
         const blocked = isBlockedUrl(linkurl);
+
         if (process.env.REACT_APP_STANDALONE === 'standalone') {
-            if (linkurl.match(/^#_?f?t?n(ref)?\d/)) {
+            // Special processing for hash links in standalon
+            // Text footnote links
+            if (
+                linkurl.match(/^#_?f?t?n(ref)?\d/) ||
+                linkurl.match(/^#.*footnote/)
+            ) {
                 // For Footnote anchor links in Texts in standalones. Regex matches all known possibilities....
-                // Possible anchors: #fn3, #n1, #_ftn2, or #_ftnref4
+                // Possible anchors: #fn3, #n1, #_ftn2, or #_ftnref4 or #sdfootnote
+                node.attribs['style'] = '';
                 delete node.attribs['href'];
                 node.attribs['data-anchor-ref'] = linkurl;
                 return convertNodeToElement(node, index, transform);
             }
         } else if (linkurl[0] === '#') {
-            // TODO: check if it is STANDALONE and if so then move hash to data attribute for scrolling in standalone
+            // If not standalone, then ignore hash only links
+            if (
+                linkurl.match(/^#_?f?t?n(ref)?\d/) ||
+                linkurl.match(/^#.*footnote/)
+            ) {
+                node.attribs['style'] = ''; // except remove style attribute for footnote reference links
+            }
             return;
         } else if (mandalaid) {
-            // What is the context here? TODO: merge with last else that deals with internal kmaps?
+            // If link has an `data-mandala-id` attribute, go to the Asset ID given there
             return <MandalaLink mid={mandalaid} contents={linkcontents} />;
         } else if (linkurl.includes('/add/') || linkurl.includes('/edit')) {
+            // Do not process /add or /edit links in standalone
             return null;
         } else if (
             !linkurl.includes('https://mandala') &&
@@ -266,7 +287,7 @@ function transform(node, index) {
                 );
             }
         }
-    }
+    } /* End of links transform */
 }
 
 /**
