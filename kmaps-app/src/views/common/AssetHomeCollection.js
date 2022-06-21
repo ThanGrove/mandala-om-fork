@@ -39,7 +39,7 @@ export function AssetHomeCollection(props) {
                 sortMode={sortMode}
                 assetType={asset_type}
             />
-            <CollectionFilterField onchange={waitFilter} />
+            <CollectionFilterField onchange={waitFilter} val={filterStr} />
         </>
     );
 

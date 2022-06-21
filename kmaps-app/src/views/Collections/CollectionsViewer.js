@@ -104,7 +104,7 @@ export function CollectionsViewer(props) {
     // Reset pagination on change in sort order
     useEffect(() => {
         setPageNum(0);
-        console.log('Coll filter is: ' + collFilter);
+        // console.log('Coll filter is: ' + collFilter);
     }, [sortMode, collFilter]);
 
     let coll_paths = [];
@@ -203,6 +203,7 @@ export function CollectionsViewer(props) {
         }
         wait_to = setTimeout(() => setFilter(filter_val), 500);
     };
+    console.log('collfilter: ' + collFilter);
     const sorter = (
         <>
             <CollectionSortModeSelector
@@ -210,7 +211,7 @@ export function CollectionsViewer(props) {
                 sortMode={sortMode}
                 assetType={asset_type}
             />
-            <CollectionFilterField onchange={waitFilter} />
+            <CollectionFilterField onchange={waitFilter} val={collFilter} />
         </>
     );
 
@@ -327,7 +328,9 @@ export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
     );
 }
 
-export function CollectionFilterField({ onchange }) {
+export function CollectionFilterField({ onchange, val }) {
+    const pts = val.replace(':', '').split('*');
+    const displayval = pts?.length > 1 ? pts[1] : pts[0];
     return (
         <div className="c-buttonGroup__filter">
             <label>
@@ -335,6 +338,7 @@ export function CollectionFilterField({ onchange }) {
                     type="text"
                     onChange={onchange}
                     placeholder="Filter by Title"
+                    defaultValue={displayval}
                 />
             </label>
         </div>

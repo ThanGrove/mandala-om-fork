@@ -310,7 +310,7 @@ header.terms + .two-columns {
             margin-bottom: 1rem;
         }
         .c-buttonGroup__viewMode {
-            top: 1rem;
+            top: -45px;
             right: 1rem;
         }
     }
@@ -989,8 +989,8 @@ body.mandala .c-buttonGroup__viewMode {
 
 .c-buttonGroup__viewMode__wrap .c-buttonGroup__filter {
     position: absolute;
-    top: 1.5rem;
-    left: 35%;
+    right: 200px;
+    top: -45px;
 
     input {
         border-radius: 8px;
@@ -1003,6 +1003,10 @@ body.mandala .c-buttonGroup__viewMode {
     right: 200px;
     top: -40px;
     text-align: right;
+}
+
+.mandala .assethome .c-buttonGroup__viewMode__wrap .c-buttonGroup__filter {
+    top: -50px;
 }
 
 /*header.terms + .two-columns .c-buttonGroup__viewMode,*/
@@ -1101,6 +1105,10 @@ header.terms + .two-columns .c-buttonGroup__viewMode {
         margin-right: 1rem;
         border: none;
     }
+}
+
+.mandala .c-buttonGroup__sortMode {
+    top: -50px;
 }
 
 .c-buttonGroup__sortMode-header {

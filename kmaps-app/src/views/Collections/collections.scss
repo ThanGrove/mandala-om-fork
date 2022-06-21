@@ -101,27 +101,37 @@
 .l-column__related.c-collection__metadata {
     /* width: 26rem; */
 
-    .l-related__list__wrap.c-coll-toc {
-        ul {
-            margin-left: 0;
-            padding-left: 1.5rem;
+    .l-related__list__wrap {
+        ul li {
+            text-indent: -1.5rem;
+            margin-left: 1rem;
         }
-        li {
-            list-style-type: none;
-            margin-left: 0.75rem;
-        }
-        a {
-            border: none;
-            &:hover {
-                border-bottom: 2px solid #bbb;
-                color: #df3d26;
+        .c-coll-toc {
+            ul {
+                margin-left: 0;
+                padding-left: 1.5rem;
             }
-        }
 
-        .active {
-            font-size: 1.5rem;
-            span {
-                border-bottom: 2px solid #bbb;
+            li {
+                list-style-type: none;
+                margin-left: 0.75rem;
+            }
+
+            a {
+                border: none;
+
+                &:hover {
+                    border-bottom: 2px solid #bbb;
+                    color: #df3d26;
+                }
+            }
+
+            .active {
+                font-size: 1.5rem;
+
+                span {
+                    border-bottom: 2px solid #bbb;
+                }
             }
         }
     }
