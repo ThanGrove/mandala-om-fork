@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import { useKmap } from '../../hooks/useKmap';
-// import { ReactQueryDevtools } from 'react-query-devtools';
 import { Overlay, Popover, Container, Col, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
