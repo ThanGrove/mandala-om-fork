@@ -127,7 +127,7 @@
         }
     }
 
-    .l-related__list__wrap .list-unstyled {
-        margin-left: 2rem;
+    .l-related__list__wrap:not(.c-coll-toc) .list-unstyled {
+        margin-left: 2.5rem;
     }
 }

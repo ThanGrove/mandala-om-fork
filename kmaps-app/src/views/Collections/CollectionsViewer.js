@@ -203,7 +203,7 @@ export function CollectionsViewer(props) {
         }
         wait_to = setTimeout(() => setFilter(filter_val), 500);
     };
-    console.log('collfilter: ' + collFilter);
+    // console.log('collfilter: ' + collFilter);
     const sorter = (
         <>
             <CollectionSortModeSelector
