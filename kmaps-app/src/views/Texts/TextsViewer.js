@@ -176,7 +176,6 @@ export default function TextsViewer(props) {
                     url={alt_viewer_url}
                     altChange={setAltViewerUrl}
                 />
-                {/* <ReactQueryDevtools initialIsOpen /> */}
             </>
         );
     }
