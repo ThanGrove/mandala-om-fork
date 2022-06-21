@@ -6,6 +6,7 @@ import { FeatureCollection } from './common/FeatureCollection';
 import MandalaSkeleton from './common/MandalaSkeleton';
 import { useParams } from 'react-router';
 import './Kmaps/kmaps_shared.scss';
+import { getProject } from './common/utils';
 
 export function SubjectsHome(props) {
     const { view_mode } = useParams();
@@ -13,10 +14,12 @@ export function SubjectsHome(props) {
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(50);
 
+    const proj = getProject() || '*';
     const q = {
         index: 'assets',
         params: {
             q: 'asset_type:subjects',
+            fq: `projects_ss:${proj}`,
             rows: pageSize,
             start: startRow,
             sort: 'title_latin_sort ASC',

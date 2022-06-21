@@ -3,6 +3,7 @@ import { useParams } from 'react-router';
 import { useSolr } from '../../hooks/useSolr';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { FeatureCollection } from '../common/FeatureCollection';
+import { getProject } from '../common/utils';
 
 export function TermsHome(props) {
     const { view_mode } = useParams();
@@ -20,10 +21,14 @@ export function TermsHome(props) {
         sortfield === 'cascading_position_i'
             ? 'asset_type:terms AND cascading_position_i:*'
             : 'asset_type:terms';
+
+    const proj = getProject() || '*';
+
     const q = {
         index: 'assets',
         params: {
             q: qval,
+            fq: `projects_ss:${proj}`,
             rows: pageSize,
             start: startRow,
             sort: `${sortfield} ASC`,

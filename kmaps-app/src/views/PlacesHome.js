@@ -5,17 +5,19 @@ import { useSolr } from '../hooks/useSolr';
 import MandalaSkeleton from './common/MandalaSkeleton';
 import { FeatureCollection } from './common/FeatureCollection';
 import './Kmaps/kmaps_shared.scss';
+import { getProject } from './common/utils';
 
 export function PlacesHome(props) {
     const { view_mode } = useParams();
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
     const [pageSize, setPageSize] = useState(50);
-
+    const proj = getProject() || '*';
     const q = {
         index: 'assets',
         params: {
             q: 'asset_type:places',
+            fq: `projects_ss:${proj}`,
             rows: pageSize,
             start: startRow,
             sort: 'title_latin_sort ASC',
