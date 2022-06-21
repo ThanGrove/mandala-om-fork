@@ -100,38 +100,30 @@
 
 .l-column__related.c-collection__metadata {
     /* width: 26rem; */
-
-    .l-related__list__wrap {
-        ul li {
+    .l-related__list__wrap.c-coll-toc {
+        ul {
+            margin-left: 1.5rem;
+            padding-left: 1.5rem;
             text-indent: -1.5rem;
-            margin-left: 1rem;
         }
-        .c-coll-toc {
-            ul {
-                margin-left: 0;
-                padding-left: 1.5rem;
+
+        li {
+            list-style-type: none;
+            margin-left: 0.75rem;
+        }
+
+        a {
+            border: none;
+
+            &:hover {
+                border-bottom: 2px solid #bbb;
+                color: #df3d26;
             }
+        }
 
-            li {
-                list-style-type: none;
-                margin-left: 0.75rem;
-            }
-
-            a {
-                border: none;
-
-                &:hover {
-                    border-bottom: 2px solid #bbb;
-                    color: #df3d26;
-                }
-            }
-
-            .active {
-                font-size: 1.5rem;
-
-                span {
-                    border-bottom: 2px solid #bbb;
-                }
+        .active {
+            span {
+                border-bottom: 2px solid #bbb;
             }
         }
     }
