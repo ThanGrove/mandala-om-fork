@@ -91,7 +91,7 @@ function transform(node, index) {
         const newindex = 'p-' + index + '-' + Date.now();
         return convertNodeToElement(node, newindex, transform);
     }
-    // <a href="..."> : Process External Links in Mandala Markup to turn into Modals or Internal links TODO: Process internal Mandala links
+    // <a href="..."> : Process External Links in Mandala Markup to turn into Modals or Internal links
     else if (
         node.name &&
         node.name === 'a' &&
@@ -111,6 +111,20 @@ function transform(node, index) {
             });
             return <Link to={linkurl}>{reactkids}</Link>;
         } // End of text collection links
+
+        // Match internal Mandala links with kmap or node ID
+        let patt =
+            /(places|subjects|terms|audio-video|images|sources|texts|visuals)\/(\d+)/;
+        let mtch = linkurl.match(patt);
+        if (mtch) {
+            let newurl = `/${mtch[1]}/${mtch[2]}`;
+            const reactkids = node.children.map((ch, ci) => {
+                return convertNodeToElement(ch, ci, transform);
+            });
+            return <Link to={newurl}>{reactkids}</Link>;
+        }
+
+        // TODO: Develop way to look up a path alias and get node ID to make aliased paths internal
 
         // Get Mandala Asset ID if Data Attribute
         let mandalaid =
