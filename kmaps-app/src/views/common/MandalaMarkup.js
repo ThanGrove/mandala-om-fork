@@ -157,7 +157,8 @@ function transform(node, index) {
             // Text footnote links
             if (
                 linkurl.match(/^#_?f?t?n(ref)?\d/) ||
-                linkurl.match(/^#.*footnote/)
+                linkurl.match(/^#.*footnote/) ||
+                linkurl.match(/^#_edn(ref)?\d+/)
             ) {
                 // For Footnote anchor links in Texts in standalones. Regex matches all known possibilities....
                 // Possible anchors: #fn3, #n1, #_ftn2, or #_ftnref4 or #sdfootnote
@@ -167,14 +168,15 @@ function transform(node, index) {
                 return convertNodeToElement(node, index, transform);
             }
         } else if (linkurl[0] === '#') {
-            // If not standalone, then ignore hash only links
+            // If not standalone, then leave hash only links as they are but remove styling
             if (
                 linkurl.match(/^#_?f?t?n(ref)?\d/) ||
-                linkurl.match(/^#.*footnote/)
+                linkurl.match(/^#.*footnote/) ||
+                linkurl.match(/^#_edn(ref)?\d+/)
             ) {
                 node.attribs['style'] = ''; // except remove style attribute for footnote reference links
             }
-            return;
+            return convertNodeToElement(node, index, transform);
         } else if (mandalaid) {
             // If link has an `data-mandala-id` attribute, go to the Asset ID given there
             return <MandalaLink mid={mandalaid} contents={linkcontents} />;
