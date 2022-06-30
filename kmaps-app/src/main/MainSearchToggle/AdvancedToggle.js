@@ -30,8 +30,9 @@ export function AdvancedToggle() {
                 ? window.location.hash.split('/')
                 : window.location.pathname.split('/');
         if (
-            pthpts?.length > 1 &&
-            ['places', 'subjects', 'terms'].includes(pthpts[1])
+            (pthpts?.length > 1 &&
+                ['places', 'subjects', 'terms'].includes(pthpts[1])) ||
+            default_value == 'browse'
         ) {
             setOpenTab(2);
         }

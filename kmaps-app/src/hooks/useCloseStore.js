@@ -11,11 +11,12 @@ export const closeStore = create((set, get) => ({
 }));
 
 export const openTabStore = create((set, get) => ({
-    // openTab Values: 0 = none, 1 = adv search, 2 = trees
-    openTab: mandalaSidebar() || 1,
-    changeButtonState: (current) => {
-        const newstate = current === get().openTab ? 0 : current;
-        set((state) => ({ openTab: newstate }));
+    openTab: mandalaSidebar(), // openTab Values: 0 = none, 1 = adv search, 2 = trees
+    changeButtonState: (newstate) => {
+        if (newstate !== get().openTab) {
+            // console.log("newstate", newstate);
+            set((state) => ({ openTab: newstate }));
+        }
     },
 }));
 
@@ -34,5 +35,5 @@ function mandalaSidebar() {
             return mandala_settings_json.sidebar;
         }
     }
-    return false;
+    return 1;
 }
