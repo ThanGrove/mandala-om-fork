@@ -21,7 +21,7 @@ export function AdvancedToggle() {
     const setOpenTab = openTabStore((state) => state.changeButtonState);
     const openTab = openTabStore((state) => state.openTab);
     const default_value =
-        openTab === 1 ? 'search' : openTab === 2 ? 'browse' : '';
+        openTab == 1 ? 'search' : openTab == 2 ? 'browse' : '';
 
     // Set open button to the browse tree for kmaps
     React.useEffect(() => {

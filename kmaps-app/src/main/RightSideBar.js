@@ -29,18 +29,19 @@ export default function RightSideBar() {
         '/:baseType/:id',
     ]);
     const baseType = match?.params.baseType || 'none';
-    const browseSearch = ['terms', 'places', 'subjects'].includes(baseType)
-        ? 'browse'
-        : 'search';
+    const browseSearch =
+        ['terms', 'places', 'subjects'].includes(baseType) || openTab == 2
+            ? 'browse'
+            : 'search';
 
     React.useEffect(() => {
         if (browseSearch !== browseSearchState) {
             switch (browseSearch) {
                 case 'browse':
-                    setBrowse();
+                    setBrowse(); // changes browseSearchState to "browse"
                     break;
                 case 'search':
-                    setSearch();
+                    setSearch(); // changes browseSearchState to "search"
                     break;
                 default:
                     break;
