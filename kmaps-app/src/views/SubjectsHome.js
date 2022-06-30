@@ -87,7 +87,6 @@ export function SubjectsHome(props) {
     return (
         <div className="subjects-home">
             <h1>Subjects</h1>
-            {/* <div>Go to <Link to={'/places/all/list'}>Places</Link></div> */}
             <FeatureCollection
                 docs={subjdata?.docs}
                 assetCount={numFound}

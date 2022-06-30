@@ -37,7 +37,9 @@ const TreeNav = (props) => {
     useEffect(() => {
         if (match?.params?.baseType) {
             domain = match.params.baseType;
-            setTab(domain);
+            if (['places', 'subjects', 'terms'].includes(domain)) {
+                setTab(domain);
+            }
         }
     }, [location]);
 
@@ -85,7 +87,6 @@ const TreeNav = (props) => {
                     activeKey={tabkey}
                     onSelect={(k) => {
                         setTab(k);
-                        console.log(k);
                     }}
                     id="kmaps-tab"
                     role="navigation"
