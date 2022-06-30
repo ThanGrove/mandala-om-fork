@@ -7,6 +7,7 @@ import MandalaSkeleton from './common/MandalaSkeleton';
 import { useParams } from 'react-router';
 import './Kmaps/kmaps_shared.scss';
 import { getProject } from './common/utils';
+import { Link } from 'react-router-dom';
 
 export function SubjectsHome(props) {
     const { view_mode } = useParams();
@@ -86,6 +87,7 @@ export function SubjectsHome(props) {
     return (
         <div className="subjects-home">
             <h1>Subjects</h1>
+            {/* <div>Go to <Link to={'/places/all/list'}>Places</Link></div> */}
             <FeatureCollection
                 docs={subjdata?.docs}
                 assetCount={numFound}
