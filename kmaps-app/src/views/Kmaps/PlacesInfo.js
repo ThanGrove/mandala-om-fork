@@ -172,18 +172,23 @@ export default function PlacesInfo(props) {
                                         />
                                     )}
                                 </Tab>
-                                <Tab eventKey="names" title="Names">
-                                    <PlacesNames
-                                        id={queryID(baseType, id)}
-                                        kmap={kmapData}
-                                        names={nameobjs}
-                                    />
-                                </Tab>
-                                <Tab eventKey="etymology" title="Etymology">
-                                    <PlaceNameEtymologies
-                                        etymologies={etymologies}
-                                    />
-                                </Tab>
+                                {nameobjs?.length > 0 && (
+                                    <Tab eventKey="names" title="Names">
+                                        <PlacesNames
+                                            id={queryID(baseType, id)}
+                                            kmap={kmapData}
+                                            names={nameobjs}
+                                        />
+                                    </Tab>
+                                )}
+                                {etymologies?.length > 0 && (
+                                    <Tab eventKey="etymology" title="Etymology">
+                                        <PlaceNameEtymologies
+                                            etymologies={etymologies}
+                                        />
+                                    </Tab>
+                                )}
+
                                 <Tab eventKey="location" title="Location">
                                     <PlacesLocation
                                         kmap={kmapData}

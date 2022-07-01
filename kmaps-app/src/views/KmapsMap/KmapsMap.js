@@ -56,6 +56,7 @@ class KmapsMap extends React.Component {
             language_layer: props.languageLayer || 'roman_popular',
             zoom: props.zoom || 7,
             map: null,
+            hide: true,
         };
         this.inset_map_ref = React.createRef();
     }
@@ -186,6 +187,9 @@ class KmapsMap extends React.Component {
                     return;
                     // TODO: Display a "Can't load map" message if this works
                 }
+                this.setState((state) => ({
+                    hide: false,
+                }));
                 //because we are using WFS V1.1 we need to flip the coordinates
                 const bbox = [
                     result.bbox[1],
@@ -222,25 +226,29 @@ class KmapsMap extends React.Component {
     }
 
     render() {
+        const showmap = this?.state?.hide ? 'none' : 'block';
         const style = {
+            display: showmap,
             width: '100%',
             height: '80vh',
             backgroundColor: '#cccccc',
         };
+        const showerr = this?.state?.hide ? 'block' : 'none';
         const errStyle = {
-            display: 'none',
+            display: showerr,
             width: '100%',
-            height: '70vh',
+            height: '80vh',
             backgroundColor: 'lightgray',
             color: 'red',
             fontWeight: 'bold',
-            paddingTop: '25%',
+            paddingTop: '5%',
             textAlign: 'center',
         };
+        const cn = this?.state?.hide ? 'nomap' : 'map';
         return (
-            <div>
+            <div id="places-map-container" className={cn}>
                 <div id="places-map-error" style={errStyle}>
-                    Map could not be loaded!
+                    There is no map for this location!
                 </div>
                 <div
                     id="places-map-div"
