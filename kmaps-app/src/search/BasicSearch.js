@@ -38,7 +38,7 @@ export function BasicSearch(props) {
                 },
                 {
                     searchText: inputEl.current.value,
-                    filters,
+                    filters: [...filters],
                 }
             );
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
@@ -56,7 +56,7 @@ export function BasicSearch(props) {
             setQuery(
                 {
                     searchText: inputEl.current.value,
-                    filters,
+                    filters: [...filters],
                 },
                 'push'
             );

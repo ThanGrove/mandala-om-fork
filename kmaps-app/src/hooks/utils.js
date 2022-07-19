@@ -167,3 +167,26 @@ export const capitalize = (s) => {
     if (typeof s !== 'string') return '';
     return s.charAt(0).toUpperCase() + s.slice(1);
 };
+
+export const mergeFilters = (arr1, arr2) => {
+    console.log({ arr1, arr2 });
+    const temp = [];
+    const duplicateIds = [];
+    arr1.forEach((x) => {
+        arr2.forEach((y) => {
+            if (x.id === y.id) {
+                temp.push({ ...x, ...y });
+                duplicateIds.push(x.id);
+            }
+        });
+    });
+    const filteredArray = [...arr1, ...arr2].filter((item) => {
+        if (duplicateIds.includes(item.id)) {
+            return false;
+        }
+        return true;
+    });
+    const newArray = [...filteredArray, ...temp];
+    console.log({ newArray });
+    return newArray;
+};

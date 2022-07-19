@@ -5,50 +5,11 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
 export function FacetChoice(props) {
-    function handleFacetAdd() {
-        // console.log("DELEGATING Add Click: ", props);
-        props.onFacetClick({ ...props, action: 'add' });
-    }
-
-    function handleFacetRemove(x, y) {
-        // console.log("DELEGATING Remove Click: ", props)
-        props.onFacetClick({ ...props, action: 'remove' });
-    }
-
-    function handleSetOperator(operator, display) {
-        props.onOperatorClick({
-            ...props,
-            operator: operator,
-            action: 'add',
-            mode: 'add',
-        });
-        setExpanded(
-            <div
-                className="sui-advEditBool"
-                onClick={() => setExpanded(operatorOptions)}
-            >
-                {operator + '\u00a0'}
-            </div>
-        );
-    }
-
-    const chosen = props.chosen ? 'chosen' : '';
-    const icon = selectIcon(props.facetType);
-
-    const operator = props.operator;
-    const operatorDisplay = (
-        <div
-            className="sui-advEditBool"
-            onClick={() => setExpanded(operatorOptions)}
-        >
-            {operator + '\u00a0'}
-        </div>
-    );
     const operatorOptions = (
         <div className="sui-advEditBool" title="Change boolean method">
             <div
                 className="sui-boolItem"
-                onClick={() => handleSetOperator('AND', operatorDisplay)}
+                onClick={() => handleSetOperator('AND')}
                 id="sui-boolItem-places-0-AND"
             >
                 AND
@@ -56,7 +17,7 @@ export function FacetChoice(props) {
             |
             <div
                 className="sui-boolItem"
-                onClick={() => handleSetOperator('OR', operatorDisplay)}
+                onClick={() => handleSetOperator('OR')}
                 id="sui-boolItem-places-0-OR"
             >
                 OR
@@ -64,7 +25,7 @@ export function FacetChoice(props) {
             |
             <div
                 className="sui-boolItem"
-                onClick={() => handleSetOperator('NOT', operatorDisplay)}
+                onClick={() => handleSetOperator('NOT')}
                 id="sui-boolItem-places-0-NOT"
             >
                 NOT
@@ -72,7 +33,26 @@ export function FacetChoice(props) {
             &nbsp;
         </div>
     );
-    const [expanded, setExpanded] = useState(operatorDisplay);
+
+    function handleFacetAdd() {
+        props.onFacetClick({ ...props, action: 'add' });
+    }
+
+    function handleFacetRemove(x, y) {
+        props.onFacetClick({ ...props, action: 'remove' });
+    }
+
+    function handleSetOperator(operator) {
+        props.onFacetClick({
+            ...props,
+            operator: operator,
+            action: 'changeOperator',
+            mode: operator,
+        });
+    }
+
+    const chosen = props.chosen ? 'chosen' : '';
+    const icon = selectIcon(props.facetType);
 
     const choice =
         props.mode === 'add' ? (
@@ -85,7 +65,7 @@ export function FacetChoice(props) {
             </div>
         ) : (
             <div>
-                {props.booleanControls && expanded}{' '}
+                {props.booleanControls && operatorOptions}{' '}
                 <span
                     onClick={handleFacetRemove}
                     className={props.className}
@@ -95,9 +75,6 @@ export function FacetChoice(props) {
         );
 
     const renderTooltip = (p) => {
-        // console.log("renderToolTip: p = ", p);
-        // console.log("renderToolTip: props = ", props);
-
         return (
             <Popover {...p} className={'c-FacetChoice--popover'}>
                 <Popover.Content>{props.value}</Popover.Content>
@@ -110,7 +87,6 @@ export function FacetChoice(props) {
             placement="auto"
             delay={{ show: 250, hide: 400 }}
             overlay={renderTooltip}
-            data-filters={props.location?.state?.filters}
             popperConfig={{
                 modifiers: [
                     {

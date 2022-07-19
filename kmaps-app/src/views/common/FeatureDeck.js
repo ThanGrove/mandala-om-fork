@@ -2,8 +2,6 @@ import React from 'react';
 import { FeatureCard } from './FeatureCard/FeatureCard';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { FeaturePager } from './FeaturePager/FeaturePager';
-import Spinner from 'react-bootstrap/Spinner';
-import { Button } from 'react-bootstrap';
 import { StringParam, useQueryParams, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
 import { useLocation } from 'react-router-dom';
