@@ -3,10 +3,6 @@ import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import { useKmapRelated } from '../../hooks/useKmapRelated';
 import { useUnPackedMemoized } from '../../hooks/utils';
-import TermAudioPlayer from './TermAudioPlayer';
-import TermEtymology from './TermEtymology';
-import TermDefinitions from './TermDefinitions';
-import TermDictionaries from './TermDictionaries';
 import TermNames from './TermNames';
 import _, { divide } from 'lodash';
 import TermsDetails from './TermsDetails';
@@ -14,10 +10,12 @@ import { queryID } from '../../views/common/utils';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-// import { HistoryContext } from '../History/HistoryContext';
+import './TermsInfo.scss';
+
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
 );
+
 const TermsDefinitionsFilter = React.lazy(() =>
     import('./TermsDefinitionsFilter')
 );
@@ -30,34 +28,29 @@ const TermsInfo = (props) => {
     let { id } = useParams();
     const baseType = 'terms';
     const addPage = useHistory((state) => state.addPage);
+    const qid = queryID(baseType, id);
     //const history = useContext(HistoryContext);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
+    } = useKmap(qid, 'info');
     const {
         isLoading: isAssetLoading,
         data: assetData,
         isError: isAssetError,
         error: assetError,
-    } = useKmap(queryID(baseType, id), 'asset');
+    } = useKmap(qid, 'asset');
     const {
         isLoading: isRelatedLoading,
         data: relatedData,
         isError: isRelatedError,
         error: relatedError,
-    } = useKmapRelated(queryID(baseType, id), 'all', 0, 100);
+    } = useKmapRelated(qid, 'all', 0, 100);
 
     //Unpack related data using memoized function
-    const kmapsRelated = useUnPackedMemoized(
-        relatedData,
-        queryID(baseType, id),
-        'all',
-        0,
-        100
-    );
+    const kmapsRelated = useUnPackedMemoized(relatedData, qid, 'all', 0, 100);
 
     React.useEffect(() => {
         if (!isKmapLoading && !isKmapError) {
@@ -83,13 +76,33 @@ const TermsInfo = (props) => {
         }
     }
 
+    if (kmapData?.response?.numFound === 0) {
+        return (
+            <p>
+                We’re sorry. We cannot find a term with the ID of “{qid}” in our
+                index.
+            </p>
+        );
+    }
+
     //Get all related Definitions
     const definitions = _(kmapData?._childDocuments_)
         .pickBy((val) => {
-            return val.block_child_type === 'related_definitions';
+            return (
+                val.block_child_type === 'related_definitions' &&
+                val?.related_definitions_content_s?.length > 0
+            );
         })
         .groupBy((val) => {
-            return _.get(val, 'related_definitions_source_s', 'main_defs');
+            let category = _.get(val, 'related_definitions_source_s');
+            if (!category || category === '') {
+                category = _.get(
+                    val,
+                    'related_definitions_in_house_source_s',
+                    'main_defs'
+                );
+            }
+            return category;
         })
         .value();
     const otherDefinitions = _.omit(definitions, ['main_defs']);
@@ -101,19 +114,14 @@ const TermsInfo = (props) => {
             <Switch>
                 <Route exact path={path}>
                     <>
-                        <TermNames kmap={kmapData} />
-                        <TermsDetails kmAsset={assetData} kmap={kmapData} />
-                        <TermAudioPlayer kmap={kmapData} />
-                        {kmapData.etymologies_ss && (
-                            <TermEtymology kmap={kmapData} />
-                        )}
-                        <TermDefinitions
-                            mainDefs={definitions['main_defs']}
-                            kmRelated={kmapsRelated}
+                        <TermNames kmap={kmapData} kmAsset={assetData} />
+                        <TermsDetails
+                            kmAsset={assetData}
+                            kmapData={kmapData}
+                            definitions={definitions}
+                            otherDefinitions={otherDefinitions}
+                            kmapsRelated={kmapsRelated}
                         />
-                        {!_.isEmpty(otherDefinitions) && (
-                            <TermDictionaries definitions={otherDefinitions} />
-                        )}
                     </>
                 </Route>
                 <Route path={`${path}/related-:relatedType/view/:assetId`}>

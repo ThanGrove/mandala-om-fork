@@ -51,6 +51,7 @@
 div#av-trscrpt-wrapper {
     height: inherit;
     letter-spacing: 0;
+    z-index: 10;
 }
 
 #av-trscrpt-wrapper #sui-trans {

@@ -77,6 +77,18 @@
     display: none;
 }
 
+.sui-termDefinitions__content .definition {
+    border-bottom: thin solid #ccc;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+}
+
+.sui-termDefinitions__content .definition:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
 .sui-termDefinitions__content .definition.deflvl2 {
     padding-left: 1.5rem;
     padding-right: 0;

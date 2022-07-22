@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, Row, Col } from 'react-bootstrap';
 import { ImageCarousel } from './ImageCarousel';
-import { ImageMetadata } from './ImageMetadata';
+import { ImageAltTitles, ImageMetadata } from './ImageMetadata';
 import $ from 'jquery';
 import './images.scss';
 import { ImagesOSDViewer } from './ImagesOSDViewer';
@@ -52,31 +52,12 @@ export default function ImagesViewer(props) {
 
     const ismain = props.ismain;
 
-    // const status = useStatus();
-
-    // const nid = props?.id || kmasset?.id || nodejson?.nid || false;
-
-    /*useEffect(() => {
-        if (ismain) {
-            status.clear();
-            status.setType('images');
-        }
-    }, []);
-    */
-
     // usEffect Sets the title in the header and reformats the Seadragon viewer buttons for fullscreen and zoom
     useEffect(() => {
         // Setting title in header and other status options
         if (kmasset && ismain) {
             //history.addPage('images', kmasset.title, window.location.pathname);
             addPage('images', kmasset.title, window.location.pathname);
-            /*
-            status.setHeaderTitle(
-                kmasset?.title || kmasset?.caption || 'ImageViewer'
-            );
-            const bcrumbs = createAssetCrumbs(kmasset);
-            status.setPath(bcrumbs);
-             */
         }
         // Updating button controls for fullscreen and zoom
         const iiifview = $('.react-iiif-viewer');
@@ -174,9 +155,17 @@ export default function ImagesViewer(props) {
                             <h1 className={'c-image__title'}>
                                 <span className={'u-icon__images'}> </span>
                                 {kmasset.title}
+                                <ImageAltTitles nodejson={nodejson} />
                             </h1>
                             <div className={'c-image__byline'}>
-                                <span className={'author'}>{creator}</span>|
+                                {creator && (
+                                    <>
+                                        <span className={'author'}>
+                                            {creator}
+                                        </span>{' '}
+                                        |{' '}
+                                    </>
+                                )}
                                 <span className={'size'}>{sizestr}</span>
                             </div>
                         </div>

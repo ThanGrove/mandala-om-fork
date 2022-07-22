@@ -3,31 +3,47 @@ import useStatus from '../hooks/useStatus';
 import { useSolr } from '../hooks/useSolr';
 import { FeaturePager } from './common/FeaturePager/FeaturePager';
 import { FeatureCollection } from './common/FeatureCollection';
+import MandalaSkeleton from './common/MandalaSkeleton';
+import { useParams } from 'react-router';
+import './Kmaps/kmaps_shared.scss';
+import { getProject } from './common/utils';
+import { Link } from 'react-router-dom';
 
 export function SubjectsHome(props) {
-    const status = useStatus();
-    status.clear();
-    status.setType('subjects');
-    status.setHeaderTitle('Subjects Home');
-
+    const { view_mode } = useParams();
     const [startRow, setStartRow] = useState(0);
     const [pageNum, setPageNum] = useState(0);
-    const [pageSize, setPageSize] = useState(100);
-    const [colSize, setColSize] = useState(20);
+    const [pageSize, setPageSize] = useState(50);
 
+    const proj = getProject() || '*';
     const q = {
         index: 'assets',
         params: {
             q: 'asset_type:subjects',
+            fq: `projects_ss:${proj}`,
             rows: pageSize,
             start: startRow,
             sort: 'title_latin_sort ASC',
         },
     };
 
-    const subjdata = useSolr('subjects', q);
+    const {
+        isLoading: isSubjLoading,
+        data: subjdata,
+        isError: isSubjError,
+        error: subjError,
+    } = useSolr(['all-subjects', 'latin-sort', pageSize, startRow, pageNum], q);
 
-    const numFound = subjdata?.numFound ? subjdata?.numFound : 0;
+    useEffect(() => {
+        setStartRow(pageNum * pageSize);
+    }, [pageNum, pageSize]);
+
+    if (isSubjLoading) {
+        return <MandalaSkeleton />;
+    }
+
+    const numFound = subjdata?.numFound;
+    const hasMore = numFound && (pageNum + 1) * pageSize < numFound;
 
     const pager = {
         numFound: numFound,
@@ -68,17 +84,21 @@ export function SubjectsHome(props) {
         },
     };
 
-    useEffect(() => {
-        setStartRow(pageNum * pageSize);
-    }, [pageNum, pageSize]);
-
     return (
-        <FeatureCollection
-            pager={pager}
-            docs={subjdata?.docs}
-            numFound={subjdata?.numFound}
-            viewMode={'list'}
-        />
+        <div className="subjects-home">
+            <h1>Subjects</h1>
+            <FeatureCollection
+                docs={subjdata?.docs}
+                assetCount={numFound}
+                viewMode={view_mode}
+                page={pageNum}
+                setPage={setPageNum}
+                perPage={pageSize}
+                setPerPage={setPageSize}
+                isPreviousData={false}
+                hasMore={hasMore}
+            />
+        </div>
     );
 }
 

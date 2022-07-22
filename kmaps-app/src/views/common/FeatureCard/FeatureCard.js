@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card';
-import { useLocation, Link } from 'react-router-dom';
+import { useLocation, Link, useParams } from 'react-router-dom';
 import _ from 'lodash';
 // import Accordion from "react-bootstrap/Accordion";
 import * as PropTypes from 'prop-types';
@@ -15,6 +15,7 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
+import { capitalize, isAssetType } from '../utils';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -28,36 +29,59 @@ const typeGlyphMap = {
 };
 
 export function FeatureCard(props) {
-    let location = useLocation();
-    // console.log('FeatureCard: doc = ', props.doc.uid);
-    // console.log('FeatureCard: inline = ', props.inline);
+    //console.log('props in feature card', props);
+    const doc = props.doc; // Solr doc for the asset
     const inline = props.inline || false;
 
-    const [modalShow, setModalShow] = React.useState(false);
+    //console.log('params', params);
+    let location = useLocation();
+    let searchParam = location.search;
+    // For subsites in WordPress, there will be a hash. We need to parse the hash and
+    // put a parent search param in the urls.
+    if (location.pathname.includes('collection')) {
+        const hashmap = location.pathname.split('/').slice(-2);
+
+        // Add parent param which contains the hashmap to the search params
+        if (searchParam) {
+            searchParam = `?${searchParam}&parent=${hashmap.join('/')}`;
+        } else {
+            searchParam = `?parent=${hashmap.join('/')}`;
+        }
+    }
 
     const setBrowse = browseSearchToggle((state) => state.setBrowse);
+    const [modalShow, setModalShow] = React.useState(false);
 
-    const doc = props.doc;
+    // Determine asset type and subtype
+    let asset_type = doc.asset_type;
+    let asset_subtype = doc.asset_subtype;
+    // Is the asset and asset link that points to another asset.
+    const is_link = asset_type === 'mandala';
 
-    const subTypeGlyph = typeGlyphMap[doc.asset_type + '/' + doc.asset_subtype];
+    // if it is an asset lnk, use subtype and subsubtype
+    if (is_link) {
+        asset_type = asset_subtype;
+        asset_subtype = doc?.asset_subsubtype;
+    }
+
+    let subTypeGlyph = typeGlyphMap[asset_type + '/' + asset_subtype];
     const typeGlyph = doc.uid ? (
         subTypeGlyph ? (
             subTypeGlyph
         ) : (
-            <span
-                className={'icon color-invert u-icon__' + doc.asset_type}
-            ></span>
+            <span className={'icon color-invert u-icon__' + asset_type}></span>
         )
     ) : null;
 
     const assetGlyph =
-        doc.uid &&
-        doc.asset_type !== 'images' &&
-        doc.asset_type !== 'audio-video' ? (
-            <span className={'icon u-icon__' + doc.asset_type}></span>
+        doc.uid && asset_type !== 'images' && asset_type !== 'audio-video' ? (
+            <span className={'icon u-icon__' + asset_type}></span>
         ) : null;
-
-    const viewer = doc.asset_type;
+    // console.log('asset type', asset_type);
+    const viewer =
+        asset_type === 'collections'
+            ? asset_subtype + '/collection'
+            : asset_type;
 
     const related_places = _.uniq(doc.kmapid_places_idfacet).map((x, i) => {
         const [name, id] = x.split('|');
@@ -95,25 +119,44 @@ export function FeatureCard(props) {
         );
     });
 
-    let date = doc?.date_start
-        ? new Date(doc.date_start).toLocaleDateString()
-        : false;
-
-    let creator =
-        doc.creator?.length > 0 ? doc.creator.join(', ') : doc.node_user;
-    if (doc.creator?.length > 3) {
-        creator = doc.creator.slice(0, 3).join(', ') + '…';
+    let date = false;
+    if (doc?.date_start) {
+        let dtobj = new Date(doc.date_start);
+        const yr = dtobj?.getUTCFullYear();
+        // Was using 9999 as "no date" year but switching to 0000
+        if (yr === 0 || yr === 9999) {
+            dtobj = new Date(doc.node_created);
+        }
+        date = dtobj.toLocaleDateString();
     }
 
+    // Set Creator variable for display in card
+    let creator = doc.creator;
+    if (Array.isArray(creator)) {
+        if (creator.length > 4) {
+            creator = creator.slice(0, 4).join(', ') + '…';
+        } else if (creator.length > 0) {
+            creator = creator.join(', ');
+        } else if (doc?.node_user_full_s) {
+            creator = doc.node_user_full_s;
+        } else {
+            creator = doc?.node_user;
+        }
+    }
+    if (typeof creator === 'object') {
+        creator = creator.toString();
+    }
     if (creator) {
-        creator = creator.replace(/\&amp\;/g, '&');
+        creator = creator.replace(/&amp;/g, '&');
     }
 
     let footer_coll_link = doc?.collection_uid_path_ss;
     if (footer_coll_link && footer_coll_link.length > 0) {
         footer_coll_link = footer_coll_link[footer_coll_link.length - 1];
         footer_coll_link =
-            '/' + footer_coll_link.replace('-collection-', '/collection/');
+            '/' +
+            footer_coll_link.replace('-collection-', '/collection/') +
+            searchParam;
     }
     const footer_text = doc.collection_title ? (
         <Link to={footer_coll_link}>
@@ -124,12 +167,11 @@ export function FeatureCard(props) {
         </Link>
     ) : (
         <span>
-            {doc.ancestors_txt && doc.asset_type !== 'terms' && (
+            {doc.ancestors_txt && asset_type !== 'terms' && (
                 <div className="info shanti-field-path">
                     <span
                         className={
-                            'shanti-field-content icon u-icon__' +
-                            doc.asset_type
+                            'shanti-field-content icon u-icon__' + asset_type
                         }
                     >
                         <SmartPath doc={doc} />
@@ -141,12 +183,12 @@ export function FeatureCard(props) {
 
     let relateds = null;
 
-    if (doc.asset_type === 'places') {
+    if (asset_type === 'places') {
         // relateds = related_subjects;
         relateds = feature_types;
-    } else if (doc.asset_type === 'subjects') {
+    } else if (asset_type === 'subjects') {
         relateds = related_places;
-    } else if (doc.asset_type === 'terms') {
+    } else if (asset_type === 'terms') {
         relateds = related_subjects;
     }
 
@@ -154,33 +196,65 @@ export function FeatureCard(props) {
     let avuid = doc.uid;
     let avid = doc.id;
     // Pages need to link to their parent text
-    if (doc.asset_type === 'texts' && doc.asset_subtype === 'page') {
+    if (asset_type === 'texts' && asset_subtype === 'page') {
         avuid = doc.service + '_' + doc.book_nid_i;
         avid = doc.book_nid_i + '#shanti-texts-' + doc.id;
     }
 
-    const asset_view = inline
-        ? createAssetViewURL(avuid, doc.asset_type, location)
-        : `/${viewer}/${avid}${location.search}`;
+    let asset_view = inline
+        ? createAssetViewURL(avuid, asset_type, location, searchParam, inline)
+        : `/${viewer}/${avid}${searchParam}`;
 
+    // If it is an asset link, show it within its manddala collection
+    if (is_link) {
+        const asset_path = doc.asset_uid_s
+            .replace(/\-/g, '/')
+            .replace('audio/video', 'audio-video');
+        asset_view = `/mandala/collection/${doc.collection_nid}/${asset_path}`;
+    }
+    /* Duplicates title in Texts. Not sure why this is here? ndg 2/7/22
     const subtitle =
-        doc.asset_type === 'texts' ? (
+        asset_type === 'texts' ? (
             <span className={'subtitle'}>{doc.title}</span>
         ) : (
             ''
         );
-
-    const myuid = `${doc.asset_type
-        .charAt(0)
-        .toUpperCase()}${doc.asset_type.substr(1)}-${doc.id}`;
+    */
+    const subtitle = null;
+    const myuid = `${asset_type.charAt(0).toUpperCase()}${asset_type.substr(
+        1
+    )}-${doc.id}`;
     let mycaption = doc?.caption?.length > 0 ? doc.caption : null;
     const mupatt = /<\/(p|a|header|h1|h2|span|ul|ol)>/; // Search for various closing tags
     if (mupatt.exec(mycaption)) {
         mycaption = <HtmlCustom markup={mycaption} />;
     }
 
+    let thumb_url = doc.url_thumb
+        ? doc.url_thumb
+        : process.env.PUBLIC_URL + '/img/gradient.jpg';
+    thumb_url = thumb_url.replace('!200,200', '!900,900');
+
+    // Asset link type
+    let asset_link_type = null;
+    if (is_link) {
+        const atype = doc.asset_subtype;
+        let atype_display = capitalize(atype).replace(/s$/, ''); // Take of s plural in some asset types
+        asset_link_type = (
+            <ListGroup.Item className={'c-card__listItem--linktype'}>
+                <div className="info shanti-field-linktype">
+                    <span
+                        className={`u-icon__${atype} icon shanti-field-content`}
+                    >
+                        {atype_display}
+                    </span>
+                </div>
+            </ListGroup.Item>
+        );
+    }
+
     return (
-        <Card key={doc.uid} className={'c-card__grid--' + doc.asset_type}>
+        <Card key={doc.uid} className={'c-card__grid--' + asset_type}>
             <Link
                 to={asset_view}
                 className={'c-card__link--asset c-card__wrap--image'}
@@ -189,7 +263,7 @@ export function FeatureCard(props) {
                 <Card.Img
                     className={'c-card__grid__image--top'}
                     variant="top"
-                    src={doc.url_thumb ? doc.url_thumb : '/img/gradient.jpg'}
+                    src={thumb_url}
                 />
                 <div className={'c-card__grid__glyph--type color-invert'}>
                     {typeGlyph}
@@ -210,10 +284,11 @@ export function FeatureCard(props) {
                 </Card.Title>
 
                 <ListGroup>
+                    {asset_link_type}
                     <ListGroup.Item className={'c-card__listItem--creator'}>
-                        {doc.creator && (
+                        {creator && (
                             <div className="info shanti-field-creator">
-                                <span className="icon shanti-field-content">
+                                <span className="u-icon__agents icon shanti-field-content">
                                     {creator}
                                 </span>
                             </div>
@@ -222,7 +297,7 @@ export function FeatureCard(props) {
                     {date && (
                         <ListGroup.Item className={'c-card__listItem--created'}>
                             <div className="shanti-field-created">
-                                <span className="icon shanti-field-content">
+                                <span className="u-icon__calendar icon shanti-field-content">
                                     {date}
                                 </span>
                             </div>
@@ -233,12 +308,19 @@ export function FeatureCard(props) {
                             className={'c-card__listItem--duration'}
                         >
                             <div className="info shanti-field-duration">
-                                <span className="icon shanti-field-content">
+                                <span className="icon shanticon-hourglass shanti-field-content">
                                     {doc.duration_s}
                                 </span>
                             </div>
                         </ListGroup.Item>
                     )}
+
+                    <ListGroup.Item className="shanti-field-uid">
+                        <div className="icon u-icon__info info shanti-field-content">
+                            <span>ID-{myuid}</span>
+                        </div>
+                    </ListGroup.Item>
+
                     <ListGroup.Item className={'c-card__listItem--related'}>
                         <div className="info shanti-field-related">
                             <span className="shanti-field-content">
@@ -258,12 +340,6 @@ export function FeatureCard(props) {
                 </ListGroup>
 
                 <div className={'c-button__json'}>
-                    <div className="shanti-field-uid float-left">
-                        <span className="info shanti-field-content">
-                            {myuid}
-                        </span>
-                    </div>
-
                     <span
                         className={'sui-showinfo u-icon__info float-right'}
                         onClick={() => setModalShow(true)}
@@ -278,7 +354,7 @@ export function FeatureCard(props) {
             </Card.Body>
 
             <Card.Footer
-                className={'c-card__footer c-card__footer--' + doc.asset_type}
+                className={'c-card__footer c-card__footer--' + asset_type}
             >
                 {footer_text}
             </Card.Footer>
@@ -292,10 +368,11 @@ function DetailModal(props) {
     const [isOpen, setIsOpen] = useState(false);
     const toggle = () => {
         setIsOpen(!isOpen);
-        //console.log('clicked', isOpen);
     };
 
     const data = props?.data;
+    let title = data?.title;
+    title = Array.isArray(title) && title?.length > 0 ? title[0] : title;
     return (
         <Modal
             {...props}
@@ -316,7 +393,7 @@ function DetailModal(props) {
                         <strong>UID: </strong> {data?.uid}
                     </li>
                     <li>
-                        <strong>Title: </strong> {data?.title[0]}
+                        <strong>Title: </strong> {title}
                     </li>
                     <li>
                         <strong>Uploader: </strong> {data?.node_user_full_s} (
@@ -375,27 +452,58 @@ function DetailModal(props) {
     );
 }
 
-export function createAssetViewURL(avuid, asset_type, location) {
-    // console.log(avuid, asset_type, location);
+export function createAssetViewURL(
+    avuid,
+    asset_type,
+    location,
+    searchParam,
+    inline
+) {
+    // console.log(avuid, asset_type, location, searchParam);
     if (asset_type === 'collections') {
         return `/${avuid
             .replace(/\-/g, '/')
-            .replace('audio/video', 'audio-video')}${location.search}`;
+            .replace('audio/video', 'audio-video')}${searchParam}`;
+    }
+    // console.log(avuid);
+    let atype = avuid.split('-')[0];
+    if (atype == 'audio') {
+        atype = 'audio-video';
     }
     const aid = avuid.split('-').pop();
-    if (location.pathname.includes('_definitions-')) {
-        let path = location.pathname.split('/');
+    // console.log("aid: " + aid);
+    if (
+        location.pathname.includes('_definitions-') ||
+        location.pathname.includes('related-')
+    ) {
+        let path = location.pathname.replace('related-all', 'related-' + atype);
+        path = path.split('/');
+        // console.log(path, atype);
         const relatedIndex = path.findIndex((el) => el.includes('related'));
         path.splice(relatedIndex + 1);
-        return `${path.join('/')}/view/${aid}${location.search}`;
+        if (['subjects', 'places', 'terms'].includes(atype)) {
+            return `${path.join('/')}/list`;
+        }
+        return `${path.join('/')}/view/${aid}${searchParam}`;
     }
     let path = location.pathname
         .replace(/\/?any\/?.*/, '') // remove the /any from terms
         .replace(/\/?(deck|gallery|list)\/?.*/, '');
-    path = `${path}/view/${aid}${location.search}`; // ${avuid}?asset_type=${asset_type}
+    path = `${path}/view/${aid}${searchParam}`; // ${avuid}?asset_type=${asset_type}
     path = path.replace('related-all', `related-${asset_type}`);
     if (['places', 'subjects', 'terms'].includes(asset_type)) {
-        path = `/${asset_type}/${aid}${location.search}`;
+        path = `/${asset_type}/${aid}${searchParam}`;
+    }
+    if (isAssetType(atype)) {
+        path = `/${asset_type}/${aid}`;
+    }
+    // If looking at related assets within a Kmap context use the inline (embedded) viewer
+    if (location.pathname.includes('/related-' + asset_type) && inline) {
+        let ppts = location.pathname.split('/related');
+        let uid = avuid.split('-');
+        uid = uid.length > 1 ? uid[1] : uid[0];
+        // Use embedded viewer url
+        path = `${ppts[0]}/related-${asset_type}/view/${uid}`;
     }
     return path;
 }

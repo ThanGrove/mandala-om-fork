@@ -17,9 +17,9 @@
     .c-featurePager__resultSummary {
         white-space: nowrap;
         margin: 0 auto 1.5rem;
-        padding-left: 1rem;
+        padding-left: 0;
         padding-right: 1rem;
-        font-size: 1.75rem;
+        font-size: 1.55rem;
         font-style: italic;
         .start,
         .end {
@@ -98,6 +98,7 @@
             padding: 0 !important;
             opacity: 0.9;
             color: #000;
+            line-height: 1.6 !important;
             &:hover {
                 opacity: 1;
             }
@@ -124,7 +125,7 @@
     .c-featurePager__itemCount {
         white-space: nowrap;
         margin: -0.35rem auto 1.5rem;
-        padding-left: 1rem;
+        padding-left: 0;
         padding-right: 1rem;
         font-size: 1.6rem;
         font-style: italic;
@@ -137,7 +138,7 @@
             margin-left: 0.1rem;
             padding: 0 !important;
             text-align: center;
-            line-height: 1.5;
+            line-height: 1.6 !important;
             width: 5.5rem;
             border-radius: 0.35rem !important;
             border-style: solid;
@@ -148,6 +149,29 @@
             &:hover {
                 opacity: 1;
             }
+        }
+        .react-numeric-input b {
+            position: absolute;
+            right: -1.2rem !important;
+            width: 2.85rem !important;
+            background-color: #fff !important;
+            border-color: #4d59ca !important;
+            i {
+                font-size: 2rem !important;
+            }
+        }
+        .react-numeric-input b:first-of-type {
+            top: -0.25rem !important;
+            border-radius: 0.5rem 0.5rem 0 0 !important;
+            border-width: 0.25rem 0.05rem 0.1rem !important;
+        }
+        .react-numeric-input b:last-child {
+            bottom: -0.25rem !important;
+            border-radius: 0 0.05rem 0.5rem 0.5rem !important;
+            border-width: 0 0.05rem 0.25rem !important;
+        }
+        .react-numeric-input b:hover i {
+            font-size: 2.35rem !important;
         }
     }
 }

@@ -17,32 +17,38 @@ import { useHistory } from '../../hooks/useHistory';
 import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import { RelatedTextFinder } from '../common/utilcomponents';
+import { RelatedTextFinder } from '../Texts/RelatedText';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
+    const qid = queryID(baseType, id);
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
+    } = useKmap(qid, 'info');
 
     if (isKmapLoading) {
         return <MandalaSkeleton overlay={true} />;
+    } else if (isKmapError) {
+        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
+    } else if (kmapData?.response?.numFound === 0) {
+        return (
+            <p>
+                We’re sorry. We cannot find a subject with the ID of “{qid}” in
+                our index.
+            </p>
+        );
     }
 
-    if (!isKmapError) {
-        // Hack to wait for HistoryViewer to load before adding this page
-        setTimeout(function () {
-            addPage('subjects', kmapData.header, window.location.pathname);
-        }, 500);
-    } else {
-        return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
-    }
+    // Hack to wait for HistoryViewer to load before adding this page
+    setTimeout(function () {
+        addPage('subjects', kmapData.header, window.location.pathname);
+    }, 500);
 
     $('main.l-column__main').addClass('subjects');
 
@@ -85,13 +91,17 @@ function SubjectSummary({ kmapData, path }) {
     if (kmapData?.illustration_mms_url?.length > 0) {
         sbjimg = kmapData?.illustration_mms_url[0];
     }
-    let txtid = false;
+
+    /*
+    qlet txtid = false;
     for (let prp in kmapData) {
         if (prp.includes('homepage_text_')) {
             txtid = kmapData[prp];
             break;
         }
     }
+    console.log('txtid: ', txtid);
+     */
 
     return (
         <>
@@ -103,6 +113,7 @@ function SubjectSummary({ kmapData, path }) {
                         </div>
                     )}
                     <div className={'nodeHeader-summary'}>
+                        {/*
                         {!txtid &&
                             'summary_eng' in kmapData &&
                             kmapData['summary_eng'].length > 0 && (
@@ -112,6 +123,7 @@ function SubjectSummary({ kmapData, path }) {
                                     />
                                 </>
                             )}
+                            */}
                         <SubjectDetails kmapData={kmapData} />
                     </div>
                 </div>

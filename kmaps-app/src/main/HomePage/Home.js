@@ -1,17 +1,16 @@
 import { Link } from 'react-router-dom';
 import React, { useEffect } from 'react';
-import { Jumbotron, Toast } from 'react-bootstrap';
+import { Button, Jumbotron, Toast } from 'react-bootstrap';
 import JSXExpressionContainerMock from 'eslint-plugin-jsx-a11y/__mocks__/JSXExpressionContainerMock';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import $ from 'jquery';
 
 export default function Home(props) {
-    document.title = 'Mandala Collections';
     if (process?.env?.REACT_APP_STANDALONE === 'standalone') {
         return null;
     }
+    document.title = 'Mandala Collections';
     return (
         <section className="l-content__main__wrap ">
             <Container>
@@ -51,16 +50,38 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Terms</h4>
-                            <ul>
+                            <h4>
+                                <Link to={'/terms/all/list'}>Terms</Link>
+                            </h4>
+                            <ul id="terms-list">
                                 <li>
-                                    <Link to={'/terms/247732'}>
-                                        Yam (terms-247732)
+                                    <Link to={'/terms/260'}>
+                                        ka dag (terms-260)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/2626'}>
+                                        kun gzhi (terms-2626)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/4227'}>
+                                        klu sgrub (terms-4227)
                                     </Link>
                                 </li>
                                 <li>
                                     <Link to={'/terms/12434'}>
                                         skyes pa ‘brus phyung ba (terms-12434)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/12587'}>
+                                        skyes bu gsum (terms-12587)
+                                    </Link>
+                                </li>
+                                <li>
+                                    <Link to={'/terms/21124'}>
+                                        khregs chod (terms-21124)
                                     </Link>
                                 </li>
                                 <li>
@@ -73,8 +94,15 @@ export default function Home(props) {
                                         thod rgal/: (terms-85193)
                                     </Link>
                                 </li>
+                                <li>
+                                    <Link to={'/terms/247732'}>
+                                        Yam (terms-247732)
+                                    </Link>
+                                </li>
                             </ul>
-                            <h4>Places</h4>
+                            <h4>
+                                <Link to={'/places/all/list'}>Places</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/places/134685'}>
@@ -102,7 +130,9 @@ export default function Home(props) {
                                     </Link>
                                 </li>
                             </ul>
-                            <h4>Subjects</h4>
+                            <h4>
+                                <Link to={'/subjects/all/list'}>Subjects</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/subjects/3719'}>
@@ -139,11 +169,15 @@ export default function Home(props) {
                     </Col>
                     <Col>
                         <Jumbotron>
-                            <h4>Collections</h4>
+                            <h4>
+                                <Link to={'/collections/all/list'}>
+                                    Collections
+                                </Link>
+                            </h4>
                             <ul>
                                 <li>
-                                    <Link to={'/collections'}>
-                                        All Collections
+                                    <Link to={'/mandala/collection/236/deck'}>
+                                        Mandala Mixed Collection
                                     </Link>
                                 </li>
                                 <li>
@@ -175,7 +209,11 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Audio-Video</h4>
+                            <h4>
+                                <Link to={'/audio-video/all/list'}>
+                                    Audio-Video
+                                </Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/audio-video/825'}>
@@ -196,7 +234,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Images</h4>
+                            <h4>
+                                <Link to={'/images/all/list'}>Images</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/images/1421596'}>
@@ -220,7 +260,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Sources</h4>
+                            <h4>
+                                <Link to={'/sources/all/list'}>Sources</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/sources/36896'}>
@@ -241,7 +283,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Texts</h4>
+                            <h4>
+                                <Link to={'/texts/all/list'}>Texts</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/texts/16230'}>
@@ -262,7 +306,9 @@ export default function Home(props) {
                                 </li>
                             </ul>
 
-                            <h4>Visuals</h4>
+                            <h4>
+                                <Link to={'/visuals/all/list'}>Visuals</Link>
+                            </h4>
                             <ul>
                                 <li>
                                     <Link to={'/visuals/4451'}>

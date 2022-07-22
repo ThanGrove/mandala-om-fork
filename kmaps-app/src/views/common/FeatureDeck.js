@@ -2,7 +2,10 @@ import React from 'react';
 import { FeatureCard } from './FeatureCard/FeatureCard';
 import CardDeck from 'react-bootstrap/CardDeck';
 import { FeaturePager } from './FeaturePager/FeaturePager';
-import Spinner from 'react-bootstrap/Spinner';
+import { StringParam, useQueryParams, withDefault } from 'use-query-params';
+import { ArrayOfObjectsParam } from '../../hooks/utils';
+import { useLocation } from 'react-router-dom';
+import useAsset from '../../hooks/useAsset';
 
 // The length of the Rows at each Break Point
 // const BP_SIZES = {
@@ -81,7 +84,7 @@ export function FeatureDeck(props) {
     };
 
     const docs = props.docs;
-
+    const isResults = docs?.length > 0;
     let deckcontent = null;
     if (props?.isLoading) {
         deckcontent = (
@@ -89,13 +92,23 @@ export function FeatureDeck(props) {
                 <span className="font-weight-bold fs-2">Loading...</span>
             </div>
         );
-    } else if (docs?.length > 0) {
+    } else if (isResults) {
         // console.log("FeatureDeck: looking at ", docs);
         const cards = docs?.map((doc, i) => {
             let ret = [];
-            const featureCard = (
+            let featureCard = (
                 <FeatureCard doc={doc} key={i} inline={shouldInline(doc)} />
             );
+            // If it's an asset link get the asset's info
+            if (doc.asset_type === 'mandala') {
+                featureCard = (
+                    <AssetLinkFeatureCard
+                        auid={doc.asset_uid_s}
+                        key={`alfc-${i}`}
+                        inlineFunc={shouldInline}
+                    />
+                );
+            }
 
             // Insert breakpoints for various window sizes
             //        insertBreakPoints(i, BP_SIZES, ret);
@@ -104,18 +117,14 @@ export function FeatureDeck(props) {
         });
         deckcontent = <CardDeck className={'c-card__grid'}>{cards}</CardDeck>;
     } else {
-        deckcontent = (
-            <div className={'u-search__results__wrap'}>
-                <NoResults />
-            </div>
-        );
+        deckcontent = <NoResults />;
     }
 
     const output = (
         <div className={'c-view'}>
-            <FeaturePager {...props} />
+            {isResults && <FeaturePager {...props} />}
             {deckcontent}
-            <FeaturePager {...props} />
+            {isResults && <FeaturePager {...props} />}
         </div>
     );
     return <div className={'c-view__wrapper deck'}>{output}</div>;
@@ -150,10 +159,95 @@ function rowFiller(length, bp_sizes) {
 }
 */
 
-function NoResults(props) {
+export function NoResults(props) {
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    const loc = useLocation();
+    let pgtype = loc?.pathname?.includes('search') ? 'search' : 'general';
+    if (loc?.pathname?.includes('collection')) {
+        pgtype = 'collection';
+    }
+    const goback = () => {
+        window.history.back();
+    };
+    const ss = window.location.search;
+    const qrysum =
+        query.searchText?.length > 0 ? ` — “${query.searchText}” — ` : '';
     return (
-        <h2 className={'u-search__noresults__header'}>
-            No results. Your query yielded no results.
-        </h2>
+        <div className={'u-search__noresults__wrap'}>
+            <div className={'u-search__noresults'}>
+                {pgtype === 'search' && (
+                    <>
+                        <h2 className={'u-search__noresults__header'}>
+                            No Results
+                        </h2>
+                        <p>
+                            Your query {qrysum}
+                            yielded no results.
+                        </p>
+                    </>
+                )}
+                {pgtype === 'collection' && (
+                    <>
+                        <h2 className={'u-search__noresults__header'}>
+                            Not Items Found!
+                        </h2>
+                        <p>
+                            We are currently building this collection. Watch
+                            this space!
+                        </p>
+                    </>
+                )}
+                {pgtype === 'general' && (
+                    <>
+                        <h2 className={'u-search__noresults__header'}>
+                            Nothing to Show!
+                        </h2>
+                        <p>
+                            There is nothing here at the moment. Please check
+                            back soon!
+                        </p>
+                    </>
+                )}
+
+                <p>
+                    <button onClick={goback}>Go back</button>
+                </p>
+            </div>
+        </div>
     );
+}
+
+/**
+ * Retrieve Asset data from asset link and make card with it
+ *
+ * @param auid
+ * @param thekey
+ * @param inlineFunc
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
+function AssetLinkFeatureCard({ auid, inlineFunc }) {
+    const [asset_type, nid] =
+        auid && auid?.includes('-') ? auid?.split('-') : [false, false];
+
+    const {
+        isLoading: isAssetLoading,
+        data: assetData,
+        isError: isAssetError,
+        error: assetError,
+    } = useAsset(asset_type, nid);
+
+    if (
+        !asset_type ||
+        isAssetError ||
+        isAssetLoading ||
+        assetData?.numFound === 0
+    ) {
+        return null;
+    }
+    const mydoc = assetData.docs[0];
+    return <FeatureCard doc={mydoc} inline={inlineFunc(assetData)} />;
 }

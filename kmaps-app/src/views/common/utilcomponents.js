@@ -1,14 +1,25 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { MandalaPopover } from './MandalaPopover';
-import { Col, Container, Row, Button, Tabs } from 'react-bootstrap';
+import {
+    Col,
+    Container,
+    Row,
+    Button,
+    Tabs,
+    Tooltip,
+    OverlayTrigger,
+    Overlay,
+    Popover,
+} from 'react-bootstrap';
 import { findFieldNames, queryID } from './utils';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import MandalaSkeleton from './MandalaSkeleton';
-import { HtmlWithPopovers } from './MandalaMarkup';
+import { HtmlCustom, HtmlWithPopovers } from './MandalaMarkup';
 import Tab from 'react-bootstrap/Tab';
 import { useSolr } from '../../hooks/useSolr';
+import GenericPopover from './GenericPopover';
 
 export function CollectionField(props) {
     const solrdoc = props?.solrdoc;
@@ -201,64 +212,31 @@ export function NotFoundPage(props) {
     );
 }
 
-export function RelatedTextFinder({ kmapdata }) {
-    let txtidfield = findFieldNames(kmapdata, 'homepage_text_', 'starts');
-    if (!txtidfield || txtidfield.length === 0) return null;
-    txtidfield = txtidfield[0];
-    const kid = kmapdata[txtidfield];
-    return <RelatedText kid={kid} />;
-}
-
-export function RelatedText({ kid }) {
-    const {
-        isLoading: isAssetLoading,
-        data: textasset,
-        isError: isAssetError,
-        error: assetError,
-    } = useKmap(queryID('texts', kid), 'asset');
-
-    const {
-        isLoading: isJsonLoading,
-        data: textjson,
-        isError: isJsonError,
-        error: jsonError,
-    } = useMandala(textasset);
-
-    if (isAssetLoading || isJsonLoading) return <MandalaSkeleton />;
-    if (!textjson?.full_markup) return null;
-    const isToc = textjson?.toc_links && textjson.toc_links.length > 0;
-    const defkey = isToc ? 'toc' : 'info';
+export function MandalaInfoPopover({ markup, clnm }) {
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
     return (
         <>
-            <Container className="c-kmaps-related-text">
-                <Row>
-                    <Col lg={7}>
-                        <HtmlWithPopovers markup={textjson?.full_markup} />
-                    </Col>
-                    <Col lg={5}>
-                        <Tabs defaultActiveKey={defkey} id="text-meta-tabs">
-                            {isToc && (
-                                <Tab eventKey="toc" title="Table of Contents">
-                                    <div className={'toc'}>
-                                        <HtmlWithPopovers
-                                            markup={textjson?.toc_links}
-                                        />
-                                    </div>
-                                </Tab>
-                            )}
-                            <Tab eventKey="info" title="Info">
-                                {textjson?.bibl_summary && (
-                                    <div className={'info'}>
-                                        <HtmlWithPopovers
-                                            markup={textjson?.bibl_summary}
-                                        />
-                                    </div>
-                                )}
-                            </Tab>
-                        </Tabs>
-                    </Col>
-                </Row>
-            </Container>
+            <Button
+                variant="outline-light"
+                ref={target}
+                className="mandala-info-link"
+                onClick={() => setShow(!show)}
+            >
+                <span className="u-icon__info"></span>
+            </Button>
+            <Overlay target={target.current} show={show} placement="left">
+                <div id="mandala-info-tip" className={clnm}>
+                    <Button
+                        variant="outline-light"
+                        className="mandala-close-info"
+                        onClick={() => setShow(false)}
+                    >
+                        <span className="u-icon__close2"></span>
+                    </Button>
+                    <HtmlWithPopovers markup={markup} />
+                </div>
+            </Overlay>
         </>
     );
 }
@@ -307,4 +285,222 @@ export function SAProjectName({ pid }) {
         return projData.docs[0].title[0];
     }
     return '';
+}
+
+export function MandalaSourceNote({
+    markup,
+    title = 'Sources',
+    children = [],
+}) {
+    const srcicon = <span className="u-icon__sources"> </span>;
+    return (
+        <GenericPopover
+            title={title}
+            content={markup}
+            children={children}
+            icon={srcicon}
+        />
+    );
+}
+
+export function ShanticonRefPage() {
+    const sicons = [
+        'shanticon-address-card-o',
+        'shanticon-agents',
+        'shanticon-angle-double-left',
+        'shanticon-angle-double-right',
+        'shanticon-angle-down',
+        'shanticon-angle-left',
+        'shanticon-angle-right',
+        'shanticon-angle-up',
+        'shanticon-arrow-circle-o-right',
+        'shanticon-arrow-dbl-left',
+        'shanticon-arrow-dbl-right',
+        'shanticon-arrow-empty-right',
+        'shanticon-arrow-end-left',
+        'shanticon-arrow-end-right',
+        'shanticon-arrow-left',
+        'shanticon-arrow-left_2',
+        'shanticon-arrow-right',
+        'shanticon-arrow-right_2',
+        'shanticon-arrow-tip-down',
+        'shanticon-arrow-tip-left',
+        'shanticon-arrow-tip-right',
+        'shanticon-arrow-tip-up',
+        'shanticon-arrow-tri-left',
+        'shanticon-arrow-tri-right',
+        'shanticon-arrow3-down',
+        'shanticon-arrow3-left',
+        'shanticon-arrow3-right',
+        'shanticon-arrow3-up',
+        'shanticon-arrows',
+        'shanticon-arrows-alt',
+        'shanticon-arrows-h',
+        'shanticon-arrowselect',
+        'shanticon-audio',
+        'shanticon-audio-video',
+        'shanticon-books',
+        'shanticon-calendar',
+        'shanticon-camera',
+        'shanticon-cancel',
+        'shanticon-cancel-circle',
+        'shanticon-check',
+        'shanticon-check-square-o',
+        'shanticon-circle-right',
+        'shanticon-close',
+        'shanticon-close2',
+        'shanticon-cog',
+        'shanticon-collections',
+        'shanticon-commenting-o',
+        'shanticon-comments-o',
+        'shanticon-community',
+        'shanticon-compress',
+        'shanticon-create',
+        'shanticon-directions',
+        'shanticon-disc',
+        'shanticon-disc2',
+        'shanticon-download',
+        'shanticon-download1',
+        'shanticon-edit',
+        'shanticon-editor',
+        'shanticon-enlarge',
+        'shanticon-envelope-o',
+        'shanticon-essays',
+        'shanticon-events',
+        'shanticon-expand',
+        'shanticon-explore',
+        'shanticon-eye',
+        'shanticon-eye-blocked',
+        'shanticon-facebook',
+        'shanticon-file-o',
+        'shanticon-file-picture',
+        'shanticon-file-text-o',
+        'shanticon-files-empty',
+        'shanticon-googleplus',
+        'shanticon-grid',
+        'shanticon-headphones',
+        'shanticon-hourglass',
+        'shanticon-image',
+        'shanticon-images',
+        'shanticon-info',
+        'shanticon-kmaps-popover',
+        'shanticon-link-external',
+        'shanticon-list',
+        'shanticon-list-alt',
+        'shanticon-list2',
+        'shanticon-list4',
+        'shanticon-lock',
+        'shanticon-lock-open',
+        'shanticon-logo-shanti',
+        'shanticon-magnify',
+        'shanticon-mail',
+        'shanticon-map-marker',
+        'shanticon-menu',
+        'shanticon-menu3',
+        'shanticon-minus',
+        'shanticon-minus-square-o',
+        'shanticon-multiply',
+        'shanticon-new-tab',
+        'shanticon-overview',
+        'shanticon-pause',
+        'shanticon-pencil',
+        'shanticon-places',
+        'shanticon-play-transcript',
+        'shanticon-play-video',
+        'shanticon-play2',
+        'shanticon-plus',
+        'shanticon-plus-square-o',
+        'shanticon-preview',
+        'shanticon-print',
+        'shanticon-question-circle-o',
+        'shanticon-row-empty-left',
+        'shanticon-search',
+        'shanticon-share',
+        'shanticon-shrink',
+        'shanticon-sign-out',
+        'shanticon-sort-alpha-asc',
+        'shanticon-sort-alpha-desc',
+        'shanticon-sort-amount-asc',
+        'shanticon-sort-amount-desc',
+        'shanticon-sources',
+        'shanticon-spin3',
+        'shanticon-spinner',
+        'shanticon-spinner2',
+        'shanticon-spinner6',
+        'shanticon-square-o',
+        'shanticon-star',
+        'shanticon-star-half-empty',
+        'shanticon-star-o',
+        'shanticon-stop',
+        'shanticon-subjects',
+        'shanticon-tags',
+        'shanticon-terms',
+        'shanticon-texts',
+        'shanticon-th',
+        'shanticon-trash',
+        'shanticon-tree',
+        'shanticon-twitter',
+        'shanticon-uniE626',
+        'shanticon-upload',
+        'shanticon-upload1',
+        'shanticon-user-check',
+        'shanticon-user-circle-o',
+        'shanticon-video',
+        'shanticon-visuals',
+        'shanticon-zoom-in',
+        'shanticon-zoom-out',
+    ];
+
+    return (
+        <div className="sicon-ref-page">
+            <h1>Shanticon Reference Page</h1>
+            <div className="sicon-ref-list">
+                {sicons.map((sicon, si) => {
+                    return (
+                        <ShanticonItem
+                            key={`shanticon-sq-${si}`}
+                            sicon={sicon}
+                        />
+                    );
+                })}
+            </div>
+        </div>
+    );
+}
+
+function ShanticonItem({ sicon }) {
+    const [show, setShow] = useState(false);
+    const target = useRef(null);
+    const copy2clip = (e) => {
+        let txt = e.target?.dataset?.icon
+            ? e.target.dataset.icon
+            : e.target?.parentElement?.dataset?.icon;
+        if (txt) {
+            navigator.clipboard.writeText(txt);
+            setShow(true);
+            setTimeout(() => {
+                setShow(false);
+            }, 2000);
+        }
+    };
+    return (
+        <>
+            <div
+                className="sicon-item"
+                onClick={copy2clip}
+                data-icon={sicon}
+                ref={target}
+            >
+                <span className={`icon ${sicon}`}> </span>
+                <p className="label">{sicon}</p>
+            </div>
+            <Overlay target={target.current} show={show} placement="auto">
+                {(props) => (
+                    <Tooltip className="sicon-tooltip" {...props}>
+                        Copied to Clipboard!
+                    </Tooltip>
+                )}
+            </Overlay>
+        </>
+    );
 }

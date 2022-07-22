@@ -67,6 +67,7 @@ export function SmartTitle(props) {
             maxLine={2}
             text={smartTitle}
             basedOn={'words'}
+            title={smartTitle}
         />
     );
 }

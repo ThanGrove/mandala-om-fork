@@ -100,12 +100,14 @@ export default class AudioVideo {
         str += `</div><div>`;
         try {
             if (o.collection_title) {
-                const collpath =
+                let collpath =
                     sui.pages.GetPublicUrlPath('audio-video') +
                     'audio-video/collection/' +
                     o.collection_nid;
-                str += `&#xe633&nbsp;
-                <a title='Collection' id='sui-avCol' href='${collpath}'>${o.collection_title}</a>`;
+                if (process.env.REACT_APP_STANDALONE === 'standalone') {
+                    collpath = '#' + collpath;
+                }
+                str += `&#xe633 <a title='Collection' id='sui-avCol' href='${collpath}'>${o.collection_title}</a>`;
             }
         } catch (e) {}
         try {
@@ -894,7 +896,8 @@ export default class AudioVideo {
             speaker: '',
         }; // Final data
         var url =
-            'https://ss251856-us-east-1-aws.measuredsearch.com/solr/av_test/select?indent=on&q=is_trid:' +
+            // TODO:  Refactor to derive this url from configuration.
+            'https://mandala-solr-replica-dev.internal.lib.virginia.edu/solr/mandala-av/select?indent=on&q=is_trid:' +
             kmap.trid_i +
             '&wt=json&start=0&rows=1000';
         $.ajax({ url: url, dataType: 'jsonp', jsonp: 'json.wrf' }).done(
@@ -1333,7 +1336,7 @@ export default class AudioVideo {
             $('#sui-kplayer')[0].sendNotification('doSeek', start); // Seek to start
         if (end) this.playEnd = end; // Set ending point
         this.transTimer = setInterval((e) => {
-            if (typeof $('#sui-kplayer')[0].evaluate !== 'function') {
+            if (typeof $('#sui-kplayer')[0]?.evaluate !== 'function') {
                 return;
             }
             // Set interval and handler
@@ -1347,7 +1350,7 @@ export default class AudioVideo {
                 this.playEnd = 0; // Clear end
                 return; // Quit
             }
-            for (i = 0; i < res.segs.length; ++i) {
+            for (i = 0; i < res?.segs?.length; ++i) {
                 // For each seg
                 if (now >= res.segs[i].start && now < res.segs[i].end) {
                     // In this one

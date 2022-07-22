@@ -23,6 +23,7 @@ import {
     PlacesRelSubjects,
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
+import { RelatedTextFinder } from '../Texts/RelatedText';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -38,25 +39,38 @@ export default function PlacesInfo(props) {
     let { id } = useParams();
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
+    const qid = queryID(baseType, id);
 
     const {
         isLoading: isKmapLoading,
         data: kmapData,
         isError: isKmapError,
         error: kmapError,
-    } = useKmap(queryID(baseType, id), 'info');
+    } = useKmap(qid, 'info');
     const {
         isLoading: isAssetLoading,
         data: kmasset,
         isError: isAssetError,
         error: assetError,
-    } = useKmap(queryID(baseType, id), 'asset');
+    } = useKmap(qid, 'asset');
 
     useEffect(() => {
         if (kmapData?.header) {
             addPage('places', kmapData.header, window.location.pathname);
         }
-    }, [kmapData]);
+        // Had kmap popovers to same place on that places page
+        /* Doesn't work right, maybe need to select its parent...
+        setTimeout(function () {
+            const kmtgs = document.getElementsByClassName('kmap-tag-group');
+            for (var n = 0; n < kmtgs.length; n++) {
+                if (kmtgs[n].dataset.kmid === id) {
+                    kmtgs[n].classList.add('kmap-hide');
+                }
+            }
+        }, 1000);
+
+         */
+    }, [kmapData, addPage]);
 
     const [mapRef, mapSize] = useDimensions();
 
@@ -72,7 +86,61 @@ export default function PlacesInfo(props) {
         return <div id="place-kmap-tabs">Error: {kmapError.message}</div>;
     } else if (isAssetError) {
         return <div id="place-kmap-tabs">Error: {assetError.message}</div>;
+    } else if (kmapData?.response?.numFound === 0) {
+        return (
+            <p>
+                We’re sorry. We cannot find a place with the ID of “{qid}” in
+                our index.
+            </p>
+        );
     }
+
+    let txtid = false;
+    for (let prp in kmapData) {
+        if (prp.includes('homepage_text_')) {
+            txtid = kmapData[prp];
+            break;
+        }
+    }
+    const defaultKey = txtid ? 'about' : 'map';
+
+    // Create Name Object list to determine if there are etymologies
+    const namelist = kmapData._childDocuments_?.filter((cd, i) => {
+        return cd?.block_child_type === 'related_names';
+    });
+
+    // For Bill's original code, see searchui.js and places.js (line 446ff)
+    const nameobjs = namelist.map((o, ind) => {
+        return {
+            label: o.related_names_header_s, // Label
+            lang: o.related_names_language_s, // Language
+            rel: o.related_names_relationship_s, // Relationship
+            write: o.related_names_writing_system_s, // Writing system
+            ety: o.related_names_etymology_s, // Etymology
+            path: o.related_names_path_s, // Path
+            tab: o.related_names_level_i - 1,
+            date: getTimeUnits(o, 'related_names'),
+            note: getRelNameNote(o),
+            citation: getSolrCitation(
+                o,
+                'Citation',
+                'related_names_citation_references_ss'
+            ),
+        };
+    });
+    nameobjs.sort(function (a, b) {
+        // Sort by path
+        if (a.path > b.path) return 1;
+        // Higher
+        else if (a.path < b.path) return -1;
+        // Lower
+        else return 0; // The same
+    });
+
+    let etymologies = [];
+    etymologies = nameobjs.filter((c, i) => {
+        return c.ety && c.ety.length > 0;
+    });
 
     return (
         <>
@@ -82,10 +150,18 @@ export default function PlacesInfo(props) {
                         <PlacesSummary kmapData={kmapData} />
                         <div ref={mapRef}>
                             <Tabs
-                                defaultActiveKey="map"
+                                defaultActiveKey={defaultKey}
                                 id="place-kmap-tabs"
                                 mountOnEnter={true}
                             >
+                                {txtid && (
+                                    <Tab eventKey="about" title="About">
+                                        <RelatedTextFinder
+                                            kmapdata={kmapData}
+                                        />
+                                    </Tab>
+                                )}
+
                                 <Tab eventKey="map" title="Map">
                                     {mapSize.width && (
                                         <KmapsMap
@@ -96,19 +172,29 @@ export default function PlacesInfo(props) {
                                         />
                                     )}
                                 </Tab>
-                                <Tab eventKey="names" title="Names">
-                                    <PlacesNames
-                                        id={queryID(baseType, id)}
-                                        kmap={kmapData}
-                                    />
-                                </Tab>
+                                {nameobjs?.length > 0 && (
+                                    <Tab eventKey="names" title="Names">
+                                        <PlacesNames
+                                            id={queryID(baseType, id)}
+                                            kmap={kmapData}
+                                            names={nameobjs}
+                                        />
+                                    </Tab>
+                                )}
+                                {etymologies?.length > 0 && (
+                                    <Tab eventKey="etymology" title="Etymology">
+                                        <PlaceNameEtymologies
+                                            etymologies={etymologies}
+                                        />
+                                    </Tab>
+                                )}
+
                                 <Tab eventKey="location" title="Location">
                                     <PlacesLocation
                                         kmap={kmapData}
                                         id={queryID(baseType, id)}
                                     />
                                 </Tab>
-
                                 <Tab eventKey="ids" title="Ids">
                                     <PlacesIds
                                         kmap={kmapData}
@@ -196,81 +282,41 @@ export function PlacesSummary({ kmapData }) {
     return itemSummary;
 }
 
-export function PlacesNames(props) {
-    // Places Name tab content. Displays main name, alternative names and etymologies
-    // Code for query from Bill's code, searchui.js function GetChildNamesFromID()
-    // Code for processing results from places.js line 446ff
-    let etymologies = [];
-    if (!props?.kmap) {
-        return <MandalaSkeleton />;
-    }
-    const namelist = props?.kmap._childDocuments_.filter((cd, i) => {
-        return cd?.block_child_type === 'related_names';
-    });
-    const nameobjs = namelist.map((o, ind) => {
-        // console.log('o', o);
+export function PlacesNames({ id, kmap, names }) {
+    // Places Name tab content. Displays main name, alternative names
 
-        return {
-            label: o.related_names_header_s, // Label
-            lang: o.related_names_language_s, // Language
-            rel: o.related_names_relationship_s, // Relationship
-            write: o.related_names_writing_system_s, // Writing system
-            ety: o.related_names_etymology_s, // Etymology
-            path: o.related_names_path_s, // Path
-            tab: o.related_names_level_i - 1,
-            date: getTimeUnits(o, 'related_names'),
-            note: getRelNameNote(o),
-            citation: getSolrCitation(
-                o,
-                'Citation',
-                'related_names_citation_references_ss'
-            ),
-        };
-    });
-    nameobjs.sort(function (a, b) {
-        // Sort by path
-        if (a.path > b.path) return 1;
-        // Higher
-        else if (a.path < b.path) return -1;
-        // Lower
-        else return 0; // The same
-    });
-    etymologies = nameobjs.filter((c, i) => {
-        return c.ety && c.ety.length > 0;
-    });
+    if (!kmap || !names) {
+        return null;
+    }
 
     return (
-        <Row className={'c-place-names'}>
-            <Col>
-                {/* <h1>Names</h1> */}
-                {nameobjs?.length === 0 && <p>No names found!</p>}
-                {nameobjs?.length > 0 && (
-                    <>
-                        {nameobjs.map((l, i) => {
-                            const llang = l?.lang ? `${l.lang}, ` : '';
-                            const lwrite = l?.write ? ` ${l.write}, ` : '';
-                            return (
-                                <div
-                                    key={`place-name-${i}`}
-                                    className={`lv-${l.tab}`}
-                                >
-                                    <strong>{l.label} </strong> ({llang}
-                                    {lwrite}
-                                    {l.rel}
-                                    {l.date}
-                                    <span>
-                                        ) {l.citation}
-                                        {l.note}
-                                    </span>
-                                </div>
-                            );
-                        })}
-                    </>
-                )}
-            </Col>
-
-            <PlaceNameEtymologies etymologies={etymologies} />
-        </Row>
+        <div className={'c-place-names'}>
+            {/* <h1>Names</h1> */}
+            {names?.length === 0 && <p>No names found!</p>}
+            {names?.length > 0 && (
+                <>
+                    {names.map((l, i) => {
+                        const llang = l?.lang ? `${l.lang}, ` : '';
+                        const lwrite = l?.write ? ` ${l.write}, ` : '';
+                        return (
+                            <div
+                                key={`place-name-${i}`}
+                                className={`lv-${l.tab}`}
+                            >
+                                <strong>{l.label} </strong> ({llang}
+                                {lwrite}
+                                {l.rel}
+                                {l.date}
+                                <span>
+                                    ) {l.citation}
+                                    {l.note}
+                                </span>
+                            </div>
+                        );
+                    })}
+                </>
+            )}
+        </div>
     );
 }
 

@@ -1,25 +1,25 @@
 import { FacetBox } from './FacetBox';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
+import { RecentSearch } from './RecentSearch';
 import { useSearch } from '../hooks/useSearch';
-import { closeStore } from '../hooks/useCloseStore';
+import { openTabStore } from '../hooks/useCloseStore';
 import {
     useQueryParams,
     StringParam,
     withDefault,
     encodeQueryParams,
 } from 'use-query-params';
-import { IconContext } from 'react-icons';
-import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { Redirect } from 'react-router';
 
 const SEARCH_PATH = '/search/:view';
+export const SEARCH_COOKIE_NAME = 'mandala_search';
 
 export default function SearchAdvanced(props) {
     const history = useHistory();
@@ -27,7 +27,13 @@ export default function SearchAdvanced(props) {
     let [reset, setReset] = useState(0);
 
     // Get function to handle closeButton state.
-    const handleCloseButton = closeStore((state) => state.changeButtonState);
+    //const handleCloseButton = closeStore((state) => state.changeButtonState);
+
+    const changeTab = openTabStore((state) => state.changeButtonState);
+
+    const handleCloseButton = () => {
+        changeTab(0);
+    };
 
     // eslint-disable-next-line no-unused-vars
     const [query, setQuery] = useQueryParams({
@@ -40,7 +46,6 @@ export default function SearchAdvanced(props) {
     // so that we can give a link to go there (or not).
     const searchView = useRouteMatch(SEARCH_PATH);
 
-    // console.log("SearchAdvance searchView = ", searchView);
     let [booleanControls, setBooleanControls] = useState(true);
     const {
         isLoading: isSearchLoading,
@@ -49,7 +54,10 @@ export default function SearchAdvanced(props) {
         error: searchError,
     } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
 
-    let openclass = props.advanced ? 'open' : 'closed';
+    //let openclass = props.advanced ? 'open' : 'closed';
+    const openTab = openTabStore((state) => state.openTab);
+    let openclass = openTab === 1 ? 'open' : 'closed';
+
     //const historyStack = useStoreState((state) => state.history.historyStack);
     const historyStack = {};
 
@@ -93,7 +101,7 @@ export default function SearchAdvanced(props) {
                 },
                 {
                     searchText: search,
-                    filters: newFilters,
+                    filters: [...filters, ...newFilters],
                 }
             );
 
@@ -111,7 +119,7 @@ export default function SearchAdvanced(props) {
             setQuery(
                 {
                     searchText: search,
-                    filters: newFilters,
+                    filters: [...newFilters],
                 },
                 'push'
             );
@@ -129,7 +137,9 @@ export default function SearchAdvanced(props) {
 
         const compound_id = `${msg.facetType}:${msg.value}`;
 
-        if (command.action === null || command.action === 'add') {
+        let changedFilters = [];
+
+        if (command.action === 'add') {
             const new_filter = {
                 id: compound_id,
                 label: msg.labelText,
@@ -138,7 +148,7 @@ export default function SearchAdvanced(props) {
                 match: msg.value,
             };
             let shouldAdd = true;
-            newFilters = newFilters.map((filter) => {
+            const alteredFilters = newFilters.map((filter) => {
                 if (filter.id === new_filter.id) {
                     shouldAdd = false;
                     return new_filter;
@@ -146,14 +156,21 @@ export default function SearchAdvanced(props) {
                 return filter;
             });
             if (shouldAdd) {
-                newFilters = [...newFilters, new_filter];
+                changedFilters = [...alteredFilters, new_filter];
             }
+        } else if (command.action === 'changeOperator') {
+            changedFilters = newFilters.map((filter) => {
+                if (filter.id === compound_id) {
+                    return { ...filter, operator: msg.operator };
+                }
+                return filter;
+            });
         } else if (command.action === 'remove') {
-            newFilters = newFilters.filter(
+            changedFilters = newFilters.filter(
                 (filter) => !(filter.id === compound_id)
             );
         }
-        gotoSearchPage(newFilters); // declaratively navigate to search
+        gotoSearchPage(changedFilters); // declaratively navigate to search
     }
 
     function handleNarrowFilters(narrowFilter) {
@@ -165,6 +182,16 @@ export default function SearchAdvanced(props) {
 
     function getChosenFacets(type) {
         return filters.filter((filter) => filter.field === type);
+    }
+
+    function backToSearchResults() {
+        // In ContentMain whenever there is a route change the search string is save in localStorage
+        // This is retrieved to return to search results if it is lost in the process of clicking around.
+        let sqry = location?.search;
+        if (!sqry) {
+            sqry = localStorage.getItem(SEARCH_COOKIE_NAME);
+        }
+        history.push(`/search/deck${sqry}`);
     }
 
     function handleResetFilters() {
@@ -185,6 +212,7 @@ export default function SearchAdvanced(props) {
             },
             'push'
         );
+        localStorage.removeItem(SEARCH_COOKIE_NAME); // Remove the search string saved in the cookie
     }
 
     if (searchView?.params?.view === ':view') {
@@ -215,32 +243,34 @@ export default function SearchAdvanced(props) {
             </div>
 
             <div className="search-column-reset-filters">
-                {process.env.REACT_APP_STANDALONE !== 'standalone' && (
-                    <Button
-                        onClick={() =>
-                            history.push(`/search/deck${location.search}`)
-                        }
-                        variant="link"
-                        className={'back-to-results'}
-                    >
-                        <span className={'header-icon'}>
-                            <span className="icon shanticon-magnify"></span>
-                        </span>
-                        View Results
-                    </Button>
-                )}
-                {process.env.REACT_APP_STANDALONE === 'standalone' && (
-                    <span className={'header-label-count back-to-results'}>
-                        <a href={`#/search/deck${location.search}`}>
+                {process.env.REACT_APP_STANDALONE !== 'standalone' &&
+                    !searchView && (
+                        <Button
+                            onClick={backToSearchResults}
+                            variant="link"
+                            className={'back-to-results'}
+                        >
                             <span className={'header-icon'}>
                                 <span className="icon shanticon-magnify"></span>
                             </span>
                             View Results
-                        </a>
-                    </span>
-                )}
+                        </Button>
+                    )}
+                {process.env.REACT_APP_STANDALONE === 'standalone' &&
+                    !searchView && (
+                        <span className={'header-label-count back-to-results'}>
+                            <a onClick={backToSearchResults}>
+                                <span className={'header-icon'}>
+                                    <span className="icon shanticon-magnify"></span>
+                                </span>
+                                View Results
+                            </a>
+                        </span>
+                    )}
 
-                <button onClick={handleResetAll}>Clear All</button>
+                {(search || filters.length !== 0) && (
+                    <button onClick={handleResetAll}>Clear All</button>
+                )}
             </div>
             <p>Filters for refining search results.</p>
             <section>
@@ -254,6 +284,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('asset_type')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="collections"
@@ -265,6 +297,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="related_subjects"
@@ -276,6 +310,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('subjects')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="related_places"
@@ -287,6 +323,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('places')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="related_terms"
@@ -298,6 +336,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('terms')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="feature_types"
@@ -309,6 +349,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('feature_types')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="languages"
@@ -320,6 +362,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('languages')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="node_user"
@@ -331,8 +375,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('users')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <FacetBox
                     id="creator"
                     label="creator"
@@ -343,8 +388,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('creator')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <FacetBox
                     id="perspective"
                     label="perspective"
@@ -355,8 +401,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('perspective')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <FacetBox
                     id="associated_subjects"
                     label="Associated Subjects"
@@ -367,12 +414,18 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('associated_subjects')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <HistoryBox
                     historyStack={historyStack}
                     id="recent"
                     label="Recently Viewed"
+                    facetType="recent-searches"
+                />
+                <RecentSearch
+                    id="search"
+                    label="Recent Searches"
                     facetType="recent-searches"
                 />
             </section>

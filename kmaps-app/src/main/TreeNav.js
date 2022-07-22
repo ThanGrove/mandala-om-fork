@@ -1,19 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useLocation } from 'react-router-dom';
 import { getProject, queryID } from '../views/common/utils';
 import KmapTree from '../views/KmapTree/KmapTree';
-import { closeStore } from '../hooks/useCloseStore';
+import { closeStore, openTabStore } from '../hooks/useCloseStore';
 
 const TreeNav = (props) => {
-    const openclass = props.tree ? 'open' : 'closed';
+    const openTab = openTabStore((state) => state.openTab);
+    let openclass = openTab === 2 ? 'open' : 'closed';
+
+    // let openclass = props.tree ? 'open' : 'closed';
+    const [tabkey, setTab] = useState('places');
     let domain = 'places';
+
     const domainfids = {
         places: 'false',
         subjects: 'false',
         terms: 'false',
     };
+
+    const location = useLocation();
+
     const match = useRouteMatch([
         '/:baseType/:id/related-:type/:definitionID/view/:relID',
         '/:baseType/:id/related-:type/:definitionID/:viewMode',
@@ -22,7 +30,22 @@ const TreeNav = (props) => {
     ]);
 
     // Get function to handle closeButton state.
-    const handleCloseButton = closeStore((state) => state.changeButtonState);
+    //const handleCloseButton = closeStore((state) => state.changeButtonState);
+
+    const changeTab = openTabStore((state) => state.changeButtonState);
+
+    useEffect(() => {
+        if (match?.params?.baseType) {
+            domain = match.params.baseType;
+            if (['places', 'subjects', 'terms'].includes(domain)) {
+                setTab(domain);
+            }
+        }
+    }, [location]);
+
+    const handleCloseButton = () => {
+        changeTab(0);
+    };
 
     let found = false;
     if (match?.params?.baseType) {
@@ -60,7 +83,11 @@ const TreeNav = (props) => {
                     </button>
                 </header>
                 <Tabs
-                    defaultActiveKey={domain}
+                    // defaultActiveKey={domain}
+                    activeKey={tabkey}
+                    onSelect={(k) => {
+                        setTab(k);
+                    }}
                     id="kmaps-tab"
                     role="navigation"
                     className="treeNav-tabs__wrap justify-content-center"

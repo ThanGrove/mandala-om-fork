@@ -1,5 +1,8 @@
+@import '../../../../index-variables';
+
 .sui-termDefDetailsWrapper {
     position: relative;
+    margin: -0.5rem 0 0;
 }
 .sui-termDefDetails__item {
     margin-bottom: 0.2rem;
@@ -12,4 +15,11 @@
 .sui-termDefDetails__text {
     font-weight: 400;
     font-style: italic;
+}
+
+.sui-termDefinitions__content .term-def-info .details-ref {
+    button {
+        color: $color-terms;
+        margin-top: -2rem;
+    }
 }

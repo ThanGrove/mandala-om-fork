@@ -78,7 +78,7 @@ const getKmapRelatedData = async (
         'json.facet': facetJson,
         // eslint-disable-next-line
         //q: `(uid:${kmapid}^100+kmapid:${defID})`,
-        q: `(kmapid:${defID} AND !uid:${kmapid})`,
+        q: `kmapid:${defID}`,
         kmapid: kmapid,
         fq: '{!tag=ast}asset_type:(' + asset_types.join(' ') + ')',
     };

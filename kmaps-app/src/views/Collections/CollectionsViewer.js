@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useParams } from 'react-router';
 import { useSolr } from '../../hooks/useSolr';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import './collections.scss';
 import { FeatureCollection } from '../common/FeatureCollection';
 import useCollection from '../../hooks/useCollection';
@@ -19,7 +19,10 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
  * @constructor
  */
 export function CollectionsViewer(props) {
-    const { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+    let { asset_type, id: asset_id, view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
+    if (typeof asset_type === 'undefined' && props?.isMulti) {
+        asset_type = 'mandala';
+    }
     //const history = useContext(HistoryContext);
     const addPage = useHistory((state) => state.addPage);
     const atypeLabel = <span className={'text-capitalize'}>{asset_type}</span>;
@@ -42,13 +45,17 @@ export function CollectionsViewer(props) {
     // Set up sort mode state
     const DEFAULT_SORTMODE = 'title_sort_s asc';
     const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
-
+    const [collFilter, setFilter] = useState('*:*');
     // Make Solr Query to find assets in Collection
     const query = {
         index: 'assets',
         params: {
-            fq: ['asset_type:' + asset_type, '-asset_subtype:page'],
-            q: 'collection_nid_path_is:' + asset_id,
+            fq: [
+                'asset_type:(' + asset_type + ' mandala)',
+                '-asset_subtype:page',
+                'collection_nid_path_is:' + asset_id,
+            ],
+            q: collFilter,
             sort: sortMode,
             start: startRow,
             rows: pageSize,
@@ -59,6 +66,7 @@ export function CollectionsViewer(props) {
         asset_type,
         asset_id,
         sortMode,
+        collFilter,
         startRow,
         pageSize,
     ];
@@ -96,7 +104,8 @@ export function CollectionsViewer(props) {
     // Reset pagination on change in sort order
     useEffect(() => {
         setPageNum(0);
-    }, [sortMode]);
+        // console.log('Coll filter is: ' + collFilter);
+    }, [sortMode, collFilter]);
 
     let coll_paths = [];
 
@@ -132,7 +141,7 @@ export function CollectionsViewer(props) {
                 //status.setPath(coll_paths);
             }
         }
-    }, [collsolr]);
+    }, [collsolr]); // End UseEffect()
 
     if (isCollLoading) {
         return <MandalaSkeleton />;
@@ -179,16 +188,31 @@ export function CollectionsViewer(props) {
 
     // console.log('collitems', collitems);
     // console.log(collsolr);
-
-    const colltitle =
+    const collabel = collsolr?.collection_nid ? 'Subcollection' : 'Collection';
+    let colltitle =
         collsolr?.title?.length > 0
             ? `${collsolr.title[0].replace(/collections?/gi, '')} ${
                   collsolr.asset_subtype
-              } Collection`
+              } ${collabel}`
             : false;
-
+    let wait_to = false;
+    const waitFilter = (e) => {
+        const filter_val = `title:*${$(e.target).val()}*`;
+        if (wait_to) {
+            clearTimeout(wait_to);
+        }
+        wait_to = setTimeout(() => setFilter(filter_val), 500);
+    };
+    // console.log('collfilter: ' + collFilter);
     const sorter = (
-        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+        <>
+            <CollectionSortModeSelector
+                setSort={setSortMode}
+                sortMode={sortMode}
+                assetType={asset_type}
+            />
+            <CollectionFilterField onchange={waitFilter} val={collFilter} />
+        </>
     );
 
     const hasMoreItems = numFound <= (pageNum + 1) * pageSize ? false : true;
@@ -217,7 +241,7 @@ export function CollectionsViewer(props) {
                         </p>
                     )}
                     <h3 className={'clearfix'}>
-                        {atypeLabel} Items in This Collection
+                        {atypeLabel} Items in This {collabel}
                     </h3>
                     <FeatureCollection
                         docs={collitems}
@@ -227,7 +251,7 @@ export function CollectionsViewer(props) {
                         perPage={pageSize}
                         setPerPage={setPageSize}
                         viewMode={view_mode}
-                        inline={false}
+                        inline={asset_type === 'mandala'} // TODO: will this work for asset links?
                         hasMore={hasMoreItems}
                         className={'c-collection__items'}
                         sorter={sorter}
@@ -239,10 +263,10 @@ export function CollectionsViewer(props) {
     );
 }
 
-export function CollectionSortModeSelector({ sortMode, setSort }) {
+export function CollectionSortModeSelector({ sortMode, setSort, assetType }) {
     const SORTBYID = 'coll-sortby';
     const SORTORDERID = 'coll-sortorder';
-    let { sortBy, sortOrder } = sortMode.split(' ');
+    let [sortBy, sortOrder] = sortMode.split(' ');
     const sortChange = (sel) => {
         let newSortVal = sortMode;
         const selid = sel.target.id;
@@ -256,12 +280,17 @@ export function CollectionSortModeSelector({ sortMode, setSort }) {
         setSort(newSortVal);
     };
 
+    // Using "author" only for sources and texts
+    const makerLabel = ['sources', 'texts'].includes(assetType)
+        ? 'Author'
+        : 'Creator';
     const sortByVals = [
         'Title:title_sort_s',
         'Date:date_start',
-        'Creator:creator_sort_s',
+        `${makerLabel}:creator_sort_s`,
     ];
     const sortOrderVals = ['Asc', 'Desc'];
+    //console.log('Sort order in selector', sortOrder);
     return (
         <div className={'c-buttonGroup__sortMode'}>
             <span className="c-buttonGroup__sortMode-header">Sort By:</span>
@@ -299,21 +328,47 @@ export function CollectionSortModeSelector({ sortMode, setSort }) {
     );
 }
 
-function CollectionInfo({ collsolr, asset_type }) {
+export function CollectionFilterField({ onchange, val }) {
+    const pts = val.replace(':', '').split('*');
+    const displayval = pts?.length > 1 ? pts[1] : pts[0];
+    return (
+        <div className="c-buttonGroup__filter">
+            <label>
+                <input
+                    type="text"
+                    onChange={onchange}
+                    placeholder="Filter by Title"
+                    defaultValue={displayval}
+                />
+            </label>
+        </div>
+    );
+}
+
+export function CollectionInfo({ collsolr, asset_type }) {
+    const loc = useLocation();
+    const viewing_asset_link = loc.pathname.match(
+        /(\/mandala\/collection\/\d+\/)(audio-video|images|sources|texts|visuals)\/(\d+)/
+    );
+
     // Get and display Owner from collsolr
     const owner = collsolr?.node_user_full_s
         ? collsolr.node_user_full_s
         : collsolr.node_user;
 
     // Get and Display Parent collection
-    let parentcoll = collsolr?.collection_nid;
-    if (parentcoll) {
+    const parentcollid = collsolr?.collection_nid;
+    let parentcoll = parentcollid ? (
+        <Link to={`/${asset_type}/collection/${parentcollid}`}>
+            {collsolr.collection_title}
+        </Link>
+    ) : null;
+
+    if (viewing_asset_link) {
         parentcoll = (
-            <li>
-                <Link to={`/${asset_type}/collection/${parentcoll}`}>
-                    {collsolr.collection_title}
-                </Link>
-            </li>
+            <Link to={`/mandala/collection/${parentcollid}`}>
+                {collsolr.collection_title}
+            </Link>
         );
     }
 
@@ -349,15 +404,16 @@ function CollectionInfo({ collsolr, asset_type }) {
             </li>
         );
     });
-
     return (
         <aside className={'l-column__related c-collection__metadata'}>
             {parentcoll && (
-                <section className={'l-related__list__wrap'}>
-                    <div className={'u-related__list__header'}>
-                        Parent Collection
-                    </div>
-                    <ul className={'list-unstyled'}>{parentcoll}</ul>
+                <section className={'l-related__list__wrap c-coll-toc'}>
+                    <h3 className={'u-related__list__header'}>{parentcoll}</h3>
+                    <CollectionToc
+                        pid={parentcollid}
+                        currid={collsolr?.id}
+                        type={asset_type}
+                    />
                 </section>
             )}
 
@@ -391,5 +447,53 @@ function CollectionInfo({ collsolr, asset_type }) {
                 </ul>
             </section>
         </aside>
+    );
+}
+
+export function CollectionToc({ pid, currid, type }) {
+    const qkey = ['coll-sublist', type, pid];
+    const query = {
+        q: `collection_nid:${pid}`,
+        fq: ['asset_type:collections', `asset_subtype:${type}`],
+    };
+
+    const {
+        isLoading: isItemsLoading,
+        data: subcolls,
+        isError: isItemsError,
+        error: itemsError,
+    } = useSolr(qkey, { index: 'assets', params: query });
+
+    if (isItemsLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (isItemsError) {
+        return <p>Error!</p>;
+    }
+    const docs = subcolls?.docs;
+    docs.sort(function cmp(a, b) {
+        if (a.title[0] === b.title[0]) return 0;
+        if (a.title[0] > b.title[0]) return 1;
+        return -1;
+    });
+    return (
+        <ul>
+            {subcolls?.docs?.map((sc, sci) => {
+                const cid = sc?.id;
+                const ctitle = sc?.title[0];
+                if (cid === currid) {
+                    return (
+                        <li className="active" key={`coll-toc-title-${sci}`}>
+                            <span>{ctitle}</span>
+                        </li>
+                    );
+                }
+                return (
+                    <li key={`coll-toc-link-${sci}`}>
+                        <Link to={`/${type}/collection/${cid}`}>{ctitle}</Link>
+                    </li>
+                );
+            })}
+        </ul>
     );
 }

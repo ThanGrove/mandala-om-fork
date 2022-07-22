@@ -115,9 +115,13 @@
         font-size: 1.65rem;
         span {
             color: #c0c0c0;
-            padding-right: 1rem;
             vertical-align: sub;
             font-size: 2rem;
+        }
+        span.c-image__alttitle {
+            display: inline-block;
+            margin-left: 1rem;
+            color: white;
         }
     }
     .c-image__byline {
@@ -219,6 +223,10 @@
         background-color: white;
         padding: 2rem 0 5rem;
         box-shadow: 0 20rem 29rem 20rem rgba(50, 50, 50, 0.08);
+
+        span.c-image__alttitle {
+            display: block;
+        }
     }
     .c-image__metatitle {
         color: #777;

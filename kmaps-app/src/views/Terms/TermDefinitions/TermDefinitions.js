@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import ReactHtmlParser from 'react-html-parser';
@@ -9,10 +9,12 @@ import TermDefinitionsDetails from './TermDefinitionsDetails';
 import TermDefinitionsPassages from './TermDefinitionsPassages';
 import TermDefinitionsResources from './TermDefinitionsResources';
 import './TermDefinitions.css';
+import { Button } from 'react-bootstrap';
+import Collapse from 'react-bootstrap/Collapse';
 
 //Function to aggregate TermDetails data
 const aggregateDetails = _.memoize((def) => {
-    return _.reduce(
+    let details = _.reduce(
         def,
         (accum, value, key) => {
             const matches = key.match(
@@ -38,11 +40,19 @@ const aggregateDetails = _.memoize((def) => {
         },
         {}
     );
+    // Remove Language detail because it is displayed through SOLR field: def.related_definitions_language_s
+    // Could be used in future to link to Kmap subject for that language
+    Object.keys(details).forEach((ky, kyi) => {
+        if (details[ky]['header_title'] === 'Language') {
+            delete details[ky];
+        }
+    });
+    return details;
 });
 
 const TermDefinitions = (props) => {
     //Get Resources keyed by definition-id
-
+    let mainDefs = props.mainDefs;
     const relatedDocs = props.kmRelated.assets?.all?.docs || [];
     const uid = props.kmRelated.uid;
     const re = new RegExp(`${uid}_definitions-\\d+`);
@@ -58,190 +68,180 @@ const TermDefinitions = (props) => {
             }
         }
     }
-    let subdef = 0;
-    let defnumber = 1;
+    // Get MainDefs and reorganize into Ordered Defs with subdefs as children of their parent def
+    mainDefs = _.orderBy(mainDefs, (val) => val.order, 'asc').filter(
+        // filter out empty definitions (higgins for now)
+        (def) => def?.related_definitions_content_s?.length > 0
+    );
+    let orderedDefs = {};
+    // Go through each main def and check the level
+    mainDefs.forEach((def, di) => {
+        // First level defs go in orderedDefs with key of its ID
+        if (def?.related_definitions_level_i === 1) {
+            def.children = []; // Add an empty children array to each main def
+            orderedDefs[def.related_definitions_path_s] = def;
+        } else if (def?.related_definitions_level_i === 2) {
+            // Second level defs go in their parent's child array
+            const defpath = def?.related_definitions_path_s.split('/');
+            if (defpath.length > 1) {
+                const parent = defpath[0];
+                if (Object.keys(orderedDefs).includes(parent)) {
+                    orderedDefs[parent].children.push(def);
+                }
+            } else {
+                // If path of level 2 has less than 2 ids, something is wrong
+                console.warn('Definition path for level 2 contains only 1 id');
+            }
+        } else {
+            // This code only accounts for 2 levels, if there is a third or more, display warning
+            console.warn(
+                'Definition level unaccounted for: ',
+                def?.related_definitions_level_i
+            );
+        }
+    });
+    const odkeys = Object.keys(orderedDefs);
     return (
         <div className="sui-termDefinitions_wrapper">
             <div className="sui-termDefinitions__content">
-                {_.orderBy(props.mainDefs, (val) => val.order, 'asc').map(
-                    (def, order) => {
-                        const defid = 'def-' + def.id.split('-').pop(); // simplified def.id
-                        const deflevel = def.related_definitions_level_i;
-                        if (deflevel === 1) {
-                            subdef = 0;
-                            if (order > 0) {
-                                defnumber++;
-                            }
-                        } else {
-                            subdef++;
-                        }
-                        let numberlabel = defnumber;
-                        if (subdef > 0) {
-                            numberlabel += '.' + subdef;
-                        }
-                        numberlabel += '. ';
-                        const defclass =
-                            defid == window.location.hash.substr(1)
-                                ? `selected deflvl${deflevel}`
-                                : `deflvl${deflevel}`;
-
-                        return (
-                            <div
-                                key={defid}
-                                id={defid}
-                                className={`definition ${defclass}`}
-                            >
-                                <Tabs
-                                    key={def.id}
-                                    defaultActiveKey="definition"
-                                >
-                                    <Tab
-                                        eventKey="definition"
-                                        title={
-                                            <>
-                                                <span className="sui-termDefinitions__tabHeading">
-                                                    {`${numberlabel}`}
-                                                    Definition{' '}
-                                                </span>
-                                                <IconContext.Provider
-                                                    value={{
-                                                        style: {
-                                                            verticalAlign:
-                                                                'middle',
-                                                        },
-                                                    }}
-                                                >
-                                                    <TiArrowUnsorted />
-                                                </IconContext.Provider>
-                                            </>
-                                        }
-                                    >
-                                        {ReactHtmlParser(
-                                            def.related_definitions_content_s
-                                        )}
-                                        {def.related_definitions_author_s &&
-                                            def.related_definitions_language_s && (
-                                                <div className="sui-termDefinitions__extra">
-                                                    <span className="sui-termDefinitions__extra-author">
-                                                        Author:
-                                                    </span>{' '}
-                                                    <span className="sui-termDefinitions__extra-author-text">
-                                                        {
-                                                            def.related_definitions_author_s
-                                                        }
-                                                    </span>{' '}
-                                                    |{' '}
-                                                    <span className="sui-termDefinitions__extra-lang">
-                                                        Language:
-                                                    </span>{' '}
-                                                    <span className="sui-termDefinitions__extra-lang-text">
-                                                        {
-                                                            def.related_definitions_language_s
-                                                        }
-                                                    </span>
-                                                </div>
-                                            )}
-                                    </Tab>
-                                    {!_.isEmpty(aggregateDetails(def)) && (
-                                        <Tab
-                                            eventKey="details"
-                                            title={
-                                                <>
-                                                    <span className="sui-termDefinitions__tabHeading">
-                                                        Details{' '}
-                                                    </span>
-                                                    <IconContext.Provider
-                                                        value={{
-                                                            style: {
-                                                                verticalAlign:
-                                                                    'middle',
-                                                            },
-                                                        }}
-                                                    >
-                                                        <TiArrowUnsorted />
-                                                    </IconContext.Provider>
-                                                </>
-                                            }
-                                            disabled={_.isEmpty(
-                                                aggregateDetails(def)
-                                            )}
-                                        >
-                                            <TermDefinitionsDetails
-                                                details={aggregateDetails(def)}
-                                            />
-                                        </Tab>
-                                    )}
-                                    {false && (
-                                        <Tab
-                                            eventKey="passages"
-                                            title={
-                                                <>
-                                                    <span className="sui-termDefinitions__tabHeading">
-                                                        Passages (0){' '}
-                                                    </span>
-                                                    <IconContext.Provider
-                                                        value={{
-                                                            style: {
-                                                                verticalAlign:
-                                                                    'middle',
-                                                            },
-                                                        }}
-                                                    >
-                                                        <TiArrowUnsorted />
-                                                    </IconContext.Provider>
-                                                </>
-                                            }
-                                            disabled
-                                        >
-                                            <TermDefinitionsPassages />
-                                        </Tab>
-                                    )}
-                                    {parseInt(
-                                        resourceCounts[def.id]?.all || 0
-                                    ) > 0 && (
-                                        <Tab
-                                            eventKey="resources"
-                                            title={
-                                                <>
-                                                    <span className="sui-termDefinitions__tabHeading">
-                                                        Resources (
-                                                        {resourceCounts[def.id]
-                                                            ?.all || 0}
-                                                        ){' '}
-                                                    </span>
-                                                    <IconContext.Provider
-                                                        value={{
-                                                            style: {
-                                                                verticalAlign:
-                                                                    'middle',
-                                                            },
-                                                        }}
-                                                    >
-                                                        <TiArrowUnsorted />
-                                                    </IconContext.Provider>
-                                                </>
-                                            }
-                                            disabled={
-                                                parseInt(
-                                                    resourceCounts[def.id]
-                                                        ?.all || 0
-                                                ) < 1
-                                            }
-                                        >
-                                            <TermDefinitionsResources
-                                                defID={def.id}
-                                                resCounts={resourceCounts}
-                                            />
-                                        </Tab>
-                                    )}
-                                </Tabs>
-                            </div>
-                        );
-                    }
-                )}
+                {odkeys.map((odkey, order) => {
+                    let def = orderedDefs[odkey];
+                    return (
+                        <TermDefinition
+                            def={def}
+                            defnumber={order + 1}
+                            deflevel={1}
+                            resourceCounts={resourceCounts}
+                        />
+                    );
+                })}
             </div>
         </div>
     );
 };
 
 export default TermDefinitions;
+
+function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
+    const defid = 'def-' + def.id.split('-').pop(); // simplified def.id
+
+    const defclass =
+        defid == window.location.hash.substr(1)
+            ? `selected deflvl${deflevel}`
+            : `deflvl${deflevel}`;
+
+    const [open, setOpen] = useState(false);
+    const toggle_id = `${defid}-details`;
+    const toggle_icon = open ? (
+        <span className="u-icon__minus"> </span>
+    ) : (
+        <span className="u-icon__plus"> </span>
+    );
+
+    const subdefs = def?.children?.map((child, ci) => {
+        const subdefnum = ci + 1;
+        const defnum = `${defnumber}.${subdefnum}`;
+
+        return (
+            <>
+                <TermDefinition
+                    def={child}
+                    defnumber={defnum}
+                    deflevel={2}
+                    resourceCounts={resourceCounts}
+                />
+            </>
+        );
+    });
+    //console.log('Aggregate Details', aggregateDetails(def));
+
+    return (
+        <>
+            <div key={defid} id={defid} className={`definition ${defclass}`}>
+                <div className="term-defcnt">
+                    <div>
+                        <span className="l-defnum">{defnumber}.</span>
+                        {ReactHtmlParser(def.related_definitions_content_s)}
+                    </div>
+                    {!_.isEmpty(aggregateDetails(def)) && (
+                        <div className="details-ref">
+                            <Button
+                                onClick={() => setOpen(!open)}
+                                aria-controls={toggle_id}
+                                aria-expanded={open}
+                                variant={'link'}
+                                title="More details"
+                            >
+                                {toggle_icon}
+                            </Button>
+                        </div>
+                    )}
+                </div>
+                <div className="term-def-info">
+                    <div className="sui-termDefResource__wrapper">
+                        {parseInt(resourceCounts[def.id]?.all || 0) > 0 && (
+                            <TermDefinitionsResources
+                                defID={def.id}
+                                resCounts={resourceCounts}
+                            />
+                        )}
+                    </div>
+                    {/* Both author and language */}
+                    {def.related_definitions_author_s &&
+                        def.related_definitions_language_s && (
+                            <div className="sui-termDefinitions__extra">
+                                <span className="sui-termDefinitions__extra-author">
+                                    Author:
+                                </span>{' '}
+                                <span className="sui-termDefinitions__extra-author-text">
+                                    {def.related_definitions_author_s}
+                                </span>{' '}
+                                |{' '}
+                                <span className="sui-termDefinitions__extra-lang">
+                                    Language:
+                                </span>{' '}
+                                <span className="sui-termDefinitions__extra-lang-text">
+                                    {def.related_definitions_language_s}
+                                </span>
+                            </div>
+                        )}
+                    {/* Just author  */}
+                    {def.related_definitions_author_s &&
+                        !def.related_definitions_language_s && (
+                            <div className="sui-termDefinitions__extra">
+                                <span className="sui-termDefinitions__extra-author">
+                                    Author:
+                                </span>{' '}
+                                <span className="sui-termDefinitions__extra-author-text">
+                                    {def.related_definitions_author_s}
+                                </span>{' '}
+                            </div>
+                        )}
+                    {/* Just language */}
+                    {!def.related_definitions_author_s &&
+                        def.related_definitions_language_s && (
+                            <div className="sui-termDefinitions__extra">
+                                <span className="sui-termDefinitions__extra-lang">
+                                    Language:
+                                </span>{' '}
+                                <span className="sui-termDefinitions__extra-lang-text">
+                                    {def.related_definitions_language_s}
+                                </span>
+                            </div>
+                        )}
+                </div>
+                {!_.isEmpty(aggregateDetails(def)) && (
+                    <Collapse in={open}>
+                        <div id={toggle_id} className="term-def-details">
+                            <TermDefinitionsDetails
+                                details={aggregateDetails(def)}
+                                defid={defid}
+                            />
+                        </div>
+                    </Collapse>
+                )}
+            </div>
+            {subdefs}
+        </>
+    );
+}

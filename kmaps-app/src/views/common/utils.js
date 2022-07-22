@@ -20,20 +20,13 @@ export function buildNestedDocs(docs, child_type, path_field) {
         return x.block_child_type === child_type;
     });
 
-    // console.log("buildNestedDocs: ", docs)
-
     _.forEach(docs, (doc, i) => {
-        // console.log("buildNestedDocs: i=" +i);
-        // console.log("buildNestedDocs: pathField = " + path_field);
         const path = doc[path_field].split('/');
-        // console.log("buildNestedDocs path = " + path);
         doc.order = i;
-        // console.log("buildNestedDocs path.length == " + path.length);
         if (path.length === 1) {
             // this is a "root doc", push it on the base list
             base[path[0]] = doc;
         } else {
-            // this is a "nested doc"
             // this is a "nested doc"
 
             // check for each "ancestor"
@@ -44,7 +37,6 @@ export function buildNestedDocs(docs, child_type, path_field) {
             // console.log("buildNestedDocs: nested path = ", path);
             var curr = base;
             for (let i = 0; i < path.length; i++) {
-                // console.log("buildNestedDocs segment: " + path.slice(0, i + 1).join("/"));
                 if (!curr[path[i]]) {
                     curr[path[i]] = {};
                 }
@@ -58,7 +50,6 @@ export function buildNestedDocs(docs, child_type, path_field) {
             }
         }
     });
-    // console.log("buildNestedDocs:", base);
     return base;
 }
 
@@ -158,6 +149,24 @@ export function fitDimensions(maxHeight, maxWidth, imgHeight, imgWidth) {
         targetHeight = Math.floor(imgHeight * (maxWidth / imgWidth));
     }
     return { height: targetHeight, width: targetWidth };
+}
+
+/**
+ * Function to replace entity codes with the character in text
+ * Currently  has only &#039 => '
+ * @param txt
+ * @returns {*}
+ */
+export function fixEntities(txt) {
+    if (typeof txt === 'string' || txt instanceof String) {
+        const ents = ["&#039;|'"];
+        ents.forEach((ent, en) => {
+            const [fnd, rep] = ent.split('|');
+            const re = new RegExp(fnd, 'g');
+            txt = txt.replace(re, rep);
+        });
+    }
+    return txt;
 }
 
 export function selectIcon(type) {
@@ -374,6 +383,24 @@ export function getKeyHash(indexin) {
 }
 
 /**
+ * Returns true if type given is an asset type and not a kmap type
+ * Otherwise returns false
+ *
+ * @param mytype
+ * @returns {boolean}
+ */
+export function isAssetType(mytype) {
+    const assetTypes = [
+        'audio-video',
+        'av',
+        'images',
+        'sources',
+        'texts',
+        'visuals',
+    ];
+    return assetTypes.includes(mytype);
+}
+/**
  * Capitalize function since one is not provided by JS.
  */
 export const capitalize = (s) => {
@@ -498,6 +525,7 @@ export function getSolrCitation(data, title, field, nodate) {
             );
         }
         citedata = citedata.replace(/,\s+\./g, '.');
+        citedata = citedata.replace(/\s+00:00:00\s+UTC/g, ''); // Remove meaningless time value
         citedata = <HtmlCustom markup={citedata} />;
     } else {
         citedata = citedata.replace(/,\s+\./g, '.');
@@ -513,6 +541,7 @@ export function getSolrCitation(data, title, field, nodate) {
             citedata += ' (' + data[tufield].join(' ') + ' CE).';
         }
 
+        citedata = citedata.replace(/\s+00:00:00\s+UTC/g, ''); // Remove meaningless time value
         return (
             <GenericPopover title={title} content={citedata} icon={srcicon} />
         );
@@ -570,4 +599,86 @@ export function findFieldNames(data, substr, pos) {
                 return k.includes(substr);
         }
     });
+}
+
+/**
+ * Takes a JSON version of a Drupal entity with a field_language KMap Field and returns the HTML class for the span
+ * @param drpljson
+ */
+export function getLangClass(drpfld) {
+    let langclass;
+    const langfield = drpfld?.field_language;
+    const langhead =
+        langfield?.und?.length > 0
+            ? langfield.und[0]?.header.toLowerCase()
+            : false;
+    switch (langhead) {
+        case 'chinese':
+            langclass = 'zh';
+            break;
+        case 'tibetan':
+            langclass = 'bo';
+            break;
+        case 'myanmar':
+        case 'burmese':
+            langclass = 'my';
+            break;
+        case 'english':
+            langclass = 'en';
+            break;
+        default:
+            langclass = '';
+            break;
+    }
+    return langclass;
+}
+
+/**
+ * Find properties of an object that startwith, contain, endwith or match a regex
+ *
+ * @param obj
+ * @param propmtch
+ * @param pos
+ * @returns {*[]}
+ */
+export function getPropsContaining(obj, propmtch, pos = 'contains') {
+    const propnames = [];
+    for (let propname in obj) {
+        if (pos === 'starts' && propname.startsWith(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'contains' && propname.includes(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'ends' && propname.endsWith(propmtch)) {
+            propnames.push(propname);
+        }
+        if (pos === 'regex' && propname.match(propmtch)) {
+            propnames.push(propname);
+        }
+    }
+    return propnames;
+}
+
+/**
+ * Find object properties based on given RegEx pattern and makes sure they are unique
+ *
+ * @param data
+ * @param regex
+ * @returns {unknown[]}
+ */
+export function getUniquePropIds(data, regex) {
+    let ids = Object.keys(data)
+        .map((pn) => {
+            const mtch = pn.match(regex);
+            if (mtch) {
+                return mtch[1];
+            }
+            return;
+        })
+        .filter((it) => {
+            return it; // filter out empty/null instances
+        });
+    ids = new Set(ids);
+    return Array.from(ids);
 }

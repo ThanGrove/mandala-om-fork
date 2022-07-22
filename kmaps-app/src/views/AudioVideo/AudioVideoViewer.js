@@ -65,11 +65,17 @@ export default function AudioVideoViewer(props) {
     // UseEffect: run once if main av page: no dependencies, runs before asset solr doc loads
     useEffect(() => {
         if (ismain) {
-            //status.setType('audio-video');
             $('body').on('click', 'a.sui-avMore2', function () {
-                $('#sui-avlang').toggle();
-                this.text =
-                    this.text == 'SHOW MORE' ? 'SHOW LESS' : 'SHOW MORE';
+                const me = $(this);
+                if (me.hasClass('expanded')) {
+                    $('#sui-avlang').hide();
+                    me.text('SHOW MORE');
+                    me.removeClass('expanded');
+                } else {
+                    $('#sui-avlang').show();
+                    me.text('SHOW LESS');
+                    me.addClass('expanded');
+                }
             });
             $('#l-site__wrap').addClass('av');
         }
@@ -186,16 +192,28 @@ function AudioVideoRelated(props) {
         '?wt=json';
     // Effect uses Axios to call the API url above to get the More Like This list
     useEffect(() => {
+        let unmounted = false;
+        let source = axios.CancelToken.source();
         axios({
             url: url,
             adapter: jsonpAdapter,
+            cancelToken: source.token,
+            timeout: 30,
         })
             .then(function (response) {
-                setMlt(response.data);
+                if (!unmounted) {
+                    setMlt(response.data);
+                }
             })
             .catch(function (error) {
-                setMlt([]);
+                if (!unmounted) {
+                    setMlt([]);
+                }
             });
+        return function () {
+            unmounted = true;
+            source.cancel('Cancelling in cleanup');
+        };
     }, [id]);
     return (
         <div id={'meta-mlt'}>

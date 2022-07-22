@@ -6,6 +6,7 @@ ndg, Nov. 11, 2020)
  */
 
 @import '../../index-variables';
+@import 'kmaps_shared';
 
 .subjects .c-content__main__kmaps > .c-subject-info {
     //  max-width: 85rem;
@@ -113,67 +114,3 @@ ul.sui-nameEntry.first-entry
 }
 
 /*  End of c-content__main__kmaps */
-
-/* Styles from mandala that probably should be global */
-
-.shanti-texts-section-title {
-    margin: 2rem 0 1rem;
-    font-weight: 500;
-    line-height: 2.75rem;
-    color: #555 !important;
-}
-.shanti-texts-section-title.text-level-1 {
-    font-size: 1.5em !important;
-}
-
-.shanti-texts-section-title.text-level-2 {
-    font-size: 1.44em !important;
-}
-
-.shanti-texts-section-title.text-level-3,
-.shanti-texts-section-title.text-level-4,
-.shanti-texts-section-title.text-level-5,
-.shanti-texts-section-title.text-level-6,
-.shanti-texts-section-title.text-level-7 {
-    font-size: 1.18em;
-    /*  background: #f4f4f4;  */
-    padding: 1rem;
-    line-height: 1.5em;
-    font-weight: bold;
-    letter-spacing: 0.0375rem;
-    color: #444;
-    /*  border-top: 0.5rem solid white;  */
-    /*  border-bottom: 0.5rem solid white;  */
-    /*  box-shadow: inset 0 2px 0.1rem 0 #ddd;  */
-    /*  box-shadow: inset 0 0 0.1rem 0.1rem #ddd;  */
-}
-
-.shanti-texts-section-title::before {
-    border: 6px double #999;
-    position: relative;
-}
-
-.shanti-texts-section-title::before {
-    content: '';
-    color: #999;
-    background-color: transparent;
-    border-radius: 0;
-    filter: alpha(opacity=80);
-    opacity: 0.8;
-    display: inline-block;
-    margin-right: 1rem;
-    -webkit-transform: rotate(45deg);
-    -moz-transform: rotate(45deg);
-    -ms-transform: rotate(45deg);
-    -o-transform: rotate(45deg);
-    transform: rotate(45deg);
-}
-/* }  End of main.subjects */
-
-main.subjects .shanti-texts-section-title::before {
-    border-color: #cc4c34;
-}
-
-.shanti-texts-section-controls {
-    display: none !important;
-}

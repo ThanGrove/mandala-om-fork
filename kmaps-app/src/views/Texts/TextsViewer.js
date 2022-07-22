@@ -101,7 +101,7 @@ export default function TextsViewer(props) {
 
     if (isAssetLoading || isNodeLoading) {
         return (
-            <Container className={'astviewer texts'} fluid>
+            <Container className={'astviewer texts'} fluid="true">
                 <Row id={'shanti-texts-container'}>
                     <MandalaSkeleton />
                 </Row>
@@ -111,7 +111,7 @@ export default function TextsViewer(props) {
 
     if (isAssetError) {
         return (
-            <Container className={'astviewer texts'} fluid>
+            <Container className={'astviewer texts'} fluid="true">
                 <Row id={'shanti-texts-container'}>
                     <div className={'not-found-msg d-none'}>
                         <h1>Text Not Found!</h1>
@@ -123,7 +123,7 @@ export default function TextsViewer(props) {
     }
     if (isNodeError) {
         return (
-            <Container className={'astviewer texts'} fluid>
+            <Container className={'astviewer texts'} fluid="true">
                 <Row id={'shanti-texts-container'}>
                     <div className={'not-found-msg d-none'}>
                         <h1>Text Not Found!</h1>
@@ -150,7 +150,7 @@ export default function TextsViewer(props) {
                         header={kmasset.title}
                     />
                 )}
-                <div className={'l-site__wrap astviewer texts'} fluid>
+                <div className={'l-site__wrap astviewer texts'} fluid="true">
                     <div id={'shanti-texts-container'} className="d-flex">
                         <TextBody
                             id={nodejson.nid}
@@ -176,7 +176,6 @@ export default function TextsViewer(props) {
                     url={alt_viewer_url}
                     altChange={setAltViewerUrl}
                 />
-                {/* <ReactQueryDevtools initialIsOpen /> */}
             </>
         );
     }
@@ -247,7 +246,6 @@ function TextTabs(props) {
     const [open, setOpen] = useState(true);
     const [icon, setIcon] = useState(collapse_icon);
     const toggle_col = () => {
-        console.log('toggling!');
         setOpen(!open);
     };
 
@@ -260,6 +258,7 @@ function TextTabs(props) {
     const altviewhtml = $(props.links);
     const altviewlinks = altviewhtml.find('a');
     const altviewcomponent = altviewlinks.map((n, item) => {
+        //console.log('altview component', item);
         let href = $(item).attr('href');
         if (!href.includes('http')) {
             href = process.env.REACT_APP_DRUPAL_TEXTS + href;
@@ -270,11 +269,11 @@ function TextTabs(props) {
             <tr className="shanti-texts-field nothing" key={mykey}>
                 <td colSpan="2" className="shanti-texts-field-content">
                     <a
-                        href="#"
                         data-href={href}
                         onClick={() => {
                             props.altChange(href);
                         }}
+                        className="link__nohref"
                     >
                         {mytxt}
                     </a>
@@ -287,6 +286,7 @@ function TextTabs(props) {
     const title = props.title;
     const textid = props.textid;
     const sidebar_class = open ? 'open' : 'closed';
+
     return (
         <Row id={'shanti-texts-sidebar'} className={sidebar_class + ' p-2'}>
             <Col className="meta-toggle-col">
@@ -400,7 +400,7 @@ function TextTocLinks({ plid, pageid }) {
                     cname.push('active');
                 }
                 return (
-                    <li className={cname.join(' ')}>
+                    <li className={cname.join(' ')} key={`toclink-${ii}`}>
                         <Link to={`/texts/${bid}/${myid}`}>{mytitle}</Link>
                         <TextTocLinks plid={item.mlid_i} pageid={pageid} />
                     </li>
@@ -430,11 +430,11 @@ function TextsAltViewer(props) {
         <div id={'text-alt-viewer'} className={clname}>
             <div className={'close-iframe'}>
                 <a
-                    href="#"
                     title={'Back to ' + text_title}
                     onClick={() => {
                         props.altChange('');
                     }}
+                    className="link__nohref"
                 >
                     <span className={'icon shanticon-cancel'}></span>
                 </a>
@@ -442,4 +442,9 @@ function TextsAltViewer(props) {
             {iframe}
         </div>
     );
+}
+
+export function TextViewerRedirect(props) {
+    const { id } = useParams();
+    return <Redirect to={`/texts/${id}`} />;
 }

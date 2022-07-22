@@ -4,11 +4,10 @@
 // JSON Dev Utility -
 .card-body .c-button__json {
     position: absolute;
-    bottom: 0rem;
+    right: 1.35rem;
+    bottom: 0;
     background-color: white;
     padding-bottom: 0.2rem;
-    right: 1.35rem;
-    width: 90%;
 }
 
 // Grid Card
@@ -106,6 +105,13 @@
     background: white;
     z-index: 1;
     font-size: $font-size-default;
+
+    .icon:before {
+        padding-right: 0.5rem;
+    }
+    .icon {
+        line-height: 1.8rem;
+    }
 }
 
 .card-title {
@@ -303,6 +309,7 @@
 }
 
 .shanti-field-itemcount,
+.shanti-field-linktype,
 .shanti-field-path,
 .shanti-field-type,
 .shanti-field-author,
@@ -321,23 +328,25 @@
     line-height: 1.3;
 }
 
+.shanti-field-linktype .shanti-field-content {
+    color: #333;
+}
+
 .shanti-field-caption {
     line-height: 1.3;
-    margin-bottom: 1.5em;
+    margin-bottom: 1.5rem;
     color: #000;
 }
 
-.shanti-field-uid span {
-    display: inline-block;
-    margin-top: 0.2em;
-    font-style: italic;
+.shanti-field-uid > div {
 }
 
 .c-smartRelateds__limited > div {
-    line-height: 1.38em;
+    line-height: 1.38;
 }
 
 .shanti-field-itemcount span::before,
+.shanti-field-linktype span::before,
 .shanti-field-path span::before,
 .shanti-field-type span::before,
 .shanti-field-author > span::before,

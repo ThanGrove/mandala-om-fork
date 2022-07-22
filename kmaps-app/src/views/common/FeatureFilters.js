@@ -1,6 +1,5 @@
 import React from 'react';
 import { FacetChoice } from '../../search/FacetChoice';
-import Badge from 'react-bootstrap/Badge';
 import { CSSTransition, TransitionGroup } from 'react-transition-group'; // ES6
 import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
@@ -17,20 +16,20 @@ export function FeatureFilters(props) {
             const newFilters = filters.filter(
                 (filter) => !(filter.id === command.value)
             );
-            setQuery({
-                searchText: search,
-                filters: newFilters,
-            });
+            setQuery(
+                {
+                    searchText: search,
+                    filters: newFilters,
+                },
+                'push'
+            );
         }
     }
-
-    // console.log('FeatureFilters filters = ', filters);
 
     const removeIconClass = 'sui-advTermRem u-icon__cancel-circle icon';
 
     const entries =
         filters?.map((entry) => {
-            // console.log('FeatureFilters x = ', entry);
             return (
                 <CSSTransition key={entry.id} timeout={1000} classNames="item">
                     {/*<Badge*/}

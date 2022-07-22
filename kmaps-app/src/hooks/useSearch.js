@@ -67,12 +67,28 @@ async function getSearchData(
             getJsonFacet(facetType, facetOffset, facetLimit, facetBuckets)
         ),
     };
-
     const queryParams = constructTextQuery(searchText);
     const filterParams = constructFilters(filters);
-
     params = { ...params, ...queryParams, ...filterParams };
 
+    // Than added 2022/04/22 to get Tibetan Terms results to sort properly.
+    // Tests if search is filtering by Terms (only can sort terms this way)
+    if (filters?.length > 0 && filters[0]?.id === 'asset_type:terms') {
+        // If Terms Sort constant is set, use that to sort terms (for Tibetan this is 'cascading_position_i')
+        if (
+            process.env?.REACT_APP_TERMS_SORT &&
+            process.env?.REACT_APP_TERMS_SORT.length > 0
+        ) {
+            params.sort = `${process.env?.REACT_APP_TERMS_SORT} ASC`;
+            // If the sort param is cascading_position_i filter out bad records that don't have that value
+            if (
+                process.env?.REACT_APP_TERMS_SORT === 'cascading_position_i' &&
+                Array.isArray(params?.fq)
+            ) {
+                params.fq.push('cascading_position_i:*');
+            }
+        }
+    }
     const request = {
         adapter: jsonpAdapter,
         callbackParamName: 'json.wrf',
@@ -230,11 +246,17 @@ function constructTextQuery(searchString) {
 }
 
 function constructFilters(filters) {
+    //console.log('Filters', filters);
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
+        // Old fqs filters out grouping terms (letters, 9311, and phrases, 9314, 9667 - English letters) for terms trees,
+        // const xrelated = ['subjects-9311', 'subjects-9314', 'subjects-9667'];
+        // Current fqs filters for only accepted asset type or terms that are expressions (subjects-9315)
         const fqs = [
-            'asset_type:(audio-video images texts visuals sources subjects places terms)',
+            'asset_type:(audio-video images texts visuals sources subjects places collections) OR ' +
+                '(asset_type:terms AND related_uid_ss:(subjects-9315 subjects-9668 subjects-9669))',
         ];
+
         // Added by Than for project filtering
         const projid = getProject();
         if (projid) {
@@ -290,6 +312,9 @@ function constructFilters(filters) {
         if (and_list.length) fq_list.push(...and_list);
         if (not_list.length) fq_list.push(...not_list);
 
+        fq_list.push(
+            '-related_uid_ss:(subjects-9311 subjects-9314 subjects-9667)'
+        );
         // console.log('constructFQs returning: ', fq_list);
         return fq_list;
     }
@@ -333,7 +358,7 @@ function constructFilters(filters) {
                 fq_list.push(...fqs);
                 break;
             case 'collections':
-                fqs = constructFQs(facetData, 'collection_uid_s');
+                fqs = constructFQs(facetData, 'collection_uid_path_ss');
                 fq_list.push(...fqs);
                 break;
             case 'perspective':

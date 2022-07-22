@@ -3,7 +3,9 @@
 
 .l-column__related {
     height: 100%;
-    margin: 0 0 2rem -23rem;
+    min-width: 16rem;
+    max-width: 22rem;
+    margin: 0 1rem 2rem -23rem;
     padding: 0;
     transition: margin, 0.3s;
     flex: none;

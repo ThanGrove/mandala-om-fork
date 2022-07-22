@@ -1,18 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import Badge from 'react-bootstrap/Badge';
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/cjs/Nav';
-import NavItem from 'react-bootstrap/NavItem';
-import NavLink from 'react-bootstrap/NavLink';
-import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
-import ToggleButton from 'react-bootstrap/ToggleButton';
-import Spinner from 'react-bootstrap/Spinner';
-import { FacetChoice } from './FacetChoice';
 import HistoryViewer from '../views/History/HistoryViewer';
 import { BsArrowCounterclockwise } from 'react-icons/bs';
+import { MdOutlineScreenSearchDesktop } from 'react-icons/md';
 import * as PropTypes from 'prop-types';
 import _ from 'lodash';
 import { Type } from '../model/HistoryModel';
+import { useHistory } from '../hooks/useHistory';
 
 function countSearchItems(historyStack) {
     return historyStack.filter((x) => {
@@ -26,7 +22,10 @@ export function HistoryBox(props) {
     const [sortField, setSortField] = useState('count');
     const sortDirectionEl = useRef(null);
     const [sortDirection, setSortDirection] = useState('desc');
+    const pages = useHistory((state) => state.pages);
+    const resetPages = useHistory((state) => state.resetPages);
 
+    const [viewedPages, setViewedPages] = useState(pages);
     const [open, setOpen] = useState(false);
     let chosen_icon = props.icon;
     const facetType = props.facetType;
@@ -44,6 +43,10 @@ export function HistoryBox(props) {
 
     // console.log("HistoryBox: props = ", props);
 
+    useEffect(() => {
+        setViewedPages(pages);
+    }, [pages, setViewedPages]);
+
     function arrayToHash(array, keyField) {
         return array.reduce((collector, item) => {
             collector[item[keyField]] = item;
@@ -53,30 +56,20 @@ export function HistoryBox(props) {
 
     const chosenHash = arrayToHash(chosenFacets, 'id');
 
-    function handleNarrowFilters() {
-        if (props.onNarrowFilters) {
-            props.onNarrowFilters({
-                filter: props.facetType,
-                search: inputEl.current.value,
-                sort: sortField + ' ' + sortDirection,
-                limit: inputEl.current?.value?.length ? -1 : null,
-            });
-        }
-    }
-
     const handleKey = (x) => {
         // submit on return
-        if (x.keyCode === 13) {
-            handleNarrowFilters();
-        }
+        // if (x.keyCode === 13) {
+        //     handleNarrowFilters();
+        // }
     };
 
-    const handleChange =
-        // To be used for completions if desired
-        _.debounce(() => {
-            console.log('handleChange: ', inputEl.current.value);
-            handleNarrowFilters();
-        }, 500);
+    const handleChange = (event) => {
+        const filteredPages = pages.filter(
+            (item) =>
+                item.includes(event.target.value) || event.target.value === ''
+        );
+        setViewedPages(filteredPages);
+    };
 
     // console.log("chosen hash = ", chosenHash);
     const isChosen = (id) => (chosenHash[id] ? true : false);
@@ -149,14 +142,12 @@ export function HistoryBox(props) {
         return uid;
     }
 
-    const historyLength = 1; // TODO: Dummy data. Need to fix.
+    let historyLength = viewedPages.length;
 
-    const historyList = <HistoryViewer mode={'search'} />;
+    const historyList = <HistoryViewer mode={'search'} pages={viewedPages} />;
 
     const name = 'sort_' + props.id;
-    const handleResetHistory = () => {
-        console.log('HistoryBox:  RESET HISTORY');
-    };
+
     const historyBox = (
         <div className={'sui-advBox sui-advBox-' + props.id}>
             <div
@@ -165,7 +156,11 @@ export function HistoryBox(props) {
                 onClick={() => setOpen(!open)}
             >
                 <span className={'icon'}>
-                    <BsArrowCounterclockwise />
+                    {props.id === 'recent' ? (
+                        <BsArrowCounterclockwise />
+                    ) : (
+                        <MdOutlineScreenSearchDesktop />
+                    )}
                 </span>
                 <span className="app-name">{label}</span>
                 <span id={'sui-advPlus-' + props.id} className={'sui-advPlus'}>
@@ -201,16 +196,13 @@ export function HistoryBox(props) {
                         />
                     </Nav.Item>
                     <Navbar.Collapse className="justify-content-end">
-                        <Nav.Link
-                            eventKey="resetHistory"
-                            onClick={handleResetHistory}
-                        >
+                        <Nav.Link eventKey="resetHistory" onClick={resetPages}>
                             clear
                         </Nav.Link>
                     </Navbar.Collapse>
                 </Navbar>
 
-                <div className={'sui-adv-facetlist'}>
+                <div className="sui-adv-facetlist sui-adv-facetlist-padding">
                     {historyLength ? historyList : 'Search History is empty.'}
                 </div>
             </div>

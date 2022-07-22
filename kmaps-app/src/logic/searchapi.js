@@ -108,8 +108,8 @@ export function getAssetSearchPromise(search) {
     // console.log('UNPACKING query: ', query);
 
     // TODO: refactor how settings are defined.
-    const host = 'ss251856-us-east-1-aws.measuredsearch.com';
-    const index = 'kmassets_dev';
+    const host = 'mandala-solr-replica-dev.internal.lib.virginia.edu';
+    const index = 'kmassets';
     const selectUrl = 'https://' + host + '/solr/' + index + '/select';
     const startRec = page.start || 0;
     const rowsRec = page.rows || 100;
@@ -333,8 +333,8 @@ export function getAssetSearchPromise(search) {
 }
 
 export function getAssetDataPromise(kmapid) {
-    const host = 'ss251856-us-east-1-aws.measuredsearch.com';
-    const index = 'kmassets_dev';
+    const host = 'mandala-solr-replica-dev.internal.lib.virginia.edu';
+    const index = 'kmassets';
     const selectUrl = 'https://' + host + '/solr/' + index + '/select';
     const startRec = 0;
     const rowsRec = 1;
@@ -381,8 +381,8 @@ export function getAssetDataPromise(kmapid) {
 }
 
 export function getFullKmapDataPromise(kmapid) {
-    const host = 'ss251856-us-east-1-aws.measuredsearch.com';
-    const index = 'kmterms_dev';
+    const host = 'mandala-solr-replica-dev.internal.lib.virginia.edu';
+    const index = 'kmterms';
     const selectUrl = 'https://' + host + '/solr/' + index + '/select';
     const startRec = 0;
     const rowsRec = 1;
@@ -446,8 +446,8 @@ function cleanKmapData(data) {
 
 export function getRelatedAssetsPromise(kmapid, type, start, rows) {
     //console.log('getRelatedAssetsPromise() Promising: ', arguments);
-    const host = 'ss251856-us-east-1-aws.measuredsearch.com';
-    const index = 'kmassets_dev';
+    const host = 'mandala-solr-replica-dev.internal.lib.virginia.edu';
+    const index = 'kmassets';
     const selectUrl = 'https://' + host + '/solr/' + index + '/select';
     const defaultStart = 0;
     const defaultRows = 100;
@@ -635,8 +635,7 @@ function constructFilters(filters) {
     // If no filters are passed then we return the all the assets.
     if (_.isEmpty(filters)) {
         return {
-            fq:
-                'asset_type:(audio-video images texts visuals sources subjects places terms)',
+            fq: 'asset_type:(audio-video images texts visuals sources collections subjects places terms)',
         };
     }
     function arrayToHash(array, keyField) {

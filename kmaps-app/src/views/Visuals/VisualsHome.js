@@ -7,7 +7,6 @@ export function VisualsHome(props) {
         <div className={'assethome visuals'}>
             <div className={'desc'}>
                 <h1>Visuals</h1>
-                <p>This page shows all visualizations in this project.</p>
             </div>
             <div className={'c-asset-collection'}>
                 <AssetHomeCollection asset_type={'visuals'} />

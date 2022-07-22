@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { FeatureCollection } from './common/FeatureCollection';
-import { useSearchStore } from '../hooks/useSearchStore';
 import { useFilterStore } from '../hooks/useFilterStore';
+import { useRecentSearch } from '../hooks/useRecentSearch';
 import { useSearch } from '../hooks/useSearch';
 import { useParams } from 'react-router-dom';
 import { useQueryParams, StringParam, withDefault } from 'use-query-params';
@@ -16,9 +16,10 @@ export function SearchViewer() {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
+    const addSearchPage = useRecentSearch((state) => state.addSearchPage);
     const { searchText: search, filters } = query;
 
-    const [perPage, setPerPage] = useState(100); // These are the rows returned
+    const [perPage, setPerPage] = useState(50); // These are the rows returned
     const [page, setPage] = useState(0); // Start will always be page * perPage
     const start_row = page * perPage;
     const {
@@ -44,6 +45,9 @@ export function SearchViewer() {
             </div>
         );
     }
+
+    // Add the search page and filters to the store.
+    addSearchPage(query);
 
     const docs = searchData.response?.docs ?? [];
     const numFound = searchData.response?.numFound ?? 0;

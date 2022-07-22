@@ -71,6 +71,9 @@ export function MandalaSettings() {
                 id={'advanced-site-settings'}
                 className={'siteSettings-Toggle--button adv-settings-btn'}
                 onClick={_.debounce(toggle)}
+                title={
+                    'Personalized settings for browsing and searching knowledge maps'
+                }
             >
                 <BsGear></BsGear>
             </Button>

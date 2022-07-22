@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './TermDictionaries.css';
 
 const TermDictionaries = ({ definitions }) => {
     return (
         <div className="sui-termDicts__wrapper">
-            <div className="sui-termDicts__title">Other Dictionaries</div>
             <div className="sui-termDicts__content">
                 {Object.keys(definitions).map((key, i) => (
                     <React.Fragment key={key}>

@@ -8,7 +8,7 @@
   height: 100vh
   -webkit-tap-highlight-color: transparent
   max-width: 140rem
-  margin: 0
+  margin: 0 auto
 
   &.astviewer
     /*  background-color: #fcfcfc */
@@ -351,10 +351,11 @@
     position: relative
 
   .meta-toggle-col
+    position: absolute
     margin-top: -0.7rem
     max-width: 0
     padding: 0.75rem 0 0 0
-    z-index: 100
+    z-index: 10
 
   .meta-toggle
     margin: 0 0 0 35.5rem
@@ -392,12 +393,12 @@
       display: none
 
   #shanti-texts-body
-    padding: 0 0 0 2.5rem
+    padding: 1.5rem 1.5rem 2rem 3rem !important
     margin: 0 0 2rem
     min-width: 40rem
     // width: 60%
-    // max-width: 85rem
-    max-width: 98.75% !important
+    max-width: 100vw !important
+    // max-width: 98.75% !important
     height: calc(100vh - 12rem)
     background-color: white
     box-shadow: inset 0 -0.2rem 5px #ddd
@@ -474,6 +475,16 @@
 
       a
         border-bottom-color: #cccaf3
+        &.sdfootnotesym
+          margin-right: 0.4rem
+          border-bottom: none
+          vertical-align: super
+          &:hover
+            text-decoration: underline
+        &.sdfootnoteanc
+          border-bottom: none
+          &:hover
+            text-decoration: underline
 
     img
       display: block
@@ -1024,6 +1035,15 @@
       .text-visibility-0 .text-val, .text-visibility-1 .group-val, .text-visibility-2 .group-val
         display: none
 
+  /* Adjustments for standalones */
+  body.mandala
+    #shanti-texts-sidebar
+      .shanti-texts-record-table ul
+        margin: 0
+      #shanti-texts-sidebar-tabs-tabpane-text_bibl
+        .shanti-texts-field-label
+          white-space: nowrap
+
   /* FROM COLLECTIONS PANEL */
 
   .shanti-collection-page
@@ -1125,8 +1145,6 @@
 
   @media screen and (min-width: 992px)
     /* testing these two rulesets is for positioning book reader height */
-    .l-site__wrap.texts
-      margin: 0
 
     #shanti-texts-sidebar
       max-width: 100%
@@ -1358,9 +1376,10 @@
   #text-alt-viewer
     position: absolute
     top: 8.25rem
-    left: 2.5rem
-    width: 73vw
+    left: 1.5rem
+    width: 77vw
     height: 90vh
+    z-index: 20
 
     &.hidden
       display: none
@@ -1376,8 +1395,5 @@
       position: relative
       top: 2.5rem
       right: 1.5rem
-
-
-
 
 

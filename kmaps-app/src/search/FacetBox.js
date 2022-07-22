@@ -4,14 +4,11 @@ import _ from 'lodash';
 import * as PropTypes from 'prop-types';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import Spinner from 'react-bootstrap/Spinner';
 import { FacetChoice } from './FacetChoice';
 import { useInfiniteSearch } from '../hooks/useInfiniteSearch';
 import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import { BsCheckCircle, BsMap } from 'react-icons/bs';
 import { ImStack } from 'react-icons/im';
-import { useQueryParams, StringParam, withDefault } from 'use-query-params';
-import { ArrayOfObjectsParam } from '../hooks/utils';
 import './FacetBox.scss';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 
@@ -65,12 +62,6 @@ export function FacetBox(props) {
     const [open, setOpen] = useState(false);
     // eslint-disable-next-line no-unused-vars
     const [facetLimit, setFacetLimit] = useState(100);
-    // eslint-disable-next-line no-unused-vars
-    const [query, setQuery] = useQueryParams({
-        searchText: StringParam,
-        filters: withDefault(ArrayOfObjectsParam, []),
-    });
-    const { searchText: search, filters } = query;
 
     const {
         data: searchData,
@@ -81,13 +72,13 @@ export function FacetBox(props) {
         isFetchingNextPage,
         status,
     } = useInfiniteSearch(
-        search,
+        props.search,
         0,
         0,
         props.id,
         facetLimit,
         true,
-        filters,
+        props.filters,
         sortField,
         sortDirection,
         facetSearch,
@@ -107,8 +98,6 @@ export function FacetBox(props) {
     const facets = props.facets;
     const facetPages = searchData?.pages;
     const chosenFacets = props.chosenFacets || [];
-
-    // console.log("FacetBox: props = ", props);
 
     function arrayToHash(array, keyField) {
         return array.reduce((collector, item) => {
@@ -132,9 +121,7 @@ export function FacetBox(props) {
             setFacetSearch(inputEl.current.value.trim());
         }, 500);
 
-    // console.log("chosen hash = ", chosenHash);
     const isChosen = (id) => (chosenHash[id] ? true : false);
-    // console.log("FacetBox (" + facetType + ") chosenHash: ", chosenHash );
 
     const ICON_MAP = {
         'audio-video': <span className={'icon u-icon__audio-video'} />,
@@ -158,7 +145,6 @@ export function FacetBox(props) {
     };
 
     chosen_icon = chosen_icon || ICON_MAP[facetType];
-    // console.log('facetType = ', facetType, ' chosen_icon = ', chosen_icon);
 
     const icon = chosen_icon;
     const plus = <span className={'u-icon__plus icon'} />;
@@ -173,7 +159,6 @@ export function FacetBox(props) {
         let fullLabel = '';
 
         if (entry.val.match(/[^=]+\=[^\|]+\|[^=]+.*/)) {
-            // console.log("parseEntry SPECIAL CASE!")
             const [ref, val] = entry.val.split('|');
             const [refLabel, refUid] = ref.split('=');
             const [valLabel, valUid] = val.split('=');
@@ -183,7 +168,6 @@ export function FacetBox(props) {
             uid = entry.val;
             fullLabel = label;
         } else {
-            // console.log("FacetBox.parseEntry: " + JSON.stringify(entry));
             [label, uid] = entry.val.split('|');
             label = label ? label : 'undefined';
             label = label.replace(/&amp;/g, '&');
@@ -229,13 +213,10 @@ export function FacetBox(props) {
                         facetType={facetType}
                         chosen={isChosen(id)}
                         operator={'AND'}
-                        onFacetClick={(msg) => {
-                            props.onFacetClick({
-                                ...msg,
-                                action: isChosen(id) ? 'remove' : 'add',
-                            });
-                        }}
+                        onFacetClick={props.onFacetClick}
+                        onOperatorClick={props.onFacetClick}
                         booleanControls={props.booleanControls}
+                        filters={props.filters}
                     />
                 );
             })}
@@ -244,7 +225,6 @@ export function FacetBox(props) {
 
     const chosenList = _.map(props.chosenFacets, (entry) => {
         const removeIconClass = 'sui-advTermRem u-icon__cancel-circle icon';
-        // console.log("Creating removal FacetChoice from ", entry);
 
         return (
             <FacetChoice
@@ -256,11 +236,10 @@ export function FacetBox(props) {
                 labelText={entry.label}
                 label={entry.label}
                 facetType={facetType}
-                onFacetClick={(msg) => {
-                    props.onFacetClick({ ...msg, action: 'remove' });
-                }}
+                onFacetClick={props.onFacetClick}
                 onOperatorClick={props.onFacetClick}
                 booleanControls={props.booleanControls}
+                filters={props.filters}
             />
         );
     });
@@ -269,18 +248,6 @@ export function FacetBox(props) {
 
     const handleSortClick = function (e) {
         if (e.target.name) {
-            // console.log(
-            //     'ToggleButton CLICK name=',
-            //     e.target.name,
-            //     ' value=',
-            //     e.target.value
-            // );
-            // console.log(
-            //     'ToggleButton CLICK current sortDirection= ',
-            //     sortDirection
-            // );
-            // console.log('ToggleButton CLICK current sortField= ', sortField);
-
             // We're clicking on the currently selected sort type -- Let's toggle the sort direction
             if (e.target.value === sortField) {
                 if (sortDirection === 'asc') {

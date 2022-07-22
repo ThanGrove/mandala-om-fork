@@ -4,7 +4,11 @@ import { useSolr } from '../../hooks/useSolr';
 import { FeatureCollection } from './FeatureCollection';
 import MandalaSkeleton from './MandalaSkeleton';
 import { useHistory, useLocation, useParams } from 'react-router';
-import { CollectionSortModeSelector } from '../Collections/CollectionsViewer';
+import {
+    CollectionFilterField,
+    CollectionSortModeSelector,
+} from '../Collections/CollectionsViewer';
+import $ from 'jquery';
 
 export function AssetHomeCollection(props) {
     const { view_mode } = useParams(); // retrieve parameters from route. (See ContentMain.js)
@@ -17,9 +21,26 @@ export function AssetHomeCollection(props) {
     // Set up sort mode state
     const DEFAULT_SORTMODE = 'title_sort_s asc';
     const [sortMode, setSortMode] = useState(DEFAULT_SORTMODE);
+    const [filterStr, setFilter] = useState('');
+
+    let wait_to = false;
+    const waitFilter = (e) => {
+        const filter_val = `title:*${$(e.target).val()}*`;
+        if (wait_to) {
+            clearTimeout(wait_to);
+        }
+        wait_to = setTimeout(() => setFilter(filter_val), 500);
+    };
 
     const sorter = (
-        <CollectionSortModeSelector setSort={setSortMode} sortMode={sortMode} />
+        <>
+            <CollectionSortModeSelector
+                setSort={setSortMode}
+                sortMode={sortMode}
+                assetType={asset_type}
+            />
+            <CollectionFilterField onchange={waitFilter} val={filterStr} />
+        </>
     );
 
     const query = {
@@ -31,7 +52,18 @@ export function AssetHomeCollection(props) {
             rows: pageSize,
         },
     };
-    const querykey = ['asset', asset_type, 'all', sortMode, pageSize, pageNum];
+    if (filterStr?.length > 0) {
+        query['params']['fq'] = filterStr;
+    }
+    const querykey = [
+        'asset',
+        asset_type,
+        'all',
+        sortMode,
+        pageSize,
+        pageNum,
+        filterStr,
+    ];
     const {
         isLoading: isAssetsLoading,
         data: assets,
@@ -56,6 +88,7 @@ export function AssetHomeCollection(props) {
 
     // Reset pagination on change in sort order
     useEffect(() => {
+        //console.log('Sort  mode changed: ', sortMode);
         setPageNum(0);
     }, [sortMode]);
 
@@ -63,8 +96,12 @@ export function AssetHomeCollection(props) {
         console.error(assetsError);
         return <p>An error occurred in searching for these assets!</p>;
     }
+    if (isAssetsLoading) {
+        return <MandalaSkeleton />;
+    }
 
     const my_docs = assets?.docs ? assets.docs : [];
+
     return (
         <div>
             <FeatureCollection

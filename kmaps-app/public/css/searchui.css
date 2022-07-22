@@ -330,7 +330,6 @@
 }
 
 /* GRID RESULTS */
-
 .sui-grid {
     display: inline-block;
     height: 100px;
@@ -382,21 +381,6 @@
 }
 
 /* ADVANCED SEARCH */
-
-.l-column__search {
-    /*  position: absolute;
-    left: calc(100% - 361px);
-    top: 43px;
-    height: calc(100% - 75px);
-    width: 344px;
-    background-color: #eee;
-    display: none;
-    border-left: 1px solid #aaa;
-    padding: 16px 16px 0 0;
-    color: #333;
-    font-size: 15px;
-    overflow: hidden;*/
-}
 .sui-advTop {
     text-align: center;
     color: #fff;
@@ -407,16 +391,11 @@
     height: 36px;
 }
 .sui-advBox {
-    /* border: 1px solid #a4baec;
-    width: calc(100% - 10px);
-    margin: 0 0 8px 12px;
-    padding: 4px 8px 2px 8px;
-    border-radius: 6px; */
+}
+.sui-advHeader {
 }
 .sui-advHeader:hover {
     color: #668eec;
-}
-.sui-advHeader {
 }
 
 .sui-advTerm {
@@ -431,7 +410,7 @@
     display: inline-block;
     margin-left: 0.2rem;
     position: absolute;
-    right: -2.1rem;
+    left: 0.5rem;
     bottom: 0.25rem;
     font-size: 1.65rem;
     color: #91693c;
@@ -439,7 +418,6 @@
 .sui-advTermRem:hover::before {
     color: red;
 }
-
 .sui-advValueRem:hover {
     color: #668eec;
 }
@@ -447,7 +425,6 @@
 .l-content__main .sui-facetList-horiz div {
     position: relative;
 }
-
 .l-content__main .sui-facetList-horiz div .sui-advTermRem {
     font-size: 1.65rem;
     position: absolute;
@@ -455,17 +432,6 @@
     top: -0.3rem;
 }
 
-/*
-.sui-advEditBut {
-display: inline-block;
-cursor: pointer;
-vertical-align: -2px;
-color: #999;
-}
-.sui-advEditBut:hover {
-color: #a4baec;
-}
-*/
 .sui-advEditNums {
     float: right;
     font-size: 9px;
@@ -489,25 +455,24 @@ color: #a4baec;
 .sui-boolItem {
     border: none;
     color: #4d59ca;
-    padding: 0.15rem 0.6rem 0.25rem 0.6rem;
     margin: 0 0.25rem;
     border: none;
 }
 .sui-advEditBool {
     position: relative;
     top: -0.15rem;
-    padding: 0.25rem 0.6rem 0.25rem 1rem;
+    padding: 0.25rem 0.3rem 0.25rem 0.8rem;
     margin-left: 1.5rem;
     margin-right: 0.25rem;
     background: #fff;
 }
 .sui-advTerm > div:first-of-type .sui-advEditBool {
-    /* margin-left:.75rem;*/
+    padding-left: 0.65rem;
 }
-
 .sui-advEditBool .sui-boolItem:nth-of-type(2),
 .sui-advEditBool #sui-boolItem-places-0-NOT {
-    padding-right: 0.55rem;
+    padding-right: 0.35rem;
+    padding-left: 0.3rem;
 }
 
 .sui-advEditList {
@@ -548,6 +513,7 @@ color: #a4baec;
     float: right;
     color: #fff;
 }
+
 /* TREE */
 .sui-tree {
     user-select: none;
