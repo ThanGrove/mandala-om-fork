@@ -1,20 +1,18 @@
 import { FacetBox } from './FacetBox';
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Button from 'react-bootstrap/Button';
 import { useHistory, useRouteMatch, useLocation } from 'react-router-dom';
 import Badge from 'react-bootstrap/Badge';
 import { HistoryBox } from './HistoryBox';
 import { RecentSearch } from './RecentSearch';
 import { useSearch } from '../hooks/useSearch';
-import { closeStore, openTabStore } from '../hooks/useCloseStore';
+import { openTabStore } from '../hooks/useCloseStore';
 import {
     useQueryParams,
     StringParam,
     withDefault,
     encodeQueryParams,
 } from 'use-query-params';
-import { IconContext } from 'react-icons';
-import { FaRegArrowAltCircleRight } from 'react-icons/fa';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
@@ -48,7 +46,6 @@ export default function SearchAdvanced(props) {
     // so that we can give a link to go there (or not).
     const searchView = useRouteMatch(SEARCH_PATH);
 
-    // console.log("SearchAdvance searchView = ", searchView);
     let [booleanControls, setBooleanControls] = useState(true);
     const {
         isLoading: isSearchLoading,
@@ -104,7 +101,7 @@ export default function SearchAdvanced(props) {
                 },
                 {
                     searchText: search,
-                    filters: newFilters,
+                    filters: [...filters, ...newFilters],
                 }
             );
 
@@ -122,7 +119,7 @@ export default function SearchAdvanced(props) {
             setQuery(
                 {
                     searchText: search,
-                    filters: newFilters,
+                    filters: [...newFilters],
                 },
                 'push'
             );
@@ -140,7 +137,9 @@ export default function SearchAdvanced(props) {
 
         const compound_id = `${msg.facetType}:${msg.value}`;
 
-        if (command.action === null || command.action === 'add') {
+        let changedFilters = [];
+
+        if (command.action === 'add') {
             const new_filter = {
                 id: compound_id,
                 label: msg.labelText,
@@ -149,7 +148,7 @@ export default function SearchAdvanced(props) {
                 match: msg.value,
             };
             let shouldAdd = true;
-            newFilters = newFilters.map((filter) => {
+            const alteredFilters = newFilters.map((filter) => {
                 if (filter.id === new_filter.id) {
                     shouldAdd = false;
                     return new_filter;
@@ -157,14 +156,21 @@ export default function SearchAdvanced(props) {
                 return filter;
             });
             if (shouldAdd) {
-                newFilters = [...newFilters, new_filter];
+                changedFilters = [...alteredFilters, new_filter];
             }
+        } else if (command.action === 'changeOperator') {
+            changedFilters = newFilters.map((filter) => {
+                if (filter.id === compound_id) {
+                    return { ...filter, operator: msg.operator };
+                }
+                return filter;
+            });
         } else if (command.action === 'remove') {
-            newFilters = newFilters.filter(
+            changedFilters = newFilters.filter(
                 (filter) => !(filter.id === compound_id)
             );
         }
-        gotoSearchPage(newFilters); // declaratively navigate to search
+        gotoSearchPage(changedFilters); // declaratively navigate to search
     }
 
     function handleNarrowFilters(narrowFilter) {
@@ -278,6 +284,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('asset_type')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="collections"
@@ -289,6 +297,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('collections')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="related_subjects"
@@ -300,6 +310,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('subjects')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="related_places"
@@ -311,6 +323,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('places')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="related_terms"
@@ -322,6 +336,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('terms')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="feature_types"
@@ -333,6 +349,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('feature_types')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="languages"
@@ -344,6 +362,8 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('languages')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
                 <FacetBox
                     id="node_user"
@@ -355,8 +375,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('users')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <FacetBox
                     id="creator"
                     label="creator"
@@ -367,8 +388,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('creator')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <FacetBox
                     id="perspective"
                     label="perspective"
@@ -379,8 +401,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('perspective')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <FacetBox
                     id="associated_subjects"
                     label="Associated Subjects"
@@ -391,8 +414,9 @@ export default function SearchAdvanced(props) {
                     onNarrowFilters={handleNarrowFilters}
                     chosenFacets={getChosenFacets('associated_subjects')}
                     booleanControls={booleanControls}
+                    search={search}
+                    filters={filters}
                 />
-
                 <HistoryBox
                     historyStack={historyStack}
                     id="recent"
