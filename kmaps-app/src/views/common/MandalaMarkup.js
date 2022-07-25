@@ -121,7 +121,12 @@ function transform(node, index) {
             const reactkids = node.children.map((ch, ci) => {
                 return convertNodeToElement(ch, ci, transform);
             });
-            return <Link to={newurl}>{reactkids}</Link>;
+            const ts = new Date().getTime();
+            return (
+                <Link key={newurl + ts} to={newurl}>
+                    {reactkids}
+                </Link>
+            );
         }
 
         // TODO: Develop way to look up a path alias and get node ID to make aliased paths internal
