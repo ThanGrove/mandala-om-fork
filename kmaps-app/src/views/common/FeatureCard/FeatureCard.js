@@ -15,7 +15,9 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
-import { capitalize, isAssetType } from '../utils';
+import { capitalize, isAssetType, isKmap } from '../utils';
+import { useKmap } from '../../../hooks/useKmap';
+import MandalaSkeleton from '../MandalaSkeleton';
 // import '../../../css/fonts/shanticon/style.css';
 // import '../../../_index-variables.scss';
 
@@ -29,7 +31,7 @@ const typeGlyphMap = {
 };
 
 export function FeatureCard(props) {
-    //console.log('props in feature card', props);
+    // console.log('props in feature card', props);
     const doc = props.doc; // Solr doc for the asset
     const inline = props.inline || false;
 
@@ -253,6 +255,19 @@ export function FeatureCard(props) {
         );
     }
 
+    let crdimg = null;
+    if (doc?.url_thumb || !isKmap(doc.asset_type)) {
+        crdimg = (
+            <Card.Img
+                className={'c-card__grid__image--top'}
+                variant="top"
+                src={thumb_url}
+            />
+        );
+    } else {
+        crdimg = <KmapsCardImage doc={doc} />;
+    }
+
     return (
         <Card key={doc.uid} className={'c-card__grid--' + asset_type}>
             <Link
@@ -260,11 +275,7 @@ export function FeatureCard(props) {
                 className={'c-card__link--asset c-card__wrap--image'}
                 onClick={setBrowse}
             >
-                <Card.Img
-                    className={'c-card__grid__image--top'}
-                    variant="top"
-                    src={thumb_url}
-                />
+                {crdimg}
                 <div className={'c-card__grid__glyph--type color-invert'}>
                     {typeGlyph}
                 </div>
@@ -506,4 +517,35 @@ export function createAssetViewURL(
         path = `${ppts[0]}/related-${asset_type}/view/${uid}`;
     }
     return path;
+}
+
+/**
+ * Returns a kmap card image using the illustartion images thumb field
+ *
+ * TODO: Use the illustrations_images_thumb_ss field from the kmasset record when it gets pushed over to there
+ *
+ * @param doc
+ * @returns {JSX.Element|(function(*): *)|*}
+ * @constructor
+ */
+function KmapsCardImage(props) {
+    const kmid = props?.doc?.uid || '';
+    const {
+        isLoading: isKmapLoading,
+        data: kmapData,
+        isError: isKmapError,
+        error: kmapError,
+    } = useKmap(kmid, 'info');
+
+    if (isKmapLoading) {
+        return MandalaSkeleton;
+    }
+    let imgurl = process.env.PUBLIC_URL + '/img/gradient.jpg';
+    if (!isKmapError && kmapData?.illustrations_images_thumb_ss?.length > 0) {
+        imgurl = kmapData.illustrations_images_thumb_ss[0];
+    }
+    // <img class="card-img-top c-card__grid__image--top" src="https://iiif.lib.virginia.edu/mandala/shanti-image-150941/full/!200,200/0/default.jpg">
+    return (
+        <img className={'card-img-top c-card__grid__image--top'} src={imgurl} />
+    );
 }

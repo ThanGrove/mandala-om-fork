@@ -400,6 +400,11 @@ export function isAssetType(mytype) {
     ];
     return assetTypes.includes(mytype);
 }
+
+export function isKmap(mytype) {
+    return ['places', 'subjects', 'terms'].includes(mytype);
+}
+
 /**
  * Capitalize function since one is not provided by JS.
  */

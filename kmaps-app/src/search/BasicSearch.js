@@ -26,7 +26,8 @@ export function BasicSearch(props) {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
-    const { searchText: search, filters } = query;
+    let { searchText: search, filters } = query;
+    search = encodeURIComponent(search.trim());
 
     const handleSubmit = () => {
         document.getElementById('advanced-search-tree-toggle').click();
@@ -87,7 +88,7 @@ export function BasicSearch(props) {
                     type="text"
                     id="sui-search"
                     className="sui-search2"
-                    defaultValue={search}
+                    defaultValue={decodeURIComponent(search)}
                     placeholder="Search & Explore!"
                     onKeyDownCapture={handleKey}
                     ref={inputEl}

@@ -240,10 +240,17 @@ export default function PlacesInfo(props) {
 }
 
 export function PlacesSummary({ kmapData }) {
+    // console.log("kmap data place summary", kmapData);
     // Kmaps Summary (Mainly for Places)
     let itemSummary = null;
     // See if there is some kind of image url
     let imgurl =
+        kmapData?.illustrations_images_thumb_ss?.length > 0
+            ? kmapData.illustrations_images_thumb_ss[0]
+            : false;
+    // current image fields are illustrations_images_thumb_ss and illustrations_images_uid_ss
+
+    /* Code for old fields (Asked Andres if these are still used 2022-07-25. TODO: remove or reimplement.
         kmapData?.illustration_mms_url?.length > 0
             ? kmapData.illustration_mms_url[0]
             : false;
@@ -251,12 +258,14 @@ export function PlacesSummary({ kmapData }) {
         !imgurl && kmapData?.illustration_external_url?.length > 0
             ? kmapData?.illustration_external_url[0]
             : imgurl;
+     */
     const capnames = findFieldNames(kmapData, 'caption_', 'starts');
     // TODO: Currently just uses the first caption field it finds. Make this more robust
     const cap =
         capnames.length > 0 ? (
             <HtmlCustom markup={kmapData[capnames[0]][0]} />
         ) : null;
+
     const plimg = imgurl ? (
         <div className={'img featured'}>
             <img src={imgurl} alt={kmapData.header} />
