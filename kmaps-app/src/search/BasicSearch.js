@@ -27,7 +27,7 @@ export function BasicSearch(props) {
         filters: withDefault(ArrayOfObjectsParam, []),
     });
     let { searchText: search, filters } = query;
-    search = encodeURIComponent(search.trim());
+    search = encodeURIComponent(search?.trim());
 
     const handleSubmit = () => {
         document.getElementById('advanced-search-tree-toggle').click();
