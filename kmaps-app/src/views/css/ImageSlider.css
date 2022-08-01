@@ -2,7 +2,6 @@
 
 .imageslider {
     margin: 0.75rem;
-    overflow: hidden;
     max-width: 225px;
 }
 
@@ -11,6 +10,8 @@
     border-radius: 1rem !important;
     border: thick double #999;
     overflow: hidden;
+    width: 215px;
+    height: 170px;
 }
 
 .nodeHeader-placesInfo .imageslider .wrapper {
@@ -33,7 +34,7 @@
 
 .imageslider .slide {
     display: inline-block;
-    min-height: 150px;
+    width: 215px;
     border-radius: 20px;
 }
 

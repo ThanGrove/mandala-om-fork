@@ -11,7 +11,7 @@ export function ImageSlider({ images }) {
     const [index, setIndex] = useState(0);
     const [auton, setAuto] = useState(true);
     const timeoutRef = useRef(null);
-    const delay = 2500;
+    const delay = images?.length > 4 ? 5000 : 9000;
 
     function resetTimeout() {
         if (timeoutRef.current) {
@@ -48,7 +48,7 @@ export function ImageSlider({ images }) {
                 <div
                     className="slider"
                     style={{
-                        transform: `translate3d(${-index * 225}px, 0, 0)`,
+                        transform: `translate3d(${-index * 215}px, 0, 0)`,
                     }}
                 >
                     {images.map((animage, index) => (
