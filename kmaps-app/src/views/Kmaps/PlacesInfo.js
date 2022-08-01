@@ -102,7 +102,7 @@ export default function PlacesInfo(props) {
             break;
         }
     }
-    const defaultKey = txtid ? 'about' : 'map';
+    const defaultKey = txtid ? 'about' : kmapData?.has_shapes ? 'map' : 'names';
 
     // Create Name Object list to determine if there are etymologies
     const namelist = kmapData._childDocuments_?.filter((cd, i) => {
@@ -161,17 +161,18 @@ export default function PlacesInfo(props) {
                                         />
                                     </Tab>
                                 )}
-
-                                <Tab eventKey="map" title="Map">
-                                    {mapSize.width && (
-                                        <KmapsMap
-                                            fid={fid}
-                                            languageLayer="roman_popular"
-                                            height={mapSize.height}
-                                            width={mapSize.width}
-                                        />
-                                    )}
-                                </Tab>
+                                {kmapData?.has_shapes && (
+                                    <Tab eventKey="map" title="Map">
+                                        {mapSize.width && (
+                                            <KmapsMap
+                                                fid={fid}
+                                                languageLayer="roman_popular"
+                                                height={mapSize.height}
+                                                width={mapSize.width}
+                                            />
+                                        )}
+                                    </Tab>
+                                )}
                                 {nameobjs?.length > 0 && (
                                     <Tab eventKey="names" title="Names">
                                         <PlacesNames
@@ -188,13 +189,14 @@ export default function PlacesInfo(props) {
                                         />
                                     </Tab>
                                 )}
-
-                                <Tab eventKey="location" title="Location">
-                                    <PlacesLocation
-                                        kmap={kmapData}
-                                        id={queryID(baseType, id)}
-                                    />
-                                </Tab>
+                                {kmapData?.shapes_centroid_grptgeom && (
+                                    <Tab eventKey="location" title="Location">
+                                        <PlacesLocation
+                                            kmap={kmapData}
+                                            id={queryID(baseType, id)}
+                                        />
+                                    </Tab>
+                                )}
                                 <Tab eventKey="ids" title="Ids">
                                     <PlacesIds
                                         kmap={kmapData}
