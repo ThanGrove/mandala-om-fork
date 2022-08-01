@@ -24,6 +24,7 @@ import {
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
+import { ImageSlider } from '../common/ImageSlider';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -68,7 +69,6 @@ export default function PlacesInfo(props) {
                 }
             }
         }, 1000);
-
          */
     }, [kmapData, addPage]);
 
@@ -265,17 +265,34 @@ export function PlacesSummary({ kmapData }) {
         capnames.length > 0 ? (
             <HtmlCustom markup={kmapData[capnames[0]][0]} />
         ) : null;
-
+    /* Old coded for images
     const plimg = imgurl ? (
         <div className={'img featured'}>
             <img src={imgurl} alt={kmapData.header} />
             {cap}
         </div>
     ) : null;
+     */
+    let featured_img = null;
+    if (kmapData?.illustrations_images_thumb_ss?.length === 1) {
+        featured_img = (
+            <div className={'img featured'}>
+                <img
+                    src={kmapData.illustrations_images_thumb_ss[0]}
+                    alt={kmapData.header}
+                />
+                {cap}
+            </div>
+        );
+    } else if (kmapData?.illustrations_images_thumb_ss?.length > 1) {
+        featured_img = (
+            <ImageSlider images={kmapData?.illustrations_images_thumb_ss} />
+        );
+    }
     itemSummary = (
         <div className={'c-nodeHeader-itemSummary nodeHeader-placesInfo'}>
             {/* Add column with illustration if exists (if not is null) */}
-            {plimg}
+            {featured_img}
             <div className={'nodeHeader-summary'}>
                 {/* Feature type list if exists */}
                 <PlacesFeatureTypes parent={kmapData} />

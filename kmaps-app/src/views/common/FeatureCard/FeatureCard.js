@@ -264,8 +264,14 @@ export function FeatureCard(props) {
                 src={thumb_url}
             />
         );
-    } else {
-        crdimg = <KmapsCardImage doc={doc} />;
+    } else if (doc?.illustrations_images_thumb_ss?.length > 0) {
+        crdimg = (
+            <Card.Img
+                className={'c-card__grid__image--top'}
+                variant="top"
+                src={doc?.illustrations_images_thumb_ss[0]}
+            />
+        );
     }
 
     return (
@@ -517,35 +523,4 @@ export function createAssetViewURL(
         path = `${ppts[0]}/related-${asset_type}/view/${uid}`;
     }
     return path;
-}
-
-/**
- * Returns a kmap card image using the illustartion images thumb field
- *
- * TODO: Use the illustrations_images_thumb_ss field from the kmasset record when it gets pushed over to there
- *
- * @param doc
- * @returns {JSX.Element|(function(*): *)|*}
- * @constructor
- */
-function KmapsCardImage(props) {
-    const kmid = props?.doc?.uid || '';
-    const {
-        isLoading: isKmapLoading,
-        data: kmapData,
-        isError: isKmapError,
-        error: kmapError,
-    } = useKmap(kmid, 'info');
-
-    if (isKmapLoading) {
-        return MandalaSkeleton;
-    }
-    let imgurl = process.env.PUBLIC_URL + '/img/gradient.jpg';
-    if (!isKmapError && kmapData?.illustrations_images_thumb_ss?.length > 0) {
-        imgurl = kmapData.illustrations_images_thumb_ss[0];
-    }
-    // <img class="card-img-top c-card__grid__image--top" src="https://iiif.lib.virginia.edu/mandala/shanti-image-150941/full/!200,200/0/default.jpg">
-    return (
-        <img className={'card-img-top c-card__grid__image--top'} src={imgurl} />
-    );
 }
