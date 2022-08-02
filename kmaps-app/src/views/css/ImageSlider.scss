@@ -1,7 +1,10 @@
 /* Slideshow */
+$sswidth: 275px;
+$ssheight: 181px;
+
 .imageslider {
     margin: 0.75rem;
-    max-width: 275px;
+    max-width: $sswidth;
 }
 
 .imageslider .wrapper {
@@ -9,8 +12,8 @@
     border-radius: 1rem !important;
     border: thick double #999;
     overflow: hidden;
-    width: 275px;
-    height: 181px;
+    width: $sswidth;
+    height: $ssheight;
 }
 
 .nodeHeader-placesInfo .imageslider .wrapper {
@@ -26,20 +29,20 @@
 }
 
 .imageslider .slider {
-    max-height: 275px;
+    max-height: $sswidth;
     white-space: nowrap;
     transition: ease 1000ms;
 }
 
 .imageslider .slide {
     display: inline-block;
-    width: 275px;
+    width: $sswidth;
     border-radius: 20px;
     vertical-align: top;
 }
 
 .imageslider .slide img {
-    min-height: 181px;
+    min-height: $ssheight;
 }
 
 .imageslider .captions .caption,
@@ -50,10 +53,9 @@
     line-height: 18px;
     text-transform: capitalize;
     font-style: italic;
-}
-.imageslider .captions .caption.active,
-.img.featured .caption.active {
-    display: block;
+    &.active {
+        display: block;
+    }
 }
 
 .img.featured .caption {
@@ -61,6 +63,7 @@
 }
 
 /* Buttons */
+
 .imageslider .dots {
     text-align: center;
 }
@@ -78,5 +81,3 @@
 .imageslider .dot.active {
     background-color: #6a0dad;
 }
-
-/*# sourceMappingURL=ImageSlider.css.map */

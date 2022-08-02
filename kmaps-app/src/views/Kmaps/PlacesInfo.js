@@ -24,7 +24,7 @@ import {
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
-import { ImageSlider } from '../common/ImageSlider';
+import { ImageCaption, ImageSlider } from '../common/ImageSlider';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -280,15 +280,14 @@ export function PlacesSummary({ kmapData }) {
         </div>
     ) : null;
      */
-    const cap = null; // Until we figure it out.
+    let cap = null;
     let featured_img = null;
     if (kmapData?.illustrations_images_thumb_ss?.length === 1) {
+        const imgurl = kmapData.illustrations_images_thumb_ss[0];
+        cap = <ImageCaption src={imgurl} active={true} />;
         featured_img = (
             <div className={'img featured'}>
-                <img
-                    src={kmapData.illustrations_images_thumb_ss[0]}
-                    alt={kmapData.header}
-                />
+                <img src={imgurl} alt={kmapData.header} />
                 {cap}
             </div>
         );
