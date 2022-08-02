@@ -261,12 +261,17 @@ export function PlacesSummary({ kmapData }) {
             ? kmapData?.illustration_external_url[0]
             : imgurl;
      */
+    /* TODO: This uses the place caption, but we need to look up the caption for any Mandala image and use that
+                but that is more complicated
     const capnames = findFieldNames(kmapData, 'caption_', 'starts');
-    // TODO: Currently just uses the first caption field it finds. Make this more robust
+
+    console.log("capnames", capnames, kmapData);
     const cap =
         capnames.length > 0 ? (
             <HtmlCustom markup={kmapData[capnames[0]][0]} />
         ) : null;
+
+     */
     /* Old coded for images
     const plimg = imgurl ? (
         <div className={'img featured'}>
@@ -275,6 +280,7 @@ export function PlacesSummary({ kmapData }) {
         </div>
     ) : null;
      */
+    const cap = null; // Until we figure it out.
     let featured_img = null;
     if (kmapData?.illustrations_images_thumb_ss?.length === 1) {
         featured_img = (
