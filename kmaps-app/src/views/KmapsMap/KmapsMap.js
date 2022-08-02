@@ -248,7 +248,7 @@ class KmapsMap extends React.Component {
         return (
             <div id="places-map-container" className={cn}>
                 <div id="places-map-error" style={errStyle}>
-                    There is no map for this location!
+                    The map for this location could not be loaded!
                 </div>
                 <div
                     id="places-map-div"
