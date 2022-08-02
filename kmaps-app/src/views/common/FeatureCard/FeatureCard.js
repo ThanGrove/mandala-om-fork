@@ -15,7 +15,7 @@ import { browseSearchToggle } from '../../../hooks/useBrowseSearchToggle';
 
 import './FeatureCard.scss';
 import { HtmlCustom } from '../MandalaMarkup';
-import { capitalize, isAssetType, isKmap } from '../utils';
+import { capitalize, decodeEntities, isAssetType, isKmap } from '../utils';
 import { useKmap } from '../../../hooks/useKmap';
 import MandalaSkeleton from '../MandalaSkeleton';
 // import '../../../css/fonts/shanticon/style.css';
@@ -226,7 +226,9 @@ export function FeatureCard(props) {
     const myuid = `${asset_type.charAt(0).toUpperCase()}${asset_type.substr(
         1
     )}-${doc.id}`;
-    let mycaption = doc?.caption?.length > 0 ? doc.caption : null;
+    let mycaption =
+        doc?.caption?.length > 0 ? decodeEntities(doc.caption) : null;
+
     const mupatt = /<\/(p|a|header|h1|h2|span|ul|ol)>/; // Search for various closing tags
     if (mupatt.exec(mycaption)) {
         mycaption = <HtmlCustom markup={mycaption} />;

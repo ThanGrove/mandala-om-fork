@@ -687,3 +687,18 @@ export function getUniquePropIds(data, regex) {
     ids = new Set(ids);
     return Array.from(ids);
 }
+
+export function decodeEntities(str) {
+    // Taken from https://stackoverflow.com/a/9609450/2911874
+    // this prevents any overhead from creating the object each time
+    const element = document.createElement('div');
+    if (str && typeof str === 'string') {
+        // strip script/html tags
+        str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, '');
+        str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '');
+        element.innerHTML = str;
+        str = element.textContent;
+        element.textContent = '';
+    }
+    return str;
+}

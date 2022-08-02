@@ -50,6 +50,7 @@
     line-height: 18px;
     text-transform: capitalize;
     font-style: italic;
+    font-size: 90%;
 }
 .imageslider .captions .caption.active,
 .img.featured .caption.active {
