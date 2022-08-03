@@ -7,9 +7,13 @@ import { useParams } from 'react-router-dom';
 import { useQueryParams, StringParam, withDefault } from 'use-query-params';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from './common/MandalaSkeleton';
+import { openTabStore } from '../hooks/useCloseStore';
+import { browseSearchToggle } from '../hooks/useBrowseSearchToggle';
 
 export function SearchViewer() {
     const { viewMode } = useParams();
+    const setOpenTab = openTabStore((state) => state.changeButtonState);
+    const setSearch = browseSearchToggle((state) => state.setSearch);
 
     // eslint-disable-next-line no-unused-vars
     const [query, setQuery] = useQueryParams({
@@ -48,6 +52,10 @@ export function SearchViewer() {
 
     // Add the search page and filters to the store.
     addSearchPage(query);
+
+    // Open the search tab
+    setOpenTab(1);
+    setSearch();
 
     const docs = searchData.response?.docs ?? [];
     const numFound = searchData.response?.numFound ?? 0;
