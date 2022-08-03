@@ -209,14 +209,14 @@ class KmapsMap extends React.Component {
                 });
             })
             .catch((myerr) => {
-                console.log('Map data did not load!', myerr);
-                const errel = document.getElementById('places-map-error');
-                if (errel) {
-                    errel.style.display = 'block';
-                }
-                const mapel = document.getElementById('places-map-div');
-                if (mapel) {
-                    mapel.style.display = 'none';
+                console.log('Map data did not load!');
+                console.log(myerr);
+                const container = document.getElementById(
+                    'places-map-container'
+                );
+                if (container) {
+                    container.classList.remove('map');
+                    container.classList.add('nomap');
                 }
             });
     }
@@ -226,34 +226,14 @@ class KmapsMap extends React.Component {
     }
 
     render() {
-        const showmap = this?.state?.hide ? 'none' : 'block';
-        const style = {
-            display: showmap,
-            width: '100%',
-            height: '80vh',
-            backgroundColor: '#cccccc',
-        };
-        const showerr = this?.state?.hide ? 'block' : 'none';
-        const errStyle = {
-            display: showerr,
-            width: '100%',
-            height: '80vh',
-            backgroundColor: 'lightgray',
-            color: 'red',
-            fontWeight: 'bold',
-            paddingTop: '5%',
-            textAlign: 'center',
-        };
-        const cn = this?.state?.hide ? 'nomap' : 'map';
         return (
-            <div id="places-map-container" className={cn}>
-                <div id="places-map-error" style={errStyle}>
+            <div id="places-map-container" className="map">
+                <div id="places-map-error">
                     The map for this location could not be loaded!
                 </div>
                 <div
                     id="places-map-div"
                     tabIndex="1"
-                    style={style}
                     ref={this.inset_map_ref}
                 ></div>
             </div>
