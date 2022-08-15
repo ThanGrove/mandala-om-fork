@@ -91,9 +91,10 @@ export function ImageCaption({ src, active }) {
     // console.log("animage", src);
     const sidmtch = src?.match(/shanti-image-\d+/);
     const sid = sidmtch ? sidmtch[0] : '';
-    // TODO: change query to use shanti_image_id_s field when it is indexed
-    const sqid = `https://iiif.lib.virginia.edu/mandala/${sid}`;
-    const qry = `url_iiif_s:"${sqid}/info.json"`;
+    // TODO: check the change query to use shanti_image_id_s field once image indexing is done
+    // const sqid = `https://iiif.lib.virginia.edu/mandala/${sid}`;
+    // const qry = `url_iiif_s:"${sqid}/info.json"`;
+    const qry = `shanti_image_id_s:${sid}`;
     const qobj = {
         index: 'assets',
         params: {
