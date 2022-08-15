@@ -112,7 +112,7 @@ export function ImageCaption({ src, active }) {
         data: image,
         isError: isSolrError,
         error: solrError,
-    } = useSolr(sqid, qobj);
+    } = useSolr(sid, qobj);
     // console.log("data in image caption", image);
     if (image?.numFound === 1 && image.docs[0]?.caption?.length > 0) {
         const activeclass = active ? ' active' : '';
