@@ -86,11 +86,10 @@ function KmapsSettings({ type, domain, handleChange }) {
 
 function KmapSettingsInputs({ name, domain, data }) {
     const currentSettings = useView((state) => state[domain]);
-
     if (!data) {
         return null;
     }
-
+    data = ReorderKmapSettings(domain, data);
     const inputs = data.map((vd, n) => {
         const myval = `${vd.id}|${vd.code}`;
         const radioBtn =
@@ -108,4 +107,25 @@ function KmapSettingsInputs({ name, domain, data }) {
     });
 
     return <>{inputs}</>;
+}
+
+function ReorderKmapSettings(domain, data) {
+    const settings_name = `REACT_APP_${domain.toUpperCase()}_SETTINGS_ORDER`;
+    if (process?.env[settings_name]) {
+        const order = process?.env[settings_name].split(',');
+        let newdata = [];
+        order.map((oid, n) => {
+            oid = oid * 1;
+            let items = data.filter((member) => {
+                return member.id === oid;
+            });
+            if (items.length > 0) {
+                newdata.push(items[0]);
+            }
+        });
+        if (newdata?.length === order?.length) {
+            data = newdata;
+        }
+    }
+    return data;
 }
