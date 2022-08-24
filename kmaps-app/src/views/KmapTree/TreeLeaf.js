@@ -221,8 +221,10 @@ export default function TreeLeaf({
                 <span className={settings.iconClass} onClick={handleClick}>
                     {icon}
                 </span>
-                <span className={settings.headerClass}>{leafhead}</span>
-                {showpop && <MandalaPopover domain={domain} kid={kid} />}
+                <span className={settings.headerClass}>
+                    {leafhead}
+                    {showpop && <MandalaPopover domain={domain} kid={kid} />}
+                </span>
             </span>
             {child_content}
         </div>
