@@ -17,6 +17,7 @@ import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { Redirect } from 'react-router';
+import { MdLogin } from 'react-icons/all';
 
 const SEARCH_PATH = '/search/:view';
 export const SEARCH_COOKIE_NAME = 'mandala_search';
