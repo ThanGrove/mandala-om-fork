@@ -1,14 +1,19 @@
 import * as PropTypes from 'prop-types';
 import React from 'react';
+import cx from 'classnames';
 import { selectIcon } from '../views/common/utils';
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
 export function FacetChoice(props) {
+    console.log({ props });
     const operatorOptions = (
         <div className="sui-advEditBool" title="Change boolean method">
             <div
-                className="sui-boolItem"
+                className={cx({
+                    'sui-boolItem': true,
+                    active: props.operator === 'AND',
+                })}
                 onClick={() => handleSetOperator('AND')}
                 id="sui-boolItem-places-0-AND"
             >
@@ -16,7 +21,10 @@ export function FacetChoice(props) {
             </div>
             |
             <div
-                className="sui-boolItem"
+                className={cx({
+                    'sui-boolItem': true,
+                    active: props.operator === 'OR',
+                })}
                 onClick={() => handleSetOperator('OR')}
                 id="sui-boolItem-places-0-OR"
             >
@@ -24,7 +32,10 @@ export function FacetChoice(props) {
             </div>
             |
             <div
-                className="sui-boolItem"
+                className={cx({
+                    'sui-boolItem': true,
+                    active: props.operator === 'NOT',
+                })}
                 onClick={() => handleSetOperator('NOT')}
                 id="sui-boolItem-places-0-NOT"
             >

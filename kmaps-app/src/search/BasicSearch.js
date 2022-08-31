@@ -28,10 +28,6 @@ export function BasicSearch(props) {
     });
     let { searchText: search, filters } = query;
 
-    // This just gets reversed below and is not used in between (ndg8f, 2022-08-01)
-    // search = encodeURIComponent(search?.trim());
-    search = search ? search?.trim() : null;
-
     const handleSubmit = () => {
         document.getElementById('advanced-search-tree-toggle').click();
         if (!searchView) {
@@ -91,7 +87,7 @@ export function BasicSearch(props) {
                     type="text"
                     id="sui-search"
                     className="sui-search2"
-                    defaultValue={search} // this was decodeURIComponent(search)
+                    defaultValue={decodeURIComponent(search)}
                     placeholder="Search &amp; Explore!"
                     onKeyDownCapture={handleKey}
                     ref={inputEl}

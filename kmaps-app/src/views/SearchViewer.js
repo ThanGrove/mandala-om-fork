@@ -21,7 +21,7 @@ export function SearchViewer() {
         filters: withDefault(ArrayOfObjectsParam, []),
     });
     const addSearchPage = useRecentSearch((state) => state.addSearchPage);
-    const { searchText: search, filters } = query;
+    let { searchText: search, filters } = query;
 
     const [perPage, setPerPage] = useState(50); // These are the rows returned
     const [page, setPage] = useState(0); // Start will always be page * perPage

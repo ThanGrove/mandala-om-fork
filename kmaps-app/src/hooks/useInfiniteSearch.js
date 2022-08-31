@@ -1,6 +1,5 @@
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
-import slugify from 'slugify';
 import _ from 'lodash';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls, capitalize } from './utils';
@@ -34,7 +33,7 @@ export function useInfiniteSearch(
                 sortField,
                 sortDirection,
                 facetSearch,
-                searchText: slugify(searchText),
+                searchText,
             },
         ],
         getSearchData,

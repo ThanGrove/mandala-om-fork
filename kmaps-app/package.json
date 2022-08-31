@@ -17,6 +17,7 @@
         "axios": "^0.21.1",
         "axios-jsonp": "^1.0.4",
         "bootstrap": "^4.5.2",
+        "classnames": "^2.3.1",
         "easy-peasy": "^3.3.1",
         "env-cmd": "^10.1.0",
         "esri-loader": "^2.16.0",
