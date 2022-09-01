@@ -702,3 +702,19 @@ export function decodeEntities(str) {
     }
     return str;
 }
+
+/**
+ * Removes URL Params and redirects to the clean url
+ */
+export const removeURLParams = () => {
+    const href = window.location.href;
+    if (href.includes('?')) {
+        const [myurl, sstr] = href.split('?');
+        let hash = '';
+        if (sstr.includes('#')) {
+            hash = '#' + sstr.split('#')[1];
+        }
+        const newurl = myurl + hash;
+        window.history.pushState({}, undefined, newurl);
+    }
+};

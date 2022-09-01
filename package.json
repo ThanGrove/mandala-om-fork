@@ -40,5 +40,9 @@
     "react-html-parser": "^2.0.2",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0"
-  }
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:react/recommended"
+  ]
 }

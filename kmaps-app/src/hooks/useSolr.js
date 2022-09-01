@@ -4,6 +4,7 @@ import axios from 'axios';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls } from './utils';
 import { getProject } from '../views/common/utils';
+import { GetSessionID } from '../main/MandalaSession';
 
 const solrurls = getSolrUrls();
 
@@ -41,6 +42,12 @@ const getSolrData = async (query, filtered) => {
         myparams['q'] = q;
     }
 
+    // Add Session param if exists
+    const sess = GetSessionID();
+    if (sess) {
+        myparams['sid'] = sess;
+        console.log(myparams);
+    }
     // Make request
     const request = {
         adapter: jsonpAdapter,

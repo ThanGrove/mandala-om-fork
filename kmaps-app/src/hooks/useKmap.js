@@ -2,6 +2,7 @@ import { useQuery } from 'react-query';
 import axios from 'axios';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls } from './utils';
+import { GetSessionID } from '../main/MandalaSession';
 
 const solr_urls = getSolrUrls();
 
@@ -86,6 +87,11 @@ const getKmapData = async (id, qtype) => {
 
     const query = { ...queries(id)[qtype] }; // shallow copy
     query.params = { ...query.params }; // deeper copy of params
+
+    const sid = GetSessionID();
+    if (sid) {
+        query.params.sid = sid;
+    }
 
     if (
         qtype === 'asset' &&

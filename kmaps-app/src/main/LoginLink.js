@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { MdLogin, MdCheckCircle } from 'react-icons/all';
+import { GetSessionID } from './MandalaSession';
 
 export function LoginLink() {
     let logio_url = function () {
@@ -9,14 +10,13 @@ export function LoginLink() {
             process.env?.REACT_APP_HOME_URL;
     };
 
-    let icon = <MdLogin />;
+    const sid = GetSessionID();
+    console.log('Sid', sid);
 
+    const icon = sid ? <MdCheckCircle /> : <MdLogin />;
+    const title = sid ? 'Logged into Mandala' : 'Click to log into Mandala';
     return (
-        <button
-            className="mdl-login"
-            title="Log into Mandala"
-            onClick={logio_url}
-        >
+        <button className="mdl-login" title={title} onClick={logio_url}>
             {icon}
         </button>
     );

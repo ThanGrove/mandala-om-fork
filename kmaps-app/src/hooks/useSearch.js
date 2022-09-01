@@ -5,6 +5,7 @@ import _ from 'lodash';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls } from './utils';
 import { getProject } from '../views/common/utils';
+import { GetSessionID } from '../main/MandalaSession';
 
 const solr_urls = getSolrUrls();
 
@@ -67,6 +68,12 @@ async function getSearchData(
             getJsonFacet(facetType, facetOffset, facetLimit, facetBuckets)
         ),
     };
+
+    const sid = GetSessionID();
+    if (sid) {
+        params.sid = sid;
+    }
+
     const queryParams = constructTextQuery(searchText);
     const filterParams = constructFilters(filters);
     params = { ...params, ...queryParams, ...filterParams };
