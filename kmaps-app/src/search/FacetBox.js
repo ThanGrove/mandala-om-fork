@@ -229,7 +229,7 @@ export function FacetBox(props) {
         return (
             <FacetChoice
                 mode={'remove'}
-                operator={'AND'}
+                operator={entry.operator}
                 key={`Remove ${entry.match} ${label} ${facetType}`}
                 className={removeIconClass}
                 value={entry.match}

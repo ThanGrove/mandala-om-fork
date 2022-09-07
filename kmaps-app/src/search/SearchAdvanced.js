@@ -41,7 +41,7 @@ export default function SearchAdvanced(props) {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
-    const { searchText: search, filters } = query;
+    let { searchText: search, filters } = query;
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
