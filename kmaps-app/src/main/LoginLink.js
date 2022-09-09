@@ -1,20 +1,23 @@
 import React, { useState, useEffect } from 'react';
 import { MdLogin, MdCheckCircle } from 'react-icons/all';
-import { GetSessionID } from './MandalaSession';
+import { GetSessionID, GetUID } from './MandalaSession';
 
 export function LoginLink() {
-    let logio_url = function () {
+    const logio_url = function () {
+        const sid = GetSessionID();
+        const access_url = sid
+            ? process.env?.REACT_APP_LOGOUT_URL
+            : process.env?.REACT_APP_LOGIN_URL;
         window.location.href =
-            process.env?.REACT_APP_LOGIN_URL +
-            '?returl=' +
-            process.env?.REACT_APP_HOME_URL;
+            access_url + '?returl=' + process.env?.REACT_APP_HOME_URL;
     };
 
     const sid = GetSessionID();
-    //console.log('Sid', sid);
-
+    const uid = GetUID();
     const icon = sid ? <MdCheckCircle /> : <MdLogin />;
-    const title = sid ? 'Logged into Mandala' : 'Click to log into Mandala';
+    const title = sid
+        ? 'Mandala User ' + uid + ' (Click to logout)'
+        : 'Click to log into Mandala';
 
     return (
         <button className="mdl-login" title={title} onClick={logio_url}>

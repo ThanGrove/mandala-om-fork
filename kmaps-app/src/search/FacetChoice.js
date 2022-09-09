@@ -6,7 +6,6 @@ import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Popover from 'react-bootstrap/Popover';
 
 export function FacetChoice(props) {
-    console.log({ props });
     const operatorOptions = (
         <div className="sui-advEditBool" title="Change boolean method">
             <div
