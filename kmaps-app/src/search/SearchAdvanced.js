@@ -54,7 +54,7 @@ export default function SearchAdvanced(props) {
         isError: isSearchError,
         error: searchError,
     } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
-
+    //console.log("search in advance search", search);
     //let openclass = props.advanced ? 'open' : 'closed';
     const openTab = openTabStore((state) => state.openTab);
     let openclass = openTab === 1 ? 'open' : 'closed';
