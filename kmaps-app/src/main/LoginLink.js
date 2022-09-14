@@ -27,7 +27,7 @@ export function LoginLink() {
         : 'Click to log into Mandala';
 
     return (
-        <button className="mdl-login" title={title} onClick={logio_url}>
+        <button className="mdl-login btn" title={title} onClick={logio_url}>
             {icon}
         </button>
     );
