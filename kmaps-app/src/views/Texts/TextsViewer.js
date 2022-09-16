@@ -97,7 +97,17 @@ export default function TextsViewer(props) {
         }
     }
 
-    let output = null;
+    let output = (
+        <div>
+            <h1>Invalid Text ID</h1>
+            <p className="h4">
+                The text ID given, {txtId}, is invalid.
+                <br />
+                Either the text does not exist or you do not have priviledges to
+                view it.
+            </p>
+        </div>
+    );
 
     if (isAssetLoading || isNodeLoading) {
         return (
