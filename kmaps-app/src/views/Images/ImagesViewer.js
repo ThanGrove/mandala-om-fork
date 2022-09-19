@@ -181,5 +181,12 @@ export default function ImagesViewer(props) {
                 </Container>
             </div>
         );
+    } else {
+        return (
+            <div>
+                <h1>Data Unavailable</h1>
+                <p className="h4">Unable to show this image</p>
+            </div>
+        );
     }
 }
