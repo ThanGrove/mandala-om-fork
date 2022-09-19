@@ -47,7 +47,7 @@ export function useInfiniteSearch(
                 )[facetType].offset;
 
                 // Get number of buckets for this facetType
-                const numBuckets = lastPage.facets[facetType].numBuckets;
+                const numBuckets = lastPage.facets[facetType]?.numBuckets || 0;
 
                 // Set next offset
                 let nextOffset = lastOffset + 100;
@@ -285,13 +285,13 @@ function constructTextQuery(searchString) {
     let searchstring = escapeSearchString(searchString || '');
 
     // console.log (JSON.stringify(state));
-    let starts = searchstring.length ? searchstring + '*' : '*';
-    let search = searchstring.length ? '*' + searchstring + '*' : '*';
-    let slashy = searchstring + '/';
+    let starts = searchstring.length ? `"${searchstring}"*` : '*';
+    let search = searchstring.length ? `*"${searchstring}"*` : '*';
+    let slashy = `"${searchstring}/"`;
     if (!searchString || searchstring.length === 0) {
         searchstring = search = slashy = '*';
     }
-    let xact = searchstring;
+    let xact = `"${searchstring}"`;
 
     const basic_req = {
         // search: tweak for scoping later
