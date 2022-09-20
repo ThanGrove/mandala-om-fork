@@ -1,8 +1,10 @@
 import { useQuery } from 'react-query';
 import jsonpAdapter from '../logic/axios-jsonp';
 import axios from 'axios';
+import { GetSessionID } from '../main/MandalaSession';
 
 const QUERY_KEY = 'mndlapi';
+const API_PROXY = 'https://cicada.shanti.virginia.edu/solrproxy/api.php';
 
 /**
  * Function to do an Axios request for a JSON API using jsonp.
@@ -15,11 +17,22 @@ const getMandalaAPI = async (query) => {
     if (query === '') {
         return false;
     }
+    let myparams = {
+        url: query,
+    };
+    // Add Session param if exists
+    const sess = GetSessionID();
+    if (sess) {
+        myparams.sid = sess;
+    }
+
     const request = {
         adapter: jsonpAdapter,
         callbackParamName: 'callback',
-        url: query,
+        url: API_PROXY,
+        params: myparams,
     };
+    console.log('request');
     const { data } = await axios.request(request);
     const retdata = data && data.response ? data.response : data;
     return retdata;
@@ -40,6 +53,7 @@ const getMandalaAPI = async (query) => {
  * @returns {unknown}
  */
 const useMandala = (solrobj) => {
+    console.log('in use mandala', solrobj);
     // Get Solr Doc Object or first one from list
     let solrdoc = null;
     if (solrobj?.url_json) {

@@ -143,6 +143,7 @@ export default function TextsViewer(props) {
             </Container>
         );
     }
+    console.log('node json', nodejson);
 
     // Set output to return. If there's an asset, then output with text BS Container with one BS Row
     // Row contains: TextBody (main part of text) and Text Tabs (Collapsible tabs on right side including TOC)
