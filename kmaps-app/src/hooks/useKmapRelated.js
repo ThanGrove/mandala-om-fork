@@ -83,13 +83,9 @@ const getKmapRelatedData = async (
         kmapid: kmapid,
         fq: '{!tag=ast}asset_type:(' + asset_types.join(' ') + ')',
     };
-    console.log('Here');
     const sid = GetSessionID();
     if (sid) {
         params.sid = sid;
-        console.log('adding sid', sid);
-    } else {
-        console.log('No sid');
     }
 
     const request = {

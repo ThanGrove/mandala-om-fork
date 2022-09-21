@@ -17,22 +17,14 @@ const getMandalaAPI = async (query) => {
     if (query === '') {
         return false;
     }
-    let myparams = {
-        url: query,
-    };
-    // Add Session param if exists
-    const sess = GetSessionID();
-    if (sess) {
-        myparams.sid = sess;
+    if (query.substring(0, 2) == '//') {
+        query = 'https:' + query;
     }
-
     const request = {
         adapter: jsonpAdapter,
         callbackParamName: 'callback',
-        url: API_PROXY,
-        params: myparams,
+        url: query,
     };
-    console.log('request');
     const { data } = await axios.request(request);
     const retdata = data && data.response ? data.response : data;
     return retdata;
@@ -53,7 +45,6 @@ const getMandalaAPI = async (query) => {
  * @returns {unknown}
  */
 const useMandala = (solrobj) => {
-    console.log('in use mandala', solrobj);
     // Get Solr Doc Object or first one from list
     let solrdoc = null;
     if (solrobj?.url_json) {

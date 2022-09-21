@@ -9,6 +9,7 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { NotAvailable } from '../common/utilcomponents';
 
 export default function VisualsViewer(props) {
     const baseType = `visuals`;
@@ -195,8 +196,7 @@ export default function VisualsViewer(props) {
                 )}
                 {!nodejson && (
                     <Col className={'c-visual'}>
-                        <h2>Data Unavailable</h2>
-                        <p className="h4">Unable to show this visualization</p>
+                        <NotAvailable div={false} atype="visual" id={id} />
                     </Col>
                 )}
             </Container>

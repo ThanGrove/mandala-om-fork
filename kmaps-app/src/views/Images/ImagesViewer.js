@@ -5,12 +5,12 @@ import { ImageAltTitles, ImageMetadata } from './ImageMetadata';
 import $ from 'jquery';
 import './images.scss';
 import { ImagesOSDViewer } from './ImagesOSDViewer';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
-import { AssetTitle } from '../common/utilcomponents';
+import { NotAvailable } from '../common/utilcomponents';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
@@ -182,11 +182,6 @@ export default function ImagesViewer(props) {
             </div>
         );
     } else {
-        return (
-            <div>
-                <h1>Data Unavailable</h1>
-                <p className="h4">Unable to show this image</p>
-            </div>
-        );
+        return <NotAvailable div={true} atype="image" id={id} />;
     }
 }

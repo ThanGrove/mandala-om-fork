@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { MdLogin, MdCheckCircle } from 'react-icons/all';
 import { GetSessionID, GetUID } from './MandalaSession';
+import { Cookies, useCookies } from 'react-cookie';
 
+const CHECK_COOKIE_NAME = 'mandalacheckcookie';
+const WAIT_TIME = 120000; // 2 minutes in milliseconds
+
+/**
+ * Displays a login link and checks every 2 mins whether session is still valid
+ * Determines if there is a session ID and display logout link if there is and
+ * does checking. Otherwise, shows login link and does not check session validity.
+ *
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 export function LoginLink() {
     if (
         !process.env?.REACT_APP_LOGIN_URL ||
@@ -10,12 +22,45 @@ export function LoginLink() {
     ) {
         return null;
     }
-    return <LoginIcon />;
+    const sid = GetSessionID();
+    const checktime = new Cookies().get(CHECK_COOKIE_NAME);
+    const currtime = new Date().getTime();
+    // Only check if there is an sid (logged in) and either no check time or every 2 minutes.
+    const docheck = sid && (!checktime || currtime - checktime > WAIT_TIME);
+    const logio_url = function () {
+        const sid = GetSessionID();
+        const access_url = sid
+            ? process.env.REACT_APP_LOGOUT_URL
+            : process.env.REACT_APP_LOGIN_URL;
+        window.location.href =
+            access_url + '?returl=' + process.env.REACT_APP_HOME_URL;
+    };
+
+    const uid = GetUID();
+    const icon = sid ? <MdCheckCircle /> : <MdLogin />;
+    const title = sid
+        ? 'Mandala User ' + uid + ' (Click to logout)'
+        : 'Click to log into Mandala';
+
+    return (
+        <button className="mdl-login btn" title={title} onClick={logio_url}>
+            {icon}
+            {docheck && <LoginCheck sid={sid} />}
+        </button>
+    );
 }
 
-function LoginIcon(props) {
-    const [status, setStatus] = useState(false);
-    const sid = GetSessionID();
+/**
+ * An element that always returns null but does an async call to the proxy ping.php script with the
+ * session id to see if the session is still valid. If it is, the script returns and json object
+ * with "loggedIn: true". If the session has been logged out, redirects to the logout url so that
+ * react removes the session cookie and react app.
+ *
+ * @param sid
+ * @returns {null}
+ * @constructor
+ */
+function LoginCheck({ sid }) {
     const pingurl = process.env.REACT_APP_PING_URL + '?';
     const fetchData = async () => {
         const response = await fetch(
@@ -39,31 +84,18 @@ function LoginIcon(props) {
     useEffect(() => {
         fetchData()
             .then((res) => {
-                console.log('response to ping is', res);
-                setStatus(res?.loggedIn);
+                if (!res?.loggedIn) {
+                    window.location.href =
+                        process.env.REACT_APP_LOGOUT_URL +
+                        '?returl=' +
+                        process.env.REACT_APP_HOME_URL;
+                } else {
+                    new Cookies().set(CHECK_COOKIE_NAME, new Date().getTime());
+                }
             })
             .catch((e) => {
-                console.log(e, e.message);
+                console.log(e.message, e);
             });
     }, []);
-    const logio_url = function () {
-        const sid = GetSessionID();
-        const access_url = sid
-            ? process.env.REACT_APP_LOGOUT_URL
-            : process.env.REACT_APP_LOGIN_URL;
-        window.location.href =
-            access_url + '?returl=' + process.env.REACT_APP_HOME_URL;
-    };
-    const tmplable = status ? 'Yup' : 'Nope';
-    const uid = GetUID();
-    const icon = sid ? <MdCheckCircle /> : <MdLogin />;
-    const title = sid
-        ? 'Mandala User ' + uid + ' (Click to logout)'
-        : 'Click to log into Mandala';
-
-    return (
-        <button className="mdl-login btn" title={title} onClick={logio_url}>
-            ({tmplable}) {icon}
-        </button>
-    );
+    return null;
 }

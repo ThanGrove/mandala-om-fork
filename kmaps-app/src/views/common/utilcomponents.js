@@ -504,3 +504,23 @@ function ShanticonItem({ sicon }) {
         </>
     );
 }
+
+export function NotAvailable({ div = true, atype = 'asset', id = null }) {
+    const prep = ['a', 'e', 'i', 'o', 'u'].includes(atype[0]) ? 'an' : 'a';
+    const idst = id ? `this ID, ${id},` : 'this ID';
+    const message = (
+        <>
+            <h1>Not Available For Viewing</h1>
+            <p className="h4">
+                Either {prep} {atype} with {idst} does not exist or it is
+                private.
+            </p>
+        </>
+    );
+
+    if (div) {
+        return <div>{message}</div>;
+    } else {
+        return message;
+    }
+}

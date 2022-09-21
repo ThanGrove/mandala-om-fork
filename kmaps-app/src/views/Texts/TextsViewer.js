@@ -13,6 +13,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { useSolr } from '../../hooks/useSolr';
+import { NotAvailable } from '../common/utilcomponents';
 
 function scrollToSection(sectid) {
     let newScrollTop = 0;
@@ -190,12 +191,7 @@ export default function TextsViewer(props) {
             </>
         );
     } else {
-        return (
-            <div>
-                <h1>Data Unavailable</h1>
-                <p className="h4">Unable to show this image</p>
-            </div>
-        );
+        return <NotAvailable div={true} atype="text" id={id} />;
     }
     return output;
 }
