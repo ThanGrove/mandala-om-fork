@@ -195,7 +195,7 @@ export function FacetBox(props) {
 
     const facetList = facetPages?.map((page, idx) => (
         <React.Fragment key={idx}>
-            {page?.facets[props.id].buckets.map((entry) => {
+            {page?.facets[props.id]?.buckets.map((entry) => {
                 // Adjust
                 const iconClass = chooseIconClass(entry);
                 const { label, fullLabel, value } = parseEntry(entry, false);
