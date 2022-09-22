@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { MdLogin, MdCheckCircle } from 'react-icons/all';
 import { GetSessionID, GetUID } from './MandalaSession';
 import { Cookies, useCookies } from 'react-cookie';
+import useMandala from '../hooks/useMandala';
 
 const CHECK_COOKIE_NAME = 'mandalacheckcookie';
 const WAIT_TIME = 120000; // 2 minutes in milliseconds
@@ -15,7 +16,23 @@ const WAIT_TIME = 120000; // 2 minutes in milliseconds
  * @constructor
  */
 export function LoginLink() {
+    const data = {
+        url_json:
+            'https://mandala-dev.internal.lib.virginia.edu/general/api/user/current',
+        asset_type: 'user',
+        uid: 'current-user',
+        id: 'current-user',
+    };
+    const {
+        isLoading: isUserLoading,
+        data: userinfo,
+        isError: isUserError,
+        error: userError,
+    } = useMandala(data);
+
     if (
+        isUserLoading ||
+        isUserError ||
         !process.env?.REACT_APP_LOGIN_URL ||
         !process.env?.REACT_APP_LOGOUT_URL ||
         !process.env?.REACT_APP_HOME_URL
@@ -39,7 +56,7 @@ export function LoginLink() {
     const uid = GetUID();
     const icon = sid ? <MdCheckCircle /> : <MdLogin />;
     const title = sid
-        ? 'Mandala User ' + uid + ' (Click to logout)'
+        ? `Mandala User ${userinfo?.name} (${uid}) (Click to logout)`
         : 'Click to log into Mandala';
 
     return (

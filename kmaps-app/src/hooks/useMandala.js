@@ -14,6 +14,7 @@ const API_PROXY = 'https://cicada.shanti.virginia.edu/solrproxy/api.php';
  * @returns {Promise<boolean|*>}
  */
 const getMandalaAPI = async (query) => {
+    // console.log('query is:', query);
     if (query === '') {
         return false;
     }
@@ -66,7 +67,6 @@ const useMandala = (solrobj) => {
     }
     // Get UID for Query Key
     const uid = solrdoc?.uid ? solrdoc.uid : 'unknown';
-
     return useQuery([QUERY_KEY, uid], () => getMandalaAPI(json_url), {
         enabled: !!solrdoc?.id,
     });
