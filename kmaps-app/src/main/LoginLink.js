@@ -3,6 +3,7 @@ import { MdLogin, MdCheckCircle } from 'react-icons/all';
 import { GetSessionID, GetUID } from './MandalaSession';
 import { Cookies, useCookies } from 'react-cookie';
 import useMandala from '../hooks/useMandala';
+import Dropdown from 'react-bootstrap/Dropdown';
 
 const CHECK_COOKIE_NAME = 'mandalacheckcookie';
 const WAIT_TIME = 120000; // 2 minutes in milliseconds
@@ -16,6 +17,30 @@ const WAIT_TIME = 120000; // 2 minutes in milliseconds
  * @constructor
  */
 export function LoginLink() {
+    if (
+        !process.env?.REACT_APP_LOGIN_URL ||
+        !process.env?.REACT_APP_LOGOUT_URL ||
+        !process.env?.REACT_APP_HOME_URL
+    ) {
+        return null;
+    }
+    const sid = GetSessionID();
+    const checktime = new Cookies().get(CHECK_COOKIE_NAME);
+    const currtime = new Date().getTime();
+    // Only check if there is an sid (logged in) and either no check time or every 2 minutes.
+    const docheck = sid && (!checktime || currtime - checktime > WAIT_TIME);
+
+    const icon = sid ? <LogoutIcon sid={sid} /> : <LoginIcon />;
+
+    return (
+        <>
+            {icon}
+            {docheck && <LoginCheck sid={sid} />}
+        </>
+    );
+}
+
+function LogoutIcon() {
     const data = {
         url_json:
             'https://mandala-dev.internal.lib.virginia.edu/general/api/user/current',
@@ -30,40 +55,54 @@ export function LoginLink() {
         error: userError,
     } = useMandala(data);
 
-    if (
-        isUserLoading ||
-        isUserError ||
-        !process.env?.REACT_APP_LOGIN_URL ||
-        !process.env?.REACT_APP_LOGOUT_URL ||
-        !process.env?.REACT_APP_HOME_URL
-    ) {
+    const logout = function () {
+        window.location.href =
+            process.env.REACT_APP_LOGOUT_URL +
+            '?returl=' +
+            process.env.REACT_APP_HOME_URL;
+    };
+    if (isUserLoading) {
         return null;
     }
-    const sid = GetSessionID();
-    const checktime = new Cookies().get(CHECK_COOKIE_NAME);
-    const currtime = new Date().getTime();
-    // Only check if there is an sid (logged in) and either no check time or every 2 minutes.
-    const docheck = sid && (!checktime || currtime - checktime > WAIT_TIME);
-    const logio_url = function () {
-        const sid = GetSessionID();
-        const access_url = sid
-            ? process.env.REACT_APP_LOGOUT_URL
-            : process.env.REACT_APP_LOGIN_URL;
+    const title = `Mandala User ${userinfo?.name} (${userinfo.uid}) (Click to logout)`;
+    return (
+        <button className="mdl-login btn" title={title} onClick={logout}>
+            <MdCheckCircle />
+        </button>
+    );
+}
+
+function LoginIcon() {
+    const login = function () {
         window.location.href =
-            access_url + '?returl=' + process.env.REACT_APP_HOME_URL;
+            process.env.REACT_APP_LOGIN_URL +
+            '?returl=' +
+            process.env.REACT_APP_HOME_URL;
     };
 
-    const uid = GetUID();
-    const icon = sid ? <MdCheckCircle /> : <MdLogin />;
-    const title = sid
-        ? `Mandala User ${userinfo?.name} (${uid}) (Click to logout)`
-        : 'Click to log into Mandala';
+    const login2 = function () {
+        window.location.href =
+            process.env.REACT_APP_LOGIN_URL +
+            '?returl=' +
+            process.env.REACT_APP_HOME_URL +
+            '&logintype=saml';
+    };
 
     return (
-        <button className="mdl-login btn" title={title} onClick={logio_url}>
-            {icon}
-            {docheck && <LoginCheck sid={sid} />}
-        </button>
+        <div className="mndl-login m-3">
+            <Dropdown>
+                <Dropdown.Toggle variant="outline-info" id="dropdown-basic">
+                    Login <MdLogin />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu>
+                    <Dropdown.Item onClick={login2}>
+                        With UVA Netbadge
+                    </Dropdown.Item>
+                    <Dropdown.Item onClick={login}>With Password</Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+        </div>
     );
 }
 

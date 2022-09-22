@@ -146,7 +146,7 @@ export function CollectionsViewer(props) {
     if (isCollLoading) {
         return <MandalaSkeleton />;
     }
-
+    console.log('coll solr', collsolr);
     const numFound = items?.numFound;
 
     // Get and display (if exists) thumbnail image
@@ -430,7 +430,6 @@ export function CollectionInfo({ collsolr, asset_type }) {
 }
 
 export function CollectionToc({ pid, currid, type, count = false }) {
-    console.log(pid, type);
     const qkey = ['coll-sublist', type, pid];
     const query = {
         q: `collection_nid:${pid}`,
