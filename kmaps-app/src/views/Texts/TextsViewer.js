@@ -144,7 +144,6 @@ export default function TextsViewer(props) {
             </Container>
         );
     }
-    console.log('node json', nodejson);
 
     // Set output to return. If there's an asset, then output with text BS Container with one BS Row
     // Row contains: TextBody (main part of text) and Text Tabs (Collapsible tabs on right side including TOC)
@@ -153,6 +152,7 @@ export default function TextsViewer(props) {
         if (nodejson.bibl_summary === '') {
             nodejson.bibl_summary = '<div>Description is loading!</div>';
         }
+
         output = (
             <>
                 {props?.id && (
@@ -173,7 +173,7 @@ export default function TextsViewer(props) {
                         <TextTabs
                             textid={nodejson.nid}
                             pageid={pageid}
-                            mlid={kmasset.mlid_i}
+                            mlid={nodejson.book.mlid}
                             toc={nodejson.toc_links}
                             meta={nodejson.bibl_summary}
                             links={nodejson.views_links}

@@ -10,6 +10,7 @@ import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { NotAvailable } from '../common/utilcomponents';
 
 export default function SourcesViewer(props) {
     const baseType = `sources`;
@@ -70,6 +71,10 @@ export default function SourcesViewer(props) {
     }
 
     const solrdoc = kmasset;
+
+    if (solrdoc?.response?.numFound === 0 || !nodejson) {
+        return <NotAvailable div={true} atype={'sources'} id={id} />;
+    }
 
     const data_col_width = solrdoc?.url_thumb?.length > 0 ? 8 : 12;
 
