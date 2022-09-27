@@ -70,7 +70,11 @@ function LogoutIcon() {
     }
     const title = `Mandala User ${userinfo?.name} (${userinfo?.uid}) (Click to logout)`;
     return (
-        <button className="mdl-login btn" title={title} onClick={logout}>
+        <button
+            className="mndl-access logout btn"
+            title={title}
+            onClick={logout}
+        >
             <MdCheckCircle />
         </button>
     );
@@ -93,9 +97,9 @@ function LoginIcon() {
     };
 
     return (
-        <div className="mndl-login m-3">
+        <div className="mndl-access login m-3">
             <Dropdown>
-                <Dropdown.Toggle variant="outline-info" id="dropdown-basic">
+                <Dropdown.Toggle id="dropdown-basic">
                     Login <MdLogin />
                 </Dropdown.Toggle>
 

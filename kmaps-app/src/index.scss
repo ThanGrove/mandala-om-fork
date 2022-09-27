@@ -1629,10 +1629,20 @@ span.refdate {
     background-color: #555;
 }
 
-.mndl-login {
-    * {
-        font-size: 1.5rem;
-        color: #aaa;
+.mndl-access {
+    &.logout * {
+        color: green;
+        font-size: 1.75rem;
         border: none;
+    }
+    &.login {
+        * {
+            font-size: 1.5rem;
+            border: none;
+            margin-top: -0.2rem;
+        }
+        .btn {
+            background-color: #3f49b1;
+        }
     }
 }
