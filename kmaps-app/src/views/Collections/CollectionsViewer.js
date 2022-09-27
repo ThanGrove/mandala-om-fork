@@ -146,7 +146,7 @@ export function CollectionsViewer(props) {
     if (isCollLoading) {
         return <MandalaSkeleton />;
     }
-
+    console.log('coll solr', collsolr);
     const numFound = items?.numFound;
 
     // Get and display (if exists) thumbnail image
@@ -371,39 +371,8 @@ export function CollectionInfo({ collsolr, asset_type }) {
             </Link>
         );
     }
+    console.log('collsorl', collsolr);
 
-    // Get and Display Subcollections
-    const subcollids = collsolr?.subcollection_id_is;
-    const subcolltitles = collsolr?.subcollection_name_ss;
-    let subcolldata = subcollids?.map(function (item, n) {
-        let sctitle = subcolltitles[n];
-        return `${sctitle}###${item}`;
-    });
-    if (subcolldata?.length > 0) {
-        subcolldata.sort();
-    }
-
-    const sctitleLen = 34;
-    const subcolls = subcolldata?.map((item) => {
-        const [sctitle, scid] = item.split('###');
-        let sctitleval = sctitle;
-
-        if (sctitleval.length > sctitleLen) {
-            sctitleval =
-                sctitleval.substr(0, sctitleval.lastIndexOf(' ', sctitleLen)) +
-                ' ...';
-        }
-        const alttitle = sctitle;
-        const scurl = `/${asset_type}/collection/${scid}`;
-        const key = `${scid}-${sctitle}`;
-        return (
-            <li key={key}>
-                <Link to={scurl} title={alttitle}>
-                    {sctitleval}
-                </Link>
-            </li>
-        );
-    });
     return (
         <aside className={'l-column__related c-collection__metadata'}>
             {parentcoll && (
@@ -416,13 +385,23 @@ export function CollectionInfo({ collsolr, asset_type }) {
                     />
                 </section>
             )}
-
-            {subcolls && (
+            {!parentcoll && (
                 <section className={'l-related__list__wrap'}>
                     <h3 className={'u-related__list__header'}>
-                        Subcollections ({subcolls.length})
+                        Subcollections (
+                        <CollectionToc
+                            pid={collsolr?.id}
+                            currid={false}
+                            type={asset_type}
+                            count={true}
+                        />
+                        )
                     </h3>
-                    <ul className={'list-unstyled'}>{subcolls}</ul>
+                    <CollectionToc
+                        pid={collsolr?.id}
+                        currid={false}
+                        type={asset_type}
+                    />
                 </section>
             )}
 
@@ -450,7 +429,7 @@ export function CollectionInfo({ collsolr, asset_type }) {
     );
 }
 
-export function CollectionToc({ pid, currid, type }) {
+export function CollectionToc({ pid, currid, type, count = false }) {
     const qkey = ['coll-sublist', type, pid];
     const query = {
         q: `collection_nid:${pid}`,
@@ -465,12 +444,16 @@ export function CollectionToc({ pid, currid, type }) {
     } = useSolr(qkey, { index: 'assets', params: query });
 
     if (isItemsLoading) {
+        if (count) return null;
         return <MandalaSkeleton />;
     }
     if (isItemsError) {
         return <p>Error!</p>;
     }
     const docs = subcolls?.docs;
+    if (count) {
+        return docs?.length;
+    }
     docs.sort(function cmp(a, b) {
         if (a.title[0] === b.title[0]) return 0;
         if (a.title[0] > b.title[0]) return 1;

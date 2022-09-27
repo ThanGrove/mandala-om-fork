@@ -11,7 +11,8 @@ import { useParams } from 'react-router-dom';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
-import { AssetTitle } from '../common/utilcomponents';
+import { AssetTitle, NotAvailable } from '../common/utilcomponents';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
  * AudioVideoViewer is called from ContentMain.js and is wrapped in a MdlAssetContext that supplies it with a SOLR
@@ -109,6 +110,13 @@ export default function AudioVideoViewer(props) {
             }
         }
     }, [kmasset, nodejson]); // Depend on kmasset and nodejson
+
+    if (isAssetLoading || isNodeLoading) {
+        return <MandalaSkeleton />;
+    }
+    if (!kmasset || kmasset?.response?.numFound === 0 || !nodejson) {
+        return <NotAvailable div={true} atype={'AV item'} id={id} />;
+    }
     // Return the av-viewer div with div for Bill's drawing of AV player and AV metadata
     return (
         <div id={'av-viewer'}>

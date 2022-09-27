@@ -29,23 +29,23 @@ const getSolrData = async (query, filtered) => {
 
     let myparams = query.params;
     if (!('wt' in myparams)) {
-        myparams['wt'] = 'json';
+        myparams.wt = 'json';
     }
 
     // Filter by project if filtered boolean is true
     const project = getProject();
     if (query.index === 'assets' && filtered && project) {
-        let q = myparams['q'];
+        let q = myparams.q;
         if (!q.includes('projects_ss:')) {
             q += ` AND projects_ss:${project}`;
         }
-        myparams['q'] = q;
+        myparams.q = q;
     }
 
     // Add Session param if exists
     const sess = GetSessionID();
     if (sess) {
-        myparams['sid'] = sess;
+        myparams.sid = sess;
     }
     // Make request
     const request = {
@@ -57,7 +57,7 @@ const getSolrData = async (query, filtered) => {
     const { data } = await axios.request(request);
     let retdata = data && data.response ? data.response : data;
     if (data?.facet_counts?.facet_fields) {
-        retdata['facets'] = processFacets(data.facet_counts.facet_fields);
+        retdata.facets = processFacets(data.facet_counts.facet_fields);
     }
     return retdata;
 };

@@ -9,14 +9,22 @@ import { removeURLParams } from '../views/common/utils';
  */
 export function MandalaSession() {
     const cookies = new Cookies();
-    const sstr = window.location.search;
+    let sstr = window.location.search;
+    if (sstr.includes('logout=true')) {
+        cookies.remove('solrsid');
+        removeURLParams();
+    }
     const solr_session = cookies.get('solrsid');
     if (!solr_session && sstr.includes('sid=')) {
         const session_id = sstr.split('sid=')[1];
         if (session_id) {
             cookies.set('solrsid', session_id, { path: '/' });
-            removeURLParams();
         }
+        if (sstr.length > 1 && sstr[1].includes('uid=')) {
+            const uid = sstr[1].split('uid=')[1];
+            cookies.set('muid', uid);
+        }
+        removeURLParams();
     }
 }
 
@@ -29,4 +37,9 @@ export function MandalaSession() {
 export function GetSessionID() {
     const cookies = new Cookies();
     return cookies.get('solrsid');
+}
+
+export function GetUID() {
+    const cookies = new Cookies();
+    return cookies.get('muid');
 }

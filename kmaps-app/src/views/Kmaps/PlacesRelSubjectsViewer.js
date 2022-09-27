@@ -157,6 +157,18 @@ export function PlacesRelSubjects({ children }) {
                                         </span>{' '}
                                     </>
                                 )}
+                                {relsb?.related_subjects_time_units_ss && (
+                                    <>
+                                        {' '}
+                                        <span>
+                                            (
+                                            {relsb?.related_subjects_time_units_ss.join(
+                                                ', '
+                                            )}
+                                            )
+                                        </span>{' '}
+                                    </>
+                                )}
                                 {source}
                                 {notes}
                             </li>

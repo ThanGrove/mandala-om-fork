@@ -9,7 +9,7 @@ export function FeatureFilters(props) {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
-    const { searchText: search, filters } = query;
+    let { searchText: search, filters } = query;
 
     function handleFacetClick(command) {
         if (command.action === 'remove') {

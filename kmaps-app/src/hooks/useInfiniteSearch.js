@@ -1,10 +1,10 @@
 import { useInfiniteQuery } from 'react-query';
 import axios from 'axios';
-import slugify from 'slugify';
 import _ from 'lodash';
 import jsonpAdapter from '../logic/axios-jsonp';
 import { getSolrUrls, capitalize } from './utils';
 import { getProject } from '../views/common/utils';
+import { GetSessionID } from '../main/MandalaSession';
 
 const solr_urls = getSolrUrls();
 
@@ -34,7 +34,7 @@ export function useInfiniteSearch(
                 sortField,
                 sortDirection,
                 facetSearch,
-                searchText: slugify(searchText),
+                searchText,
             },
         ],
         getSearchData,
@@ -47,7 +47,7 @@ export function useInfiniteSearch(
                 )[facetType].offset;
 
                 // Get number of buckets for this facetType
-                const numBuckets = lastPage.facets[facetType].numBuckets;
+                const numBuckets = lastPage.facets[facetType]?.numBuckets || 0;
 
                 // Set next offset
                 let nextOffset = lastOffset + 100;
@@ -98,6 +98,12 @@ async function getSearchData({ queryKey, pageParam = 0 }) {
             )
         ),
     };
+
+    const sid = GetSessionID();
+    if (sid) {
+        params.sid = sid;
+    }
+
     const queryParams = constructTextQuery(searchText);
     const filterParams = constructFilters(filters);
 
@@ -279,13 +285,13 @@ function constructTextQuery(searchString) {
     let searchstring = escapeSearchString(searchString || '');
 
     // console.log (JSON.stringify(state));
-    let starts = searchstring.length ? searchstring + '*' : '*';
-    let search = searchstring.length ? '*' + searchstring + '*' : '*';
-    let slashy = searchstring + '/';
+    let starts = searchstring.length ? `"${searchstring}"*` : '*';
+    let search = searchstring.length ? `*"${searchstring}"*` : '*';
+    let slashy = `"${searchstring}/"`;
     if (!searchString || searchstring.length === 0) {
         searchstring = search = slashy = '*';
     }
-    let xact = searchstring;
+    let xact = `"${searchstring}"`;
 
     const basic_req = {
         // search: tweak for scoping later
