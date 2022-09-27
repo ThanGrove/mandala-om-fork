@@ -64,7 +64,7 @@ function LogoutIcon() {
     if (isUserLoading) {
         return null;
     }
-    if (isUserError) {
+    if (isUserError || userinfo.uid === 0) {
         console.log('Not logged into mandala');
         logout();
     }
