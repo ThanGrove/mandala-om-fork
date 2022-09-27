@@ -11,7 +11,6 @@ export function LoginLink() {
     };
 
     const sid = GetSessionID();
-    console.log('Sid', sid);
 
     const icon = sid ? <MdCheckCircle /> : <MdLogin />;
     const title = sid ? 'Logged into Mandala' : 'Click to log into Mandala';
