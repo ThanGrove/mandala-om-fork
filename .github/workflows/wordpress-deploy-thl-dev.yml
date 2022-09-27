@@ -39,6 +39,7 @@ jobs:
         run: |
           npm ci
           CI=false npm run ${{matrix.site}} --if-present
+          echo "${{ secrets.THL_DEV_HOST_NAME }} ${{ secrets.THL_DEV_PORT }} ${{ secrets.THL_DEV_USER }}"
           mkdir ~/.ssh
           echo "$remote_key" > ~/.ssh/id_rsa_wp_mandala
           chmod 400 ~/.ssh/id_rsa_wp_mandala
