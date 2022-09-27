@@ -40,6 +40,12 @@ export function LoginLink() {
     );
 }
 
+/**
+ * Icon to display for logging out when already logged in
+ *
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
 function LogoutIcon() {
     const data = {
         url_json:
@@ -80,6 +86,12 @@ function LogoutIcon() {
     );
 }
 
+/**
+ * Icon to display for logging in when not logged in
+ *
+ * @returns {JSX.Element}
+ * @constructor
+ */
 function LoginIcon() {
     const login = function () {
         window.location.href =
