@@ -46,7 +46,6 @@ const getSolrData = async (query, filtered) => {
     const sess = GetSessionID();
     if (sess) {
         myparams['sid'] = sess;
-        console.log(myparams);
     }
     // Make request
     const request = {
