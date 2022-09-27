@@ -64,7 +64,11 @@ function LogoutIcon() {
     if (isUserLoading) {
         return null;
     }
-    const title = `Mandala User ${userinfo?.name} (${userinfo.uid}) (Click to logout)`;
+    if (isUserError) {
+        console.log('Not logged into mandala');
+        logout();
+    }
+    const title = `Mandala User ${userinfo?.name} (${userinfo?.uid}) (Click to logout)`;
     return (
         <button className="mdl-login btn" title={title} onClick={logout}>
             <MdCheckCircle />
