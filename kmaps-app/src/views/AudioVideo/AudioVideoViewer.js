@@ -11,7 +11,7 @@ import { useParams } from 'react-router-dom';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
-import { AssetTitle, NotAvailable } from '../common/utilcomponents';
+import { NotFoundPage } from '../common/utilcomponents';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
@@ -115,7 +115,7 @@ export default function AudioVideoViewer(props) {
         return <MandalaSkeleton />;
     }
     if (!kmasset || kmasset?.response?.numFound === 0 || !nodejson) {
-        return <NotAvailable div={true} atype={'AV item'} id={id} />;
+        return <NotFoundPage div={true} atype={'AV item'} id={id} />;
     }
     // Return the av-viewer div with div for Bill's drawing of AV player and AV metadata
     return (

@@ -146,7 +146,6 @@ export function CollectionsViewer(props) {
     if (isCollLoading) {
         return <MandalaSkeleton />;
     }
-    console.log('coll solr', collsolr);
     const numFound = items?.numFound;
 
     // Get and display (if exists) thumbnail image
@@ -168,7 +167,7 @@ export function CollectionsViewer(props) {
     }
 
     // Do Not Found if not Solr Doc found (collsolr)
-    if (collsolr?.numFound === 0) {
+    if (!collsolr || collsolr?.numFound === 0) {
         coll_paths = [
             {
                 uid: '/' + asset_type,
@@ -183,6 +182,7 @@ export function CollectionsViewer(props) {
             asset_type[0].toUpperCase() + asset_type.substr(1)
         );
         status.setPath(coll_paths);*/
+        // return <NotAvailable div={true} atype={asset_type + ' collection'} id={asset_id} />;
         return <NotFoundPage type={asset_type + ' collection'} id={asset_id} />;
     }
 

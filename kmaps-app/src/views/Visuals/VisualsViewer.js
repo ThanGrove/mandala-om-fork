@@ -9,7 +9,7 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import { NotAvailable } from '../common/utilcomponents';
+import { NotFoundPage } from '../common/utilcomponents';
 
 export default function VisualsViewer(props) {
     const baseType = `visuals`;
@@ -196,7 +196,7 @@ export default function VisualsViewer(props) {
                 )}
                 {!nodejson && (
                     <Col className={'c-visual'}>
-                        <NotAvailable div={false} atype="visual" id={id} />
+                        <NotFoundPage div={false} atype="visual" id={id} />
                     </Col>
                 )}
             </Container>

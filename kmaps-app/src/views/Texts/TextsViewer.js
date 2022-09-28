@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import useStatus from '../../hooks/useStatus';
-import useAsset from '../../hooks/useAsset';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { Container, Row, Tabs, Tab, Col } from 'react-bootstrap';
@@ -13,7 +11,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { useSolr } from '../../hooks/useSolr';
-import { NotAvailable } from '../common/utilcomponents';
+import { NotFoundPage } from '../common/utilcomponents';
 
 function scrollToSection(sectid) {
     let newScrollTop = 0;
@@ -191,7 +189,7 @@ export default function TextsViewer(props) {
             </>
         );
     } else {
-        return <NotAvailable div={true} atype="text" id={id} />;
+        return <NotFoundPage div={true} atype="text" id={id} />;
     }
     return output;
 }

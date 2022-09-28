@@ -10,7 +10,7 @@ import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
-import { NotAvailable } from '../common/utilcomponents';
+import { NotFoundPage } from '../common/utilcomponents';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
@@ -182,6 +182,6 @@ export default function ImagesViewer(props) {
             </div>
         );
     } else {
-        return <NotAvailable div={true} atype="image" id={id} />;
+        return <NotFoundPage div={true} atype="image" id={id} />;
     }
 }
