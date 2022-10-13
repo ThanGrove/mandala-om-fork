@@ -4,7 +4,6 @@ import axios from 'axios';
 import { GetSessionID } from '../main/MandalaSession';
 
 const QUERY_KEY = 'mndlapi';
-const API_PROXY = 'https://cicada.shanti.virginia.edu/solrproxy/api.php';
 
 /**
  * Function to do an Axios request for a JSON API using jsonp.
