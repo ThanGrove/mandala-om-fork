@@ -371,7 +371,6 @@ export function CollectionInfo({ collsolr, asset_type }) {
             </Link>
         );
     }
-    console.log('collsorl', collsolr);
 
     return (
         <aside className={'l-column__related c-collection__metadata'}>
