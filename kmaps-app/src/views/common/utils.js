@@ -688,6 +688,27 @@ export function getUniquePropIds(data, regex) {
     return Array.from(ids);
 }
 
+/**
+ * Detect a language from the unicode code point of its first character
+ *
+ * @param str
+ * @returns {string} : the language code
+ */
+export function detectLanguage(str) {
+    let lngcode = 'en'; // default lang code
+    if (str?.length > 0) {
+        const fchr = str.charCodeAt(0); // Code of the first character
+        if (3839 < fchr < 4096) {
+            lngcode = 'bo'; // Tibetan
+        } else if (19967 < fchr < 40960) {
+            lngcode = 'zh'; // Chinese
+        } else if (2303 < fchr < 2432) {
+            lngcode = 'sa'; // Sanskrit (or any language using Devanagari)
+        }
+    }
+    return lngcode;
+}
+
 export function decodeEntities(str) {
     // Taken from https://stackoverflow.com/a/9609450/2911874
     // this prevents any overhead from creating the object each time

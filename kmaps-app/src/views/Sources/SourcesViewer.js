@@ -78,6 +78,20 @@ export default function SourcesViewer(props) {
 
     const data_col_width = solrdoc?.url_thumb?.length > 0 ? 8 : 12;
 
+    console.log('nodejson', nodejson);
+
+    const titles = [
+        {
+            field: 'title_long_t',
+            label: 'Long Title',
+        },
+        {
+            field: 'title_corpus_t',
+            label: 'Text collection',
+            field2: 'title_corpus_wy_t',
+        },
+    ];
+
     /* The component is here */
     return (
         <>
@@ -111,6 +125,11 @@ export default function SourcesViewer(props) {
                     )}
                     <Row>
                         <Col md={data_col_width} className={'c-sources__data'}>
+                            {titles.map((t, tn) => {
+                                return (
+                                    <SourcesTitle key={`title-${tn}`} {...t} />
+                                );
+                            })}
                             {nodejson?.biblio_contributors?.length > 0 && (
                                 <SourcesAgents
                                     agents={nodejson.biblio_contributors}
@@ -199,6 +218,11 @@ export default function SourcesViewer(props) {
             </Container>
         </>
     );
+}
+
+function SourcesTitle({ label, field, field2 = null }) {
+    console.log(label, field, field2);
+    return <p>Hi</p>;
 }
 
 function SourcesAgents(props) {
