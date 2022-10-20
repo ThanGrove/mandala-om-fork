@@ -71,6 +71,7 @@ export default function SourcesViewer(props) {
     }
 
     const solrdoc = kmasset;
+    console.log('solrdoc', solrdoc);
 
     if (solrdoc?.response?.numFound === 0 || !nodejson) {
         return <NotFoundPage div={true} atype={'sources'} id={id} />;
@@ -79,18 +80,28 @@ export default function SourcesViewer(props) {
     const data_col_width = solrdoc?.url_thumb?.length > 0 ? 8 : 12;
 
     console.log('nodejson', nodejson);
-
-    const titles = [
-        {
-            field: 'title_long_t',
-            label: 'Long Title',
-        },
-        {
-            field: 'title_corpus_t',
-            label: 'Text collection',
-            field2: 'title_corpus_wy_t',
-        },
-    ];
+    console.warn('Need to test Sources Viewer for new biblio fields!!!!!! ');
+    const biblio_fields = {
+        title_long_bo_t: 'Long Title',
+        title_corpus_bo_t: 'Corpus Title',
+        title_corpus_bo_latn_t: 'Corpus Title Wylie',
+        title_short_t: 'Short Title',
+        title_short_bo_latn_t: 'Short Title Wylie',
+        title_alt_t: 'Alternate Title',
+        title_alt_bo_latn_t: 'Alternate Title Wylie',
+        place_production_s: 'Place of Production',
+        url_publisher: 'Publisher URL',
+        extent_s: 'Extent',
+        time_period_t: 'Time Period',
+        display_format_s: 'Display Format',
+        pub_freq_s: 'Publication Frequency',
+        library_name_s: 'Library/Archive',
+        manuscript_id_s: 'Manuscript ID',
+        notes_txt: 'Notes',
+        toc_t: 'Table of Content',
+        url_pdf: 'PDF',
+        related_assets_ss: 'Related Sources',
+    };
 
     /* The component is here */
     return (
@@ -125,17 +136,20 @@ export default function SourcesViewer(props) {
                     )}
                     <Row>
                         <Col md={data_col_width} className={'c-sources__data'}>
-                            {titles.map((t, tn) => {
-                                return (
-                                    <SourcesTitle key={`title-${tn}`} {...t} />
-                                );
-                            })}
                             {nodejson?.biblio_contributors?.length > 0 && (
                                 <SourcesAgents
                                     agents={nodejson.biblio_contributors}
                                 />
                             )}
-
+                            {biblio_fields.map((t, tn) => {
+                                return (
+                                    <SourcesParenRow
+                                        key={`title-${tn}`}
+                                        doc={solrdoc}
+                                        {...t}
+                                    />
+                                );
+                            })}
                             <SourcesCollection sdata={solrdoc} />
 
                             {/* Publication Info */}
@@ -220,9 +234,32 @@ export default function SourcesViewer(props) {
     );
 }
 
-function SourcesTitle({ label, field, field2 = null }) {
-    console.log(label, field, field2);
-    return <p>Hi</p>;
+/**
+ * Sources Paren Row: Takes two fields one label if both fields have an entry puts the second one in parentheses
+ *
+ * @param doc
+ * @param label
+ * @param field
+ * @param field2
+ * @returns {JSX.Element|null}
+ * @constructor
+ */
+function SourcesParenRow({ doc, label, field, field2 = null }) {
+    console.log(label, field, field2, doc);
+    let val1 = doc[field];
+    const val2 = doc[field2];
+    console.log('val2', val2);
+    if (!val1 && !val2) {
+        return null;
+    }
+    // If there is only the 2nd transliteration value, use it
+    if (!val1) {
+        val1 = val2;
+    } else if (val2) {
+        // Otherwise if both values exist put the second in parentheses
+        val1 += ` (${val2})`;
+    }
+    return <SourcesRow label={label} value={val1} />;
 }
 
 function SourcesAgents(props) {
