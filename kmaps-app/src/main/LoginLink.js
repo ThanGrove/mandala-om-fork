@@ -145,25 +145,29 @@ function LoginIcon() {
 function LoginCheck({ sid }) {
     const pingurl = process.env.REACT_APP_PING_URL + '?';
     const fetchData = async () => {
-        const response = await fetch(
+        let full_url =
             pingurl +
-                new URLSearchParams({
-                    sid: sid,
-                }),
-            {
+            new URLSearchParams({
+                sid: sid,
+            });
+        try {
+            const response = await fetch(full_url, {
                 method: 'GET',
                 headers: {
                     accept: 'application/json',
                 },
+            });
+            if (!response.ok) {
+                throw new Error('Data could not be fetched!');
+            } else {
+                return response.json();
             }
-        );
-        if (!response.ok) {
-            throw new Error('Data could not be fetched!');
-        } else {
-            return response.json();
+        } catch (e) {
+            // console.log("Cannot get response from ping: " + full_url, e);
         }
     };
     useEffect(() => {
+        return;
         fetchData()
             .then((res) => {
                 if (!res?.loggedIn) {

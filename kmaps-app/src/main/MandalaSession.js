@@ -10,7 +10,7 @@ import { removeURLParams } from '../views/common/utils';
 export function MandalaSession() {
     const cookies = new Cookies();
     const sstrpts = window.location.search.replace('?', '').split('&');
-    console.log(sstrpts);
+    // console.log(sstrpts);
     const params = {};
     sstrpts.map((pp, ppi) => {
         if (pp.includes('=')) {
