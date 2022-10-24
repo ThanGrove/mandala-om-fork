@@ -167,7 +167,8 @@ function LoginCheck({ sid }) {
         }
     };
     useEffect(() => {
-        return;
+        return; // The code below automatically logs user out just after returning from authentication.
+        // need to come up with another way for checking if session is still active
         fetchData()
             .then((res) => {
                 if (!res?.loggedIn) {
