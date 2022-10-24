@@ -79,8 +79,7 @@ export default function SourcesViewer(props) {
 
     const data_col_width = solrdoc?.url_thumb?.length > 0 ? 8 : 12;
 
-    console.log('nodejson', nodejson);
-    console.warn('Need to test Sources Viewer for new biblio fields!!!!!! ');
+    console.log('solr doc', solrdoc);
     const biblio_fields = {
         title_long_bo_t: 'Long Title',
         title_corpus_bo_t: 'Corpus Title',
@@ -141,12 +140,16 @@ export default function SourcesViewer(props) {
                                     agents={nodejson.biblio_contributors}
                                 />
                             )}
-                            {biblio_fields.map((t, tn) => {
+                            {Object.keys(biblio_fields).map((t, tn) => {
+                                const field_val = solrdoc[t];
+                                if (!field_val) {
+                                    return null;
+                                }
                                 return (
-                                    <SourcesParenRow
-                                        key={`title-${tn}`}
-                                        doc={solrdoc}
-                                        {...t}
+                                    <SourcesRow
+                                        key={`sources-${t}-${tn}`}
+                                        label={biblio_fields[t]}
+                                        value={field_val}
                                     />
                                 );
                             })}
@@ -378,13 +381,15 @@ function SourcesKmap(props) {
     return <SourcesRow label={props.label} value={kmchildren} />;
 }
 
-function SourcesRow(props) {
-    const myclass = props.cls ? props.cls : '';
-    const icon = props.icon ? props.icon : 'info';
-    const label = props.label ? props.label : '';
+function SourcesRow({
+    label,
+    value,
+    myclass = '',
+    valclass = '',
+    icon = 'info',
+    has_markup = false,
+}) {
     const rowclass = ' ' + label.replace(/\s+/g, '-').toLowerCase();
-    const has_markup = props.has_markup ? props.has_markup : false;
-    let value = props.value ? props.value : '';
     if (has_markup) {
         value = <HtmlCustom markup={value} />;
     } else if (typeof value == 'string' && value.indexOf('http') == 0) {
@@ -394,7 +399,7 @@ function SourcesRow(props) {
             </a>
         );
     }
-    const valclass = props.valclass ? ' ' + props.valclass : '';
+    valclass = valclass ? ' ' + valclass : '';
     const mykey =
         'ir-' +
         label.toLowerCase().replace(' ', '-') +

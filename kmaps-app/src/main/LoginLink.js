@@ -101,6 +101,12 @@ function LoginIcon() {
     };
 
     const login2 = function () {
+        console.log(
+            process.env.REACT_APP_LOGIN_URL +
+                '?returl=' +
+                process.env.REACT_APP_HOME_URL +
+                '&logintype=saml'
+        );
         window.location.href =
             process.env.REACT_APP_LOGIN_URL +
             '?returl=' +
