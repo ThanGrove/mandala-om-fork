@@ -1,5 +1,5 @@
-import React, { useContext, useEffect } from 'react';
-import { Col, Container, Row, Image } from 'react-bootstrap';
+import React, { useContext, useEffect, useState } from 'react';
+import { Col, Container, Row, Image, Button } from 'react-bootstrap';
 import './sources.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { MandalaPopover } from '../common/MandalaPopover';
@@ -11,6 +11,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { NotFoundPage } from '../common/utilcomponents';
+import Collapse from 'react-bootstrap/Collapse';
 
 export default function SourcesViewer(props) {
     const baseType = `sources`;
@@ -75,7 +76,7 @@ export default function SourcesViewer(props) {
 
     const data_col_width = kmasset?.url_thumb?.length > 0 ? 8 : 12;
 
-    // console.log('solr doc', solrdoc);
+    // console.log('solr doc', kmasset);
     const biblio_fields = {
         title_long_bo_t: 'Long Title',
         title_corpus_bo_t: 'Corpus Title',
@@ -93,7 +94,6 @@ export default function SourcesViewer(props) {
         library_name_s: 'Library/Archive',
         manuscript_id_s: 'Manuscript ID',
         notes_txt: 'Notes',
-        toc_t: 'Table of Content',
     };
 
     /* related resources */
@@ -166,6 +166,7 @@ export default function SourcesViewer(props) {
                                         label={biblio_fields[t]}
                                         value={field_val}
                                         has_markup={t?.includes('toc_')}
+                                        collapse={true}
                                     />
                                 );
                             })}
@@ -220,6 +221,15 @@ export default function SourcesViewer(props) {
                                 label={'Terms'}
                                 field={nodejson?.field_kmaps_terms}
                             />
+
+                            {kmasset?.toc_t && (
+                                <SourcesRowCollapse
+                                    key={`sources-toc_t`}
+                                    label={'Table of Contents'}
+                                    value={kmasset.toc_t}
+                                    has_markup={true}
+                                />
+                            )}
 
                             {kmasset?.url_pdf && (
                                 <Row
@@ -447,6 +457,53 @@ function SourcesRow({
             <span className={'u-label'}>{label}</span>{' '}
             <span className={'u-value' + valclass}>{value}</span>
         </Row>
+    );
+}
+
+function SourcesRowCollapse({
+    label,
+    value,
+    myclass = '',
+    valclass = '',
+    icon = false,
+    has_markup = false,
+}) {
+    const [open, setOpen] = useState(false);
+    let rowclass = ' ' + label.replace(/\s+/g, '-').toLowerCase();
+    valclass = valclass ? ' ' + valclass : '';
+    const mykey =
+        'srccollaprow-' +
+        label.toLowerCase().replace(' ', '-') +
+        Math.floor(Math.random() * 888888);
+    return (
+        <>
+            <Row className={myclass + rowclass} key={mykey}>
+                {icon && (
+                    <>
+                        <span className={`u-icon__${icon}`}> </span>&nbsp;
+                    </>
+                )}
+                <span className={'u-label'}>{label}</span>{' '}
+                <span className={'u-value' + valclass}>
+                    <a
+                        onClick={() => setOpen(!open)}
+                        aria-controls={`${mykey}-text`}
+                        aria-expanded={open}
+                    >
+                        {open ? 'Hide' : 'View'}
+                    </a>
+                </span>
+            </Row>
+            {open && (
+                <Row>
+                    <Collapse in={open}>
+                        <div id={`${mykey}-text`}>
+                            <HtmlCustom markup={value} />
+                        </div>
+                    </Collapse>
+                </Row>
+            )}
+        </>
     );
 }
 
