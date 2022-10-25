@@ -113,6 +113,7 @@ export default function KmapTree(props) {
 
     // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
+
     const {
         isLoading: isSelNodeLoading,
         data: selNode,
@@ -144,6 +145,7 @@ export default function KmapTree(props) {
         // console.log('use view: ', viewobj);
     }
     // Use Effect: To open selected node in tree, if not already open (for parallel trees)
+    /*  (commented out useEffect below on 10/25/2022, and nothing changed! But reinstating, ndg8f) */
     useEffect(() => {
         if (
             !isSelNodeLoading &&

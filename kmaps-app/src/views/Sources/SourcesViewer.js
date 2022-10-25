@@ -77,6 +77,8 @@ export default function SourcesViewer(props) {
     const data_col_width = kmasset?.url_thumb?.length > 0 ? 8 : 12;
 
     // console.log('solr doc', kmasset);
+    // console.log('json', nodejson);
+
     // To rearrange order of display, rearrange order here, except for a few exceptions hard coded below.
     const biblio_fields = {
         title_long_bo_t: 'Long Title',

@@ -55,6 +55,7 @@ export default function ContentMain(props) {
     const myLocation = useLocation();
     const advsrch_target = document.getElementById('advancedSearchPortal');
     const column_class = advsrch_target ? 'one-column' : 'two-columns';
+
     useEffect(() => {
         /*if (process.env.REACT_APP_STANDALONE !== 'standalone') {
             // For Standalones, the mandala body class is added by the WP Mandala plugin
