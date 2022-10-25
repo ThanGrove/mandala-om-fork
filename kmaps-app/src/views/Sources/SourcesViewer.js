@@ -247,14 +247,17 @@ export default function SourcesViewer(props) {
                                     className={'ris_link'}
                                     key={'src-ris-link-row'}
                                 >
-                                    <span className="u_value">
-                                        <a
-                                            href={kmasset?.url_ris}
-                                            target="_blank"
-                                        >
-                                            RIS
-                                        </a>
-                                    </span>
+                                    <a
+                                        href={kmasset?.url_ris}
+                                        title="Extensions for Zotero and Mendeley will automatically import this format"
+                                    >
+                                        <span className="u_label">
+                                            <span className="u-icon__ris"></span>
+                                        </span>
+                                        <span className="u_value">
+                                            Download RIS
+                                        </span>
+                                    </a>
                                 </Row>
                             )}
                         </Col>
@@ -396,10 +399,15 @@ function SourcesRow({
     has_markup = false,
 }) {
     // console.log(field_name);
-    let rowclass = ' ' + label.replace(/\s+/g, '-').toLowerCase();
+
+    let rowclass = (
+        myclass +
+        ' ' +
+        label.replace(/\s+/g, '-').toLowerCase()
+    ).trim();
     rowclass = has_markup ? rowclass + ' d-block' : rowclass;
     if (field_name.includes('toc') || field_name === 'biblio_abst_e') {
-        console.log('doing ' + field_name);
+        // console.log('doing ' + field_name);
         return (
             <SourcesRowCollapse
                 key={`sources-${field_name}`}
@@ -427,7 +435,7 @@ function SourcesRow({
         label.toLowerCase().replace(' ', '-') +
         Math.floor(Math.random() * 888888);
     return (
-        <Row className={myclass + rowclass} key={mykey}>
+        <Row className={rowclass} key={mykey}>
             {icon && (
                 <>
                     <span className={`u-icon__${icon}`}> </span>&nbsp;
@@ -448,7 +456,11 @@ function SourcesRowCollapse({
     has_markup = false,
 }) {
     const [open, setOpen] = useState(false);
-    let rowclass = ' ' + label.replace(/\s+/g, '-').toLowerCase();
+    let rowclass = (
+        myclass +
+        ' ' +
+        label.replace(/\s+/g, '-').toLowerCase()
+    ).trim();
     valclass = valclass ? ' ' + valclass : '';
     const mykey =
         'srccollaprow-' +
@@ -456,7 +468,7 @@ function SourcesRowCollapse({
         Math.floor(Math.random() * 888888);
     return (
         <>
-            <Row className={myclass + rowclass} key={mykey}>
+            <Row className={rowclass} key={mykey}>
                 {icon && (
                     <>
                         <span className={`u-icon__${icon}`}> </span>&nbsp;
