@@ -77,6 +77,7 @@ export default function SourcesViewer(props) {
     const data_col_width = kmasset?.url_thumb?.length > 0 ? 8 : 12;
 
     // console.log('solr doc', kmasset);
+    // To rearrange order of display, rearrange order here, except for a few exceptions hard coded below.
     const biblio_fields = {
         title_long_bo_t: 'Long Title',
         title_corpus_bo_t: 'Corpus Title',
@@ -85,14 +86,26 @@ export default function SourcesViewer(props) {
         title_short_bo_latn_t: 'Short Title Wylie',
         title_alt_t: 'Alternate Title',
         title_alt_bo_latn_t: 'Alternate Title Wylie',
-        place_production_s: 'Place of Production',
-        url_publisher: 'Publisher URL',
-        extent_s: 'Extent',
         time_period_t: 'Time Period',
+        field_language_kmaps: 'Language',
+        biblio_type_name: 'Format',
         display_format_s: 'Display Format',
+        biblio_pages: 'Pages',
+        extent_s: 'Extent',
+        biblio_year: 'Publication Year',
+        biblio_publisher: 'Publisher',
+        url_publisher: 'Publisher URL',
+        biblio_place_published: 'Place of Publication',
         pub_freq_s: 'Publication Frequency',
+        place_production_s: 'Place of Production',
         library_name_s: 'Library/Archive',
         manuscript_id_s: 'Manuscript ID',
+        field_kmaps_places: 'Places',
+        field_kmaps_subjects: 'Subjects',
+        field_kmaps_terms: 'Terms',
+        toc_t: 'Table of Contents',
+        url_pdf: 'PDF',
+        biblio_abst_e: 'Abstract',
         notes_txt: 'Notes',
     };
 
@@ -115,7 +128,8 @@ export default function SourcesViewer(props) {
         );
     }
 
-    // console.log(kmasset);
+    //console.log(kmasset);
+    // console.log(nodejson);
 
     /* The component is here */
     return (
@@ -136,7 +150,6 @@ export default function SourcesViewer(props) {
                             <HtmlCustom markup={kmasset?.title} />
                         </span>
                     </h1>
-
                     {nodejson?.biblio_secondary_title?.length > 0 && (
                         <h2 className={'c-source__second-head'}>
                             {nodejson.biblio_secondary_title}
@@ -156,118 +169,51 @@ export default function SourcesViewer(props) {
                                 />
                             )}
                             {Object.keys(biblio_fields).map((t, tn) => {
-                                const field_val = kmasset[t];
+                                const field_val = kmasset[t]
+                                    ? kmasset[t]
+                                    : nodejson[t];
+
                                 if (!field_val) {
                                     return null;
+                                } else if (t === 'url_pdf') {
+                                    return (
+                                        <Row
+                                            className="sources-pdf-file"
+                                            key="source-pdf-file"
+                                        >
+                                            <span className={'u-label'}>
+                                                PDF
+                                            </span>{' '}
+                                            <span className={'u-value'}>
+                                                <a
+                                                    href={kmasset?.url_pdf}
+                                                    target="_blank"
+                                                >
+                                                    View
+                                                </a>
+                                            </span>
+                                        </Row>
+                                    );
                                 }
                                 return (
                                     <SourcesRow
                                         key={`sources-${t}-${tn}`}
                                         label={biblio_fields[t]}
                                         value={field_val}
+                                        field_name={t}
                                         has_markup={t?.includes('toc_')}
                                         collapse={true}
                                     />
                                 );
                             })}
+
                             <SourcesCollection sdata={kmasset} />
 
-                            {/* Publication Info */}
                             <SourcesRow
-                                label={'Format'}
-                                value={nodejson?.biblio_type_name}
+                                label={'Sources ID'}
+                                value={kmasset?.uid}
                             />
 
-                            {nodejson?.biblio_year?.length > 0 && (
-                                <SourcesRow
-                                    label={'Publication Year'}
-                                    value={nodejson.biblio_year}
-                                />
-                            )}
-
-                            {nodejson?.biblio_publisher?.length > 0 && (
-                                <SourcesRow
-                                    label={'Publisher'}
-                                    value={nodejson.biblio_publisher}
-                                />
-                            )}
-
-                            {nodejson?.biblio_place_published?.length > 0 && (
-                                <SourcesRow
-                                    label={'Place of Publication'}
-                                    value={nodejson.biblio_place_published}
-                                />
-                            )}
-                            {nodejson?.biblio_pages?.length > 0 && (
-                                <SourcesRow
-                                    label={'Pages'}
-                                    value={nodejson.biblio_pages}
-                                />
-                            )}
-
-                            <SourcesKmap
-                                label={'Language'}
-                                field={nodejson?.field_language_kmaps}
-                            />
-                            <SourcesKmap
-                                label={'Places'}
-                                field={nodejson?.field_kmaps_places}
-                            />
-                            <SourcesKmap
-                                label={'Subjects'}
-                                field={nodejson?.field_kmaps_subjects}
-                            />
-                            <SourcesKmap
-                                label={'Terms'}
-                                field={nodejson?.field_kmaps_terms}
-                            />
-
-                            {kmasset?.toc_t && (
-                                <SourcesRowCollapse
-                                    key={`sources-toc_t`}
-                                    label={'Table of Contents'}
-                                    value={kmasset.toc_t}
-                                    has_markup={true}
-                                />
-                            )}
-
-                            {kmasset?.url_pdf && (
-                                <Row
-                                    className="sources-pdf-file"
-                                    key="source-pdf-file"
-                                >
-                                    <span className={'u-label'}>PDF</span>{' '}
-                                    <span className={'u-value'}>
-                                        <a
-                                            href={kmasset?.url_pdf}
-                                            target="_blank"
-                                        >
-                                            View
-                                        </a>
-                                    </span>
-                                </Row>
-                            )}
-
-                            <SourcesRow
-                                label={'Source ID'}
-                                value={'sources-' + nodejson?.nid}
-                            />
-
-                            {/* Abstract, Link, Etc. */}
-                            {nodejson?.biblio_abst_e?.length > 0 && (
-                                <SourcesRow
-                                    label={'Abstract'}
-                                    value={nodejson.biblio_abst_e}
-                                    has_markup={true}
-                                />
-                            )}
-
-                            {nodejson?.biblio_url?.length > 0 && (
-                                <SourcesRow
-                                    label={'url'}
-                                    value={nodejson.biblio_url}
-                                />
-                            )}
                             {relsources && (
                                 <Row
                                     className="related-sources d-block"
@@ -281,18 +227,35 @@ export default function SourcesViewer(props) {
                                     </span>
                                 </Row>
                             )}
+
                             {kmasset?.node_user_full_s && (
                                 <SourcesRow
                                     label={'Record Creator'}
                                     value={kmasset?.node_user_full_s}
                                 />
                             )}
+
                             {kmasset?.visibility_s && (
                                 <SourcesRow
                                     label={'Visibility'}
                                     value={kmasset?.visibility_s}
                                     myclass="text-capitalize"
                                 />
+                            )}
+                            {kmasset?.url_ris && (
+                                <Row
+                                    className={'ris_link'}
+                                    key={'src-ris-link-row'}
+                                >
+                                    <span className="u_value">
+                                        <a
+                                            href={kmasset?.url_ris}
+                                            target="_blank"
+                                        >
+                                            RIS
+                                        </a>
+                                    </span>
+                                </Row>
                             )}
                         </Col>
                         {kmasset?.url_thumb && kmasset.url_thumb.length > 0 && (
@@ -428,12 +391,24 @@ function SourcesRow({
     value,
     myclass = '',
     valclass = '',
+    field_name = '',
     icon = false,
     has_markup = false,
 }) {
+    // console.log(field_name);
     let rowclass = ' ' + label.replace(/\s+/g, '-').toLowerCase();
     rowclass = has_markup ? rowclass + ' d-block' : rowclass;
-    if (has_markup) {
+    if (field_name.includes('toc') || field_name === 'biblio_abst_e') {
+        console.log('doing ' + field_name);
+        return (
+            <SourcesRowCollapse
+                key={`sources-${field_name}`}
+                label={label}
+                value={value}
+                has_markup={true}
+            />
+        );
+    } else if (has_markup) {
         value = <HtmlCustom markup={value} />;
     } else if (typeof value == 'string' && value.indexOf('http') == 0) {
         value = (
@@ -441,6 +416,10 @@ function SourcesRow({
                 {value}
             </a>
         );
+    } else if (Array.isArray(value) && value.length === 0) {
+        return null;
+    } else if (field_name.includes('kmap')) {
+        return <SourcesKmap label={label} field={value} />;
     }
     valclass = valclass ? ' ' + valclass : '';
     const mykey =
