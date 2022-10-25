@@ -52,6 +52,10 @@ main.l-column__main.sources {
         line-height: 2.5rem;
         margin-left: 0;
         margin-right: 0;
+
+        .d-block {
+            flex-direction: column;
+        }
     }
 
     .c-sources__data {
@@ -71,7 +75,6 @@ main.l-column__main.sources {
 
     .row.agents {
         line-height: inherit;
-        font-size: 1.2rem;
         margin-top: 1.25rem;
     }
 
