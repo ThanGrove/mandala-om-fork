@@ -209,8 +209,7 @@ class KmapsMap extends React.Component {
                 });
             })
             .catch((myerr) => {
-                console.log('Map data did not load!');
-                console.log(myerr);
+                console.log('Map loading error: ' + myerr);
                 const container = document.getElementById(
                     'places-map-container'
                 );

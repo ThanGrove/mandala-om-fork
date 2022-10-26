@@ -144,8 +144,7 @@ export default function KmapTree(props) {
     if (settings.domain === 'terms') {
         // console.log('use view: ', viewobj);
     }
-    // Use Effect: To open selected node in tree, if not already open (for parallel trees)
-    /*  (commented out useEffect below on 10/25/2022, and nothing changed! But reinstating, ndg8f) */
+    // Use Effect: To open selected node in tree, if not already open (** for parallel trees **)
     useEffect(() => {
         if (
             !isSelNodeLoading &&
@@ -165,10 +164,11 @@ export default function KmapTree(props) {
     }, [perspective]);
 
     // Don't load the tree until we have selected node path info to drill down with
-    if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
+    /*if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
         return <MandalaSkeleton />;
         // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
-    } else if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
+    } else*/
+    if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
         settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
         // Otherwise if it has list of ancestor ids closest to that perspective, use that
     } else if (

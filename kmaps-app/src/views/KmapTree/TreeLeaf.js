@@ -127,7 +127,7 @@ export default function TreeLeaf({
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                setTimeout(updateTreeScroll, 500, settings);
+                // setTimeout(updateTreeScroll, 500, settings);
             }
         }
         if (domain === 'places' && kid * 1 === 13735) {
@@ -152,7 +152,8 @@ export default function TreeLeaf({
     let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
 
     // if no children, replace icon with dash
-    if (!childrenData || childrenData?.numFound === 0) {
+    const hasChildren = childrenData?.numFound > 0;
+    if (!hasChildren) {
         icon = '';
         toggleclass = 'leafend';
     }
@@ -193,7 +194,9 @@ export default function TreeLeaf({
     // Get Header based on View Settings (see hook useView)
     const kmhead = getHeaderForView(kmapdata, viewSetting);
 
-    const leafhead = props?.nolink ? (
+    const nolink = props?.nolink || (domain === 'terms' && hasChildren);
+
+    const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
     ) : (
         <Link to={'/' + kmapdata?.id.replace('-', '/')}>
