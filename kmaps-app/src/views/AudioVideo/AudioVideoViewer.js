@@ -15,7 +15,7 @@ import { NotFoundPage } from '../common/utilcomponents';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
- * AudioVideoViewer is called from ContentMain.js and is wrapped in a MdlAssetContext that supplies it with a SOLR
+ * AudioVideoViewer is called from ContentMain.js and with useKmap gets a SOLR
  * record for the AV asset being viewed. It creates a single div#av-viewer inside of the #u-wrapContent__searchResults div
  *
  * The AudioVideoViewer has two children representing the two rows of the Bootstrap container:
@@ -24,6 +24,10 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
  *
  * The AudioVideoMeta displays two tabs: an info tab with the fields labels and information and a related AV assets tab
  * which has a gallery of related AV assets.
+ *
+ * The Video Player including transcript are from custom code by Bill Ferster (see /legacy/audiovideo.js)
+ * It is invoked after the SOLR record is loaded through the second useEffect() below by calling:
+ *               sui.av.DrawPlayer(kmasset, nodejson);
  *
  * @param props
  * @returns {JSX.Element}

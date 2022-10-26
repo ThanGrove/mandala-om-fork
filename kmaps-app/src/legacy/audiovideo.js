@@ -8,7 +8,7 @@
 	start a ~10fps time that calls a function to update the transcript code (see section below) to
 	track the video. On pause, that timer is canceled.
 
-	Some metadata is displyed under the video along with the summary. A MORE link will reveal and
+	Some metadata is displayed under the video along with the summary. A MORE link will reveal and
 	additonal summary information about the clip. A tabbed menu appears below that
 	to reduce coginitive load, with sections showing video DETAILS, PEOPLE, involved and TECHNICAL data.
 
@@ -906,9 +906,25 @@ export default class AudioVideo {
                 data.response.docs.sort(function (a, b) {
                     return a.fts_start > b.fts_start ? 1 : -1;
                 }); // Sort
-                for (i = 0; i < data.response.docs.length; ++i) {
+                // Fix for predominance of 0 sec time codes in some videos. Possibly an indexing thing
+                // See JIRA https://uvaissues.atlassian.net/browse/MANU-7271 (ndg8f, 10-26-2022)
+                let filtered_data = data.response.docs.filter((item, ind) => {
+                    return item.fts_start > 0;
+                });
+                if (filtered_data?.length < data.response.docs?.length) {
+                    let remitems = data.response.docs.filter(
+                        (x) => !filtered_data.includes(x)
+                    );
+                    console.error(
+                        remitems.length +
+                            ' lines removed from ' +
+                            'beginning of transcript because they have no timecodes. ',
+                        remitems
+                    );
+                }
+                for (i = 0; i < filtered_data.length; ++i) {
                     // For each seg in doc
-                    o = data.response.docs[i]; // Point at it
+                    o = filtered_data[i]; // Point at it
                     seg = {
                         start: o.fts_start,
                         end: o.fts_end,
@@ -927,6 +943,7 @@ export default class AudioVideo {
                             res.languages[l[lang]] = 1; // Add to languages list
                         }
                     }
+
                     res.segs.push(seg); // Add seg to list
                 }
                 if (!res.segs.length) return; // Quit if no segs
@@ -1268,14 +1285,13 @@ export default class AudioVideo {
             // Normal
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
+                let starttime = this.SecondsToTimecode(res.segs[i].start);
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
 				<div style='float:${res.rev ? 'right' : 'left'};'>
 				
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680
-				<span class='sui-transPlay-duration'>${this.SecondsToTimecode(
-                    res.segs[i].start
-                )}</span></div>
+				<span class='sui-transPlay-duration'>${starttime}</span></div>
                 ${res.segs[i].speaker ? res.segs[i].speaker : ''}</div> 
                 
 				<div class='sui-transBox' id='sui-transBox-${i}' style='margin:${
