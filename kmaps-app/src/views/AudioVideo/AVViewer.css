@@ -18,6 +18,12 @@
     display: none; /* temp */
 }
 
+#av-viewer .av-caption {
+    text-align: center;
+    margin-top: -1rem;
+    margin-bottom: 0.5rem;
+}
+
 #sui-av,
 #av-meta-row {
     margin: 1rem auto 0;

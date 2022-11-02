@@ -32,6 +32,7 @@ import MandalaSkeleton from '../common/MandalaSkeleton';
  * @param props
  * @returns {JSX.Element}
  * @constructor
+ * @constructor
  * @author ndg8f
  */
 export default function AudioVideoViewer(props) {

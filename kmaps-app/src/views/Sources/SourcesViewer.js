@@ -247,13 +247,13 @@ export default function SourcesViewer(props) {
                                     myclass="text-capitalize"
                                 />
                             )}
-                            {kmasset?.url_ris && (
+                            {kmasset?.ris_url && (
                                 <Row
                                     className={'ris_link'}
                                     key={'src-ris-link-row'}
                                 >
                                     <a
-                                        href={kmasset?.url_ris}
+                                        href={kmasset?.ris_url}
                                         title="Extensions for Zotero and Mendeley will automatically import this format"
                                     >
                                         <span className="u_label">
