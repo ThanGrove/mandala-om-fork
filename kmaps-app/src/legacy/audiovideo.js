@@ -23,6 +23,7 @@
 *************************************************************************************************************************************************/
 /* eslint-disable */
 import $ from 'jquery';
+import { langCodeToLabel } from '../views/common/utils';
 export default class AudioVideo {
     constructor(
         sui // CONSTRUCTOR
@@ -159,26 +160,28 @@ export default class AudioVideo {
 
         // Secondary descriptions, summaries, etc.
         str += `<div class='sui-avMore1'><a class='sui-avMore2'>
-            SHOW MORE</a></div><div id='sui-avlang' style='display:none'>`;
+            SHOW MORE</a></div><div id='sui-avlang' class='sui-sourceText' style='display:none'>`;
         let morecnt = '';
         let desclabel = '';
+        let desclang = '';
         if (maindesc !== o?.description) {
             desclabel = o?.description_type_s ?? 'DESCRIPTION';
+            desclang = o?.description_lang_s ?? 'en';
             try {
-                morecnt += `<strong><span class="text-uppercase">${desclabel}</span> (${
-                    o?.description_lang_s ?? 'eng'
-                })</strong><br/>${o.description}`;
-                if (o.description?.indexOf('</p>') == -1) {
-                    morecnt += '<br/>';
-                }
+                morecnt += `<div class="description ${desclang}"><strong><span class="text-uppercase">${desclabel}</span> 
+                                (${langCodeToLabel(desclang)})</strong><br/>${
+                    o.description
+                }</div>`;
             } catch (e) {}
         }
         if (o?.summary_alt_txt?.length > 0) {
             for (i = 0; i < o?.summary_alt_txt.length; ++i) {
                 try {
-                    morecnt += `<strong>SUMMARY (${
-                        o?.summary_alt_lang_ss[i] ?? 'eng'
-                    })</strong><br/>${o.summary_alt_txt[i]}<br/><br/>`;
+                    desclang = o?.summary_alt_lang_ss[i] ?? 'en';
+                    morecnt += `<div class="description ${desclang}"><strong>SUMMARY 
+                                (${langCodeToLabel(desclang)})</strong><br/>${
+                        o.summary_alt_txt[i]
+                    }</div>`;
                 } catch (e) {}
             }
         }
@@ -186,10 +189,12 @@ export default class AudioVideo {
         if (o?.description_alt_txt?.length > 0) {
             for (i = 0; i < o?.description_alt_txt.length; ++i) {
                 desclabel = o.description_alt_type_ss[i] ?? 'DESCRIPTION';
+                desclang = o?.description_alt_lang_ss[i] ?? 'en';
                 try {
-                    morecnt += `<strong><span class="text-uppercase">${desclabel} DESCRIPTION</span> (${
-                        o?.description_alt_lang_ss[i] ?? 'eng'
-                    })</strong><br/>${o.description_alt_txt[i]}<br/><br/>`;
+                    morecnt += `<div class="description ${desclang}"><strong><span class="text-uppercase">${desclabel} 
+                        DESCRIPTION</span> (${langCodeToLabel(
+                            desclang
+                        )})</strong><br/>${o.description_alt_txt[i]}</div>`;
                 } catch (e) {}
             }
         }
@@ -626,9 +631,10 @@ export default class AudioVideo {
                     try {
                         f = d.field_pbcore_description.und[i]; // Point at it
                         if (f.field_description.und[0].value.length > 0) {
-                            morecnt += `<strong>${f.field_language.und[0].value.toUpperCase()}</strong><br>${
+                            let desclang = f.field_language.und[0].value;
+                            morecnt += `<div class="description ${desclang}"><strong>${desclang.toUpperCase()}</strong><br>${
                                 f.field_description.und[0].value
-                            }<br>`;
+                            }</div>`;
                         }
                     } catch (e) {}
                 }
@@ -641,7 +647,6 @@ export default class AudioVideo {
                 }
             }
             str += '</div>';
-
             $('#sui-av').html(str.replace(/\t|\n|\r/g, '')); // Add player
 
             let info_tabs = sui.pages.DrawTabMenu([

@@ -78,6 +78,7 @@ export default function AudioVideoViewer(props) {
                     me.text('SHOW MORE');
                     me.removeClass('expanded');
                 } else {
+                    //$('#sui-avlang').addClass("sui-sourceText");
                     $('#sui-avlang').show();
                     me.text('SHOW LESS');
                     me.addClass('expanded');

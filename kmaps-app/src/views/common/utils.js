@@ -739,3 +739,25 @@ export const removeURLParams = () => {
         window.history.pushState({}, undefined, newurl);
     }
 };
+
+/**
+ * Translates lang code into label
+ * @param lng
+ * @returns {string|*}
+ */
+export const langCodeToLabel = (lng) => {
+    switch (lng) {
+        case 'bo':
+            return 'Tibetan';
+        case 'dz':
+            return 'Dzongkha';
+        case 'en':
+            return 'English';
+        case 'sa':
+            return 'Sanskrit';
+        case 'zh':
+            return 'Chinese';
+        default:
+            return lng;
+    }
+};
