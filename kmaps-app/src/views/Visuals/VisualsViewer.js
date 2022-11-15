@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useParams } from 'react-router-dom';
-import { Col, Container, Row } from 'react-bootstrap';
+import { Button, Col, Container, Modal, Row } from 'react-bootstrap';
 import './visuals.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { MandalaPopover } from '../common/MandalaPopover';
@@ -161,20 +161,9 @@ export default function VisualsViewer(props) {
                                 field={nodejson?.field_terms_kmap}
                                 icon={'terms'}
                             />
-                            {nodejson?.shivanode_description?.und &&
-                                nodejson?.shivanode_description?.und.length >
-                                    0 && (
-                                    <VisualsRow
-                                        label={'Description'}
-                                        value={
-                                            nodejson?.shivanode_description
-                                                ?.und[0].safe_value
-                                        }
-                                        has_markup={true}
-                                        myclass={'visdesc'}
-                                        icon={'file-text-o'}
-                                    />
-                                )}
+                            {solrdoc?.description && (
+                                <VisualsDescription data={solrdoc} />
+                            )}
                             {snjson?.dataSourceUrl && has_sheet && (
                                 <VisualsRow
                                     label={'Data Source'}
@@ -264,5 +253,49 @@ function VisualsKmap(props) {
             myclass={'kmapfield'}
             valclass={'kmapval'}
         />
+    );
+}
+
+function VisualsDescription({ data }) {
+    const isdesc = data?.description && data.description !== data?.summary;
+
+    return (
+        <Row className="description visdesc" key="vis-desc-row">
+            <span className={'icon u-icon__file-text-o'}></span>
+            <span className={'u-label'}>Description</span>{' '}
+            <span className={'u-value visdesc'}>{data?.summary}</span>
+            {isdesc && <VisualsDescModal data={data} />}
+        </Row>
+    );
+}
+
+function VisualsDescModal({ data }) {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    const lang = data?.lang || 'en';
+    return (
+        <>
+            <Button variant="link" onClick={handleShow}>
+                Read More
+            </Button>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title className={lang}>
+                        <h3>{data?.caption}</h3>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <HtmlCustom markup={data?.description} className={lang} />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 }
