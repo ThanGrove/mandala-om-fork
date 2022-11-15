@@ -1,4 +1,4 @@
-import { Col, Row } from 'react-bootstrap';
+import { Button, Col, Modal, Row } from 'react-bootstrap';
 import { CollectionField, KmapsFields } from '../common/utilcomponents';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import React, { useState } from 'react';
@@ -109,12 +109,36 @@ export function ImageMetadata(props) {
                         value={sizestr}
                     />
                     <hr />
-                    {imgdescs.map((desc, dn) => {
+                    <ImageDescription
+                        key="main-img-desc-1"
+                        caption={solrdoc?.caption}
+                        summary={solrdoc?.summary}
+                        desc={solrdoc?.description}
+                        langs={[
+                            solrdoc?.caption_lang_s,
+                            solrdoc?.summary_lang_s,
+                            solrdoc?.description_lang_s,
+                        ]}
+                        authors={solrdoc?.description_authors_s}
+                        hrule={solrdoc?.caption_alt_txt?.length > 0}
+                    />
+                    {solrdoc?.caption_alt_txt.map((altcap, dn) => {
                         return (
                             <ImageDescription
-                                key={'im-desc-' + dn}
-                                data={imgdescs[dn]}
-                                defaultauth={photographer}
+                                caption={altcap}
+                                summary={solrdoc?.summary_alt_txt[dn]}
+                                desc={solrdoc?.description_alt_txt[dn]}
+                                langs={[
+                                    solrdoc?.caption_alt_lang_ss[dn],
+                                    solrdoc?.summary_alt_lang_ss[dn],
+                                    solrdoc?.description_alt_lang_ss[dn],
+                                ]}
+                                authors={
+                                    solrdoc?.description_alt_authors_ss[dn]
+                                }
+                                hrule={
+                                    dn + 1 < solrdoc?.caption_alt_txt?.length
+                                }
                             />
                         );
                     })}
@@ -353,26 +377,69 @@ function ImageCreators(props) {
     );
 }
 
-function ImageDescription(props) {
-    const desc = props.data;
-    const defaultauth = props.defaultauth;
-    const descdate = processDate(desc.created, 'ts');
-    const author =
-        desc?.field_author?.und && desc.field_author.und.length > 0
-            ? desc.field_author.und[0].value
-            : defaultauth;
-    const clsstr = author === '' ? 'byline noauthor' : 'byline';
-    const desctxt = desc?.field_description?.und
-        ? desc.field_description.und[0].value
-        : '';
+/**
+ *
+ * @param caption
+ * @param summary
+ * @param desc
+ * @param langs  - a list of langs for 0 = caption, 1 = summary, 2 = description
+ * @param authors
+ * @param hrule
+ * @returns {JSX.Element}
+ * @constructor
+ */
+function ImageDescription({ caption, summary, desc, langs, authors, hrule }) {
+    const clsstr = authors === '' ? 'byline noauthor' : 'byline';
+    if (!summary) {
+        summary = desc.substring(0, 750);
+    }
     return (
         <div className={'o-desc'}>
-            <h5 className={'o-desc__title'}>{desc.title}</h5>
-            <p className={'o-desc__' + clsstr}>
-                {author} ({descdate})
-            </p>
-            <HtmlCustom markup={desctxt} />
+            <h4 className={'o-desc__title'}>{caption}</h4>
+            <p className={'o-desc__' + clsstr}>{authors}</p>
+            <p className={`o-desc-summary ${langs[1]}`}>{summary}</p>
+            {desc?.length > 0 && (
+                <ImageDescReadMore
+                    desc={desc}
+                    lang={langs[2]}
+                    title={caption}
+                    authors={authors}
+                />
+            )}
+            {hrule && <hr className="desc-sep" />}
         </div>
+    );
+}
+
+function ImageDescReadMore({ desc, lang, title, caption, authors }) {
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
+    return (
+        <>
+            <Button variant="link" onClick={handleShow}>
+                Read More
+            </Button>
+
+            <Modal show={show} onHide={handleClose}>
+                <Modal.Header closeButton>
+                    <Modal.Title className={lang}>
+                        <h3>{title}</h3>
+                    </Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <HtmlCustom markup={desc} className={lang} />
+                    <div className="float-right">— {authors}</div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleClose}>
+                        Close
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
     );
 }
 
