@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FeatureCollection } from './common/FeatureCollection';
 import { useFilterStore } from '../hooks/useFilterStore';
 import { useRecentSearch } from '../hooks/useRecentSearch';
@@ -34,6 +34,17 @@ export function SearchViewer() {
         isPreviousData,
     } = useSearch(search, start_row, perPage, 'none', 0, 0, true, filters);
 
+    useEffect(() => {
+        // Add the search page and filters to the store.
+        addSearchPage(query);
+    }, [query]);
+
+    useEffect(() => {
+        // Open the search tab
+        setOpenTab(1);
+        setSearch();
+    }, []);
+
     if (isSearchLoading) {
         return (
             <div>
@@ -49,13 +60,6 @@ export function SearchViewer() {
             </div>
         );
     }
-
-    // Add the search page and filters to the store.
-    addSearchPage(query);
-
-    // Open the search tab
-    setOpenTab(1);
-    setSearch();
 
     const docs = searchData.response?.docs ?? [];
     const numFound = searchData.response?.numFound ?? 0;
