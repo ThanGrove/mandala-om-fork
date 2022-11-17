@@ -215,7 +215,7 @@ export default function TreeLeaf({
 
     // return the div structure for a regular tree leaf
     return (
-        <div className={divclass} ref={leafRef}>
+        <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
             <span
                 className={settings.spanClass}
                 data-domain={kmapdata?.tree}

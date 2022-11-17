@@ -35,10 +35,28 @@ export default function SubjectInfo(props) {
         error: kmapError,
     } = useKmap(qid, 'info');
 
+    // Function to loop through until leaf is loaded, then scroll into center of vertical view
+    let tofunc = () => {
+        if (document.getElementById('leaf-subjects-' + id)) {
+            document
+                .getElementById('leaf-subjects-' + id)
+                .scrollIntoView({ block: 'center' });
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 100);
+        } else {
+            setTimeout(tofunc, 250);
+        }
+    };
+
     useEffect(() => {
-        if (openTab != 'browse') {
+        if (openTab !== 'browse') {
             setOpenTab(2);
-            console.log('need to scroll', kmapData);
+            setTimeout(tofunc, 10);
+            // Cancel loop if element is not found in 10 secs.
+            setTimeout(() => {
+                tofunc = () => {};
+            }, 10000);
         }
     }, [path, id]);
 

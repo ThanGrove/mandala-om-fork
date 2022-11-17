@@ -25,6 +25,7 @@ import {
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
 import { ImageCaption, ImageSlider } from '../common/ImageSlider';
+import { openTabStore } from '../../hooks/useCloseStore';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -40,6 +41,8 @@ export default function PlacesInfo(props) {
     let { id } = useParams();
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
+    const setOpenTab = openTabStore((state) => state.changeButtonState);
+    const openTab = openTabStore((state) => state.openTab);
     const qid = queryID(baseType, id);
 
     const {
@@ -71,6 +74,32 @@ export default function PlacesInfo(props) {
         }, 1000);
          */
     }, [kmapData, addPage]);
+
+    // Function to loop through until leaf is loaded, then scroll into center of vertical view
+    let topfunc = () => {
+        if (document.getElementById('leaf-places-' + id)) {
+            console.log('Found it!');
+            document
+                .getElementById('leaf-places-' + id)
+                .scrollIntoView({ block: 'center' });
+            setTimeout(() => {
+                window.scrollTo(0, 0);
+            }, 100);
+        } else {
+            setTimeout(topfunc, 250);
+        }
+    };
+
+    useEffect(() => {
+        if (openTab !== 'browse') {
+            setOpenTab(2);
+            setTimeout(topfunc, 10);
+            // Cancel loop if element is not found in 10 secs.
+            setTimeout(() => {
+                topfunc = () => {};
+            }, 10000);
+        }
+    }, [path, id]);
 
     const [mapRef, mapSize] = useDimensions();
 
