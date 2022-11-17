@@ -45,6 +45,7 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
+    const kmapid = queryID(domain, kid);
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -59,9 +60,6 @@ export default function TreeLeaf({
         (state) => state[settings.domain]
     );
     const viewSetting = useView((state) => state[settings.domain]);
-    if (domain === 'terms' && kid == 45101) {
-        // console.log('Trea leaf settings', viewSetting);
-    }
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
@@ -74,7 +72,7 @@ export default function TreeLeaf({
     }
 
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
-    const qid = `leaf-children-${domain}-${kid}-${perspective}-count`; // Id for query for caching
+    const qid = `leaf-children-${kmapid}-${perspective}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
     const path_fld = `ancestor_id_${perspective}_path`;
     const pathqry = isKmapLoading
@@ -135,9 +133,16 @@ export default function TreeLeaf({
         }
     }, [kmapdata, childrenData, settings.selPath]);
 
+    // Exclude any kmaps in comma-separated list env variable: process.env.REACT_APP_KMAP_EXCLUDES
+    const kmap_excludes =
+        process.env?.REACT_APP_KMAP_EXCLUDES?.split(',') || [];
+    if (kmap_excludes.includes(kmapid)) {
+        return null;
+    }
+
     if (isKmapLoading || isChildrenLoading) {
         return (
-            <div data-id={queryID(domain, kid)}>
+            <div data-id={kmapid}>
                 <MandalaSkeleton height={5} width={50} />
             </div>
         );

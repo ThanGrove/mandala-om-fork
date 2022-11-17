@@ -87,14 +87,12 @@ export default function PlacesInfo(props) {
     };
 
     useEffect(() => {
-        if (openTab !== 'browse') {
-            setOpenTab(2);
-            setTimeout(topfunc, 10);
-            // Cancel loop if element is not found in 10 secs.
-            setTimeout(() => {
-                topfunc = () => {};
-            }, 10000);
-        }
+        setOpenTab(2);
+        setTimeout(topfunc, 10);
+        // Cancel loop if element is not found in 10 secs.
+        setTimeout(() => {
+            topfunc = () => {};
+        }, 10000);
     }, [path, id]);
 
     const [mapRef, mapSize] = useDimensions();

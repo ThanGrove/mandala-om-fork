@@ -122,7 +122,7 @@ export function ImageMetadata(props) {
                         authors={solrdoc?.description_authors_s}
                         hrule={solrdoc?.caption_alt_txt?.length > 0}
                     />
-                    {solrdoc?.caption_alt_txt.map((altcap, dn) => {
+                    {solrdoc?.caption_alt_txt?.map((altcap, dn) => {
                         return (
                             <ImageDescription
                                 caption={altcap}
@@ -391,7 +391,10 @@ function ImageCreators(props) {
 function ImageDescription({ caption, summary, desc, langs, authors, hrule }) {
     const clsstr = authors === '' ? 'byline noauthor' : 'byline';
     if (!summary) {
-        summary = desc.substring(0, 750);
+        if (!desc || desc?.length === 0) {
+            return null;
+        }
+        summary = desc?.substring(0, 750);
     }
     return (
         <div className={'o-desc'}>

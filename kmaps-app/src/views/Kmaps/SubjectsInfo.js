@@ -39,6 +39,7 @@ export default function SubjectInfo(props) {
     let tofunc = () => {
         if (document.getElementById('leaf-subjects-' + id)) {
             setTimeout(function () {
+                console.log('scrolling to');
                 const el = document.getElementById('leaf-subjects-' + id);
                 if (el) {
                     const tree = el.closest('.c-kmaptree');
@@ -48,7 +49,6 @@ export default function SubjectInfo(props) {
                             Math.floor(tree.offsetHeight / 2) -
                             60;
                         tree.scrollTop = scrollval;
-                        console.log('scrolling to: ', scrollval);
                     }
                 }
             }, 1);
@@ -58,14 +58,13 @@ export default function SubjectInfo(props) {
     };
 
     useEffect(() => {
-        if (openTab !== 'browse') {
-            setOpenTab(2);
-            setTimeout(tofunc, 10);
-            // Cancel loop if element is not found in 10 secs.
-            setTimeout(() => {
-                tofunc = () => {};
-            }, 10000);
-        }
+        setOpenTab(2);
+        setTimeout(tofunc, 10);
+        // Cancel loop if element is not found in 10 secs.
+        setTimeout(() => {
+            console.log('element not found: leaf-subjects-' + id);
+            tofunc = () => {};
+        }, 10000);
     }, [path, id]);
 
     useEffect(() => {
