@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import $ from 'jquery';
 import './subjectsinfo.scss';
 import { HtmlCustom } from '../common/MandalaMarkup';
@@ -18,9 +18,12 @@ import { SubjectsRelSubjectsViewer } from './SubjectsRelSubjectsViewer';
 import RelatedAssetViewer from './RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { RelatedTextFinder } from '../Texts/RelatedText';
+import { openTabStore } from '../../hooks/useCloseStore';
 
 export default function SubjectInfo(props) {
     const addPage = useHistory((state) => state.addPage);
+    const setOpenTab = openTabStore((state) => state.changeButtonState);
+    const openTab = openTabStore((state) => state.openTab);
     let { path } = useRouteMatch();
     let { id } = useParams();
     const baseType = 'subjects';
@@ -31,6 +34,19 @@ export default function SubjectInfo(props) {
         isError: isKmapError,
         error: kmapError,
     } = useKmap(qid, 'info');
+
+    useEffect(() => {
+        if (openTab != 'browse') {
+            setOpenTab(2);
+            console.log('need to scroll', kmapData);
+        }
+    }, [path, id]);
+
+    useEffect(() => {
+        if (kmapData?.header) {
+            addPage('subjects', kmapData.header, window.location.pathname);
+        }
+    }, [kmapData, addPage]);
 
     if (isKmapLoading) {
         return <MandalaSkeleton overlay={true} />;
@@ -44,12 +60,6 @@ export default function SubjectInfo(props) {
             </p>
         );
     }
-
-    // Hack to wait for HistoryViewer to load before adding this page
-    setTimeout(function () {
-        addPage('subjects', kmapData.header, window.location.pathname);
-    }, 500);
-
     $('main.l-column__main').addClass('subjects');
 
     return (
