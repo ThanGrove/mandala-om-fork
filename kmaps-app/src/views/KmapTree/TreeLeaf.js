@@ -397,6 +397,8 @@ export function RelatedChildren({ settings, domain, kid }) {
 /**
  * Function called when selected div is loaded to scroll that selected div into view
  * @param settings : object : the tree settings for the selected node
+ *
+ * DEPRECATED but SAVE: May need to add this logic to the scroll leaf functions in the 3 kmap info components.
  */
 function updateTreeScroll(settings) {
     const tree = $('#' + settings.elid);

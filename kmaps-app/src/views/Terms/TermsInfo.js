@@ -66,11 +66,19 @@ const TermsInfo = (props) => {
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
     let tofunc = () => {
         if (document.getElementById('leaf-terms-' + id)) {
-            document
-                .getElementById('leaf-terms-' + id)
-                .scrollIntoView({ block: 'center' });
-            setTimeout(() => {
-                window.scrollTo(0, 0);
+            setTimeout(function () {
+                const el = document.getElementById('leaf-terms-' + id);
+                if (el) {
+                    const tree = el.closest('.c-kmaptree');
+                    if (tree) {
+                        const scrollval =
+                            el.offsetTop -
+                            Math.floor(tree.offsetHeight / 2) -
+                            60;
+                        tree.scrollTop = scrollval;
+                        console.log('scrolling to: ', scrollval);
+                    }
+                }
             }, 100);
         } else {
             setTimeout(tofunc, 250);

@@ -266,6 +266,7 @@ export default function KmapTree(props) {
  * @param settings
  */
 function openToSel(settings) {
+    let a = 0;
     let ct = 1;
     let lastId = settings.selPath[settings.selPath.length - ct];
     // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id

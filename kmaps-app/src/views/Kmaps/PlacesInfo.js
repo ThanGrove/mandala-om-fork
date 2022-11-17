@@ -62,29 +62,25 @@ export default function PlacesInfo(props) {
         if (kmapData?.header) {
             addPage('places', kmapData.header, window.location.pathname);
         }
-        // Had kmap popovers to same place on that places page
-        /* Doesn't work right, maybe need to select its parent...
-        setTimeout(function () {
-            const kmtgs = document.getElementsByClassName('kmap-tag-group');
-            for (var n = 0; n < kmtgs.length; n++) {
-                if (kmtgs[n].dataset.kmid === id) {
-                    kmtgs[n].classList.add('kmap-hide');
-                }
-            }
-        }, 1000);
-         */
     }, [kmapData, addPage]);
 
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
     let topfunc = () => {
         if (document.getElementById('leaf-places-' + id)) {
-            console.log('Found it!');
-            document
-                .getElementById('leaf-places-' + id)
-                .scrollIntoView({ block: 'center' });
-            setTimeout(() => {
-                window.scrollTo(0, 0);
-            }, 100);
+            setTimeout(function () {
+                const el = document.getElementById('leaf-places-' + id);
+                if (el) {
+                    const tree = el.closest('.c-kmaptree');
+                    if (tree) {
+                        const scrollval =
+                            el.offsetTop -
+                            Math.floor(tree.offsetHeight / 2) -
+                            60;
+                        tree.scrollTop = scrollval;
+                        console.log('scrolling to: ', scrollval);
+                    }
+                }
+            }, 1);
         } else {
             setTimeout(topfunc, 250);
         }
