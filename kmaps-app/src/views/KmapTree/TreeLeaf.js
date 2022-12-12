@@ -310,6 +310,13 @@ export function LeafChildren({
                 ) {
                     return null;
                 }
+                if (
+                    process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
+                        child?.id
+                    )
+                ) {
+                    io = true;
+                }
                 return (
                     <TreeLeaf
                         key={lckey}
