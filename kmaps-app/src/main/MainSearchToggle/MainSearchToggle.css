@@ -1,0 +1,70 @@
+.c-MainSearchToggle--group .c-MainSearchToggle--button {
+    background-color: #fff;
+    padding: 0.8rem 0;
+    width: 6.5rem;
+    height: 4.7rem;
+    color: black;
+    border-color: #ddd !important;
+    border-bottom-color: transparent !important;
+    opacity: 1;
+    transition: all 0.35s;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button.focus,
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active,
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active:hover,
+.c-MainSearchToggle--group .c-MainSearchToggle--button:focus {
+    background-color: #3f49b1 !important;
+    opacity: 1;
+}
+.c-MainSearchToggle--group
+    .c-MainSearchToggle--button:not(.active):first-child {
+    border-left: 0.15rem solid #ccc !important;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button svg {
+    font-size: 2.2rem;
+    color: #000;
+    position: relative;
+    top: 0.25rem;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active svg {
+    color: #fff;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button input:focus {
+    box-shadow: none !important;
+    outline: none !important;
+    border-radius: 0;
+    border-width: 0 0.15rem;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button .icon {
+    color: #333;
+    font-size: 2.85rem;
+    position: relative;
+    bottom: 0.5rem;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active .icon {
+    color: #fff;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active {
+    background-color: #4d59ca;
+}
+.c-MainSearchToggle--group .c-MainSearchToggle--button.active::before {
+    width: 0;
+    height: 0;
+    content: '';
+    display: inline-block;
+    border-style: solid;
+    border-width: 1px 6px 7px 6px;
+    border-color: transparent transparent #fff transparent;
+    position: absolute;
+    bottom: -0.3rem;
+    left: 50%;
+    z-index: 1005;
+    margin-left: -0.5rem;
+    background-color: transparent;
+}
+.c-MainSearchToggle--group
+    .c-MainSearchToggle--button.btn:not(:disabled):not(.disabled) {
+    cursor: default;
+}
+
+/*# sourceMappingURL=MainSearchToggle.css.map */

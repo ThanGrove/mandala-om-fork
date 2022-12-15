@@ -1,0 +1,99 @@
+main.l-column__main.sources {
+    background-color: #ddd;
+}
+
+.c-source {
+    min-height: 65rem;
+    margin: 0 auto 1rem;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 0.6rem;
+    padding: 2.5rem 3rem 5rem 3.5rem;
+    font-weight: 400;
+    color: #000;
+}
+.c-source .c-source__head {
+    padding-bottom: 1rem;
+    border-bottom: 0.1rem solid #ccc;
+}
+.c-source .c-source__head .u-icon__sources::before {
+    position: relative;
+    margin-right: 0.75rem;
+    top: 0.3rem;
+    left: 0.2rem;
+}
+.c-source .c-source__title {
+    font-family: 'EB Garamond', serif;
+    font-size: 2.25rem;
+    font-weight: 500;
+    color: #333;
+}
+.c-source h2.c-source__second-head {
+    font-family: 'EB Garamond', serif;
+    font-weight: 500;
+    color: #000;
+    line-height: 24px;
+    font-size: 2.25rem;
+    font-style: italic;
+}
+.c-source h3.c-source__third-head {
+    color: #000;
+    font-family: 'EB Garamond', serif;
+    line-height: 1.25em;
+    font-weight: 500;
+    font-size: 1.75rem;
+}
+.c-source .row {
+    font-size: 1.4rem;
+    line-height: 2.5rem;
+    margin-left: 0;
+    margin-right: 0;
+}
+.c-source .c-sources__data {
+    margin-left: 0;
+    margin-right: 0;
+    padding-left: 0;
+}
+.c-source .row .u-label {
+    font-size: 1.2rem !important;
+    padding-top: 0.15rem;
+}
+.c-source .row .u-label:after {
+    content: ': ';
+    padding-right: 1rem !important;
+}
+.c-source .row.agents {
+    line-height: inherit;
+    font-size: 1.2rem;
+    margin-top: 1.25rem;
+}
+.c-source .row.agents .u-icon__agents {
+    color: #6e65cc;
+    font-size: 1.4rem;
+    margin-right: 0.75rem;
+}
+.c-source .row.agents .agent:after {
+    content: ', ';
+    padding-right: 4px;
+}
+.c-source .row.agents .agent:last-child:after {
+    content: '';
+}
+.c-source .row.collection .u-value a:after {
+    content: '>';
+    padding: 0 1rem;
+}
+.c-source .row.collection .u-value a:last-child:after {
+    content: '';
+}
+.c-source .row.abstract .u-value {
+    line-height: 2.5rem;
+}
+.c-source .row .u-bo {
+    font-size: 120%;
+}
+.c-source span.kmap-tag-group.processed {
+    margin-top: -1rem;
+}
+
+/*# sourceMappingURL=sources.css.map */
