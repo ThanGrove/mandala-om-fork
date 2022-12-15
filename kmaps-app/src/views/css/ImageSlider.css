@@ -1,0 +1,83 @@
+/* Slideshow */
+.imageslider {
+    margin: 0.75rem;
+    max-width: 275px;
+}
+
+.imageslider .wrapper {
+    background-color: #fff;
+    border-radius: 1rem !important;
+    border: thick double #999;
+    overflow: hidden;
+    width: 275px;
+    height: 181px;
+}
+
+.nodeHeader-placesInfo .imageslider .wrapper {
+    border: thick double #3297f7;
+}
+
+.nodeHeader-subjectsInfo .imageslider .wrapper {
+    border: thick double #cc4c39;
+}
+
+.nodeHeader-termsInfo .imageslider .wrapper {
+    border: thick double #91693c;
+}
+
+.imageslider .slider {
+    max-height: 275px;
+    white-space: nowrap;
+    transition: ease 1000ms;
+}
+
+.imageslider .slide {
+    display: inline-block;
+    width: 275px;
+    border-radius: 20px;
+    vertical-align: top;
+}
+
+.imageslider .slide img {
+    min-height: 181px;
+}
+
+.imageslider .captions .caption,
+.img.featured .caption {
+    display: none;
+    padding: 5px 10px 0;
+    text-align: center;
+    line-height: 18px;
+    text-transform: capitalize;
+    font-style: italic;
+    font-size: 90%;
+}
+.imageslider .captions .caption.active,
+.img.featured .caption.active {
+    display: block;
+}
+
+.img.featured .caption {
+    padding-top: 0;
+}
+
+/* Buttons */
+.imageslider .dots {
+    text-align: center;
+}
+
+.imageslider .dot {
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 15px 7px 0px;
+    background-color: #c4c4c4;
+}
+
+.imageslider .dot.active {
+    background-color: #6a0dad;
+}
+
+/*# sourceMappingURL=ImageSlider.css.map */

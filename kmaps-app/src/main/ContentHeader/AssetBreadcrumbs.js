@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { capitalAsset } from '../../views/common/utils';
 import React from 'react';
+import { HtmlCustom } from '../../views/common/MandalaMarkup';
 
 export function AssetBreadcrumbs({ itemData, itemTitle, itemType }) {
     // Asset Breadcrumbs
@@ -20,7 +21,7 @@ export function AssetBreadcrumbs({ itemData, itemTitle, itemType }) {
     }
     breadcrumbs.push(
         <Link key={'bc-title'} to="#" className="breadcrumb-item">
-            {itemTitle}
+            <HtmlCustom markup={itemTitle} />
         </Link>
     );
 

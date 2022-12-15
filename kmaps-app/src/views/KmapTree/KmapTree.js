@@ -113,6 +113,7 @@ export default function KmapTree(props) {
 
     // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
+
     const {
         isLoading: isSelNodeLoading,
         data: selNode,
@@ -143,7 +144,7 @@ export default function KmapTree(props) {
     if (settings.domain === 'terms') {
         // console.log('use view: ', viewobj);
     }
-    // Use Effect: To open selected node in tree, if not already open (for parallel trees)
+    // Use Effect: To open selected node in tree, if not already open (** for parallel trees **)
     useEffect(() => {
         if (
             !isSelNodeLoading &&
@@ -163,10 +164,11 @@ export default function KmapTree(props) {
     }, [perspective]);
 
     // Don't load the tree until we have selected node path info to drill down with
-    if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
+    /*if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
         return <MandalaSkeleton />;
         // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
-    } else if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
+    } else*/
+    if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
         settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
         // Otherwise if it has list of ancestor ids closest to that perspective, use that
     } else if (
@@ -264,6 +266,7 @@ export default function KmapTree(props) {
  * @param settings
  */
 function openToSel(settings) {
+    let a = 0;
     let ct = 1;
     let lastId = settings.selPath[settings.selPath.length - ct];
     // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id

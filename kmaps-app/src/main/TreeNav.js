@@ -5,13 +5,16 @@ import { useRouteMatch, useLocation } from 'react-router-dom';
 import { getProject, queryID } from '../views/common/utils';
 import KmapTree from '../views/KmapTree/KmapTree';
 import { closeStore, openTabStore } from '../hooks/useCloseStore';
+import { MdLogin } from 'react-icons/all';
 
 const TreeNav = (props) => {
     const openTab = openTabStore((state) => state.openTab);
     let openclass = openTab === 2 ? 'open' : 'closed';
 
     // let openclass = props.tree ? 'open' : 'closed';
-    const [tabkey, setTab] = useState('places');
+    let default_tab = process?.env?.REACT_APP_DEFAULT_KMAP_TAB || 'places';
+
+    const [tabkey, setTab] = useState(default_tab);
     let domain = 'places';
 
     const domainfids = {
@@ -33,8 +36,22 @@ const TreeNav = (props) => {
     //const handleCloseButton = closeStore((state) => state.changeButtonState);
 
     const changeTab = openTabStore((state) => state.changeButtonState);
-
+    // On page load set active tab based on any matched domain in location path of standalone
     useEffect(() => {
+        if (process.env.REACT_APP_STANDALONE === 'standalone') {
+            const path_parts = window.location.pathname.split('/');
+            const matches = ['places', 'subjects', 'terms'].filter((val) =>
+                path_parts.includes(val)
+            );
+            if (matches.length > 0) {
+                setTab(matches[0]);
+            }
+        }
+    }, []);
+
+    // Whenever the React location changes, update the tab based on any domain in the React Route
+    useEffect(() => {
+        // Look for Domain in React Route
         if (match?.params?.baseType) {
             domain = match.params.baseType;
             if (['places', 'subjects', 'terms'].includes(domain)) {

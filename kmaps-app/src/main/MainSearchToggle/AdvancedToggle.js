@@ -5,10 +5,11 @@ import { browseSearchToggle } from '../../hooks/useBrowseSearchToggle';
 import { ADVANCED_LABEL, BASIC_LABEL } from '../../App';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import ToggleButton from 'react-bootstrap/ToggleButton';
-import { BsGear, BsMap, ImTree } from 'react-icons/all';
+import { BsGear, BsMap, ImTree, MdLogin } from 'react-icons/all';
 import './MainSearchToggle.scss';
 import { ViewSettings } from '../MandalaSettings/ViewSettings';
 import { MandalaSettings } from '../MandalaSettings/MandalaSettings';
+import { LoginLink } from '../LoginLink';
 
 const target = document.getElementById('browseSearchPortal');
 
@@ -58,6 +59,7 @@ export function AdvancedToggle() {
         ) : null;
     const toggleBtnGroup = (
         <>
+            <LoginLink />
             <ToggleButtonGroup
                 name="Georgie"
                 value={default_value}

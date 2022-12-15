@@ -24,6 +24,8 @@ import {
 } from './PlacesRelSubjectsViewer';
 import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
+import { ImageCaption, ImageSlider } from '../common/ImageSlider';
+import { openTabStore } from '../../hooks/useCloseStore';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -39,6 +41,8 @@ export default function PlacesInfo(props) {
     let { id } = useParams();
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
+    const setOpenTab = openTabStore((state) => state.changeButtonState);
+    const openTab = openTabStore((state) => state.openTab);
     const qid = queryID(baseType, id);
 
     const {
@@ -58,19 +62,38 @@ export default function PlacesInfo(props) {
         if (kmapData?.header) {
             addPage('places', kmapData.header, window.location.pathname);
         }
-        // Had kmap popovers to same place on that places page
-        /* Doesn't work right, maybe need to select its parent...
-        setTimeout(function () {
-            const kmtgs = document.getElementsByClassName('kmap-tag-group');
-            for (var n = 0; n < kmtgs.length; n++) {
-                if (kmtgs[n].dataset.kmid === id) {
-                    kmtgs[n].classList.add('kmap-hide');
-                }
-            }
-        }, 1000);
-
-         */
     }, [kmapData, addPage]);
+
+    // Function to loop through until leaf is loaded, then scroll into center of vertical view
+    let topfunc = () => {
+        if (document.getElementById('leaf-places-' + id)) {
+            setTimeout(function () {
+                const el = document.getElementById('leaf-places-' + id);
+                if (el) {
+                    const tree = el.closest('.c-kmaptree');
+                    if (tree) {
+                        const scrollval =
+                            el.offsetTop -
+                            Math.floor(tree.offsetHeight / 2) -
+                            60;
+                        tree.scrollTop = scrollval;
+                        console.log('scrolling to: ', scrollval);
+                    }
+                }
+            }, 1);
+        } else {
+            setTimeout(topfunc, 250);
+        }
+    };
+
+    useEffect(() => {
+        setOpenTab(2);
+        setTimeout(topfunc, 10);
+        // Cancel loop if element is not found in 10 secs.
+        setTimeout(() => {
+            topfunc = () => {};
+        }, 10000);
+    }, [path, id]);
 
     const [mapRef, mapSize] = useDimensions();
 
@@ -102,7 +125,7 @@ export default function PlacesInfo(props) {
             break;
         }
     }
-    const defaultKey = txtid ? 'about' : 'map';
+    const defaultKey = txtid ? 'about' : kmapData?.has_shapes ? 'map' : 'names';
 
     // Create Name Object list to determine if there are etymologies
     const namelist = kmapData._childDocuments_?.filter((cd, i) => {
@@ -161,17 +184,18 @@ export default function PlacesInfo(props) {
                                         />
                                     </Tab>
                                 )}
-
-                                <Tab eventKey="map" title="Map">
-                                    {mapSize.width && (
-                                        <KmapsMap
-                                            fid={fid}
-                                            languageLayer="roman_popular"
-                                            height={mapSize.height}
-                                            width={mapSize.width}
-                                        />
-                                    )}
-                                </Tab>
+                                {kmapData?.has_shapes && (
+                                    <Tab eventKey="map" title="Map">
+                                        {mapSize.width && (
+                                            <KmapsMap
+                                                fid={fid}
+                                                languageLayer="roman_popular"
+                                                height={mapSize.height}
+                                                width={mapSize.width}
+                                            />
+                                        )}
+                                    </Tab>
+                                )}
                                 {nameobjs?.length > 0 && (
                                     <Tab eventKey="names" title="Names">
                                         <PlacesNames
@@ -188,13 +212,14 @@ export default function PlacesInfo(props) {
                                         />
                                     </Tab>
                                 )}
-
-                                <Tab eventKey="location" title="Location">
-                                    <PlacesLocation
-                                        kmap={kmapData}
-                                        id={queryID(baseType, id)}
-                                    />
-                                </Tab>
+                                {kmapData?.shapes_centroid_grptgeom && (
+                                    <Tab eventKey="location" title="Location">
+                                        <PlacesLocation
+                                            kmap={kmapData}
+                                            id={queryID(baseType, id)}
+                                        />
+                                    </Tab>
+                                )}
                                 <Tab eventKey="ids" title="Ids">
                                     <PlacesIds
                                         kmap={kmapData}
@@ -248,34 +273,27 @@ export function PlacesSummary({ kmapData }) {
         kmapData?.illustrations_images_thumb_ss?.length > 0
             ? kmapData.illustrations_images_thumb_ss[0]
             : false;
-    // current image fields are illustrations_images_thumb_ss and illustrations_images_uid_ss
 
-    /* Code for old fields (Asked Andres if these are still used 2022-07-25. TODO: remove or reimplement.
-        kmapData?.illustration_mms_url?.length > 0
-            ? kmapData.illustration_mms_url[0]
-            : false;
-    imgurl =
-        !imgurl && kmapData?.illustration_external_url?.length > 0
-            ? kmapData?.illustration_external_url[0]
-            : imgurl;
-     */
-    const capnames = findFieldNames(kmapData, 'caption_', 'starts');
-    // TODO: Currently just uses the first caption field it finds. Make this more robust
-    const cap =
-        capnames.length > 0 ? (
-            <HtmlCustom markup={kmapData[capnames[0]][0]} />
-        ) : null;
-
-    const plimg = imgurl ? (
-        <div className={'img featured'}>
-            <img src={imgurl} alt={kmapData.header} />
-            {cap}
-        </div>
-    ) : null;
+    let cap = null;
+    let featured_img = null;
+    if (kmapData?.illustrations_images_thumb_ss?.length === 1) {
+        const imgurl = kmapData.illustrations_images_thumb_ss[0];
+        cap = <ImageCaption src={imgurl} active={true} />;
+        featured_img = (
+            <div className={'img featured'}>
+                <img src={imgurl} alt={kmapData.header} />
+                {cap}
+            </div>
+        );
+    } else if (kmapData?.illustrations_images_thumb_ss?.length > 1) {
+        featured_img = (
+            <ImageSlider images={kmapData?.illustrations_images_thumb_ss} />
+        );
+    }
     itemSummary = (
         <div className={'c-nodeHeader-itemSummary nodeHeader-placesInfo'}>
             {/* Add column with illustration if exists (if not is null) */}
-            {plimg}
+            {featured_img}
             <div className={'nodeHeader-summary'}>
                 {/* Feature type list if exists */}
                 <PlacesFeatureTypes parent={kmapData} />

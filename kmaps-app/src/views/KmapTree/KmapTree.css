@@ -99,6 +99,8 @@ ul.fancytree-container {
     max-width: inherit;
     overflow: hidden;
     margin-left: 1.25rem;
+    word-wrap: break-word;
+    white-space: normal;
 }
 .c-kmapleaf .toggle-icon {
     display: inline-block;
@@ -106,6 +108,15 @@ ul.fancytree-container {
     font-size: 1.95rem;
     position: relative;
     top: 0.25rem;
+}
+.c-kmapleaf .c-kmapnode {
+    display: flex;
+}
+.c-kmapleaf .c-kmapnode span.label {
+    display: inline-block;
+    text-indent: -1rem;
+    margin-left: 1rem;
+    line-height: 28px;
 }
 .c-kmapleaf .label a {
     color: #000;

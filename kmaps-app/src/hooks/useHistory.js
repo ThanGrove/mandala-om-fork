@@ -22,7 +22,9 @@ export const useHistory = create(
                     pgtitle = pgtitle[0];
                 }
 
-                document.title = pgtitle + ' (Mandala Collections)';
+                document.title =
+                    pgtitle?.replace(/(<([^>]+)>)/gi, '') +
+                    ' (Mandala Collections)';
                 const related = pgpath.match(/\d+\/related/);
                 if (related) {
                     pgpath = pgpath.split('/related')[0];

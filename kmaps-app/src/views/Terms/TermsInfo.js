@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Switch, Route, useRouteMatch, useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import { useKmapRelated } from '../../hooks/useKmapRelated';
@@ -11,6 +11,7 @@ import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import './TermsInfo.scss';
+import { openTabStore } from '../../hooks/useCloseStore';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -26,6 +27,8 @@ const TermsInfo = (props) => {
     // id is of format: asset_type-kid (ex. terms-81593)
     let { path } = useRouteMatch();
     let { id } = useParams();
+    const setOpenTab = openTabStore((state) => state.changeButtonState);
+    const openTab = openTabStore((state) => state.openTab);
     const baseType = 'terms';
     const addPage = useHistory((state) => state.addPage);
     const qid = queryID(baseType, id);
@@ -59,6 +62,37 @@ const TermsInfo = (props) => {
             addPage('terms', kmapData.header, window.location.pathname);
         }
     }, [addPage, isKmapError, isKmapLoading, kmapData]);
+
+    // Function to loop through until leaf is loaded, then scroll into center of vertical view
+    let tofunc = () => {
+        if (document.getElementById('leaf-terms-' + id)) {
+            setTimeout(function () {
+                const el = document.getElementById('leaf-terms-' + id);
+                if (el) {
+                    const tree = el.closest('.c-kmaptree');
+                    if (tree) {
+                        const scrollval =
+                            el.offsetTop -
+                            Math.floor(tree.offsetHeight / 2) -
+                            60;
+                        tree.scrollTop = scrollval;
+                        console.log('scrolling to: ', scrollval);
+                    }
+                }
+            }, 100);
+        } else {
+            setTimeout(tofunc, 250);
+        }
+    };
+
+    useEffect(() => {
+        setOpenTab(2);
+        setTimeout(tofunc, 10);
+        // Cancel loop if element is not found in 10 secs.
+        setTimeout(() => {
+            tofunc = () => {};
+        }, 10000);
+    }, [path, id]);
 
     if (isKmapLoading || isAssetLoading || isRelatedLoading) {
         return <MandalaSkeleton />;

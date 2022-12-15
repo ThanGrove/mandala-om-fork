@@ -154,29 +154,29 @@ const backbutton = () => {
  * @returns {JSX.Element}
  * @constructor
  */
-export function NotFoundPage(props) {
-    let atype = props.type;
+export function NotFoundPage({ type, id, withdiv = true }) {
+    let atype = type;
     let notFoundMessage = (
-        <div>
+        <>
             <p>Sorry, the page you are looking for</p>
             <p className={'badurl'}>{window.location.href}</p>
             <p>
                 is not available. It either does not exist or is private. Please
                 try again!
             </p>
-        </div>
+        </>
     );
 
-    if (atype && atype !== '' && props?.id) {
+    if (atype && atype !== '' && id) {
         if (atype[atype.length - 1] === 's') {
-            atype = atype.substr(0, atype.length - 1);
+            atype = atype.substring(0, atype.length - 1);
         }
         if ('aeiou'.includes(atype[0])) {
             atype = 'an ' + atype;
         } else {
             atype = 'a ' + atype;
         }
-        const aid = props.id;
+        const aid = id;
 
         notFoundMessage = (
             <p>
@@ -189,7 +189,9 @@ export function NotFoundPage(props) {
             </p>
         );
     }
-
+    if (!withdiv) {
+        return notFoundMessage;
+    }
     return (
         <div className={'c-not-found'}>
             <Container fluid>
@@ -201,7 +203,7 @@ export function NotFoundPage(props) {
                             alt={'mandala logo'}
                         />
                         <h1>Page Not Found!</h1>
-                        {notFoundMessage}
+                        <div>{notFoundMessage}</div>
                         <Button variant="primary" href="#" onClick={backbutton}>
                             Back
                         </Button>

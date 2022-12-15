@@ -39,7 +39,6 @@ export function PlacesHome(props) {
     if (isPlacesLoading) {
         return <MandalaSkeleton />;
     }
-
     const numFound = placesData?.numFound;
     const hasMore = numFound && (pageNum + 1) * pageSize < numFound;
 

@@ -687,3 +687,77 @@ export function getUniquePropIds(data, regex) {
     ids = new Set(ids);
     return Array.from(ids);
 }
+
+/**
+ * Detect a language from the unicode code point of its first character
+ *
+ * @param str
+ * @returns {string} : the language code
+ */
+export function detectLanguage(str) {
+    let lngcode = 'en'; // default lang code
+    if (str?.length > 0) {
+        const fchr = str.charCodeAt(0); // Code of the first character
+        if (3839 < fchr < 4096) {
+            lngcode = 'bo'; // Tibetan
+        } else if (19967 < fchr < 40960) {
+            lngcode = 'zh'; // Chinese
+        } else if (2303 < fchr < 2432) {
+            lngcode = 'sa'; // Sanskrit (or any language using Devanagari)
+        }
+    }
+    return lngcode;
+}
+
+export function decodeEntities(str) {
+    // Taken from https://stackoverflow.com/a/9609450/2911874
+    // this prevents any overhead from creating the object each time
+    const element = document.createElement('div');
+    if (str && typeof str === 'string') {
+        // strip script/html tags
+        str = str.replace(/<script[^>]*>([\S\s]*?)<\/script>/gim, '');
+        str = str.replace(/<\/?\w(?:[^"'>]|"[^"]*"|'[^']*')*>/gim, '');
+        element.innerHTML = str;
+        str = element.textContent;
+        element.textContent = '';
+    }
+    return str;
+}
+
+/**
+ * Removes URL Params and redirects to the clean url
+ */
+export const removeURLParams = () => {
+    const href = window.location.href;
+    if (href.includes('?')) {
+        const [myurl, sstr] = href.split('?');
+        let hash = '';
+        if (sstr.includes('#')) {
+            hash = '#' + sstr.split('#')[1];
+        }
+        const newurl = myurl + hash;
+        window.history.pushState({}, undefined, newurl);
+    }
+};
+
+/**
+ * Translates lang code into label
+ * @param lng
+ * @returns {string|*}
+ */
+export const langCodeToLabel = (lng) => {
+    switch (lng) {
+        case 'bo':
+            return 'Tibetan';
+        case 'dz':
+            return 'Dzongkha';
+        case 'en':
+            return 'English';
+        case 'sa':
+            return 'Sanskrit';
+        case 'zh':
+            return 'Chinese';
+        default:
+            return lng;
+    }
+};

@@ -20,7 +20,7 @@ jobs:
           - site-name: "uf"
             site: "ufbuild"
             localdir: "build/"
-            remotedir: "~/dev.flourishingu.org/wp-content/plugins/mandala/app/build/"
+            remotedir: "~/contemplativejournal.org/wp-content/plugins/mandala/app/build/"
     steps:
       - uses: actions/checkout@v2
         with:

@@ -8,7 +8,7 @@
 	start a ~10fps time that calls a function to update the transcript code (see section below) to
 	track the video. On pause, that timer is canceled.
 
-	Some metadata is displyed under the video along with the summary. A MORE link will reveal and
+	Some metadata is displayed under the video along with the summary. A MORE link will reveal and
 	additonal summary information about the clip. A tabbed menu appears below that
 	to reduce coginitive load, with sections showing video DETAILS, PEOPLE, involved and TECHNICAL data.
 
@@ -23,6 +23,7 @@
 *************************************************************************************************************************************************/
 /* eslint-disable */
 import $ from 'jquery';
+import { langCodeToLabel } from '../views/common/utils';
 export default class AudioVideo {
     constructor(
         sui // CONSTRUCTOR
@@ -85,8 +86,9 @@ export default class AudioVideo {
             wid = 50; // Make smaller
         }
         str += `<div class='sui-vPlayer' id='sui-kplayer'>
-        <img src="https://cfvod.kaltura.com/p/${partnerId}/sp/${partnerId}00/thumbnail/entry_id/${entryId}/version/100301/width/560/height/0" fill-height"></div>`;
-        str += `<div>
+        <img src="https://cfvod.kaltura.com/p/${partnerId}/sp/${partnerId}00/thumbnail/entry_id/${entryId}/version/100301/width/560/height/0" fill-height">
+        </div><div class="av-caption ${o?.caption_lang_s}" title="caption">${o?.caption}</div>`;
+        str += `<div class="container"><div class="row"><div class="col-md">
                 <div title='Published'>&#xe60c&nbsp;&nbsp;`;
         if (d.field_year_published && d.field_year_published.en) {
             str += sui.pages.FormatDate(d.field_year_published.en[0].value);
@@ -97,7 +99,7 @@ export default class AudioVideo {
         str += `<div title='Duration'>&#xe61c&nbsp;&nbsp;${o.duration_s}</div>`;
         str += `<div title='Uploader'>&#xe673&nbsp;&nbsp;${o.node_user_full_s}</div>`;
         // End of left side list of metadata items under video
-        str += `</div><div>`;
+        str += `</div><div class="col-md">`;
         try {
             if (o.collection_title) {
                 let collpath =
@@ -138,13 +140,65 @@ export default class AudioVideo {
             //console.error("in audiovideo.js: " + e.toString());
         }
         str += "<div title='Visibility'>&#xe67c&nbsp;&nbsp;Public</div>"; // TODO: sniff out actual visibility when available in solr index. For now all indexed nodes are public.
-        let desc_text = o.summary ? o.summary : o.caption ? o.caption : '';
-        let langclass = sui.pages.GetLangCode(desc_text);
-        if (langclass.length > 0) {
-            langclass = ' u-' + langclass;
+        str += '</div></div>';
+        let maindesc = o?.summary;
+        let mainclass = o?.summary_lang_s ?? 'en';
+        if (!maindesc && o?.caption) {
+            maindesc = o.caption;
+            mainclass = o?.caption_lang_s ?? mainclass;
         }
+        if (!maindesc && o?.description) {
+            maindesc = o.description;
+            mainclass = o?.description_lang_s ?? mainclass;
+        }
+
+        // str += `</div><hr>
+        // <p class='sui-sourceText${langclass}'>${desc_text}</p>`;
+
         str += `</div><hr>
-        <p class='sui-sourceText${langclass}'>${desc_text}</p>`;
+			<p class='sui-sourceText ${mainclass}'>${maindesc}</p>`;
+
+        // Secondary descriptions, summaries, etc.
+        str += `<div class='sui-avMore1'><a class='sui-avMore2'>
+            SHOW MORE</a></div><div id='sui-avlang' class='sui-sourceText' style='display:none'>`;
+        let morecnt = '';
+        let desclabel = '';
+        let desclang = '';
+        if (maindesc !== o?.description) {
+            desclabel = o?.description_type_s ?? 'DESCRIPTION';
+            desclang = o?.description_lang_s ?? 'en';
+            try {
+                morecnt += `<div class="description ${desclang}"><strong><span class="text-uppercase">${desclabel}</span> 
+                                (${langCodeToLabel(desclang)})</strong><br/>${
+                    o.description
+                }</div>`;
+            } catch (e) {}
+        }
+        if (o?.summary_alt_txt?.length > 0) {
+            for (i = 0; i < o?.summary_alt_txt.length; ++i) {
+                try {
+                    desclang = o?.summary_alt_lang_ss[i] ?? 'en';
+                    morecnt += `<div class="description ${desclang}"><strong>SUMMARY 
+                                (${langCodeToLabel(desclang)})</strong><br/>${
+                        o.summary_alt_txt[i]
+                    }</div>`;
+                } catch (e) {}
+            }
+        }
+
+        if (o?.description_alt_txt?.length > 0) {
+            for (i = 0; i < o?.description_alt_txt.length; ++i) {
+                desclabel = o.description_alt_type_ss[i] ?? 'DESCRIPTION';
+                desclang = o?.description_alt_lang_ss[i] ?? 'en';
+                try {
+                    morecnt += `<div class="description ${desclang}"><strong><span class="text-uppercase">${desclabel} 
+                        DESCRIPTION</span> (${langCodeToLabel(
+                            desclang
+                        )})</strong><br/>${o.description_alt_txt[i]}</div>`;
+                } catch (e) {}
+            }
+        }
+        /*
         if (
             d.field_pbcore_description &&
             d.field_pbcore_description.und &&
@@ -166,14 +220,21 @@ export default class AudioVideo {
                             ${moretext}`;
                     }
                 } catch (e) {}
-            }
-            str += morecnt + '</div>';
+            }*/
+        /*str += morecnt + '</div>';
             if (morecnt.length == 0) {
                 str = str.replace(
                     "class='sui-avMore2'",
                     "class='sui-avMore2 hidden'"
                 );
             }
+        }*/
+        str += morecnt + '</div>';
+        if (morecnt.length == 0) {
+            str = str.replace(
+                "class='sui-avMore2'",
+                "class='sui-avMore2 hidden'"
+            );
         }
         str += '</div>';
 
@@ -354,20 +415,20 @@ export default class AudioVideo {
             d.field_pbcore_creator.und &&
             d.field_pbcore_creator.und.length
         ) {
-            // If creators spec'd
-            // TODO: combine people with same role labels into a single entry
-            /*
+            // Creators
+            str += `<p><strong>CREATORS</strong></p><ul>`;
             for (i = 0; i < d.field_pbcore_creator.und.length; ++i) {
                 // For each creator
                 f = d.field_pbcore_creator.und[i]; // Point at it
                 try {
-                    str += `<p><strong>${f.field_creator_role.und[0].value.toUpperCase()}</strong>&nbsp;&nbsp;${sui.pages.WrapInLangSpan(
+                    str += `<li>${sui.pages.WrapInLangSpan(
                         f.field_creator.und[0].value
-                    )}</p>`;
+                    )} (<em>${f.field_creator_role.und[0].value}</em>)</li>`;
                 } catch (e) {}
             }
+            str += '</ul>';
 
-             */
+            /* This code combines people with same role labels into a single entry
             try {
                 let agents = {};
                 let agrole,
@@ -395,26 +456,29 @@ export default class AudioVideo {
             } catch (e) {
                 console.error(e);
             }
+
+             */
         }
         if (
             d.field_pbcore_contributor &&
             d.field_pbcore_contributor.und &&
             d.field_pbcore_contributor.und.length
         ) {
-            /* Old code
-            // If creators spec'd
+            /* Contributors */
+            str += `<p><strong>CONTRIBUTORS</strong></p><ul>`;
             for (i = 0; i < d.field_pbcore_contributor.und.length; ++i) {
                 // For each item
                 f = d.field_pbcore_contributor.und[i]; // Point at it
                 try {
-                    str += `<p><strong>CONTRIBUTING ${f.field_contributor_role.und[0].value.toUpperCase()}</strong>&nbsp;&nbsp;${sui.pages.WrapInLangSpan(
+                    str += `<li>${sui.pages.WrapInLangSpan(
                         f.field_contributor.und[0].value
-                    )}</p>`;
+                    )} \(<em>${
+                        f.field_contributor_role.und[0].value
+                    }</em>\)</li>`;
                 } catch (e) {}
             }
-
-             */
-
+            str += '</ul>';
+            /*
             try {
                 let agents = {};
                 let agrole,
@@ -445,17 +509,14 @@ export default class AudioVideo {
                 }
             } catch (e) {
                 // console.error(e);
-            }
+            }*/
         }
+
         try {
             str +=
                 '<p><strong>PUBLISHER</strong>' +
                 d.field_pbcore_publisher.und[0].field_publisher.und[0].value +
                 '</p>';
-        } catch (e) {}
-        try {
-            str +=
-                '<p><strong>DATA ENTRY</strong>' + o.node_user_full_s + '</p>';
         } catch (e) {}
 
         if (
@@ -477,12 +538,13 @@ export default class AudioVideo {
             }
         }
         try {
-            str +=
-                '<p><strong>FORMAT ID</strong>' +
-                d.field_video.und[0].entryid +
-                '</p>';
+            let vid = d?.field_video?.und || d.field_video.en;
+            vid = vid?.length > 0 ? vid[0]?.entryid : false;
+            if (vid) {
+                str += '<p><strong>FORMAT ID</strong>' + vid + '</p>';
+            }
         } catch (e) {}
-        str += '<p><strong>FORMAT ID SOURCE</strong>&nbsp;(Kaltura.com)</p>';
+        str += '<p><strong>FORMAT ID SOURCE</strong>&nbsp;Kaltura.com</p>';
         return '<div>' + str + '</div>';
     }
 
@@ -554,10 +616,7 @@ export default class AudioVideo {
                     o.creator.join(', ') +
                     '</div>';
             } catch (e) {}
-            str += `</div><hr>
-			<p class='sui-sourceText'>${
-                o.summary ? o.summary : o.caption ? o.caption : ''
-            }</p>`;
+
             if (
                 d.field_pbcore_description &&
                 d.field_pbcore_description.und &&
@@ -572,9 +631,10 @@ export default class AudioVideo {
                     try {
                         f = d.field_pbcore_description.und[i]; // Point at it
                         if (f.field_description.und[0].value.length > 0) {
-                            morecnt += `<strong>${f.field_language.und[0].value.toUpperCase()}</strong><br>${
+                            let desclang = f.field_language.und[0].value;
+                            morecnt += `<div class="description ${desclang}"><strong>${desclang.toUpperCase()}</strong><br>${
                                 f.field_description.und[0].value
-                            }<br>`;
+                            }</div>`;
                         }
                     } catch (e) {}
                 }
@@ -587,7 +647,6 @@ export default class AudioVideo {
                 }
             }
             str += '</div>';
-
             $('#sui-av').html(str.replace(/\t|\n|\r/g, '')); // Add player
 
             let info_tabs = sui.pages.DrawTabMenu([
@@ -906,9 +965,25 @@ export default class AudioVideo {
                 data.response.docs.sort(function (a, b) {
                     return a.fts_start > b.fts_start ? 1 : -1;
                 }); // Sort
-                for (i = 0; i < data.response.docs.length; ++i) {
+                // Fix for predominance of 0 sec time codes in some videos. Possibly an indexing thing
+                // See JIRA https://uvaissues.atlassian.net/browse/MANU-7271 (ndg8f, 10-26-2022)
+                let filtered_data = data.response.docs.filter((item, ind) => {
+                    return item.fts_start > 0;
+                });
+                if (filtered_data?.length < data.response.docs?.length) {
+                    let remitems = data.response.docs.filter(
+                        (x) => !filtered_data.includes(x)
+                    );
+                    console.error(
+                        remitems.length +
+                            ' lines removed from ' +
+                            'beginning of transcript because they have no timecodes. ',
+                        remitems
+                    );
+                }
+                for (i = 0; i < filtered_data.length; ++i) {
                     // For each seg in doc
-                    o = data.response.docs[i]; // Point at it
+                    o = filtered_data[i]; // Point at it
                     seg = {
                         start: o.fts_start,
                         end: o.fts_end,
@@ -927,6 +1002,7 @@ export default class AudioVideo {
                             res.languages[l[lang]] = 1; // Add to languages list
                         }
                     }
+
                     res.segs.push(seg); // Add seg to list
                 }
                 if (!res.segs.length) return; // Quit if no segs
@@ -1268,14 +1344,13 @@ export default class AudioVideo {
             // Normal
             for (i = 0; i < res.segs.length; ++i) {
                 // For each seg
+                let starttime = this.SecondsToTimecode(res.segs[i].start);
                 str += `<div class='sui-transSeg' id='sui-transSeg-${i}'>
 				<div style='float:${res.rev ? 'right' : 'left'};'>
 				
 				<div class='sui-transPlay' id='sui-transPlay-${i}' 
 				title='Play line'>&#xe680
-				<span class='sui-transPlay-duration'>${this.SecondsToTimecode(
-                    res.segs[i].start
-                )}</span></div>
+				<span class='sui-transPlay-duration'>${starttime}</span></div>
                 ${res.segs[i].speaker ? res.segs[i].speaker : ''}</div> 
                 
 				<div class='sui-transBox' id='sui-transBox-${i}' style='margin:${

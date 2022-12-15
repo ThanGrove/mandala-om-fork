@@ -38,6 +38,9 @@
 .c-visual .c-visual__info .u-value.kmapval {
     margin-top: -1rem;
 }
+.c-visual .c-visual__info .u-value.kmapval .kmap-tag-group {
+    font-style: normal;
+}
 .c-visual .c-visual__info .row.visdesc .u-label {
     display: block;
     margin-bottom: 0.75rem;

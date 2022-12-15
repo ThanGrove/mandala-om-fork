@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import $ from 'jquery';
 import { MandalaPopover } from '../common/MandalaPopover';
 import { useParams } from 'react-router-dom';
@@ -89,6 +89,8 @@ export function PlacesFeatureTypes({ parent }) {
 }
 
 export function PlacesRelSubjects({ children }) {
+    const [show, setShow] = useState(false);
+    const initialNumber = 5;
     if (!children || !children?.length || children.length === 0) {
         return null;
     }
@@ -124,42 +126,67 @@ export function PlacesRelSubjects({ children }) {
                         relsb?.related_subjects_display_string_s.length < 80
                             ? ''
                             : '';
-                    return (
-                        <li
-                            key={
-                                relsb?.related_subjects_display_string_s +
-                                '-' +
-                                cind
-                            }
-                            className={cname}
-                        >
-                            {
-                                <MandalaPopover
-                                    domain={'subjects'}
-                                    kid={relsb?.related_subjects_id_i}
-                                    children={[
-                                        relsb?.related_subjects_display_string_s,
-                                    ]}
-                                />
-                            }
-                            {relsb?.related_subjects_time_units_t && (
-                                <>
-                                    {' '}
-                                    <span>
-                                        (
-                                        {relsb?.related_subjects_time_units_t.join(
-                                            ', '
-                                        )}
-                                        {' CE)'}
-                                    </span>{' '}
-                                </>
-                            )}
-                            {source}
-                            {notes}
-                        </li>
-                    );
+                    if (show || cind < initialNumber) {
+                        return (
+                            <li
+                                key={
+                                    relsb?.related_subjects_display_string_s +
+                                    '-' +
+                                    cind
+                                }
+                                className={cname}
+                            >
+                                {
+                                    <MandalaPopover
+                                        domain={'subjects'}
+                                        kid={relsb?.related_subjects_id_i}
+                                        children={[
+                                            relsb?.related_subjects_display_string_s,
+                                        ]}
+                                    />
+                                }
+                                {relsb?.related_subjects_time_units_t && (
+                                    <>
+                                        {' '}
+                                        <span>
+                                            (
+                                            {relsb?.related_subjects_time_units_t.join(
+                                                ', '
+                                            )}
+                                            {' CE)'}
+                                        </span>{' '}
+                                    </>
+                                )}
+                                {relsb?.related_subjects_time_units_ss && (
+                                    <>
+                                        {' '}
+                                        <span>
+                                            (
+                                            {relsb?.related_subjects_time_units_ss.join(
+                                                ', '
+                                            )}
+                                            )
+                                        </span>{' '}
+                                    </>
+                                )}
+                                {source}
+                                {notes}
+                            </li>
+                        );
+                    }
                 })}
             </ul>
+            <div className={relsubjs.length > 5 ? 'text-center' : 'd-none'}>
+                <a
+                    onClick={() => {
+                        setShow(!show);
+                    }}
+                >
+                    {show
+                        ? 'Hide related subjects'
+                        : 'Show more related subjects...'}
+                </a>
+            </div>
         </>
     );
 }

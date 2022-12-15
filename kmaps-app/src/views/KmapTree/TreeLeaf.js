@@ -45,6 +45,7 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
+    const kmapid = queryID(domain, kid);
     let io = props?.isopen ? props.isopen : false;
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
@@ -59,9 +60,6 @@ export default function TreeLeaf({
         (state) => state[settings.domain]
     );
     const viewSetting = useView((state) => state[settings.domain]);
-    if (domain === 'terms' && kid == 45101) {
-        // console.log('Trea leaf settings', viewSetting);
-    }
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
@@ -74,7 +72,7 @@ export default function TreeLeaf({
     }
 
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
-    const qid = `leaf-children-${domain}-${kid}-${perspective}-count`; // Id for query for caching
+    const qid = `leaf-children-${kmapid}-${perspective}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
     const path_fld = `ancestor_id_${perspective}_path`;
     const pathqry = isKmapLoading
@@ -127,7 +125,7 @@ export default function TreeLeaf({
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                setTimeout(updateTreeScroll, 500, settings);
+                // setTimeout(updateTreeScroll, 500, settings);
             }
         }
         if (domain === 'places' && kid * 1 === 13735) {
@@ -135,9 +133,16 @@ export default function TreeLeaf({
         }
     }, [kmapdata, childrenData, settings.selPath]);
 
+    // Exclude any kmaps in comma-separated list env variable: process.env.REACT_APP_KMAP_EXCLUDES
+    const kmap_excludes =
+        process.env?.REACT_APP_KMAP_EXCLUDES?.split(',') || [];
+    if (kmap_excludes.includes(kmapid)) {
+        return null;
+    }
+
     if (isKmapLoading || isChildrenLoading) {
         return (
-            <div data-id={queryID(domain, kid)}>
+            <div data-id={kmapid}>
                 <MandalaSkeleton height={5} width={50} />
             </div>
         );
@@ -152,7 +157,8 @@ export default function TreeLeaf({
     let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
 
     // if no children, replace icon with dash
-    if (!childrenData || childrenData?.numFound === 0) {
+    const hasChildren = childrenData?.numFound > 0;
+    if (!hasChildren) {
         icon = '';
         toggleclass = 'leafend';
     }
@@ -193,7 +199,9 @@ export default function TreeLeaf({
     // Get Header based on View Settings (see hook useView)
     const kmhead = getHeaderForView(kmapdata, viewSetting);
 
-    const leafhead = props?.nolink ? (
+    const nolink = props?.nolink || (domain === 'terms' && hasChildren);
+
+    const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
     ) : (
         <Link to={'/' + kmapdata?.id.replace('-', '/')}>
@@ -212,7 +220,7 @@ export default function TreeLeaf({
 
     // return the div structure for a regular tree leaf
     return (
-        <div className={divclass} ref={leafRef}>
+        <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
             <span
                 className={settings.spanClass}
                 data-domain={kmapdata?.tree}
@@ -221,8 +229,10 @@ export default function TreeLeaf({
                 <span className={settings.iconClass} onClick={handleClick}>
                     {icon}
                 </span>
-                <span className={settings.headerClass}>{leafhead}</span>
-                {showpop && <MandalaPopover domain={domain} kid={kid} />}
+                <span className={settings.headerClass}>
+                    {leafhead}
+                    {showpop && <MandalaPopover domain={domain} kid={kid} />}
+                </span>
             </span>
             {child_content}
         </div>
@@ -299,6 +309,13 @@ export function LeafChildren({
                     !settings.selPath.includes(child['id'].split('-')[1] * 1)
                 ) {
                     return null;
+                }
+                if (
+                    process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
+                        child?.id
+                    )
+                ) {
+                    io = true;
                 }
                 return (
                     <TreeLeaf
@@ -392,6 +409,8 @@ export function RelatedChildren({ settings, domain, kid }) {
 /**
  * Function called when selected div is loaded to scroll that selected div into view
  * @param settings : object : the tree settings for the selected node
+ *
+ * DEPRECATED but SAVE: May need to add this logic to the scroll leaf functions in the 3 kmap info components.
  */
 function updateTreeScroll(settings) {
     const tree = $('#' + settings.elid);

@@ -12,6 +12,25 @@ main.l-column__main.sources {
     font-weight: 400;
     color: #000;
 }
+.c-source a,
+.c-source a:not([href]) {
+    border: none;
+    color: #2e399c;
+}
+.c-source a:hover,
+.c-source a:not([href]):hover {
+    border-bottom: thin solid #2e399c50;
+}
+.c-source .ris_link {
+    margin-top: 1rem;
+}
+.c-source .u-icon__ris {
+    content: url('/img/icons/ris-icon.svg');
+    color: green;
+    display: inline-block;
+    width: 3rem;
+    margin-right: 0.5rem;
+}
 .c-source .c-source__head {
     padding-bottom: 1rem;
     border-bottom: 0.1rem solid #ccc;
@@ -49,6 +68,9 @@ main.l-column__main.sources {
     margin-left: 0;
     margin-right: 0;
 }
+.c-source .row .d-block {
+    flex-direction: column;
+}
 .c-source .c-sources__data {
     margin-left: 0;
     margin-right: 0;
@@ -64,7 +86,6 @@ main.l-column__main.sources {
 }
 .c-source .row.agents {
     line-height: inherit;
-    font-size: 1.2rem;
     margin-top: 1.25rem;
 }
 .c-source .row.agents .u-icon__agents {

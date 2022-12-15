@@ -73,9 +73,11 @@ export function FeatureCollection(props) {
     let inclGallery = viewMode === 'gallery' ? true : false;
     let viewModeDiv = null;
 
-    const atype = props.docs[0]?.asset_type;
-    if (atype && 'audio-video|images'.includes(atype)) {
-        inclGallery = true;
+    if (props?.docs && props.docs?.length > 0) {
+        const atype = props.docs[0]?.asset_type;
+        if (atype && 'audio-video|images'.includes(atype)) {
+            inclGallery = true;
+        }
     }
 
     viewModeDiv = (

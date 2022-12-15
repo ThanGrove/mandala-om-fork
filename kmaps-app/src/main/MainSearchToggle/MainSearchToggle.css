@@ -1,3 +1,10 @@
+button.mdl-login {
+    border: none;
+    background: transparent;
+    padding: 0 1.5rem 0.5rem 0;
+    font-size: 20px;
+}
+
 .c-MainSearchToggle--group .c-MainSearchToggle--button {
     background-color: #fff;
     padding: 0.8rem 0;

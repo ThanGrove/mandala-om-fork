@@ -1,0 +1,84 @@
+/* Slideshow */
+$sswidth: 275px;
+$ssheight: 181px;
+
+.imageslider {
+    margin: 0.75rem;
+    max-width: $sswidth;
+}
+
+.imageslider .wrapper {
+    background-color: #fff;
+    border-radius: 1rem !important;
+    border: thick double #999;
+    overflow: hidden;
+    width: $sswidth;
+    height: $ssheight;
+}
+
+.nodeHeader-placesInfo .imageslider .wrapper {
+    border: thick double #3297f7;
+}
+
+.nodeHeader-subjectsInfo .imageslider .wrapper {
+    border: thick double #cc4c39;
+}
+
+.nodeHeader-termsInfo .imageslider .wrapper {
+    border: thick double #91693c;
+}
+
+.imageslider .slider {
+    max-height: $sswidth;
+    white-space: nowrap;
+    transition: ease 1000ms;
+}
+
+.imageslider .slide {
+    display: inline-block;
+    width: $sswidth;
+    border-radius: 20px;
+    vertical-align: top;
+}
+
+.imageslider .slide img {
+    min-height: $ssheight;
+}
+
+.imageslider .captions .caption,
+.img.featured .caption {
+    display: none;
+    padding: 5px 10px 0;
+    text-align: center;
+    line-height: 18px;
+    text-transform: capitalize;
+    font-style: italic;
+    font-size: 90%;
+    &.active {
+        display: block;
+    }
+}
+
+.img.featured .caption {
+    padding-top: 0;
+}
+
+/* Buttons */
+
+.imageslider .dots {
+    text-align: center;
+}
+
+.imageslider .dot {
+    display: inline-block;
+    height: 8px;
+    width: 8px;
+    border-radius: 50%;
+    cursor: pointer;
+    margin: 15px 7px 0px;
+    background-color: #c4c4c4;
+}
+
+.imageslider .dot.active {
+    background-color: #6a0dad;
+}

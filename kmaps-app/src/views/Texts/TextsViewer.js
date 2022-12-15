@@ -1,6 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import useStatus from '../../hooks/useStatus';
-import useAsset from '../../hooks/useAsset';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { Container, Row, Tabs, Tab, Col } from 'react-bootstrap';
@@ -13,6 +11,7 @@ import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import { useSolr } from '../../hooks/useSolr';
+import { NotFoundPage } from '../common/utilcomponents';
 
 function scrollToSection(sectid) {
     let newScrollTop = 0;
@@ -97,7 +96,17 @@ export default function TextsViewer(props) {
         }
     }
 
-    let output = null;
+    let output = (
+        <div>
+            <h1>Invalid Text ID</h1>
+            <p className="h4">
+                The text ID given, {txtId}, is invalid.
+                <br />
+                Either the text does not exist or you do not have priviledges to
+                view it.
+            </p>
+        </div>
+    );
 
     if (isAssetLoading || isNodeLoading) {
         return (
@@ -141,6 +150,7 @@ export default function TextsViewer(props) {
         if (nodejson.bibl_summary === '') {
             nodejson.bibl_summary = '<div>Description is loading!</div>';
         }
+
         output = (
             <>
                 {props?.id && (
@@ -161,7 +171,7 @@ export default function TextsViewer(props) {
                         <TextTabs
                             textid={nodejson.nid}
                             pageid={pageid}
-                            mlid={kmasset.mlid_i}
+                            mlid={nodejson.book.mlid}
                             toc={nodejson.toc_links}
                             meta={nodejson.bibl_summary}
                             links={nodejson.views_links}
@@ -178,6 +188,8 @@ export default function TextsViewer(props) {
                 />
             </>
         );
+    } else {
+        return <NotFoundPage div={true} atype="text" id={id} />;
     }
     return output;
 }

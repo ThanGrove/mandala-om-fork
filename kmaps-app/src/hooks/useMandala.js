@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import jsonpAdapter from '../logic/axios-jsonp';
 import axios from 'axios';
+import { GetSessionID } from '../main/MandalaSession';
 
 const QUERY_KEY = 'mndlapi';
 
@@ -12,8 +13,12 @@ const QUERY_KEY = 'mndlapi';
  * @returns {Promise<boolean|*>}
  */
 const getMandalaAPI = async (query) => {
+    // console.log('query is:', query);
     if (query === '') {
         return false;
+    }
+    if (query.substring(0, 2) == '//') {
+        query = 'https:' + query;
     }
     const request = {
         adapter: jsonpAdapter,
@@ -61,7 +66,6 @@ const useMandala = (solrobj) => {
     }
     // Get UID for Query Key
     const uid = solrdoc?.uid ? solrdoc.uid : 'unknown';
-
     return useQuery([QUERY_KEY, uid], () => getMandalaAPI(json_url), {
         enabled: !!solrdoc?.id,
     });

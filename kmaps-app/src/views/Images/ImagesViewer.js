@@ -5,12 +5,12 @@ import { ImageAltTitles, ImageMetadata } from './ImageMetadata';
 import $ from 'jquery';
 import './images.scss';
 import { ImagesOSDViewer } from './ImagesOSDViewer';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { useKmap } from '../../hooks/useKmap';
 import useMandala from '../../hooks/useMandala';
 import { useHistory } from '../../hooks/useHistory';
 import { RelatedAssetHeader } from '../Kmaps/RelatedAssetViewer';
-import { AssetTitle } from '../common/utilcomponents';
+import { NotFoundPage } from '../common/utilcomponents';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 
 /**
@@ -181,5 +181,7 @@ export default function ImagesViewer(props) {
                 </Container>
             </div>
         );
+    } else {
+        return <NotFoundPage div={true} atype="image" id={id} />;
     }
 }

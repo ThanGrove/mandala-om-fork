@@ -17,6 +17,7 @@ import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { Redirect } from 'react-router';
+import { MdLogin } from 'react-icons/all';
 
 const SEARCH_PATH = '/search/:view';
 export const SEARCH_COOKIE_NAME = 'mandala_search';
@@ -40,7 +41,7 @@ export default function SearchAdvanced(props) {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
-    const { searchText: search, filters } = query;
+    let { searchText: search, filters } = query;
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -53,7 +54,7 @@ export default function SearchAdvanced(props) {
         isError: isSearchError,
         error: searchError,
     } = useSearch(search, 0, 0, 'all', 0, 0, true, filters);
-
+    //console.log("search in advance search", search);
     //let openclass = props.advanced ? 'open' : 'closed';
     const openTab = openTabStore((state) => state.openTab);
     let openclass = openTab === 1 ? 'open' : 'closed';

@@ -100,6 +100,9 @@ ul.fancytree-container {
     overflow: hidden;
     //  line-height: 1.45;
     margin-left: 1.25rem;
+    word-wrap: break-word;
+    white-space: normal;
+
     .toggle-icon {
         display: inline-block;
         margin-right: 0.9rem;
@@ -107,6 +110,18 @@ ul.fancytree-container {
         position: relative;
         top: 0.25rem;
     }
+
+    .c-kmapnode {
+        display: flex;
+
+        span.label {
+            display: inline-block;
+            text-indent: -1rem;
+            margin-left: 1rem;
+            line-height: 28px;
+        }
+    }
+
     .label a {
         color: #000;
         margin: 0 0.5rem;
