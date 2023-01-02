@@ -12,6 +12,7 @@ import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import './TermsInfo.scss';
 import { openTabStore } from '../../hooks/useCloseStore';
+import { HtmlCustom } from '../common/MandalaMarkup';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -120,6 +121,7 @@ const TermsInfo = (props) => {
     }
 
     //Get all related Definitions
+    // TODO: Need to check this after Andres' renaming of Solr fields  (1/2/23)
     const definitions = _(kmapData?._childDocuments_)
         .pickBy((val) => {
             return (
@@ -139,7 +141,24 @@ const TermsInfo = (props) => {
             return category;
         })
         .value();
+    // Other definitions do not work any longer  (1/2/23)
     const otherDefinitions = _.omit(definitions, ['main_defs']);
+
+    const caption_eng =
+        kmapData?.caption_eng?.length > 0 ? (
+            <>
+                <h4>Caption</h4>
+                <HtmlCustom markup={kmapData.caption_eng[0]} />
+            </>
+        ) : null;
+
+    const summary_eng =
+        kmapData?.summary_eng?.length > 0 ? (
+            <>
+                <h4>Summary</h4>
+                <HtmlCustom markup={kmapData.summary_eng[0]} />
+            </>
+        ) : null;
 
     return (
         <React.Suspense
@@ -149,6 +168,12 @@ const TermsInfo = (props) => {
                 <Route exact path={path}>
                     <>
                         <TermNames kmap={kmapData} kmAsset={assetData} />
+                        {(caption_eng || summary_eng) && (
+                            <div>
+                                {caption_eng}
+                                {summary_eng}
+                            </div>
+                        )}
                         <TermsDetails
                             kmAsset={assetData}
                             kmapData={kmapData}

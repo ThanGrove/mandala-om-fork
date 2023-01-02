@@ -8,14 +8,19 @@ import _ from 'lodash';
 import TermDictionaries from '../TermDictionaries';
 import { Tab, Tabs } from 'react-bootstrap';
 import { HtmlCustom } from '../../common/MandalaMarkup';
-import { getOtherDefs, OtherDefs } from '../OtherDefs/OtherDefs';
+import {
+    getOtherDefs,
+    OtherDefs,
+    getOtherDefNotes,
+    OtherDefNotes,
+} from '../OtherDefs/OtherDefs';
 import {
     convertLangCode,
     getPropsContaining,
     getUniquePropIds,
 } from '../../common/utils';
 import GenericPopover from '../../common/GenericPopover';
-import { getOtherDefNotes, OtherDefNotes } from '../OtherDefs/OtherDefNotes';
+// import { getOtherDefNotes, OtherDefNotes } from '../OtherDefs/OtherDefNotes';
 import { MandalaSourceNote } from '../../common/utilcomponents';
 import {
     getOtherPassages,
@@ -66,6 +71,8 @@ const TermsDetails = ({
     const [passnum, setPassnum] = useState(0);
     const [activeTab, setActiveTab] = useState('details');
 
+    // console.log(kmapData);
+
     /** Passages **/
     /* Find child documents for definitions with passages */
     const defnum = definitions['main_defs']
@@ -73,11 +80,13 @@ const TermsDetails = ({
         : 0;
     const showdefs = defnum > 0;
     const otherDefs = getOtherDefs(kmapData);
+
     const otherDefNum =
         otherDefs?.length + Object.keys(otherDefinitions)?.length; // Custom dictionaries not Passages
     const showother = otherDefNum > 0;
     let otherpassnum = 0;
     let othercitenum = 0;
+
     getOtherPassages(kmapData).forEach((op, opi) => {
         let uids = getUniquePropIds(op, /related_definitions_passage_(\d+)_/);
         if (uids?.length > 0) {

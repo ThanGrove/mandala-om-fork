@@ -1,8 +1,5 @@
-import { HtmlCustom } from '../../common/MandalaMarkup';
 import React, { useEffect, useState } from 'react';
 import { TermPassage } from '../OtherPassages/TermPassage';
-import { Tab, Tabs } from 'react-bootstrap';
-import { OtherDefNotes } from '../OtherDefs/OtherDefNotes';
 import { getUniquePropIds } from '../../common/utils';
 import { TermCitation } from './TermCitation';
 
