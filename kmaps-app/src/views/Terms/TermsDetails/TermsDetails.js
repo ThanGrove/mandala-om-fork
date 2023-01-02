@@ -79,15 +79,14 @@ const TermsDetails = ({
         ? Object.keys(definitions['main_defs'])?.length
         : 0;
     const showdefs = defnum > 0;
-    const otherDefs = getOtherDefs(kmapData);
 
-    const otherDefNum =
-        otherDefs?.length + Object.keys(otherDefinitions)?.length; // Custom dictionaries not Passages
+    const otherDefNum = Object.keys(otherDefinitions)?.length; // Custom dictionaries not Passages // did have otherDefs?.length +
     const showother = otherDefNum > 0;
     let otherpassnum = 0;
     let othercitenum = 0;
 
-    getOtherPassages(kmapData).forEach((op, opi) => {
+    let otherpass = getOtherPassages(kmapData);
+    otherpass.forEach((op, opi) => {
         let uids = getUniquePropIds(op, /related_definitions_passage_(\d+)_/);
         if (uids?.length > 0) {
             otherpassnum += uids?.length;
@@ -104,7 +103,8 @@ const TermsDetails = ({
             othercitenum += uids?.length;
         }
     });
-    const showpass = otherpassnum + othercitenum > 0;
+
+    let showpass = otherpassnum + othercitenum > 0;
     const showetym = kmapData?.etymologies_ss;
     const transequivs = getTranslationEquivalents(kmapData);
     const showtrans = transequivs?.length > 0;
@@ -129,6 +129,9 @@ const TermsDetails = ({
 
     useEffect(() => {
         let atval = 'details';
+        if (showpass) {
+            atval = 'passages';
+        }
         if (showetym) {
             atval = 'etymology';
         }
@@ -164,11 +167,6 @@ const TermsDetails = ({
                         title={`Dictionaries (${otherDefNum})`}
                     >
                         <div className="sui-termDicts__wrapper">
-                            <OtherDefs
-                                kmapData={kmapData}
-                                passnum={passnum}
-                                setPassnum={setPassnum}
-                            />
                             {!_.isEmpty(otherDefinitions) && (
                                 <TermDictionaries
                                     definitions={otherDefinitions}

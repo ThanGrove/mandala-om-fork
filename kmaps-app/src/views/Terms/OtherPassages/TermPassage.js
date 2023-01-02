@@ -73,7 +73,7 @@ export function TermPassage({ data, pid, source }) {
                     <h3>Passage</h3>
                     <HtmlCustom
                         markup={
-                            data[`related_definitions_passage_${pid}_content_s`]
+                            data[`related_definitions_passage_${pid}_content_t`]
                         }
                     />
 

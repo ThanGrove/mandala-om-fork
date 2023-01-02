@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './TermDictionaries.css';
+import { getUniquePropIds } from '../../common/utils';
 
 /**
  * TermDictionaries is original component by Gerard
@@ -11,6 +12,17 @@ import './TermDictionaries.css';
  * @constructor
  */
 const TermDictionaries = ({ definitions }) => {
+    const getDefContent = (subdoc) => {
+        const langsuff = getUniquePropIds(
+            subdoc,
+            /related_definitions_content_(\w+)/
+        );
+        if (langsuff.length > 0) {
+            const fnm = 'related_definitions_content_' + langsuff[0];
+            return subdoc[fnm];
+        }
+        return '';
+    };
     return (
         <div className="sui-termDicts__wrapper">
             <div className="sui-termDicts__content">
@@ -26,7 +38,7 @@ const TermDictionaries = ({ definitions }) => {
                                     key={dict.id}
                                 >
                                     {ReactHtmlParser(
-                                        dict.related_definitions_content_s.replace(
+                                        getDefContent(dict).replace(
                                             /(<p[^>]+?>|<p>|<\/p>)/gim,
                                             ''
                                         )

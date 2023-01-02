@@ -54,7 +54,11 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     if (isPerspDataLoading) {
         return <MandalaSkeleton />;
     }
-    if (perspData.length === 1 || isPerspDataError) {
+
+    if (!perspData || perspDataError) {
+        return null;
+    }
+    if (perspData?.length === 1 || isPerspDataError) {
         if (isPerspDataError) {
             console.log('Perspective Data Error: ', perspDataError);
         }

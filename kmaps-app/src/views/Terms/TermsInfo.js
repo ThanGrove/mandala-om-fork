@@ -6,7 +6,7 @@ import { useUnPackedMemoized } from '../../hooks/utils';
 import TermNames from './TermNames';
 import _, { divide } from 'lodash';
 import TermsDetails from './TermsDetails';
-import { queryID } from '../../views/common/utils';
+import { getUniquePropIds, queryID } from '../../views/common/utils';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
@@ -124,9 +124,15 @@ const TermsInfo = (props) => {
     // TODO: Need to check this after Andres' renaming of Solr fields  (1/2/23)
     const definitions = _(kmapData?._childDocuments_)
         .pickBy((val) => {
+            const content_fields = getUniquePropIds(
+                val,
+                /related_definitions_content_(\w+)/
+            );
+            const fnm =
+                content_fields?.length > 0 ? content_fields[0] : 'latinu';
             return (
                 val.block_child_type === 'related_definitions' &&
-                val?.related_definitions_content_s?.length > 0
+                val['related_definitions_content_' + fnm]?.length > 0
             );
         })
         .groupBy((val) => {
