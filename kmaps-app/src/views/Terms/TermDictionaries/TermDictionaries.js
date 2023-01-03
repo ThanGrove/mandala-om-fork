@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './TermDictionaries.css';
 import { getUniquePropIds } from '../../common/utils';
+import { Link } from 'react-router-dom';
 
 /**
  * TermDictionaries is original component by Gerard
@@ -11,7 +12,7 @@ import { getUniquePropIds } from '../../common/utils';
  * @returns {JSX.Element}
  * @constructor
  */
-const TermDictionaries = ({ definitions }) => {
+const TermDictionaries = ({ definitions, kmapData }) => {
     const getDefContent = (subdoc) => {
         const langsuff = getUniquePropIds(
             subdoc,
@@ -23,6 +24,12 @@ const TermDictionaries = ({ definitions }) => {
         }
         return '';
     };
+    const relatedToDefs = kmapData._childDocuments_.filter((c, ci) => {
+        return (
+            c?.block_child_type === 'related_terms' &&
+            c?.related_terms_relation_code_s === 'is.related.to'
+        );
+    });
     return (
         <div className="sui-termDicts__wrapper">
             <div className="sui-termDicts__content">
@@ -31,6 +38,10 @@ const TermDictionaries = ({ definitions }) => {
                         <div className="sui-termDicts__dict-name">
                             {i + 1}. <span>{key}</span>
                         </div>
+                        <RelatedTermsDictionary
+                            dict={key}
+                            docs={relatedToDefs}
+                        />
                         <ul className="sui-termDicts__dict-wrapper">
                             {definitions[key].map((dict) => (
                                 <li
@@ -65,49 +76,36 @@ const TermDictionaries = ({ definitions }) => {
     );
 };
 
-/**
- * Reworking of TermDictionaries above to use new field names in SOLR (2023-01-02)
- * @param definitions
- * @returns {JSX.Element}
- * @constructor
- */
-export const TermDictionary = ({ data, field, index }) => {
-    let lang = data?.related_definitions_language_code_s;
-    if (!lang || lang.length == 0) {
-        lang = 'en';
-    }
-    if (lang === 'bod') {
-        lang = 'bo';
-    }
-    return (
-        <div className="sui-termDicts__wrapper">
-            <div className="sui-termDicts__content">
-                <div className="sui-termDicts__dict-name">
-                    {index}. <span>{data?.related_definitions_source_s}</span>
-                </div>
-                <ul className="sui-termDicts__dict-wrapper">
-                    <li
-                        className={`sui-termDicts__dict ${lang}`}
-                        key={Date.now()}
-                    >
-                        {ReactHtmlParser(
-                            data[field].replace(/(<p[^>]+?>|<p>|<\/p>)/gim, '')
-                        )}
-                        {data.related_definitions_language_s && (
-                            <div className="sui-termDicts__dict-extra">
-                                <span className="sui-termDicts__dict-extra-lang">
-                                    Language:
-                                </span>{' '}
-                                <span className="sui-termDicts__dict-extra-lang-text">
-                                    {data.related_definitions_language_s}
-                                </span>
-                            </div>
-                        )}
-                    </li>
-                </ul>
-            </div>
-        </div>
-    );
-};
-
 export default TermDictionaries;
+
+function RelatedTermsDictionary({ dict, docs }) {
+    const relations = docs?.filter((d, di) => {
+        return d?.related_terms_relation_source_s === dict;
+    });
+    if (relations?.length > 0) {
+        return (
+            <dl>
+                {relations.map((r, ri) => {
+                    const k = dict + 'relterm' + ri;
+                    let lkn = r?.related_terms_id_s?.replace('-', '/');
+                    if (!lkn?.length > 0) {
+                        lkn = '#';
+                    } else {
+                        lkn = '/' + lkn;
+                    }
+                    return (
+                        <React.Fragment key={k}>
+                            <dt>{r?.related_terms_relation_label_s}</dt>
+                            <dd>
+                                <Link to={lkn}>
+                                    {r?.related_terms_header_s}
+                                </Link>
+                            </dd>
+                        </React.Fragment>
+                    );
+                })}
+            </dl>
+        );
+    }
+    return null;
+}

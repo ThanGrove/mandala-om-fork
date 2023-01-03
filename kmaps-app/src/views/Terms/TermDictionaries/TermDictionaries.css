@@ -61,3 +61,25 @@ ul.sui-termDicts__dict-wrapper {
 .sui-termDicts__dict-extra-lang {
     text-transform: uppercase;
 }
+
+dl {
+    width: 100%;
+    margin-left: 2rem;
+}
+dt {
+    float: left;
+    font-family: 'Helvetica-Neue', helvetica, arial, sans-serif;
+    text-align: left;
+    text-transform: uppercase !important;
+    font-weight: normal;
+    font-size: 90%;
+    padding-right: 0.5rem;
+    vertical-align: text-bottom;
+    line-height: 2.25rem;
+}
+dt a {
+    font-weight: normal;
+}
+dd {
+    width: 50%;
+}

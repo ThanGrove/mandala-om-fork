@@ -8,12 +8,7 @@ import _ from 'lodash';
 import TermDictionaries from '../TermDictionaries';
 import { Tab, Tabs } from 'react-bootstrap';
 import { HtmlCustom } from '../../common/MandalaMarkup';
-import {
-    getOtherDefs,
-    OtherDefs,
-    getOtherDefNotes,
-    OtherDefNotes,
-} from '../OtherDefs/OtherDefs';
+import { getOtherDefNotes, OtherDefNotes } from '../OtherDefs/OtherDefs';
 import {
     convertLangCode,
     getPropsContaining,
@@ -170,6 +165,7 @@ const TermsDetails = ({
                             {!_.isEmpty(otherDefinitions) && (
                                 <TermDictionaries
                                     definitions={otherDefinitions}
+                                    kmapData={kmapData}
                                 />
                             )}
                         </div>

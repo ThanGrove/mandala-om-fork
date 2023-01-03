@@ -77,7 +77,7 @@ const TermsInfo = (props) => {
                             Math.floor(tree.offsetHeight / 2) -
                             60;
                         tree.scrollTop = scrollval;
-                        console.log('scrolling to: ', scrollval);
+                        // console.log('scrolling to: ', scrollval);
                     }
                 }
             }, 100);
