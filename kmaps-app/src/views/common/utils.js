@@ -689,6 +689,19 @@ export function getUniquePropIds(data, regex) {
 }
 
 /**
+ *
+ * @param data
+ * @param regex
+ * @param propname : the name of the prop with $ID$ where the id goes
+ */
+export function getFirstUniqueProp(data, regex, propname) {
+    const ids = getUniquePropIds(data, regex);
+    const firstid = ids[0];
+    propname = propname.replace('$ID$', firstid);
+    return data[propname];
+}
+
+/**
  * Detect a language from the unicode code point of its first character
  *
  * @param str

@@ -43,7 +43,7 @@ export function TermCitation({ data, cid, source, trans = false }) {
                 <HtmlCustom
                     markup={
                         data[
-                            `related_definitions_passage_translation_${cid}_content_s`
+                            `related_definitions_passage_translation_${cid}_content_t`
                         ]
                     }
                 />
