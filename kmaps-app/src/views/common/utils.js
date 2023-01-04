@@ -613,10 +613,13 @@ export function findFieldNames(data, substr, pos) {
 export function getLangClass(drpfld) {
     let langclass;
     const langfield = drpfld?.field_language;
-    const langhead =
+    let langhead =
         langfield?.und?.length > 0
             ? langfield.und[0]?.header.toLowerCase()
             : false;
+    if (langhead === false && typeof drpfld === 'string') {
+        langhead = drpfld.toLowerCase().trim();
+    }
     switch (langhead) {
         case 'chinese':
             langclass = 'zh';

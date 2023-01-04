@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import ReactHtmlParser from 'react-html-parser';
 import './TermDictionaries.css';
-import { getUniquePropIds } from '../../common/utils';
+import { getLangClass, getUniquePropIds } from '../../common/utils';
 import { Link } from 'react-router-dom';
 
 /**
@@ -48,18 +48,28 @@ const TermDictionaries = ({ definitions, kmapData }) => {
                                     className="sui-termDicts__dict"
                                     key={dict.id}
                                 >
-                                    {ReactHtmlParser(
-                                        getDefContent(dict).replace(
-                                            /(<p[^>]+?>|<p>|<\/p>)/gim,
-                                            ''
-                                        )
-                                    )}
+                                    <div
+                                        className={
+                                            'sui-termDicts__dict-def ' +
+                                            getLangClass(
+                                                dict.related_definitions_language_s
+                                            )
+                                        }
+                                    >
+                                        {ReactHtmlParser(
+                                            getDefContent(dict).replace(
+                                                /(<p[^>]+?>|<p>|<\/p>)/gim,
+                                                ''
+                                            )
+                                        )}
+                                    </div>
+
                                     {dict.related_definitions_language_s && (
                                         <div className="sui-termDicts__dict-extra">
                                             <span className="sui-termDicts__dict-extra-lang">
                                                 Language:
                                             </span>{' '}
-                                            <span className="sui-termDicts__dict-extra-lang-text">
+                                            <span className="sui-termDicts__dict-extra-lang-text ">
                                                 {
                                                     dict.related_definitions_language_s
                                                 }
