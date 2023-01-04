@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import useStatus from '../hooks/useStatus';
+// import useStatus from '../hooks/useStatus';
 import { useSolr } from '../hooks/useSolr';
 import { FeaturePager } from './common/FeaturePager/FeaturePager';
 import { FeatureCollection } from './common/FeatureCollection';

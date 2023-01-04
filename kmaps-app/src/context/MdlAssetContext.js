@@ -6,9 +6,10 @@ import {
 } from '../logic/assetapi';
 // import { normalizeLinks } from '../views/common/utils';
 import '../views/css/AssetViewer.css';
-import useStatus from '../hooks/useStatus';
+// import useStatus from '../hooks/useStatus';
 
 /**
+ *                      DEPRECATED
  *    Container which injects the Mandala asset data, before rendering it.
  *    It injects the props:
  *          id: The integer part of the asset's ID
@@ -65,10 +66,8 @@ export default function MdlAssetContext(props) {
         }
         Promise.allSettled(promises)
             .then(([mdlasset_result]) => {
-                const {
-                    status: call_status,
-                    value: new_mdlasset,
-                } = mdlasset_result;
+                const { status: call_status, value: new_mdlasset } =
+                    mdlasset_result;
                 if (call_status === 'fulfilled') {
                     if (mdlasset_result) {
                         if (mdlasset.nid !== new_mdlasset.nid) {

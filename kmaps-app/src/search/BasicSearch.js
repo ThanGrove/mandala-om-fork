@@ -8,6 +8,7 @@ import {
     withDefault,
     encodeQueryParams,
 } from 'use-query-params';
+import { useStatus } from '../hooks/useStatus';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
 
@@ -17,6 +18,8 @@ const SEARCH_PATH = '/search/:view';
 export function BasicSearch(props) {
     const history = useHistory();
     const inputEl = useRef(null);
+    const status = useStatus();
+    console.log('view is set to: ' + status.searchView);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -42,13 +45,13 @@ export function BasicSearch(props) {
                 }
             );
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.hash = `#/search/list?${stringify(
-                    encodedQuery
-                )}`;
+                window.location.hash = `#/search/${
+                    status?.searchView
+                }?${stringify(encodedQuery)}`;
             } else {
                 //history.push('/search/deck');
                 history.push({
-                    pathname: `/search/list`,
+                    pathname: `/search/` + status?.searchView,
                     search: `?${stringify(encodedQuery)}`,
                 });
             }

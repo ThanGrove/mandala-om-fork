@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import useStatus from '../../hooks/useStatus';
 import { useSolr } from '../../hooks/useSolr';
 import { FeatureCollection } from './FeatureCollection';
 import MandalaSkeleton from './MandalaSkeleton';

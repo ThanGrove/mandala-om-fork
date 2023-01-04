@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router';
 import _ from 'lodash';
 import { useStoreActions, useStoreState } from '../model/StoreModel';
-import useStatus from '../hooks/useStatus';
+// import useStatus from '../hooks/useStatus';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 
 /**
+ *                          DEPRECATED
  *    Container which injects the kmap and kmasset data, before rendering the its children.
  *
  *    It injects the props:

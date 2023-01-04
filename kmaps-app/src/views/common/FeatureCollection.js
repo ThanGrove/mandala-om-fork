@@ -8,6 +8,7 @@ import ToggleButton from 'react-bootstrap/ToggleButton';
 import ToggleButtonGroup from 'react-bootstrap/ToggleButtonGroup';
 import Spinner from 'react-bootstrap/Spinner';
 import { FeatureFilters } from './FeatureFilters';
+import { useStatus } from '../../hooks/useStatus';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { DropdownButton } from 'react-bootstrap';
 
@@ -107,6 +108,7 @@ export function FeatureCollection(props) {
 
 function FeatureCollectionViewModeSelector(props) {
     const history = useHistory();
+    const status = useStatus();
     // const pathname = useLocation().pathname;
     const qs = useLocation().search;
     const { viewMode, inclGallery } = props;
@@ -118,12 +120,17 @@ function FeatureCollectionViewModeSelector(props) {
     const deckLabel = <span className={'u-icon__grid icon'}></span>; // card deck
     const galleryLabel = <span className={'u-icon__th icon'}></span>; // Gallery
     const listLabel = <span className={'u-icon__list2 icon'}></span>; // List
+
+    const viewChange = (mode) => {
+        status.setSearchView(mode);
+        navigate(mode);
+    };
     return (
         <ToggleButtonGroup
             name={viewMode}
             value={viewMode}
             type={'radio'}
-            onChange={(mode) => navigate(mode)}
+            onChange={viewChange}
         >
             <ToggleButton
                 name={'viewMode'}
