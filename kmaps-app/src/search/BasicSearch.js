@@ -42,13 +42,13 @@ export function BasicSearch(props) {
                 }
             );
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.hash = `#/search/deck?${stringify(
+                window.location.hash = `#/search/list?${stringify(
                     encodedQuery
                 )}`;
             } else {
                 //history.push('/search/deck');
                 history.push({
-                    pathname: `/search/deck`,
+                    pathname: `/search/list`,
                     search: `?${stringify(encodedQuery)}`,
                 });
             }
