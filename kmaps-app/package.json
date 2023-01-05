@@ -73,6 +73,8 @@
         "ufbuild": "env-cmd -f ./.env.uf npm run-script build",
         "ufprod": "env-cmd -f ./.env.uf.prod npm run-script build",
         "tibetbuild": "env-cmd -f ./.env.tibet npm run-script build",
+        "tibetlocal": "env-cmd -f ./.env.tibet.local npm run-script build; npm run-script tiblocalsync",
+        "tiblocalsync": "rsync -avz --delete /Users/thangrove/Documents/Sandbox/Mandala/StandAlone/FU/mandala-om/kmaps-app/build/ /Users/thangrove/Local\\ Sites/thl-kadence/app/public/wp-content/plugins/mandala/app/build",
         "test": "react-scripts test",
         "eject": "react-scripts eject"
     },

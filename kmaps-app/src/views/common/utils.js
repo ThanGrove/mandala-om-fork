@@ -620,6 +620,7 @@ export function getLangClass(drpfld) {
     if (langhead === false && typeof drpfld === 'string') {
         langhead = drpfld.toLowerCase().trim();
     }
+    // console.log("In get lang class: ", langhead, drpfld);
     switch (langhead) {
         case 'chinese':
             langclass = 'zh';
@@ -775,5 +776,24 @@ export const langCodeToLabel = (lng) => {
             return 'Chinese';
         default:
             return lng;
+    }
+};
+
+export const standaloneSettings = (mode, name, value = '') => {
+    let setname = process.env.REACT_APP_PUBLIC_URL.replace(/https?:\//, '')
+        .replace(/^\/([^\/]+)\/$/, '$1')
+        .replace(/[\/\.]/g, '_');
+    if (!window[setname]) {
+        window[setname] = {
+            url: process.env.REACT_APP_PUBLIC_URL,
+        };
+    }
+    let mysettings = window[setname];
+    if (mode === 'set') {
+        mysettings[name] = value;
+        window[setname] = mysettings;
+        return true;
+    } else {
+        return mysettings[name];
     }
 };

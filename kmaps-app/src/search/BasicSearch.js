@@ -11,6 +11,8 @@ import {
 import { useStatus } from '../hooks/useStatus';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
+import { standaloneSettings } from '../views/common/utils';
+import { Cookies } from 'react-cookie';
 
 const target = document.getElementById('basicSearchPortal');
 const SEARCH_PATH = '/search/:view';
@@ -18,8 +20,12 @@ const SEARCH_PATH = '/search/:view';
 export function BasicSearch(props) {
     const history = useHistory();
     const inputEl = useRef(null);
-    const status = useStatus();
-    console.log('view is set to: ' + status.searchView);
+    const cookie = new Cookies();
+    let searchview = cookie?.get('searchview');
+    if (!searchview || searchview.length == 0) {
+        searchview = 'list';
+        cookie.set('searchview', searchview);
+    }
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -45,13 +51,13 @@ export function BasicSearch(props) {
                 }
             );
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.hash = `#/search/${
-                    status?.searchView
-                }?${stringify(encodedQuery)}`;
+                window.location.hash = `#/search/${searchview}?${stringify(
+                    encodedQuery
+                )}`;
             } else {
                 //history.push('/search/deck');
                 history.push({
-                    pathname: `/search/` + status?.searchView,
+                    pathname: `/search/` + searchview,
                     search: `?${stringify(encodedQuery)}`,
                 });
             }

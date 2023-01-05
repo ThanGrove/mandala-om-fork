@@ -11,6 +11,8 @@ import { FeatureFilters } from './FeatureFilters';
 import { useStatus } from '../../hooks/useStatus';
 import Dropdown from 'react-bootstrap/Dropdown';
 import { DropdownButton } from 'react-bootstrap';
+import { standaloneSettings } from './utils';
+import { Cookies } from 'react-cookie';
 
 // There are three view modes encapsulated by three different components
 //          gallery:    FeatureGallery
@@ -115,6 +117,8 @@ function FeatureCollectionViewModeSelector(props) {
 
     function navigate(viewMode) {
         history.push(viewMode + qs);
+        const cookie = new Cookies();
+        cookie.set('searchview', viewMode);
     }
 
     const deckLabel = <span className={'u-icon__grid icon'}></span>; // card deck
@@ -123,6 +127,9 @@ function FeatureCollectionViewModeSelector(props) {
 
     const viewChange = (mode) => {
         status.setSearchView(mode);
+        if (process.env.REACT_APP_STANDALONE === 'standalone') {
+            standaloneSettings('set', 'searchview', mode);
+        }
         navigate(mode);
     };
     return (

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { MdLogin, MdCheckCircle } from 'react-icons/all';
 import { GetSessionID, GetUID } from './MandalaSession';
-import { Cookies, useCookies } from 'react-cookie';
+import { Cookies } from 'react-cookie';
 import useMandala from '../hooks/useMandala';
 import Dropdown from 'react-bootstrap/Dropdown';
 
