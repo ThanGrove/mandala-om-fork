@@ -63,22 +63,20 @@ const TermDictionaries = ({ definitions, kmapData }) => {
                                             )
                                         )}
                                     </div>
-
-                                    {dict.related_definitions_language_s && (
-                                        <div className="sui-termDicts__dict-extra">
-                                            <span className="sui-termDicts__dict-extra-lang">
-                                                Language:
-                                            </span>{' '}
-                                            <span className="sui-termDicts__dict-extra-lang-text ">
-                                                {
-                                                    dict.related_definitions_language_s
-                                                }
-                                            </span>
-                                        </div>
-                                    )}
                                 </li>
                             ))}
                         </ul>
+                        <div className="sui-termDicts__dict-extra">
+                            <span className="sui-termDicts__dict-extra-lang">
+                                Language:
+                            </span>{' '}
+                            <span className="sui-termDicts__dict-extra-lang-text ">
+                                {
+                                    definitions[key][0]
+                                        ?.related_definitions_language_s
+                                }
+                            </span>
+                        </div>
                     </React.Fragment>
                 ))}
             </div>
@@ -93,23 +91,47 @@ function RelatedTermsDictionary({ dict, docs }) {
         return d?.related_terms_relation_source_s === dict;
     });
     if (relations?.length > 0) {
+        const combrels = {};
+        relations.map((r, ri) => {
+            const combkey = r?.related_terms_relation_label_s;
+            if (!Object.keys(combrels).includes(combkey)) {
+                combrels[combkey] = [];
+            }
+            let lkn = r?.related_terms_id_s?.replace('-', '/');
+            if (!lkn?.length > 0) {
+                lkn = '#';
+            } else {
+                lkn = '/' + lkn;
+            }
+            combrels[combkey].push(
+                <Link to={lkn} key={`${dict}-relterm-${ri}`}>
+                    {r?.related_terms_header_s}
+                </Link>
+            );
+        });
         return (
             <dl>
-                {relations.map((r, ri) => {
-                    const k = dict + 'relterm' + ri;
-                    let lkn = r?.related_terms_id_s?.replace('-', '/');
-                    if (!lkn?.length > 0) {
-                        lkn = '#';
-                    } else {
-                        lkn = '/' + lkn;
-                    }
+                {Object.keys(combrels).map((k, ki) => {
+                    const reactkey = `${dict}-${k}-relterm-${ki}`;
+
                     return (
-                        <React.Fragment key={k}>
-                            <dt>{r?.related_terms_relation_label_s}</dt>
+                        <React.Fragment key={reactkey}>
+                            <dt>{k}</dt>
                             <dd>
-                                <Link to={lkn}>
-                                    {r?.related_terms_header_s}
-                                </Link>
+                                {combrels[k].map((term, ti) => {
+                                    const suffix =
+                                        ti < combrels[k].length - 1 ? (
+                                            ', '
+                                        ) : (
+                                            <br />
+                                        );
+                                    return (
+                                        <span key={`term-${ki}-${ti}`}>
+                                            {term}
+                                            {suffix}
+                                        </span>
+                                    );
+                                })}
                             </dd>
                         </React.Fragment>
                     );

@@ -1,7 +1,9 @@
 import create from 'zustand';
 
 /**
- * Hook for keeping track of user choices called useStatus
+ * Deprecated: Hook for keeping track of user choices called useStatus. Ndg8f took over component name from Ys2n,
+ * which was a completely different version, but this doesn't work to save state for the embedded versions of the
+ * "standalone". Jan. 2023.
  *
  * @type {UseStore<{places: string|*, terms: string|*, subjects: string|*, setPerspective: function(*, *=): void}>}
  */

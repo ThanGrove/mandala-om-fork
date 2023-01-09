@@ -23,7 +23,7 @@ export function BasicSearch(props) {
     const cookie = new Cookies();
     let searchview = cookie?.get('searchview');
     if (!searchview || searchview.length == 0) {
-        searchview = 'list';
+        searchview = process.env?.REACT_APP_SEARCH_VIEW_DEFAULT || 'list';
         cookie.set('searchview', searchview);
     }
 
