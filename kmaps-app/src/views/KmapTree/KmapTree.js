@@ -160,8 +160,10 @@ export default function KmapTree(props) {
             settings?.selPath &&
             settings?.selPath?.length > 0
         ) {
-            // openToSel(settings);  // Commented out to see if it does anything.
-            console.log('open to sel has been disabled in kmaptree');
+            setTimeout(function () {
+                openToSel(settings);
+            }, 100);
+            console.log('open to sel has been called');
         }
     }, [settings.selPath, selNode, relSelNode]);
 
@@ -296,7 +298,11 @@ function openToSel(settings) {
         lastEl = $(lastElSelector);
         if (lastEl.length > 0) {
             $('#' + settings.elid).addClass('clicked');
-            // lastEl.find('.toggle-icon').click();
+            const iconel = lastEl.find('.toggle-icon');
+            if (iconel) {
+                console.log('clicking to open', iconel);
+                iconel.click();
+            }
             break;
         }
     }
