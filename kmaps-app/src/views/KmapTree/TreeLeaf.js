@@ -126,8 +126,9 @@ export default function TreeLeaf({
 
     // Set open state once loaded
     useEffect(() => {
+        console.log('setting io', io);
         setIsOpen(io);
-    }, []);
+    }, [io]);
 
     // Adjust which element has selected class when there is a change in tree data, children, or selected path
     useEffect(() => {
@@ -190,7 +191,9 @@ export default function TreeLeaf({
     if (!kmapdata?.header) {
         return null;
     }
-
+    if (kid * 1 === 55178) {
+        console.log('setting children', isOpen, io);
+    }
     // Define the child_content based on whether it is open or not (only loads children when open)
     let child_content = isOpen ? (
         <LeafChildren
