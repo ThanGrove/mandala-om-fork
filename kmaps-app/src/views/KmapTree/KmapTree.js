@@ -72,7 +72,7 @@ export default function KmapTree(props) {
     const perspective = usePerspective((state) => state[settings.domain]);
     settings.perspective = perspective;
 
-    // Remove domain and dash from selectedNode value
+    // Remove domain and dash from selectedNode value (get just the number from e.g. "places-1234")
     if (
         typeof settings?.selectedNode === 'string' &&
         settings?.selectedNode?.includes('-')
@@ -87,6 +87,7 @@ export default function KmapTree(props) {
         perspective: perspective,
     };
 
+    // Root Node: query and call
     const rootquery = {
         index: 'terms',
         params: {
@@ -111,6 +112,7 @@ export default function KmapTree(props) {
         rootquery
     );
 
+    // Selected Node: query and call
     // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
 
@@ -121,6 +123,7 @@ export default function KmapTree(props) {
         error: selNodeErrror,
     } = useKmap(kmapId, 'info', isRootLoading);
 
+    // Selected Parent: if selected node is related to but not in the tree itself
     // useQuery to load related places selected node (Monasteries, etc.) (if not a related child nothing loads)
     const selNodeQuery = {
         index: 'terms',
@@ -139,13 +142,17 @@ export default function KmapTree(props) {
         error: relSelNodeErrror,
     } = useSolr(`${kmapId}-relsel`, selNodeQuery);
 
-    // Debugging
+    // For Debugging
+    /*
     const viewobj = useView();
     if (settings.domain === 'terms') {
-        // console.log('use view: ', viewobj);
+        console.log('use view: ', viewobj);
     }
-    // Use Effect: To open selected node in tree, if not already open (** for parallel trees **)
+     */
+
+    // Open to Selected Node, if not already open (** for parallel trees **)
     useEffect(() => {
+        console.log('selected path', settings.selPath);
         if (
             !isSelNodeLoading &&
             !isRelSelNodeLoading &&
@@ -153,22 +160,25 @@ export default function KmapTree(props) {
             settings?.selPath &&
             settings?.selPath?.length > 0
         ) {
-            openToSel(settings);
+            // openToSel(settings);  // Commented out to see if it does anything.
+            console.log('open to sel has been disabled in kmaptree');
         }
     }, [settings.selPath, selNode, relSelNode]);
 
-    // useEffect to Set level or root based on Perspective
+    // Set Perspective
     useEffect(() => {
         settings.perspective = perspective;
         settings.root.perspective = perspective;
     }, [perspective]);
 
     // Don't load the tree until we have selected node path info to drill down with
-    /*if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
+    /* This prevents tree from loading sometimes (I think)
+    if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
         return <MandalaSkeleton />;
         // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
-    } else*/
-    if (selNode && [`ancestor_ids_${settings.perspective}`] in selNode) {
+    } else */
+
+    if (selNode && `ancestor_ids_${settings.perspective}` in selNode) {
         settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
         // Otherwise if it has list of ancestor ids closest to that perspective, use that
     } else if (
@@ -182,7 +192,7 @@ export default function KmapTree(props) {
         if (snind > -1) {
             settings.selPath.splice(snind, 1);
         }
-        // Otherwise, check if it's a related place child and if so, use its relapte_places_path_s, dropping the last item (itself)
+        // Otherwise, check if it's a related place child and if so, use its related_places_path_s, dropping the last item (itself)
     } else if (relSelNode?.docs?.length > 0) {
         // When there is no selNode but there is a relSel
         const relpath =
@@ -211,7 +221,8 @@ export default function KmapTree(props) {
         return <FilterTree settings={settings} />;
     }
 
-    // Otherwise, create the tree dive with a LeafGroup (when there are many root nodes, e.g. subjects and terms) or a single root leaf (places)
+    // Otherwise, create the tree dive with a LeafGroup (when there are many root nodes,
+    // e.g. subjects and terms) or a single root leaf (places)
     let treeclass = `${settings.treeClass} ${settings.root.domain}`;
     if (props?.className) {
         treeclass += ` ${props.className}`;
@@ -285,7 +296,7 @@ function openToSel(settings) {
         lastEl = $(lastElSelector);
         if (lastEl.length > 0) {
             $('#' + settings.elid).addClass('clicked');
-            lastEl.find('.toggle-icon').click();
+            // lastEl.find('.toggle-icon').click();
             break;
         }
     }

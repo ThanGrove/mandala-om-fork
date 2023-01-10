@@ -45,21 +45,29 @@ export default function TreeLeaf({
     perspective,
     ...props
 }) {
-    const kmapid = queryID(domain, kid);
+    const kmapid = queryID(domain, kid); // Build Leaf ID
     let io = props?.isopen ? props.isopen : false;
+
+    // Set to open if this leaf is in the selected path
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
             io = true;
+            console.log('opening: ' + kmapid);
         }
     }
 
-    const leafRef = React.createRef();
+    const leafRef = React.createRef(); // Reference to the Leaf's HTML element
+    // Open State
     const [isOpen, setIsOpen] = useState(io);
-
+    // Persepective
     const perspectiveSetting = usePerspective(
         (state) => state[settings.domain]
     );
+
+    // View
     const viewSetting = useView((state) => state[settings.domain]);
+
+    // API Call for Leaf Data
     const {
         isLoading: isKmapLoading,
         data: kmapdata,
@@ -90,9 +98,13 @@ export default function TreeLeaf({
             kmapdata[closest_lvl_fld] !== 0
         ) {
             childlvl = parseInt(kmapdata[closest_lvl_fld]) + 1; // If not, use closest level
-        } // TODO: Test what if neither match?
+        } else {
+            // TODO: Test what if neither match?
+            console.log('neither match');
+        }
     }
 
+    // Get Number of Children
     // Build the query to get number of children, by querying for children but rows = 0 and use numFound
     const query = {
         index: 'terms',
@@ -103,8 +115,6 @@ export default function TreeLeaf({
             fl: '*',
         },
     };
-
-    // UseSolr Query (ReactQuery based hook)
     const {
         isLoading: isChildrenLoading,
         data: childrenData,
@@ -112,6 +122,7 @@ export default function TreeLeaf({
         error: hildrenError,
     } = useSolr(qid, query, isKmapLoading);
 
+    // Adjust which element has selected class when there is a change in tree data, children, or selected path
     useEffect(() => {
         if (
             !isChildrenLoading &&
@@ -140,6 +151,7 @@ export default function TreeLeaf({
         return null;
     }
 
+    // Show skeleton if loading self or children
     if (isKmapLoading || isChildrenLoading) {
         return (
             <div data-id={kmapid}>
@@ -156,7 +168,7 @@ export default function TreeLeaf({
     );
     let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
 
-    // if no children, replace icon with dash
+    // with No Children, replace icon with dash
     const hasChildren = childrenData?.numFound > 0;
     if (!hasChildren) {
         icon = '';
@@ -166,12 +178,13 @@ export default function TreeLeaf({
     // class value for tree leaf div
     const divclass = `${settings.leafClass} lvl\-${leaf_level} ${toggleclass}`;
 
-    //console.log(kmapdata);
+    // Leaf click handler
     const handleClick = (e) => {
+        console.log('Toggling open');
         setIsOpen(!isOpen);
     };
 
-    // Do not display if no header
+    // Do not display if no header to display in tree
     if (!kmapdata?.header) {
         return null;
     }
@@ -187,7 +200,7 @@ export default function TreeLeaf({
             perspective={perspective}
         />
     ) : (
-        <div className={settings.childrenClass}></div>
+        <div className={settings.childrenClass} data-status="closed-leaf"></div>
     );
 
     if (settings?.showRelatedPlaces && settings.selectedNode === kid) {
