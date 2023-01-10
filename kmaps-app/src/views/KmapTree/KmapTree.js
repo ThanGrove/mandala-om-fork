@@ -299,7 +299,6 @@ function openToSel(settings) {
             $('#' + settings.elid).addClass('clicked');
             const iconel = lastEl.find('.toggle-icon');
             if (iconel) {
-                console.log('clicking to open', lastId, lastEl);
                 iconel.click();
             }
             break;

@@ -46,24 +46,18 @@ export default function TreeLeaf({
     ...props
 }) {
     const kmapid = queryID(domain, kid); // Build Leaf ID
-    const ischos = kid * 1 === 55178;
 
     let io = props?.isopen ? props.isopen : false;
 
-    if (ischos) {
-        console.log('original io: ', io);
-    }
     // Set to open if this leaf is in the selected path
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
             io = true;
         }
     }
-    if (ischos) {
-        console.log('after checking selpath io: ', io);
-    }
 
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
+
     // Open State
     const [isOpen, setIsOpen] = useState(false);
 
@@ -130,12 +124,11 @@ export default function TreeLeaf({
         error: hildrenError,
     } = useSolr(qid, query, isKmapLoading);
 
+    // Set open state once loaded
     useEffect(() => {
-        if (ischos) {
-            console.log('setting isOpen to io: ', io);
-        }
         setIsOpen(io);
-    });
+    }, []);
+
     // Adjust which element has selected class when there is a change in tree data, children, or selected path
     useEffect(() => {
         if (
@@ -150,9 +143,6 @@ export default function TreeLeaf({
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                if (ischos) {
-                    console.log('added selected class to chos');
-                }
             }
         }
     }, [kmapdata, childrenData, settings.selPath]);
@@ -193,9 +183,6 @@ export default function TreeLeaf({
 
     // Leaf click handler
     const handleClick = (e) => {
-        if (ischos) {
-            console.log('chos was clicked. isOpen = ', isOpen);
-        }
         setIsOpen(!isOpen);
     };
 
@@ -205,9 +192,6 @@ export default function TreeLeaf({
     }
 
     // Define the child_content based on whether it is open or not (only loads children when open)
-    if (ischos) {
-        console.log('IsOpen and io for calculating children: ', isOpen, io);
-    }
     let child_content = isOpen ? (
         <LeafChildren
             settings={settings}
@@ -220,10 +204,6 @@ export default function TreeLeaf({
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>
     );
-
-    if (ischos) {
-        console.log('child content: ', child_content);
-    }
 
     if (settings?.showRelatedPlaces && settings.selectedNode === kid) {
         child_content = (
