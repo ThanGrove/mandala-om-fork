@@ -46,19 +46,27 @@ export default function TreeLeaf({
     ...props
 }) {
     const kmapid = queryID(domain, kid); // Build Leaf ID
+    const ischos = kid * 1 === 55178;
+
     let io = props?.isopen ? props.isopen : false;
 
+    if (ischos) {
+        console.log('original io: ', io);
+    }
     // Set to open if this leaf is in the selected path
     if (settings?.selPath && settings.selPath.length > 0) {
         if (settings.selPath.includes(kid * 1)) {
             io = true;
-            console.log('opening: ' + kmapid);
         }
+    }
+    if (ischos) {
+        console.log('after checking selpath io: ', io);
     }
 
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
     // Open State
     const [isOpen, setIsOpen] = useState(io);
+
     // Persepective
     const perspectiveSetting = usePerspective(
         (state) => state[settings.domain]
@@ -136,11 +144,10 @@ export default function TreeLeaf({
                     .find('.selected')
                     .removeClass('selected');
                 $(leafRef.current).addClass('selected');
-                // setTimeout(updateTreeScroll, 500, settings);
+                if (ischos) {
+                    console.log('added selected class to chos');
+                }
             }
-        }
-        if (domain === 'places' && kid * 1 === 13735) {
-            //console.log('earth query:', query);
         }
     }, [kmapdata, childrenData, settings.selPath]);
 
@@ -180,7 +187,9 @@ export default function TreeLeaf({
 
     // Leaf click handler
     const handleClick = (e) => {
-        console.log('Toggling open');
+        if (ischos) {
+            console.log('chos was clicked. isOpen = ', isOpen);
+        }
         setIsOpen(!isOpen);
     };
 
@@ -202,6 +211,10 @@ export default function TreeLeaf({
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>
     );
+
+    if (ischos) {
+        console.log('child content: ', child_content);
+    }
 
     if (settings?.showRelatedPlaces && settings.selectedNode === kid) {
         child_content = (
@@ -323,6 +336,7 @@ export function LeafChildren({
                 ) {
                     return null;
                 }
+                // Open automatically if in environment variable
                 if (
                     process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
                         child?.id

@@ -152,7 +152,7 @@ export default function KmapTree(props) {
 
     // Open to Selected Node, if not already open (** for parallel trees **)
     useEffect(() => {
-        console.log('selected path', settings.selPath);
+        // console.log('selected path', settings.selPath);
         if (
             !isSelNodeLoading &&
             !isRelSelNodeLoading &&
@@ -163,7 +163,6 @@ export default function KmapTree(props) {
             setTimeout(function () {
                 openToSel(settings);
             }, 100);
-            console.log('open to sel has been called');
         }
     }, [settings.selPath, selNode, relSelNode]);
 
@@ -300,7 +299,7 @@ function openToSel(settings) {
             $('#' + settings.elid).addClass('clicked');
             const iconel = lastEl.find('.toggle-icon');
             if (iconel) {
-                console.log('clicking to open', iconel);
+                console.log('clicking to open', lastId, lastEl);
                 iconel.click();
             }
             break;
