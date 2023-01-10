@@ -46,9 +46,13 @@
 ul.sui-termDicts__dict-wrapper {
     margin-top: 0.7rem;
     margin-bottom: 1rem;
-    list-style: none;
     padding-inline-start: 20px;
 }
+
+ul.sui-termDicts__dict-wrapper li {
+    margin-bottom: 0.5rem;
+}
+
 .sui-termDicts__dict-extra {
     text-align: right;
     color: #91693e;

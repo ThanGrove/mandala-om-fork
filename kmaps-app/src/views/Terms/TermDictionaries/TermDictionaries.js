@@ -30,6 +30,7 @@ const TermDictionaries = ({ definitions, kmapData }) => {
             c?.related_terms_relation_code_s === 'is.related.to'
         );
     });
+
     return (
         <div className="sui-termDicts__wrapper">
             <div className="sui-termDicts__content">
@@ -46,6 +47,7 @@ const TermDictionaries = ({ definitions, kmapData }) => {
                             {definitions[key].map((dict) => (
                                 <li
                                     className="sui-termDicts__dict"
+                                    data-solrid={dict.id}
                                     key={dict.id}
                                 >
                                     <div
