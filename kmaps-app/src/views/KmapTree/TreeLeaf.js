@@ -126,7 +126,7 @@ export default function TreeLeaf({
 
     // Set open state once loaded
     useEffect(() => {
-        console.log('setting io', io);
+        // console.log('setting io', io);
         setIsOpen(io);
     }, [io]);
 
@@ -190,9 +190,6 @@ export default function TreeLeaf({
     // Do not display if no header to display in tree
     if (!kmapdata?.header) {
         return null;
-    }
-    if (kid * 1 === 55178) {
-        console.log('setting children', isOpen, io);
     }
     // Define the child_content based on whether it is open or not (only loads children when open)
     let child_content = isOpen ? (
