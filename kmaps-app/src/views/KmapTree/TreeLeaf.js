@@ -199,6 +199,9 @@ export default function TreeLeaf({
     }
 
     // Define the child_content based on whether it is open or not (only loads children when open)
+    if (ischos) {
+        console.log('IsOpen and io for calculating children: ', isOpen, io);
+    }
     let child_content = isOpen ? (
         <LeafChildren
             settings={settings}
