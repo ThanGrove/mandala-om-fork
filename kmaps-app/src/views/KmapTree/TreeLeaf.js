@@ -65,7 +65,7 @@ export default function TreeLeaf({
 
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
     // Open State
-    const [isOpen, setIsOpen] = useState(io);
+    const [isOpen, setIsOpen] = useState(false);
 
     // Persepective
     const perspectiveSetting = usePerspective(
@@ -130,6 +130,12 @@ export default function TreeLeaf({
         error: hildrenError,
     } = useSolr(qid, query, isKmapLoading);
 
+    useEffect(() => {
+        if (ischos) {
+            console.log('setting isOpen to io: ', io);
+        }
+        setIsOpen(io);
+    });
     // Adjust which element has selected class when there is a change in tree data, children, or selected path
     useEffect(() => {
         if (
