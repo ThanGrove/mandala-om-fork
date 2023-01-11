@@ -51,21 +51,24 @@ export default function PlacesRelPlacesViewer() {
     }
 
     // Get Unique Feature Types of Children
-    let child_ftypes = kmapkids?.map((cd, ci) => {
-        if (cd.block_child_type === 'related_places') {
+    let child_ftypes = kmapkids
+        ?.filter((cd, ci) => {
+            return cd.block_child_type === 'related_places';
+        })
+        .map((cd, ci) => {
             return cd.related_places_feature_type_s;
-        }
-    });
+        });
     child_ftypes = [...new Set(child_ftypes)];
     child_ftypes.sort(); // Sort feature types
 
     // Group Children by Feature Type
     const children_by_ftype = child_ftypes?.map((cft, cfti) => {
+        const children = kmapkids.filter((kmk, kmki) => {
+            return kmk.related_places_feature_type_s === cft;
+        });
         return {
             label: cft,
-            children: kmapkids.filter((kmk, kmki) => {
-                return kmk.related_places_feature_type_s === cft;
-            }),
+            children: children,
         };
     });
 
@@ -133,12 +136,25 @@ export default function PlacesRelPlacesViewer() {
                             <p>
                                 One can browse these subordinate places as well
                                 as its superordinate categories with the tree
-                                below.
+                                below. Longer lists can be scrolled to view all
+                                items.
                             </p>
                         </Col>
                     </Row>
                     <Row>
+                        {children_by_ftype?.length > 0 &&
+                            children_by_ftype.map((ftyp, fti) => {
+                                return (
+                                    <RelatedPlacesFeature
+                                        key={`rpf-${fti}`}
+                                        label={ftyp?.label}
+                                        features={ftyp?.children}
+                                    />
+                                );
+                            })}
+                        {/*
                         <PlaceRelPlaceFtColumns children={children_by_ftype} />
+                        */}
                     </Row>
                 </Container>
             </Tab>
@@ -270,4 +286,40 @@ function ChunkList(childs, numcols = 4) {
     });
     chunks.push(achunk);
     return chunks;
+}
+
+function RelatedPlacesFeature({ label, features }) {
+    const numfeat = features?.length;
+    const divclass = numfeat > 15 ? 'scroll-list' : '';
+    return (
+        <Col className="rel-place-feature">
+            <h4>
+                {label} ({numfeat})
+            </h4>
+            <div className={divclass}>
+                <ul>
+                    {features?.map((f, fi) => {
+                        return (
+                            <li key={`clitem-${fi}`}>
+                                <RelatedPlaceItem clitem={f} />
+                            </li>
+                        );
+                    })}
+                </ul>
+            </div>
+        </Col>
+    );
+}
+
+function RelatedPlaceItem({ clitem }) {
+    return (
+        <>
+            {' '}
+            {clitem.related_places_header_s}
+            <MandalaPopover
+                domain={'places'}
+                kid={clitem.related_places_id_s.replace('places-', '')}
+            />
+        </>
+    );
 }

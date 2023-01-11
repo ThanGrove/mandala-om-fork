@@ -100,9 +100,6 @@ export default function TreeLeaf({
             kmapdata[closest_lvl_fld] !== 0
         ) {
             childlvl = parseInt(kmapdata[closest_lvl_fld]) + 1; // If not, use closest level
-        } else {
-            // TODO: Test what if neither match?
-            console.log('neither match');
         }
     }
 

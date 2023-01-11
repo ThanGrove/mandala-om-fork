@@ -243,4 +243,27 @@ main.subjects .shanti-texts-section-title::before {
     display: none;
 }
 
+#place-kmap-tabs-tabpane-related .rel-place-feature h4 {
+    color: #2b455d;
+    font-weight: bold;
+    width: 100%;
+    text-align: center;
+}
+#place-kmap-tabs-tabpane-related .c-relplaces-list div.scroll-list {
+    padding-top: 0.5rem;
+    max-height: 450px;
+    overflow-y: scroll;
+    border: 4px double #3297f7;
+    border-radius: 10px;
+}
+#place-kmap-tabs-tabpane-related ::-webkit-scrollbar {
+    -webkit-appearance: none;
+    width: 10px;
+}
+#place-kmap-tabs-tabpane-related ::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background-color: rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+}
+
 /*# sourceMappingURL=placesinfo.css.map */

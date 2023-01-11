@@ -26,6 +26,7 @@ import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
 import { ImageCaption, ImageSlider } from '../common/ImageSlider';
 import { openTabStore } from '../../hooks/useCloseStore';
+import { usePerspective } from '../../hooks/usePerspective';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -39,6 +40,7 @@ const PlacesRelSubjectsViewer = React.lazy(() =>
 export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
+    let persp = usePerspective((state) => state.places);
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
     const setOpenTab = openTabStore((state) => state.changeButtonState);
@@ -125,7 +127,7 @@ export default function PlacesInfo(props) {
             break;
         }
     }
-    const defaultKey = txtid ? 'about' : kmapData?.has_shapes ? 'map' : 'names';
+    let defaultKey = txtid ? 'about' : kmapData?.has_shapes ? 'map' : 'names';
 
     // Create Name Object list to determine if there are etymologies
     const namelist = kmapData._childDocuments_?.filter((cd, i) => {
@@ -160,10 +162,16 @@ export default function PlacesInfo(props) {
         else return 0; // The same
     });
 
+    if (defaultKey === 'names' && nameobjs?.length === 0) {
+        defaultKey = 'ids';
+    }
+
     let etymologies = [];
     etymologies = nameobjs.filter((c, i) => {
         return c.ety && c.ety.length > 0;
     });
+
+    // console.log("props", props);
 
     return (
         <>
@@ -228,6 +236,12 @@ export default function PlacesInfo(props) {
                                 </Tab>
                             </Tabs>
                         </div>
+                        {persp === 'envir.rel' && (
+                            <p>
+                                For environmental features of this place click
+                                on the "Places" item on the left sidebar.
+                            </p>
+                        )}
                     </Route>
                     <Route
                         path={[`${path}/related-:relatedType/view/:assetId`]}
