@@ -112,6 +112,8 @@ export default function KmapTree(props) {
         rootquery
     );
 
+    // console.log("Root data", rootData);
+
     // Selected Node: query and call
     // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
     const kmapId = queryID(settings.domain, settings.selectedNode);
@@ -263,6 +265,12 @@ export default function KmapTree(props) {
                     showAncestors={settings.showAncestors}
                     perspective={perspective}
                 />
+            )}
+            {rootData?.numFound === 0 && (
+                <p className="tree-not-found">
+                    We’re sorry. There are currently no features in the tree for
+                    this perspective.
+                </p>
             )}
         </div>
     );
