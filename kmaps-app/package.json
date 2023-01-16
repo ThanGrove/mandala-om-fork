@@ -70,6 +70,7 @@
         "build": "react-scripts build",
         "devbuild": "env-cmd -f ./.env.development npm run-script build",
         "prodbuild": "env-cmd -f ./.env.production npm run-script build",
+        "jcsbuild": " env-cmd -f ./.env.cj.prod npm run-script build",
         "ufbuild": "env-cmd -f ./.env.uf npm run-script build",
         "ufprod": "env-cmd -f ./.env.uf.prod npm run-script build",
         "tibetbuild": "env-cmd -f ./.env.tibet npm run-script build",
