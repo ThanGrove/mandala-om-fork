@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { MandalaPopover } from '../../common/MandalaPopover';
 import './TermsDetails.css';
 import TermAudioPlayer from '../TermAudioPlayer';
 import TermEtymology from '../TermEtymology';
@@ -7,22 +6,12 @@ import TermDefinitions from '../TermDefinitions';
 import _ from 'lodash';
 import TermDictionaries from '../TermDictionaries';
 import { Tab, Tabs } from 'react-bootstrap';
-import { HtmlCustom } from '../../common/MandalaMarkup';
 import { getOtherDefNotes, OtherDefNotes } from '../OtherDefs/OtherDefs';
-import {
-    convertLangCode,
-    getPropsContaining,
-    getUniquePropIds,
-} from '../../common/utils';
-import GenericPopover from '../../common/GenericPopover';
-// import { getOtherDefNotes, OtherDefNotes } from '../OtherDefs/OtherDefNotes';
-import { MandalaSourceNote } from '../../common/utilcomponents';
-import {
-    getOtherPassages,
-    OtherPassages,
-} from '../OtherPassages/OtherPassages';
+import { getPropsContaining, getUniquePropIds } from '../../common/utils';
+import { getOtherPassages, OtherPassages } from '../TermPassages/OtherPassages';
 import { TermTermRelations } from './TermTermRelations';
 import { TermTranslations } from './TermTranslations';
+import { TermPassages } from '../TermPassages/TermPassages';
 
 function getTranslationEquivalents(kmapData) {
     const transprops = getPropsContaining(kmapData, 'translation_equivalent');
@@ -66,10 +55,13 @@ const TermsDetails = ({
     const [passnum, setPassnum] = useState(0);
     const [activeTab, setActiveTab] = useState('details');
 
-    // console.log(kmapData);
+    //console.log("term details", kmapData);
 
     /** Passages **/
-    /* Find child documents for definitions with passages */
+    /* Find passages associated with the main definitions of a term */
+    let passageIds = getUniquePropIds(kmapData, /passage_(\d+)_content_t/);
+    let totalpassnum = passageIds?.length || 0;
+    /* Find child documents for related definitions with passages */
     const defnum = definitions['main_defs']
         ? Object.keys(definitions['main_defs'])?.length
         : 0;
@@ -77,29 +69,27 @@ const TermsDetails = ({
 
     const otherDefNum = Object.keys(otherDefinitions)?.length; // Custom dictionaries not Passages // did have otherDefs?.length +
     const showother = otherDefNum > 0;
-    let otherpassnum = 0;
-    let othercitenum = 0;
 
     let otherpass = getOtherPassages(kmapData);
     otherpass.forEach((op, opi) => {
         let uids = getUniquePropIds(op, /related_definitions_passage_(\d+)_/);
         if (uids?.length > 0) {
-            otherpassnum += uids?.length;
+            totalpassnum += uids?.length;
         }
         uids = getUniquePropIds(
             op,
             /related_definitions_passage_translation_(\d+)_citation_references_ss/
         );
         if (uids?.length > 0) {
-            othercitenum += uids?.length;
+            totalpassnum += uids?.length;
         }
         uids = getUniquePropIds(op, /related_definitions_citation_(\d+)_/);
         if (uids?.length > 0) {
-            othercitenum += uids?.length;
+            totalpassnum += uids?.length;
         }
     });
 
-    let showpass = otherpassnum + othercitenum > 0;
+    let showpass = totalpassnum > 0;
     const showetym = kmapData?.etymologies_ss;
     const transequivs = getTranslationEquivalents(kmapData);
     const showtrans = transequivs?.length > 0;
@@ -175,9 +165,12 @@ const TermsDetails = ({
                 {showpass && (
                     <Tab
                         eventKey="passages"
-                        title={`Passages (${otherpassnum + othercitenum})`}
+                        title={`Passages (${totalpassnum})`}
                     >
-                        <OtherPassages kmapData={kmapData} />
+                        <div className="passage-group">
+                            <TermPassages kmapData={kmapData} />
+                            <OtherPassages kmapData={kmapData} />
+                        </div>
                     </Tab>
                 )}
 

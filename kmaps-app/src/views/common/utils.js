@@ -674,14 +674,16 @@ export function getPropsContaining(obj, propmtch, pos = 'contains') {
  *
  * @param data
  * @param regex
+ * @param mindex
+ *      the index for the match to capture
  * @returns {unknown[]}
  */
-export function getUniquePropIds(data, regex) {
+export function getUniquePropIds(data, regex, mindex = 1) {
     let ids = Object.keys(data)
         .map((pn) => {
             const mtch = pn.match(regex);
             if (mtch) {
-                return mtch[1];
+                return mtch[mindex];
             }
             return;
         })
