@@ -247,7 +247,6 @@ main.subjects .shanti-texts-section-title::before {
     color: #2b455d;
     font-weight: bold;
     width: 100%;
-    text-align: center;
 }
 #place-kmap-tabs-tabpane-related .c-relplaces-list div.scroll-list {
     padding-top: 0.5rem;

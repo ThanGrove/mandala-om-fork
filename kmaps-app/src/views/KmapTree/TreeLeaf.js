@@ -389,7 +389,7 @@ export function RelatedChildren({ settings, domain, kid }) {
                 )}-children-related-places-${i}`;
                 const [domain, kid] = child['related_places_id_s'].split('-');
                 const leafhead = child[headernm];
-                const divclass = 'leafend';
+                const divclass = 'c-kmapleaf leafend';
                 let io = false;
                 return (
                     <div className={divclass} key={lckey}>

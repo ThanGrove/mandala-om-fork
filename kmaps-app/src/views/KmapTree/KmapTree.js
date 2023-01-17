@@ -137,6 +137,7 @@ export default function KmapTree(props) {
             wt: 'json',
         },
     };
+
     const {
         isLoading: isRelSelNodeLoading,
         data: relSelNode,
@@ -151,7 +152,6 @@ export default function KmapTree(props) {
         console.log('use view: ', viewobj);
     }
      */
-
     // Open to Selected Node, if not already open (** for parallel trees **)
     useEffect(() => {
         // console.log('selected path', settings.selPath);
