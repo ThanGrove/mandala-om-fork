@@ -159,24 +159,27 @@ export default function PlacesRelPlacesViewer() {
     );
 }
 
-function RelatedPlacesFeature({ label, features }) {
+export function RelatedPlacesFeature({ label, features }) {
     const numfeat = features?.length;
-    const divclass = numfeat > 15 ? 'scroll-list' : '';
+    const wrapclass = numfeat > 0 ? 'scroll-list-wrap' : '';
+    const divclass = numfeat > 0 ? 'scroll-list' : '';
     return (
         <Col className="rel-place-feature" md={3}>
-            <h4>
-                {label} ({numfeat})
-            </h4>
-            <div className={divclass}>
-                <ul>
-                    {features?.map((f, fi) => {
-                        return (
-                            <li key={`clitem-${fi}`}>
-                                <RelatedPlaceItem clitem={f} />
-                            </li>
-                        );
-                    })}
-                </ul>
+            <div className={wrapclass}>
+                <h4>
+                    {label} ({numfeat})
+                </h4>
+                <div className={divclass}>
+                    <ul>
+                        {features?.map((f, fi) => {
+                            return (
+                                <li key={`clitem-${fi}`}>
+                                    <RelatedPlaceItem clitem={f} />
+                                </li>
+                            );
+                        })}
+                    </ul>
+                </div>
             </div>
         </Col>
     );

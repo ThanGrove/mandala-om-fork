@@ -47,6 +47,7 @@ const getSolrData = async (query, filtered) => {
     if (sess) {
         myparams.sid = sess;
     }
+
     // Make request
     const request = {
         adapter: jsonpAdapter,
@@ -56,8 +57,19 @@ const getSolrData = async (query, filtered) => {
     };
     const { data } = await axios.request(request);
     let retdata = data && data.response ? data.response : data;
+
     if (data?.facet_counts?.facet_fields) {
+        // Regular Facets
         retdata.facets = processFacets(data.facet_counts.facet_fields);
+    } else if (data?.facets?.count > 0) {
+        //  JSON Facets
+        retdata.facets = {};
+        //console.log("There are facets", Object.getOwnPropertyNames(data.facets));
+        for (let p in data.facets) {
+            if (p !== 'count') {
+                retdata.facets[p] = data.facets[p];
+            }
+        }
     }
     return retdata;
 };

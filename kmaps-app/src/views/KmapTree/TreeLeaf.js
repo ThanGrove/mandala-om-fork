@@ -11,6 +11,8 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { useView } from '../../hooks/useView';
 import { usePerspective } from '../../hooks/usePerspective';
+import { RelatedPlacesFeature } from '../Kmaps/PlacesRelPlacesViewer';
+import { Row } from 'react-bootstrap';
 
 /**
  * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
@@ -118,8 +120,29 @@ export default function TreeLeaf({
         isLoading: isChildrenLoading,
         data: childrenData,
         isError: isChildrenError,
-        error: hildrenError,
+        error: childrenError,
     } = useSolr(qid, query, isKmapLoading);
+
+    // Get number of rel children
+    const relcquid = `related-children-${domain}-${kid}-count`;
+    let q = `block_type:child AND block_child_type:related_places AND related_places_path_s:*/${kid}/*`;
+    // Have to find none if not the selected node. numFound is used below.
+    const relchildqry = {
+        index: 'terms',
+        params: {
+            q: q,
+            fq: `origin_uid_s:places-${kid}`,
+            rows: 0,
+            fl: 'uid',
+        },
+    };
+
+    const {
+        isLoading: isRelChildrenLoading,
+        data: relChildrenData,
+        isError: isRelChildrenError,
+        error: relChildrenError,
+    } = useSolr(relcquid, relchildqry);
 
     // Set open state once loaded
     useEffect(() => {
@@ -153,13 +176,19 @@ export default function TreeLeaf({
     }
 
     // Show skeleton if loading self or children
-    if (isKmapLoading || isChildrenLoading) {
+    if (isKmapLoading || isChildrenLoading || isRelChildrenLoading) {
         return (
             <div data-id={kmapid}>
                 <MandalaSkeleton height={5} width={50} />
             </div>
         );
     }
+
+    /*
+    if (relchildqry.params.fq.includes('15345')) {
+        console.log("rel child qry", relchildqry);
+    }
+     */
 
     // Determine Icon for open or closed
     let icon = isOpen ? (
@@ -171,7 +200,8 @@ export default function TreeLeaf({
 
     // with No Children, replace icon with dash
     const hasChildren = childrenData?.numFound > 0;
-    if (!hasChildren) {
+    const hasRelChild = relChildrenData?.numFound > 0;
+    if (!hasChildren && !hasRelChild) {
         icon = '';
         toggleclass = 'leafend';
     }
@@ -201,8 +231,8 @@ export default function TreeLeaf({
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>
     );
-
-    if (settings?.showRelatedPlaces && settings.selectedNode === kid) {
+    console.log(settings, domain, kid);
+    if (settings?.showRelatedPlaces && settings?.selectedNode === kid) {
         child_content = (
             <RelatedChildren settings={settings} domain={domain} kid={kid} />
         );
@@ -347,13 +377,15 @@ export function LeafChildren({
 }
 
 export function RelatedChildren({ settings, domain, kid }) {
+    const rows = 0;
     const quid = `related-children-${domain}-${kid}`;
     const query = {
         index: 'terms',
         params: {
-            q: `block_type:child AND block_child_type:related_places AND related_places_path_s:*/${kid}/*`,
-            fq: `origin_uid_s:places-${kid}`,
-            rows: 1000,
+            q: `block_type:child AND block_child_type:related_${domain} AND related_${domain}_path_s:*/${kid}/*`,
+            fq: `origin_uid_s:${domain}-${kid}`,
+            'json.facet': `{"feature_type": {"type":"terms", "field":"related_${domain}_feature_type_s"}}`,
+            rows: rows,
             fl: '*',
         },
     };
@@ -363,12 +395,20 @@ export function RelatedChildren({ settings, domain, kid }) {
         isError: isChildrenError,
         error: childrenError,
     } = useSolr(quid, query);
+
     if (isChildrenLoading) {
         return <MandalaSkeleton />;
     }
     const children =
-        !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
+        !isChildrenLoading && childrenData?.numFound > 0
+            ? childrenData.docs
+            : [];
 
+    if (childrenData?.numFound > 0) {
+        console.log('query', query);
+        console.log('related children query results', childrenData);
+    }
+    /*
     const headernm = `related_places_header_s`;
     children.sort((a, b) => {
         if (a[headernm] > b[headernm]) {
@@ -379,18 +419,77 @@ export function RelatedChildren({ settings, domain, kid }) {
         }
         return 0;
     });
-
+*/
+    const facets = childrenData?.facets;
+    // if (!facets || facets === undefined) { return null; }
     return (
-        <div className={settings.childrenClass}>
-            {children.map((child, i) => {
+        <div className={settings?.childrenClass}>
+            {Object.keys(facets).map((facet_name, i) => {
+                return (
+                    <fieldset className="related-features facet-group">
+                        <legend>Feature Types</legend>
+                        <Row>
+                            {facets[facet_name]?.buckets.map((b, bi) => {
+                                return (
+                                    <RelatedBucket
+                                        domain={domain}
+                                        kid={kid}
+                                        facet={facet_name}
+                                        val={b?.val}
+                                    />
+                                );
+                            })}
+                        </Row>
+                    </fieldset>
+                );
+            })}
+        </div>
+    );
+}
+
+function RelatedBucket({ domain, kid, facet, val }) {
+    const quid = ['related-buckets', domain, kid, facet, val];
+    facet = `related_${domain}_${facet}_s`;
+    console.log('facet is', facet);
+    const query = {
+        index: 'terms',
+        params: {
+            q: `related_${domain}_path_s:*/${kid}/*`,
+            fq: [
+                `origin_uid_s:${domain}-${kid}`,
+                `block_type:child`,
+                `block_child_type:related_${domain}`,
+                `${facet}:"${val}"`,
+            ],
+            rows: 5000,
+            fl: '*',
+        },
+    };
+    console.log('bucket query', query);
+
+    const {
+        isLoading: isBucketLoading,
+        data: bucketItems,
+        isError: isBucketError,
+        error: bucketError,
+    } = useSolr(quid, query);
+
+    if (isBucketLoading) {
+        return <MandalaSkeleton />;
+    }
+    // return <div>There are {bucketItems?.numFound} items here. {facet} : {val}</div>;
+    return <RelatedPlacesFeature label={val} features={bucketItems?.docs} />;
+    /*
+
                 const lckey = `treeleaf-${child['id'].replace(
                     '-',
                     '.'
                 )}-children-related-places-${i}`;
                 const [domain, kid] = child['related_places_id_s'].split('-');
                 const leafhead = child[headernm];
-                const divclass = 'c-kmapleaf leafend';
-                let io = false;
+                let divclass = 'c-kmapleaf leafend';
+                if (level) { divclass += ` lvl-${level}`; }
+
                 return (
                     <div className={divclass} key={lckey}>
                         <span
@@ -414,9 +513,7 @@ export function RelatedChildren({ settings, domain, kid }) {
                         </span>
                     </div>
                 );
-            })}
-        </div>
-    );
+     */
 }
 
 /**
@@ -424,7 +521,6 @@ export function RelatedChildren({ settings, domain, kid }) {
  * @param settings : object : the tree settings for the selected node
  *
  * DEPRECATED but SAVE: May need to add this logic to the scroll leaf functions in the 3 kmap info components.
- */
 function updateTreeScroll(settings) {
     const tree = $('#' + settings.elid);
     if (tree.hasClass('clicked')) {
@@ -440,3 +536,5 @@ function updateTreeScroll(settings) {
         selel.addClass('scrolled');
     }
 }
+
+ */
