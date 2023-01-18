@@ -159,12 +159,17 @@ export default function PlacesRelPlacesViewer() {
     );
 }
 
-export function RelatedPlacesFeature({ label, features }) {
+export function RelatedPlacesFeature({
+    label,
+    features,
+    colsize = 3,
+    isSolo = false,
+}) {
     const numfeat = features?.length;
-    const wrapclass = numfeat > 0 ? 'scroll-list-wrap' : '';
-    const divclass = numfeat > 0 ? 'scroll-list' : '';
+    const wrapclass = numfeat > 0 && !isSolo ? 'scroll-list-wrap' : 'ml-5 mt-3';
+    const divclass = numfeat > 0 && !isSolo ? 'scroll-list' : '';
     return (
-        <Col className="rel-place-feature" md={3}>
+        <Col className="rel-place-feature" md={colsize}>
             <div className={wrapclass}>
                 <h4>
                     {label} ({numfeat})

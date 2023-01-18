@@ -231,7 +231,7 @@ export default function TreeLeaf({
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>
     );
-    console.log(settings, domain, kid);
+
     if (settings?.showRelatedPlaces && settings?.selectedNode === kid) {
         child_content = (
             <RelatedChildren settings={settings} domain={domain} kid={kid} />
@@ -404,11 +404,12 @@ export function RelatedChildren({ settings, domain, kid }) {
             ? childrenData.docs
             : [];
 
+    /*
     if (childrenData?.numFound > 0) {
         console.log('query', query);
         console.log('related children query results', childrenData);
     }
-    /*
+
     const headernm = `related_places_header_s`;
     children.sort((a, b) => {
         if (a[headernm] > b[headernm]) {
@@ -425,6 +426,23 @@ export function RelatedChildren({ settings, domain, kid }) {
     return (
         <div className={settings?.childrenClass}>
             {Object.keys(facets).map((facet_name, i) => {
+                if (facets[facet_name]?.buckets.length == 1) {
+                    return (
+                        <Row>
+                            {facets[facet_name]?.buckets.map((b, bi) => {
+                                return (
+                                    <RelatedBucket
+                                        domain={domain}
+                                        kid={kid}
+                                        facet={facet_name}
+                                        val={b?.val}
+                                        isSolo={true}
+                                    />
+                                );
+                            })}
+                        </Row>
+                    );
+                }
                 return (
                     <fieldset className="related-features facet-group">
                         <legend>Feature Types</legend>
@@ -447,10 +465,10 @@ export function RelatedChildren({ settings, domain, kid }) {
     );
 }
 
-function RelatedBucket({ domain, kid, facet, val }) {
+function RelatedBucket({ domain, kid, facet, val, isSolo = false }) {
     const quid = ['related-buckets', domain, kid, facet, val];
     facet = `related_${domain}_${facet}_s`;
-    console.log('facet is', facet);
+    //console.log('facet is', facet);
     const query = {
         index: 'terms',
         params: {
@@ -465,7 +483,7 @@ function RelatedBucket({ domain, kid, facet, val }) {
             fl: '*',
         },
     };
-    console.log('bucket query', query);
+    // console.log('bucket query', query);
 
     const {
         isLoading: isBucketLoading,
@@ -477,8 +495,16 @@ function RelatedBucket({ domain, kid, facet, val }) {
     if (isBucketLoading) {
         return <MandalaSkeleton />;
     }
+    const cols = isSolo ? 12 : 4;
     // return <div>There are {bucketItems?.numFound} items here. {facet} : {val}</div>;
-    return <RelatedPlacesFeature label={val} features={bucketItems?.docs} />;
+    return (
+        <RelatedPlacesFeature
+            label={val}
+            features={bucketItems?.docs}
+            colsize={cols}
+            isSolo={isSolo}
+        />
+    );
     /*
 
                 const lckey = `treeleaf-${child['id'].replace(
