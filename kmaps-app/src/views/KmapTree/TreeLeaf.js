@@ -125,13 +125,13 @@ export default function TreeLeaf({
 
     // Get number of rel children
     const relcquid = `related-children-${domain}-${kid}-count`;
-    let q = `block_type:child AND block_child_type:related_places AND related_places_path_s:*/${kid}/*`;
+    let q = `block_type:child AND block_child_type:related_${domain} AND related_${domain}_path_s:*/${kid}/*`;
     // Have to find none if not the selected node. numFound is used below.
     const relchildqry = {
         index: 'terms',
         params: {
             q: q,
-            fq: `origin_uid_s:places-${kid}`,
+            fq: `origin_uid_s:${domain}-${kid}`,
             rows: 0,
             fl: 'uid',
         },
@@ -201,6 +201,9 @@ export default function TreeLeaf({
     // with No Children, replace icon with dash
     const hasChildren = childrenData?.numFound > 0;
     const hasRelChild = relChildrenData?.numFound > 0;
+    /*if (domain === 'terms' && kid === '109') {
+        console.log('109s rel childs', relChildrenData);
+    }*/
     if (!hasChildren && !hasRelChild) {
         icon = '';
         toggleclass = 'leafend';
