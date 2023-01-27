@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Link, useRouteMatch } from 'react-router-dom';
-import FancyTree from '../../FancyTree';
 import KmapTree from '../../KmapTree/KmapTree';
 import HistoryViewer from '../../History/HistoryViewer';
 import { useKmapRelated } from '../../../hooks/useKmapRelated';

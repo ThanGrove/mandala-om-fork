@@ -1,9 +1,5 @@
-import React, { useState } from 'react';
-import _ from 'lodash';
+import React from 'react';
 import './TermDefinitionsDetails.scss';
-import { Button } from 'react-bootstrap';
-import { HtmlCustom } from '../../../common/MandalaMarkup';
-import Collapse from 'react-bootstrap/Collapse';
 
 const TermDefinitionsDetails = ({ details, defid }) => {
     // Do not show details if only language because that is already shown

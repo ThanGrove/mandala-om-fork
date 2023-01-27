@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { AssetHomeCollection } from '../common/AssetHomeCollection';
 
 export function TextsHome(props) {

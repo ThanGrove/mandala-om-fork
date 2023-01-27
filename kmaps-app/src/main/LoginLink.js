@@ -183,6 +183,6 @@ function LoginCheck({ sid }) {
             .catch((e) => {
                 console.log(e.message, e);
             });
-    }, []);
+    }, [fetchData]);
     return null;
 }

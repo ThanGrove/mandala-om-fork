@@ -164,6 +164,11 @@ export default function Home(props) {
                                 <li>
                                     <Link to={'/treetest'}>Tree Test</Link>
                                 </li>
+                                <li>
+                                    <Link to={'/advanced-search'}>
+                                        Advanced Search
+                                    </Link>
+                                </li>
                             </ul>
                         </Jumbotron>
                     </Col>
