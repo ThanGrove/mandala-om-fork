@@ -152,9 +152,6 @@ export default function PlacesRelPlacesViewer() {
                                     />
                                 );
                             })}
-                        {/*
-                        <PlaceRelPlaceFtColumns children={children_by_ftype} />
-                        */}
                     </Row>
                 </Container>
             </Tab>
@@ -162,150 +159,32 @@ export default function PlacesRelPlacesViewer() {
     );
 }
 
-function PlaceRelPlaceFtColumns(props) {
-    const childs = props?.children;
-    const numcols = 4;
-    const collen = Math.ceil(childs.length / numcols);
-    let tempchilds = childs;
-    const chchunks = ChunkList(tempchilds);
-    //console.log("Chunks", chchunks);
+export function RelatedPlacesFeature({
+    label,
+    features,
+    colsize = 3,
+    isSolo = false,
+}) {
+    const numfeat = features?.length;
+    const wrapclass = numfeat > 0 && !isSolo ? 'scroll-list-wrap' : 'ml-5 mt-3';
+    const divclass = numfeat > 0 && !isSolo ? 'scroll-list' : '';
     return (
-        <>
-            {chchunks?.map((chchunk, chki) => {
-                return (
-                    <Col key={`col-${chki}`} className="md3">
-                        {chchunk.map((feattype, cdi) => {
-                            if (!feattype?.label || feattype.label === '') {
-                                return null;
-                            }
-                            if (feattype.children.length === 0) {
-                                return null;
-                            }
+        <Col className="rel-place-feature" md={colsize}>
+            <div className={wrapclass}>
+                <h4>
+                    {label} ({numfeat})
+                </h4>
+                <div className={divclass}>
+                    <ul>
+                        {features?.map((f, fi) => {
                             return (
-                                <div key={`col-${chki}-cat-${cdi}`}>
-                                    <h6>{feattype.label}</h6>
-                                    <ul>
-                                        {feattype.children.map(
-                                            (clitem, cli) => {
-                                                if (
-                                                    clitem?.related_uid_s?.includes(
-                                                        '-'
-                                                    )
-                                                ) {
-                                                    if (
-                                                        !clitem.related_places_id_s
-                                                    ) {
-                                                        return null;
-                                                    }
-                                                    return (
-                                                        <li
-                                                            key={`clitem-${cli}`}
-                                                        >
-                                                            {' '}
-                                                            {
-                                                                clitem.related_places_header_s
-                                                            }
-                                                            <MandalaPopover
-                                                                domain={
-                                                                    'places'
-                                                                }
-                                                                kid={clitem.related_places_id_s.replace(
-                                                                    'places-',
-                                                                    ''
-                                                                )}
-                                                            />
-                                                        </li>
-                                                    );
-                                                }
-                                            }
-                                        )}
-                                    </ul>
-                                </div>
+                                <li key={`clitem-${fi}`}>
+                                    <RelatedPlaceItem clitem={f} />
+                                </li>
                             );
                         })}
-                    </Col>
-                );
-            })}
-        </>
-    );
-}
-
-function ChunkList(childs, numcols = 4) {
-    let chunks = [];
-    let ct = 0;
-    let alldesc = [];
-    childs.map((cld) => {
-        alldesc = alldesc.concat(cld.children);
-    });
-    const numpercol = Math.ceil(alldesc.length / numcols);
-
-    let achunk = [];
-    childs.map((cld) => {
-        // console.log(cld.label, cld.children);
-        ct += cld.children.length;
-        cld.children.sort((a, b) => {
-            if (a.related_places_header_s < b.related_places_header_s) {
-                return -1;
-            } else if (
-                a.related_places_header_s === b.related_places_header_s
-            ) {
-                return 0;
-            }
-            return 1;
-        });
-        if (ct <= numpercol) {
-            achunk.push(cld);
-        } else {
-            let cld1 = JSON.parse(JSON.stringify(cld));
-            let lpct = 0;
-            chunkloop: do {
-                lpct++;
-                let cld2 = JSON.parse(JSON.stringify(cld1));
-                let allchild = JSON.parse(JSON.stringify(cld1.children));
-                let chldnum =
-                    allchild.length > numpercol ? numpercol : allchild.length;
-                cld1.children = cld1.children.slice(0, chldnum);
-                if (cld1.children.length > 0) {
-                    achunk.push(cld1);
-                }
-                chunks.push(achunk);
-                achunk = [];
-                cld2.children = cld2.children.slice(chldnum);
-                if (cld2?.label && !cld2.label.includes('cont.')) {
-                    cld2.label = cld2.label + ' (cont.)';
-                }
-                if (cld2?.children.length > numpercol) {
-                    cld1 = JSON.parse(JSON.stringify(cld2));
-                } else {
-                    achunk.push(cld2);
-                    ct = cld2.children.length;
-                    break chunkloop;
-                }
-            } while (lpct < 20);
-        }
-    });
-    chunks.push(achunk);
-    return chunks;
-}
-
-function RelatedPlacesFeature({ label, features }) {
-    const numfeat = features?.length;
-    const divclass = numfeat > 15 ? 'scroll-list' : '';
-    return (
-        <Col className="rel-place-feature">
-            <h4>
-                {label} ({numfeat})
-            </h4>
-            <div className={divclass}>
-                <ul>
-                    {features?.map((f, fi) => {
-                        return (
-                            <li key={`clitem-${fi}`}>
-                                <RelatedPlaceItem clitem={f} />
-                            </li>
-                        );
-                    })}
-                </ul>
+                    </ul>
+                </div>
             </div>
         </Col>
     );

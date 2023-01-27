@@ -3,6 +3,18 @@ import ReactHtmlParser from 'react-html-parser';
 import './TermDictionaries.css';
 import { getLangClass, getUniquePropIds } from '../../common/utils';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { useQuery } from 'react-query';
+
+/**
+ * Kmaps Terms Api that returns order of dictionaries to display
+ * @returns {Promise<any>}
+ */
+export const getDictionaryOrder = async () => {
+    const apiurl = `https://terms.kmaps.virginia.edu/admin/info_sources.json`;
+    const { data } = await axios.request(apiurl);
+    return data;
+};
 
 /**
  * TermDictionaries is original component by Gerard
@@ -13,6 +25,36 @@ import { Link } from 'react-router-dom';
  * @constructor
  */
 const TermDictionaries = ({ definitions, kmapData }) => {
+    const {
+        isLoading: isDictOrderLoading,
+        data: dictOrderData,
+        isError: isDictOrderError,
+        error: dictOrderError,
+    } = useQuery(
+        ['kmaps', 'terms', 'dict', 'order', 'api'],
+        () => getDictionaryOrder(),
+        {
+            staleTime: 3600000, // 1 hr in milliseconds
+        }
+    );
+
+    if (isDictOrderLoading) {
+        return null;
+    }
+
+    // Once order is loaded get list of dictionary titles in order, filtered for existing defintitions
+    let dictOrder = dictOrderData
+        ?.map((d, di) => {
+            return d?.title;
+        })
+        .filter((dt, dti) => {
+            return Object.keys(definitions).includes(dt); // only keep dictionary titles if their def exists for this term
+        });
+
+    // Just in case the order doesn't load or something goes wrong, use the order of the definitions given
+    if (!dictOrder || dictOrder?.length === 0) {
+        dictOrder = Object.keys(definitions);
+    }
     const getDefContent = (subdoc) => {
         const langsuff = getUniquePropIds(
             subdoc,
@@ -31,10 +73,11 @@ const TermDictionaries = ({ definitions, kmapData }) => {
         );
     });
 
+    // dictOrder is a list of definition keys by dictionary name
     return (
         <div className="sui-termDicts__wrapper">
             <div className="sui-termDicts__content">
-                {Object.keys(definitions).map((key, i) => (
+                {dictOrder?.map((key, i) => (
                     <React.Fragment key={key}>
                         <div className="sui-termDicts__dict-name">
                             {i + 1}. <span>{key}</span>

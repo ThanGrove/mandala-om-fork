@@ -167,6 +167,10 @@ ul.fancytree-container {
     }
 }
 
+.l-place-content-tree .leafend .toggle-icon::before {
+    top: 0.85rem;
+}
+
 .leafend:hover .toggle-icon::before {
     background-color: #b99b45;
 }
