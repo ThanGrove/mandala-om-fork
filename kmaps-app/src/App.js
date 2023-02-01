@@ -20,6 +20,8 @@ export default function App() {
         sui.pages = window.sui.pages = new Pages(sui);
     }
 
+    window.mandala = {};
+
     return (
         <QueryClientProvider client={queryClient}>
             <Main sui={sui} />

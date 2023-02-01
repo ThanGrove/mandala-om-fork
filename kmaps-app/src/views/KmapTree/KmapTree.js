@@ -162,9 +162,17 @@ export default function KmapTree(props) {
             settings?.selPath &&
             settings?.selPath?.length > 0
         ) {
-            setTimeout(function () {
-                openToSel(settings);
-            }, 100);
+            if (!window.mandala?.ots) {
+                window.mandala.ots = true;
+                let lastid = settings.selPath[settings.selPath.length - 1];
+                lastid = `leaf-${settings?.domain}-${lastid}`;
+                const lastel = document.getElementById(lastid);
+                if (!lastel) {
+                    setTimeout(function () {
+                        openToSel(settings?.selPath, settings);
+                    }, 100);
+                }
+            }
         }
     }, [settings.selPath, selNode, relSelNode]);
 
@@ -194,6 +202,13 @@ export default function KmapTree(props) {
         const snind = settings.selPath.indexOf(settings.selectedNode * 1);
         if (snind > -1) {
             settings.selPath.splice(snind, 1);
+        }
+        if (settings?.selPath && settings?.selPath?.length > 0) {
+            let lastSel = settings.selPath[settings.selPath.length - 1];
+            let selNode = settings?.selectedNode * 1;
+            if (lastSel !== selNode) {
+                selNode = lastSel + '';
+            }
         }
         // Otherwise, check if it's a related place child and if so, use its related_places_path_s, dropping the last item (itself)
     } else if (relSelNode?.docs?.length > 0) {
@@ -285,7 +300,46 @@ export default function KmapTree(props) {
  *
  * @param settings
  */
-function openToSel(settings) {
+function openToSel(selpath, settings, times = 0) {
+    if (!Array.isArray(selpath) || selpath?.length === 0) {
+        return;
+    }
+    //console.log("times: " + times, selpath)
+    const currid = selpath[0];
+    const elid = `leaf-${settings.domain}-${currid}`;
+    const el = document.getElementById(elid);
+
+    if (el) {
+        if (el?.classlist?.includes('leafclosed')) {
+            el.querySelector('span.toggle-icon').click();
+        }
+        selpath.shift();
+        if (selpath.length == 0) {
+            document.body.classList.add('kmap-stop-scroll');
+            el.classList.add('selected');
+            window.scrollTo(0, 0);
+            el.scrollIntoView(true);
+            window.scrollTo(0, 0);
+            let tree = el.closest('.c-kmaptree');
+            if (tree) {
+                tree.scrollBy(0, -200);
+            }
+            document.body.classList.remove('kmap-stop-scroll');
+        } else {
+            setTimeout(function () {
+                openToSel(selpath, settings);
+            }, 100);
+        }
+    } else {
+        if (times < 100) {
+            times++;
+            setTimeout(function () {
+                openToSel(selpath, settings, times);
+            }, 100);
+        }
+    }
+
+    /*
     let a = 0;
     let ct = 1;
     let lastId = settings.selPath[settings.selPath.length - ct];
@@ -303,6 +357,7 @@ function openToSel(settings) {
         lastId = settings.selPath[settings.selPath.length - ct];
         lastElSelector = selectorBase.replace('__ID__', lastId);
         lastEl = $(lastElSelector);
+        console.log("last el", lastEl);
         if (lastEl.length > 0) {
             $('#' + settings.elid).addClass('clicked');
             const iconel = lastEl.find('.toggle-icon');
@@ -312,4 +367,6 @@ function openToSel(settings) {
             break;
         }
     }
+
+     */
 }

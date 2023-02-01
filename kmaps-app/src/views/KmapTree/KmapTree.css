@@ -1,4 +1,8 @@
 @import '../../css/fonts/shanticon/style.css';
+.kmap-stop-scroll {
+    overflow: hidden !important;
+}
+
 ul.fancytree-container {
     height: auto !important;
 }
@@ -130,6 +134,9 @@ ul.fancytree-container {
 .c-kmapleaf span.zh {
     font-size: 2rem;
     line-height: 1.35;
+}
+.c-kmapleaf.selected {
+    background-color: #fff40057;
 }
 .c-kmapleaf.selected > .c-kmapnode > .label a {
     border-bottom: 0.3rem solid #cca843;

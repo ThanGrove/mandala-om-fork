@@ -1,6 +1,10 @@
 @import '../../index-variables';
 @import '../../css/fonts/shanticon/style.css';
 
+.kmap-stop-scroll {
+    overflow: hidden !important;
+}
+
 ul.fancytree-container {
     height: auto !important;
 }
@@ -135,15 +139,18 @@ ul.fancytree-container {
         font-size: 2rem;
         line-height: 1.35;
     }
-    &.selected > .c-kmapnode > .label {
-        //  line-height: 2.25;
-        a {
-            border-bottom: 0.3rem solid #cca843;
+    &.selected {
+        background-color: #fff40057;
+        & > .c-kmapnode > .label {
+            //  line-height: 2.25;
+            a {
+                border-bottom: 0.3rem solid #cca843;
+            }
         }
-    }
-    &.selected > .c-kmapnode > .toggle-icon::before {
-        background-color: red;
-        border-color: red;
+        & > .c-kmapnode > .toggle-icon::before {
+            background-color: red;
+            border-color: red;
+        }
     }
 }
 
