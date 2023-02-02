@@ -28,7 +28,7 @@ import { Row } from 'react-bootstrap';
  * This iterates through the ancestors until the designated root node is displayed at which point
  * the treePath will be empty and it will display as a regular node
  *
- * If prop.showRelatedPlaces is set to true, it will display a single level of children that are all the
+ * If props.showRelatedPlaces is set to true, it will display a single level of children that are all the
  * related places to the root node.
  *
  * @param domain
@@ -146,11 +146,11 @@ export default function TreeLeaf({
 
     // Set open state once loaded
     useEffect(() => {
-        // console.log('setting io', io);
         setIsOpen(io);
     }, [io]);
 
     // Adjust which element has selected class when there is a change in tree data, children, or selected path
+    /*  Replaced by code in kmaptree
     useEffect(() => {
         if (
             !isChildrenLoading &&
@@ -167,6 +167,8 @@ export default function TreeLeaf({
             }
         }
     }, [kmapdata, childrenData, settings.selPath]);
+
+     */
 
     // Exclude any kmaps in comma-separated list env variable: process.env.REACT_APP_KMAP_EXCLUDES
     const kmap_excludes =
@@ -205,6 +207,14 @@ export default function TreeLeaf({
         console.log('109s rel childs', relChildrenData);
     }*/
     if (!hasChildren && !hasRelChild) {
+        icon = '';
+        toggleclass = 'leafend';
+    } else if (
+        !hasChildren &&
+        hasRelChild &&
+        domain === 'places' &&
+        !settings.showRelatedPlaces
+    ) {
         icon = '';
         toggleclass = 'leafend';
     }

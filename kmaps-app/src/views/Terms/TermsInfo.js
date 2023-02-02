@@ -66,6 +66,7 @@ const TermsInfo = (props) => {
 
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
     let tofunc = () => {
+        return; // Trying to replace with kmaps tree code
         if (document.getElementById('leaf-terms-' + id)) {
             setTimeout(function () {
                 const el = document.getElementById('leaf-terms-' + id);

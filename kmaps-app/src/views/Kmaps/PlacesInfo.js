@@ -67,7 +67,10 @@ export default function PlacesInfo(props) {
     }, [kmapData, addPage]);
 
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
+
     let topfunc = () => {
+        return; // disabling until I can identify and narrow down when this can be used.
+        // Replaced by code in KmapTree to Scroll to selected.
         if (document.getElementById('leaf-places-' + id)) {
             setTimeout(function () {
                 const el = document.getElementById('leaf-places-' + id);

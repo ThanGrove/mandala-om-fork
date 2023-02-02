@@ -37,6 +37,7 @@ export function SearchViewer() {
     useEffect(() => {
         // Add the search page and filters to the store.
         addSearchPage(query);
+        window.mandala.scrolledToSel = false;
     }, [query]);
 
     useEffect(() => {
@@ -60,7 +61,7 @@ export function SearchViewer() {
             </div>
         );
     }
-
+    window.mandala.scrolledToSel = false;
     const docs = searchData.response?.docs ?? [];
     const numFound = searchData.response?.numFound ?? 0;
     let output = (

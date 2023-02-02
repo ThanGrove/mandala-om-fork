@@ -135,15 +135,11 @@ ul.fancytree-container {
     font-size: 2rem;
     line-height: 1.35;
 }
-.c-kmapleaf.selected {
+.c-kmapleaf.selected > .c-kmapnode {
     background-color: #fff40057;
 }
 .c-kmapleaf.selected > .c-kmapnode > .label a {
     border-bottom: 0.3rem solid #cca843;
-}
-.c-kmapleaf.selected > .c-kmapnode > .toggle-icon::before {
-    background-color: red;
-    border-color: red;
 }
 
 .leafend {

@@ -139,17 +139,12 @@ ul.fancytree-container {
         font-size: 2rem;
         line-height: 1.35;
     }
-    &.selected {
+    &.selected > .c-kmapnode {
         background-color: #fff40057;
-        & > .c-kmapnode > .label {
-            //  line-height: 2.25;
+        & > .label {
             a {
                 border-bottom: 0.3rem solid #cca843;
             }
-        }
-        & > .c-kmapnode > .toggle-icon::before {
-            background-color: red;
-            border-color: red;
         }
     }
 }

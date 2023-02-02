@@ -152,7 +152,7 @@ export default function KmapTree(props) {
         console.log('use view: ', viewobj);
     }
      */
-    // Open to Selected Node, if not already open (** for parallel trees **)
+    // Open to Selected Node, if not already open
     useEffect(() => {
         // console.log('selected path', settings.selPath);
         if (
@@ -162,12 +162,10 @@ export default function KmapTree(props) {
             settings?.selPath &&
             settings?.selPath?.length > 0
         ) {
-            if (!window.mandala?.ots) {
-                window.mandala.ots = true;
-                let lastid = settings.selPath[settings.selPath.length - 1];
-                lastid = `leaf-${settings?.domain}-${lastid}`;
-                const lastel = document.getElementById(lastid);
-                if (!lastel) {
+            if (!window.mandala?.scrolledToSel) {
+                window.mandala.scrolledToSel = true;
+                // Don't highlight tree root
+                if (settings?.selPath?.length > 1) {
                     setTimeout(function () {
                         openToSel(settings?.selPath, settings);
                     }, 100);
@@ -298,33 +296,33 @@ export default function KmapTree(props) {
  * It creates a jQuery selector (using selectorBase plus the node ID) and
  * If that element exists it clicks on it. It does this until the last element in the selPath is found.
  *
+ * Refactor (feb 1 2023) to use timeouts to click on each item in tree. Not sure it currently works if there
+ * are multiple trees on the page.
+ *
  * @param settings
  */
 function openToSel(selpath, settings, times = 0) {
     if (!Array.isArray(selpath) || selpath?.length === 0) {
         return;
     }
-    //console.log("times: " + times, selpath)
     const currid = selpath[0];
     const elid = `leaf-${settings.domain}-${currid}`;
     const el = document.getElementById(elid);
-
     if (el) {
+        const toggle = el.querySelector('span.toggle-icon');
         if (el?.classlist?.includes('leafclosed')) {
-            el.querySelector('span.toggle-icon').click();
+            if (!toggle.classList.includes('selclicked')) {
+                toggle.click();
+                toggle.classList.add('selclicked');
+            }
+        } else {
+            toggle.classList.remove('selclicked');
         }
         selpath.shift();
         if (selpath.length == 0) {
-            document.body.classList.add('kmap-stop-scroll');
-            el.classList.add('selected');
-            window.scrollTo(0, 0);
-            el.scrollIntoView(true);
-            window.scrollTo(0, 0);
-            let tree = el.closest('.c-kmaptree');
-            if (tree) {
-                tree.scrollBy(0, -200);
-            }
-            document.body.classList.remove('kmap-stop-scroll');
+            setTimeout(function () {
+                scrollToEl(el);
+            }, 500);
         } else {
             setTimeout(function () {
                 openToSel(selpath, settings);
@@ -338,35 +336,11 @@ function openToSel(selpath, settings, times = 0) {
             }, 100);
         }
     }
+}
 
-    /*
-    let a = 0;
-    let ct = 1;
-    let lastId = settings.selPath[settings.selPath.length - ct];
-    // Selector base includes Tree el id and match to a c-kmapnode data-id attribute with the kmap id
-    const selectorBase =
-        '#' +
-        settings.elid +
-        ' .c-kmapnode[data-id=' +
-        settings.domain +
-        '-__ID__]';
-    let lastElSelector = selectorBase.replace('__ID__', lastId);
-    let lastEl = $(lastElSelector);
-    while (lastEl.length === 0 && ct <= settings.selPath.length) {
-        ct++;
-        lastId = settings.selPath[settings.selPath.length - ct];
-        lastElSelector = selectorBase.replace('__ID__', lastId);
-        lastEl = $(lastElSelector);
-        console.log("last el", lastEl);
-        if (lastEl.length > 0) {
-            $('#' + settings.elid).addClass('clicked');
-            const iconel = lastEl.find('.toggle-icon');
-            if (iconel) {
-                iconel.click();
-            }
-            break;
-        }
-    }
-
-     */
+function scrollToEl(el) {
+    el.classList.add('selected');
+    window.scrollTo(0, 0);
+    let tree = el.closest('.c-kmaptree');
+    tree.scroll(0, el.offsetTop - 200);
 }
