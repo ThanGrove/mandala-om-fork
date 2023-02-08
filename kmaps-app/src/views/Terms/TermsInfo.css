@@ -1,0 +1,196 @@
+@charset "UTF-8";
+.c-content__main__kmaps nav.nav-tabs {
+    margin-top: 1.5rem;
+    padding-left: 1.25rem;
+    border-bottom: thin solid #33333350;
+}
+.c-content__main__kmaps nav.nav-tabs a {
+    color: #495057;
+}
+.c-content__main__kmaps nav.nav-tabs a.active {
+    color: #000;
+}
+
+.c-audioPlayer__button {
+    background-color: #91693c;
+}
+
+.term-passage-group .sui-termDicts__title {
+    margin-top: 2.5rem;
+}
+.term-passage-group .term-passages-wrapper {
+    margin-top: 1.5rem;
+    padding: 1rem 2rem;
+    border: thin solid #ccc;
+}
+
+.term-passage {
+    margin: 1rem 0;
+    border-bottom: thin solid #ccc;
+}
+.term-passage:last-of-type {
+    border-bottom: none;
+}
+.term-passage h3 {
+    font-weight: bold;
+    color: #91693c;
+    text-decoration: underline;
+}
+.term-passage a {
+    border: none;
+}
+.term-passage a:hover {
+    color: #91693c;
+}
+.term-passage a:focus {
+    border: none;
+}
+.term-passage button.btn-outline-info {
+    color: #91693c !important;
+    border: none !important;
+    background-color: white !important;
+    outline-style: none !important;
+    cursor: pointer !important;
+}
+.term-passage .passage_note {
+    margin-bottom: 1rem;
+}
+.term-passage .passage_note .passage_note_num {
+    display: block;
+    font-weight: bold;
+    color: #777;
+}
+.term-passage .biblio-authors,
+.term-passage .biblio-title-chicago {
+    font-weight: bold;
+}
+
+.passage-group,
+.otherdef-notes {
+    padding: 1.25rem 2rem 2rem 2.5rem;
+    background: white;
+    margin-bottom: 2rem;
+    margin-left: 0;
+    min-height: 10rem;
+}
+
+.passage-group .passage-src,
+.passage-group .passage-note-author {
+    width: 100%;
+    text-align: right;
+    margin-bottom: 1rem;
+}
+.passage-group .passage-src:before,
+.passage-group .passage-note-author:before {
+    content: '— ';
+}
+
+/** to match the style of other tabs */
+.term-details .nav.nav-tabs {
+    margin-bottom: 0rem !important;
+    padding-left: 1rem;
+    border-bottom: none;
+}
+.term-details .nav.nav-tabs > a.nav-item {
+    padding: 1.2rem 2rem 0.75rem;
+    margin-bottom: -0.1rem;
+    letter-spacing: 0.1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    border-radius: 0.75rem 0.75rem 0 0;
+    text-transform: uppercase;
+    border: 0.1rem solid #ccc;
+    background-color: #fff;
+}
+.term-details .nav.nav-tabs > a.nav-item.active {
+    background-color: #fff;
+    border-color: #ccc;
+    border-top: 0.3rem solid #a2733f;
+    color: #222;
+    border-bottom-color: #fff;
+}
+.term-details .tab-content {
+    padding: 1.5rem 1.5rem 0;
+    border: thin solid #ccc;
+    border-radius: 1rem;
+}
+
+/** New Term defs **/
+.term-details .term-defhead,
+.term-details .sui-termDicts__title {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+    height: 4rem;
+    line-height: 1.75rem;
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: white;
+    background-color: #91693c;
+    border-top: 0.6rem double #fff;
+    border-bottom: 0.6rem double #fff;
+}
+.term-details .term-defhead .icon,
+.term-details .sui-termDicts__title .icon {
+    font-weight: normal;
+    margin-right: 1rem;
+    vertical-align: bottom;
+}
+
+.term-details .sui-termDicts__title {
+    text-transform: unset;
+    letter-spacing: unset;
+    border-left: none;
+    padding-left: 4.5rem;
+    border-radius: 0;
+}
+.term-details .sui-termDicts__title:before {
+    width: unset;
+    height: unset;
+    left: 1rem;
+    bottom: unset;
+    font-size: 2rem;
+}
+
+.term-details .other-def-note .sui-termDicts__title:before {
+    content: '';
+}
+
+.term-details .otherdef-group .sui-termDicts__title:before {
+    content: '';
+    font-size: 1.75rem;
+}
+
+.term-details .sui-termDicts__title.classification:before {
+    content: '';
+}
+
+.term-details .sui-termDicts__title.relations {
+    margin-top: 1rem;
+}
+.term-details .sui-termDicts__title.relations:before {
+    content: '';
+}
+
+.term-defcnt {
+    display: flex;
+}
+.term-defcnt span.l-defnum {
+    float: left;
+    padding-right: 0.5rem;
+}
+
+.term-def-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-left: 3rem;
+}
+.term-def-info .sui-termDefResource__wrapper {
+    margin-top: -1rem;
+}
+
+.term-def-details {
+    margin-top: 1rem;
+}
+
+/*# sourceMappingURL=TermsInfo.css.map */
