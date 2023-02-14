@@ -1,12 +1,35 @@
 import React, { useState, useEffect } from 'react';
+import { useHistory, useRouteMatch } from 'react-router-dom';
+import { stringify } from 'query-string';
+import {
+    useQueryParams,
+    StringParam,
+    withDefault,
+    encodeQueryParams,
+} from 'use-query-params';
 import * as SC from './SearchConstants';
 import { SearchBuilder } from './SearchBuilder';
+import { ArrayOfObjectsParam } from '../../hooks/utils';
 import './AdvancedSearch.scss';
 
+const SEARCH_PATH = '/search/:view';
+const searchview = 'deck';
+
 const AdvancedSearch = () => {
+    const history = useHistory();
+
     const [qryrows, setRows] = useState([]);
-    const [squery, setQuery] = useState(false);
+    const [squery, setSQuery] = useState(false);
     const [count, setCount] = useState(1);
+
+    // This tells us whether we are viewing the search results
+    // so that we can give a link to go there (or not).
+    const searchView = useRouteMatch(SEARCH_PATH);
+    const [query, setQuery] = useQueryParams({
+        searchText: StringParam,
+        filters: withDefault(ArrayOfObjectsParam, []),
+    });
+    let { searchText: search, filters } = query;
 
     let rowdiv = <div className="query-rows-wrapper">{qryrows}</div>;
     let qlen = qryrows.length;
@@ -73,8 +96,40 @@ const AdvancedSearch = () => {
         if (rows?.length > 0) {
             const builder = new SearchBuilder(rows);
             const newqry = builder.buildQuery();
-            // console.log("new query", newqry);
-            setQuery(newqry);
+            // console.log('new query', newqry);
+            setSQuery(newqry);
+            document.getElementById('advanced-search-tree-toggle').click();
+            if (!searchView) {
+                const encodedQuery = encodeQueryParams(
+                    {
+                        searchText: StringParam,
+                        filters: withDefault(ArrayOfObjectsParam, []),
+                    },
+                    {
+                        searchText: `advSearch:${newqry}`,
+                        filters: [...filters],
+                    }
+                );
+                if (process.env.REACT_APP_STANDALONE === 'standalone') {
+                    window.location.hash = `#/search/${searchview}?${stringify(
+                        encodedQuery
+                    )}`;
+                } else {
+                    //history.push('/search/deck');
+                    history.push({
+                        pathname: `/search/` + searchview,
+                        search: `?${stringify(encodedQuery)}`,
+                    });
+                }
+            } else {
+                setQuery(
+                    {
+                        searchText: `advSearch:${newqry}`,
+                        filters: [...filters],
+                    },
+                    'push'
+                );
+            }
         }
         return false;
     };
