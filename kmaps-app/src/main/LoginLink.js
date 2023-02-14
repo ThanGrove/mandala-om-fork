@@ -4,6 +4,7 @@ import { GetSessionID, GetUID } from './MandalaSession';
 import { Cookies } from 'react-cookie';
 import useMandala from '../hooks/useMandala';
 import Dropdown from 'react-bootstrap/Dropdown';
+import { Button } from 'react-bootstrap';
 
 const CHECK_COOKIE_NAME = 'mandalacheckcookie';
 const WAIT_TIME = 120000; // 2 minutes in milliseconds
@@ -116,21 +117,27 @@ function LoginIcon() {
 
     return (
         <div className="mndl-access login m-3">
-            <Dropdown>
-                <Dropdown.Toggle id="dropdown-basic">
-                    Login <MdLogin />
-                </Dropdown.Toggle>
-
-                <Dropdown.Menu>
-                    <Dropdown.Item onClick={login2}>
-                        With UVA Netbadge
-                    </Dropdown.Item>
-                    <Dropdown.Item onClick={login}>With Password</Dropdown.Item>
-                </Dropdown.Menu>
-            </Dropdown>
+            <Button className="btn btn-primary" onClick={login2}>
+                Login <MdLogin />{' '}
+            </Button>
         </div>
     );
 }
+
+/**
+ * <Dropdown>
+ *                 <Dropdown.Toggle id="dropdown-basic">
+ *                     Login <MdLogin />
+ *                 </Dropdown.Toggle>
+ *
+ *                 <Dropdown.Menu>
+ *                     <Dropdown.Item onClick={login2}>
+ *                         With UVA Netbadge
+ *                     </Dropdown.Item>
+ *                     <Dropdown.Item onClick={login}>With Password</Dropdown.Item>
+ *                 </Dropdown.Menu>
+ *             </Dropdown>
+ */
 
 /**
  * An element that always returns null but does an async call to the proxy ping.php script with the
