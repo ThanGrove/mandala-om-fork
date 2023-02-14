@@ -170,6 +170,11 @@ export default function KmapTree(props) {
                         openToSel(settings?.selPath, settings);
                     }, 100);
                 }
+            } else {
+                clearTimeout(window.mandala?.clearSTS);
+                window.mandala.clearSTS = setTimeout(function () {
+                    window.mandala.scrolledToSel = false;
+                }, 5000);
             }
         }
     }, [settings.selPath, selNode, relSelNode]);
@@ -342,5 +347,9 @@ function scrollToEl(el) {
     el.classList.add('selected');
     window.scrollTo(0, 0);
     let tree = el.closest('.c-kmaptree');
-    tree.scroll(0, el.offsetTop - 200);
+    if (tree) {
+        tree.scroll(0, el.offsetTop - 200);
+    } else {
+        console.log('no tree', el);
+    }
 }

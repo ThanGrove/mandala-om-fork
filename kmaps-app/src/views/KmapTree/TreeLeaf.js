@@ -256,10 +256,18 @@ export default function TreeLeaf({
 
     const nolink = props?.nolink || (domain === 'terms' && hasChildren);
 
+    const stopScroll = (e) => {
+        window.mandala.scrolledToSel = true;
+        $('.selected').removeClass('selected');
+        $(e.target).parents('.c-kmapleaf').eq(0).addClass('selected');
+    };
     const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
     ) : (
-        <Link to={'/' + kmapdata?.id.replace('-', '/')}>
+        <Link
+            to={'/' + kmapdata?.id.replace('-', '/')}
+            onMouseDown={stopScroll}
+        >
             <HtmlCustom markup={kmhead} />
         </Link>
     );

@@ -118,7 +118,7 @@ const TermDefinitions = (props) => {
                     let def = orderedDefs[odkey];
                     return (
                         <TermDefinition
-                            key={'term-def-' + order}
+                            key={`term-def-${odkey}-${order}`}
                             def={def}
                             defnumber={order + 1}
                             deflevel={1}
