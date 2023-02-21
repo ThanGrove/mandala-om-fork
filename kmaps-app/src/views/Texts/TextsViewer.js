@@ -20,8 +20,32 @@ function scrollToSection(sectid) {
         const topPos = pgel.offsetTop;
         newScrollTop = topPos;
     }
-    document.getElementById('shanti-texts-body').scrollTop = newScrollTop;
+    window.scrollTo(0, newScrollTop);
 }
+
+// Add inviewport test to jQuery elements from https://stackoverflow.com/a/40658647/2911874 (2023/02/21)
+$.fn.isInViewport = function () {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+};
+
+// On scroll function to highlight text toc
+const docscroll = (e) => {
+    $('.text-toc li.active').removeClass('active');
+    $('.shanti-texts-section').each((n, s) => {
+        if ($(s).isInViewport()) {
+            let myid = $(s).attr('id');
+            let tocid = myid.replace('shanti-texts-', '#toc-link-');
+            $(tocid).addClass('active');
+        }
+    });
+};
+document.onscroll = docscroll;
 
 /**
  * Text Viewer Component: The parent component for viewing a text. Gets sent the asset information as a prop
@@ -46,6 +70,7 @@ function scrollToSection(sectid) {
  * @returns {*}
  * @constructor
  */
+
 export default function TextsViewer(props) {
     const baseType = `texts`;
     const { id, pageid } = useParams();
@@ -399,7 +424,7 @@ function TextTocLinks({ plid, pageid }) {
         return null;
     }
     return (
-        <ul>
+        <ul className="text-toc">
             {tocItems.docs.map((item, ii) => {
                 const bid = item?.book_nid_i;
                 const myid = item?.id;
@@ -412,7 +437,11 @@ function TextTocLinks({ plid, pageid }) {
                     cname.push('active');
                 }
                 return (
-                    <li className={cname.join(' ')} key={`toclink-${ii}`}>
+                    <li
+                        id={`toc-link-${myid}`}
+                        className={cname.join(' ')}
+                        key={`toclink-${ii}`}
+                    >
                         <Link to={`/texts/${bid}/${myid}`}>{mytitle}</Link>
                         <TextTocLinks plid={item.mlid_i} pageid={pageid} />
                     </li>
