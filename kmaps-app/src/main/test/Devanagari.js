@@ -178,7 +178,7 @@ export function convertSans(txt) {
     };
 
     const vowels = 'aeiouṛḷāīūAIURL';
-    const ornamentals = "̇ ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789  \n";
+    const ornamentals = "̇ ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789()[]  \n";
 
     const normtext = normalize(txt);
     const words = normtext.split(' ');
@@ -207,12 +207,12 @@ export function convertSans(txt) {
                     !vowels.includes(ch2) &&
                     !ornamentals.includes(ch2)
                 ) {
-                    sanword += getsans(ch1) + '\u094D' + getsans(ch2);
+                    sanword += getsans(ch1) + '\u094D';
                 } else {
                     let stype = isfirst && vowels.includes(ch1);
                     sanword += getsans(ch1, stype);
-                    word = ch2 + word; // return character to word incase it belongs with next
                 }
+                word = ch2 + word; // return character to word incase it belongs with next
             }
             isfirst = false;
         }
