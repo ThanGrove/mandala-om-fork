@@ -63,6 +63,28 @@ h3,
         'Tibetan Machine Uni', 'Kailasa', 'Uchen_05', 'Microsoft Himalaya',
         sans-serif !important;
 }
+
+.sa,
+.u-sa {
+    font-size: 2rem;
+    letter-spacing: normal !important;
+    text-rendering: optimizeLegibility !important;
+    font-family: 'Noto Serif Devanagari', 'Mangal', 'Siddhanta',
+        'Arial Unicode MS', 'Adelle Sans Devanagari', sans-serif !important;
+}
+
+.font-sz125 {
+    font-size: 125%;
+}
+
+.font-sz150 {
+    font-size: 150%;
+}
+
+.font-sz200 {
+    font-size: 200%;
+}
+
 /**
 .l-site__wrap ::-webkit-scrollbar {
     width: 10px;
