@@ -321,7 +321,7 @@ export default function ContentMain(props) {
                                 <Route path={`/admin/shanticonref`}>
                                     <ShanticonRefPage />
                                 </Route>
-                                <Route path={`/admin/test`}>
+                                <Route path={`/admin/devanagari`}>
                                     <Devanagari />
                                 </Route>
 

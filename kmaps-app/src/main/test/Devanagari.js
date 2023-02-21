@@ -14,7 +14,8 @@ export function Devanagari() {
 
     return (
         <div>
-            <p>This is a test</p>
+            <h1>Sanskrit Transliteration Converter</h1>
+            <p>Convert Sanskrit transliteration to Devanagari Unicode Script</p>
             <Form>
                 <Form.Group className="mb-3" controlId="formTranslit">
                     <Form.Label>Transliteration</Form.Label>
@@ -28,7 +29,8 @@ export function Devanagari() {
                         onChange={convertTrans}
                     />
                     <Form.Text className="text-muted">
-                        Enter the transliteration to be converted.
+                        Enter the transliteration to be converted. Begin typing
+                        or pasting and ...
                     </Form.Text>
                 </Form.Group>
 
@@ -40,11 +42,10 @@ export function Devanagari() {
                         ref={sans_el}
                         className="sa sanskrit"
                     />
+                    <Form.Text className="text-muted">
+                        ... the Sanskrit in Devanagari script will appear here.
+                    </Form.Text>
                 </Form.Group>
-
-                <Button variant="primary" type="submit">
-                    Don't Push me, Cause I'm close to the edge....
-                </Button>
             </Form>
         </div>
     );
@@ -53,16 +54,24 @@ export function Devanagari() {
 export function convertSans(txt) {
     const sanscorr = {
         ṃ: ['\u{0902}'],
+        ṁ: ['\u{0902}'],
+        M: ['\u{0902}'],
         ḥ: ['\u{0903}'],
+        H: ['\u{0903}'],
         ai: ['\u{0948}', '\u{0910}'],
         a: ['', '\u{0905}'],
         ā: ['\u{093E}', '\u{0906}'],
+        A: ['\u{093E}', '\u{0906}'],
         i: ['\u{093F}', '\u{0907}'],
+        I: ['\u{093F}', '\u{0907}'],
         ī: ['\u{0940}', '\u{0908}'],
         u: ['\u{0941}', '\u{0909}'],
         ū: ['\u{0942}', '\u{090A}'],
+        U: ['\u{0942}', '\u{090A}'],
         ṛ: ['\u{0943}', '\u{090B}'],
+        R: ['\u{0943}', '\u{090B}'],
         ḷ: ['\u{0963}', '\u{090C}'],
+        L: ['\u{0963}', '\u{090C}'],
         ṝ: ['\u{0944}', '\u{0960}'],
         ḹ: ['\u{0963}', '\u{0961}'],
         e: ['\u{0947}', '\u{090F}'],
@@ -79,10 +88,15 @@ export function convertSans(txt) {
         jh: ['\u{091D}'],
         ñ: ['\u{091E}'],
         ṭ: ['\u{091F}'],
+        T: ['\u{091F}'],
         ṭh: ['\u{0920}'],
+        Th: ['\u{0920}'],
         ḍ: ['\u{0921}'],
+        D: ['\u{0921}'],
         ḍh: ['\u{0922}'],
+        Dh: ['\u{0922}'],
         ṇ: ['\u{0923}'],
+        N: ['\u{0923}'],
         t: ['\u{0924}'],
         th: ['\u{0925}'],
         d: ['\u{0926}'],
@@ -100,6 +114,7 @@ export function convertSans(txt) {
         ś: ['\u{0936}'],
         z: ['\u{0936}'],
         ṣ: ['\u{0937}'],
+        S: ['\u{0937}'],
         s: ['\u{0938}'],
         h: ['\u{0939}'],
         "'": ['\u{093D}'],
@@ -107,13 +122,47 @@ export function convertSans(txt) {
         '’': ['\u{093D}'],
         '.': ['\u{0964}'],
         '|': ['\u{0964}'],
+        '/': ['\u{0964}'],
+        0: ['\u{0966}'],
+        1: ['\u{0967}'],
+        2: ['\u{0968}'],
+        3: ['\u{0969}'],
+        4: ['\u{096A}'],
+        5: ['\u{096B}'],
+        6: ['\u{096C}'],
+        7: ['\u{096D}'],
+        8: ['\u{096E}'],
+        9: ['\u{096F}'],
+        oṃ: ['\u0950'],
+        oṁ: ['\u0950'],
     };
 
-    const vowels = 'aeiouṛḷāīū';
-    const ornamentals = "ṃḥ'‘’";
-
-    const words = txt.split(' ');
-    const transkeys = Object.keys(sanscorr);
+    // For normalization, first entry (2 characters) is replaced by second (1 character)
+    const normpairs = [
+        [" '", "'"],
+        [' ’', "'"],
+        ['ṁ', 'ṁ'],
+        ['ṅ', 'ṅ'],
+        ['ḥ', 'ḥ'],
+        ['ā', 'ā'],
+        ['ī', 'ī'],
+        ['ū', 'ū'],
+        ['ṭ', 'ṭ'],
+        ['ḍ', 'ḍ'],
+        ['ṇ', 'ṇ'],
+        ['ñ', 'ñ'],
+        ['ṛ', 'r̥'],
+        ['r̥', 'ṛ'],
+        ['ṣ', 'ṣ'],
+        ['ś', 'ś'],
+    ];
+    const normalize = (t) => {
+        normpairs.map((pr, pri) => {
+            let re = new RegExp(pr[0], 'g');
+            t = t.replace(re, pr[1]);
+        });
+        return t;
+    };
 
     const getsans = (ch, front = false) => {
         if (ch === '') {
@@ -127,10 +176,20 @@ export function convertSans(txt) {
         //console.log("No equivalent found for: " + ch);
         return ch;
     };
+
+    const vowels = 'aeiouṛḷāīūAIURL';
+    const ornamentals = "̇ ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789  \n";
+
+    const normtext = normalize(txt);
+    const words = normtext.split(' ');
+
+    const transkeys = Object.keys(sanscorr);
+
     let sansout = [];
     for (let n = 0; n < words.length; n++) {
-        let word = words[n];
-        let lastchar = word[(word.lenght - 1, 1)];
+        let word = words[n].trim();
+        let lastchar = word.charAt(word.length - 1);
+        // console.log(`[${word}][${lastchar}]`);
         let sanword = '';
         let isfirst = true;
         while (word.length > 1) {
@@ -157,9 +216,9 @@ export function convertSans(txt) {
             }
             isfirst = false;
         }
-        console.log('word at end', word);
         sanword += getsans(word);
         if (!vowels.includes(lastchar) && !ornamentals.includes(lastchar)) {
+            //console.log("adding viguma", `[${words[n]}][${lastchar}]`);
             sanword += '\u094D';
         }
         sansout.push(sanword);
