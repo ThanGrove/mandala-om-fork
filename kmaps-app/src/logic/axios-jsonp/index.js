@@ -36,7 +36,10 @@ export default function jsonpAdapter(config) {
 
         function remove() {
             if (script) {
-                script.onload = script.onreadystatechange = script.onerror = null;
+                script.onload =
+                    script.onreadystatechange =
+                    script.onerror =
+                        null;
 
                 if (script.parentNode) {
                     script.parentNode.removeChild(script);
@@ -83,9 +86,9 @@ export default function jsonpAdapter(config) {
             }
         };
 
-        script.onerror = function () {
+        script.onerror = function (e) {
             remove();
-
+            console.log('Network error in jsonP', e);
             reject(new Error('Network Error'));
         };
 
