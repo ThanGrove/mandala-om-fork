@@ -186,15 +186,11 @@ export function CollectionsViewer(props) {
         return <NotFoundPage type={asset_type + ' collection'} id={asset_id} />;
     }
 
-    // console.log('collitems', collitems);
-    // console.log(collsolr);
     const collabel = collsolr?.collection_nid ? 'Subcollection' : 'Collection';
     let colltitle =
         collsolr?.title?.length > 0
-            ? `${collsolr.title[0].replace(/collections?/gi, '')} ${
-                  collsolr.asset_subtype
-              } ${collabel}`
-            : false;
+            ? collsolr.title[0].replace(/collections?/gi, '')
+            : 'Untitled';
     let wait_to = false;
     const waitFilter = (e) => {
         const filter_val = `title:*${$(e.target).val()}*`;
@@ -203,7 +199,7 @@ export function CollectionsViewer(props) {
         }
         wait_to = setTimeout(() => setFilter(filter_val), 500);
     };
-    // console.log('collfilter: ' + collFilter);
+
     const sorter = (
         <>
             <CollectionSortModeSelector
