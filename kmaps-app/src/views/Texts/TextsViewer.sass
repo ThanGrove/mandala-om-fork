@@ -7,7 +7,7 @@
   background-color: #eee
   height: 100vh
   -webkit-tap-highlight-color: transparent
-  max-width: 140rem
+  // max-width: 140rem
   margin: 0 auto
 
   &.astviewer
@@ -237,6 +237,7 @@
   #shanti-texts-container
     margin: 0 auto
     font-size: 1.4rem
+    background-color: #f9f9f9
 
   .astviewer.texts
     &.no-sidebars article.main-col
@@ -358,9 +359,10 @@
     z-index: 10
 
   .meta-toggle
-    margin: 0 0 0 35.5rem
     width: 1.5rem
     border: none
+    position: absolute
+    right: 20px
 
     //background-color: #8c49a0
     //color: white
@@ -399,7 +401,8 @@
     // width: 60%
     max-width: 100vw !important
     // max-width: 98.75% !important
-    height: calc(100vh - 12rem)
+    // height: calc(100vh - 12rem)
+    height: fit-content
     background-color: white
     box-shadow: inset 0 -0.2rem 5px #ddd
     overflow-y: scroll
@@ -416,10 +419,16 @@
     padding: 0
     min-width: 40rem
     max-width: 100%
-    height: calc(100vh - 24rem)
-    background-color: #eee
+    height: fit-content
+    background-color: #f9f9f9
     color: #333
     margin-top: -0.5rem
+
+    .col
+      position: fixed
+      max-width: 380px
+      background-color: transparent
+
 
   #sidecolumn-ctrl
     display: none /** doesn't work **/
@@ -587,9 +596,10 @@
       margin-bottom: 1em
 
     ul li.active
-      background: -moz-linear-gradient(top, #f7f7f7 0, #f7f7f7 25px, #ffffff 25px, #ffffff 100%)
-      background: -webkit-linear-gradient(top, #f7f7f7 0, #f7f7f7 25px, #ffffff 25px, #ffffff 100%)
-      background: linear-gradient(to bottom, #f7f7f7 0, #f7f7f7 25px, #ffffff 25px, #ffffff 100%)
+      background: transparent
+      // background: -moz-linear-gradient(top, #f7f7f7 0, #f7f7f7 25px, #ffffff 25px, #ffffff 100%)
+      // background: -webkit-linear-gradient(top, #f7f7f7 0, #f7f7f7 25px, #ffffff 25px, #ffffff 100%)
+      // background: linear-gradient(to bottom, #f7f7f7 0, #f7f7f7 25px, #ffffff 25px, #ffffff 100%)
 
     a
       border: none
@@ -616,7 +626,8 @@
 
   .shanti-texts-toc
     li.active > a
-      color: #df3d26 !important
+      color: #0a2bad !important
+      font-weight: bold
 
     a::before
       content: ''
