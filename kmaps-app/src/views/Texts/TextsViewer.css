@@ -439,9 +439,12 @@
     margin-top: -0.5rem;
 }
 .l-site__wrap.texts #shanti-texts-sidebar .col {
-    position: fixed;
     max-width: 380px;
     background-color: transparent;
+}
+.l-site__wrap.texts #shanti-texts-sidebar.fixed .col {
+    position: fixed;
+    margin-top: -90px;
 }
 .l-site__wrap.texts #sidecolumn-ctrl {
     display: none;
