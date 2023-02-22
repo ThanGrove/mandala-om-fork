@@ -110,37 +110,31 @@ const TreeNav = (props) => {
                     className="treeNav-tabs__wrap justify-content-center"
                 >
                     <Tab eventKey="places" title="Places">
-                        {tabkey === 'places' && (
-                            <KmapTree
-                                elid="tab-tree-places"
-                                domain="places"
-                                isOpen={true}
-                                selectedNode={domainfids['places']}
-                                project={getProject()}
-                            />
-                        )}
+                        <KmapTree
+                            elid="tab-tree-places"
+                            domain="places"
+                            isOpen={true}
+                            selectedNode={domainfids['places']}
+                            project={getProject()}
+                        />
                     </Tab>
                     <Tab eventKey="subjects" title="Subjects">
-                        {tabkey === 'subjects' && (
-                            <KmapTree
-                                elid="tab-tree-subjects"
-                                domain="subjects"
-                                level={1}
-                                selectedNode={domainfids['subjects']}
-                                project={getProject()}
-                            />
-                        )}
+                        <KmapTree
+                            elid="tab-tree-subjects"
+                            domain="subjects"
+                            level={1}
+                            selectedNode={domainfids['subjects']}
+                            project={getProject()}
+                        />
                     </Tab>
                     <Tab eventKey="terms" title="Terms">
-                        {tabkey === 'terms' && (
-                            <KmapTree
-                                elid="tab-tree-terms"
-                                domain="terms"
-                                level={1}
-                                selectedNode={domainfids['terms']}
-                                project={getProject()}
-                            />
-                        )}
+                        <KmapTree
+                            elid="tab-tree-terms"
+                            domain="terms"
+                            level={1}
+                            selectedNode={domainfids['terms']}
+                            project={getProject()}
+                        />
                     </Tab>
                 </Tabs>
             </div>

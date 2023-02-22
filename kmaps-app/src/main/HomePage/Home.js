@@ -5,7 +5,6 @@ import JSXExpressionContainerMock from 'eslint-plugin-jsx-a11y/__mocks__/JSXExpr
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import { BsArrowRight } from 'react-icons/all';
 
 export default function Home(props) {
     if (process?.env?.REACT_APP_STANDALONE === 'standalone') {
@@ -164,12 +163,6 @@ export default function Home(props) {
                                 </li>
                                 <li>
                                     <Link to={'/treetest'}>Tree Test</Link>
-                                </li>
-                                <li>
-                                    <Link to={'/admin/devanagari'}>
-                                        Transliteration <BsArrowRight />{' '}
-                                        Devanagari
-                                    </Link>
                                 </li>
                                 <li>
                                     <Link to={'/advanced-search'}>
@@ -343,7 +336,7 @@ export default function Home(props) {
                                     </Link>
                                 </li>
                             </ul>
-                            {/*
+
                             <h4>References</h4>
                             <ul>
                                 <li>
@@ -381,7 +374,6 @@ export default function Home(props) {
                                     </a>
                                 </li>
                             </ul>
-                            */}
                         </Jumbotron>
                     </Col>
                 </Row>
