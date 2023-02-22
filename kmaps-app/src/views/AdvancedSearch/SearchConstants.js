@@ -66,3 +66,13 @@ export const SOLRFIELDS = {
     19: ['date_start'], // Note: for sources do not need 'pubyear_s' because date_start is the UTC version of it
     20: ['node_created'],
 };
+
+export function isDate(choice) {
+    const choices = [CREATE_DATE, ENTRY_DATE];
+    return choices.includes(choice * 1);
+}
+
+export function needsDateString(choice) {
+    const choices = [EXACTLY, BETWEEN];
+    return choices.includes(choice * 1);
+}

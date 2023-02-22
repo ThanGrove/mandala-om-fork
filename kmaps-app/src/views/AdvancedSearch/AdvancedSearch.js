@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, useRouteMatch } from 'react-router-dom';
 import { stringify } from 'query-string';
 import {
@@ -11,6 +11,8 @@ import * as SC from './SearchConstants';
 import { SearchBuilder } from './SearchBuilder';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
 import './AdvancedSearch.scss';
+import { needsDateString } from './SearchConstants';
+import { MdDeleteForever } from 'react-icons/all';
 
 const SEARCH_PATH = '/search/:view';
 const searchview = 'deck';
@@ -20,7 +22,7 @@ const AdvancedSearch = () => {
 
     const [qryrows, setRows] = useState([]);
     const [squery, setSQuery] = useState(false);
-    const [count, setCount] = useState(1);
+    const [count, setCount] = useState(0);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -31,32 +33,38 @@ const AdvancedSearch = () => {
     });
     let { searchText: search, filters } = query;
 
-    let rowdiv = <div className="query-rows-wrapper">{qryrows}</div>;
-    let qlen = qryrows.length;
     useEffect(() => {
-        rowdiv = <div className="query-rows-wrapper">{qryrows}</div>;
-    }, [count]);
-
-    const addRow = (typ) => {
-        const newindex = qryrows.length + 1;
-        const newrow =
-            typ === 'date' ? (
-                <QueryDateRow key={newindex} n={newindex} />
-            ) : (
-                <QueryRow key={newindex} n={newindex} />
-            );
-        qryrows.push(newrow);
+        const qr = <QueryRow key={`query-row-${Date.now()}`} n={count} />;
+        qryrows.push(qr);
         setRows(qryrows);
         setCount(count + 1);
+    }, []);
+
+    const deleteRow = (id) => {
+        const delind = qryrows.findIndex((el) => el.key === id);
+        console.log('delind', delind);
+        if (delind < qryrows.length) {
+            let newrows = qryrows
+                .slice(0, delind)
+                .concat(qryrows.slice(delind + 1));
+            console.log(qryrows, newrows);
+            setRows(newrows);
+        }
     };
+
+    const addRow = (typ) => {
+        setCount(count + 1);
+        const mykey = `query-row-${Date.now()}`;
+        const newrow = (
+            <QueryRow key={mykey} n={count} id={mykey} delfunc={deleteRow} />
+        );
+        qryrows.push(newrow);
+        setRows(qryrows);
+    };
+
     const addQueryRow = (e) => {
         e.preventDefault();
         addRow('normal');
-    };
-
-    const addDateQueryRow = (e) => {
-        e.preventDefault();
-        addRow('date');
     };
 
     const submitForm = (e) => {
@@ -148,25 +156,18 @@ const AdvancedSearch = () => {
                 <div className="mb-3">
                     <h4 className="title">Advanced Search</h4>
                     <div className="query-rows">
-                        {rowdiv}
+                        <div className="query-rows-wrapper">{qryrows}</div>
                         <div className="add-btns">
                             <button
-                                className="btn btn-outline-secondary btn-lg"
+                                className="btn btn-secondary btn-lg rounded"
                                 onClick={addQueryRow}
                             >
-                                Add Normal Row
-                            </button>
-
-                            <button
-                                className="btn btn-outline-secondary btn-lg"
-                                onClick={addDateQueryRow}
-                            >
-                                Add Date Row
+                                Add Row
                             </button>
                         </div>
                     </div>
                 </div>
-                <hr class="my-4"></hr>
+                <hr className="my-4"></hr>
                 <div className="action-btns">
                     <button
                         className="btn btn-primary btn-lg m-2"
@@ -207,18 +208,42 @@ const AdvancedSearch = () => {
     );
 };
 
-const QueryRow = ({ n }) => {
+const QueryRow = ({ n, id, delfunc }) => {
+    const [rowType, setRowType] = useState('normal');
+    const [hasSearchBox, setHasSearchBox] = useState(true);
+    const dateSelect = useRef();
+    useEffect(() => {
+        if (rowType === 'date') {
+            const choice = dateSelect?.current?.value;
+            setHasSearchBox(SC.needsDateString(choice));
+        } else {
+            setHasSearchBox(true);
+        }
+    }, [rowType]);
+    const deleteme = () => {
+        delfunc(id);
+    };
     return (
-        <div className="advsrch-form-row">
-            <div>{n > 1 && <ConnectorSelect id={`advconn-${n}`} n={n} />}</div>
+        <div className="advsrch-form-row" id={id}>
+            <div>{n > 0 && <ConnectorSelect id={`advconn-${n}`} n={n} />}</div>
             <div>
-                <FieldSelect id={`advfield-${n}`} />
+                <FieldSelect id={`advfield-${n}`} setType={setRowType} />
             </div>
             <div>
-                <ScopeSelect id={`advscope-${n}`} />
+                {rowType === 'normal' && <ScopeSelect id={`advscope-${n}`} />}
+                {rowType === 'date' && (
+                    <DateScopeSelect
+                        id={`advscope-${n}`}
+                        setSearchBox={setHasSearchBox}
+                        selel={dateSelect}
+                    />
+                )}
             </div>
             <div>
-                <SearchBox id={`advtext-${n}`} />
+                <SearchBox id={`advtext-${id}`} disable={!hasSearchBox} />
+            </div>
+            <div className="row-delete">
+                {n > 0 && <MdDeleteForever onClick={deleteme} />}
             </div>
         </div>
     );
@@ -235,10 +260,19 @@ const ConnectorSelect = ({ id, name = false, n }) => {
     );
 };
 
-const FieldSelect = ({ id, name = false }) => {
+const FieldSelect = ({ id, setType, name = false }) => {
     name = name || id;
+    const selel = useRef();
+    const ichanged = () => {
+        const choice = selel.current.value;
+        if (SC.isDate(choice)) {
+            setType('date');
+        } else {
+            setType('normal');
+        }
+    };
     return (
-        <select id={id} name={name}>
+        <select id={id} name={name} ref={selel} onChange={ichanged}>
             <option value={SC.ANY}>Any</option>
             <option value={SC.TITLE}>Title</option>
             <option value={SC.PERSON}>Person</option>
@@ -267,42 +301,24 @@ const ScopeSelect = ({ id, name = false }) => {
     );
 };
 
-const SearchBox = ({ id, name = false }) => {
+const SearchBox = ({ id, disable, name = false }) => {
     name = name || id;
-    return <input type="text" id={id} name={name} />;
+
+    return <input type="text" id={id} name={name} disabled={disable} />;
 };
 
-const QueryDateRow = ({ n }) => {
-    return (
-        <div className="advsrch-form-row date">
-            <div>{n > 1 && <ConnectorSelect id={`advconn-${n}`} n={n} />}</div>
-            <div>
-                <DateFieldSelect id={`advfield-${n}`} />
-            </div>
-            <div>
-                <DateScopeSelect id={`advscope-${n}`} />
-            </div>
-            <div>
-                <SearchBox id={`advtext-${n}`} />
-            </div>
-        </div>
-    );
-};
-
-const DateFieldSelect = ({ id, name = false }) => {
+const DateScopeSelect = ({ id, setSearchBox, selel, name = false }) => {
     name = name || id;
+    const ichanged = () => {
+        const choice = selel.current.value;
+        if (SC.needsDateString(choice)) {
+            setSearchBox(true);
+        } else {
+            setSearchBox(false);
+        }
+    };
     return (
-        <select id={id} name={name}>
-            <option value={SC.CREATE_DATE}>Creation Date</option>
-            <option value={SC.ENTRY_DATE}>Data Entry Date</option>
-        </select>
-    );
-};
-
-const DateScopeSelect = ({ id, name = false }) => {
-    name = name || id;
-    return (
-        <select id={id} name={name}>
+        <select id={id} name={name} ref={selel} onChange={ichanged}>
             <option value={SC.LAST1YEAR}>in last year</option>
             <option value={SC.LAST5YEARS}>in last 5 years</option>
             <option value={SC.LAST10YEARS}>in last 10 years</option>
