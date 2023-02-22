@@ -5,6 +5,7 @@ import JSXExpressionContainerMock from 'eslint-plugin-jsx-a11y/__mocks__/JSXExpr
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { BsArrowRight } from 'react-icons/all';
 
 export default function Home(props) {
     if (process?.env?.REACT_APP_STANDALONE === 'standalone') {
@@ -162,11 +163,16 @@ export default function Home(props) {
                                     <Link to={'/search'}>Search</Link>
                                 </li>
                                 <li>
+                                    <Link to={'/advanced-search'}>
+                                        Advanced Search
+                                    </Link>
+                                </li>
+                                <li>
                                     <Link to={'/treetest'}>Tree Test</Link>
                                 </li>
                                 <li>
-                                    <Link to={'/advanced-search'}>
-                                        Advanced Search
+                                    <Link to={'/admin/devanagari'}>
+                                        Translit. <BsArrowRight /> Devanagari
                                     </Link>
                                 </li>
                             </ul>

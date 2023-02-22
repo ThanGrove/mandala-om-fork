@@ -155,6 +155,8 @@ export function convertSans(txt) {
         ['r̥', 'ṛ'],
         ['ṣ', 'ṣ'],
         ['ś', 'ś'],
+        ['_', ' '],
+        ['\n', '$%$ '],
     ];
     const normalize = (t) => {
         normpairs.map((pr, pri) => {
@@ -178,10 +180,10 @@ export function convertSans(txt) {
     };
 
     const vowels = 'aeiouṛḷāīūAIURL';
-    const ornamentals = "̇ ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789()[]  \n";
+    const ornamentals = "̇ ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789()[]  -$%\n";
 
     const normtext = normalize(txt);
-    const words = normtext.split(' ');
+    const words = normtext.split(/\s+/);
 
     const transkeys = Object.keys(sanscorr);
 
@@ -224,6 +226,6 @@ export function convertSans(txt) {
         sansout.push(sanword);
     }
 
-    let sanskrit = sansout.join(' ');
+    let sanskrit = sansout.join(' ').replace(/\$%\$ /g, '\n');
     return sanskrit;
 }
