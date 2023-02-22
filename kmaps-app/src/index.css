@@ -10778,6 +10778,14 @@ h3,
     font-size: 200%;
 }
 
+.element-invisible {
+    display: none;
+}
+
+p.rtecenter ~ div.media > div.file-image {
+    margin: 0 auto;
+}
+
 /**
 .l-site__wrap ::-webkit-scrollbar {
     width: 10px;
