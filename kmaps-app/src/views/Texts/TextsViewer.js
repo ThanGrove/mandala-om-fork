@@ -44,7 +44,7 @@ const docscroll = (e) => {
             $(tocid).addClass('active');
         }
     });
-    if (window.pageYOffset > 90) {
+    if (window.pageYOffset > 108) {
         $('#shanti-texts-sidebar').addClass('fixed');
     } else {
         $('#shanti-texts-sidebar').removeClass('fixed');
