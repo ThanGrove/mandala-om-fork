@@ -180,7 +180,8 @@ export function convertSans(txt) {
     };
 
     const vowels = 'aeiouṛḷāīūAIURL';
-    const ornamentals = "̇ ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789()[]  -$%\n";
+    const ornamentals = "̇, ̣ ̇ ̄ṃṁḥMH'‘’./|0123456789 \n";
+    const ignorechars = '()[]-$%√:';
 
     const normtext = normalize(txt);
     const words = normtext.split(/\s+/);
