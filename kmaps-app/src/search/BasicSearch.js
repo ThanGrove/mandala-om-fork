@@ -88,6 +88,14 @@ export function BasicSearch(props) {
         }
     };
 
+    function cleanSearch(srch) {
+        let newSearch = '';
+        if (!srch.startsWith('advSearch')) {
+            newSearch = srch;
+        }
+        return newSearch;
+    }
+
     const basicSearchPortal = (
         <>
             <div className="sui-search1">
@@ -96,7 +104,7 @@ export function BasicSearch(props) {
                     type="text"
                     id="sui-search"
                     className="sui-search2"
-                    defaultValue={decodeURIComponent(search || '')}
+                    defaultValue={decodeURIComponent(cleanSearch(search || ''))}
                     placeholder="Search &amp; Explore!"
                     onKeyDownCapture={handleKey}
                     ref={inputEl}
