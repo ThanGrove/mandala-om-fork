@@ -216,6 +216,10 @@ export default function SearchAdvanced(props) {
         localStorage.removeItem(SEARCH_COOKIE_NAME); // Remove the search string saved in the cookie
     }
 
+    function handleAdvancedSearchClick() {
+        history.push('/advanced-search');
+    }
+
     if (searchView?.params?.view === ':view') {
         return <Redirect to={`/search/deck${location.search}`} />;
     }
@@ -272,6 +276,9 @@ export default function SearchAdvanced(props) {
                 {(search || filters.length !== 0) && (
                     <button onClick={handleResetAll}>Clear All</button>
                 )}
+                <button onClick={handleAdvancedSearchClick}>
+                    Advanced Search
+                </button>
             </div>
             <p>Filters for refining search results.</p>
             <section>
