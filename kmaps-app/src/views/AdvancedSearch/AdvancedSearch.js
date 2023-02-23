@@ -17,12 +17,18 @@ import { MdDeleteForever } from 'react-icons/all';
 const SEARCH_PATH = '/search/:view';
 const searchview = 'deck';
 
+const rowid = (n) => {
+    const rnd = Math.floor(Math.random() * 1000);
+    return `query-row-${n}-${rnd}`;
+};
+
 const AdvancedSearch = () => {
     const history = useHistory();
-
-    const [qryrows, setRows] = useState([]);
+    const firstid = rowid(0);
+    const firstrow = <QueryRow key={firstid} id={firstid} n={0} />;
+    const [qryrows, setRows] = useState([firstrow]);
     const [squery, setSQuery] = useState(false);
-    const [count, setCount] = useState(0);
+    const [delrow, setDel] = useState(false);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -34,37 +40,36 @@ const AdvancedSearch = () => {
     let { searchText: search, filters } = query;
 
     useEffect(() => {
-        const qr = <QueryRow key={`query-row-${Date.now()}`} n={count} />;
-        qryrows.push(qr);
-        setRows(qryrows);
-        setCount(count + 1);
-    }, []);
+        if (delrow) {
+            const rowids = qryrows.map((rw, rwi) => {
+                return rw.props.id;
+            });
+            if (rowids?.includes(delrow)) {
+                // console.log("Need to delete row", delrow);
+                let newrows = [...qryrows];
+                newrows = newrows.filter((rw, ri) => {
+                    return rw?.props?.id !== delrow;
+                });
+                setRows(newrows);
+            } else {
+                setDel(false);
+            }
+        }
+    }, [delrow]);
 
     const deleteRow = (id) => {
-        const delind = qryrows.findIndex((el) => el.key === id);
-        console.log('delind', delind);
-        if (delind < qryrows.length) {
-            let newrows = qryrows
-                .slice(0, delind)
-                .concat(qryrows.slice(delind + 1));
-            console.log(qryrows, newrows);
-            setRows(newrows);
-        }
+        setDel(id);
     };
 
-    const addRow = (typ) => {
-        setCount(count + 1);
-        const mykey = `query-row-${Date.now()}`;
-        const newrow = (
-            <QueryRow key={mykey} n={count} id={mykey} delfunc={deleteRow} />
-        );
-        qryrows.push(newrow);
-        setRows(qryrows);
-    };
-
-    const addQueryRow = (e) => {
+    const addRow = (e) => {
         e.preventDefault();
-        addRow('normal');
+        let count = qryrows?.length || 0;
+        const myid = rowid(count);
+        const newrows = [...qryrows];
+        newrows.push(
+            <QueryRow key={myid} n={count} id={myid} delfunc={deleteRow} />
+        );
+        setRows(newrows);
     };
 
     const submitForm = (e) => {
@@ -85,9 +90,6 @@ const AdvancedSearch = () => {
                 let isdaterow = fielditem
                     ?.closest('.advsrch-form-row')
                     ?.classList?.contains('date');
-                if (isdaterow) {
-                    console.log('Row ' + rownum + ' is a date row!');
-                }
                 let row = {
                     isdate: isdaterow,
                     conn:
@@ -142,7 +144,8 @@ const AdvancedSearch = () => {
         return false;
     };
 
-    const clearForm = () => {
+    const clearForm = (e) => {
+        e.preventDefault();
         setRows([]);
     };
 
@@ -152,7 +155,11 @@ const AdvancedSearch = () => {
     surl = encodeURI(surl);
     return (
         <div className="advanced-search-wrap">
-            <form id="myform" className="search-form" data-rows={count}>
+            <form
+                id="myform"
+                className="search-form"
+                data-rows={qryrows?.length}
+            >
                 <div className="mb-3">
                     <h4 className="title">Advanced Search</h4>
                     <div className="query-rows">
@@ -160,7 +167,7 @@ const AdvancedSearch = () => {
                         <div className="add-btns">
                             <button
                                 className="btn btn-secondary btn-lg rounded"
-                                onClick={addQueryRow}
+                                onClick={addRow}
                             >
                                 Add Row
                             </button>
