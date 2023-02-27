@@ -55,4 +55,9 @@
     color: red;
 }
 
+textarea.form-control.query-code {
+    font-family: monospace;
+    background-color: #fdfeff;
+}
+
 /*# sourceMappingURL=AdvancedSearch.css.map */

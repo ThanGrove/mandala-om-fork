@@ -13,6 +13,7 @@ import { ArrayOfObjectsParam } from '../../hooks/utils';
 import './AdvancedSearch.scss';
 import { needsDateString, RESOURCE_TYPE } from './SearchConstants';
 import { MdDeleteForever } from 'react-icons/all';
+import Form from 'react-bootstrap/Form';
 
 const SEARCH_PATH = '/search/:view';
 const searchview = 'deck';
@@ -29,6 +30,7 @@ const AdvancedSearch = () => {
     const [qryrows, setRows] = useState([firstrow]);
     const [squery, setSQuery] = useState(false);
     const [delrow, setDel] = useState(false);
+    const [showQuery, setShowQuery] = useState(false);
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -72,16 +74,10 @@ const AdvancedSearch = () => {
         setRows(newrows);
     };
 
-    const submitForm = (e) => {
-        e.preventDefault();
+    const buildRowList = () => {
         const form = document.getElementById('mdl-advsearch-form');
-        if (!form) {
-            console.log('No form element!');
-            return;
-        }
-
         const rowels = form.querySelectorAll('.advsrch-form-row');
-        const rows = [];
+        const rowlist = [];
 
         rowels.forEach((el, n) => {
             const inputs = el.querySelectorAll('input, select');
@@ -98,8 +94,14 @@ const AdvancedSearch = () => {
                 scope: scopeval,
                 text: textval,
             };
-            rows.push(row);
+            rowlist.push(row);
         });
+        return rowlist;
+    };
+
+    const submitForm = (e) => {
+        e.preventDefault();
+        const rows = buildRowList();
 
         if (rows?.length > 0) {
             const builder = new SearchBuilder(rows);
@@ -147,10 +149,24 @@ const AdvancedSearch = () => {
         setRows([]);
     };
 
-    let surl =
-        'https://mandala-solr-proxy-dev.internal.lib.virginia.edu/solr/kmassets/select?fl=*&wt=json&echoParams=explicit&q=' +
-        squery;
-    surl = encodeURI(surl);
+    const revealQuery = (e) => {
+        e.preventDefault();
+        setShowQuery(true);
+        const rows = buildRowList();
+        if (rows?.length > 0) {
+            const builder = new SearchBuilder(rows);
+            const newqry = builder.buildQuery();
+            setSQuery(newqry);
+            if (e.target.id === 'show-results') {
+                let surl =
+                    'https://mandala-solr-proxy-dev.internal.lib.virginia.edu/solr/kmassets/select?fl=*&wt=json&echoParams=explicit&q=' +
+                    newqry;
+                surl = encodeURI(surl);
+                window.open(surl, '_blank');
+            }
+        }
+    };
+
     return (
         <div className="advanced-search-wrap">
             <form
@@ -192,10 +208,25 @@ const AdvancedSearch = () => {
                 </div>
             </form>
             <div className="card output">
-                <div className="card-header">Results</div>
+                <div className="card-header">
+                    Current Query (
+                    <a onClick={revealQuery} className="action">
+                        Show Query
+                    </a>{' '}
+                    |
+                    <a
+                        id="show-results"
+                        onClick={revealQuery}
+                        className="action"
+                    >
+                        Show Results
+                    </a>
+                    )
+                </div>
                 <div className="card-body">
+                    {/*
                     <p>
-                        <small>Try out the query: </small>
+                        <small>Current query: </small>
                         <a
                             href={surl}
                             target="_blank"
@@ -203,11 +234,15 @@ const AdvancedSearch = () => {
                         >
                             Click here
                         </a>
-                    </p>
-                    {squery && (
-                        <pre className="querypre">
-                            <code>{squery}</code>
-                        </pre>
+                    </p> */}
+                    {showQuery && (
+                        <Form.Control
+                            as="textarea"
+                            className="query-code"
+                            rows={5}
+                            value={squery}
+                            readOnly={true}
+                        />
                     )}
                 </div>
             </div>

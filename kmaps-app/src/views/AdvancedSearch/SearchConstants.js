@@ -69,7 +69,7 @@ export const SOLRFIELDS = {
 };
 
 export const ASSET_TYPES = {
-    audio_video: 'Audio-Visual',
+    'audio-video': 'Audio-Visual',
     images: 'Images',
     sources: 'Sources',
     texts: 'Texts',
