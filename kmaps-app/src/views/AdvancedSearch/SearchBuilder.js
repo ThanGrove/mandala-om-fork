@@ -31,7 +31,6 @@ export class SearchBuilder {
     init() {
         this.lines = this.processData();
         this.items = this.convertLines();
-        console.log('this.items', this.items);
     }
 
     /**
@@ -55,16 +54,18 @@ export class SearchBuilder {
         }
         // otherwise, break each item up. If it is a string with delimiter or object with named propreties
         return lines.map((item, itn) => {
-            console.log('item ' + itn, item);
+            // console.log('item ' + itn, item);
             if (item instanceof Object) {
+                const scpval = isNaN(item?.scope * 1)
+                    ? item?.scope
+                    : item?.scope * 1;
                 let res = [
                     item?.conn * 1,
                     item?.field * 1,
-                    item?.scope * 1,
+                    scpval,
                     item?.text,
                     item?.isdate,
                 ];
-                console.log(res);
                 return res;
             } else if (item instanceof String && item.includes(this.delim)) {
                 // TODO: deal with "isdate" in delimited string if need be
@@ -189,7 +190,11 @@ class QueryItem {
                         query += '*:*';
                     }
                 default:
-                    query += `${fld}:*${escqs}*`;
+                    if (this.field === SC.RESOURCE_TYPE) {
+                        query += `${fld}:${this.scope}`;
+                    } else {
+                        query += `${fld}:*${escqs}*`;
+                    }
             }
         });
         return query;

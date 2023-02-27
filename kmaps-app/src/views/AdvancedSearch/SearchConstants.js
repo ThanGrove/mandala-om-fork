@@ -65,6 +65,15 @@ export const SOLRFIELDS = {
     // DATE FIELDS
     19: ['date_start'], // Note: for sources do not need 'pubyear_s' because date_start is the UTC version of it
     20: ['node_created'],
+    21: ['asset_type'],
+};
+
+export const ASSET_TYPES = {
+    audio_video: 'Audio-Visual',
+    images: 'Images',
+    sources: 'Sources',
+    texts: 'Texts',
+    visuals: 'Visualizations',
 };
 
 export function isDate(choice) {

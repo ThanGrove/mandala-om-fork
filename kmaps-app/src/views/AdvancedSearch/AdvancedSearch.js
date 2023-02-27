@@ -11,7 +11,7 @@ import * as SC from './SearchConstants';
 import { SearchBuilder } from './SearchBuilder';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
 import './AdvancedSearch.scss';
-import { needsDateString } from './SearchConstants';
+import { needsDateString, RESOURCE_TYPE } from './SearchConstants';
 import { MdDeleteForever } from 'react-icons/all';
 
 const SEARCH_PATH = '/search/:view';
@@ -74,39 +74,37 @@ const AdvancedSearch = () => {
 
     const submitForm = (e) => {
         e.preventDefault();
-        const form = document.getElementById('myform');
+        const form = document.getElementById('mdl-advsearch-form');
         if (!form) {
             console.log('No form element!');
             return;
         }
-        const formels = form.elements;
 
-        const numrows = form.dataset.rows * 1;
+        const rowels = form.querySelectorAll('.advsrch-form-row');
         const rows = [];
-        for (let rn = 0; rn < numrows; rn++) {
-            let rownum = rn + 1;
-            let fielditem = formels.namedItem(`advfield-${rownum}`); // use one field to determine if date row
-            if (fielditem) {
-                let isdaterow = fielditem
-                    ?.closest('.advsrch-form-row')
-                    ?.classList?.contains('date');
-                let row = {
-                    isdate: isdaterow,
-                    conn:
-                        rn > 0
-                            ? formels.namedItem(`advconn-${rownum}`)?.value
-                            : false,
-                    field: fielditem.value,
-                    scope: formels.namedItem(`advscope-${rownum}`)?.value,
-                    text: formels.namedItem(`advtext-${rownum}`)?.value,
-                };
-                rows.push(row);
-            }
-        }
+
+        rowels.forEach((el, n) => {
+            const inputs = el.querySelectorAll('input, select');
+            const isFirst = n === 0;
+            const aug = isFirst ? 0 : 1;
+            const connval = n > 0 ? inputs[0].value : false;
+            const fieldval = inputs[0 + aug].value;
+            const scopeval = inputs[1 + aug].value;
+            const textval = inputs[2 + aug].value;
+            let row = {
+                isdate: SC.isDate(fieldval),
+                conn: connval,
+                field: fieldval,
+                scope: scopeval,
+                text: textval,
+            };
+            rows.push(row);
+        });
+
         if (rows?.length > 0) {
             const builder = new SearchBuilder(rows);
             const newqry = builder.buildQuery();
-            // console.log('new query', newqry);
+            console.log('new query', newqry);
             setSQuery(newqry);
             document.getElementById('advanced-search-tree-toggle').click();
             if (!searchView) {
@@ -156,21 +154,23 @@ const AdvancedSearch = () => {
     return (
         <div className="advanced-search-wrap">
             <form
-                id="myform"
+                id="mdl-advsearch-form"
                 className="search-form"
                 data-rows={qryrows?.length}
             >
                 <div className="mb-3">
                     <h4 className="title">Advanced Search</h4>
                     <div className="query-rows">
-                        <div className="query-rows-wrapper">{qryrows}</div>
-                        <div className="add-btns">
-                            <button
-                                className="btn btn-secondary btn-lg rounded"
-                                onClick={addRow}
-                            >
-                                Add Row
-                            </button>
+                        <div className="query-rows-wrapper">
+                            {qryrows}
+                            <div className="add-btns">
+                                <button
+                                    className="btn btn-secondary btn-lg rounded"
+                                    onClick={addRow}
+                                >
+                                    Add Row
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -220,9 +220,12 @@ const QueryRow = ({ n, id, delfunc }) => {
     const [hasSearchBox, setHasSearchBox] = useState(true);
     const dateSelect = useRef();
     useEffect(() => {
+        // console.log("RowType", rowType);
         if (rowType === 'date') {
             const choice = dateSelect?.current?.value;
             setHasSearchBox(SC.needsDateString(choice));
+        } else if (rowType === 'assettype') {
+            setHasSearchBox(false);
         } else {
             setHasSearchBox(true);
         }
@@ -231,23 +234,50 @@ const QueryRow = ({ n, id, delfunc }) => {
         delfunc(id);
     };
     return (
-        <div className="advsrch-form-row" id={id}>
-            <div>{n > 0 && <ConnectorSelect id={`advconn-${n}`} n={n} />}</div>
+        <div className="advsrch-form-row" id={id} data-n={n}>
             <div>
-                <FieldSelect id={`advfield-${n}`} setType={setRowType} />
+                {n > 0 && (
+                    <ConnectorSelect
+                        id={`advconn-${n}`}
+                        n={n}
+                        className="connector"
+                    />
+                )}
             </div>
             <div>
-                {rowType === 'normal' && <ScopeSelect id={`advscope-${n}`} />}
+                <FieldSelect
+                    id={`advfield-${n}`}
+                    setType={setRowType}
+                    className="field"
+                />
+            </div>
+            <div>
+                {rowType === 'normal' && (
+                    <ScopeSelect id={`advscope-${n}`} className="scope" />
+                )}
                 {rowType === 'date' && (
                     <DateScopeSelect
                         id={`advscope-${n}`}
+                        className="scope"
+                        setSearchBox={setHasSearchBox}
+                        selel={dateSelect}
+                    />
+                )}
+                {rowType === 'assettype' && (
+                    <AssetTypeSelect
+                        id={`advscope-${n}`}
+                        className="scope asset"
                         setSearchBox={setHasSearchBox}
                         selel={dateSelect}
                     />
                 )}
             </div>
             <div>
-                <SearchBox id={`advtext-${id}`} disable={!hasSearchBox} />
+                <SearchBox
+                    id={`advtext-${id}`}
+                    disable={!hasSearchBox}
+                    className="textbox"
+                />
             </div>
             <div className="row-delete">
                 {n > 0 && <MdDeleteForever onClick={deleteme} />}
@@ -271,9 +301,12 @@ const FieldSelect = ({ id, setType, name = false }) => {
     name = name || id;
     const selel = useRef();
     const ichanged = () => {
-        const choice = selel.current.value;
+        const choice = selel.current.value * 1;
         if (SC.isDate(choice)) {
             setType('date');
+        }
+        if (choice === SC.RESOURCE_TYPE) {
+            setType('assettype');
         } else {
             setType('normal');
         }
@@ -331,6 +364,21 @@ const DateScopeSelect = ({ id, setSearchBox, selel, name = false }) => {
             <option value={SC.LAST10YEARS}>in last 10 years</option>
             <option value={SC.EXACTLY}>exactly</option>
             <option value={SC.BETWEEN}>between</option>
+        </select>
+    );
+};
+
+const AssetTypeSelect = ({ id, setSearchBox, selel, name = false }) => {
+    name = name || id;
+    return (
+        <select id={id} name={name} ref={selel} className="asset-select">
+            {Object.keys(SC?.ASSET_TYPES).map((ak, ki) => {
+                return (
+                    <option key={`atopt-${ki}`} value={ak}>
+                        {SC?.ASSET_TYPES[ak]}
+                    </option>
+                );
+            })}
         </select>
     );
 };
