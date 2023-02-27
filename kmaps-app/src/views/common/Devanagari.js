@@ -207,8 +207,10 @@ export function convertSans(txt) {
                 if (
                     !vowels.includes(ch1) &&
                     !ornamentals.includes(ch1) &&
+                    !ignorechars.includes(ch1) &&
                     !vowels.includes(ch2) &&
-                    !ornamentals.includes(ch2)
+                    !ornamentals.includes(ch2) &&
+                    !ignorechars.includes(ch2)
                 ) {
                     sanword += getsans(ch1) + '\u094D';
                 } else {
@@ -220,7 +222,11 @@ export function convertSans(txt) {
             isfirst = false;
         }
         sanword += getsans(word);
-        if (!vowels.includes(lastchar) && !ornamentals.includes(lastchar)) {
+        if (
+            !vowels.includes(lastchar) &&
+            !ornamentals.includes(lastchar) &&
+            !ignorechars.includes(lastchar)
+        ) {
             //console.log("adding viguma", `[${words[n]}][${lastchar}]`);
             sanword += '\u094D';
         }

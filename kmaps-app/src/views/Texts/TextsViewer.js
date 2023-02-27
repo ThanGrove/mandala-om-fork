@@ -343,6 +343,12 @@ function TextTabs(props) {
                         id={'shanti-texts-sidebar-tabs'}
                         className={'nav-justified'}
                     >
+                        <Tab eventKey={'text_bibl'} title={'Description'}>
+                            <HtmlWithPopovers
+                                markup={props.meta}
+                                app={'texts'}
+                            />
+                        </Tab>
                         <Tab
                             eventKey={'text_toc'}
                             title={'Contents'}
@@ -354,12 +360,6 @@ function TextTabs(props) {
                             <TextTocLinks
                                 plid={props?.mlid}
                                 pageid={props?.pageid}
-                            />
-                        </Tab>
-                        <Tab eventKey={'text_bibl'} title={'Description'}>
-                            <HtmlWithPopovers
-                                markup={props.meta}
-                                app={'texts'}
                             />
                         </Tab>
                         <Tab eventKey={'text_links'} title={'Views'}>
