@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { useRouteMatch, useLocation } from 'react-router-dom';
 import { getProject, queryID } from '../views/common/utils';
 import KmapTree from '../views/KmapTree/KmapTree';
-import { closeStore, openTabStore } from '../hooks/useCloseStore';
-import { MdLogin } from 'react-icons/all';
+import { treeStore, openTabStore } from '../hooks/useCloseStore';
 
 const TreeNav = (props) => {
     const openTab = openTabStore((state) => state.openTab);
+    const tree = treeStore((state) => state.tree);
+    const setTree = treeStore((state) => state.setTree);
     let openclass = openTab === 2 ? 'open' : 'closed';
 
-    // let openclass = props.tree ? 'open' : 'closed';
-    let default_tab = process?.env?.REACT_APP_DEFAULT_KMAP_TAB || 'places';
-
-    const [tabkey, setTab] = useState(default_tab);
     let domain = 'places';
 
     const domainfids = {
@@ -44,7 +41,7 @@ const TreeNav = (props) => {
                 path_parts.includes(val)
             );
             if (matches.length > 0) {
-                setTab(matches[0]);
+                setTree(matches[0]);
             }
         }
     }, []);
@@ -55,7 +52,7 @@ const TreeNav = (props) => {
         if (match?.params?.baseType) {
             domain = match.params.baseType;
             if (['places', 'subjects', 'terms'].includes(domain)) {
-                setTab(domain);
+                setTree(domain);
             }
         }
     }, [location]);
@@ -101,16 +98,16 @@ const TreeNav = (props) => {
                 </header>
                 <Tabs
                     // defaultActiveKey={domain}
-                    activeKey={tabkey}
+                    activeKey={tree}
                     onSelect={(k) => {
-                        setTab(k);
+                        setTree(k);
                     }}
                     id="kmaps-tab"
                     role="navigation"
                     className="treeNav-tabs__wrap justify-content-center"
                 >
                     <Tab eventKey="places" title="Places">
-                        {tabkey === 'places' && (
+                        {tree === 'places' && (
                             <KmapTree
                                 elid="tab-tree-places"
                                 domain="places"
@@ -121,7 +118,7 @@ const TreeNav = (props) => {
                         )}
                     </Tab>
                     <Tab eventKey="subjects" title="Subjects">
-                        {tabkey === 'subjects' && (
+                        {tree === 'subjects' && (
                             <KmapTree
                                 elid="tab-tree-subjects"
                                 domain="subjects"
@@ -132,7 +129,7 @@ const TreeNav = (props) => {
                         )}
                     </Tab>
                     <Tab eventKey="terms" title="Terms">
-                        {tabkey === 'terms' && (
+                        {tree === 'terms' && (
                             <KmapTree
                                 elid="tab-tree-terms"
                                 domain="terms"

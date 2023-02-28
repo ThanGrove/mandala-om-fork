@@ -46,7 +46,6 @@
         padding-bottom: 1.6rem;
         align-items: center;
     }
-
     .row-delete {
         font-size: 150%;
         color: #de4f4faa;
@@ -56,6 +55,11 @@
         :hover {
             color: red;
         }
+    }
+    .field-select {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
     }
 }
 

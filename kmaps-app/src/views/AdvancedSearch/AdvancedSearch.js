@@ -7,6 +7,9 @@ import {
     withDefault,
     encodeQueryParams,
 } from 'use-query-params';
+import { openTabStore, treeStore } from '../../hooks/useCloseStore';
+import { browseSearchToggle } from '../../hooks/useBrowseSearchToggle';
+
 import * as SC from './SearchConstants';
 import { SearchBuilder } from './SearchBuilder';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
@@ -279,7 +282,7 @@ const QueryRow = ({ n, id, delfunc }) => {
                     />
                 )}
             </div>
-            <div>
+            <div className="field-select">
                 <FieldSelect
                     id={`advfield-${n}`}
                     setType={setRowType}
@@ -333,10 +336,27 @@ const ConnectorSelect = ({ id, name = false, n }) => {
 };
 
 const FieldSelect = ({ id, setType, name = false }) => {
+    const [selectedValue, setSelectedValue] = useState(null);
+    const setTree = treeStore((state) => state.setTree);
+    const setBrowse = browseSearchToggle((state) => state.setBrowse);
+    const setOpenTab = openTabStore((state) => state.changeButtonState);
+
+    const handleBtnClick = (e) => {
+        e.preventDefault();
+        setOpenTab(2);
+        setBrowse();
+        const treeEnum = {
+            13: 'places',
+            14: 'subjects',
+            15: 'terms',
+        };
+        setTree(treeEnum[selectedValue]);
+    };
     name = name || id;
     const selel = useRef();
     const ichanged = () => {
         const choice = selel.current.value * 1;
+        setSelectedValue(choice);
         if (SC.isDate(choice)) {
             setType('date');
         }
@@ -347,20 +367,32 @@ const FieldSelect = ({ id, setType, name = false }) => {
         }
     };
     return (
-        <select id={id} name={name} ref={selel} onChange={ichanged}>
-            <option value={SC.ANY}>Any</option>
-            <option value={SC.TITLE}>Title</option>
-            <option value={SC.PERSON}>Person</option>
-            <option value={SC.REL_PLACES}>Related Places</option>
-            <option value={SC.REL_SUBJECTS}>Related Subjects</option>
-            <option value={SC.REL_TERMS}>Related Terms</option>
-            <option value={SC.PUB_PLACE}>Place of Publication</option>
-            <option value={SC.PUBLISHER}>Publisher</option>
-            <option value={SC.IDS}>ID Numbers</option>
-            <option value={SC.CREATE_DATE}>Create Date</option>
-            <option value={SC.ENTRY_DATE}>Upload Date</option>
-            <option value={SC.RESOURCE_TYPE}>Resource Type</option>
-        </select>
+        <>
+            <select id={id} name={name} ref={selel} onChange={ichanged}>
+                <option value={SC.ANY}>Any</option>
+                <option value={SC.TITLE}>Title</option>
+                <option value={SC.PERSON}>Person</option>
+                <option value={SC.REL_PLACES}>Related Places</option>
+                <option value={SC.REL_SUBJECTS}>Related Subjects</option>
+                <option value={SC.REL_TERMS}>Related Terms</option>
+                <option value={SC.PUB_PLACE}>Place of Publication</option>
+                <option value={SC.PUBLISHER}>Publisher</option>
+                <option value={SC.IDS}>ID Numbers</option>
+                <option value={SC.CREATE_DATE}>Create Date</option>
+                <option value={SC.ENTRY_DATE}>Upload Date</option>
+                <option value={SC.RESOURCE_TYPE}>Resource Type</option>
+            </select>
+            {selectedValue && [13, 14, 15].includes(selectedValue) && (
+                <span>
+                    <button
+                        className="btn btn-warning btn-sm"
+                        onClick={handleBtnClick}
+                    >
+                        Open Related Tree
+                    </button>
+                </span>
+            )}
+        </>
     );
 };
 
