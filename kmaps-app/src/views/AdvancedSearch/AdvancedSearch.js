@@ -95,7 +95,7 @@ const AdvancedSearch = () => {
             if (typeof textval === 'string' && textval.trim() === '') {
                 if (
                     (isdate && SC.needsDateString(scopeval)) ||
-                    fieldval !== SC.RESOURCE_TYPE
+                    fieldval === SC.RESOURCE_TYPE
                 ) {
                     return;
                 }
@@ -110,6 +110,7 @@ const AdvancedSearch = () => {
             };
             rowlist.push(row);
         });
+        // console.log("Rowlist just built", rowlist);
         return rowlist;
     };
 
@@ -120,7 +121,7 @@ const AdvancedSearch = () => {
         if (rows?.length > 0) {
             const builder = new SearchBuilder(rows);
             const newqry = builder.buildQuery();
-            console.log('new query', newqry);
+            // console.log('new query', newqry);
             setSQuery(newqry);
             document.getElementById('advanced-search-tree-toggle').click();
             if (!searchView) {
@@ -181,6 +182,31 @@ const AdvancedSearch = () => {
         }
     };
 
+    const getReadableQuery = () => {
+        setShowQuery(true);
+        const rows = buildRowList();
+        const tr = SC.corr;
+        const qsum = [];
+        for (let i in rows) {
+            let { isdate, conn, field, scope, text } = rows[i];
+            if (i > 0) {
+                qsum.push(tr[conn]);
+            }
+            qsum.push(tr[field]);
+            qsum.push(tr[scope]);
+            if (text?.length > 0) {
+                qsum.push(`“${text}”`);
+            }
+        }
+        return qsum.join(' ');
+    };
+
+    const readableQuery = (e) => {
+        e.preventDefault();
+        const rq = getReadableQuery();
+        setSQuery(rq);
+    };
+
     return (
         <div className="advanced-search-wrap">
             <form
@@ -223,9 +249,9 @@ const AdvancedSearch = () => {
             </form>
             <div className="card output">
                 <div className="card-header">
-                    Current Query (
+                    Current Query (Show ...
                     <a onClick={revealQuery} className="action">
-                        Show Query
+                        Query
                     </a>
                     {' | '}
                     <a
@@ -233,7 +259,15 @@ const AdvancedSearch = () => {
                         onClick={revealQuery}
                         className="action"
                     >
-                        Show Results
+                        Results
+                    </a>
+                    {' | '}
+                    <a
+                        id="show-readable"
+                        onClick={readableQuery}
+                        className="action"
+                    >
+                        Summary
                     </a>
                     )
                 </div>
@@ -258,7 +292,6 @@ const QueryRow = ({ n, id, delfunc }) => {
     const [hasSearchBox, setHasSearchBox] = useState(true);
     const dateSelect = useRef();
     useEffect(() => {
-        // console.log("RowType", rowType);
         if (rowType === 'date') {
             const choice = dateSelect?.current?.value;
             setHasSearchBox(SC.needsDateString(choice));
@@ -356,11 +389,12 @@ const FieldSelect = ({ id, setType, name = false }) => {
     const selel = useRef();
     const ichanged = () => {
         const choice = selel.current.value * 1;
+        // console.log('ichanged', choice);
         setSelectedValue(choice);
         if (SC.isDate(choice)) {
             setType('date');
-        }
-        if (choice === SC.RESOURCE_TYPE) {
+            console.log('Its a date!');
+        } else if (choice === SC.RESOURCE_TYPE) {
             setType('assettype');
         } else {
             setType('normal');

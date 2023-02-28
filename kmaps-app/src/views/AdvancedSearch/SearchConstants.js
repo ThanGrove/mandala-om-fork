@@ -1,5 +1,32 @@
+export const corr = {
+    0: '',
+    1: 'and',
+    2: 'or',
+    3: 'and not',
+    10: 'any field',
+    11: 'title/header',
+    12: 'agent',
+    13: 'related places',
+    14: 'related subjects',
+    15: 'related terms',
+    16: 'publication place',
+    17: 'publisher',
+    18: 'id',
+    19: 'creation date',
+    20: 'upload date',
+    21: 'resource type',
+    50: 'contains',
+    51: 'is exactly',
+    52: 'starts with',
+    53: 'ends with',
+    54: 'is between',
+    55: 'within the last year',
+    56: 'in the last 5 years',
+    57: 'in the last 10 years',
+};
+
 /** Connectors **/
-export const FIRST = 0; // For use with first line????
+export const FIRST = 0; // For use with first line????\
 export const AND = 1;
 export const OR = 2;
 export const ANDNOT = 3;
