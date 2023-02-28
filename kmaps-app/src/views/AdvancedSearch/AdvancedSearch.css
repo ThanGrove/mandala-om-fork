@@ -54,6 +54,11 @@
 .advanced-search-wrap .row-delete :hover {
     color: red;
 }
+.advanced-search-wrap .field-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
 
 textarea.form-control.query-code {
     font-family: monospace;

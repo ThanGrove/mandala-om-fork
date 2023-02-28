@@ -35,8 +35,9 @@ export const SOLRFIELDS = {
     // TITLE
     11: [
         'title',
-        /*'caption',*/
+        'caption',
         'name_latin',
+        'name_roman.scholar',
         'name_tibt',
         'name_hans',
         'name_zh',
@@ -48,8 +49,8 @@ export const SOLRFIELDS = {
         'title_long_bo_t',
         'title_short_t',
         'title_short_bo_latn_t',
-        /*'caption_alt_txt',
-        'caption_alt_lang_ss',*/
+        'caption_alt_txt',
+        'caption_alt_lang_ss',
     ],
     // PERSON
     12: ['creator'],
@@ -68,10 +69,25 @@ export const SOLRFIELDS = {
     21: ['asset_type'],
 };
 
+export const TIB_FIELDS = [
+    'title',
+    'caption',
+    'name_tibt',
+    'title_alt_t',
+    'title_corpus_bo_t',
+    'title_long_bo_t',
+    'title_short_t',
+    'caption_alt_txt',
+];
+
 export const ASSET_TYPES = {
     'audio-video': 'Audio-Visual',
+    collections: 'Collections',
     images: 'Images',
+    places: 'Places',
     sources: 'Sources',
+    subjects: 'Subjects',
+    terms: 'Terms',
     texts: 'Texts',
     visuals: 'Visualizations',
 };

@@ -1,5 +1,6 @@
 import * as SC from './SearchConstants';
-import { LAST1YEAR } from './SearchConstants';
+import { LAST1YEAR, TIB_FIELDS } from './SearchConstants';
+import { isLat, isTib } from '../common/utils';
 
 /**
  * Main Class is SearchBuilder. It uses a secondary class QueryItem which processes each line from the form
@@ -155,14 +156,27 @@ class QueryItem {
     // TODO: Need to deal with "and not". To make the minus work the item's string needs to be in parentheses.
     buildQueryString() {
         let query = '';
-        let escqs = encodeURIComponent(this?.qstr);
         this.fieldlist.map((fld, fn) => {
+            let escqs = this?.qstr; // was encodeURIComponent(this?.qstr); but that doesn't work for exactly
             if (fn > 0 && fn < this.fieldlist.length) {
                 query += ' OR ';
             }
+            if (fld === 'name_roman.scholar' || fld.includes('bo_latn')) {
+                if (isLat(escqs) && escqs.charAt(escqs.length - 1) !== '/') {
+                    escqs = escqs + '/';
+                }
+            } else if (SC.TIB_FIELDS.includes(fld)) {
+                if (isTib(escqs)) {
+                    const lastchar = escqs.charCodeAt(escqs.length - 1);
+                    // Remove final tsek if Tibetan to match exact searches
+                    if (3850 < lastchar < 3853) {
+                        escqs = escqs.substring(0, escqs.length - 1);
+                    }
+                }
+            }
             switch (this?.scope) {
                 case SC.EXACTLY:
-                    query += `${fld}:${escqs}`;
+                    query += `${fld}:"${escqs}"`;
                     break;
                 case SC.STARTSWITH:
                     query += `${fld}:${escqs}*`;

@@ -370,7 +370,7 @@ const FieldSelect = ({ id, setType, name = false }) => {
         <>
             <select id={id} name={name} ref={selel} onChange={ichanged}>
                 <option value={SC.ANY}>Any</option>
-                <option value={SC.TITLE}>Title</option>
+                <option value={SC.TITLE}>Title/Header</option>
                 <option value={SC.PERSON}>Person</option>
                 <option value={SC.REL_PLACES}>Related Places</option>
                 <option value={SC.REL_SUBJECTS}>Related Subjects</option>

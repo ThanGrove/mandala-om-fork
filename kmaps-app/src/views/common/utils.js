@@ -101,6 +101,34 @@ export function normalizeLinks(asset_type) {
     });
 }
 
+export function isLat(str) {
+    const low = 0;
+    const high = 3839;
+    return testChars(str, low, high);
+}
+
+export function isTib(str) {
+    const low = 3839;
+    const high = 4096;
+    return testChars(str, low, high);
+}
+
+function testChars(str, lower, upper) {
+    if (typeof str !== 'string' || typeof (lower + upper) !== 'number') {
+        return false;
+    }
+    str = str.replace(/\s/g, '');
+    if (str.length === 0) {
+        return false;
+    }
+    let isInRange = true;
+    for (let n in str) {
+        let chcd = str.charCodeAt(n);
+        isInRange = lower < chcd < upper;
+    }
+    return isInRange;
+}
+
 /**
  *
  * @param sel
