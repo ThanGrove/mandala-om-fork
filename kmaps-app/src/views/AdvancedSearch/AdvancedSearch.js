@@ -83,12 +83,23 @@ const AdvancedSearch = () => {
             const inputs = el.querySelectorAll('input, select');
             const isFirst = n === 0;
             const aug = isFirst ? 0 : 1;
-            const connval = n > 0 ? inputs[0].value : false;
             const fieldval = inputs[0 + aug].value;
+            const isdate = SC.isDate(fieldval);
+            const connval = !isFirst ? inputs[0].value : false;
             const scopeval = inputs[1 + aug].value;
             const textval = inputs[2 + aug].value;
+            // Ignore rows with empty text boxes when relevant
+            if (typeof textval === 'string' && textval.trim() === '') {
+                if (
+                    (isdate && SC.needsDateString(scopeval)) ||
+                    fieldval !== SC.RESOURCE_TYPE
+                ) {
+                    return;
+                }
+            }
+
             let row = {
-                isdate: SC.isDate(fieldval),
+                isdate: isdate,
                 conn: connval,
                 field: fieldval,
                 scope: scopeval,
@@ -212,8 +223,8 @@ const AdvancedSearch = () => {
                     Current Query (
                     <a onClick={revealQuery} className="action">
                         Show Query
-                    </a>{' '}
-                    |
+                    </a>
+                    {' | '}
                     <a
                         id="show-results"
                         onClick={revealQuery}
@@ -224,17 +235,6 @@ const AdvancedSearch = () => {
                     )
                 </div>
                 <div className="card-body">
-                    {/*
-                    <p>
-                        <small>Current query: </small>
-                        <a
-                            href={surl}
-                            target="_blank"
-                            className="btn btn-outline-warning btn-sm"
-                        >
-                            Click here
-                        </a>
-                    </p> */}
                     {showQuery && (
                         <Form.Control
                             as="textarea"

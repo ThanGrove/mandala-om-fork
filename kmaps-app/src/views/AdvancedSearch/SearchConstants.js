@@ -35,7 +35,7 @@ export const SOLRFIELDS = {
     // TITLE
     11: [
         'title',
-        'caption',
+        /*'caption',*/
         'name_latin',
         'name_tibt',
         'name_hans',
@@ -48,8 +48,8 @@ export const SOLRFIELDS = {
         'title_long_bo_t',
         'title_short_t',
         'title_short_bo_latn_t',
-        'caption_alt_txt',
-        'caption_alt_lang_ss',
+        /*'caption_alt_txt',
+        'caption_alt_lang_ss',*/
     ],
     // PERSON
     12: ['creator'],
