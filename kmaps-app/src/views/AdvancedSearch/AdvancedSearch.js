@@ -249,7 +249,7 @@ const AdvancedSearch = () => {
             </form>
             <div className="card output">
                 <div className="card-header">
-                    Current Query (Show ...
+                    {'Current Query (Show ... '}
                     <a onClick={revealQuery} className="action">
                         Query
                     </a>
