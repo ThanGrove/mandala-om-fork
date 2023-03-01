@@ -20,6 +20,7 @@ export function SearchViewer() {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
+    // console.log("query is: ", query);
     const addSearchPage = useRecentSearch((state) => state.addSearchPage);
     let { searchText: search, filters } = query;
 

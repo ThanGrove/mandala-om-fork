@@ -156,6 +156,7 @@ class QueryItem {
     // TODO: Need to deal with "and not". To make the minus work the item's string needs to be in parentheses.
     buildQueryString() {
         let query = '';
+        // console.log("this query str", this?.qstr);
         this.fieldlist.map((fld, fn) => {
             let escqs = this?.qstr; // was encodeURIComponent(this?.qstr); but that doesn't work for exactly
             if (fn > 0 && fn < this.fieldlist.length) {
@@ -167,6 +168,7 @@ class QueryItem {
                 }
             } else if (SC.TIB_FIELDS.includes(fld)) {
                 if (isTib(escqs)) {
+                    // console.log(escqs, "is Tibetan for ", fld);
                     const lastchar = escqs.charCodeAt(escqs.length - 1);
                     // Remove final tsek if Tibetan to match exact searches
                     if (3850 < lastchar < 3853) {

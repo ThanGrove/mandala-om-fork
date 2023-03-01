@@ -124,7 +124,7 @@ function testChars(str, lower, upper) {
     let isInRange = true;
     for (let n in str) {
         let chcd = str.charCodeAt(n);
-        isInRange = lower < chcd < upper;
+        isInRange = chcd > lower && chcd < upper;
     }
     return isInRange;
 }
