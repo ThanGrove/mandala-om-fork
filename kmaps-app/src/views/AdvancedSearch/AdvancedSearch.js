@@ -11,7 +11,7 @@ import { openTabStore, treeStore } from '../../hooks/useCloseStore';
 import { browseSearchToggle } from '../../hooks/useBrowseSearchToggle';
 
 import * as SC from './SearchConstants';
-import { SearchBuilder } from './SearchBuilder';
+import { buildQuery, getReadableQuery, SearchBuilder } from './SearchBuilder';
 import { ArrayOfObjectsParam } from '../../hooks/utils';
 import './AdvancedSearch.scss';
 import { needsDateString, RESOURCE_TYPE } from './SearchConstants';
@@ -119,8 +119,7 @@ const AdvancedSearch = () => {
         const rows = buildRowList();
 
         if (rows?.length > 0) {
-            const builder = new SearchBuilder(rows);
-            const newqry = builder.buildQuery();
+            const newqry = buildQuery(rows);
             // console.log('new query', newqry);
             setSQuery(newqry);
             document.getElementById('advanced-search-tree-toggle').click();
@@ -182,28 +181,11 @@ const AdvancedSearch = () => {
         }
     };
 
-    const getReadableQuery = () => {
-        setShowQuery(true);
-        const rows = buildRowList();
-        const tr = SC.corr;
-        const qsum = [];
-        for (let i in rows) {
-            let { isdate, conn, field, scope, text } = rows[i];
-            if (i > 0) {
-                qsum.push(tr[conn]);
-            }
-            qsum.push(tr[field]);
-            qsum.push(tr[scope]);
-            if (text?.length > 0) {
-                qsum.push(`“${text}”`);
-            }
-        }
-        return qsum.join(' ');
-    };
-
     const readableQuery = (e) => {
         e.preventDefault();
-        const rq = getReadableQuery();
+        setShowQuery(true);
+        const rows = buildRowList();
+        const rq = getReadableQuery(rows);
         setSQuery(rq);
     };
 

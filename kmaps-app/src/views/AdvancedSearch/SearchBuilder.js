@@ -216,3 +216,25 @@ class QueryItem {
         return query;
     }
 }
+
+export function buildQuery(rows) {
+    const builder = new SearchBuilder(rows);
+    return builder.buildQuery();
+}
+
+export function getReadableQuery(rows) {
+    const tr = SC.corr;
+    const qsum = [];
+    for (let i in rows) {
+        let { isdate, conn, field, scope, text } = rows[i];
+        if (i > 0) {
+            qsum.push(tr[conn]);
+        }
+        qsum.push(tr[field]);
+        qsum.push(tr[scope]);
+        if (text?.length > 0) {
+            qsum.push(`“${text}”`);
+        }
+    }
+    return qsum.join(' ');
+}
