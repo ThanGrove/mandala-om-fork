@@ -32,6 +32,7 @@ import ScrollToTop from './ScrollToTop';
 import { ShanticonRefPage } from '../views/common/utilcomponents';
 import AdvancedSearch from '../views/AdvancedSearch/AdvancedSearch';
 import { Devanagari } from '../views/common/Devanagari';
+import { TreeTest2 } from '../views/KmapTree2/TreeTest2';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -323,6 +324,9 @@ export default function ContentMain(props) {
                                 </Route>
                                 <Route path={`/admin/devanagari`}>
                                     <Devanagari />
+                                </Route>
+                                <Route path={`/admin/treetest2`}>
+                                    <TreeTest2 />
                                 </Route>
 
                                 <Route path={['/', '/home']}>
