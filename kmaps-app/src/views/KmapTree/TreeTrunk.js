@@ -17,7 +17,6 @@ import TreeLeaf from './TreeLeaf';
  */
 export default function TreeTrunk({
     domain,
-    level = 0,
     settings,
     isopen = false,
     newperspective,
@@ -32,7 +31,7 @@ export default function TreeTrunk({
     let query = {
         index: 'terms',
         params: {
-            q: `tree:${domain} AND ${persp_lvl}:${level}`,
+            q: `tree:${domain} AND ${persp_lvl}:${settings.level}`,
             rows: 2000,
             fl: '*',
         },
@@ -41,22 +40,28 @@ export default function TreeTrunk({
         // Terms can be sorted in Solr response with position_i
         query.params['sort'] = 'position_i asc';
     }
+
+    // console.log("trunk query", query);
     const {
         isLoading: isGroupLoading,
         data: groupData,
         isError: isGroupError,
         error: groupError,
-    } = useSolr(['tree-level', domain, settings.perspective, level], query);
-
-    const lvlids = groupData?.docs?.map((d, di) => {
-        return d.uid;
-    });
+    } = useSolr(
+        ['tree-level', domain, settings.perspective, settings.level],
+        query
+    );
 
     if (isGroupLoading) {
         return <MandalaSkeleton />;
     }
 
+    if (groupError) {
+        console.log('Tree Trunk error', groupError);
+        return null;
+    }
     let docs = !isGroupError && groupData?.docs ? groupData.docs : [];
+
     /*let facets = (groupData['facets'][facet_fld]) ? groupData['facets'][facet_fld] : [];
     resdocs = resdocs.filter((doc) => {
         return (doc[persp_lvl] == level);
@@ -91,7 +96,12 @@ export default function TreeTrunk({
         }
         return true;
     });
+    /*
+    if(domain === 'terms') {
+        console.log("docs", filteredDocs);
+    }
 
+     */
     return (
         <>
             {filteredDocs.map((d, di) => {

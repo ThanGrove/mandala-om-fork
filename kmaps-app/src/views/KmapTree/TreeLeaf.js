@@ -71,10 +71,11 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
     // Get Number of Children
     // Build the query to get number of children, by querying for children but rows = 0 and use numFound
     const childlvl = leaf_level + 1;
+    const qval = childlvl === 2 ? kid : `*/${kid}/*`;
     const query = {
         index: 'terms',
         params: {
-            q: `${settings.ancestor_field}:${kmapid}`,
+            q: `${settings.ancestor_field}:${qval}`,
             fq: [`tree:${domain}`, `${settings.level_field}:${childlvl}`],
             rows: 0,
             fl: '*',
@@ -250,6 +251,7 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
         !props?.nolink;
 
     // return the div structure for a regular tree leaf
+    // console.log("leafhead", leafhead);
     return (
         <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
             <span

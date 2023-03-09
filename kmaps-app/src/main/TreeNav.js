@@ -111,6 +111,7 @@ const TreeNav = (props) => {
                             <KmapTree
                                 elid="tab-tree-places"
                                 domain="places"
+                                level={1}
                                 isOpen={true}
                                 selectedNode={domainfids['places']}
                                 project={getProject()}
