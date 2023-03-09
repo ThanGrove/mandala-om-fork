@@ -15,12 +15,12 @@ import TreeLeaf from './TreeLeaf';
  * @constructor
  */
 export function LeafChildren({
-    settings,
     quid,
     query,
     leaf_level,
     isOpen,
     perspective,
+    settings,
 }) {
     query['params']['rows'] = settings.pgsize;
     const {
@@ -32,6 +32,10 @@ export function LeafChildren({
     if (isChildrenLoading) {
         return <MandalaSkeleton />;
     }
+    if (isChildrenError) {
+        console.log("can't load children", childrenError);
+    }
+
     const children =
         !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
 
@@ -45,35 +49,38 @@ export function LeafChildren({
         }
         return 0;
     });
+
+    let filtered_children = children.filter((c, ci) => {
+        const kidpts = c['id'].split('-');
+        // Filter out kids not in project ids
+        if (
+            settings?.project_ids &&
+            !settings.project_ids.includes(kidpts[1])
+        ) {
+            return false;
+        }
+        // Filter out related places not in path
+        if (
+            settings?.showRelatedPlaces &&
+            !settings?.selPath.includes(kidpts[1] * 1)
+        ) {
+            return false;
+        }
+        // Filter out uncles/aunts not in showAncestor of selnode path
+        if (
+            !settings?.startNode &&
+            settings?.showAncestors &&
+            settings?.selPath &&
+            !settings.selPath.includes(c['id'].split('-')[1] * 1)
+        ) {
+            return false;
+        }
+        return true;
+    });
     return (
         <div className={settings.childrenClass}>
-            {children.map((child, i) => {
-                const lckey = `treeleaf-${child['id']}-children`;
-                const kidpts = child['id'].split('-');
+            {filtered_children.map((child, i) => {
                 let io = false;
-                // Filter out kids not in project ids
-                if (
-                    settings?.project_ids &&
-                    !settings.project_ids.includes(kidpts[1])
-                ) {
-                    return null;
-                }
-                // Filter out related places not in path
-                if (
-                    settings?.showRelatedPlaces &&
-                    !settings?.selPath.includes(kidpts[1] * 1)
-                ) {
-                    return null;
-                }
-                // Filter out uncles/aunts not in showAncestor of selnode path
-                if (
-                    !settings?.startNode &&
-                    settings?.showAncestors &&
-                    settings?.selPath &&
-                    !settings.selPath.includes(child['id'].split('-')[1] * 1)
-                ) {
-                    return null;
-                }
                 // Open automatically if in environment variable
                 if (
                     process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
@@ -84,13 +91,11 @@ export function LeafChildren({
                 }
                 return (
                     <TreeLeaf
-                        key={lckey}
-                        domain={kidpts[0]}
-                        kid={kidpts[1]}
-                        leaf_level={leaf_level + 1}
-                        settings={settings}
+                        key={`tree-leaf-${child.id}`}
+                        doc={child}
                         isopen={io}
-                        perspective={perspective}
+                        nolink={settings?.noRootLinks}
+                        settings={settings}
                     />
                 );
             })}

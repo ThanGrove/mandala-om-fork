@@ -1,7 +1,7 @@
 import { useSolr } from '../../hooks/useSolr';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import React from 'react';
-import TreeLeaf from '../KmapTree/TreeLeaf';
+import TreeLeaf from './TreeLeaf';
 
 /**
  * A group of tree nodes/leaves at the same level, as in Subjects or Terms
@@ -96,8 +96,6 @@ export default function TreeTrunk({
         <>
             {filteredDocs.map((d, di) => {
                 const tlkey = `treeleaf-${d.uid}-${di}`;
-                console.log(d);
-                return null;
                 return (
                     <TreeLeaf
                         key={tlkey}

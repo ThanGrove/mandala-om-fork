@@ -13,41 +13,13 @@ import { useView } from '../../hooks/useView';
 import { usePerspective } from '../../hooks/usePerspective';
 import { RelatedPlacesFeature } from '../Kmaps/PlacesRelPlacesViewer';
 import { Row } from 'react-bootstrap';
+import { RelatedChildren } from './RelatedChildren';
+import { LeafChildren } from './LeafChildren';
 
-/**
- * A Single Leaf Node from which other may descend with a toggle icon if it has children or dash if not
- * Depending on the isopen setting in props it is open or closed (if it has children)
- * When closed it contains an empty child div. When opened, it displays a LeafChildren component.
- * It does a query for number of children to determine the icon to display, whether toggle-able
- * A useEffect() hook sets and scrolls to the selected node once the tree is loaded
- *
- * If it is a root node and the props.showAncestors is true, then it takes the ancestor_id_path and
- * displays the highest node from it. It removes that id from the path, displays the leaf of that highest node,
- * but it sets the treePath to the truncated ancestor_id_path. When treePath is set, this TreeLeaf component
- * will display only the highest TreeLeaf on that path using a further truncated ancestor_id_path.
- * This iterates through the ancestors until the designated root node is displayed at which point
- * the treePath will be empty and it will display as a regular node
- *
- * If props.showRelatedPlaces is set to true, it will display a single level of children that are all the
- * related places to the root node.
- *
- * @param domain
- * @param kid
- * @param level
- * @param settings
- * @param isopen
- * @returns {JSX.Element|null}
- * @constructor
- */
-export default function TreeLeaf({
-    domain,
-    kid,
-    leaf_level,
-    settings,
-    perspective,
-    ...props
-}) {
-    const kmapid = queryID(domain, kid); // Build Leaf ID
+export default function TreeLeaf({ doc, settings, perspective, ...props }) {
+    const kmapid = doc?.id; // Build Leaf ID
+    let [domain, kid] = kmapid?.split('-');
+    const leaf_level = doc[settings.level_field] * 1 || -1;
 
     let io = props?.isopen ? props.isopen : false;
 
@@ -58,6 +30,7 @@ export default function TreeLeaf({
         }
     }
 
+    // console.log(doc);
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
 
     // Open State
@@ -71,18 +44,7 @@ export default function TreeLeaf({
     // View
     const viewSetting = useView((state) => state[settings.domain]);
 
-    // API Call for Leaf Data
-    const {
-        isLoading: isKmapLoading,
-        data: kmapdata,
-        isError: isKmapError,
-        error: kmapError,
-    } = useKmap(queryID(domain, kid), 'info');
-
-    if (!perspective) {
-        perspective = perspectiveSetting;
-    }
-
+    /* Old code
     // Query for number of children (numFound for 0 rows. This query is passed to LeafChildren to be reused).
     const qid = `leaf-children-${kmapid}-${perspective}-count`; // Id for query for caching
     // variable to query for paths that contain this node's path
@@ -104,34 +66,43 @@ export default function TreeLeaf({
             childlvl = parseInt(kmapdata[closest_lvl_fld]) + 1; // If not, use closest level
         }
     }
+    */
 
     // Get Number of Children
     // Build the query to get number of children, by querying for children but rows = 0 and use numFound
+    const childlvl = leaf_level + 1;
     const query = {
         index: 'terms',
         params: {
-            q: `tree:${domain} AND ${pathqry}`,
-            fq: `${lvl_fld}:${childlvl}`,
+            q: `${settings.ancestor_field}:${kmapid}`,
+            fq: [`tree:${domain}`, `${settings.level_field}:${childlvl}`],
             rows: 0,
             fl: '*',
         },
     };
+    const quid = [domain, settings.perspective, kmapid, 'children', 'count'];
     const {
         isLoading: isChildrenLoading,
         data: childrenData,
         isError: isChildrenError,
         error: childrenError,
-    } = useSolr(qid, query, isKmapLoading);
+    } = useSolr(quid, query);
 
     // Get number of rel children
-    const relcquid = `related-children-${domain}-${kid}-count`;
+    const relcquid = [
+        domain,
+        settings.perspective,
+        kmapid,
+        'related_children',
+        'count',
+    ];
     let q = `block_type:child AND block_child_type:related_${domain} AND related_${domain}_path_s:*/${kid}/*`;
     // Have to find none if not the selected node. numFound is used below.
     const relchildqry = {
         index: 'terms',
         params: {
             q: q,
-            fq: `origin_uid_s:${domain}-${kid}`,
+            fq: `origin_uid_s:${kmapid}`,
             rows: 0,
             fl: 'uid',
         },
@@ -150,7 +121,7 @@ export default function TreeLeaf({
     }, [io]);
 
     // Adjust which element has selected class when there is a change in tree data, children, or selected path
-    /*  Replaced by code in kmaptree
+    /*  Replaced by code in kmaptree  TODO: need to check since I updated kmaptree March 9, 2023
     useEffect(() => {
         if (
             !isChildrenLoading &&
@@ -178,7 +149,7 @@ export default function TreeLeaf({
     }
 
     // Show skeleton if loading self or children
-    if (isKmapLoading || isChildrenLoading || isRelChildrenLoading) {
+    if (isChildrenLoading || isRelChildrenLoading) {
         return (
             <div data-id={kmapid}>
                 <MandalaSkeleton height={5} width={50} />
@@ -228,18 +199,18 @@ export default function TreeLeaf({
     };
 
     // Do not display if no header to display in tree
-    if (!kmapdata?.header) {
+    if (!doc?.header) {
         return null;
     }
     // Define the child_content based on whether it is open or not (only loads children when open)
     let child_content = isOpen ? (
         <LeafChildren
-            settings={settings}
-            quid={qid.replace('-count', '')}
+            quid={quid.slice(0, quid.length - 1)}
             query={query}
             leaf_level={leaf_level}
             isOpen={isOpen}
             perspective={perspective}
+            settings={settings}
         />
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>
@@ -252,7 +223,7 @@ export default function TreeLeaf({
     }
 
     // Get Header based on View Settings (see hook useView)
-    const kmhead = getHeaderForView(kmapdata, viewSetting);
+    const kmhead = getHeaderForView(doc, viewSetting);
 
     const nolink = props?.nolink || (domain === 'terms' && hasChildren);
 
@@ -264,10 +235,7 @@ export default function TreeLeaf({
     const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
     ) : (
-        <Link
-            to={'/' + kmapdata?.id.replace('-', '/')}
-            onMouseDown={stopScroll}
-        >
+        <Link to={'/' + doc?.id.replace('-', '/')} onMouseDown={stopScroll}>
             <HtmlCustom markup={kmhead} />
         </Link>
     );
@@ -275,9 +243,9 @@ export default function TreeLeaf({
     // Show popup only for terms that are expressions (9315), words (9668), or phrases (9669) or any other kmap type unless nolink is false
     // words (9668) and phrases (9669) were added to make English trees work
     let showpop =
-        (kmapdata?.associated_subject_ids?.includes(9315) ||
-            kmapdata?.associated_subject_ids?.includes(9668) ||
-            kmapdata?.associated_subject_ids?.includes(9669) ||
+        (doc?.associated_subject_ids?.includes(9315) ||
+            doc?.associated_subject_ids?.includes(9668) ||
+            doc?.associated_subject_ids?.includes(9669) ||
             domain !== 'terms') &&
         !props?.nolink;
 
@@ -286,8 +254,8 @@ export default function TreeLeaf({
         <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
             <span
                 className={settings.spanClass}
-                data-domain={kmapdata?.tree}
-                data-id={kmapdata?.id}
+                data-domain={doc?.tree}
+                data-id={doc?.id}
             >
                 <span className={settings.iconClass} onClick={handleClick}>
                     {icon}
@@ -301,287 +269,3 @@ export default function TreeLeaf({
         </div>
     );
 }
-
-/**
- * The Container under a leaf that contains the children for that node, when the node is opened
- * It inherits the child query from Tree Leaf but sets rows to the default page size (e.g. 200)
- *
- * @param settings
- * @param children
- * @param level
- * @param isOpen
- * @returns {JSX.Element}
- * @constructor
- */
-export function LeafChildren({
-    settings,
-    quid,
-    query,
-    leaf_level,
-    isOpen,
-    perspective,
-}) {
-    query['params']['rows'] = settings.pgsize;
-    const {
-        isLoading: isChildrenLoading,
-        data: childrenData,
-        isError: isChildrenError,
-        error: childrenError,
-    } = useSolr(quid, query);
-    if (isChildrenLoading) {
-        return <MandalaSkeleton />;
-    }
-    const children =
-        !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
-
-    const sortfield = settings.domain === 'terms' ? 'position_i' : 'header';
-    children.sort((a, b) => {
-        if (a[sortfield] > b[sortfield]) {
-            return 1;
-        }
-        if (a[sortfield] < b[sortfield]) {
-            return -1;
-        }
-        return 0;
-    });
-    return (
-        <div className={settings.childrenClass}>
-            {children.map((child, i) => {
-                const lckey = `treeleaf-${child['id']}-children`;
-                const kidpts = child['id'].split('-');
-                let io = false;
-                // Filter out kids not in project ids
-                if (
-                    settings?.project_ids &&
-                    !settings.project_ids.includes(kidpts[1])
-                ) {
-                    return null;
-                }
-                // Filter out related places not in path
-                if (
-                    settings?.showRelatedPlaces &&
-                    !settings?.selPath.includes(kidpts[1] * 1)
-                ) {
-                    return null;
-                }
-                // Filter out uncles/aunts not in showAncestor of selnode path
-                if (
-                    !settings?.startNode &&
-                    settings?.showAncestors &&
-                    settings?.selPath &&
-                    !settings.selPath.includes(child['id'].split('-')[1] * 1)
-                ) {
-                    return null;
-                }
-                // Open automatically if in environment variable
-                if (
-                    process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
-                        child?.id
-                    )
-                ) {
-                    io = true;
-                }
-                return (
-                    <TreeLeaf
-                        key={lckey}
-                        domain={kidpts[0]}
-                        kid={kidpts[1]}
-                        leaf_level={leaf_level + 1}
-                        settings={settings}
-                        isopen={io}
-                        perspective={perspective}
-                    />
-                );
-            })}
-        </div>
-    );
-}
-
-export function RelatedChildren({ settings, domain, kid }) {
-    const rows = 0;
-    const quid = `related-children-${domain}-${kid}`;
-    const query = {
-        index: 'terms',
-        params: {
-            q: `block_type:child AND block_child_type:related_${domain} AND related_${domain}_path_s:*/${kid}/*`,
-            fq: `origin_uid_s:${domain}-${kid}`,
-            'json.facet': `{"feature_type": {"type":"terms", "field":"related_${domain}_feature_type_s"}}`,
-            rows: rows,
-            fl: '*',
-        },
-    };
-    const {
-        isLoading: isChildrenLoading,
-        data: childrenData,
-        isError: isChildrenError,
-        error: childrenError,
-    } = useSolr(quid, query);
-
-    if (isChildrenLoading) {
-        return <MandalaSkeleton />;
-    }
-    const children =
-        !isChildrenLoading && childrenData?.numFound > 0
-            ? childrenData.docs
-            : [];
-
-    /*
-    if (childrenData?.numFound > 0) {
-        console.log('query', query);
-        console.log('related children query results', childrenData);
-    }
-
-    const headernm = `related_places_header_s`;
-    children.sort((a, b) => {
-        if (a[headernm] > b[headernm]) {
-            return 1;
-        }
-        if (a[headernm] < b[headernm]) {
-            return -1;
-        }
-        return 0;
-    });
-*/
-    const facets = childrenData?.facets;
-    // if (!facets || facets === undefined) { return null; }
-    return (
-        <div className={settings?.childrenClass}>
-            {Object.keys(facets).map((facet_name, i) => {
-                if (facets[facet_name]?.buckets.length == 1) {
-                    return (
-                        <Row>
-                            {facets[facet_name]?.buckets.map((b, bi) => {
-                                return (
-                                    <RelatedBucket
-                                        domain={domain}
-                                        kid={kid}
-                                        facet={facet_name}
-                                        val={b?.val}
-                                        isSolo={true}
-                                    />
-                                );
-                            })}
-                        </Row>
-                    );
-                }
-                return (
-                    <fieldset className="related-features facet-group">
-                        <legend>Feature Types</legend>
-                        <Row>
-                            {facets[facet_name]?.buckets.map((b, bi) => {
-                                return (
-                                    <RelatedBucket
-                                        domain={domain}
-                                        kid={kid}
-                                        facet={facet_name}
-                                        val={b?.val}
-                                    />
-                                );
-                            })}
-                        </Row>
-                    </fieldset>
-                );
-            })}
-        </div>
-    );
-}
-
-function RelatedBucket({ domain, kid, facet, val, isSolo = false }) {
-    const quid = ['related-buckets', domain, kid, facet, val];
-    facet = `related_${domain}_${facet}_s`;
-    //console.log('facet is', facet);
-    const query = {
-        index: 'terms',
-        params: {
-            q: `related_${domain}_path_s:*/${kid}/*`,
-            fq: [
-                `origin_uid_s:${domain}-${kid}`,
-                `block_type:child`,
-                `block_child_type:related_${domain}`,
-                `${facet}:"${val}"`,
-            ],
-            rows: 5000,
-            fl: '*',
-        },
-    };
-    // console.log('bucket query', query);
-
-    const {
-        isLoading: isBucketLoading,
-        data: bucketItems,
-        isError: isBucketError,
-        error: bucketError,
-    } = useSolr(quid, query);
-
-    if (isBucketLoading) {
-        return <MandalaSkeleton />;
-    }
-    const cols = isSolo ? 12 : 4;
-    // return <div>There are {bucketItems?.numFound} items here. {facet} : {val}</div>;
-    return (
-        <RelatedPlacesFeature
-            label={val}
-            features={bucketItems?.docs}
-            colsize={cols}
-            isSolo={isSolo}
-        />
-    );
-    /*
-
-                const lckey = `treeleaf-${child['id'].replace(
-                    '-',
-                    '.'
-                )}-children-related-places-${i}`;
-                const [domain, kid] = child['related_places_id_s'].split('-');
-                const leafhead = child[headernm];
-                let divclass = 'c-kmapleaf leafend';
-                if (level) { divclass += ` lvl-${level}`; }
-
-                return (
-                    <div className={divclass} key={lckey}>
-                        <span
-                            className={settings.spanClass}
-                            data-domain={domain}
-                            data-id={kid}
-                        >
-                            <span className={settings.iconClass}>-</span>
-                            <span className={settings.headerClass}>
-                                <Link to={`/${domain}/${kid}`}>{leafhead}</Link>
-                                &nbsp;
-                                <span className="addinfo text-capitalize">
-                                    ({child['related_places_feature_type_s']})
-                                </span>
-                            </span>
-                            <MandalaPopover
-                                key={lckey + 'pop'}
-                                domain={domain}
-                                kid={kid}
-                            />
-                        </span>
-                    </div>
-                );
-     */
-}
-
-/**
- * Function called when selected div is loaded to scroll that selected div into view
- * @param settings : object : the tree settings for the selected node
- *
- * DEPRECATED but SAVE: May need to add this logic to the scroll leaf functions in the 3 kmap info components.
-function updateTreeScroll(settings) {
-    const tree = $('#' + settings.elid);
-    if (tree.hasClass('clicked')) {
-        tree.removeClass('clicked');
-        return;
-    }
-    const selel = tree.find('.c-kmapleaf.selected');
-    if (!selel.hasClass('scrolled') && tree?.offset() && selel?.offset()) {
-        const treetop = tree.offset().top;
-        const seleltop = selel.offset().top;
-        let scrtop = seleltop - treetop - 20;
-        tree.scrollTop(scrtop);
-        selel.addClass('scrolled');
-    }
-}
-
- */

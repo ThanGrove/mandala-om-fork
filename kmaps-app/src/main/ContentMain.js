@@ -19,7 +19,6 @@ import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
-import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
 import Home from './HomePage/Home';
@@ -32,7 +31,7 @@ import ScrollToTop from './ScrollToTop';
 import { ShanticonRefPage } from '../views/common/utilcomponents';
 import AdvancedSearch from '../views/AdvancedSearch/AdvancedSearch';
 import { Devanagari } from '../views/common/Devanagari';
-import { TreeTest2 } from '../views/KmapTree2/TreeTest2';
+import { TreeTest } from '../views/KmapTreeOld/TreeTest';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -325,8 +324,8 @@ export default function ContentMain(props) {
                                 <Route path={`/admin/devanagari`}>
                                     <Devanagari />
                                 </Route>
-                                <Route path={`/admin/treetest2`}>
-                                    <TreeTest2 />
+                                <Route path={`/admin/treetest`}>
+                                    <TreeTest />
                                 </Route>
 
                                 <Route path={['/', '/home']}>
