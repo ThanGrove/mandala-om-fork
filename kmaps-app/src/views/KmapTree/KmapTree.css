@@ -1,0 +1,224 @@
+@import '../../css/fonts/shanticon/style.css';
+.kmap-stop-scroll {
+    overflow: hidden !important;
+}
+
+ul.fancytree-container {
+    height: auto !important;
+}
+
+.c-kmaptree {
+    margin: 0 1rem 0 0;
+    line-height: 1.5;
+    overflow-y: scroll;
+    border-style: double solid;
+    border-color: #929ae4;
+    box-shadow: inset -0.5rem -2rem 3rem #c0cbd04d;
+    border-width: 0.3rem 0.15rem 0.7rem 0.15rem;
+    border-radius: 0.5rem 0 4rem 0.5rem;
+    background: white;
+    font-size: 1.55rem;
+    padding: 1rem 1rem 10rem;
+    white-space: nowrap;
+    min-height: calc(100vh - 40rem);
+    width: 100%;
+}
+
+.l-column__search .c-kmaptree {
+    height: calc(100vh - 15.25rem);
+    margin: 0;
+    padding-top: 1rem;
+    padding-left: 2rem;
+    border-width: 0.5rem 1rem 0.6rem 0;
+    border-radius: 0 0 5rem 0;
+    border-bottom-width: 1rem;
+}
+
+.l-column__related .c-kmaptree {
+    width: 23rem;
+    margin-left: 1rem;
+    transition: width 0.5s;
+    transition-delay: 0.4s;
+    height: calc(100vh - 38rem);
+    border-width: 0.5rem 0.45rem 0.7rem 0.3rem;
+}
+
+.l-column__related .c-kmaptree:hover {
+    width: 50rem;
+}
+
+.c-perspective-select {
+    white-space: nowrap;
+    font-size: 1.2rem;
+}
+.c-perspective-select label {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 0;
+    font-size: 1.25rem;
+}
+.c-perspective-select label a {
+    margin-left: 0.5rem;
+    margin-right: 1.5rem;
+}
+.c-perspective-select select {
+    display: inline-block;
+    width: fit-content;
+    max-width: unset;
+    border-radius: 1.5rem;
+    padding: 0.2rem 0.9rem;
+    border-color: #aaa;
+    font-size: 1.1rem;
+    font-weight: 600;
+    letter-spacing: 0.035rem;
+}
+
+.modal-dialog.modal-persp-desc {
+    min-width: 60vw;
+}
+.modal-dialog.modal-persp-desc .modal-header {
+    background-color: slategray;
+    color: #ededed;
+}
+.modal-dialog.modal-persp-desc .modal-header .button.close {
+    padding: 0;
+}
+.modal-dialog.modal-persp-desc .modal-header .modal-title.h4 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+
+/*
+.tree-test .c-kmaptree {
+    height: 80vh;
+    min-width: 365px;
+    max-height: 80vh;
+    border: 3px inset #5960a7;
+    padding: 1.25rem;
+    font-size: 1.45rem;
+}
+*/
+/* Leaf Styles */
+.c-kmapleaf {
+    max-width: inherit;
+    overflow: hidden;
+    margin-left: 1.25rem;
+    word-wrap: break-word;
+    white-space: normal;
+}
+.c-kmapleaf .toggle-icon {
+    display: inline-block;
+    margin-right: 0.9rem;
+    font-size: 1.95rem;
+    position: relative;
+    top: 0.25rem;
+}
+.c-kmapleaf .c-kmapnode {
+    display: flex;
+}
+.c-kmapleaf .c-kmapnode span.label {
+    display: inline-block;
+    text-indent: -1rem;
+    margin-left: 1rem;
+    line-height: 28px;
+}
+.c-kmapleaf .label a {
+    color: #000;
+    margin: 0 0.5rem;
+    text-decoration: none;
+}
+.c-kmapleaf .label a:hover {
+    color: #df3d26;
+}
+.c-kmapleaf span.bo,
+.c-kmapleaf span.zh {
+    font-size: 2rem;
+    line-height: 1.35;
+}
+.c-kmapleaf.selected > .c-kmapnode {
+    background-color: #fff40057;
+}
+.c-kmapleaf.selected > .c-kmapnode > .label a {
+    border-bottom: 0.3rem solid #cca843;
+}
+
+.leafend {
+    padding-left: 0.3rem;
+}
+.leafend .toggle-icon::before {
+    content: '';
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-right: 0.5rem;
+    margin-left: 0.3rem;
+    border: 0.25rem solid #b99b45;
+    background-color: #fff;
+    display: inline-block;
+    position: relative;
+    top: -0.25rem;
+    left: 0;
+    z-index: 1;
+    transform: rotate(45deg);
+}
+
+.l-place-content-tree .leafend .toggle-icon::before {
+    top: 0.85rem;
+}
+
+.leafend:hover .toggle-icon::before {
+    background-color: #b99b45;
+}
+
+.leafopen .children {
+    display: block;
+}
+
+.leafclosed .children {
+    display: none;
+}
+
+.lvl-0 {
+    margin-left: 0 !important;
+}
+
+[class*='lvl-'] {
+    margin-left: 1rem;
+    /* amount of indent per level of tree */
+}
+
+/** Domain Specific Styles **/
+.c-kmaptree.places .c-kmapnode .toggle-icon {
+    color: #3297f7;
+}
+
+.c-kmaptree.subjects .c-kmapnode .toggle-icon {
+    color: #cc4c39;
+}
+
+.c-kmaptree.terms .c-kmapnode .toggle-icon {
+    color: #91693c;
+}
+
+.c-kmaptree span.addinfo {
+    font-size: 1.25rem;
+    color: #333;
+    margin-left: 1.5rem;
+    font-style: italic;
+}
+
+.c-content__main__kmaps .c-kmaptree {
+    /* border: none;
+  box-shadow: none;
+  background-color: transparent; */
+    padding: 1.5rem 2rem 5rem;
+}
+.c-content__main__kmaps .c-kmaptree .leafend .toggle-icon {
+    color: transparent;
+    font-size: 0;
+}
+
+p.tree-not-found {
+    white-space: normal;
+}
+
+/*# sourceMappingURL=KmapTree.css.map */

@@ -16,7 +16,13 @@ import { Row } from 'react-bootstrap';
 import { RelatedChildren } from './RelatedChildren';
 import { LeafChildren } from './LeafChildren';
 
-export default function TreeLeaf({ doc, settings, perspective, ...props }) {
+export default function TreeLeaf({
+    doc,
+    settings,
+    perspective,
+    seldata,
+    ...props
+}) {
     const kmapid = doc?.id; // Build Leaf ID
     let [domain, kid] = kmapid?.split('-');
     const leaf_level = doc[settings.level_field] * 1 || -1;
@@ -70,6 +76,17 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
 
     // Get Number of Children
     // Build the query to get number of children, by querying for children but rows = 0 and use numFound
+    let hasSelData = false;
+    if (
+        seldata &&
+        !Array.isArray(seldata) &&
+        Object.keys(seldata).includes(kid)
+    ) {
+        hasSelData = true;
+        seldata = seldata[kid];
+    } else {
+        seldata = {};
+    }
     const childlvl = leaf_level + 1;
     const qval = childlvl === 2 ? kid : `*/${kid}/*`;
     const query = {
@@ -82,12 +99,12 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
         },
     };
     const quid = [domain, settings.perspective, kmapid, 'children', 'count'];
-    const {
+    let {
         isLoading: isChildrenLoading,
         data: childrenData,
         isError: isChildrenError,
         error: childrenError,
-    } = useSolr(quid, query);
+    } = useSolr(quid, query, hasSelData); // bypass if sel data
 
     // Get number of rel children
     const relcquid = [
@@ -114,7 +131,7 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
         data: relChildrenData,
         isError: isRelChildrenError,
         error: relChildrenError,
-    } = useSolr(relcquid, relchildqry);
+    } = useSolr(relcquid, relchildqry, hasSelData); // Bypass if sel data TODO: need to check rel children
 
     // Set open state once loaded
     useEffect(() => {
@@ -173,7 +190,7 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
     let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
 
     // with No Children, replace icon with dash
-    const hasChildren = childrenData?.numFound > 0;
+    const hasChildren = childrenData?.numFound > 0 || hasSelData;
     const hasRelChild = relChildrenData?.numFound > 0;
     /*if (domain === 'terms' && kid === '109') {
         console.log('109s rel childs', relChildrenData);
@@ -208,6 +225,7 @@ export default function TreeLeaf({ doc, settings, perspective, ...props }) {
         <LeafChildren
             quid={quid.slice(0, quid.length - 1)}
             query={query}
+            seldata={seldata}
             leaf_level={leaf_level}
             isOpen={isOpen}
             perspective={perspective}

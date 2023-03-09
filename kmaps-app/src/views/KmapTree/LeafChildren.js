@@ -17,18 +17,20 @@ import TreeLeaf from './TreeLeaf';
 export function LeafChildren({
     quid,
     query,
+    seldata = [],
     leaf_level,
     isOpen,
     perspective,
     settings,
 }) {
+    const hasSelData = Array.isArray(seldata) && seldata.length > 0;
     query['params']['rows'] = settings.pgsize;
-    const {
+    let {
         isLoading: isChildrenLoading,
         data: childrenData,
         isError: isChildrenError,
         error: childrenError,
-    } = useSolr(quid, query);
+    } = useSolr(quid, query, hasSelData); // bypas if has selected data
     if (isChildrenLoading) {
         return <MandalaSkeleton />;
     }
@@ -36,8 +38,11 @@ export function LeafChildren({
         console.log("can't load children", childrenError);
     }
 
-    const children =
+    let children =
         !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
+    if (hasSelData) {
+        children = seldata;
+    }
 
     const sortfield = settings.domain === 'terms' ? 'position_i' : 'header';
     children.sort((a, b) => {

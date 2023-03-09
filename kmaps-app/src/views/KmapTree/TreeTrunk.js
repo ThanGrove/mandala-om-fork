@@ -20,6 +20,7 @@ export default function TreeTrunk({
     settings,
     isopen = false,
     newperspective,
+    seldata = {},
 }) {
     const persp_lvl = `level_${settings.perspective}_i`;
 
@@ -27,6 +28,7 @@ export default function TreeTrunk({
         settings.perspective = newperspective;
     }
     const noRootLinks = settings.noRootLinks;
+
     // Get all nodes of the level
     let query = {
         index: 'terms',
@@ -112,6 +114,7 @@ export default function TreeTrunk({
                         doc={d}
                         nolink={noRootLinks}
                         settings={settings}
+                        seldata={seldata}
                     />
                 );
             })}

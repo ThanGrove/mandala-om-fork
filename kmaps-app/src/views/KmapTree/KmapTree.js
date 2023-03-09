@@ -5,6 +5,7 @@ import './KmapTree.scss';
 import TreeTrunk from './TreeTrunk';
 import { useSolr } from '../../hooks/useSolr';
 import { useKmap } from '../../hooks/useKmap';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export default function KmapTree(props) {
     let settings = {
@@ -72,7 +73,11 @@ export default function KmapTree(props) {
     let ancestors = settings?.selPath;
     if (typeof ancestors === 'string' && ancestors.includes('/')) {
         ancestors = ancestors.split('/');
-        if (ancestors?.length > 1) {
+        settings.selPath = ancestors.map((anc, ai) => {
+            return anc * 1;
+        }); // use full path including self but as array
+        if (ancestors?.length > 0) {
+            // remove self from array for ancestors
             ancestors = ancestors.slice(0, settings?.selPath?.length - 1);
         }
     }
@@ -89,21 +94,18 @@ export default function KmapTree(props) {
             return `(${lvlfld}:${plvl} AND ${anc_condition})`;
         });
     }
-    if (!pnquery || pnquery?.length === 0) {
-        pnquery = ['id:nothing-9999', 'id:bogus-2222']; // Default query to find nothing.
-        sel_uid = 'nothing-bogus';
-    }
+    const bypass = !pnquery || pnquery?.length === 0 || isSelNodeLoading;
     const pathnodesquery = {
         index: 'terms',
         params: {
-            q: pnquery.join(' OR '),
+            q: pnquery?.join(' OR '),
             fq: `tree:${settings.domain}`,
             rows: 2000,
             fl: '*',
         },
     };
 
-    const {
+    let {
         isLoading: isSelPathLoading,
         data: selPathData,
         isError: isSelPathError,
@@ -111,13 +113,29 @@ export default function KmapTree(props) {
     } = useSolr(
         ['tree-path', sel_uid, settings.perspective],
         pathnodesquery,
-        !isSelNodeLoading
+        bypass
     );
 
     if (!settings.domain) {
         return null;
     }
+    if (isSelPathLoading || isSelNodeLoading) {
+        return <MandalaSkeleton />;
+    }
 
+    // console.log(pnquery.join(' OR '), selPathData);
+    if (selPathData?.numFound > 0) {
+        const newSPD = {};
+        ancestors.forEach((anc, ai) => {
+            newSPD[anc] = selPathData.docs.filter((doc, di) => {
+                if (ai === 0) {
+                    return doc[settings.level_field] === 2;
+                }
+                return doc[settings.ancestor_field].includes(`/${anc}/`);
+            });
+        });
+        selPathData = newSPD;
+    }
     return (
         <div id={settings.elid} className={settings.treeClass}>
             <PerspectiveChooser
@@ -130,6 +148,7 @@ export default function KmapTree(props) {
                 isopen={settings.isOpen}
                 perspective={perspective}
                 newperspective={perspective}
+                seldata={selPathData}
             />
         </div>
     );
