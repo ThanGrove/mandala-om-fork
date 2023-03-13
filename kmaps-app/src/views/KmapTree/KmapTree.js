@@ -6,6 +6,7 @@ import TreeTrunk from './TreeTrunk';
 import { useSolr } from '../../hooks/useSolr';
 import { useKmap } from '../../hooks/useKmap';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { useTreeStore } from '../../hooks/useTreeStore';
 
 export default function KmapTree(props) {
     let settings = {
@@ -55,50 +56,13 @@ export default function KmapTree(props) {
         perspective: perspective,
     };
 
-    // Query for selected node and its path
-    // Get all nodes of the level
-    let sel_uid = `${settings.domain}-${settings.selectedNode}`;
-    const {
-        isLoading: isSelNodeLoading,
-        data: selNode,
-        isError: isSelNodeError,
-        error: selNodeError,
-    } = useKmap(sel_uid, 'info');
+    const treeStore = useTreeStore();
 
-    settings.selPath =
-        selNode && Object.keys(selNode).includes(settings.ancestor_field)
-            ? selNode[settings.ancestor_field]
-            : [];
-
-    let ancestors = settings?.selPath;
-    if (typeof ancestors === 'string' && ancestors.includes('/')) {
-        ancestors = ancestors.split('/');
-        settings.selPath = ancestors.map((anc, ai) => {
-            return anc * 1;
-        }); // use full path including self but as array
-        if (ancestors?.length > 0) {
-            // remove self from array for ancestors
-            ancestors = ancestors.slice(0, settings?.selPath?.length - 1);
-        }
-    }
-
-    const lvlfld = settings?.level_field;
-    const ancfld = settings?.ancestor_field;
-    let pnquery = ''; // initialize query variable
-    if (Array.isArray(ancestors)) {
-        pnquery = ancestors.map((anc, ai) => {
-            let plvl = ai + 2;
-            anc = anc.includes('-') ? anc.split('-')[1] : anc;
-            let anc_condition =
-                ai > 0 ? `${ancfld}:*/${anc}/*` : `${ancfld}:${anc}`;
-            return `(${lvlfld}:${plvl} AND ${anc_condition})`;
-        });
-    }
-    const bypass = !pnquery || pnquery?.length === 0 || isSelNodeLoading;
-    const pathnodesquery = {
+    const bypass = false; // !pnquery || pnquery?.length === 0 || isSelNodeLoading;
+    const treebasequery = {
         index: 'terms',
         params: {
-            q: pnquery?.join(' OR '),
+            q: `${settings.level_field}:[1 TO 2]`,
             fq: `tree:${settings.domain}`,
             rows: 2000,
             fl: '*',
@@ -106,36 +70,24 @@ export default function KmapTree(props) {
     };
 
     let {
-        isLoading: isSelPathLoading,
-        data: selPathData,
-        isError: isSelPathError,
-        error: selPathError,
+        isLoading: isTreeLoading,
+        data: treeData,
+        isError: isTreeError,
+        error: treeError,
     } = useSolr(
-        ['tree-path', sel_uid, settings.perspective],
-        pathnodesquery,
+        ['tree', settings?.domain, settings?.perspective],
+        treebasequery,
         bypass
     );
 
-    if (!settings.domain) {
-        return null;
-    }
-    if (isSelPathLoading || isSelNodeLoading) {
+    if (isTreeLoading) {
         return <MandalaSkeleton />;
     }
 
-    // console.log(pnquery.join(' OR '), selPathData);
-    if (selPathData?.numFound > 0) {
-        const newSPD = {};
-        ancestors.forEach((anc, ai) => {
-            newSPD[anc] = selPathData.docs.filter((doc, di) => {
-                if (ai === 0) {
-                    return doc[settings.level_field] === 2;
-                }
-                return doc[settings.ancestor_field].includes(`/${anc}/`);
-            });
-        });
-        selPathData = newSPD;
-    }
+    console.log('tree data docs', treeData.docs);
+
+    return <p>Successfull query: [{treeData?.numFound}]</p>;
+
     return (
         <div id={settings.elid} className={settings.treeClass}>
             <PerspectiveChooser
@@ -148,7 +100,6 @@ export default function KmapTree(props) {
                 isopen={settings.isOpen}
                 perspective={perspective}
                 newperspective={perspective}
-                seldata={selPathData}
             />
         </div>
     );
