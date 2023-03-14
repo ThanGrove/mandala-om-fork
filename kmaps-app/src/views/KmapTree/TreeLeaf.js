@@ -1,9 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useKmap } from '../../hooks/useKmap';
 import { getHeaderForView, getProject, queryID } from '../common/utils';
-import { useSolr } from '../../hooks/useSolr';
-import $ from 'jquery';
-import MandalaSkeleton from '../common/MandalaSkeleton';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinusCircle, faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -11,100 +7,54 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { HtmlCustom } from '../common/MandalaMarkup';
 import { useView } from '../../hooks/useView';
 import { usePerspective } from '../../hooks/usePerspective';
-import { RelatedPlacesFeature } from '../Kmaps/PlacesRelPlacesViewer';
-import { Row } from 'react-bootstrap';
-import { RelatedChildren } from './RelatedChildren';
 import { LeafChildren } from './LeafChildren';
+import { useSolr } from '../../hooks/useSolr';
 
 export default function TreeLeaf({
-    doc,
-    settings,
-    perspective,
-    seldata,
+    node,
+    withChild = null,
+    isOpen = false,
     ...props
 }) {
-    const kmapid = doc?.id; // Build Leaf ID
-    let [domain, kid] = kmapid?.split('-');
-    const leaf_level = doc[settings.level_field] * 1 || -1;
-
-    let io = props?.isopen ? props.isopen : false;
-
-    // Set to open if this leaf is in the selected path
-    if (settings?.selPath && settings.selPath.length > 0) {
-        if (settings.selPath.includes(kid * 1)) {
-            io = true;
-        }
-    }
-
-    // console.log(doc);
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
+    const settings = node?.tree?.settings;
 
-    // Open State
-    const [isOpen, setIsOpen] = useState(false);
-
-    // Persepective
     const perspectiveSetting = usePerspective(
         (state) => state[settings.domain]
     );
-
-    // View
+    const [isOpenState, setIsOpen] = useState(false);
     const viewSetting = useView((state) => state[settings.domain]);
 
-    // Get Number of Children
-    // Build the query to get number of children, by querying for children but rows = 0 and use numFound
-    let hasSelData = false;
-    if (
-        seldata &&
-        !Array.isArray(seldata) &&
-        Object.keys(seldata).includes(kid)
-    ) {
-        hasSelData = true;
-        seldata = seldata[kid];
-    } else {
-        seldata = {};
-    }
-    const childlvl = leaf_level + 1;
-    const qval = childlvl === 2 ? kid : `*/${kid}/*`;
-    const query = {
+    const perspective = settings?.perspective || perspectiveSetting;
+    const doc = node?.doc;
+    const [domain, kid] = doc?.uid?.split('-');
+    const childrenLoaded = Array.isArray(node.children); // node.children is originally set to null, not an array
+    const rowsToDo = 5000;
+
+    // Find Children (bypassed if already loaded)
+    let childquery = {
         index: 'terms',
         params: {
-            q: `${settings.ancestor_field}:${qval}`,
-            fq: [`tree:${domain}`, `${settings.level_field}:${childlvl}`],
-            rows: 0,
+            q: `${settings.level_field}:${node.level * 1 + 1}`,
+            fq: [`tree:${node.domain}`, `${node.ancestor_field}:${node.kid}`],
+            rows: rowsToDo,
             fl: '*',
         },
     };
-    const quid = [domain, settings.perspective, kmapid, 'children', 'count'];
+
     let {
-        isLoading: isChildrenLoading,
-        data: childrenData,
-        isError: isChildrenError,
-        error: childrenError,
-    } = useSolr(quid, query, hasSelData); // bypass if sel data
-
-    // Set open state once loaded
-    useEffect(() => {
-        setIsOpen(io);
-    }, [io]);
-
-    // Exclude any kmaps in comma-separated list env variable: process.env.REACT_APP_KMAP_EXCLUDES
-    const kmap_excludes =
-        process.env?.REACT_APP_KMAP_EXCLUDES?.split(',') || [];
-    if (kmap_excludes.includes(kmapid)) {
-        return null;
-    }
-
-    // Show skeleton if loading self or children
-    if (isChildrenLoading) {
-        return (
-            <div data-id={kmapid}>
-                <MandalaSkeleton height={5} width={50} />
-            </div>
-        );
-    }
+        isLoading: areChildrenLoading,
+        data: children,
+        isError: isChildError,
+        error: childError,
+    } = useSolr(
+        [domain, perspective, doc.uid, 'children'],
+        childquery,
+        childrenLoaded
+    ); // bypas if has selected data
 
     // Determine Icon for open or closed
-    let icon = isOpen ? (
+    let icon = isOpenState ? (
         <FontAwesomeIcon icon={faMinusCircle} />
     ) : (
         <FontAwesomeIcon icon={faPlusCircle} />
@@ -112,7 +62,7 @@ export default function TreeLeaf({
     let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
 
     // with No Children, replace icon with dash
-    const hasChildren = childrenData?.numFound > 0 || hasSelData;
+    const hasChildren = node?.children?.length > 0 || props?.withChild;
 
     if (!hasChildren) {
         icon = '';
@@ -127,7 +77,7 @@ export default function TreeLeaf({
     }
 
     // class value for tree leaf div
-    const divclass = `${settings.leafClass} lvl\-${leaf_level} ${toggleclass}`;
+    const divclass = `${settings.leafClass} lvl\-${node.level} ${toggleclass}`;
 
     // Leaf click handler
     const handleClick = (e) => {
@@ -141,15 +91,7 @@ export default function TreeLeaf({
 
     // Define the child_content based on whether it is open or not (only loads children when open)
     let child_content = isOpen ? (
-        <LeafChildren
-            quid={quid.slice(0, quid.length - 1)}
-            query={query}
-            seldata={seldata}
-            leaf_level={leaf_level}
-            isOpen={isOpen}
-            perspective={perspective}
-            settings={settings}
-        />
+        <LeafChildren node={node} />
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>
     );

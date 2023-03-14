@@ -2,11 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { usePerspective } from '../../hooks/usePerspective';
 import { PerspectiveChooser } from './KmapPerspectives';
 import './KmapTree.scss';
-import TreeTrunk from './TreeTrunk';
 import { useSolr } from '../../hooks/useSolr';
-import { useKmap } from '../../hooks/useKmap';
 import MandalaSkeleton from '../common/MandalaSkeleton';
-import { useTreeStore } from '../../hooks/useTreeStore';
+import { KTree } from './KmapsTree.class';
+import TreeLeaf from './TreeLeaf';
 
 export default function KmapTree(props) {
     let settings = {
@@ -33,8 +32,13 @@ export default function KmapTree(props) {
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
     const perspective = usePerspective((state) => state[settings.domain]);
     settings.perspective = perspective;
-    settings.ancestor_field = `ancestor_id_${settings.perspective}_path`;
+    settings.ancestor_field = [
+        `ancestor_ids_${settings.perspective}`,
+        'ancestor_ids_generic',
+    ]; // this works for Places, TODO: check for subjects and terms
+
     settings.level_field = `level_${settings.perspective}_i`;
+    settings.sort_field = `position_i`; // TODO: need to implement this for all domains
 
     const uniqueTreeID = `${settings.domain}:${settings.perspective}`;
     settings.elid += uniqueTreeID;
@@ -56,15 +60,13 @@ export default function KmapTree(props) {
         perspective: perspective,
     };
 
-    const treeStore = useTreeStore();
-
     const bypass = false; // !pnquery || pnquery?.length === 0 || isSelNodeLoading;
     const treebasequery = {
         index: 'terms',
         params: {
             q: `${settings.level_field}:[1 TO 2]`,
             fq: `tree:${settings.domain}`,
-            rows: 2000,
+            rows: 5000,
             fl: '*',
         },
     };
@@ -84,9 +86,15 @@ export default function KmapTree(props) {
         return <MandalaSkeleton />;
     }
 
-    console.log('tree data docs', treeData.docs);
+    let ktree = new KTree(
+        settings.domain,
+        settings.perspective,
+        treeData.docs,
+        settings
+    );
+    console.log('tree data docs', ktree, treeData);
 
-    return <p>Successfull query: [{treeData?.numFound}]</p>;
+    // return <p>Successfull query: [{treeData?.numFound}]</p>;
 
     return (
         <div id={settings.elid} className={settings.treeClass}>
@@ -94,13 +102,10 @@ export default function KmapTree(props) {
                 domain={settings.domain}
                 current={perspective}
             />
-            <TreeTrunk
-                domain={settings.root.domain}
-                settings={settings}
-                isopen={settings.isOpen}
-                perspective={perspective}
-                newperspective={perspective}
-            />
+            {ktree?.trunk?.map((nd, ni) => {
+                const tlkey = `treeleaf-${nd.uid}-${ni}`;
+                return <TreeLeaf key={tlkey} node={nd} />;
+            })}
         </div>
     );
 }

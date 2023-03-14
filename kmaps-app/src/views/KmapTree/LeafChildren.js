@@ -14,96 +14,82 @@ import TreeLeaf from './TreeLeaf';
  * @returns {JSX.Element}
  * @constructor
  */
-export function LeafChildren({
-    quid,
-    query,
-    seldata = [],
-    leaf_level,
-    isOpen,
-    perspective,
-    settings,
-}) {
-    const hasSelData = Array.isArray(seldata) && seldata.length > 0;
-    query['params']['rows'] = settings.pgsize;
+export function LeafChildren({ node, ...props }) {
+    const tree = node.tree;
+    const settings = tree.settings;
+    const domain = tree.domain;
+    const perspective = tree.perspective;
+    const doc = node?.doc;
+    const level = node?.level;
+    const rowsToDo = 2000;
+
+    // Find Grandchildren
+    let gcquery = {
+        index: 'terms',
+        params: {
+            q: `${settings.level_field}:${level * 1 + 2}`,
+            fq: [`tree:${node.domain}`, `${node.ancestor_field}:${node.kid}`],
+            rows: rowsToDo,
+            fl: '*',
+            facet: true,
+            'facet.field': node?.ancestor_field,
+            'facet.mincount': 2,
+        },
+    };
+
     let {
-        isLoading: isChildrenLoading,
-        data: childrenData,
-        isError: isChildrenError,
-        error: childrenError,
-    } = useSolr(quid, query, hasSelData); // bypas if has selected data
-    if (isChildrenLoading) {
-        return <MandalaSkeleton />;
+        isLoading: areGcLoading,
+        data: grandkids,
+        isError: isGcError,
+        error: gcError,
+    } = useSolr([domain, perspective, doc.uid, 'grandchildren'], gcquery); // bypas if has selected data
+    if (areGcLoading) {
+        return null;
     }
-    if (isChildrenError) {
-        console.log("can't load children", childrenError);
-    }
-
-    let children =
-        !isChildrenLoading && childrenData?.docs ? childrenData.docs : [];
-    if (hasSelData) {
-        children = seldata;
+    if (isGcError) {
+        console.log("can't load children", gcError);
     }
 
-    const sortfield = settings.domain === 'terms' ? 'position_i' : 'header';
-    children.sort((a, b) => {
-        if (a[sortfield] > b[sortfield]) {
-            return 1;
-        }
-        if (a[sortfield] < b[sortfield]) {
-            return -1;
-        }
-        return 0;
-    });
+    let withChild = [];
+    if (grandkids?.numFound > 0) {
+        tree.parseData(grandkids.docs);
+        withChild = Object.keys(grandkids.facets[node?.ancestor_field]);
 
-    let filtered_children = children.filter((c, ci) => {
-        const kidpts = c['id'].split('-');
-        // Filter out kids not in project ids
-        if (
-            settings?.project_ids &&
-            !settings.project_ids.includes(kidpts[1])
-        ) {
-            return false;
+        if (grandkids.numFound > rowsToDo) {
+            console.log(
+                'More grandkids found than returned',
+                gcquery,
+                grandkids
+            );
         }
-        // Filter out related places not in path
-        if (
-            settings?.showRelatedPlaces &&
-            !settings?.selPath.includes(kidpts[1] * 1)
-        ) {
-            return false;
-        }
-        // Filter out uncles/aunts not in showAncestor of selnode path
-        if (
-            !settings?.startNode &&
-            settings?.showAncestors &&
-            settings?.selPath &&
-            !settings.selPath.includes(c['id'].split('-')[1] * 1)
-        ) {
-            return false;
-        }
-        return true;
-    });
-    return (
-        <div className={settings.childrenClass}>
-            {filtered_children.map((child, i) => {
-                let io = false;
-                // Open automatically if in environment variable
-                if (
-                    process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
-                        child?.id
-                    )
-                ) {
-                    io = true;
-                }
-                return (
-                    <TreeLeaf
-                        key={`tree-leaf-${child.id}`}
-                        doc={child}
-                        isopen={io}
-                        nolink={settings?.noRootLinks}
-                        settings={settings}
-                    />
-                );
-            })}
-        </div>
-    );
+    }
+
+    let nodechildren = 'none';
+    if (node.children.length > 0) {
+        nodechildren = (
+            <>
+                {node.children.map((child, i) => {
+                    let io = false;
+                    // Open automatically if in environment variable
+                    if (
+                        process.env?.REACT_APP_KMAP_OPEN?.split(',')?.includes(
+                            child?.id
+                        )
+                    ) {
+                        io = true;
+                    }
+                    return (
+                        <TreeLeaf
+                            key={`tree-leaf-${child.uid}`}
+                            node={child}
+                            withChild={withChild.includes(child.id)}
+                            isOpen={io}
+                        />
+                    );
+                })}
+            </>
+        );
+    }
+
+    return <div className={settings.childrenClass}>{nodechildren}</div>;
 }
