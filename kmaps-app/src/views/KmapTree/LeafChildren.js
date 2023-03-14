@@ -21,7 +21,7 @@ export function LeafChildren({ node, ...props }) {
     const perspective = tree.perspective;
     const doc = node?.doc;
     const level = node?.level;
-    const rowsToDo = 2000;
+    const rowsToDo = 0;
 
     // Find Grandchildren
     let gcquery = {
@@ -42,33 +42,31 @@ export function LeafChildren({ node, ...props }) {
         data: grandkids,
         isError: isGcError,
         error: gcError,
-    } = useSolr([domain, perspective, doc.uid, 'grandchildren'], gcquery); // bypas if has selected data
+    } = useSolr([domain, perspective, doc.uid, 'grandchildren'], gcquery);
+
     if (areGcLoading) {
-        return null;
+        return <MandalaSkeleton />;
     }
     if (isGcError) {
         console.log("can't load children", gcError);
+        return <p>(Something went wrong)</p>;
     }
+    console.log('grandkids', grandkids);
 
-    let withChild = [];
-    if (grandkids?.numFound > 0) {
-        tree.parseData(grandkids.docs);
-        withChild = Object.keys(grandkids.facets[node?.ancestor_field]);
-
-        if (grandkids.numFound > rowsToDo) {
-            console.log(
-                'More grandkids found than returned',
-                gcquery,
-                grandkids
-            );
-        }
-    }
-
+    let withChild =
+        grandkids?.numFound > 0
+            ? Object.keys(grandkids.facets[node?.ancestor_field])
+            : [];
+    withChild = withChild.map((ch, ci) => {
+        return ch * 1;
+    });
+    console.log(withChild);
     let nodechildren = 'none';
     if (node.children.length > 0) {
         nodechildren = (
             <>
                 {node.children.map((child, i) => {
+                    console.log('child', child);
                     let io = false;
                     // Open automatically if in environment variable
                     if (
@@ -82,7 +80,7 @@ export function LeafChildren({ node, ...props }) {
                         <TreeLeaf
                             key={`tree-leaf-${child.uid}`}
                             node={child}
-                            withChild={withChild.includes(child.id)}
+                            withChild={withChild.includes(child.kid)}
                             isOpen={io}
                         />
                     );

@@ -9,6 +9,7 @@ import { useView } from '../../hooks/useView';
 import { usePerspective } from '../../hooks/usePerspective';
 import { LeafChildren } from './LeafChildren';
 import { useSolr } from '../../hooks/useSolr';
+import MandalaSkeleton from '../common/MandalaSkeleton';
 
 export default function TreeLeaf({
     node,
@@ -28,8 +29,12 @@ export default function TreeLeaf({
     const perspective = settings?.perspective || perspectiveSetting;
     const doc = node?.doc;
     const [domain, kid] = doc?.uid?.split('-');
-    const childrenLoaded = Array.isArray(node.children); // node.children is originally set to null, not an array
-    const rowsToDo = 5000;
+    if (withChild) {
+        node.hasChildren = true;
+    }
+    const hasChildren = node.hasChildren;
+    const childrenLoaded = node.hasChildren && node.children.length > 0; // node.children is originally set to null, not an array
+    const rowsToDo = 3000;
 
     // Find Children (bypassed if already loaded)
     let childquery = {
@@ -51,7 +56,19 @@ export default function TreeLeaf({
         [domain, perspective, doc.uid, 'children'],
         childquery,
         childrenLoaded
-    ); // bypas if has selected data
+    ); // bypas if children already loaded
+
+    if (areChildrenLoading) {
+        return <MandalaSkeleton />;
+    }
+
+    if (!childrenLoaded) {
+        if (children?.numFound > 0) {
+            node.tree.parseData(children.docs);
+        } else {
+            node.hasChildren = false;
+        }
+    }
 
     // Determine Icon for open or closed
     let icon = isOpenState ? (
@@ -59,10 +76,9 @@ export default function TreeLeaf({
     ) : (
         <FontAwesomeIcon icon={faPlusCircle} />
     );
-    let toggleclass = isOpen ? 'leafopen' : 'leafclosed';
+    let toggleclass = isOpenState ? 'leafopen' : 'leafclosed';
 
     // with No Children, replace icon with dash
-    const hasChildren = node?.children?.length > 0 || props?.withChild;
 
     if (!hasChildren) {
         icon = '';
@@ -81,7 +97,7 @@ export default function TreeLeaf({
 
     // Leaf click handler
     const handleClick = (e) => {
-        setIsOpen(!isOpen);
+        setIsOpen(!isOpenState);
     };
 
     // Do not display if no header to display in tree
@@ -90,7 +106,7 @@ export default function TreeLeaf({
     }
 
     // Define the child_content based on whether it is open or not (only loads children when open)
-    let child_content = isOpen ? (
+    let child_content = isOpenState ? (
         <LeafChildren node={node} />
     ) : (
         <div className={settings.childrenClass} data-status="closed-leaf"></div>

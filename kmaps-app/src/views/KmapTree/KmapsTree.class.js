@@ -33,7 +33,7 @@ export class KTree {
         this.level_field = settings.level_field;
         this.sort_field = settings.sort_field;
         this.ancestor_field = settings.ancestor_field;
-        if (!(this?.lvlfld && this?.srtfld && this?.ancfld)) {
+        if (!(this?.level_field && this?.sort_field && this?.ancestor_field)) {
             console.log(
                 'Warning: level, sort or ancestor fields not defined in tree',
                 settings
@@ -44,6 +44,7 @@ export class KTree {
         this.trunk = []; // List of first level leaf nodes
         if (parse) {
             this.parseData(this.data); // Parse data into trunk nodes with children lists
+            console.log(this);
         } else {
             this.trunk = data;
         }
@@ -81,16 +82,12 @@ export class KTree {
                         this.trunk.push(nd);
                     } else {
                         // Otherwise look for parent and add it as child
-                        if (nd?.parent) {
-                            nd.parent.add(nd);
-                        } else {
-                            console.log('no parent', this.ancestor_field, doc);
+                        let parent = nd?.getParent();
+                        if (parent) {
+                            parent.add(nd);
                         }
                     }
                     this.nodes[doc.uid] = nd; // In either case add to flat node list for accessing
-                } else {
-                    let res = this.findNode(doc.uid);
-                    console.log('Trying to create existing node', doc.uid, res);
                 }
             }
         }
@@ -107,6 +104,17 @@ export class KTree {
         }
         return node;
     }
+
+    setChildren(childdata) {
+        const ids = Object.keys(childdata);
+        ids.forEach((id, idi) => {
+            let cuid = `${this.domain}-${id}`;
+            let parent = this.findNode(cuid);
+            if (parent) {
+                parent.hasChildren = true;
+            }
+        });
+    }
 }
 
 class TreeNode {
@@ -119,11 +127,13 @@ class TreeNode {
             this.domain = uidpts[0];
             this.kid = uidpts[1];
         }
+        if (!isNaN(this.kid * 1)) {
+            this.kid = this.kid * 1;
+        }
         this.doc = doc;
         this.tree = tree; // The Tree class object above, not it's property "tree"
         this.ancestor_field = false; // set in getAncestorPath below
         this.ancestor_path = this.getAncestorPath();
-        this.parent = this.getParent();
         this.level = this.getLevel();
         this.hasChildren = null; // null means it hasn't been tested whether it has children yet or not (boolean)
         this.children = [];
@@ -163,9 +173,11 @@ class TreeNode {
     }
 
     add(child) {
-        this.children.push(child);
-        this.children.sort(sortBy(this.tree.srtfld));
-        this.hasChildren = true;
+        if (!this.children?.includes(child)) {
+            this.children.push(child);
+            this.children.sort(sortBy(this.tree.sort_field));
+            this.hasChildren = true;
+        }
     }
 }
 

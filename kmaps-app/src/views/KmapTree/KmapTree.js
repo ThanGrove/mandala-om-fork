@@ -38,7 +38,10 @@ export default function KmapTree(props) {
     ]; // this works for Places, TODO: check for subjects and terms
 
     settings.level_field = `level_${settings.perspective}_i`;
-    settings.sort_field = `position_i`; // TODO: need to implement this for all domains
+    settings.sort_field = `position_i`; // places
+    if (settings.domain === 'subjects') {
+        settings.sort_field = 'header';
+    }
 
     const uniqueTreeID = `${settings.domain}:${settings.perspective}`;
     settings.elid += uniqueTreeID;
@@ -60,7 +63,6 @@ export default function KmapTree(props) {
         perspective: perspective,
     };
 
-    const bypass = false; // !pnquery || pnquery?.length === 0 || isSelNodeLoading;
     const treebasequery = {
         index: 'terms',
         params: {
@@ -78,8 +80,7 @@ export default function KmapTree(props) {
         error: treeError,
     } = useSolr(
         ['tree', settings?.domain, settings?.perspective],
-        treebasequery,
-        bypass
+        treebasequery
     );
 
     if (isTreeLoading) {
@@ -92,7 +93,6 @@ export default function KmapTree(props) {
         treeData.docs,
         settings
     );
-    console.log('tree data docs', ktree, treeData);
 
     // return <p>Successfull query: [{treeData?.numFound}]</p>;
 
