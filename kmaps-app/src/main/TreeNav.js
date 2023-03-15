@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import Tabs from 'react-bootstrap/Tabs';
 import Tab from 'react-bootstrap/Tab';
 import { useRouteMatch, useLocation } from 'react-router-dom';
@@ -10,15 +10,10 @@ const TreeNav = (props) => {
     const openTab = openTabStore((state) => state.openTab);
     const tree = treeStore((state) => state.tree);
     const setTree = treeStore((state) => state.setTree);
+    const [currSel, setCurrSel] = useState(0);
     let openclass = openTab === 2 ? 'open' : 'closed';
 
     let domain = 'places';
-
-    const domainfids = {
-        places: 'false',
-        subjects: 'false',
-        terms: 'false',
-    };
 
     const location = useLocation();
 
@@ -46,6 +41,13 @@ const TreeNav = (props) => {
         }
     }, []);
 
+    useEffect(() => {
+        if (match) {
+            let cs = match.params.id * 1;
+            setCurrSel(cs);
+        }
+    }, [match]);
+
     // Whenever the React location changes, update the tab based on any domain in the React Route
     useEffect(() => {
         // Look for Domain in React Route
@@ -61,21 +63,6 @@ const TreeNav = (props) => {
         changeTab(0);
     };
 
-    let found = false;
-    if (match?.params?.baseType) {
-        domain = match.params.baseType;
-        if (['places', 'subjects', 'terms'].includes(domain)) {
-            if (Object.keys(domainfids).includes(domain)) {
-                domainfids[domain] = queryID(domain, match.params.id);
-                found = true;
-            }
-        }
-    }
-
-    if (!found) {
-        domain = 'places';
-        domainfids[domain] = queryID('places', 13735);
-    }
     return (
         <aside
             id="l-column__search--treeNav"
@@ -113,6 +100,7 @@ const TreeNav = (props) => {
                                 domain="places"
                                 level={1}
                                 isOpen={true}
+                                selectedNode={currSel}
                                 project={getProject()}
                             />
                         )}
@@ -123,6 +111,7 @@ const TreeNav = (props) => {
                                 elid="tab-tree-subjects"
                                 domain="subjects"
                                 level={1}
+                                selectedNode={currSel}
                                 project={getProject()}
                             />
                         )}
@@ -133,6 +122,7 @@ const TreeNav = (props) => {
                                 elid="tab-tree-terms"
                                 domain="terms"
                                 level={1}
+                                selectedNode={currSel}
                                 project={getProject()}
                             />
                         )}

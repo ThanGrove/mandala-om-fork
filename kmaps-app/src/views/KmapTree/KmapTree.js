@@ -62,15 +62,16 @@ export default function KmapTree(props) {
         level: settings?.level,
         perspective: perspective,
     };
+    const isSelNode = settings?.selectedNode;
 
-    const isSelNode = settings?.selectedNode?.length > 0;
+    let ktree = null;
+
     let qval = `${settings.level_field}:[1 TO 2]`;
-    let kid = null;
+    let selkid = null;
     if (isSelNode) {
-        kid = `${settings.domain}-${settings.selectedNode}`;
-        qval += ` OR uid:${kid}`;
+        selkid = `${settings.domain}-${settings.selectedNode}`;
+        qval += ` OR uid:${selkid} OR ${settings.ancestor_field}:${settings.selectedNode}`;
     }
-
     const treebasequery = {
         index: 'terms',
         params: {
@@ -80,31 +81,35 @@ export default function KmapTree(props) {
             fl: '*',
         },
     };
+    console.log('query', treebasequery);
 
-    let {
+    const {
         isLoading: isTreeLoading,
         data: treeData,
         isError: isTreeError,
         error: treeError,
     } = useSolr(
-        ['tree', settings?.domain, settings?.perspective],
+        ['tree', settings?.domain, settings?.perspective, selkid],
         treebasequery
     );
+
+    //  console.log("sel node", selNode);
 
     if (isTreeLoading) {
         return <MandalaSkeleton />;
     }
-    //  console.log("sel node", selNode);
 
-    let ktree = new KTree(
-        settings.domain,
-        settings.perspective,
-        treeData.docs,
-        settings
-    );
+    if (treeData?.docs) {
+        ktree = new KTree(
+            settings.domain,
+            settings.perspective,
+            treeData.docs,
+            settings
+        );
+    }
 
-    if (isSelNode) {
-        let snd = ktree.findNode(kid);
+    if (ktree && isSelNode) {
+        let snd = ktree.findNode(selkid);
         if (snd) {
             settings.selPath = snd.ancestor_path;
         }

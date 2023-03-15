@@ -30,11 +30,11 @@ export default function TreeLeaf({
     const doc = node?.doc;
     const [domain, kid] = doc?.uid?.split('-');
     if (withChild) {
-        node.childrenExist = true;
+        node.hasChildren = true;
     }
     const childrenLoaded =
         node?.domain === 'terms' ||
-        (node?.hasChildren() && node?.children?.length > 0); // node.children is originally set to null, not an array
+        (node?.hasChildren && node?.children?.length > 0); // node.children is originally set to null, not an array
     const rowsToDo = 3000;
 
     useEffect(() => {
@@ -79,6 +79,9 @@ export default function TreeLeaf({
     if (areChildrenLoading) {
         return <MandalaSkeleton />;
     }
+    if (children?.docs) {
+        // console.log(children.docs);
+    }
 
     if (!childrenLoaded) {
         if (children?.numFound > 0) {
@@ -86,6 +89,8 @@ export default function TreeLeaf({
         } else {
             node.hasChildren = false;
         }
+    }
+    if (node.isSelParent()) {
     }
 
     // Determine Icon for open or closed
@@ -98,11 +103,11 @@ export default function TreeLeaf({
 
     // with No Children, replace icon with dash
 
-    if (node.hasChildren() === false) {
+    if (node.hasChildren === false) {
         icon = '';
         toggleclass = 'leafend';
     } else if (
-        node.hasChildren() === false &&
+        node.hasChildren === false &&
         domain === 'places' &&
         !settings.showRelatedPlaces
     ) {
@@ -137,7 +142,7 @@ export default function TreeLeaf({
     // Get Header based on View Settings (see hook useView)
     const kmhead = getHeaderForView(doc, viewSetting);
 
-    const nolink = props?.nolink || (domain === 'terms' && node.hasChildren());
+    const nolink = props?.nolink || (domain === 'terms' && node.hasChildren);
 
     const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
