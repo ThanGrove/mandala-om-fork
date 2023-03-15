@@ -33,7 +33,6 @@ export class KTree {
         this.level_field = settings.level_field;
         this.sort_field = settings.sort_field;
         this.ancestor_field = settings.ancestor_field;
-        this.no_scroll = false;
         if (!(this?.level_field && this?.sort_field && this?.ancestor_field)) {
             console.log(
                 'Warning: level, sort or ancestor fields not defined in tree',
@@ -136,7 +135,7 @@ class TreeNode {
         this.ancestor_field = false; // set in getAncestorPath below
         this.ancestor_path = this.getAncestorPath();
         this.level = this.getLevel();
-        this.hasChildren = null; // null means it hasn't been tested whether it has children yet or not (boolean)
+        this.childrenExist = null; // null means it hasn't been tested whether it has children yet or not (boolean)
         this.children = [];
         this.sorted = false;
     }
@@ -180,6 +179,10 @@ class TreeNode {
         const lvlfld = this.tree.settings.level_field;
         let lvl = this.doc[lvlfld];
         return lvl || !!lvl; // return lvl or convert undefined to boolean
+    }
+
+    hasChildren() {
+        return this.childrenExist;
     }
 
     isSelNode() {

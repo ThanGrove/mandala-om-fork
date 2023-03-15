@@ -120,7 +120,9 @@ export default function KmapTree(props) {
             />
             {ktree?.trunk?.map((nd, ni) => {
                 const tlkey = `treeleaf-${nd.uid}-${ni}`;
-                return <TreeLeaf key={tlkey} node={nd} />;
+                return (
+                    <TreeLeaf key={tlkey} node={nd} isOpen={settings.isOpen} />
+                );
             })}
         </div>
     );

@@ -61,6 +61,7 @@ export function LeafChildren({ node, ...props }) {
         tree.parseData(grandkids.docs);
     }
 
+    // WithChild if node is identified in facets more than once, it is in a path but children are not loaded.
     let withChild =
         !isTerms && grandkids?.numFound > 0
             ? Object.keys(grandkids.facets[node?.ancestor_field])

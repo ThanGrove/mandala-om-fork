@@ -31,7 +31,6 @@ import ScrollToTop from './ScrollToTop';
 import { ShanticonRefPage } from '../views/common/utilcomponents';
 import AdvancedSearch from '../views/AdvancedSearch/AdvancedSearch';
 import { Devanagari } from '../views/common/Devanagari';
-import { TreeTest } from '../views/KmapTreeOld/TreeTest';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));

@@ -113,7 +113,6 @@ const TreeNav = (props) => {
                                 domain="places"
                                 level={1}
                                 isOpen={true}
-                                selectedNode={domainfids['places']}
                                 project={getProject()}
                             />
                         )}
@@ -124,7 +123,6 @@ const TreeNav = (props) => {
                                 elid="tab-tree-subjects"
                                 domain="subjects"
                                 level={1}
-                                selectedNode={domainfids['subjects']}
                                 project={getProject()}
                             />
                         )}
@@ -135,7 +133,6 @@ const TreeNav = (props) => {
                                 elid="tab-tree-terms"
                                 domain="terms"
                                 level={1}
-                                selectedNode={domainfids['terms']}
                                 project={getProject()}
                             />
                         )}
