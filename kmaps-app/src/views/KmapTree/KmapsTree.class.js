@@ -193,7 +193,7 @@ class TreeNode {
         if (!this.children?.includes(child)) {
             this.children.push(child);
             this.children.sort(sortBy(this.tree.sort_field));
-            this.hasChildren = true;
+            this.childrenExist = true;
         }
     }
 }

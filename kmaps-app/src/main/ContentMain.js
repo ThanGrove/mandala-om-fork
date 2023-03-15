@@ -323,9 +323,6 @@ export default function ContentMain(props) {
                                 <Route path={`/admin/devanagari`}>
                                     <Devanagari />
                                 </Route>
-                                <Route path={`/admin/treetest`}>
-                                    <TreeTest />
-                                </Route>
 
                                 <Route path={['/', '/home']}>
                                     <Home />
