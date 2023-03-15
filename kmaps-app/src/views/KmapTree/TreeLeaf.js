@@ -33,7 +33,9 @@ export default function TreeLeaf({
         node.hasChildren = true;
     }
     const hasChildren = node.hasChildren;
-    const childrenLoaded = node.hasChildren && node.children.length > 0; // node.children is originally set to null, not an array
+    const childrenLoaded =
+        node?.domain === 'terms' ||
+        (node.hasChildren && node.children.length > 0); // node.children is originally set to null, not an array
     const rowsToDo = 3000;
 
     // Find Children (bypassed if already loaded)
@@ -59,6 +61,7 @@ export default function TreeLeaf({
     ); // bypas if children already loaded
 
     if (areChildrenLoading) {
+        console.log('Children loading');
         return <MandalaSkeleton />;
     }
 

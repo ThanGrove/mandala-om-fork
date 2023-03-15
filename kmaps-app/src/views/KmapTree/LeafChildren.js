@@ -21,15 +21,20 @@ export function LeafChildren({ node, ...props }) {
     const perspective = tree.perspective;
     const doc = node?.doc;
     const level = node?.level;
-    const rowsToDo = 0;
+    const isTerms = domain === 'terms';
 
-    // Find Grandchildren
+    const rows = isTerms ? 1000 : 0;
+    const qval = isTerms
+        ? `${settings.level_field}:${level * 1 + 1}`
+        : `${settings.level_field}:${level * 1 + 2}`;
+
+    // Find Grandchildren or children for terms
     let gcquery = {
         index: 'terms',
         params: {
-            q: `${settings.level_field}:${level * 1 + 2}`,
+            q: qval,
             fq: [`tree:${node.domain}`, `${node.ancestor_field}:${node.kid}`],
-            rows: rowsToDo,
+            rows: rows,
             fl: '*',
             facet: true,
             'facet.field': node?.ancestor_field,
@@ -51,22 +56,29 @@ export function LeafChildren({ node, ...props }) {
         console.log("can't load children", gcError);
         return <p>(Something went wrong)</p>;
     }
-    console.log('grandkids', grandkids);
+
+    if (isTerms && grandkids?.docs?.length > 0) {
+        console.log('Grand kids', grandkids);
+        console.log('start', new Date().getTime());
+        tree.parseData(grandkids.docs);
+        console.log('end', new Date().getTime());
+    }
 
     let withChild =
-        grandkids?.numFound > 0
+        !isTerms && grandkids?.numFound > 0
             ? Object.keys(grandkids.facets[node?.ancestor_field])
             : [];
     withChild = withChild.map((ch, ci) => {
         return ch * 1;
     });
-    console.log(withChild);
+    const isTermsLvl2 =
+        isTerms && level * 1 === 1 && perspective.includes('tib');
+
     let nodechildren = 'none';
     if (node.children.length > 0) {
         nodechildren = (
             <>
                 {node.children.map((child, i) => {
-                    console.log('child', child);
                     let io = false;
                     // Open automatically if in environment variable
                     if (
@@ -80,7 +92,9 @@ export function LeafChildren({ node, ...props }) {
                         <TreeLeaf
                             key={`tree-leaf-${child.uid}`}
                             node={child}
-                            withChild={withChild.includes(child.kid)}
+                            withChild={
+                                withChild.includes(child.kid) || isTermsLvl2
+                            }
                             isOpen={io}
                         />
                     );

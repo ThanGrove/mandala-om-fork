@@ -117,5 +117,6 @@ export function useSolr(
         qkey = qkey.split('-');
     }
     const newOptions = { enabled: !byPass, ...options };
+
     return useQuery(qkey, () => getSolrData(queryobj, filtered), newOptions);
 }
