@@ -58,10 +58,7 @@ export function LeafChildren({ node, ...props }) {
     }
 
     if (isTerms && grandkids?.docs?.length > 0) {
-        console.log('Grand kids', grandkids);
-        console.log('start', new Date().getTime());
         tree.parseData(grandkids.docs);
-        console.log('end', new Date().getTime());
     }
 
     let withChild =
