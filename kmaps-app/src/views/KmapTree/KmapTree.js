@@ -63,10 +63,18 @@ export default function KmapTree(props) {
         perspective: perspective,
     };
 
+    const isSelNode = settings?.selectedNode?.length > 0;
+    let qval = `${settings.level_field}:[1 TO 2]`;
+    let kid = null;
+    if (isSelNode) {
+        kid = `${settings.domain}-${settings.selectedNode}`;
+        qval += ` OR uid:${kid}`;
+    }
+
     const treebasequery = {
         index: 'terms',
         params: {
-            q: `${settings.level_field}:[1 TO 2]`,
+            q: qval,
             fq: `tree:${settings.domain}`,
             rows: 5000,
             fl: '*',
@@ -86,6 +94,7 @@ export default function KmapTree(props) {
     if (isTreeLoading) {
         return <MandalaSkeleton />;
     }
+    //  console.log("sel node", selNode);
 
     let ktree = new KTree(
         settings.domain,
@@ -93,6 +102,13 @@ export default function KmapTree(props) {
         treeData.docs,
         settings
     );
+
+    if (isSelNode) {
+        let snd = ktree.findNode(kid);
+        if (snd) {
+            settings.selPath = snd.ancestor_path;
+        }
+    }
 
     // return <p>Successfull query: [{treeData?.numFound}]</p>;
 

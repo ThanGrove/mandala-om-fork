@@ -38,6 +38,23 @@ export default function TreeLeaf({
         (node.hasChildren && node.children.length > 0); // node.children is originally set to null, not an array
     const rowsToDo = 3000;
 
+    useEffect(() => {
+        if (settings?.selPath?.includes(node.kid)) {
+            setIsOpen(true);
+        }
+    }, [settings.selPath]);
+
+    useEffect(() => {
+        if (node.isSelNode()) {
+            setTimeout(function () {
+                let currel = leafRef.current;
+                if (currel) {
+                    scrollToLeaf(node, currel);
+                }
+            });
+        }
+    }, [node, leafRef]);
+
     // Find Children (bypassed if already loaded)
     let childquery = {
         index: 'terms',
@@ -61,7 +78,6 @@ export default function TreeLeaf({
     ); // bypas if children already loaded
 
     if (areChildrenLoading) {
-        console.log('Children loading');
         return <MandalaSkeleton />;
     }
 
@@ -96,10 +112,14 @@ export default function TreeLeaf({
     }
 
     // class value for tree leaf div
-    const divclass = `${settings.leafClass} lvl\-${node.level} ${toggleclass}`;
+    let divclass = `${settings.leafClass} lvl\-${node.level} ${toggleclass}`;
+    if (node?.isSelNode()) {
+        divclass += ' selected';
+    }
 
     // Leaf click handler
     const handleClick = (e) => {
+        node.tree.no_scroll = true;
         setIsOpen(!isOpenState);
     };
 
@@ -139,6 +159,7 @@ export default function TreeLeaf({
 
     // return the div structure for a regular tree leaf
     // console.log("leafhead", leafhead);
+
     return (
         <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
             <span
@@ -157,4 +178,11 @@ export default function TreeLeaf({
             {child_content}
         </div>
     );
+}
+
+function scrollToLeaf(node, currel) {
+    const tree = node.tree;
+    const tree_el = document.getElementById(tree.settings.elid);
+    window.scroll(0, 0);
+    tree_el.scroll(0, currel.offsetTop - 200);
 }

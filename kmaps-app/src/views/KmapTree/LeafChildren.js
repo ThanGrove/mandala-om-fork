@@ -71,11 +71,11 @@ export function LeafChildren({ node, ...props }) {
     const isTermsLvl2 =
         isTerms && level * 1 === 1 && perspective.includes('tib');
 
-    let nodechildren = 'none';
+    let nodechildren = null;
     if (node.children.length > 0) {
         nodechildren = (
             <>
-                {node.children.map((child, i) => {
+                {node.getChildren().map((child, i) => {
                     let io = false;
                     // Open automatically if in environment variable
                     if (
