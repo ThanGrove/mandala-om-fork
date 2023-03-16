@@ -34,6 +34,10 @@ class KmapsMap extends React.Component {
             language_layer: props.languageLayer || 'roman_popular',
             zoom: props.zoom || 7,
             map: null,
+            boundaryLayer: props.boundaryLayer,
+            boundaryLayerError: props.boundaryLayerError,
+            locationLayer: props.locationLayer,
+            locationLayerError: props.locationLayerError,
         };
         this.inset_map_ref = React.createRef();
     }
@@ -85,99 +89,92 @@ class KmapsMap extends React.Component {
     buildMap(forcedId = null) {
         this.setState({ element: this.inset_map_ref.current });
         this.createMap(forcedId);
-        this.addBoundaryLayer();
-        this.addLocationLayer();
         this.zoomToFeature(forcedId);
     }
 
-    addBoundaryLayer() {
-        const url =
-            'https://mandala-solr-proxy.internal.lib.virginia.edu/solr/kmterms/select?q=uid:places-637_shape_*';
-        axios.get(url).then((response) => {
-            if (response.status === 200) {
-                const document = response.data.response.docs[0];
-                const geometryDataStr = document['geometry_rptgeom'];
-                const geometryDataJson = JSON.parse(geometryDataStr);
-                const geometryData = {
-                    type: 'FeatureCollection',
-                    features: [
-                        {
-                            type: 'Feature',
-                            properties: {},
-                            geometry: geometryDataJson,
-                        },
-                    ],
-                };
+    addBoundaryLayer(map) {
+        const { boundaryLayer, boundaryLayerError } = this.state;
+        if (boundaryLayerError) {
+            this.handleBuildMapFailure();
+        }
 
-                const vectorLayer = new VectorLayer({
-                    source: new VectorSource({
-                        features: new GeoJSON({
-                            featureProjection: 'EPSG:3857',
-                        }).readFeatures(geometryData),
-                    }),
-                    style: new Style({
-                        stroke: new StrokeStyle({
-                            color: '#000000',
-                            width: 5,
-                        }),
-                        fill: new FillStyle({
-                            color: 'rgba(0,0,0,0)',
-                        }),
-                    }),
-                });
+        if (boundaryLayer && map) {
+            const document = boundaryLayer.docs[0];
+            const geometryDataStr = document['geometry_rptgeom'];
+            const geometryDataJson = JSON.parse(geometryDataStr);
+            const geometryData = {
+                type: 'FeatureCollection',
+                features: [
+                    {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: geometryDataJson,
+                    },
+                ],
+            };
 
-                const map = this.state.map;
-                map.addLayer(vectorLayer);
-                this.setState({ map });
-            } else {
-                this.handleBuildMapFailure();
-            }
-        });
+            const vectorLayer = new VectorLayer({
+                source: new VectorSource({
+                    features: new GeoJSON({
+                        featureProjection: 'EPSG:3857',
+                    }).readFeatures(geometryData),
+                }),
+                style: new Style({
+                    stroke: new StrokeStyle({
+                        color: '#000000',
+                        width: 5,
+                    }),
+                    fill: new FillStyle({
+                        color: 'rgba(0,0,0,0)',
+                    }),
+                }),
+            });
+
+            map.addLayer(vectorLayer);
+        }
     }
 
-    addLocationLayer() {
-        const url =
-            'https://mandala-solr-replica-dev.internal.lib.virginia.edu/solr/kmterms/select?fl=shapes_centroid_grptgeom,name_roman.popular&q=uid:places-637';
-        axios.get(url).then((response) => {
-            if (response.status === 200) {
-                const document = response.data.response.docs[0];
-                const geometryDataStr = document['shapes_centroid_grptgeom'];
-                const geometryDataJson = JSON.parse(geometryDataStr);
+    addLocationLayer(map) {
+        const { locationLayer, locationLayerError } = this.state;
+        if (locationLayerError) {
+            this.handleBuildMapFailure();
+        }
 
-                const name = document['name_roman.popular'][0];
+        if (locationLayer && map) {
+            const document = locationLayer.docs[0];
 
-                // create a vector source from the GeoJSON data
-                const features = new GeoJSON({
-                    featureProjection: 'EPSG:3857',
-                }).readFeatures(geometryDataJson);
+            const geometryDataStr = document['shapes_centroid_grptgeom'];
+            const geometryDataJson = JSON.parse(geometryDataStr);
 
-                // create the label style for the features
-                const labelStyle = new Style({
-                    text: new TextStyle({
-                        text: name,
-                        font: 'bold 16px/1 sans-serif',
-                        fill: new FillStyle({ color: 'white' }),
-                        stroke: new StrokeStyle({ color: 'black', width: 3 }),
-                    }),
-                });
+            const name = document['name_roman.popular'][0];
 
-                // add the label style to feature
-                features[0].setStyle(labelStyle);
+            // create a vector source from the GeoJSON data
+            const features = new GeoJSON({
+                featureProjection: 'EPSG:3857',
+            }).readFeatures(geometryDataJson);
 
-                // create a vector layer for the labels
-                const vectorLayer = new VectorLayer({
-                    source: new VectorSource({
-                        features: features,
-                    }),
-                });
+            // create the label style for the features
+            const labelStyle = new Style({
+                text: new TextStyle({
+                    text: name,
+                    font: 'bold 16px/1 sans-serif',
+                    fill: new FillStyle({ color: 'white' }),
+                    stroke: new StrokeStyle({ color: 'black', width: 3 }),
+                }),
+            });
 
-                const map = this.state.map;
-                map.addLayer(vectorLayer);
-                this.setState({ map });
-            } else {
-                this.handleBuildMapFailure();
-            }
-        });
+            // add the label style to feature
+            features[0].setStyle(labelStyle);
+
+            // create a vector layer for the labels
+            const vectorLayer = new VectorLayer({
+                source: new VectorSource({
+                    features: features,
+                }),
+            });
+
+            map.addLayer(vectorLayer);
+        }
     }
 
     createMap(forcedId = null) {
@@ -207,6 +204,9 @@ class KmapsMap extends React.Component {
 
         let olGM = new OLGoogleMaps({ map }); // map is the ol.Map instance
         olGM.activate();
+
+        this.addBoundaryLayer(map);
+        this.addLocationLayer(map);
 
         this.setState({ map });
     }
