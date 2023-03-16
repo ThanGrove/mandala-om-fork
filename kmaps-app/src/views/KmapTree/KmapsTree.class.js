@@ -23,6 +23,11 @@ const filteredDocs = docs.filter((d, di) => {
 
  */
 
+import jsonpAdapter from '../../logic/axios-jsonp';
+import axios from 'axios';
+import { getSolrUrls } from '../../hooks/utils';
+import { useRouteMatch } from 'react-router-dom';
+
 export class KTree {
     constructor(domain, perspective, data, settings, parse = true) {
         this.id = `${domain}:${perspective}`;
@@ -35,6 +40,7 @@ export class KTree {
         this.ancestor_field = settings.ancestor_field;
         this.selectedNode = settings.selectedNode;
         this.selPath = [];
+        getSelNode(this).then((sp) => (this.selPath = sp));
         if (!(this?.level_field && this?.sort_field && this?.ancestor_field)) {
             console.log(
                 'Warning: level, sort or ancestor fields not defined in tree',
@@ -92,16 +98,6 @@ export class KTree {
                 }
             }
         }
-        const selnode = this.getSelectedNode();
-        if (selnode && this.selPath.length === 0) {
-            this.selPath = selnode.ancestor_path;
-            const selparent = selnode.getParent();
-            if (selparent && selparent.children.indexOf(selnode) === -1) {
-                selparent.add(selnode);
-                console.log('This sort field', this.sort_field);
-                console.log(selparent.children);
-            }
-        }
     }
 
     isNode(id) {
@@ -149,7 +145,7 @@ export class KTree {
     }
 }
 
-class TreeNode {
+export class TreeNode {
     constructor(doc, tree) {
         this.uid = doc?.uid;
         this.domain = tree?.domain;
@@ -238,15 +234,32 @@ class TreeNode {
 
 function sortBy(srtfld) {
     return function sortfunc(a, b) {
-        if (a?.doc && b?.doc) {
-            // TODO: check if position_i is right
-            if (a.doc[srtfld] > b.doc[srtfld]) {
-                return 1;
-            }
-            if (b.doc[srtfld] > a.doc[srtfld]) {
-                return -1;
-            }
+        let sa = a?.doc ? a.doc : a;
+        let sb = b?.doc ? b.doc : b;
+        if (sa[srtfld] > sb[srtfld]) {
+            return 1;
+        }
+        if (sb[srtfld] > sa[srtfld]) {
+            return -1;
         }
         return 0;
     };
+}
+
+async function getSelNode(tree) {
+    const solrurls = getSolrUrls();
+    const ancfield = tree.ancestor_field[0];
+    const qry = `uid:${tree.domain}-${tree?.selectedNode}`;
+    // Make request
+    const request = {
+        adapter: jsonpAdapter,
+        callbackParamName: 'json.wrf',
+        url: solrurls['terms'],
+        params: { q: qry, fl: ['uid', ancfield], wt: 'json' },
+    };
+    const { data } = await axios.request(request);
+    let retdata = data && data.response?.docs ? data.response.docs : data;
+    if (retdata && retdata?.length > 0 && Array.isArray(retdata[0][ancfield])) {
+        return retdata[0][ancfield];
+    }
 }

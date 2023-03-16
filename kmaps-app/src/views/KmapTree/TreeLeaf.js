@@ -10,6 +10,7 @@ import { usePerspective } from '../../hooks/usePerspective';
 import { LeafChildren } from './LeafChildren';
 import { useSolr } from '../../hooks/useSolr';
 import MandalaSkeleton from '../common/MandalaSkeleton';
+import { useStatus } from '../../hooks/useStatus';
 
 export default function TreeLeaf({
     node,
@@ -18,13 +19,15 @@ export default function TreeLeaf({
     ...props
 }) {
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
+    const selPath = useStatus((state) => state.selPath);
     const settings = node?.tree?.settings;
 
     const perspectiveSetting = usePerspective(
-        (state) => state[settings.domain]
+        (state) => state[settings?.domain]
     );
     const [isOpenState, setIsOpen] = useState(isOpen);
-    const viewSetting = useView((state) => state[settings.domain]);
+    const [selected, setSelected] = useState(false);
+    const viewSetting = useView((state) => state[settings?.domain]);
 
     const perspective = settings?.perspective || perspectiveSetting;
     const doc = node?.doc;
@@ -36,12 +39,6 @@ export default function TreeLeaf({
         node?.domain === 'terms' ||
         (node?.hasChildren && node?.children?.length > 0); // node.children is originally set to null, not an array
     const rowsToDo = 3000;
-
-    useEffect(() => {
-        if (settings?.selPath?.includes(node.kid)) {
-            setIsOpen(true);
-        }
-    }, [settings.selPath]);
 
     // Find Children
     let childquery = {
@@ -65,6 +62,35 @@ export default function TreeLeaf({
         childrenLoaded
     ); // bypas if children already loaded
 
+    const scrollToMe = () => {
+        const tree_el = document.getElementById(node?.tree?.settings?.elid);
+        const myid = `leaf-${domain}-${kid}`;
+        const me = document.getElementById(myid);
+        if (tree_el && me) {
+            window.scroll(0, 0);
+            tree_el.scroll(0, me.offsetTop - 200);
+        }
+    };
+    useEffect(() => {
+        if (node?.tree?.selectedNode * 1 === node.kid * 1) {
+            console.log('scroll to me');
+            setTimeout(scrollToMe, 1000);
+        }
+    }, []);
+
+    useEffect(() => {
+        if (node?.tree?.selPath && node?.tree?.selectedNode) {
+            if (node.tree.selPath?.includes(node.kid)) {
+                setIsOpen(true);
+            }
+            if (node.tree.selectedNode * 1 === node.kid * 1) {
+                setSelected(true);
+            } else {
+                setSelected(false);
+            }
+        }
+    }, [node.tree.selectedNode, node.tree.selPath]);
+
     if (areChildrenLoading) {
         return <MandalaSkeleton />;
     }
@@ -74,13 +100,6 @@ export default function TreeLeaf({
             node.tree.parseData(children.docs);
         } else {
             node.hasChildren = false;
-        }
-    }
-
-    if (node.isSelParent()) {
-        const seln = node.tree.getSelectedNode();
-        if (node.children.indexOf(seln) === -1) {
-            node.add(seln);
         }
     }
 
@@ -107,10 +126,8 @@ export default function TreeLeaf({
     }
 
     // class value for tree leaf div
-    let divclass = `${settings.leafClass} lvl\-${node.level} ${toggleclass}`;
-    if (node?.isSelNode()) {
-        divclass += ' selected';
-    }
+    let selclass = selected ? ' selected' : '';
+    let divclass = `${settings.leafClass} lvl\-${node.level} ${toggleclass}${selclass}`;
 
     // Leaf click handler
     const handleClick = (e) => {
@@ -134,10 +151,14 @@ export default function TreeLeaf({
 
     const nolink = props?.nolink || (domain === 'terms' && node.hasChildren);
 
+    const leafclick = () => {
+        node.tree.selectedNode = node.kid;
+        node.tree.selPath = node.ancestor_path;
+    };
     const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
     ) : (
-        <Link to={'/' + doc?.id.replace('-', '/')}>
+        <Link to={'/' + doc?.id.replace('-', '/')} onClick={leafclick}>
             <HtmlCustom markup={kmhead} />
         </Link>
     );

@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { Container, Section, Bar } from 'react-simple-resizer';
 import { ContentHeader } from './ContentHeader/ContentHeader';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import {
+    Switch,
+    Route,
+    Redirect,
+    useLocation,
+    useRouteMatch,
+} from 'react-router-dom';
 import { AudioVideoHome } from '../views/AudioVideo/AudioVideoHome';
 import { ImagesHome } from '../views/Images/ImagesHome';
 import { TextsHome } from '../views/Texts/TextsHome';
@@ -31,6 +37,8 @@ import ScrollToTop from './ScrollToTop';
 import { ShanticonRefPage } from '../views/common/utilcomponents';
 import AdvancedSearch from '../views/AdvancedSearch/AdvancedSearch';
 import { Devanagari } from '../views/common/Devanagari';
+import { useSolr } from '../hooks/useSolr';
+import { useStatus } from '../hooks/useStatus';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
