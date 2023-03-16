@@ -43,17 +43,6 @@ export default function TreeLeaf({
         }
     }, [settings.selPath]);
 
-    useEffect(() => {
-        if (node.isSelNode()) {
-            setTimeout(function () {
-                let currel = leafRef.current;
-                if (currel) {
-                    scrollToLeaf(node, currel);
-                }
-            });
-        }
-    }, [node, leafRef]);
-
     // Find Children
     let childquery = {
         index: 'terms',
@@ -79,9 +68,6 @@ export default function TreeLeaf({
     if (areChildrenLoading) {
         return <MandalaSkeleton />;
     }
-    if (children?.docs) {
-        // console.log(children.docs);
-    }
 
     if (!childrenLoaded) {
         if (children?.numFound > 0) {
@@ -90,7 +76,12 @@ export default function TreeLeaf({
             node.hasChildren = false;
         }
     }
+
     if (node.isSelParent()) {
+        const seln = node.tree.getSelectedNode();
+        if (node.children.indexOf(seln) === -1) {
+            node.add(seln);
+        }
     }
 
     // Determine Icon for open or closed
@@ -123,7 +114,6 @@ export default function TreeLeaf({
 
     // Leaf click handler
     const handleClick = (e) => {
-        node.tree.no_scroll = true;
         setIsOpen(!isOpenState);
     };
 
@@ -182,11 +172,4 @@ export default function TreeLeaf({
             {child_content}
         </div>
     );
-}
-
-function scrollToLeaf(node, currel) {
-    const tree = node.tree;
-    const tree_el = document.getElementById(tree.settings.elid);
-    window.scroll(0, 0);
-    tree_el.scroll(0, currel.offsetTop - 200);
 }

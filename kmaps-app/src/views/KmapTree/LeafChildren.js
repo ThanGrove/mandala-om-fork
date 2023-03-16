@@ -28,6 +28,8 @@ export function LeafChildren({ node, ...props }) {
         ? `${settings.level_field}:${level * 1 + 1}`
         : `${settings.level_field}:${level * 1 + 2}`;
 
+    //node.sortChildren();
+
     // Find Grandchildren or children for terms
     let gcquery = {
         index: 'terms',

@@ -95,7 +95,12 @@ export class KTree {
         const selnode = this.getSelectedNode();
         if (selnode && this.selPath.length === 0) {
             this.selPath = selnode.ancestor_path;
-            console.log(this.selPath);
+            const selparent = selnode.getParent();
+            if (selparent && selparent.children.indexOf(selnode) === -1) {
+                selparent.add(selnode);
+                console.log('This sort field', this.sort_field);
+                console.log(selparent.children);
+            }
         }
     }
 
@@ -213,13 +218,9 @@ class TreeNode {
     }
 
     isSelParent() {
-        if (this.kid === 317) {
-            console.log(
-                'here in sel parent',
-                this.tree.selectedNode,
-                this.tree.getSelectedNode()
-            );
-        }
+        return (
+            this.tree.selPath.indexOf(this.kid) === this.tree.selPath.length - 2
+        );
     }
 
     add(child) {
@@ -229,16 +230,22 @@ class TreeNode {
             this.hasChildren = true;
         }
     }
+
+    sortChildren() {
+        this.children.sort(sortBy(this.tree.sort_field));
+    }
 }
 
 function sortBy(srtfld) {
     return function sortfunc(a, b) {
-        // TODO: check if position_i is right
-        if (a[srtfld] > b[srtfld]) {
-            return 1;
-        }
-        if (b[srtfld] > a[srtfld]) {
-            return -1;
+        if (a?.doc && b?.doc) {
+            // TODO: check if position_i is right
+            if (a.doc[srtfld] > b.doc[srtfld]) {
+                return 1;
+            }
+            if (b.doc[srtfld] > a.doc[srtfld]) {
+                return -1;
+            }
         }
         return 0;
     };

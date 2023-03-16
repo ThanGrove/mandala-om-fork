@@ -30,6 +30,9 @@ export default function KmapTree(props) {
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
+
+    const uniqueTreeID = `${settings.domain}:${settings.perspective}`;
+    settings.elid += uniqueTreeID;
     const perspective = usePerspective((state) => state[settings.domain]);
     settings.perspective = perspective;
     settings.ancestor_field = [
@@ -38,14 +41,10 @@ export default function KmapTree(props) {
     ]; // this works for Places, TODO: check for subjects and terms
 
     settings.level_field = `level_${settings.perspective}_i`;
-    settings.sort_field = `position_i`; // places
-    if (settings.domain === 'subjects') {
-        settings.sort_field = 'header';
+    settings.sort_field = `header`; // places and subjects
+    if (settings.domain === 'terms') {
+        settings.sort_field = 'position_i';
     }
-
-    const uniqueTreeID = `${settings.domain}:${settings.perspective}`;
-    settings.elid += uniqueTreeID;
-
     settings.treeClass += ` ${settings.domain} ${settings.perspective}`;
 
     // Remove domain and dash from selectedNode value (get just the number from e.g. "places-1234")
@@ -64,8 +63,8 @@ export default function KmapTree(props) {
     };
     const isSelNode = settings?.selectedNode;
 
+    //const [ktree, setKtree] = useState(null);
     let ktree = null;
-
     let qval = `${settings.level_field}:[1 TO 2]`;
     let selkid = null;
     if (isSelNode) {
@@ -81,7 +80,6 @@ export default function KmapTree(props) {
             fl: '*',
         },
     };
-    console.log('query', treebasequery);
 
     const {
         isLoading: isTreeLoading,
@@ -94,7 +92,6 @@ export default function KmapTree(props) {
     );
 
     //  console.log("sel node", selNode);
-
     if (isTreeLoading) {
         return <MandalaSkeleton />;
     }
@@ -113,6 +110,9 @@ export default function KmapTree(props) {
         if (snd) {
             settings.selPath = snd.ancestor_path;
         }
+        setTimeout(function () {
+            scrollToSel(ktree);
+        }, 2000);
     }
 
     // return <p>Successfull query: [{treeData?.numFound}]</p>;
@@ -131,4 +131,17 @@ export default function KmapTree(props) {
             })}
         </div>
     );
+}
+
+function scrollToSel(tree) {
+    console.log('Scroll to sel');
+    const selnode = tree.getSelectedNode();
+    if (selnode) {
+        const tree_el = document.getElementById(tree.settings.elid);
+        const sel_el = document.getElementById(`leaf-${selnode.uid}`);
+        if (tree_el && sel_el) {
+            window.scroll(0, 0);
+            tree_el.scroll(0, sel_el.offsetTop - 200);
+        }
+    }
 }
