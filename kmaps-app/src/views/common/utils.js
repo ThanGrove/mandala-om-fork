@@ -827,3 +827,15 @@ export const standaloneSettings = (mode, name, value = '') => {
         return mysettings[name];
     }
 };
+
+export const arrayChunk = (arr, csize) => {
+    if (isNaN(csize) || csize < 1 || csize > arr.length - 1) {
+        return arr;
+    }
+    let chunks = [];
+    for (let i = 0; i < arr.length; i += csize) {
+        const chunk = arr.slice(i, i + csize);
+        chunks.push(chunk);
+    }
+    return chunks;
+};

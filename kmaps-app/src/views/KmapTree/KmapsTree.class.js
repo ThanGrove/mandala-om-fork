@@ -39,8 +39,16 @@ export class KTree {
         this.sort_field = settings.sort_field;
         this.ancestor_field = settings.ancestor_field;
         this.selectedNode = settings.selectedNode;
+        this.selectedDomain = settings.selectedDomain;
         this.selPath = [];
-        getSelNode(this).then((sp) => (this.selPath = sp));
+        this.selLoaded = false;
+        getSelNode(this)
+            .then((sp) => {
+                this.selPath = sp;
+            })
+            .finally(() => {
+                this.selLoaded = true;
+            });
         if (!(this?.level_field && this?.sort_field && this?.ancestor_field)) {
             console.log(
                 'Warning: level, sort or ancestor fields not defined in tree',
@@ -162,22 +170,32 @@ export class TreeNode {
         this.tree = tree; // The Tree class object above, not it's property "tree"
         this.ancestor_field = false; // set in getAncestorPath below
         this.ancestor_path = this.getAncestorPath();
+        this.pid = 0;
+        if (
+            Array.isArray(this.ancestor_path) &&
+            this.ancestor_path.length > 1
+        ) {
+            this.pid = this.ancestor_path[this.ancestor_path.length - 2];
+        }
         this.level = this.getLevel();
         this.hasChildren = null; // null means it hasn't been tested whether it has children yet or not (boolean)
+        if (this?.domain === 'terms') {
+            if (
+                tree.perspective.includes('tib') &&
+                this.ancestor_path?.length === 3
+            ) {
+                this.hasChildren = false;
+            } else if (this.ancestor_path?.length === 2) {
+                this.hasChildren = false;
+            }
+        }
         this.children = [];
         this.sorted = false;
     }
 
     getParent() {
-        let path = this?.ancestor_path;
-        const pthpts = typeof path === 'string' ? path.split('/') : path;
-        if (Array.isArray(pthpts) && pthpts.length > 1) {
-            let pid = pthpts[pthpts.length - 2];
-            if (typeof pid !== 'string' || !pid.includes(this.domain)) {
-                pid = `${this.domain}-${pid}`;
-            }
-            let prnt = this.tree.findNode(pid);
-            return prnt;
+        if (this.pid) {
+            return this.tree.findNode(`${this.domain}-${this.pid}`);
         }
         return false;
     }

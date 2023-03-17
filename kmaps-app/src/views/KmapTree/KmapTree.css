@@ -161,10 +161,16 @@ ul.fancytree-container {
     transform: rotate(45deg);
 }
 
+#l-content__main .leafend .toggle-icon::before {
+    top: 0.9rem;
+}
+
+/*
 .l-place-content-tree .leafend .toggle-icon::before {
     top: 0.85rem;
 }
 
+ */
 .leafend:hover .toggle-icon::before {
     background-color: #b99b45;
 }

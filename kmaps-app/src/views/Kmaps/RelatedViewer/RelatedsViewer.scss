@@ -383,8 +383,13 @@
             text-align: left;
         }
     }
+
     .row > div {
         //  padding: 1rem 2rem 0 2rem;
+    }
+
+    .rel-place-feature:not(:first-child) {
+        margin-top: 1rem;
     }
 }
 

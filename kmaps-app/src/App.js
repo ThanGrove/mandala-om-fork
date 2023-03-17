@@ -16,8 +16,7 @@ const queryClient = new QueryClient({
             cacheTime: 60 * (60 * 1000), // 60 mins
         },
     },
-
-     */
+*/
 });
 
 export default function App() {

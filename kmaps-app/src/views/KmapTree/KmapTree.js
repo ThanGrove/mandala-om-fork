@@ -23,12 +23,14 @@ export default function KmapTree(props) {
         perspective: '',
         isOpen: false,
         showAncestors: false,
+        showNode: false,
         showRelatedPlaces: false,
         elid: 'kmap-tree-',
         pgsize: 200,
         project_ids: false,
         noRootLinks: false,
         selectedNode: 0, // Kmap ID number of selected node (without domain)
+        selectedDomain: '',
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
@@ -38,7 +40,12 @@ export default function KmapTree(props) {
         '/:baseType/:id/related-:type',
         '/:baseType/:id',
     ]);
-    settings.selectedNode = match.params.id;
+    settings.selectedNode = match ? match.params.id : 0;
+    settings.selectedDomain = match ? match.params.baseType : '';
+    if (!!this?.showNode) {
+        settings.selectedNode = this.showNode;
+        settings.selectedDomain = this.domain;
+    }
     const uniqueTreeID = `${settings.domain}:${settings.perspective}`;
     settings.elid += uniqueTreeID;
     const perspective = usePerspective((state) => state[settings.domain]);
@@ -55,15 +62,6 @@ export default function KmapTree(props) {
     }
     settings.treeClass += ` ${settings.domain} ${settings.perspective}`;
 
-    // Remove domain and dash from selectedNode value (get just the number from e.g. "places-1234")
-    /*
-    if (
-        typeof settings?.selectedNode === 'string' &&
-        settings?.selectedNode?.includes('-')
-    ) {
-        settings.selectedNode = settings.selectedNode.split('-')[1];
-    }*/
-
     // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
         domain: settings?.domain,
@@ -71,17 +69,12 @@ export default function KmapTree(props) {
         level: settings?.level,
         perspective: perspective,
     };
-    // const isSelNode = settings?.selectedNode;
 
     const [ktree, setKtree] = useState(null);
 
-    //let ktree = null;
     let qval = `${settings.level_field}:[1 TO 2]`;
     let selkid = null;
-    /*if (isSelNode) {
-        selkid = `${settings.domain}-${settings.selectedNode}`;
-        qval += ` OR uid:${selkid} OR ${settings.ancestor_field}:${settings.selectedNode}`;
-    }*/
+
     const treebasequery = {
         index: 'terms',
         params: {
@@ -110,30 +103,18 @@ export default function KmapTree(props) {
                 treeData.docs,
                 settings
             );
-            setKtree(nkt);
+            window.loadSelInterval = setInterval(() => {
+                if (nkt?.selLoaded) {
+                    setKtree(nkt);
+                    clearInterval(window.loadSelInterval);
+                }
+            }, 100);
         }
     }, [treeData]);
 
-    //  console.log("sel node", selNode);
     if (isTreeLoading) {
         return <MandalaSkeleton />;
     }
-
-    /*
-    if (ktree) {
-        let snd = ktree.findNode(selkid);
-        if (snd) {
-            settings.selPath = snd.ancestor_path;
-        }
-        setTimeout(function () {
-            scrollToSel(ktree);
-        }, 2000);
-    }
-
-     */
-
-    // return <p>Successfull query: [{treeData?.numFound}]</p>;
-
     return (
         <div id={settings.elid} className={settings.treeClass}>
             <PerspectiveChooser
@@ -142,63 +123,17 @@ export default function KmapTree(props) {
             />
             {ktree?.trunk?.map((nd, ni) => {
                 const tlkey = `treeleaf-${nd.uid}-${ni}`;
+                const isInPath =
+                    nd?.domain === ktree.selectedDomain &&
+                    ktree?.selPath?.includes(nd.kid);
                 return (
-                    <TreeLeaf key={tlkey} node={nd} isOpen={settings.isOpen} />
+                    <TreeLeaf
+                        key={tlkey}
+                        node={nd}
+                        isOpen={settings.isOpen || isInPath}
+                    />
                 );
             })}
         </div>
     );
-}
-
-function LoadSelected({ tree }) {
-    const setSelpath = useStatus((state) => state.setSelpath);
-    const match = useRouteMatch([
-        '/:baseType/:id/related-:type/:definitionID/view/:relID',
-        '/:baseType/:id/related-:type/:definitionID/:viewMode',
-        '/:baseType/:id/related-:type',
-        '/:baseType/:id',
-    ]);
-    const uid = `${match.params.baseType}-${match.params.id}`;
-    const selquery = {
-        index: 'terms',
-        params: {
-            q: `uid:${uid}`,
-            fq: `tree:${tree?.domain}`,
-            rows: 5000,
-            fl: '*',
-        },
-    };
-
-    const bypass = !tree || !match;
-
-    const {
-        isLoading: isSelLoading,
-        data: selData,
-        isError: isSelError,
-        error: treeError,
-    } = useSolr(['tree', tree?.id, uid], selquery, bypass);
-
-    if (!bypass && !isSelLoading && !isSelError) {
-        if (selData?.numFound > 0) {
-            let leaf = new TreeNode(selData.docs[0], tree);
-            if (leaf?.ancestor_path) {
-                setSelpath(leaf.ancestor_path);
-            }
-        }
-    }
-
-    return null;
-}
-
-function scrollToSel(tree) {
-    console.log('Scroll to sel');
-    const selnode = tree.getSelectedNode();
-    if (selnode) {
-        const tree_el = document.getElementById(tree.settings.elid);
-        const sel_el = document.getElementById(`leaf-${selnode.uid}`);
-        if (tree_el && sel_el) {
-            window.scroll(0, 0);
-            tree_el.scroll(0, sel_el.offsetTop - 200);
-        }
-    }
 }

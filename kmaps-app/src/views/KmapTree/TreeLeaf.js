@@ -19,7 +19,7 @@ export default function TreeLeaf({
     ...props
 }) {
     const leafRef = React.createRef(); // Reference to the Leaf's HTML element
-    const selPath = useStatus((state) => state.selPath);
+    //const selPath = useStatus((state) => state.selPath);
     const settings = node?.tree?.settings;
 
     const perspectiveSetting = usePerspective(
@@ -31,6 +31,7 @@ export default function TreeLeaf({
 
     const perspective = settings?.perspective || perspectiveSetting;
     const doc = node?.doc;
+    const tree = node?.tree;
     const [domain, kid] = doc?.uid?.split('-');
     if (withChild) {
         node.hasChildren = true;
@@ -63,33 +64,35 @@ export default function TreeLeaf({
     ); // bypas if children already loaded
 
     const scrollToMe = () => {
-        const tree_el = document.getElementById(node?.tree?.settings?.elid);
+        const tree_el = document.getElementById(tree?.settings?.elid);
         const myid = `leaf-${domain}-${kid}`;
         const me = document.getElementById(myid);
         if (tree_el && me) {
             window.scroll(0, 0);
-            tree_el.scroll(0, me.offsetTop - 200);
+            tree_el.scroll(0, me.offsetTop - window.screen.height * 0.4);
         }
     };
+
     useEffect(() => {
-        if (node?.tree?.selectedNode * 1 === node.kid * 1) {
-            console.log('scroll to me');
+        if (tree?.selectedNode * 1 === node.kid * 1) {
             setTimeout(scrollToMe, 1000);
         }
     }, []);
 
     useEffect(() => {
-        if (node?.tree?.selPath && node?.tree?.selectedNode) {
-            if (node.tree.selPath?.includes(node.kid)) {
-                setIsOpen(true);
-            }
-            if (node.tree.selectedNode * 1 === node.kid * 1) {
-                setSelected(true);
-            } else {
-                setSelected(false);
+        if (node?.domain === node?.tree?.selectedDomain) {
+            if (tree?.selPath && tree?.selectedNode) {
+                if (tree.selPath?.includes(node.kid)) {
+                    setIsOpen(true);
+                }
+                if (tree.selectedNode * 1 === node.kid * 1) {
+                    setSelected(true);
+                } else {
+                    setSelected(false);
+                }
             }
         }
-    }, [node.tree.selectedNode, node.tree.selPath]);
+    }, [tree.selectedNode, tree.selPath]);
 
     if (areChildrenLoading) {
         return <MandalaSkeleton />;
@@ -97,9 +100,19 @@ export default function TreeLeaf({
 
     if (!childrenLoaded) {
         if (children?.numFound > 0) {
-            node.tree.parseData(children.docs);
+            tree.parseData(children.docs);
         } else {
             node.hasChildren = false;
+        }
+    }
+
+    if (tree.settings.showNode) {
+        // hmm  does this work?
+        if (
+            !tree?.selPath?.includes(kid * 1) &&
+            node.pid * 1 !== tree.selectedNode * 1
+        ) {
+            return null;
         }
     }
 
@@ -152,8 +165,8 @@ export default function TreeLeaf({
     const nolink = props?.nolink || (domain === 'terms' && node.hasChildren);
 
     const leafclick = () => {
-        node.tree.selectedNode = node.kid;
-        node.tree.selPath = node.ancestor_path;
+        tree.selectedNode = node.kid;
+        tree.selPath = node.ancestor_path;
     };
     const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
@@ -179,8 +192,8 @@ export default function TreeLeaf({
         <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
             <span
                 className={settings.spanClass}
-                data-domain={doc?.tree}
-                data-id={doc?.id}
+                data-domain={domain}
+                data-id={kid}
             >
                 <span className={settings.iconClass} onClick={handleClick}>
                     {icon}
