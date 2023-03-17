@@ -163,10 +163,12 @@ export default function TreeLeaf({
     const kmhead = getHeaderForView(doc, viewSetting);
 
     const nolink = props?.nolink || (domain === 'terms' && node.hasChildren);
+    const myid = `leaf-${domain}-${kid}`;
 
     const leafclick = () => {
         tree.selectedNode = node.kid;
         tree.selPath = node.ancestor_path;
+        document.getElementById(myid).classList.add('selected');
     };
     const leafhead = nolink ? (
         <HtmlCustom markup={kmhead} />
@@ -189,7 +191,7 @@ export default function TreeLeaf({
     // console.log("leafhead", leafhead);
 
     return (
-        <div id={`leaf-${domain}-${kid}`} className={divclass} ref={leafRef}>
+        <div id={myid} className={divclass} ref={leafRef}>
             <span
                 className={settings.spanClass}
                 data-domain={domain}

@@ -60,7 +60,10 @@ export default function KmapTree(props) {
     if (settings.domain === 'terms') {
         settings.sort_field = 'position_i';
     }
-    settings.treeClass += ` ${settings.domain} ${settings.perspective}`;
+    settings.treeClass += ` ${settings.domain} ${settings.perspective?.replace(
+        /\./g,
+        '-'
+    )}`;
 
     // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
