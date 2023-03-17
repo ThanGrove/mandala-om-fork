@@ -115,6 +115,7 @@ export default function PlacesRelPlacesViewer() {
                             showNode={id}
                             showAncestors={true}
                             showRelatedPlaces={true}
+                            relatedTree={true}
                         />
                     </Row>
                 </Container>

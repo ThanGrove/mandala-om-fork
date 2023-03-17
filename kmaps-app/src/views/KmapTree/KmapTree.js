@@ -115,6 +115,7 @@ export default function KmapTree(props) {
     if (isTreeLoading) {
         return <MandalaSkeleton />;
     }
+    // Hmmm
     return (
         <div id={settings.elid} className={settings.treeClass}>
             <PerspectiveChooser
