@@ -387,6 +387,7 @@ const FieldSelect = ({ id, setType, name = false }) => {
             <select id={id} name={name} ref={selel} onChange={ichanged}>
                 <option value={SC.ANY}>Any</option>
                 <option value={SC.TITLE}>Title/Header</option>
+                <option value={SC.RESOURCE_TYPE}>Resource Type</option>
                 <option value={SC.PERSON}>Person</option>
                 <option value={SC.REL_PLACES}>Related Places</option>
                 <option value={SC.REL_SUBJECTS}>Related Subjects</option>
@@ -396,7 +397,6 @@ const FieldSelect = ({ id, setType, name = false }) => {
                 <option value={SC.IDS}>ID Numbers</option>
                 <option value={SC.CREATE_DATE}>Create Date</option>
                 <option value={SC.ENTRY_DATE}>Upload Date</option>
-                <option value={SC.RESOURCE_TYPE}>Resource Type</option>
             </select>
             {selectedValue && [13, 14, 15].includes(selectedValue) && (
                 <span>
