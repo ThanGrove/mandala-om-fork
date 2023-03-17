@@ -10,6 +10,7 @@ export function TreeTest(props) {
     return (
         <Container className="tree-test">
             <Row>
+                {/*
                 <Col sm={4}>
                     <KmapTree
                         domain="places"
@@ -26,7 +27,7 @@ export function TreeTest(props) {
                         project={getProject()}
                     />
                 </Col>
-                {/* */}
+                */}
                 <Col sm={4}>
                     <KmapTree
                         domain="terms"
@@ -37,7 +38,6 @@ export function TreeTest(props) {
                     />
                 </Col>
             </Row>
-            {/*
             <Row>
                 <Col sm={4}>
                     <KmapTree
@@ -54,7 +54,8 @@ export function TreeTest(props) {
                     />
                 </Col>
                 <Col sm={4}>
-                     Adding another terms tree interferes with filtered one. TODO: figure out why!
+                    Adding another terms tree interferes with filtered one.
+                    TODO: figure out why!
                     <KmapTree
                         domain="terms"
                         level="1"
@@ -64,7 +65,6 @@ export function TreeTest(props) {
                     />
                 </Col>
             </Row>
-                    */}
         </Container>
     );
 }

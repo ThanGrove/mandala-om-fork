@@ -353,6 +353,10 @@
     width: 30%;
     text-align: left;
 }
+.c-relplaces-list.container-fluid .rel-place-feature:not(:first-child) {
+    margin-top: 1rem;
+}
+
 .kmap-related .md3 {
     min-width: 27.5rem;
 }

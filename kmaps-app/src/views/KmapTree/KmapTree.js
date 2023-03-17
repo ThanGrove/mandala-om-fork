@@ -1,54 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { useKmap } from '../../hooks/useKmap';
-import { useSolr } from '../../hooks/useSolr';
 import { usePerspective } from '../../hooks/usePerspective';
 import { PerspectiveChooser } from './KmapPerspectives';
-import FilterTree from './FilterTree';
-import LeafGroup from './LeafGroup';
-import TreeLeaf from './TreeLeaf';
-import MandalaSkeleton from '../common/MandalaSkeleton';
-import { queryID, stringToHash } from '../common/utils';
-import $ from 'jquery';
 import './KmapTree.scss';
-import { useView } from '../../hooks/useView';
+import { useSolr } from '../../hooks/useSolr';
+import MandalaSkeleton from '../common/MandalaSkeleton';
+import { KTree, TreeNode } from './KmapsTree.class';
+import TreeLeaf from './TreeLeaf';
+import { useRouteMatch } from 'react-router-dom';
+import { useStatus } from '../../hooks/useStatus';
 
-/**
- * Kmap Tree: React Version of Kmaps Fancy Tree. Tree initializing function. Can pass any of the props listed in settings, but two basic modes;
- *      - Load a single kmaps as a tree root. Takes `domain` and `kid`.
- *      - Load a group of kmap nodes at the same level_i (e.g. subjects and possibly terms). Takes `domain` and `level`.
- *      - Leaves/Nodes with children are expandable with a plus/minus icon. Terminal nodes have a dash.
- *      - Each leaf header is linked to the page that displays it
- *      - Each leaf header is decorated to the right with a Mandala Popover for the Kmap
- *
- *  When loading a single tree root, it displays a TreeLeaf component (opened or closed depending on the value of isOpen).
- *  When loading a group of nodes at the same level, like subjects, it displays a LeafGroup component.
- *
- *  The major KmapTree settings are:
- *      domain: required either places, subjects, or terms (default: places)
- *      kid: optional, if given then used with domain to set the root of the tree (default: 0)
- *      perspective: optional, the perspective id for that domain's tree (default: uses the util.js function getPerspective(domain) to get the default perspective for that domain)
- *      level: optional, if given, shows all nodes at that level of the tree (default: false)
- *      isOpen: whether the root node should be open or not (default: false)
- *      showAncestors: whether to show the ancestors of the root node (default: false)
- *      showRelatedPlaces: whether to show the related places of the root node (default: false)
- *      elid: the element ID for the tree div (default: kmap-tree-{random hash})
- *      selectedNode: the kmap numeric ID (without domain) of the selected node. The tree will open to this node (default: 0)
- *      noRootLinks: if true, will not link or show mandala popover for the root nodes (used in Terms)
- *
- *      There are also various class settings for tree, leaf, span, icon, header, and children
- *      The settings object is passed to all children.
- *
- *      Tree opens to selected Node by querying that node and adding its path to the settings as `settings.selPath`
- *      Any node whose ID is found in the sel path will be opened.
- *
- * @param props
- * @returns {JSX.Element}
- * @constructor
- */
 export default function KmapTree(props) {
-    const uniqueTreeID = stringToHash(JSON.stringify(props));
     let settings = {
-        domain: 'places', // Default domain is places
+        domain: false, // Default domain is places
         kid: 0, // Only used if "level" is false
         level: false, // When level is set to a number, it shows all nodes on that level (subjects and terms)
         treeClass: 'c-kmaptree',
@@ -60,25 +23,48 @@ export default function KmapTree(props) {
         perspective: '',
         isOpen: false,
         showAncestors: false,
+        showNode: false,
         showRelatedPlaces: false,
-        elid: 'kmap-tree-' + uniqueTreeID,
+        elid: 'kmap-tree-',
         pgsize: 200,
         project_ids: false,
         noRootLinks: false,
         selectedNode: 0, // Kmap ID number of selected node (without domain)
+        selectedDomain: '',
         selPath: [],
     };
     settings = { ...settings, ...props }; // Merge default settings with instance settings giving preference to latter
+    const match = useRouteMatch([
+        '/:baseType/:id/related-:type/:definitionID/view/:relID',
+        '/:baseType/:id/related-:type/:definitionID/:viewMode',
+        '/:baseType/:id/related-:type',
+        '/:baseType/:id',
+    ]);
+    settings.selectedNode = match ? match.params.id : 0;
+    settings.selectedDomain = match ? match.params.baseType : '';
+    if (!!this?.showNode) {
+        settings.selectedNode = this.showNode;
+        settings.selectedDomain = this.domain;
+    }
+    const uniqueTreeID = `${settings.domain}:${settings.perspective}`;
+    settings.elid += uniqueTreeID;
     const perspective = usePerspective((state) => state[settings.domain]);
     settings.perspective = perspective;
+    settings.ancestor_field = [
+        `ancestor_ids_${settings.perspective}`,
+        'ancestor_ids_generic',
+    ]; // this works for Places, TODO: check for subjects and terms
 
-    // Remove domain and dash from selectedNode value (get just the number from e.g. "places-1234")
-    if (
-        typeof settings?.selectedNode === 'string' &&
-        settings?.selectedNode?.includes('-')
-    ) {
-        settings.selectedNode = settings.selectedNode.split('-')[1];
+    settings.level_field = `level_${settings.perspective}_i`;
+    settings.sort_field = `header`; // places and subjects
+    if (settings.domain === 'terms') {
+        settings.sort_field = 'position_i';
     }
+    settings.treeClass += ` ${settings.domain} ${settings.perspective?.replace(
+        /\./g,
+        '-'
+    )}`;
+
     // Set root information for this tree so they can be passed to each leaf
     settings['root'] = {
         domain: settings?.domain,
@@ -87,269 +73,71 @@ export default function KmapTree(props) {
         perspective: perspective,
     };
 
-    // Root Node: query and call
-    const rootquery = {
+    const [ktree, setKtree] = useState(null);
+
+    let qval = `${settings.level_field}:[1 TO 2]`;
+    let selkid = null;
+
+    const treebasequery = {
         index: 'terms',
         params: {
-            q: `level_${perspective}_i:1`,
+            q: qval,
             fq: `tree:${settings.domain}`,
-            rows: 1,
-            fl: 'uid',
+            rows: 5000,
+            fl: '*',
         },
     };
 
-    if (settings?.startNode && settings?.domain === 'subjects') {
-        rootquery['params']['q'] = `uid:${settings.startNode}`;
-    }
-
     const {
-        isLoading: isRootLoading,
-        data: rootData,
-        isError: isRootError,
-        error: rootError,
+        isLoading: isTreeLoading,
+        data: treeData,
+        isError: isTreeError,
+        error: treeError,
     } = useSolr(
-        ['kmaptree', 'root', settings.domain, settings.kid, perspective],
-        rootquery
+        ['tree', settings?.domain, settings?.perspective, selkid],
+        treebasequery
     );
 
-    // console.log("Root data", rootData);
-
-    // Selected Node: query and call
-    // useQuery to Load selected node (if no node selected selectedNode is 0 and it loads nothing)
-    const kmapId = queryID(settings.domain, settings.selectedNode);
-
-    const {
-        isLoading: isSelNodeLoading,
-        data: selNode,
-        isError: isSelNodeError,
-        error: selNodeErrror,
-    } = useKmap(kmapId, 'info', isRootLoading);
-
-    // Selected Parent: if selected node is related to but not in the tree itself
-    // useQuery to load related places selected node (Monasteries, etc.) (if not a related child nothing loads)
-    const selNodeQuery = {
-        index: 'terms',
-        params: {
-            q: '{!parent which=block_type:parent}related_uid_s:' + kmapId,
-            fl: `uid,header,[child parentFilter=block_type:parent childFilter=related_uid_s:${kmapId}]`,
-            start: 0,
-            rows: 1,
-            wt: 'json',
-        },
-    };
-
-    const {
-        isLoading: isRelSelNodeLoading,
-        data: relSelNode,
-        isError: isRelSelNodeError,
-        error: relSelNodeErrror,
-    } = useSolr(`${kmapId}-relsel`, selNodeQuery);
-
-    // For Debugging
-    /*
-    const viewobj = useView();
-    if (settings.domain === 'terms') {
-        console.log('use view: ', viewobj);
-    }
-     */
-    // Open to Selected Node, if not already open
     useEffect(() => {
-        // console.log('selected path', settings.selPath);
-        if (
-            !isSelNodeLoading &&
-            !isRelSelNodeLoading &&
-            (selNode || relSelNode) &&
-            settings?.selPath &&
-            settings?.selPath?.length > 0
-        ) {
-            if (!window.mandala?.scrolledToSel) {
-                window.mandala.scrolledToSel = true;
-                // Don't highlight tree root
-                if (settings?.selPath?.length > 1) {
-                    setTimeout(function () {
-                        openToSel(settings?.selPath, settings);
-                    }, 100);
+        if (treeData?.docs) {
+            let nkt = new KTree(
+                settings.domain,
+                settings.perspective,
+                treeData.docs,
+                settings
+            );
+            window.loadSelInterval = setInterval(() => {
+                if (nkt?.selLoaded) {
+                    setKtree(nkt);
+                    clearInterval(window.loadSelInterval);
                 }
-            } else {
-                clearTimeout(window.mandala?.clearSTS);
-                window.mandala.clearSTS = setTimeout(function () {
-                    window.mandala.scrolledToSel = false;
-                }, 5000);
-            }
+            }, 100);
         }
-    }, [settings.selPath, selNode, relSelNode]);
+    }, [treeData]);
 
-    // Set Perspective
-    useEffect(() => {
-        settings.perspective = perspective;
-        settings.root.perspective = perspective;
-    }, [perspective]);
-
-    // Don't load the tree until we have selected node path info to drill down with
-    /* This prevents tree from loading sometimes (I think)
-    if (isRootLoading || isSelNodeLoading || isRelSelNodeLoading) {
+    if (isTreeLoading) {
         return <MandalaSkeleton />;
-        // If Selected Node ID is a parent Solr doc, and has list of ancestor IDs for the perpsective, use that
-    } else */
-
-    if (selNode && `ancestor_ids_${settings.perspective}` in selNode) {
-        settings.selPath = selNode[`ancestor_ids_${settings.perspective}`];
-        // Otherwise if it has list of ancestor ids closest to that perspective, use that
-    } else if (
-        selNode &&
-        [`ancestor_ids_closest_${settings.perspective}`] in selNode
-    ) {
-        // When sel node is in closest ancestor ID path
-        settings.selPath =
-            selNode[`ancestor_ids_closest_${settings.perspective}`];
-        const snind = settings.selPath.indexOf(settings.selectedNode * 1);
-        if (snind > -1) {
-            settings.selPath.splice(snind, 1);
-        }
-        if (settings?.selPath && settings?.selPath?.length > 0) {
-            let lastSel = settings.selPath[settings.selPath.length - 1];
-            let selNode = settings?.selectedNode * 1;
-            if (lastSel !== selNode) {
-                selNode = lastSel + '';
-            }
-        }
-        // Otherwise, check if it's a related place child and if so, use its related_places_path_s, dropping the last item (itself)
-    } else if (relSelNode?.docs?.length > 0) {
-        // When there is no selNode but there is a relSel
-        const relpath =
-            relSelNode.docs[0]['_childDocuments_'][0]['related_places_path_s'];
-        if (relpath && typeof relpath === 'string') {
-            const splitpath = relpath.split('/').map((item) => {
-                return item * 1;
-            });
-            splitpath.pop();
-            if (splitpath.length > 0) {
-                settings.selPath = splitpath;
-            }
-        }
     }
-
-    if (rootData?.numFound == 1 && rootData.docs[0]?.uid?.includes('-')) {
-        settings.root.kid = rootData.docs[0].uid.split('-')[1];
-        if (settings.kid === 0 && settings.level === false) {
-            settings.kid = settings.root.kid;
-        }
-        // console.log('Setting root data', rootData, settings);
-    }
-
-    // If the project attribute is set, call create a filtered tree
-    if (settings?.project?.length > 0) {
-        return <FilterTree settings={settings} />;
-    }
-
-    // Otherwise, create the tree dive with a LeafGroup (when there are many root nodes,
-    // e.g. subjects and terms) or a single root leaf (places)
-    let treeclass = `${settings.treeClass} ${settings.root.domain}`;
-    if (props?.className) {
-        treeclass += ` ${props.className}`;
-    }
-    // For related subjects context tree
-    if (
-        settings.domain === 'subjects' &&
-        settings.kid === 0 &&
-        settings.selPath.length > 0
-    ) {
-        settings.root.kid = settings.selPath[0];
-    }
-
+    // Hmmm
     return (
-        <div id={settings.elid} className={treeclass}>
+        <div id={settings.elid} className={settings.treeClass}>
             <PerspectiveChooser
                 domain={settings.domain}
                 current={perspective}
             />
-            {settings.level && !settings.startNode && (
-                <LeafGroup
-                    domain={settings.root.domain}
-                    level={settings.level}
-                    settings={settings}
-                    isopen={settings.isOpen}
-                    perspective={perspective}
-                    newperspective={perspective}
-                />
-            )}
-            {(!settings.level || settings.startNode) && (
-                <TreeLeaf
-                    domain={settings.root.domain}
-                    kid={settings.root.kid}
-                    leaf_level={0}
-                    settings={settings}
-                    isopen={settings.isOpen}
-                    showAncestors={settings.showAncestors}
-                    perspective={perspective}
-                />
-            )}
-            {rootData?.numFound === 0 && (
-                <p className="tree-not-found">
-                    We’re sorry. There are currently no features in the tree for
-                    this perspective.
-                </p>
-            )}
+            {ktree?.trunk?.map((nd, ni) => {
+                const tlkey = `treeleaf-${nd.uid}-${ni}`;
+                const isInPath =
+                    nd?.domain === ktree.selectedDomain &&
+                    ktree?.selPath?.includes(nd.kid);
+                return (
+                    <TreeLeaf
+                        key={tlkey}
+                        node={nd}
+                        isOpen={settings.isOpen || isInPath}
+                    />
+                );
+            })}
         </div>
     );
-}
-
-/**
- * Opens to the selected node using the settings.selPath attribute for parallel trees (2nd tree of same domain)
- * Selected Node is loaded at the beginning of KmapTree and its path is used to set the selPath
- * It performs a loop taking the last ID from the selpath and searching for it
- * It creates a jQuery selector (using selectorBase plus the node ID) and
- * If that element exists it clicks on it. It does this until the last element in the selPath is found.
- *
- * Refactor (feb 1 2023) to use timeouts to click on each item in tree. Not sure it currently works if there
- * are multiple trees on the page.
- *
- * @param settings
- */
-function openToSel(selpath, settings, times = 0) {
-    if (!Array.isArray(selpath) || selpath?.length === 0) {
-        return;
-    }
-    const currid = selpath[0];
-    const elid = `leaf-${settings.domain}-${currid}`;
-    const el = document.getElementById(elid);
-    if (el) {
-        const toggle = el.querySelector('span.toggle-icon');
-        if (el?.classlist?.includes('leafclosed')) {
-            if (!toggle.classList.includes('selclicked')) {
-                toggle.click();
-                toggle.classList.add('selclicked');
-            }
-        } else {
-            toggle.classList.remove('selclicked');
-        }
-        selpath.shift();
-        if (selpath.length == 0) {
-            setTimeout(function () {
-                scrollToEl(el);
-            }, 500);
-        } else {
-            setTimeout(function () {
-                openToSel(selpath, settings);
-            }, 100);
-        }
-    } else {
-        if (times < 100) {
-            times++;
-            setTimeout(function () {
-                openToSel(selpath, settings, times);
-            }, 100);
-        }
-    }
-}
-
-function scrollToEl(el) {
-    el.classList.add('selected');
-    window.scrollTo(0, 0);
-    let tree = el.closest('.c-kmaptree');
-    if (tree) {
-        tree.scroll(0, el.offsetTop - 200);
-    } else {
-        console.log('no tree', el);
-    }
 }

@@ -169,9 +169,20 @@ ul.fancytree-container {
     }
 }
 
+#l-content__main .leafend .toggle-icon::before {
+    top: 0.9rem;
+}
+
+.c-kmaptree.terms.tib-alpha .leafend {
+    margin-top: -0.5rem;
+}
+
+/*
 .l-place-content-tree .leafend .toggle-icon::before {
     top: 0.85rem;
 }
+
+ */
 
 .leafend:hover .toggle-icon::before {
     background-color: #b99b45;

@@ -7,7 +7,17 @@ import { Main } from './main/Main';
 export const ADVANCED_LABEL = 'Advanced';
 export const BASIC_LABEL = 'Basic Search';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+    // From https://www.codemzy.com/blog/react-query-cachetime-staletime
+    /*
+    defaultOptions: {
+        queries: {
+            staleTime: 30 * (60 * 1000), // 30 mins
+            cacheTime: 60 * (60 * 1000), // 60 mins
+        },
+    },
+*/
+});
 
 export default function App() {
     if (!window.sui) {

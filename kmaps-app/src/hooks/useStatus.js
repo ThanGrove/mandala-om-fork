@@ -1,9 +1,8 @@
 import create from 'zustand';
 
 /**
- * Deprecated: Hook for keeping track of user choices called useStatus. Ndg8f took over component name from Ys2n,
- * which was a completely different version, but this doesn't work to save state for the embedded versions of the
- * "standalone". Jan. 2023.
+ *
+ * Using this old hook to keep track of selected path (ndg8f, 2023-03-16)
  *
  * @type {UseStore<{places: string|*, terms: string|*, subjects: string|*, setPerspective: function(*, *=): void}>}
  */
@@ -11,6 +10,13 @@ export const useStatus = create((set, get) => ({
     item: '',
     setItem: (val) => {
         set((state) => ({ item: val }));
+    },
+
+    selPath: [],
+    setSelpath: (pth) => {
+        if (Array.isArray(pth)) {
+            set((state) => ({ selPath: pth }));
+        }
     },
 
     searchView: 'list',

@@ -6,7 +6,7 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { Route, useParams, useRouteMatch } from 'react-router-dom';
 import { useHistory } from '../../hooks/useHistory';
 import { useKmap } from '../../hooks/useKmap';
-import { getProject, queryID } from '../common/utils';
+import { arrayChunk, getProject, queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import KmapTree from '../KmapTree/KmapTree';
@@ -112,9 +112,10 @@ export default function PlacesRelPlacesViewer() {
                             elid={`related-places-tree-${id}`}
                             className="l-place-content-tree"
                             domain="places"
-                            selectedNode={`places-${id}`}
+                            showNode={id}
                             showAncestors={true}
                             showRelatedPlaces={true}
+                            relatedTree={true}
                         />
                     </Row>
                 </Container>
@@ -142,21 +143,38 @@ export default function PlacesRelPlacesViewer() {
                         </Col>
                     </Row>
                     <Row>
-                        {children_by_ftype?.length > 0 &&
-                            children_by_ftype.map((ftyp, fti) => {
-                                return (
-                                    <RelatedPlacesFeature
-                                        key={`rpf-${fti}`}
-                                        label={ftyp?.label}
-                                        features={ftyp?.children}
-                                    />
-                                );
-                            })}
+                        <RelatedPlacesAllFeatures
+                            feature_children={children_by_ftype}
+                        />
                     </Row>
                 </Container>
             </Tab>
         </Tabs>
     );
+}
+
+export function RelatedPlacesAllFeatures({ feature_children }) {
+    if (feature_children?.length === 0) {
+        return null;
+    }
+    let cize = Math.floor(feature_children.length / 3);
+    const chunks = arrayChunk(feature_children, cize);
+    const cols = chunks.map((ck, cki) => {
+        return (
+            <Col key={`chunk-${cki}-col`} md={3}>
+                {ck?.map((ftyp, fti) => {
+                    return (
+                        <RelatedPlacesFeature
+                            key={`rpf-${cki}-${fti}`}
+                            label={ftyp?.label}
+                            features={ftyp?.children}
+                        />
+                    );
+                })}
+            </Col>
+        );
+    });
+    return cols;
 }
 
 export function RelatedPlacesFeature({
@@ -169,7 +187,7 @@ export function RelatedPlacesFeature({
     const wrapclass = numfeat > 0 && !isSolo ? 'scroll-list-wrap' : 'ml-5 mt-3';
     const divclass = numfeat > 0 && !isSolo ? 'scroll-list' : '';
     return (
-        <Col className="rel-place-feature" md={colsize}>
+        <div className="rel-place-feature">
             <div className={wrapclass}>
                 <h4>
                     {label} ({numfeat})
@@ -186,7 +204,7 @@ export function RelatedPlacesFeature({
                     </ul>
                 </div>
             </div>
-        </Col>
+        </div>
     );
 }
 

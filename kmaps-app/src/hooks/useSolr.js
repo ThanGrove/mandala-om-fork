@@ -104,13 +104,19 @@ function processFacets(facetdata) {
  * @param byPass {boolean} : (optional) whether to byPass or not (set to true if it depends on another query, i.e. send that query's isLoading value)
  * @returns {any}
  */
-export function useSolr(qkey, queryobj, byPass = false, filtered = false) {
+export function useSolr(
+    qkey,
+    queryobj,
+    byPass = false,
+    filtered = false,
+    options = {}
+) {
     // console.log("useSolr: qkey = ", qkey, " queryobj = ", queryobj);
     // split qkey by '-' and pass array as key
     if (typeof qkey === 'string') {
         qkey = qkey.split('-');
     }
-    return useQuery(qkey, () => getSolrData(queryobj, filtered), {
-        enabled: !byPass,
-    });
+    const newOptions = { enabled: !byPass, ...options };
+
+    return useQuery(qkey, () => getSolrData(queryobj, filtered), newOptions);
 }
