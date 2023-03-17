@@ -168,6 +168,10 @@ export default function TreeLeaf({
     const leafclick = () => {
         tree.selectedNode = node.kid;
         tree.selPath = node.ancestor_path;
+        const selels = document.querySelectorAll('.selected');
+        selels.forEach((el) => {
+            el.classList.remove('selected');
+        });
         document.getElementById(myid).classList.add('selected');
     };
     const leafhead = nolink ? (
