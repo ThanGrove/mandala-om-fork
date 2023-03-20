@@ -126,6 +126,7 @@ export default function KmapTree(props) {
                 domain={settings.domain}
                 current={perspective}
             />
+            {!ktree?.trunk && <MandalaSkeleton />}
             {ktree?.trunk?.map((nd, ni) => {
                 const tlkey = `treeleaf-${nd.uid}-${ni}`;
                 const isInPath =
