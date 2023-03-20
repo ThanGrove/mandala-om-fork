@@ -72,7 +72,7 @@ export default function KmapTree(props) {
         level: settings?.level,
         perspective: perspective,
     };
-    settings.debug = false; // settings?.elid?.includes('related-places-tree');
+    settings.debug = settings?.elid?.includes('related-places-tree');
 
     const [ktree, setKtree] = useState(null);
 
@@ -108,17 +108,11 @@ export default function KmapTree(props) {
                 settings
             );
 
-            const stopInterval = () => {
-                clearInterval(window.loadSelInterval);
-            };
-            if (!window?.loadSelInterval) {
-                window.loadSelInterval = setInterval(() => {
-                    if (nkt?.selLoaded) {
-                        setKtree(nkt);
-                        stopInterval();
-                    }
-                }, 1000);
-            }
+            setTimeout(() => {
+                if (nkt?.selLoaded) {
+                    setKtree(nkt);
+                }
+            }, 1000);
         }
     }, [treeData]);
 
