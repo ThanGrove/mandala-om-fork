@@ -26,7 +26,7 @@ import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
 import { ImageCaption, ImageSlider } from '../common/ImageSlider';
 import { openTabStore } from '../../hooks/useCloseStore';
-import { usePerspective } from '../../hooks/usePerspective';
+import { useSolr } from '../../hooks/useSolr';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -40,7 +40,6 @@ const PlacesRelSubjectsViewer = React.lazy(() =>
 export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
-    let persp = usePerspective((state) => state.places);
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
     const setOpenTab = openTabStore((state) => state.changeButtonState);
@@ -60,6 +59,30 @@ export default function PlacesInfo(props) {
         error: assetError,
     } = useKmap(qid, 'asset');
 
+    const {
+        isLoading: isBoundaryLayerLoading,
+        data: boundaryLayerData,
+        isError: isBoundaryLayerError,
+        error: boundaryLayerError,
+    } = useSolr('boundaryLayer', {
+        index: 'terms',
+        params: {
+            q: `uid:places-637_shape_*`,
+        },
+    });
+    const {
+        isLoading: isLocationLayerLoading,
+        data: locationLayerData,
+        isError: isLocationLayerError,
+        error: locationLayerError,
+    } = useSolr('locationLayer', {
+        index: 'terms',
+        params: {
+            q: `uid:places-637`,
+            fl: `shapes_centroid_grptgeom,name_roman.popular`,
+        },
+    });
+
     useEffect(() => {
         if (kmapData?.header) {
             addPage('places', kmapData.header, window.location.pathname);
@@ -67,10 +90,7 @@ export default function PlacesInfo(props) {
     }, [kmapData, addPage]);
 
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
-
     let topfunc = () => {
-        return; // disabling until I can identify and narrow down when this can be used.
-        // Replaced by code in KmapTree to Scroll to selected.
         if (document.getElementById('leaf-places-' + id)) {
             setTimeout(function () {
                 const el = document.getElementById('leaf-places-' + id);
@@ -104,7 +124,12 @@ export default function PlacesInfo(props) {
 
     const fid = kmasset?.id;
 
-    if (isKmapLoading || isAssetLoading) {
+    if (
+        isKmapLoading ||
+        isAssetLoading ||
+        isBoundaryLayerLoading ||
+        isLocationLayerLoading
+    ) {
         return (
             <div id="place-kmap-tabs">
                 <MandalaSkeleton />
@@ -130,7 +155,7 @@ export default function PlacesInfo(props) {
             break;
         }
     }
-    let defaultKey = txtid ? 'about' : kmapData?.has_shapes ? 'map' : 'names';
+    const defaultKey = txtid ? 'about' : kmapData?.has_shapes ? 'map' : 'names';
 
     // Create Name Object list to determine if there are etymologies
     const namelist = kmapData._childDocuments_?.filter((cd, i) => {
@@ -165,16 +190,10 @@ export default function PlacesInfo(props) {
         else return 0; // The same
     });
 
-    if (defaultKey === 'names' && nameobjs?.length === 0) {
-        defaultKey = 'ids';
-    }
-
     let etymologies = [];
     etymologies = nameobjs.filter((c, i) => {
         return c.ety && c.ety.length > 0;
     });
-
-    // console.log("props", props);
 
     return (
         <>
@@ -203,6 +222,18 @@ export default function PlacesInfo(props) {
                                                 languageLayer="roman_popular"
                                                 height={mapSize.height}
                                                 width={mapSize.width}
+                                                boundaryLayer={
+                                                    boundaryLayerData
+                                                }
+                                                boundaryLayerError={
+                                                    boundaryLayerError
+                                                }
+                                                locationLayer={
+                                                    locationLayerData
+                                                }
+                                                locationLayerError={
+                                                    locationLayerError
+                                                }
                                             />
                                         )}
                                     </Tab>
@@ -239,12 +270,6 @@ export default function PlacesInfo(props) {
                                 </Tab>
                             </Tabs>
                         </div>
-                        {persp === 'envir.rel' && (
-                            <p>
-                                For environmental features of this place click
-                                on the "Places" item on the left sidebar.
-                            </p>
-                        )}
                     </Route>
                     <Route
                         path={[`${path}/related-:relatedType/view/:assetId`]}
