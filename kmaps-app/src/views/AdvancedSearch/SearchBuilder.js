@@ -120,7 +120,7 @@ class QueryItem {
         this.field = field;
         this.fieldlist = this.getFields(this.field);
         this.scope = scope;
-        this.qstr = qstr;
+        this.qstr = qstr.toLowerCase();
         this.query = ';';
     }
 
