@@ -37,6 +37,7 @@ export default function SubjectInfo(props) {
 
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
     let tofunc = () => {
+        return; // Disabling because trying to replace with kmaptree code
         if (document.getElementById('leaf-subjects-' + id)) {
             setTimeout(function () {
                 console.log('scrolling to');

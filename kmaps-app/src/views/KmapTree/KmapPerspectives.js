@@ -16,15 +16,17 @@ import { HtmlCustom } from '../common/MandalaMarkup';
 import { usePerspective } from '../../hooks/usePerspective';
 
 // The following perspectives appear to have no data (Jun 2021, ndg) so filtering them out. See line 63
+// https://uvaissues.atlassian.net/browse/MANU-7308 : (Jan 2023) Requests them back in.
 export const EMPTY_PERSPECTIVE_CODES = [
+    /*
     'pol.rel',
     'cult.rel',
-    'envir.rel',
     'admin.rel',
     'org.rel',
     'rel.rel',
     'geo.rel',
     'gram.sem.rel',
+     */
 ];
 
 export function PerspectiveChooser({ domain, current, setter, ...props }) {
@@ -54,7 +56,11 @@ export function PerspectiveChooser({ domain, current, setter, ...props }) {
     if (isPerspDataLoading) {
         return <MandalaSkeleton />;
     }
-    if (perspData.length === 1 || isPerspDataError) {
+
+    if (!perspData || perspDataError) {
+        return null;
+    }
+    if (perspData?.length === 1 || isPerspDataError) {
         if (isPerspDataError) {
             console.log('Perspective Data Error: ', perspDataError);
         }

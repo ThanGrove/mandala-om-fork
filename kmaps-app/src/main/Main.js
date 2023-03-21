@@ -1,5 +1,5 @@
-import React, { useState, lazy, Suspense, useContext } from 'react';
-import { Route, Redirect, Switch, useSearchParams } from 'react-router-dom';
+import React, { lazy, Suspense } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import {
     QueryParamProvider,
     transformSearchStringJsonSafe,
@@ -9,9 +9,7 @@ import { SiteHeader } from './SiteHeader/SiteHeader';
 import { Hamburger } from './MainNavToggle/Hamburger';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
 import { MandalaSession } from './MandalaSession';
-const Home = lazy(() => import('./HomePage/Home'));
 const ContentMain = lazy(() => import('./ContentMain'));
-const NotFoundPage = lazy(() => import('../views/common/NotFoundPage'));
 
 const stringifyOptions = {
     transformSearchString: transformSearchStringJsonSafe,

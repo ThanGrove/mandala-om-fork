@@ -1,49 +1,27 @@
 import React from 'react';
-// Start Openlayers imports
-import { Map, View } from 'ol';
-import { KML, GeoJSON, XYZ } from 'ol/format';
-import { Tile as TileLayer, Vector as VectorLayer } from 'ol/layer';
+// Start OpenLayers imports
+import { Feature, Map, View } from 'ol';
+import { GeoJSON } from 'ol/format';
+import { Vector as VectorLayer } from 'ol/layer';
+import { Vector as VectorSource } from 'ol/source';
 import {
-    Vector as VectorSource,
-    OSM as OSMSource,
-    XYZ as XYZSource,
-    TileWMS as TileWMSSource,
-} from 'ol/source';
-import {
-    Select as SelectInteraction,
     defaults as DefaultInteractions,
-    DragAndDrop,
     DragRotateAndZoom,
-    MouseWheelZoom,
 } from 'ol/interaction';
+import { defaults as DefaultControls, ScaleLine, ZoomSlider } from 'ol/control';
 import {
-    Attribution,
-    ScaleLine,
-    ZoomSlider,
-    Zoom,
-    Rotate,
-    MousePosition,
-    OverviewMap,
-    defaults as DefaultControls,
-} from 'ol/control';
-import {
-    Style,
-    Fill as FillStyle,
-    RegularShape as RegularShapeStyle,
     Stroke as StrokeStyle,
+    Fill as FillStyle,
+    Text as TextStyle,
+    Style,
 } from 'ol/style';
 
-import {
-    Projection,
-    get as getProjection,
-    transformExtent,
-    Extent,
-} from 'ol/proj';
+import { get as getProjection, transformExtent } from 'ol/proj';
 
-// End Openlayers imports
+// End OpenLayers imports
 import GoogleLayer from 'olgm/layer/Google.js';
-import { defaults } from 'olgm/interaction.js';
 import OLGoogleMaps from 'olgm/OLGoogleMaps.js';
+import axios from 'axios';
 
 class KmapsMap extends React.Component {
     constructor(props) {
@@ -56,7 +34,10 @@ class KmapsMap extends React.Component {
             language_layer: props.languageLayer || 'roman_popular',
             zoom: props.zoom || 7,
             map: null,
-            hide: true,
+            boundaryLayer: props.boundaryLayer,
+            boundaryLayerError: props.boundaryLayerError,
+            locationLayer: props.locationLayer,
+            locationLayerError: props.locationLayerError,
         };
         this.inset_map_ref = React.createRef();
     }
@@ -92,8 +73,8 @@ class KmapsMap extends React.Component {
                 width: nextProps.width,
                 height: nextProps.height,
             });
-            var map = this.buildMap(nextProps.fid);
-            this.zoomToFeature(map, nextProps.fid);
+
+            this.buildMap(nextProps.fid);
         }
     }
 
@@ -101,45 +82,107 @@ class KmapsMap extends React.Component {
         window.addEventListener('resize', this.updateDimensions);
     }
 
-    buildMap(forcedId = null) {
-        this.setState({ element: this.inset_map_ref.current });
-        const geoserverUrl = process.env.REACT_APP_GOSERVER_URL;
-        var map = this.createMap(forcedId);
-        return map;
+    componentDidMount() {
+        this.buildMap();
     }
 
-    componentDidMount() {
-        var map = this.buildMap();
-        this.zoomToFeature(map);
+    buildMap(forcedId = null) {
+        this.setState({ element: this.inset_map_ref.current });
+        this.createMap(forcedId);
+        this.zoomToFeature(forcedId);
+    }
+
+    addBoundaryLayer(map) {
+        const { boundaryLayer, boundaryLayerError } = this.state;
+        if (boundaryLayerError) {
+            this.handleBuildMapFailure();
+        }
+
+        if (boundaryLayer && map) {
+            const document = boundaryLayer.docs[0];
+            const geometryDataStr = document['geometry_rptgeom'];
+            const geometryDataJson = JSON.parse(geometryDataStr);
+            const geometryData = {
+                type: 'FeatureCollection',
+                features: [
+                    {
+                        type: 'Feature',
+                        properties: {},
+                        geometry: geometryDataJson,
+                    },
+                ],
+            };
+
+            const vectorLayer = new VectorLayer({
+                source: new VectorSource({
+                    features: new GeoJSON({
+                        featureProjection: 'EPSG:3857',
+                    }).readFeatures(geometryData),
+                }),
+                style: new Style({
+                    stroke: new StrokeStyle({
+                        color: '#000000',
+                        width: 5,
+                    }),
+                    fill: new FillStyle({
+                        color: 'rgba(0,0,0,0)',
+                    }),
+                }),
+            });
+
+            map.addLayer(vectorLayer);
+        }
+    }
+
+    addLocationLayer(map) {
+        const { locationLayer, locationLayerError } = this.state;
+        if (locationLayerError) {
+            this.handleBuildMapFailure();
+        }
+
+        if (locationLayer && map) {
+            const document = locationLayer.docs[0];
+
+            const geometryDataStr = document['shapes_centroid_grptgeom'];
+            const geometryDataJson = JSON.parse(geometryDataStr);
+
+            const name = document['name_roman.popular'][0];
+
+            // create a vector source from the GeoJSON data
+            const features = new GeoJSON({
+                featureProjection: 'EPSG:3857',
+            }).readFeatures(geometryDataJson);
+
+            // create the label style for the features
+            const labelStyle = new Style({
+                text: new TextStyle({
+                    text: name,
+                    font: 'bold 16px/1 sans-serif',
+                    fill: new FillStyle({ color: 'white' }),
+                    stroke: new StrokeStyle({ color: 'black', width: 3 }),
+                }),
+            });
+
+            // add the label style to feature
+            features[0].setStyle(labelStyle);
+
+            // create a vector layer for the labels
+            const vectorLayer = new VectorLayer({
+                source: new VectorSource({
+                    features: features,
+                }),
+            });
+
+            map.addLayer(vectorLayer);
+        }
     }
 
     createMap(forcedId = null) {
         const googleLayer = new GoogleLayer({
             mapTypeId: 'satellite',
         });
-        const layer_name = this.state.language_layer;
-        const fid = forcedId == null ? this.state.fid : forcedId;
-        const geoserverUrl = process.env.REACT_APP_GOSERVER_URL;
-        const featureLayer = new TileLayer({
-            source: new TileWMSSource({
-                url: `${geoserverUrl}/wms`,
-                params: {
-                    LAYERS:
-                        'thl:' +
-                        layer_name +
-                        '_poly,thl:' +
-                        layer_name +
-                        '_pt,thl:' +
-                        layer_name +
-                        '_line',
-                    STYLES: 'thl_noscale,thl_noscale,thl_noscale',
-                    TILED: true,
-                    CQL_FILTER: `fid=${fid};fid=${fid};fid=${fid}`,
-                },
-                projection: 'EPSG:900913',
-            }),
-        });
-        var map = this.state.map;
+
+        let map;
         if (this.state.map != null) {
             this.inset_map_ref.current.innerHTML = '';
         }
@@ -148,7 +191,7 @@ class KmapsMap extends React.Component {
                 new DragRotateAndZoom(),
             ]),
             target: this.inset_map_ref.current,
-            layers: [googleLayer, featureLayer],
+            layers: [googleLayer],
             controls: DefaultControls().extend([
                 new ZoomSlider(),
                 new ScaleLine(),
@@ -158,21 +201,22 @@ class KmapsMap extends React.Component {
                 zoom: this.state.zoom,
             }),
         });
-        var olGM = new OLGoogleMaps({ map: map }); // map is the ol.Map instance
+
+        let olGM = new OLGoogleMaps({ map }); // map is the ol.Map instance
         olGM.activate();
-        this.setState({ map: map });
-        return map;
+
+        this.addBoundaryLayer(map);
+        this.addLocationLayer(map);
+
+        this.setState({ map });
     }
 
-    zoomToFeature(map, forcedId = null) {
+    zoomToFeature(forcedId = null) {
         const fid = forcedId == null ? this.state.fid : forcedId;
         const cql_filter = `fid=${fid}`;
         const geoserverUrl = process.env.REACT_APP_GOSERVER_URL;
-        const serverUrl =
-            geoserverUrl +
-            '/wfs?service=wfs&version=1.1.0&request=GetFeature&typename=thl:bbox&cql_filter=' +
-            cql_filter +
-            '&projection=EPSG:4326&SRS=EPSG:4326&outputFormat=json';
+        const serverUrl = `${geoserverUrl}/wfs?service=wfs&version=1.1.0&request=GetFeature&typename=thl:bbox&cql_filter=${cql_filter}&projection=EPSG:4326&SRS=EPSG:4326&outputFormat=json`;
+
         fetch(serverUrl)
             .then((res) => res.json())
             .then((result) => {
@@ -181,15 +225,12 @@ class KmapsMap extends React.Component {
                     result.bbox.length < 4
                 ) {
                     console.warn(
-                        'No or improper bounding box data from geoserver: \n' +
-                            serverUrl
+                        `No or improper bounding box data from geoserver: \n${serverUrl}`
                     );
                     return;
                     // TODO: Display a "Can't load map" message if this works
                 }
-                this.setState((state) => ({
-                    hide: false,
-                }));
+
                 //because we are using WFS V1.1 we need to flip the coordinates
                 const bbox = [
                     result.bbox[1],
@@ -197,27 +238,31 @@ class KmapsMap extends React.Component {
                     result.bbox[3],
                     result.bbox[2],
                 ];
-                var ext = transformExtent(
+                let ext = transformExtent(
                     bbox,
                     getProjection('EPSG:4326'),
                     getProjection('EPSG:900913')
                 );
+                const { map } = this.state;
                 map.getView().fit(ext, {
                     size: [this.state.height, this.state.width],
                     padding: [1, 1, 1, 1],
                     constraintResolution: false,
                 });
+                this.setState({ map });
             })
-            .catch((myerr) => {
-                console.log('Map loading error: ' + myerr);
-                const container = document.getElementById(
-                    'places-map-container'
-                );
-                if (container) {
-                    container.classList.remove('map');
-                    container.classList.add('nomap');
-                }
+            .catch((err) => {
+                console.trace('Map loading error: ' + err);
+                this.handleBuildMapFailure();
             });
+    }
+
+    handleBuildMapFailure() {
+        const container = document.getElementById('places-map-container');
+        if (container) {
+            container.classList.remove('map');
+            container.classList.add('nomap');
+        }
     }
 
     componentWillUnmount() {

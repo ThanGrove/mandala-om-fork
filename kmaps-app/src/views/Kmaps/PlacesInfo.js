@@ -26,6 +26,7 @@ import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
 import { ImageCaption, ImageSlider } from '../common/ImageSlider';
 import { openTabStore } from '../../hooks/useCloseStore';
+import { useSolr } from '../../hooks/useSolr';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -58,6 +59,30 @@ export default function PlacesInfo(props) {
         error: assetError,
     } = useKmap(qid, 'asset');
 
+    const {
+        isLoading: isBoundaryLayerLoading,
+        data: boundaryLayerData,
+        isError: isBoundaryLayerError,
+        error: boundaryLayerError,
+    } = useSolr('boundaryLayer', {
+        index: 'terms',
+        params: {
+            q: `uid:places-637_shape_*`,
+        },
+    });
+    const {
+        isLoading: isLocationLayerLoading,
+        data: locationLayerData,
+        isError: isLocationLayerError,
+        error: locationLayerError,
+    } = useSolr('locationLayer', {
+        index: 'terms',
+        params: {
+            q: `uid:places-637`,
+            fl: `shapes_centroid_grptgeom,name_roman.popular`,
+        },
+    });
+
     useEffect(() => {
         if (kmapData?.header) {
             addPage('places', kmapData.header, window.location.pathname);
@@ -77,7 +102,6 @@ export default function PlacesInfo(props) {
                             Math.floor(tree.offsetHeight / 2) -
                             60;
                         tree.scrollTop = scrollval;
-                        console.log('scrolling to: ', scrollval);
                     }
                 }
             }, 1);
@@ -99,7 +123,12 @@ export default function PlacesInfo(props) {
 
     const fid = kmasset?.id;
 
-    if (isKmapLoading || isAssetLoading) {
+    if (
+        isKmapLoading ||
+        isAssetLoading ||
+        isBoundaryLayerLoading ||
+        isLocationLayerLoading
+    ) {
         return (
             <div id="place-kmap-tabs">
                 <MandalaSkeleton />
@@ -192,6 +221,18 @@ export default function PlacesInfo(props) {
                                                 languageLayer="roman_popular"
                                                 height={mapSize.height}
                                                 width={mapSize.width}
+                                                boundaryLayer={
+                                                    boundaryLayerData
+                                                }
+                                                boundaryLayerError={
+                                                    boundaryLayerError
+                                                }
+                                                locationLayer={
+                                                    locationLayerData
+                                                }
+                                                locationLayerError={
+                                                    locationLayerError
+                                                }
                                             />
                                         )}
                                     </Tab>

@@ -8,8 +8,11 @@ import {
     withDefault,
     encodeQueryParams,
 } from 'use-query-params';
+import { useStatus } from '../hooks/useStatus';
 import { stringify } from 'query-string';
 import { ArrayOfObjectsParam } from '../hooks/utils';
+import { standaloneSettings } from '../views/common/utils';
+import { Cookies } from 'react-cookie';
 
 const target = document.getElementById('basicSearchPortal');
 const SEARCH_PATH = '/search/:view';
@@ -17,6 +20,12 @@ const SEARCH_PATH = '/search/:view';
 export function BasicSearch(props) {
     const history = useHistory();
     const inputEl = useRef(null);
+    const cookie = new Cookies();
+    let searchview = cookie?.get('searchview');
+    if (!searchview || searchview.length == 0) {
+        searchview = process.env?.REACT_APP_SEARCH_VIEW_DEFAULT || 'list';
+        cookie.set('searchview', searchview);
+    }
 
     // This tells us whether we are viewing the search results
     // so that we can give a link to go there (or not).
@@ -42,13 +51,13 @@ export function BasicSearch(props) {
                 }
             );
             if (process.env.REACT_APP_STANDALONE === 'standalone') {
-                window.location.hash = `#/search/deck?${stringify(
+                window.location.hash = `#/search/${searchview}?${stringify(
                     encodedQuery
                 )}`;
             } else {
                 //history.push('/search/deck');
                 history.push({
-                    pathname: `/search/deck`,
+                    pathname: `/search/` + searchview,
                     search: `?${stringify(encodedQuery)}`,
                 });
             }
@@ -79,6 +88,14 @@ export function BasicSearch(props) {
         }
     };
 
+    function cleanSearch(srch) {
+        let newSearch = '';
+        if (!srch.startsWith('advSearch')) {
+            newSearch = srch;
+        }
+        return newSearch;
+    }
+
     const basicSearchPortal = (
         <>
             <div className="sui-search1">
@@ -87,7 +104,7 @@ export function BasicSearch(props) {
                     type="text"
                     id="sui-search"
                     className="sui-search2"
-                    defaultValue={decodeURIComponent(search || '')}
+                    defaultValue={decodeURIComponent(cleanSearch(search || ''))}
                     placeholder="Search &amp; Explore!"
                     onKeyDownCapture={handleKey}
                     ref={inputEl}

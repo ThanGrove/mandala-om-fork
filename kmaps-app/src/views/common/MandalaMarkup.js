@@ -338,7 +338,7 @@ function isBlockedUrl(lnkurl) {
  * @constructor
  */
 export function HtmlWithPopovers(props) {
-    const htmlInput = props.markup ? props.markup : '<div></div>';
+    let htmlInput = props.markup ? props.markup : '<div></div>';
     const options = {
         decodeEntities: true,
         transform,

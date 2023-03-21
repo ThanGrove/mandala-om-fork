@@ -20,6 +20,7 @@ export function SearchViewer() {
         searchText: StringParam,
         filters: withDefault(ArrayOfObjectsParam, []),
     });
+    // console.log("query is: ", query);
     const addSearchPage = useRecentSearch((state) => state.addSearchPage);
     let { searchText: search, filters } = query;
 
@@ -37,6 +38,7 @@ export function SearchViewer() {
     useEffect(() => {
         // Add the search page and filters to the store.
         addSearchPage(query);
+        window.mandala.scrolledToSel = false;
     }, [query]);
 
     useEffect(() => {
@@ -60,7 +62,7 @@ export function SearchViewer() {
             </div>
         );
     }
-
+    window.mandala.scrolledToSel = false;
     const docs = searchData.response?.docs ?? [];
     const numFound = searchData.response?.numFound ?? 0;
     let output = (

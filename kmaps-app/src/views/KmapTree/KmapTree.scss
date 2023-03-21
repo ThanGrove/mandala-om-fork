@@ -1,6 +1,10 @@
 @import '../../index-variables';
 @import '../../css/fonts/shanticon/style.css';
 
+.kmap-stop-scroll {
+    overflow: hidden !important;
+}
+
 ul.fancytree-container {
     height: auto !important;
 }
@@ -135,15 +139,13 @@ ul.fancytree-container {
         font-size: 2rem;
         line-height: 1.35;
     }
-    &.selected > .c-kmapnode > .label {
-        //  line-height: 2.25;
-        a {
-            border-bottom: 0.3rem solid #cca843;
+    &.selected > .c-kmapnode {
+        background-color: #fff40057;
+        & > .label {
+            a {
+                border-bottom: 0.3rem solid #cca843;
+            }
         }
-    }
-    &.selected > .c-kmapnode > .toggle-icon::before {
-        background-color: red;
-        border-color: red;
     }
 }
 
@@ -166,6 +168,21 @@ ul.fancytree-container {
         transform: rotate(45deg);
     }
 }
+
+#l-content__main .leafend .toggle-icon::before {
+    top: 0.9rem;
+}
+
+.c-kmaptree.terms.tib-alpha .leafend {
+    margin-top: -0.5rem;
+}
+
+/*
+.l-place-content-tree .leafend .toggle-icon::before {
+    top: 0.85rem;
+}
+
+ */
 
 .leafend:hover .toggle-icon::before {
     background-color: #b99b45;
@@ -224,4 +241,8 @@ ul.fancytree-container {
             font-size: 0;
         }
     }
+}
+
+p.tree-not-found {
+    white-space: normal;
 }

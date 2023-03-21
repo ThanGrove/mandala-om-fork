@@ -1,0 +1,68 @@
+.advanced-search-wrap {
+    margin: 0 auto;
+    max-width: 667px;
+    padding: 1.6rem 2.4rem;
+}
+.advanced-search-wrap .title {
+    text-align: center;
+    margin-bottom: 2.4rem;
+    font-size: 18px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: underline;
+    text-underline-offset: 0.4rem;
+}
+.advanced-search-wrap .query-rows-wrapper .advsrch-form-row {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 1.2rem;
+}
+.advanced-search-wrap .query-rows-wrapper .advsrch-form-row input,
+.advanced-search-wrap .query-rows-wrapper .advsrch-form-row select {
+    border: 1px solid #aaa;
+    border-radius: 2rem;
+    font-size: 1.5rem;
+    padding: 0.1rem 1.25rem;
+    margin: 0 0 0.5rem 1rem;
+    line-height: 1.6;
+    color: #000;
+    transition: width 0.35s, line-height 0.35s;
+    min-height: 3.2rem;
+}
+.advanced-search-wrap .query-rows-wrapper .advsrch-form-row > div:first-child {
+    min-width: 115px;
+}
+.advanced-search-wrap .add-btns {
+    margin-top: -4.75rem;
+    margin-left: -7.25rem;
+}
+.advanced-search-wrap .add-btns button {
+    border-radius: 2rem !important;
+}
+.advanced-search-wrap .action-btns {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 1.6rem;
+    align-items: center;
+}
+.advanced-search-wrap .row-delete {
+    font-size: 150%;
+    color: #de4f4faa;
+    margin-left: 1rem;
+    cursor: pointer;
+}
+.advanced-search-wrap .row-delete :hover {
+    color: red;
+}
+.advanced-search-wrap .field-select {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+textarea.form-control.query-code {
+    font-family: monospace;
+    background-color: #fdfeff;
+}
+
+/*# sourceMappingURL=AdvancedSearch.css.map */

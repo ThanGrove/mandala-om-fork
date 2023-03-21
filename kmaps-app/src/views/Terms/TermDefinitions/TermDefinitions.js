@@ -11,6 +11,7 @@ import TermDefinitionsResources from './TermDefinitionsResources';
 import './TermDefinitions.css';
 import { Button } from 'react-bootstrap';
 import Collapse from 'react-bootstrap/Collapse';
+import { getUniquePropIds } from '../../common/utils';
 
 //Function to aggregate TermDetails data
 const aggregateDetails = _.memoize((def) => {
@@ -71,7 +72,16 @@ const TermDefinitions = (props) => {
     // Get MainDefs and reorganize into Ordered Defs with subdefs as children of their parent def
     mainDefs = _.orderBy(mainDefs, (val) => val.order, 'asc').filter(
         // filter out empty definitions (higgins for now)
-        (def) => def?.related_definitions_content_s?.length > 0
+        (def) => {
+            const fnms = getUniquePropIds(
+                def,
+                /related_definitions_content_(\w+)/
+            );
+            if (fnms.length === 0) {
+                return false;
+            }
+            return def['related_definitions_content_' + fnms[0]]?.length > 0;
+        }
     );
     let orderedDefs = {};
     // Go through each main def and check the level
@@ -108,6 +118,7 @@ const TermDefinitions = (props) => {
                     let def = orderedDefs[odkey];
                     return (
                         <TermDefinition
+                            key={`term-def-${odkey}-${order}`}
                             def={def}
                             defnumber={order + 1}
                             deflevel={1}
@@ -124,9 +135,8 @@ export default TermDefinitions;
 
 function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
     const defid = 'def-' + def.id.split('-').pop(); // simplified def.id
-
     const defclass =
-        defid == window.location.hash.substr(1)
+        defid == window.location.hash.substring(1)
             ? `selected deflvl${deflevel}`
             : `deflvl${deflevel}`;
 
@@ -154,14 +164,16 @@ function TermDefinition({ def, defnumber, deflevel, resourceCounts }) {
         );
     });
     //console.log('Aggregate Details', aggregateDetails(def));
-
+    let deflang = getUniquePropIds(def, /related_definitions_content_(\w+)/);
+    deflang = deflang?.length > 0 ? deflang[0] : 't';
+    const fnm = 'related_definitions_content_' + deflang;
     return (
         <>
             <div key={defid} id={defid} className={`definition ${defclass}`}>
                 <div className="term-defcnt">
                     <div>
                         <span className="l-defnum">{defnumber}.</span>
-                        {ReactHtmlParser(def.related_definitions_content_s)}
+                        {ReactHtmlParser(def[fnm])}
                     </div>
                     {!_.isEmpty(aggregateDetails(def)) && (
                         <div className="details-ref">

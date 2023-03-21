@@ -1,7 +1,13 @@
 import React, { useEffect } from 'react';
 import { Container, Section, Bar } from 'react-simple-resizer';
 import { ContentHeader } from './ContentHeader/ContentHeader';
-import { Switch, Route, Redirect, useLocation } from 'react-router-dom';
+import {
+    Switch,
+    Route,
+    Redirect,
+    useLocation,
+    useRouteMatch,
+} from 'react-router-dom';
 import { AudioVideoHome } from '../views/AudioVideo/AudioVideoHome';
 import { ImagesHome } from '../views/Images/ImagesHome';
 import { TextsHome } from '../views/Texts/TextsHome';
@@ -19,7 +25,6 @@ import TermsHome from '../views/Terms/TermsHome';
 import { CollectionsRedirect } from '../views/Collections/CollectionsRedirect';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import MandalaSkeleton from '../views/common/MandalaSkeleton';
-import { TreeTest } from '../views/KmapTree/TreeTest';
 import { AssetCollectionLocator } from './AssetCollectionLocator';
 import $ from 'jquery';
 import Home from './HomePage/Home';
@@ -30,6 +35,10 @@ import { IsoLookupMandala } from '../views/common/Iso639M/IsoLookupMandala';
 import { Iso639DataFactory } from '../views/common/Iso639M/iso639DataFactory';
 import ScrollToTop from './ScrollToTop';
 import { ShanticonRefPage } from '../views/common/utilcomponents';
+import AdvancedSearch from '../views/AdvancedSearch/AdvancedSearch';
+import { Devanagari } from '../views/common/Devanagari';
+import { useSolr } from '../hooks/useSolr';
+import { useStatus } from '../hooks/useStatus';
 
 const PlacesInfo = React.lazy(() => import('../views/Kmaps/PlacesInfo'));
 const SubjectsInfo = React.lazy(() => import('../views/Kmaps/SubjectsInfo'));
@@ -292,6 +301,9 @@ export default function ContentMain(props) {
                                 <Route exact path={`/search`}>
                                     <Redirect to={`/search/deck`} />
                                 </Route>
+                                <Route path={`/advanced-search`}>
+                                    <AdvancedSearch />
+                                </Route>
 
                                 {/* LEGACY VIEWER */}
                                 <Route path={`/assets/:id`}>
@@ -315,6 +327,9 @@ export default function ContentMain(props) {
                                 </Route>
                                 <Route path={`/admin/shanticonref`}>
                                     <ShanticonRefPage />
+                                </Route>
+                                <Route path={`/admin/devanagari`}>
+                                    <Devanagari />
                                 </Route>
 
                                 <Route path={['/', '/home']}>

@@ -6,12 +6,13 @@ import { useUnPackedMemoized } from '../../hooks/utils';
 import TermNames from './TermNames';
 import _, { divide } from 'lodash';
 import TermsDetails from './TermsDetails';
-import { queryID } from '../../views/common/utils';
+import { getUniquePropIds, queryID } from '../../views/common/utils';
 import { useHistory } from '../../hooks/useHistory';
 import RelatedAssetViewer from '../Kmaps/RelatedAssetViewer';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import './TermsInfo.scss';
 import { openTabStore } from '../../hooks/useCloseStore';
+import { HtmlCustom } from '../common/MandalaMarkup';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -65,6 +66,7 @@ const TermsInfo = (props) => {
 
     // Function to loop through until leaf is loaded, then scroll into center of vertical view
     let tofunc = () => {
+        return; // Trying to replace with kmaps tree code
         if (document.getElementById('leaf-terms-' + id)) {
             setTimeout(function () {
                 const el = document.getElementById('leaf-terms-' + id);
@@ -76,7 +78,7 @@ const TermsInfo = (props) => {
                             Math.floor(tree.offsetHeight / 2) -
                             60;
                         tree.scrollTop = scrollval;
-                        console.log('scrolling to: ', scrollval);
+                        // console.log('scrolling to: ', scrollval);
                     }
                 }
             }, 100);
@@ -120,11 +122,18 @@ const TermsInfo = (props) => {
     }
 
     //Get all related Definitions
+    // TODO: Need to check this after Andres' renaming of Solr fields  (1/2/23)
     const definitions = _(kmapData?._childDocuments_)
         .pickBy((val) => {
+            const content_fields = getUniquePropIds(
+                val,
+                /related_definitions_content_(\w+)/
+            );
+            const fnm =
+                content_fields?.length > 0 ? content_fields[0] : 'latinu';
             return (
                 val.block_child_type === 'related_definitions' &&
-                val?.related_definitions_content_s?.length > 0
+                val['related_definitions_content_' + fnm]?.length > 0
             );
         })
         .groupBy((val) => {
@@ -139,7 +148,24 @@ const TermsInfo = (props) => {
             return category;
         })
         .value();
+    // Other definitions do not work any longer  (1/2/23)
     const otherDefinitions = _.omit(definitions, ['main_defs']);
+
+    const caption_eng =
+        kmapData?.caption_eng?.length > 0 ? (
+            <>
+                <h4>Caption</h4>
+                <HtmlCustom markup={kmapData.caption_eng[0]} />
+            </>
+        ) : null;
+
+    const summary_eng =
+        kmapData?.summary_eng?.length > 0 ? (
+            <>
+                <h4>Summary</h4>
+                <HtmlCustom markup={kmapData.summary_eng[0]} />
+            </>
+        ) : null;
 
     return (
         <React.Suspense
@@ -149,6 +175,12 @@ const TermsInfo = (props) => {
                 <Route exact path={path}>
                     <>
                         <TermNames kmap={kmapData} kmAsset={assetData} />
+                        {(caption_eng || summary_eng) && (
+                            <div>
+                                {caption_eng}
+                                {summary_eng}
+                            </div>
+                        )}
                         <TermsDetails
                             kmAsset={assetData}
                             kmapData={kmapData}

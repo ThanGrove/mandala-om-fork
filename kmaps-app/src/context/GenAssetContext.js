@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import useStatus from '../hooks/useStatus';
+// import useStatus from '../hooks/useStatus';
 import useAsset from '../hooks/useAsset';
 import useMandala from '../hooks/useMandala';
 import { NotFoundPage } from '../views/common/utilcomponents';
 import { useParams } from 'react-router';
 
 /**
+ *
+ *                      DEPRECATED
+ *
  *    Container which injects the SOLR asset data and Mandala JSON data, before rendering an asset component.
  *    It takes a prop "assetType" set to the asset type and uses any of the following params:
  *          relId, id, nid
@@ -40,7 +43,7 @@ export default function GenAssetContext(props) {
         nid = nid.split('-').pop();
     }
 
-    const status = useStatus();
+    // const status = useStatus();
     //status.setType(asset_type);
     const solrdata = useAsset(asset_type, nid);
     const nodejson = useMandala(solrdata);

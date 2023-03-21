@@ -6,7 +6,7 @@ import { MandalaPopover } from '../common/MandalaPopover';
 import { Route, useParams, useRouteMatch } from 'react-router-dom';
 import { useHistory } from '../../hooks/useHistory';
 import { useKmap } from '../../hooks/useKmap';
-import { getProject, queryID } from '../common/utils';
+import { arrayChunk, getProject, queryID } from '../common/utils';
 import { PlacesSummary } from './PlacesInfo';
 import MandalaSkeleton from '../common/MandalaSkeleton';
 import KmapTree from '../KmapTree/KmapTree';
@@ -51,21 +51,24 @@ export default function PlacesRelPlacesViewer() {
     }
 
     // Get Unique Feature Types of Children
-    let child_ftypes = kmapkids?.map((cd, ci) => {
-        if (cd.block_child_type === 'related_places') {
+    let child_ftypes = kmapkids
+        ?.filter((cd, ci) => {
+            return cd.block_child_type === 'related_places';
+        })
+        .map((cd, ci) => {
             return cd.related_places_feature_type_s;
-        }
-    });
+        });
     child_ftypes = [...new Set(child_ftypes)];
     child_ftypes.sort(); // Sort feature types
 
     // Group Children by Feature Type
     const children_by_ftype = child_ftypes?.map((cft, cfti) => {
+        const children = kmapkids.filter((kmk, kmki) => {
+            return kmk.related_places_feature_type_s === cft;
+        });
         return {
             label: cft,
-            children: kmapkids.filter((kmk, kmki) => {
-                return kmk.related_places_feature_type_s === cft;
-            }),
+            children: children,
         };
     });
 
@@ -109,9 +112,10 @@ export default function PlacesRelPlacesViewer() {
                             elid={`related-places-tree-${id}`}
                             className="l-place-content-tree"
                             domain="places"
-                            selectedNode={`places-${id}`}
+                            showNode={id}
                             showAncestors={true}
                             showRelatedPlaces={true}
+                            relatedTree={true}
                         />
                     </Row>
                 </Container>
@@ -133,12 +137,15 @@ export default function PlacesRelPlacesViewer() {
                             <p>
                                 One can browse these subordinate places as well
                                 as its superordinate categories with the tree
-                                below.
+                                below. Longer lists can be scrolled to view all
+                                items.
                             </p>
                         </Col>
                     </Row>
                     <Row>
-                        <PlaceRelPlaceFtColumns children={children_by_ftype} />
+                        <RelatedPlacesAllFeatures
+                            feature_children={children_by_ftype}
+                        />
                     </Row>
                 </Container>
             </Tab>
@@ -146,128 +153,70 @@ export default function PlacesRelPlacesViewer() {
     );
 }
 
-function PlaceRelPlaceFtColumns(props) {
-    const childs = props?.children;
-    const numcols = 4;
-    const collen = Math.ceil(childs.length / numcols);
-    let tempchilds = childs;
-    const chchunks = ChunkList(tempchilds);
-    //console.log("Chunks", chchunks);
+export function RelatedPlacesAllFeatures({ feature_children }) {
+    if (feature_children?.length === 0) {
+        return null;
+    }
+    let cize = Math.floor(feature_children.length / 3);
+    const chunks = arrayChunk(feature_children, cize);
+    const cols = chunks.map((ck, cki) => {
+        return (
+            <Col key={`chunk-${cki}-col`} md={3}>
+                {ck?.map((ftyp, fti) => {
+                    return (
+                        <RelatedPlacesFeature
+                            key={`rpf-${cki}-${fti}`}
+                            label={ftyp?.label}
+                            features={ftyp?.children}
+                        />
+                    );
+                })}
+            </Col>
+        );
+    });
+    return cols;
+}
+
+export function RelatedPlacesFeature({
+    label,
+    features,
+    colsize = 3,
+    isSolo = false,
+}) {
+    const numfeat = features?.length;
+    const wrapclass = numfeat > 0 && !isSolo ? 'scroll-list-wrap' : 'ml-5 mt-3';
+    const divclass = numfeat > 0 && !isSolo ? 'scroll-list' : '';
     return (
-        <>
-            {chchunks?.map((chchunk, chki) => {
-                return (
-                    <Col key={`col-${chki}`} className="md3">
-                        {chchunk.map((feattype, cdi) => {
-                            if (!feattype?.label || feattype.label === '') {
-                                return null;
-                            }
-                            if (feattype.children.length === 0) {
-                                return null;
-                            }
+        <div className="rel-place-feature">
+            <div className={wrapclass}>
+                <h4>
+                    {label} ({numfeat})
+                </h4>
+                <div className={divclass}>
+                    <ul>
+                        {features?.map((f, fi) => {
                             return (
-                                <div key={`col-${chki}-cat-${cdi}`}>
-                                    <h6>{feattype.label}</h6>
-                                    <ul>
-                                        {feattype.children.map(
-                                            (clitem, cli) => {
-                                                if (
-                                                    clitem?.related_uid_s?.includes(
-                                                        '-'
-                                                    )
-                                                ) {
-                                                    if (
-                                                        !clitem.related_places_id_s
-                                                    ) {
-                                                        return null;
-                                                    }
-                                                    return (
-                                                        <li
-                                                            key={`clitem-${cli}`}
-                                                        >
-                                                            {' '}
-                                                            {
-                                                                clitem.related_places_header_s
-                                                            }
-                                                            <MandalaPopover
-                                                                domain={
-                                                                    'places'
-                                                                }
-                                                                kid={clitem.related_places_id_s.replace(
-                                                                    'places-',
-                                                                    ''
-                                                                )}
-                                                            />
-                                                        </li>
-                                                    );
-                                                }
-                                            }
-                                        )}
-                                    </ul>
-                                </div>
+                                <li key={`clitem-${fi}`}>
+                                    <RelatedPlaceItem clitem={f} />
+                                </li>
                             );
                         })}
-                    </Col>
-                );
-            })}
-        </>
+                    </ul>
+                </div>
+            </div>
+        </div>
     );
 }
 
-function ChunkList(childs, numcols = 4) {
-    let chunks = [];
-    let ct = 0;
-    let alldesc = [];
-    childs.map((cld) => {
-        alldesc = alldesc.concat(cld.children);
-    });
-    const numpercol = Math.ceil(alldesc.length / numcols);
-
-    let achunk = [];
-    childs.map((cld) => {
-        // console.log(cld.label, cld.children);
-        ct += cld.children.length;
-        cld.children.sort((a, b) => {
-            if (a.related_places_header_s < b.related_places_header_s) {
-                return -1;
-            } else if (
-                a.related_places_header_s === b.related_places_header_s
-            ) {
-                return 0;
-            }
-            return 1;
-        });
-        if (ct <= numpercol) {
-            achunk.push(cld);
-        } else {
-            let cld1 = JSON.parse(JSON.stringify(cld));
-            let lpct = 0;
-            chunkloop: do {
-                lpct++;
-                let cld2 = JSON.parse(JSON.stringify(cld1));
-                let allchild = JSON.parse(JSON.stringify(cld1.children));
-                let chldnum =
-                    allchild.length > numpercol ? numpercol : allchild.length;
-                cld1.children = cld1.children.slice(0, chldnum);
-                if (cld1.children.length > 0) {
-                    achunk.push(cld1);
-                }
-                chunks.push(achunk);
-                achunk = [];
-                cld2.children = cld2.children.slice(chldnum);
-                if (cld2?.label && !cld2.label.includes('cont.')) {
-                    cld2.label = cld2.label + ' (cont.)';
-                }
-                if (cld2?.children.length > numpercol) {
-                    cld1 = JSON.parse(JSON.stringify(cld2));
-                } else {
-                    achunk.push(cld2);
-                    ct = cld2.children.length;
-                    break chunkloop;
-                }
-            } while (lpct < 20);
-        }
-    });
-    chunks.push(achunk);
-    return chunks;
+function RelatedPlaceItem({ clitem }) {
+    return (
+        <>
+            {' '}
+            {clitem.related_places_header_s}
+            <MandalaPopover
+                domain={'places'}
+                kid={clitem.related_places_id_s.replace('places-', '')}
+            />
+        </>
+    );
 }

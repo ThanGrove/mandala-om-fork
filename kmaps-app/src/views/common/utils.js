@@ -101,6 +101,34 @@ export function normalizeLinks(asset_type) {
     });
 }
 
+export function isLat(str) {
+    const low = 0;
+    const high = 3839;
+    return testChars(str, low, high);
+}
+
+export function isTib(str) {
+    const low = 3839;
+    const high = 4096;
+    return testChars(str, low, high);
+}
+
+function testChars(str, lower, upper) {
+    if (typeof str !== 'string' || typeof (lower + upper) !== 'number') {
+        return false;
+    }
+    str = str.replace(/\s/g, '');
+    if (str.length === 0) {
+        return false;
+    }
+    let isInRange = true;
+    for (let n in str) {
+        let chcd = str.charCodeAt(n);
+        isInRange = chcd > lower && chcd < upper;
+    }
+    return isInRange;
+}
+
 /**
  *
  * @param sel
@@ -613,10 +641,14 @@ export function findFieldNames(data, substr, pos) {
 export function getLangClass(drpfld) {
     let langclass;
     const langfield = drpfld?.field_language;
-    const langhead =
+    let langhead =
         langfield?.und?.length > 0
             ? langfield.und[0]?.header.toLowerCase()
             : false;
+    if (langhead === false && typeof drpfld === 'string') {
+        langhead = drpfld.toLowerCase().trim();
+    }
+    // console.log("In get lang class: ", langhead, drpfld);
     switch (langhead) {
         case 'chinese':
             langclass = 'zh';
@@ -670,14 +702,16 @@ export function getPropsContaining(obj, propmtch, pos = 'contains') {
  *
  * @param data
  * @param regex
+ * @param mindex
+ *      the index for the match to capture
  * @returns {unknown[]}
  */
-export function getUniquePropIds(data, regex) {
+export function getUniquePropIds(data, regex, mindex = 1) {
     let ids = Object.keys(data)
         .map((pn) => {
             const mtch = pn.match(regex);
             if (mtch) {
-                return mtch[1];
+                return mtch[mindex];
             }
             return;
         })
@@ -686,6 +720,19 @@ export function getUniquePropIds(data, regex) {
         });
     ids = new Set(ids);
     return Array.from(ids);
+}
+
+/**
+ *
+ * @param data
+ * @param regex
+ * @param propname : the name of the prop with $ID$ where the id goes
+ */
+export function getFirstUniqueProp(data, regex, propname) {
+    const ids = getUniquePropIds(data, regex);
+    const firstid = ids[0];
+    propname = propname.replace('$ID$', firstid);
+    return data[propname];
 }
 
 /**
@@ -760,4 +807,35 @@ export const langCodeToLabel = (lng) => {
         default:
             return lng;
     }
+};
+
+export const standaloneSettings = (mode, name, value = '') => {
+    let setname = process.env.REACT_APP_PUBLIC_URL.replace(/https?:\//, '')
+        .replace(/^\/([^\/]+)\/$/, '$1')
+        .replace(/[\/\.]/g, '_');
+    if (!window[setname]) {
+        window[setname] = {
+            url: process.env.REACT_APP_PUBLIC_URL,
+        };
+    }
+    let mysettings = window[setname];
+    if (mode === 'set') {
+        mysettings[name] = value;
+        window[setname] = mysettings;
+        return true;
+    } else {
+        return mysettings[name];
+    }
+};
+
+export const arrayChunk = (arr, csize) => {
+    if (isNaN(csize) || csize < 1 || csize > arr.length - 1) {
+        return arr;
+    }
+    let chunks = [];
+    for (let i = 0; i < arr.length; i += csize) {
+        const chunk = arr.slice(i, i + csize);
+        chunks.push(chunk);
+    }
+    return chunks;
 };

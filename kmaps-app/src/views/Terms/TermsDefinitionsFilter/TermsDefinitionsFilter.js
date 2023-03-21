@@ -3,6 +3,7 @@ import _ from 'lodash';
 import { useParams } from 'react-router-dom';
 import CustomSelect from './CustomSelect';
 import './TermsDefinitionsFilter.css';
+import { getFirstUniqueProp } from '../../common/utils';
 
 const TermsDefinitionsFilter = (props) => {
     const params = useParams();
@@ -23,10 +24,11 @@ const TermsDefinitionsFilter = (props) => {
         .filter((def) => relatedKmapIDS.includes(def.id))
         .map((def) => ({
             id: def.id,
-            text: def.related_definitions_content_s.replace(
-                /(<([^>]+)>)/gi,
-                ''
-            ),
+            text: getFirstUniqueProp(
+                def,
+                /related_definitions_content_(\w+)/,
+                'related_definitions_content_$ID$'
+            )?.replace(/(<([^>]+)>)/gi, ''),
         }))
         .value();
     return <CustomSelect definitions={relatedDefs} defID={definitionID} />;

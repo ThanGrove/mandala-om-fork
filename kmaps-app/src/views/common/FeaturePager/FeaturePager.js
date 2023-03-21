@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import NumericInput from 'react-numeric-input';
 import './FeaturePager.scss';
 

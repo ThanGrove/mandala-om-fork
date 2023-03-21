@@ -65,7 +65,7 @@
     font-weight: bold;
 }
 
-.otherdef-passages,
+.passage-group,
 .otherdef-notes {
     padding: 1.25rem 2rem 2rem 2.5rem;
     background: white;
@@ -74,14 +74,14 @@
     min-height: 10rem;
 }
 
-.otherdef-passages .passage-src,
-.otherdef-passages .passage-note-author {
+.passage-group .passage-src,
+.passage-group .passage-note-author {
     width: 100%;
     text-align: right;
     margin-bottom: 1rem;
 }
-.otherdef-passages .passage-src:before,
-.otherdef-passages .passage-note-author:before {
+.passage-group .passage-src:before,
+.passage-group .passage-note-author:before {
     content: '— ';
 }
 

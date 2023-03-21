@@ -38,26 +38,63 @@
     font-weight: 400;
     font-style: italic;
     font-size: 1.75rem;
-    margin-left: -0.75;
+    margin-left: -0.75rem;
 }
 .sui-termDicts__dict-name span {
     margin-left: 0.25rem;
 }
 ul.sui-termDicts__dict-wrapper {
     margin-top: 0.7rem;
-    margin-bottom: 2.4rem;
-    border-bottom: 1px solid #ccc;
-    list-style: none;
+    margin-bottom: 1rem;
     padding-inline-start: 20px;
 }
+
+ul.sui-termDicts__dict-wrapper li {
+    margin-bottom: 0.5rem;
+}
+
 .sui-termDicts__dict-extra {
     text-align: right;
     color: #91693e;
     margin-top: 0;
-    margin-bottom: 0.75rem;
+    margin-bottom: 1.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #ccc;
     font-size: 1.1rem;
     font-weight: bold;
 }
+
+.sui-termDicts__dict-extra:last-child {
+    border-bottom: none;
+}
+
 .sui-termDicts__dict-extra-lang {
     text-transform: uppercase;
+}
+
+dl {
+    width: 100%;
+    margin-left: 2rem;
+}
+dt {
+    float: left;
+    font-family: 'Helvetica-Neue', helvetica, arial, sans-serif;
+    text-align: left;
+    text-transform: uppercase !important;
+    font-weight: normal;
+    font-size: 90%;
+    padding-right: 0.5rem;
+    vertical-align: text-bottom;
+    line-height: 2.25rem;
+}
+dt a {
+    font-weight: normal;
+}
+
+dd {
+    width: 80%;
+}
+
+dd span a {
+    white-space: nowrap;
 }

@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { AssetHomeCollection } from '../common/AssetHomeCollection';
-import useStatus from '../../hooks/useStatus';
 
 export function AudioVideoHome(props) {
     return (
