@@ -40,6 +40,7 @@ const PlacesRelSubjectsViewer = React.lazy(() =>
 export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
+
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
     const setOpenTab = openTabStore((state) => state.changeButtonState);
@@ -67,7 +68,7 @@ export default function PlacesInfo(props) {
     } = useSolr('boundaryLayer', {
         index: 'terms',
         params: {
-            q: `uid:places-637_shape_*`,
+            q: `uid:places-${id}_shape_*`,
         },
     });
     const {
@@ -78,7 +79,7 @@ export default function PlacesInfo(props) {
     } = useSolr('locationLayer', {
         index: 'terms',
         params: {
-            q: `uid:places-637`,
+            q: `uid:places-${id}`,
             fl: `shapes_centroid_grptgeom,name_roman.popular`,
         },
     });
