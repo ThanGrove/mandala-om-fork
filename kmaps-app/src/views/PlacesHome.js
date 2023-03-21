@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import useStatus from '../hooks/useStatus';
 import { useParams } from 'react-router';
 import { useSolr } from '../hooks/useSolr';
 import MandalaSkeleton from './common/MandalaSkeleton';

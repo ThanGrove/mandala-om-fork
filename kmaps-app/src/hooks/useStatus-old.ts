@@ -1,6 +1,14 @@
 import { action, useStoreActions } from 'easy-peasy';
 import { StatusModel } from '../model/StatusModel';
 
+/**
+ * DEPRECATED: This is the old useState.ts component created by Yuji to create a store with easy-peasy.
+ * It was used by earlier also deprecated components, and is no longer used.
+ * Yet the name useStatus is needed for memory of user choices on the site. So, reclaiming it using Zustand.
+ *
+ * - ndg8f (2023-01-04)
+ */
+
 /* This passes the StatusModel actions:
 
 

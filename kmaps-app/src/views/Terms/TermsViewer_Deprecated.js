@@ -10,7 +10,7 @@ import TermDictionaries from './TermDictionaries';
 
 import NodeHeader from '../common/NodeHeader';
 import { RelatedsGallery } from '../common/RelatedsGallery';
-import useStatus from '../../hooks/useStatus';
+// import useStatus from '../../hooks/useStatus';
 
 import './TermsViewer.css';
 import 'rc-input-number/assets/index.css';

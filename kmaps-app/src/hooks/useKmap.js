@@ -134,11 +134,12 @@ const getKmapData = async (id, qtype) => {
  * @param query_type (info|related)
  * @returns {any}
  */
-export function useKmap(id, query_type, byPass = false) {
+export function useKmap(id, query_type, byPass = false, options = {}) {
     query_type = typeof query_type === 'undefined' ? 'info' : query_type;
+    const newOptions = { enabled: !byPass, ...options };
     return useQuery(
         ['kmap', id, query_type],
         () => getKmapData(id, query_type),
-        { enabled: !byPass }
+        newOptions
     );
 }

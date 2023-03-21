@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import useStatus from '../../hooks/useStatus';
+import React from 'react';
 import { AssetHomeCollection } from '../common/AssetHomeCollection';
 
 export function TextsHome(props) {

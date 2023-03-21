@@ -20,6 +20,13 @@ export const openTabStore = create((set, get) => ({
     },
 }));
 
+export const treeStore = create((set) => ({
+    tree: process?.env?.REACT_APP_DEFAULT_KMAP_TAB || 'places',
+    setTree: (newTree) => {
+        set({ tree: newTree });
+    },
+}));
+
 /**
  * Mandala sidebar function checks to see if there is a JSON script element with id "mandala_settings"
  * If so, it takes the text which should be JSON and parses it.

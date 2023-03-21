@@ -74,7 +74,16 @@ async function getSearchData(
         params.sid = sid;
     }
 
-    const queryParams = constructTextQuery(searchText);
+    let queryParams = {};
+    if (searchText.startsWith('advSearch')) {
+        const newSearchText = searchText.substring(10);
+        queryParams = {
+            q: newSearchText,
+        };
+    } else {
+        queryParams = constructTextQuery(searchText);
+    }
+
     const filterParams = constructFilters(filters);
     params = { ...params, ...queryParams, ...filterParams };
 

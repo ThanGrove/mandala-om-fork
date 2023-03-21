@@ -1,4 +1,8 @@
 @import '../../css/fonts/shanticon/style.css';
+.kmap-stop-scroll {
+    overflow: hidden !important;
+}
+
 ul.fancytree-container {
     height: auto !important;
 }
@@ -131,12 +135,11 @@ ul.fancytree-container {
     font-size: 2rem;
     line-height: 1.35;
 }
+.c-kmapleaf.selected > .c-kmapnode {
+    background-color: #fff40057;
+}
 .c-kmapleaf.selected > .c-kmapnode > .label a {
     border-bottom: 0.3rem solid #cca843;
-}
-.c-kmapleaf.selected > .c-kmapnode > .toggle-icon::before {
-    background-color: red;
-    border-color: red;
 }
 
 .leafend {
@@ -158,6 +161,20 @@ ul.fancytree-container {
     transform: rotate(45deg);
 }
 
+#l-content__main .leafend .toggle-icon::before {
+    top: 0.9rem;
+}
+
+.c-kmaptree.terms.tib-alpha .leafend {
+    margin-top: -0.5rem;
+}
+
+/*
+.l-place-content-tree .leafend .toggle-icon::before {
+    top: 0.85rem;
+}
+
+ */
 .leafend:hover .toggle-icon::before {
     background-color: #b99b45;
 }
@@ -208,6 +225,10 @@ ul.fancytree-container {
 .c-content__main__kmaps .c-kmaptree .leafend .toggle-icon {
     color: transparent;
     font-size: 0;
+}
+
+p.tree-not-found {
+    white-space: normal;
 }
 
 /*# sourceMappingURL=KmapTree.css.map */

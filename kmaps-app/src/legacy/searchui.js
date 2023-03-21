@@ -2,7 +2,7 @@
 
 	USE CASE 1:
 	When allocated, attaches a <div> framework containing a search button in the top white bar of the Mandala app.
-	When clicked, it will expand to cover the entire screen. 
+	When clicked, it will expand to cover the entire screen.
 	An sui=open message is sent to host.
 	When a SOLR query is needed, a JSON formatted version of the search object is sent to host uoing a sui=query message.
 	The host responds with a SOLR query.
@@ -14,7 +14,7 @@
 
 	Requires: 	jQuery 												// Almost any version should work
 	Calls:		kmapsSolrUtil.js, [places.js, pages.js, texts.js,	// Other JS modules that are dynamically loaded (not used in plain search)
-				audiovideo.js, visuals.js, sources.js, subjects.js]				
+				audiovideo.js, visuals.js, sources.js, subjects.js]
 	CSS:		searchui.css										// All styles are prefixed with 'sui-'
 	JS:			ECMA-6												// Uses lambda (arrow) functions
 	Images:		loading.gif, gradient.jpg, treebuts.png
@@ -115,7 +115,10 @@ export default class SearchUI {
         $('<link/>', {
             rel: 'stylesheet',
             type: 'text/css',
-            href: process.env.PUBLIC_URL + '/css/searchui.css',
+            href:
+                process.env.REACT_APP_PUBLIC_URL +
+                process.env.PUBLIC_URL +
+                '/css/searchui.css',
         }).appendTo('head'); // Load CSS
 
         this.solrId = useProdIndex ? '_prod' : '_dev'; // Set solrId
@@ -315,7 +318,7 @@ export default class SearchUI {
     }
 
     /*	PAGE STATE  ////////////////////////////////////////////////////////////////////////////////////
-	
+
 	Controls the forward/back buttons  and the bookmarking for the standlone version.
 	It uses the HTML5 History API. When page is navigated to programatically, SetState() is called.
 	It's state parameter contains information identifying the page via it's kmapId
@@ -324,7 +327,7 @@ export default class SearchUI {
 
 	A listener to the 'hashchanged' event calls PageRouter() with that kmpaId, and
 	thsat page is drawn on the screen.
-	
+
 	OPTIONS:
 	#p=kmapId		// Shows page that has kmapid
 
@@ -468,9 +471,9 @@ export default class SearchUI {
     /*	QUERY TOOLS //////////////////////////////////////////////////////////////////////////////////
 
 	A series of functions that manage the search process. The state of the current search is
-	saved in the ss object. It is initialized using InitSearchState(). The UI modifies the ss 
+	saved in the ss object. It is initialized using InitSearchState(). The UI modifies the ss
 	object to the search parameters desired and Query() uses Yuji's query builder to get a query
-	URL for SOLR. The results come in, they are displayed. The lists in the advsnced UI are also 
+	URL for SOLR. The results come in, they are displayed. The lists in the advsnced UI are also
 	filtered to reflect the current possible options based on that search.
 
 	There are 3 modes of the search. A general qwery, as described above. The standalone version

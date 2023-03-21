@@ -154,3 +154,49 @@
         display: none;
     }
 }
+
+#place-kmap-tabs-tabpane-context {
+    fieldset.facet-group {
+        width: 80%;
+        border: thin solid grey;
+        margin-top: 1rem;
+        padding: 0rem 1rem;
+
+        legend {
+            width: fit-content;
+            padding: 0 1rem;
+        }
+    }
+}
+
+#place-kmap-tabs-tabpane-related {
+    ::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 5px;
+        background-color: rgba(0, 0, 0, 0.5);
+        -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, 0.5);
+    }
+}
+
+div.scroll-list-wrap {
+    border: 4px double #3297f7;
+    border-radius: 10px;
+    padding: 0.5rem 0.2rem;
+
+    h4 {
+        color: #2b455d;
+        font-weight: bold;
+        width: 100%;
+        text-align: center;
+    }
+
+    div.scroll-list {
+        padding-top: 0.5rem;
+        max-height: 350px;
+        overflow-y: scroll;
+    }
+}

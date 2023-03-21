@@ -52,6 +52,7 @@ const useMandala = (solrobj) => {
     } else if (solrobj?.docs?.length > 0) {
         solrdoc = solrobj.docs[0];
     }
+
     let json_url = solrdoc?.url_json;
     /*
     if (json_url?.includes('mandala') && !json_url?.startsWith('https')) {
@@ -66,6 +67,7 @@ const useMandala = (solrobj) => {
     }
     // Get UID for Query Key
     const uid = solrdoc?.uid ? solrdoc.uid : 'unknown';
+    // console.log('is enabled', !!solrdoc?.id);
     return useQuery([QUERY_KEY, uid], () => getMandalaAPI(json_url), {
         enabled: !!solrdoc?.id,
     });
