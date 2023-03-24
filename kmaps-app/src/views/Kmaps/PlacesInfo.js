@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useRouteMatch, useParams, Switch, Route } from 'react-router-dom';
 import useDimensions from 'react-use-dimensions';
 import KmapsMap from '../KmapsMap/KmapsMap';
@@ -26,7 +26,8 @@ import { PlacesGeocodes } from './KmapsPlacesGeocodes';
 import { RelatedTextFinder } from '../Texts/RelatedText';
 import { ImageCaption, ImageSlider } from '../common/ImageSlider';
 import { openTabStore } from '../../hooks/useCloseStore';
-import { useSolr } from '../../hooks/useSolr';
+import { getSolrData, useSolr, useSolrFnc } from '../../hooks/useSolr';
+import { useQuery } from 'react-query';
 
 const RelatedsGallery = React.lazy(() =>
     import('../../views/common/RelatedsGallery')
@@ -37,9 +38,18 @@ const PlacesRelPlacesViewer = React.lazy(() =>
 const PlacesRelSubjectsViewer = React.lazy(() =>
     import('./PlacesRelSubjectsViewer')
 );
+
 export default function PlacesInfo(props) {
     let { path } = useRouteMatch();
     let { id } = useParams();
+
+    const [boundaryLayerData, setBoundaryLayerData] = useState(null);
+    const [isBoundaryLayerLoading, setBoundaryLayerLoading] = useState(true);
+    const [boundaryLayerError, setBoundaryLayerError] = useState(null);
+
+    const [locationLayerData, setLocationLayerData] = useState(null);
+    const [isLocationLayerLoading, setLocationLayerLoading] = useState(true);
+    const [locationLayerError, setLocationLayerError] = useState(null);
 
     const baseType = 'places';
     const addPage = useHistory((state) => state.addPage);
@@ -53,6 +63,7 @@ export default function PlacesInfo(props) {
         isError: isKmapError,
         error: kmapError,
     } = useKmap(qid, 'info');
+
     const {
         isLoading: isAssetLoading,
         data: kmasset,
@@ -60,29 +71,55 @@ export default function PlacesInfo(props) {
         error: assetError,
     } = useKmap(qid, 'asset');
 
-    const {
-        isLoading: isBoundaryLayerLoading,
-        data: boundaryLayerData,
-        isError: isBoundaryLayerError,
-        error: boundaryLayerError,
-    } = useSolr('boundaryLayer', {
-        index: 'terms',
-        params: {
-            q: `uid:places-${id}_shape_*`,
-        },
-    });
-    const {
-        isLoading: isLocationLayerLoading,
-        data: locationLayerData,
-        isError: isLocationLayerError,
-        error: locationLayerError,
-    } = useSolr('locationLayer', {
-        index: 'terms',
-        params: {
-            q: `uid:places-${id}`,
-            fl: `shapes_centroid_grptgeom,name_roman.popular`,
-        },
-    });
+    const fetchLocationData = (placeId) => {
+        setLocationLayerLoading(true);
+        getSolrData(
+            {
+                index: 'terms',
+                params: {
+                    q: `uid:places-${placeId}`,
+                    fl: `shapes_centroid_grptgeom,name_roman.popular`,
+                },
+            },
+            false
+        )
+            .then((result) => {
+                setLocationLayerData(result);
+            })
+            .catch((err) => {
+                setLocationLayerError(err);
+            })
+            .finally(() => {
+                setLocationLayerLoading(false);
+            });
+    };
+
+    const fetchBoundaryData = (placeId) => {
+        setBoundaryLayerLoading(true);
+        getSolrData(
+            {
+                index: 'terms',
+                params: {
+                    q: `uid:places-${placeId}_shape_*`,
+                },
+            },
+            false
+        )
+            .then((result) => {
+                setBoundaryLayerData(result);
+            })
+            .catch((err) => {
+                setBoundaryLayerError(err);
+            })
+            .finally(() => {
+                setBoundaryLayerLoading(false);
+            });
+    };
+
+    useEffect(() => {
+        fetchLocationData(id);
+        fetchBoundaryData(id);
+    }, [id]);
 
     useEffect(() => {
         if (kmapData?.header) {

@@ -18,7 +18,7 @@ const solrurls = getSolrUrls();
  * @param query
  * @returns {Promise<any>}
  */
-const getSolrData = async (query, filtered) => {
+export const getSolrData = async (query, filtered) => {
     if (!(query.index in solrurls) || !query.params) {
         console.warn(
             'The query object sent to useSolr() did not have proper index or params values: ',

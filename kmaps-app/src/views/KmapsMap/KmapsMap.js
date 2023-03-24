@@ -8,7 +8,6 @@ import {
     defaults as DefaultInteractions,
     DragRotateAndZoom,
 } from 'ol/interaction';
-import { defaults as DefaultControls, ScaleLine, ZoomSlider } from 'ol/control';
 import {
     Stroke as StrokeStyle,
     Fill as FillStyle,
@@ -21,7 +20,6 @@ import { get as getProjection, transformExtent } from 'ol/proj';
 // End OpenLayers imports
 import GoogleLayer from 'olgm/layer/Google.js';
 import OLGoogleMaps from 'olgm/OLGoogleMaps.js';
-import axios from 'axios';
 
 class KmapsMap extends React.Component {
     constructor(props) {
@@ -192,10 +190,6 @@ class KmapsMap extends React.Component {
             ]),
             target: this.inset_map_ref.current,
             layers: [googleLayer],
-            controls: DefaultControls().extend([
-                new ZoomSlider(),
-                new ScaleLine(),
-            ]),
             view: new View({
                 projection: 'EPSG:900913',
                 zoom: this.state.zoom,
@@ -212,6 +206,7 @@ class KmapsMap extends React.Component {
     }
 
     zoomToFeature(forcedId = null) {
+        console.log('here');
         const fid = forcedId == null ? this.state.fid : forcedId;
         const cql_filter = `fid=${fid}`;
         const geoserverUrl = process.env.REACT_APP_GOSERVER_URL;
