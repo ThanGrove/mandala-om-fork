@@ -92,6 +92,8 @@ class KmapsMap extends React.Component {
 
     addBoundaryLayer(map) {
         const { boundaryLayer, boundaryLayerError } = this.state;
+        console.log(boundaryLayer);
+
         if (boundaryLayerError) {
             this.handleBuildMapFailure();
         }
@@ -134,6 +136,8 @@ class KmapsMap extends React.Component {
 
     addLocationLayer(map) {
         const { locationLayer, locationLayerError } = this.state;
+        console.log(locationLayer);
+
         if (locationLayerError) {
             this.handleBuildMapFailure();
         }
@@ -206,7 +210,6 @@ class KmapsMap extends React.Component {
     }
 
     zoomToFeature(forcedId = null) {
-        console.log('here');
         const fid = forcedId == null ? this.state.fid : forcedId;
         const cql_filter = `fid=${fid}`;
         const geoserverUrl = process.env.REACT_APP_GOSERVER_URL;
@@ -215,6 +218,7 @@ class KmapsMap extends React.Component {
         fetch(serverUrl)
             .then((res) => res.json())
             .then((result) => {
+                console.log(result);
                 if (
                     typeof result.bbox === 'undefined' ||
                     result.bbox.length < 4
@@ -238,12 +242,20 @@ class KmapsMap extends React.Component {
                     getProjection('EPSG:4326'),
                     getProjection('EPSG:900913')
                 );
+
+                console.log(ext);
+
                 const { map } = this.state;
                 map.getView().fit(ext, {
                     size: [this.state.height, this.state.width],
                     padding: [1, 1, 1, 1],
                     constraintResolution: false,
                 });
+
+                if (result.features[0].geometry.type === 'Point') {
+                    map.getView().setZoom(10);
+                }
+
                 this.setState({ map });
             })
             .catch((err) => {
